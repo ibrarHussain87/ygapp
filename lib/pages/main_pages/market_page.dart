@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
 import 'package:yg_app/utils/colors.dart';
 
@@ -29,35 +30,20 @@ class _MarketPageState extends State<MarketPage> {
                 length: tabsList.length,
                 child: Scaffold(
                   backgroundColor: Colors.white,
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    flexibleSpace: SafeArea(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 24, left: 8, right: 8),
-                        child: TabBar(
-                          isScrollable: true,
-                          unselectedLabelColor: AppColors.textColorGreyLight,
-                          labelColor: AppColors.lightBlueTabs,
-                          indicatorColor: AppColors.lightBlueTabs,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          // indicator: BubbleTabIndicator(
-                          //   indicatorHeight: 24.0,
-                          //   indicatorColor: Colors.blueAccent,
-                          //   tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                          //   // Other flags
-                          //   indicatorRadius: 16,
-                          //   insets: EdgeInsets.all(1),
-                          //   padding: EdgeInsets.all(10),
-                          // ),
-                          indicator: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                                width: 1.0, color: AppColors.lightBlueTabs),
-                            insets: EdgeInsets.symmetric(horizontal: 24.0),
-                          ),
-                          tabs: tabMaker(),
-                        ),
-                      ),
+                  appBar: PreferredSize(
+                    preferredSize: Size(double.infinity, kToolbarHeight),
+                    child:TabBar(
+                      padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                      isScrollable: true,
+                      unselectedLabelColor: AppColors.textColorGreyLight,
+                      labelColor: AppColors.lightBlueTabs,
+                      indicatorColor: AppColors.lightBlueTabs,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicator: UnderlineTabIndicator(
+                          borderSide:
+                              BorderSide(color: AppColors.lightBlueTabs),
+                          insets: EdgeInsets.only(bottom: 12.w)),
+                      tabs: tabMaker(),
                     ),
                   ),
                   body: TabBarView(children: [
@@ -86,7 +72,7 @@ class _MarketPageState extends State<MarketPage> {
                 padding: EdgeInsets.all(0),
                 child: Text(
                   tabsList[i],
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 12.sp),
                 )),
           ),
         ),

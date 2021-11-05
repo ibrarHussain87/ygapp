@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 
 import 'main_pages/home_page.dart';
@@ -71,8 +72,8 @@ class _MainPageState extends State<MainPage> {
     return BottomNavigationBar(
       selectedItemColor: AppColors.textColorBlue,
       unselectedItemColor: AppColors.textColorGrey,
-      selectedFontSize: 10,
-      unselectedFontSize: 10,
+      selectedFontSize: 9.5.sp,
+      unselectedFontSize: 9.5.sp,
       elevation: 24,
       backgroundColor: Colors.white,
       type: BottomNavigationBarType.fixed,
@@ -82,93 +83,93 @@ class _MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
             icon: _selectedIndex == 0
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     child: Image.asset(
                       'images/ic_home_blue.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ))
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'images/ic_home_grey.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   ),
             label: 'Home'),
         BottomNavigationBarItem(
             icon: _selectedIndex == 1
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     child: Image.asset(
                       'images/ic_market_blue.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ))
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.w),
                     child: Image.asset(
                       'images/ic_market_grey.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   ),
             label: 'Local Market'),
         BottomNavigationBarItem(
             icon: _selectedIndex == 2
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     child: Image.asset(
                       'images/ic_market_blue.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.w),
                     child: Image.asset(
                       'images/ic_market_grey.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   ),
             label: 'International'),
         BottomNavigationBarItem(
             icon: _selectedIndex == 3
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     child: Image.asset(
                       'images/yg_service_blue.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.w),
                     child: Image.asset(
                       'images/yg_service_grey.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   ),
             label: 'YG Service'),
         BottomNavigationBarItem(
             icon: _selectedIndex == 4
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     child: Image.asset(
                       'images/post_ad_blue.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.w),
                     child: Image.asset(
                       'images/post_ad_grey.png',
-                      width: 20,
-                      height: 20,
+                      width: 20.w,
+                      height: 20.h,
                     ),
                   ),
             label: 'Post AD'),

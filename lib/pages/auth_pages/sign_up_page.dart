@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
@@ -47,13 +48,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 40, bottom: 16.0),
+                    padding: EdgeInsets.only(top: 40.w, bottom: 16.0.w),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Text(
                         'Sign up',
                         style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 28.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.textColorBlue),
                       ),
@@ -66,9 +67,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.textColorGrey,
-                        fontSize: 11,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
-                        height: 1.5,
+                        height: 1.5.h,
                       ),
                     ),
                   ),
@@ -77,13 +78,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Expanded(
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
+                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
                           child: Center(
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.black,
@@ -98,8 +99,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                           AppStrings.userName)),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: Colors.black,
@@ -118,8 +119,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                           AppStrings.telephoneNumber)),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.black,
@@ -134,8 +135,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                           AppStrings.operator)),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                     keyboardType: TextInputType.emailAddress,
                                     cursorColor: Colors.black,
@@ -151,8 +152,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                     obscureText: !_showPassword,
                                     keyboardType: TextInputType.text,
@@ -169,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     },
                                     decoration: InputDecoration(
                                       labelText: AppStrings.password,
-                                      labelStyle: TextStyle(fontSize: 12),
+                                      labelStyle: TextStyle(fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: AppColors.textColorGrey),
@@ -189,8 +190,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                     obscureText: !_showPassword,
                                     keyboardType: TextInputType.text,
@@ -208,7 +209,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     },
                                     decoration: InputDecoration(
                                       labelText: 'Confirm Password',
-                                      labelStyle: TextStyle(fontSize: 12),
+                                      labelStyle: TextStyle(fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: AppColors.textColorGrey),
@@ -228,8 +229,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
+                                  padding: EdgeInsets.only(
+                                      bottom: 8.w, left: 8.w, right: 8.w),
                                   child: TextFormField(
                                     keyboardType: TextInputType.text,
                                     cursorColor: Colors.black,
@@ -257,21 +258,21 @@ class _SignUpPageState extends State<SignUpPage> {
                                       text: TextSpan(
                                         // Note: Styles for TextSpans must be explicitly defined.
                                         // Child text spans will inherit styles from parent
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
+                                        style: TextStyle(
+                                          fontSize: 14.0.sp,
                                           color: Colors.black,
                                         ),
                                         children: <TextSpan>[
                                           TextSpan(
                                               text: 'I Agree to ',
                                               style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 12.sp,
                                                   color:
                                                       AppColors.textColorGrey)),
-                                          const TextSpan(
+                                          TextSpan(
                                               text: 'Terms & Conditions',
                                               style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 12.sp,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black87)),
                                         ],
@@ -287,12 +288,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w),
                     child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                             child: Text("Sign Up".toUpperCase(),
-                                style: TextStyle(fontSize: 14)),
+                                style: TextStyle(fontSize: 14.sp)),
                             style: ButtonStyle(
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(

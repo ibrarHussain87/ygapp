@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 
 InputDecoration textFormFieldDec(String hintLabel) {
   return InputDecoration(
       labelText: hintLabel,
       labelStyle: TextStyle(
-          fontSize: 12
+          fontSize: 12.sp
       ),
 
       border: UnderlineInputBorder(
@@ -18,14 +19,14 @@ BoxDecoration getOfferingDec(Color lightBlueTabs){
   return BoxDecoration(
       color: lightBlueTabs,
       borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(6),
-          bottomLeft: Radius.circular(6)));
+          topLeft: Radius.circular(6.w),
+          bottomLeft: Radius.circular(6.w)));
 }
 
 BoxDecoration getRequirementDec(Color lightBlueTabs){
   return BoxDecoration(
       color: lightBlueTabs,
       borderRadius: BorderRadius.only(
-          topRight: Radius.circular(6),
-          bottomRight: Radius.circular(6)));
+          topRight: Radius.circular(6.w),
+          bottomRight: Radius.circular(6.w)));
 }

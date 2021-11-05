@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/list_items_widgets/market_list_item.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
@@ -32,30 +33,29 @@ class _FiberPageState extends State<FiberPage> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 8),
+            padding: EdgeInsets.only(left: 8.w,right: 8.w),
             child: Container(
-                height: 60,
-                margin: EdgeInsets.symmetric(vertical: 8),
+                height: 50.h,
                 child: ListView.builder(
                   itemCount: 10,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
-                      width: 90,
+                      width: 60.w,
                       child: Column(
                         children: [
                           Image.asset(
                             'images/cotton.png',
-                            height: 32,
-                            width: 32,
+                            height: 24.h,
+                            width: 24.w,
                           ),
                           SizedBox(
-                            height: 6,
+                            height: 2.h,
                           ),
                           Text(
                             "Cotton",
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 11.sp,
                             ),
                           ),
                         ],
@@ -65,13 +65,13 @@ class _FiberPageState extends State<FiberPage> {
                 )),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(
                     color: AppColors.strokeGrey,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(6))),
+                  borderRadius: BorderRadius.all(Radius.circular(6.w))),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,10 +90,10 @@ class _FiberPageState extends State<FiberPage> {
                       child: Container(
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.w),
                             child: Text(
                               'Offering',
-                              style: TextStyle(color: textOfferClr),
+                              style: TextStyle(color: textOfferClr,fontSize: 11.sp),
                             ),
                           ),
                         ),
@@ -116,10 +116,10 @@ class _FiberPageState extends State<FiberPage> {
                       child: Container(
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0.w),
                               child: Text(
                                 'Requirements',
-                                style: TextStyle(color: textReqClr),
+                                style: TextStyle(color: textReqClr,fontSize: 11.sp),
                               ),
                             ),
                           ),
@@ -133,7 +133,7 @@ class _FiberPageState extends State<FiberPage> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 16),
+              padding: EdgeInsets.only(top: 16.w),
               child: ListView.separated(
                 physics: BouncingScrollPhysics(),
                 itemCount: 17,
