@@ -5,8 +5,10 @@ import 'package:yg_app/utils/colors.dart';
 InputDecoration textFormFieldDec(String hintLabel) {
   return InputDecoration(
       labelText: hintLabel,
-      // hintText: hintLabel,
-      // hintStyle: TextStyle(fontSize: 12.0, color: AppColors.textColorGrey),
+      labelStyle: TextStyle(
+          fontSize: 12
+      ),
+
       border: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.textColorGrey)));
 }

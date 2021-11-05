@@ -24,50 +24,52 @@ class _MarketPageState extends State<MarketPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: DefaultTabController(
-            length: tabsList.length,
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                flexibleSpace: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 16, left: 24, right: 24),
-                    child: TabBar(
-                      isScrollable: true,
-                      unselectedLabelColor: AppColors.textColorGreyLight,
-                      labelColor: AppColors.lightBlueTabs,
-                      indicatorColor: AppColors.lightBlueTabs,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      // indicator: BubbleTabIndicator(
-                      //   indicatorHeight: 24.0,
-                      //   indicatorColor: Colors.blueAccent,
-                      //   tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                      //   // Other flags
-                      //   indicatorRadius: 16,
-                      //   insets: EdgeInsets.all(1),
-                      //   padding: EdgeInsets.all(10),
-                      // ),
-                      indicator: UnderlineTabIndicator(
-                          borderSide: BorderSide(width: 1.0,color: AppColors.lightBlueTabs),
-                          insets: EdgeInsets.symmetric(horizontal:16.0),
+        child: Scaffold(
+            body: DefaultTabController(
+                length: tabsList.length,
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    flexibleSpace: SafeArea(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 24, left: 8, right: 8),
+                        child: TabBar(
+                          isScrollable: true,
+                          unselectedLabelColor: AppColors.textColorGreyLight,
+                          labelColor: AppColors.lightBlueTabs,
+                          indicatorColor: AppColors.lightBlueTabs,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          // indicator: BubbleTabIndicator(
+                          //   indicatorHeight: 24.0,
+                          //   indicatorColor: Colors.blueAccent,
+                          //   tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                          //   // Other flags
+                          //   indicatorRadius: 16,
+                          //   insets: EdgeInsets.all(1),
+                          //   padding: EdgeInsets.all(10),
+                          // ),
+                          indicator: UnderlineTabIndicator(
+                            borderSide: BorderSide(
+                                width: 1.0, color: AppColors.lightBlueTabs),
+                            insets: EdgeInsets.symmetric(horizontal: 24.0),
+                          ),
+                          tabs: tabMaker(),
+                        ),
                       ),
-                      tabs: tabMaker(),
                     ),
                   ),
-                ),
-              ),
-              body: TabBarView(children: [
-                FiberPage(),
-                Icon(Icons.movie),
-                Icon(Icons.games),
-                Icon(Icons.label),
-                Icon(Icons.label),
-                Icon(Icons.label),
-                Icon(Icons.label),
-              ]),
-            )));
+                  body: TabBarView(children: [
+                    FiberPage(),
+                    Icon(Icons.movie),
+                    Icon(Icons.games),
+                    Icon(Icons.label),
+                    Icon(Icons.label),
+                    Icon(Icons.label),
+                    Icon(Icons.label),
+                  ]),
+                ))));
   }
 
   List<Tab> tabMaker() {

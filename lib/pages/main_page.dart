@@ -24,34 +24,34 @@ class _MainPageState extends State<MainPage> {
     PastAdPage()
   ];
   int _selectedIndex = 0;
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
+  // PageController pageController = PageController(
+  //   initialPage: 0,
+  //   keepPage: true,
+  // );
 
-  Widget buildPageView() {
-    return PageView(
-        controller: pageController,
-        onPageChanged: (index) {
-          pageChanged(index);
-        },
-        children: _screens,
-        physics: NeverScrollableScrollPhysics());
-  }
+  // Widget buildPageView() {
+  //   return PageView(
+  //       controller: pageController,
+  //       onPageChanged: (index) {
+  //         pageChanged(index);
+  //       },
+  //       children: _screens,
+  //       physics: NeverScrollableScrollPhysics());
+  // }
 
   void _onItemTapped(int selectedIndex) {
     setState(() {
       _selectedIndex = selectedIndex;
-      pageController.animateToPage(selectedIndex,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+      // pageController.animateToPage(selectedIndex,
+      //     duration: Duration(milliseconds: 500), curve: Curves.ease);
     });
   }
 
-  void pageChanged(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // void pageChanged(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -62,7 +62,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: buildPageView(), bottomNavigationBar: _generateBottomBar()),
+          body: /*buildPageView()*/_screens[_selectedIndex],
+          bottomNavigationBar: _generateBottomBar()),
     );
   }
 
@@ -72,100 +73,104 @@ class _MainPageState extends State<MainPage> {
       unselectedItemColor: AppColors.textColorGrey,
       selectedFontSize: 10,
       unselectedFontSize: 10,
-      elevation: 8,
+      elevation: 24,
       backgroundColor: Colors.white,
       type: BottomNavigationBarType.fixed,
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       items: [
         BottomNavigationBarItem(
-            icon: Padding(
-                padding: EdgeInsets.all(8),
-                child: Image.asset(
-                  'images/ic_home_grey.png',
-                  width: 20,
-                  height: 20,
-                )),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/ic_home_blue.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
+            icon: _selectedIndex == 0
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/ic_home_blue.png',
+                      width: 20,
+                      height: 20,
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'images/ic_home_grey.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
             label: 'Home'),
         BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.all(8),
-              child: Image.asset(
-                'images/ic_market_grey.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/ic_market_blue.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
+            icon: _selectedIndex == 1
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/ic_market_blue.png',
+                      width: 20,
+                      height: 20,
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'images/ic_market_grey.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
             label: 'Local Market'),
         BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.all(8),
-              child: Image.asset(
-                'images/ic_market_grey.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/ic_market_blue.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
+            icon: _selectedIndex == 2
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/ic_market_blue.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'images/ic_market_grey.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
             label: 'International'),
         BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.all(8),
-              child: Image.asset(
-                'images/yg_service_grey.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/yg_service_blue.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
+            icon: _selectedIndex == 3
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/yg_service_blue.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'images/yg_service_grey.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
             label: 'YG Service'),
         BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.all(8),
-              child: Image.asset(
-                'images/post_ad_grey.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            activeIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'images/post_ad_blue.png',
-                width: 20,
-                height: 20,
-              ),
-            ),
+            icon: _selectedIndex == 4
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/post_ad_blue.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'images/post_ad_grey.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
             label: 'Post AD'),
       ],
     );

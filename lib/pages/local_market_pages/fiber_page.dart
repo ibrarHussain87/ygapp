@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:yg_app/pages/list_items_widgets/market_list_item.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 
@@ -11,7 +12,6 @@ class FiberPage extends StatefulWidget {
 }
 
 class _FiberPageState extends State<FiberPage> {
-
   Color offeringColor = AppColors.lightBlueTabs;
   Color requirementColor = Colors.white;
   Color textOfferClr = Colors.white;
@@ -19,53 +19,54 @@ class _FiberPageState extends State<FiberPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: bodyContent(),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: bodyContent(),
     );
   }
 
   bodyContent() {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Container(
-              height: 60,
-              margin: EdgeInsets.symmetric(vertical: 8),
-              child: ListView.builder(
-                itemCount: 10,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 90,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'images/cotton.png',
-                          height: 32,
-                          width: 32,
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          "Cotton",
-                          style: TextStyle(
-                            fontSize: 11,
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Container(
+                height: 60,
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: ListView.builder(
+                  itemCount: 10,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: 90,
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'images/cotton.png',
+                            height: 32,
+                            width: 32,
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              )),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Container(
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            "Cotton",
+                            style: TextStyle(
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Container(
               decoration: BoxDecoration(
                   border: Border.all(
                     color: AppColors.strokeGrey,
@@ -77,11 +78,11 @@ class _FiberPageState extends State<FiberPage> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          if(offeringColor == AppColors.lightBlueTabs){
+                          if (offeringColor == AppColors.lightBlueTabs) {
                             changeTabColor(true);
-                          }else{
+                          } else {
                             changeTabColor(false);
                           }
                         });
@@ -97,53 +98,65 @@ class _FiberPageState extends State<FiberPage> {
                           ),
                         ),
                         decoration: getOfferingDec(offeringColor),
-
                       ),
                     ),
                     flex: 1,
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          if(requirementColor == AppColors.lightBlueTabs){
-                           changeTabColor(false);
-                          }else{
-                           changeTabColor(true);
+                          if (requirementColor == AppColors.lightBlueTabs) {
+                            changeTabColor(false);
+                          } else {
+                            changeTabColor(true);
                           }
                         });
                       },
                       child: Container(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Requirements',
-                              style: TextStyle(color: textReqClr),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Requirements',
+                                style: TextStyle(color: textReqClr),
+                              ),
                             ),
                           ),
-                        ),
-                        decoration: getRequirementDec(requirementColor)),
-
+                          decoration: getRequirementDec(requirementColor)),
                     ),
                     flex: 1,
                   ),
-
                 ],
-              )),
-        )
-      ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+                itemCount: 17,
+                itemBuilder: (context, index) => buildWidget(/*Your params here*/),
+                separatorBuilder: (context, index) {
+                  return Divider();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  void changeTabColor(bool value){
-    if(value){
+  void changeTabColor(bool value) {
+    if (value) {
       offeringColor = Colors.white;
       requirementColor = AppColors.lightBlueTabs;
 
       textOfferClr = AppColors.textColorGreyLight;
       textReqClr = Colors.white;
-    }else{
+    } else {
       offeringColor = AppColors.lightBlueTabs;
       requirementColor = Colors.white;
 

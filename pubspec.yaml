@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.23.0+1
+  flutter_rating_bar: ^4.0.0
 #  bubble_tab_indicator: ^0.1.6
 
 dev_dependencies:
@@ -72,6 +73,9 @@ flutter:
     - images/ic_home_grey.png
     - images/ic_home_blue.png
     - images/cotton.png
+    - images/ic_list.png
+    - images/ic_verified_supplier.png
+    - images/ic_weight.png
     - images/svg/home_grey.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
