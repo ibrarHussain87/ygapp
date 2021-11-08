@@ -7,6 +7,7 @@ import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/images.dart';
 import 'package:yg_app/utils/strings.dart';
 
+
 class SpinningPostAdPage extends StatefulWidget {
   const SpinningPostAdPage(
       {Key? key, required this.businessArea, required this.selectedTab})
