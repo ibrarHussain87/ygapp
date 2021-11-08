@@ -23,12 +23,6 @@ class _FiberPageState extends State<FiberPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        child: const Icon(Icons.add),
-      ),
       body: bodyContent(),
     );
   }
