@@ -9,4 +9,6 @@ class AppStrings{
   static String operator = "Operator";
   static String businessArea = "Business Area";
   static String email = "Email";
+  static String family = "Family";
+  static String blend = "Blend";
 }

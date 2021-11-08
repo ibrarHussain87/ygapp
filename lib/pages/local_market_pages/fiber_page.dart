@@ -17,11 +17,18 @@ class _FiberPageState extends State<FiberPage> {
   Color requirementColor = Colors.white;
   Color textOfferClr = Colors.white;
   Color textReqClr = AppColors.textColorGreyLight;
+  bool offeringClick = false,requirementClick = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+        child: const Icon(Icons.add),
+      ),
       body: bodyContent(),
     );
   }
@@ -80,7 +87,9 @@ class _FiberPageState extends State<FiberPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          if (offeringColor == AppColors.lightBlueTabs) {
+                          offeringClick = true;
+                          requirementClick = false;
+                          if (!offeringClick) {
                             changeTabColor(true);
                           } else {
                             changeTabColor(false);
@@ -106,7 +115,9 @@ class _FiberPageState extends State<FiberPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          if (requirementColor == AppColors.lightBlueTabs) {
+                          offeringClick = false;
+                          requirementClick = true;
+                          if (!requirementClick) {
                             changeTabColor(false);
                           } else {
                             changeTabColor(true);
@@ -153,13 +164,11 @@ class _FiberPageState extends State<FiberPage> {
     if (value) {
       offeringColor = Colors.white;
       requirementColor = AppColors.lightBlueTabs;
-
       textOfferClr = AppColors.textColorGreyLight;
       textReqClr = Colors.white;
     } else {
       offeringColor = AppColors.lightBlueTabs;
       requirementColor = Colors.white;
-
       textReqClr = AppColors.textColorGreyLight;
       textOfferClr = Colors.white;
     }

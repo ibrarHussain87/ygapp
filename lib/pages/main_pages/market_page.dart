@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/pages/local_market_pages/converstion_leasing.dart';
 import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
+import 'package:yg_app/pages/local_market_pages/product_weaving.dart';
+import 'package:yg_app/pages/local_market_pages/spinning_page.dart';
+import 'package:yg_app/pages/local_market_pages/stock_lot.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class MarketPage extends StatefulWidget {
@@ -13,13 +17,11 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage> {
   List<String> tabsList = [
-    'Fibers',
-    'Yarn',
-    'Fabrics',
-    'Dyning',
-    'Fibers',
-    'Yarn',
-    'Fabrics'
+    'Fiber',
+    'Spinning',
+    'Product Weaving',
+    'Converstion (Leasing)',
+    'Stock Lot'
   ];
 
   @override
@@ -48,12 +50,10 @@ class _MarketPageState extends State<MarketPage> {
                   ),
                   body: TabBarView(children: [
                     FiberPage(),
-                    Icon(Icons.movie),
-                    Icon(Icons.games),
-                    Icon(Icons.label),
-                    Icon(Icons.label),
-                    Icon(Icons.label),
-                    Icon(Icons.label),
+                    SpinningPage(),
+                    ProductWeavingPage(),
+                    ConverstionLeasingPage(),
+                    StockLotPage()
                   ]),
                 ))));
   }

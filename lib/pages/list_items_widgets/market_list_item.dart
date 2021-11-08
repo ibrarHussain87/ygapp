@@ -208,13 +208,16 @@ Widget buildWidget() {
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        'Weight per Bag',
-                                        style: TextStyle(
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppColors.textColorGreyLight),
+                                      Visibility(
+                                        child: Text(
+                                          'Weight per Bag',
+                                          style: TextStyle(
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.normal,
+                                              color:
+                                                  AppColors.textColorGreyLight),
+                                        ),
+                                        visible: true,
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,
@@ -258,13 +261,16 @@ Widget buildWidget() {
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        'Weight per Bag',
-                                        style: TextStyle(
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppColors.textColorGreyLight),
+                                      Visibility(
+                                        child: Text(
+                                          'Weight per Bag',
+                                          style: TextStyle(
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.normal,
+                                              color:
+                                                  AppColors.textColorGreyLight),
+                                        ),
+                                        visible: true,
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,
@@ -308,13 +314,16 @@ Widget buildWidget() {
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        'Weight per Bag',
-                                        style: TextStyle(
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppColors.textColorGreyLight),
+                                      Visibility(
+                                        child: Text(
+                                          'Weight per Bag',
+                                          style: TextStyle(
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.normal,
+                                              color:
+                                                  AppColors.textColorGreyLight),
+                                        ),
+                                        visible: true,
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,
@@ -358,13 +367,16 @@ Widget buildWidget() {
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        'Weight per Bag',
-                                        style: TextStyle(
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppColors.textColorGreyLight),
+                                      Visibility(
+                                        child: Text(
+                                          'Weight per Bag',
+                                          style: TextStyle(
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.normal,
+                                              color:
+                                                  AppColors.textColorGreyLight),
+                                        ),
+                                        visible: true,
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,

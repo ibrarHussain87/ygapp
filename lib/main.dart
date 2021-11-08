@@ -36,7 +36,7 @@ class _YgAppPageState extends State<YgAppPage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                const LoginPage()
+                const MainPage()
             )
         )
     );
