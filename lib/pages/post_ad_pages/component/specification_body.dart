@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
+import 'package:yg_app/widgets/grid_tile_widget.dart';
 
 class SpecificationComponent extends StatefulWidget {
   SpecificationComponent({Key? key}) : super(key: key);
@@ -15,26 +16,10 @@ class SpecificationComponent extends StatefulWidget {
 
 class _SpecificationComponentState extends State<SpecificationComponent> {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  List<Map<String, dynamic>> items = [
-    {
-      'value': 'boxValue',
-      'label': 'Box Label',
-      'icon': Icon(Icons.stop),
-    },
-    {
-      'value': 'circleValue',
-      'label': 'Circle Label',
-      'icon': Icon(Icons.fiber_manual_record),
-      'textStyle': TextStyle(color: Colors.red),
-    },
-    {
-      'value': 'starValue',
-      'label': 'Star Label',
-      'enable': false,
-      'icon': Icon(Icons.grade),
-    },
-  ];
-  String? _selectedItem = AppStrings.plyStringList[0];
+
+  List<String> listItems = ['Woven','Knitted'];
+  List<String> listItems3 = ['Woven','Knitted','Woven'];
+  List<String> listItems4 = ['Woven','Knitted','Woven','Knitted','Woven','Knitted','Woven','Knitted'];
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +66,7 @@ class _SpecificationComponentState extends State<SpecificationComponent> {
                                       }
                                       return null;
                                     },
-                                    decoration:
-                                        roundedTextFieldDecoration('Count')),
+                                    decoration: roundedTextFieldDecoration('Count')),
                               ),
                             ),
                           ),
@@ -103,13 +87,73 @@ class _SpecificationComponentState extends State<SpecificationComponent> {
                                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(24.w))),
                                 ),
                                 style: TextStyle(fontSize: 11.sp,color: AppColors.textColorGrey),
-
                               ),
-                            )
+                            ),
                           ),
+
                         ],
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 2,
+                        listOfItems: listItems,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 2,
+                        listOfItems: listItems,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 2,
+                        listOfItems: listItems,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 4,
+                        listOfItems: listItems4,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 2,
+                        listOfItems: listItems,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.w),
+                      child: GridTileWidget(
+                        spanCount: 2,
+                        listOfItems: listItems,
+                        callback: (value){
+
+                        },
+                      ),
+                    ),
                   ],
                 ))
           ],
