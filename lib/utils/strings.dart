@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class AppStrings{
   static String letsGetStarted = "Let's get started";
   static String loginDescription = "The Best Global B2B eCommere\nPlatform for Textiles";
@@ -11,4 +14,7 @@ class AppStrings{
   static String email = "Email";
   static String family = "Family";
   static String blend = "Blend";
+
+  static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];
+
 }

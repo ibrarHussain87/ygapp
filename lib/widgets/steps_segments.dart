@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
+import 'package:yg_app/pages/main_pages/home_page.dart';
+import 'package:yg_app/pages/main_pages/international_page.dart';
+import 'package:yg_app/pages/main_pages/yg_services.dart';
+import 'package:yg_app/pages/post_ad_pages/component/specification_body.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class StepsSegmentWidget extends StatefulWidget {
@@ -9,7 +14,7 @@ class StepsSegmentWidget extends StatefulWidget {
   Map<int, String>? stepsMapping;
 
   StepsSegmentWidget(
-      {Key? key, required this.stepsCallback, required this.stepsMapping})
+      {Key? key,required this.stepsCallback})
       : super(key: key);
 
   @override
@@ -17,64 +22,86 @@ class StepsSegmentWidget extends StatefulWidget {
 }
 
 class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
-  String? selectedValue = "1";
+
+  int? selectedValue = 1;
+  PageController _pageController = new PageController();
+  List<Widget> _samplePages = [SpecificationComponent(),InternationalPage(),YGServices()];
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: CupertinoSegmentedControl(
-        borderColor: AppColors.textColorGreyLight,
-        selectedColor: AppColors.lightBlueTabs,
-        groupValue: selectedValue,
-        pressedColor: AppColors.lightBlueTabs,
-        children: {
-          "1": Container(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: CupertinoSegmentedControl(
+                borderColor: AppColors.textColorGreyLight,
+                selectedColor: AppColors.lightBlueTabs,
+                groupValue: selectedValue,
+                pressedColor: AppColors.lightBlueTabs,
+                children: {
+                  1: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Step 1",
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: selectedValue == 1 ? Colors.white : AppColors
+                            .lightBlueTabs,
 
-            padding: EdgeInsets.all(8),
-            child: Text(
-              "Step 1",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: selectedValue == "1" ? Colors.white : AppColors
-                    .lightBlueTabs,
+                      ),
+                    ),
+                  ),
+                  2: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Step 2",
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: selectedValue == 2 ? Colors.white : AppColors
+                            .lightBlueTabs,
 
+                      ),
+                    ),
+                  ),
+                  3: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "Step 3",
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: selectedValue == 3 ? Colors.white : AppColors
+                            .lightBlueTabs,
+
+                      ),
+                    ),
+                  ),
+                },
+                onValueChanged: (value) {
+                  setState(() {
+                    selectedValue = value as int?;
+                  });
+                  widget.stepsCallback!(value);
+                  _pageController.animateToPage(selectedValue!-1, duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+
+                  print(value);
+                },
               ),
-            ),
+            )
+          ],
+        ),
+        Expanded(
+          child: PageView.builder(
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _samplePages.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _samplePages[index % _samplePages.length];
+            },
           ),
-          "2": Container(
-
-            padding: EdgeInsets.all(8),
-            child: Text(
-              "Step 2",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: selectedValue == "2" ? Colors.white : AppColors
-                    .lightBlueTabs,
-
-              ),
-            ),
-          ),
-          "3": Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              "Step 3",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: selectedValue == "3" ? Colors.white : AppColors
-                    .lightBlueTabs,
-
-              ),
-            ),
-          ),
-        },
-        onValueChanged: (value) {
-          setState(() {
-            selectedValue = value as String?;
-          });
-          widget.stepsCallback!(value);
-          print(value);
-        },
-      ),
+        ),
+      ],
     );
   }
 

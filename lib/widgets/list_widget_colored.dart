@@ -44,6 +44,7 @@ class _ListViewWidgetColoredState extends State<ListViewWidgetColored> {
       child: Padding(
         padding: EdgeInsets.all(4.w),
         child: Container(
+          width: 96.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(12.w)),
             boxShadow: [
