@@ -8,15 +8,12 @@ class TileTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(4.w),
-      child: Text(
-        title!,
-        style: TextStyle(
-            color: Colors.black87,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500),
-      ),
+    return Text(
+      title!,
+      style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500),
     );
   }
 }

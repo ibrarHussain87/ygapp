@@ -17,4 +17,8 @@ class AppStrings{
 
   static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];
 
+
+  //Shared preference Key
+   static var USER_TOKEN_KEY = "USER_TOKEN";
+
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/images.dart';
+import 'package:yg_app/utils/progress_dialog_util.dart';
+import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 
@@ -18,13 +23,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String userName = "";
-  String password = "";
   bool _showPassword = false;
+  late LoginRequestModel _loginRequestModel;
+
   void _togglevisibility() {
     setState(() {
       _showPassword = !_showPassword;
     });
+  }
+
+  @override
+  void initState() {
+    _loginRequestModel = LoginRequestModel();
+    super.initState();
   }
 
   @override
@@ -71,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Center(
                     child: Form(
                       key: globalFormKey,
-                        child: Column(
+                      child: Column(
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
@@ -80,14 +91,15 @@ class _LoginPageState extends State<LoginPage> {
                                 keyboardType: TextInputType.text,
                                 cursorColor: Colors.black,
                                 onSaved: (input) =>
-                                userName = input!,
+                                    _loginRequestModel.email = input!,
                                 validator: (input) {
-                                  if(input == null || input.isEmpty){
+                                  if (input == null || input.isEmpty) {
                                     return "Please enter username";
                                   }
                                   return null;
                                 },
-                                decoration: textFormFieldDec(AppStrings.userName)),
+                                decoration:
+                                    textFormFieldDec(AppStrings.userName)),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -97,34 +109,39 @@ class _LoginPageState extends State<LoginPage> {
                               keyboardType: TextInputType.text,
                               cursorColor: Colors.black,
                               onSaved: (input) =>
-                              password = input!,
+                                  _loginRequestModel.password = input!,
                               validator: (input) {
-                                if(input == null || input.isEmpty|| input.length < 8){
+                                if (input == null ||
+                                    input.isEmpty ||
+                                    input.length < 8) {
                                   return "Password must be greater then 8 characters";
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 labelText: AppStrings.password,
-                                labelStyle: TextStyle(
-                                  fontSize: 12.sp
-                                ),
+                                labelStyle: TextStyle(fontSize: 12.sp),
                                 border: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.textColorGrey),
+                                  borderSide: BorderSide(
+                                      color: AppColors.textColorGrey),
                                 ),
                                 suffixIcon: GestureDetector(
                                   onTap: () {
                                     _togglevisibility();
                                   },
                                   child: Icon(
-                                    _showPassword ? Icons.visibility : Icons
-                                        .visibility_off, color: AppColors.textColorGrey,),
+                                    _showPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: AppColors.textColorGrey,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
@@ -142,41 +159,75 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.h,),
-                          SizedBox(width: double.infinity,
-                              child:ElevatedButton(
-                                  child: Text(
-                                      "Sign in".toUpperCase(),
-                                      style: TextStyle(fontSize: 14.sp)
-                                  ),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                  child: Text("Sign in".toUpperCase(),
+                                      style: TextStyle(fontSize: 14.sp)),
                                   style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                                      backgroundColor: MaterialStateProperty.all<Color>(AppColors.btnColorLogin),
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.btnColorLogin),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                                              side: BorderSide(color: Colors.transparent)
-                                          )
-                                      )
-                                  ),
-                                  onPressed: (){
-                                    if(validateAndSave()) {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MainPage(),
-                                        ),
-                                      );
-                                    }
-                                  }
-                              )),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8)),
+                                              side: BorderSide(color: Colors.transparent)))),
+                                  onPressed: () {
+                                    if (validateAndSave()) {
+                                      ProgressDialogUtil.showDialog(
+                                          context, 'Please wait...');
 
+                                      ApiService.login(_loginRequestModel)
+                                          .then((value) {
+                                        ProgressDialogUtil.hideDialog();
+                                        if (value.success) {
+
+                                          SharedPreferenceUtil.addStringToSF(AppStrings.USER_TOKEN_KEY, value.data.token);
+
+                                          Fluttertoast.showToast(
+                                              msg: value.message,
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1
+                                          );
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MainPage()),
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content:
+                                                      Text(value.message)));
+                                        }
+                                      }).onError((error, stackTrace) {
+                                        ProgressDialogUtil.hideDialog();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text(error.toString())));
+                                      });
+                                    }
+                                  })),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30.h,),
+                SizedBox(
+                  height: 30.h,
+                ),
                 GestureDetector(
                   child: Text(
                     AppStrings.signUpStr,
@@ -188,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 1.5.h,
                     ),
                   ),
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -197,7 +248,6 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                 ),
-
               ],
             ),
           ),
