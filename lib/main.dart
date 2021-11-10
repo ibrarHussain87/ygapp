@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
@@ -13,6 +14,12 @@ void main() {
 class YgApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(

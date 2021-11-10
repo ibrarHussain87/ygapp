@@ -2,14 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/family_data.dart';
-import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
-import 'package:yg_app/pages/local_market_pages/product_weaving.dart';
-import 'package:yg_app/pages/local_market_pages/spinning_page.dart';
-import 'package:yg_app/pages/local_market_pages/stock_lot.dart';
-import 'package:yg_app/pages/main_page.dart';
-import 'package:yg_app/pages/main_pages/home_page.dart';
-import 'package:yg_app/pages/main_pages/international_page.dart';
-import 'package:yg_app/pages/main_pages/yg_services.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/images.dart';
 import 'package:yg_app/utils/strings.dart';
@@ -40,14 +32,20 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
     FamilyData(
         AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic')
   ];
-  PageController _pageController = new PageController();
-  List<Widget> _samplePages = [FiberPage(),InternationalPage(),YGServices()];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: AppColors.lightBlueTabs, //change your color here
+          ),
+          elevation: 4,
+          title: Text('Spinning Post Ad',style: TextStyle(color: AppColors.lightBlueTabs,fontSize: 13.sp),),
+          backgroundColor: Colors.white,
+        ),
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -118,4 +116,6 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
       ),
     );
   }
+
+
 }

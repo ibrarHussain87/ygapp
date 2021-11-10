@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post_ad.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class SpinningPage extends StatefulWidget {

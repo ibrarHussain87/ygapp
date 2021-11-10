@@ -1,31 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
-import 'package:yg_app/pages/main_pages/home_page.dart';
-import 'package:yg_app/pages/main_pages/international_page.dart';
 import 'package:yg_app/pages/main_pages/yg_services.dart';
-import 'package:yg_app/pages/post_ad_pages/component/specification_body.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/specification_body.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class StepsSegmentWidget extends StatefulWidget {
-
   Function? stepsCallback;
   Map<int, String>? stepsMapping;
 
-  StepsSegmentWidget(
-      {Key? key,required this.stepsCallback})
-      : super(key: key);
+  StepsSegmentWidget({Key? key, required this.stepsCallback}) : super(key: key);
 
   @override
   _StepsSegmentWidgetState createState() => _StepsSegmentWidgetState();
 }
 
 class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
-
   int? selectedValue = 1;
-  PageController _pageController = new PageController();
-  List<Widget> _samplePages = [SpecificationComponent(),InternationalPage(),YGServices()];
+  final PageController _pageController = PageController();
+  final List<Widget> _samplePages = [
+    SpecificationComponent(callback: (value){
+      print(value);
+    },),
+    LabParameterPage(),
+    YGServices()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,9 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                       "Step 1",
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: selectedValue == 1 ? Colors.white : AppColors
-                            .lightBlueTabs,
-
+                        color: selectedValue == 1
+                            ? Colors.white
+                            : AppColors.lightBlueTabs,
                       ),
                     ),
                   ),
@@ -59,9 +59,9 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                       "Step 2",
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: selectedValue == 2 ? Colors.white : AppColors
-                            .lightBlueTabs,
-
+                        color: selectedValue == 2
+                            ? Colors.white
+                            : AppColors.lightBlueTabs,
                       ),
                     ),
                   ),
@@ -71,9 +71,9 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                       "Step 3",
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: selectedValue == 3 ? Colors.white : AppColors
-                            .lightBlueTabs,
-
+                        color: selectedValue == 3
+                            ? Colors.white
+                            : AppColors.lightBlueTabs,
                       ),
                     ),
                   ),
@@ -83,8 +83,9 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                     selectedValue = value as int?;
                   });
                   widget.stepsCallback!(value);
-                  _pageController.animateToPage(selectedValue!-1, duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
-
+                  _pageController.animateToPage(selectedValue! - 1,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeInOut);
                   print(value);
                 },
               ),
@@ -104,5 +105,4 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
       ],
     );
   }
-
 }

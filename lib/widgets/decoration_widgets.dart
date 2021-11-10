@@ -38,7 +38,7 @@ OutlineInputBorder myinputborder() {
 
 OutlineInputBorder myfocusborder() {
   return OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20)),
+      borderRadius: BorderRadius.all(Radius.circular(24.w)),
       borderSide: BorderSide(
         color: AppColors.textColorBlue,
         width: 3,
@@ -51,10 +51,18 @@ InputDecoration roundedTextFieldDecoration(String hint) {
     hintStyle: TextStyle(fontSize: 11.sp),
     filled: true,
     fillColor: Colors.white,
-    contentPadding: EdgeInsets.only(left: 16.w,right: 16.w),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24.w),
-      borderSide: BorderSide(width: 1.0)
+    contentPadding: EdgeInsets.only(left: 16.w, right: 16.w),
+    // border: OutlineInputBorder(
+    //   borderRadius: BorderRadius.circular(24.w),
+    //   borderSide: BorderSide(width: 1.0, color: AppColors.lightBlueTabs),
+    // ),
+    enabledBorder: new OutlineInputBorder(
+      borderRadius: new BorderRadius.circular(24.0.w),
+      borderSide: BorderSide(color: AppColors.lightBlueTabs),
+    ),
+    focusedBorder: new OutlineInputBorder(
+      borderRadius: new BorderRadius.circular(24.0.w),
+      borderSide: BorderSide(color: AppColors.lightBlueTabs),
     ),
   );
 }
