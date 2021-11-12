@@ -46,72 +46,70 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
           title: Text('Spinning Post Ad',style: TextStyle(color: AppColors.lightBlueTabs,fontSize: 13.sp),),
           backgroundColor: Colors.white,
         ),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Visibility(
-                visible: false,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 8.w,
-                    left: 24.w,
-                    right: 24.w,
-                  ),
-                  child: Text(
-                    AppStrings.family,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              visible: false,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 8.w,
+                  left: 24.w,
+                  right: 24.w,
+                ),
+                child: Text(
+                  AppStrings.family,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 16.w, left: 8.w, right: 8.w),
-                child: GridWidet(
-                  familyList: familyList,
-                  callback: (index) {
-                    print(familyList[index]);
-                  },
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 16.w, left: 8.w, right: 8.w),
+              child: GridWidet(
+                familyList: familyList,
+                callback: (index) {
+                  print(familyList[index]);
+                },
               ),
-              Visibility(
-                visible: false,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                  child: Text(
-                    AppStrings.blend,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
+            ),
+            Visibility(
+              visible: false,
+              child: Padding(
+                padding: EdgeInsets.only(left: 24.w, right: 24.w),
+                child: Text(
+                  AppStrings.blend,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                child: SizedBox(
-                  height: 32.h,
-                  child: ListViewWidgetColored(
-                    //just for dummy
-                    listItems: familyList,
-                    callback: (index) {},
-                  ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 8.w, right: 8.w),
+              child: SizedBox(
+                height: 32.h,
+                child: ListViewWidgetColored(
+                  //just for dummy
+                  listItems: familyList,
+                  callback: (index) {},
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 8.w),
-                  child: StepsSegmentWidget(
-                    stepsCallback: (value) {
-                    }),
-                ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.w),
+                child: StepsSegmentWidget(
+                  stepsCallback: (value) {
+                  }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

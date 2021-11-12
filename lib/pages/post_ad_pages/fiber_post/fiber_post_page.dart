@@ -1,7 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/model/response/sync/sync_fiber_response.dart';
+import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
+import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
+import 'package:yg_app/widgets/listview_image_filter.dart';
+import 'package:yg_app/widgets/steps_segments.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
@@ -9,7 +17,8 @@ class FiberPostPage extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberPostPage({Key? key,required this.businessArea,this.selectedTab}) : super(key: key);
+  const FiberPostPage({Key? key, required this.businessArea, this.selectedTab})
+      : super(key: key);
 
   @override
   _FiberPostPageState createState() => _FiberPostPageState();
@@ -23,32 +32,86 @@ class _FiberPostPageState extends State<FiberPostPage> {
         backgroundColor: Colors.white,
         body: FutureBuilder<SyncFiberResponse>(
           future: ApiService.SyncFiber(),
-           builder: (BuildContext context,snapshot){
-              if (snapshot.connectionState == ConnectionState.done &&
-                 snapshot.data != null) {
-               return getView();
-             } else if (snapshot.hasError) {
-               return Text(snapshot.error.toString());
-             } else {
-               return const Center(
-                 child: CircularProgressIndicator(),
-               );
-             }
-           },
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.data != null) {
+              return insertIntoDB(snapshot.data);
+            } else if (snapshot.hasError) {
+              return Center(child: TitleTextWidget(title:snapshot.error.toString()));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
       ),
     );
   }
 
-  Widget getView(){
-    return SingleChildScrollView(
+  Widget insertIntoDB(SyncFiberResponse? data) {
+
+    return FutureBuilder<List<int>>(
+      future: getDbInstance().then((value) async {
+        // await value.fiberSettingDao.deleteAll(data!.data.fiber.settings);
+        return value.fiberSettingDao.insertAllFiberSettings(data!.data.fiber.settings);
+      }),
+      builder: (BuildContext context, snapshot){
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null) {
+          return getView(data!);
+        } else if (snapshot.hasError) {
+          return Center(child: TitleTextWidget(title:snapshot.error.toString()));
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  Widget getView(SyncFiberResponse data){
+    return Padding(
+      padding: EdgeInsets.only(left: 8.w,right: 8.w),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          TileTextWidget(title: 'Fiber Material',),
+          Padding(padding:EdgeInsets.only(top: 16.w,left: 16.w,right: 16.w,bottom: 16.w),child: TitleTextWidget(title: 'Fiber Material',)),
+          SizedBox(
+            height: 64.w,
+            child: ListViewImageFilterWidget(listItem: data.data.fiber.material,
+              onClickCallback: (index){
+              },),
+          ),
+          Expanded(
+            child: FiberStepsSagments(
+              syncFiberResponse: data,
+              stepsCallback: (value){
+
+            },),
+          ),
         ],
       ),
     );
   }
 }
+
+
+
+Future<AppDatabase> getDbInstance() async{
+
+  var databaseInstance;
+  final database=$FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
+ await database.then((value) => {
+   databaseInstance = value
+  });
+
+  return databaseInstance;
+}
+
+
 
 

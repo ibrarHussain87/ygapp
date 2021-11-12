@@ -240,13 +240,13 @@ class _$FiberSettingDao extends FiberSettingDao {
   @override
   Future<void> insertFiberSetting(FiberSettings fiberSettings) async {
     await _fiberSettingsInsertionAdapter.insert(
-        fiberSettings, OnConflictStrategy.abort);
+        fiberSettings, OnConflictStrategy.replace);
   }
 
   @override
   Future<List<int>> insertAllFiberSettings(List<FiberSettings> fiberSettings) {
     return _fiberSettingsInsertionAdapter.insertListAndReturnIds(
-        fiberSettings, OnConflictStrategy.abort);
+        fiberSettings, OnConflictStrategy.replace);
   }
 
   @override

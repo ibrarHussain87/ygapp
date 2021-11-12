@@ -1,5 +1,10 @@
 import 'package:floor/floor.dart';
 
+import 'fiber_apperance.dart';
+import 'fiber_certification.dart';
+import 'fiber_countries.dart';
+import 'fiber_grade.dart';
+
 class SyncFiberResponse {
   SyncFiberResponse({
     required this.status,
@@ -174,43 +179,6 @@ class FiberMaterial {
   }
 }
 
-@Entity(tableName: 'fiber_apperance')
-class FiberApperance {
-  FiberApperance({
-    required this.aprId,
-    required this.aprCategoryIdfk,
-    required this.aprName,
-    required this.aprIsActive,
-    this.aprSortid,
-  });
-
-  @PrimaryKey(autoGenerate: false)
-  late final int aprId;
-  late final String aprCategoryIdfk;
-  late final String aprName;
-  late final String aprIsActive;
-  @ignore
-  late final Null aprSortid;
-
-  FiberApperance.fromJson(Map<String, dynamic> json){
-    aprId = json['apr_id'];
-    aprCategoryIdfk = json['apr_category_idfk'];
-    aprName = json['apr_name'];
-    aprIsActive = json['apr_is_active'];
-    aprSortid = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['apr_id'] = aprId;
-    _data['apr_category_idfk'] = aprCategoryIdfk;
-    _data['apr_name'] = aprName;
-    _data['apr_is_active'] = aprIsActive;
-    _data['apr_sortid'] = aprSortid;
-    return _data;
-  }
-}
-
 @Entity(tableName: 'fiber_brand')
 class FiberBrands {
   FiberBrands({
@@ -244,86 +212,6 @@ class FiberBrands {
     _data['brd_name'] = brdName;
     _data['brd_is_active'] = brdIsActive;
     _data['brd_sortid'] = brdSortid;
-    return _data;
-  }
-}
-
-@Entity(tableName: 'fiber_country')
-class FiberCountries {
-  FiberCountries({
-    required this.conId,
-    required this.conName,
-    required this.conIsoCode_2,
-    required this.conIsoCode_3,
-    required this.conAddressFormat,
-    required this.conPostcodeRequired,
-    required this.conIsActive,
-  });
-
-  @PrimaryKey(autoGenerate: false)
-  late final int conId;
-  late final String conName;
-  late final String conIsoCode_2;
-  late final String conIsoCode_3;
-  late final String conAddressFormat;
-  late final String conPostcodeRequired;
-  late final String conIsActive;
-
-  FiberCountries.fromJson(Map<String, dynamic> json){
-    conId = json['con_id'];
-    conName = json['con_name'];
-    conIsoCode_2 = json['con_iso_code_2'];
-    conIsoCode_3 = json['con_iso_code_3'];
-    conAddressFormat = json['con_address_format'];
-    conPostcodeRequired = json['con_postcode_required'];
-    conIsActive = json['con_is_active'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['con_id'] = conId;
-    _data['con_name'] = conName;
-    _data['con_iso_code_2'] = conIsoCode_2;
-    _data['con_iso_code_3'] = conIsoCode_3;
-    _data['con_address_format'] = conAddressFormat;
-    _data['con_postcode_required'] = conPostcodeRequired;
-    _data['con_is_active'] = conIsActive;
-    return _data;
-  }
-}
-
-@Entity(tableName: 'fiber_certification')
-class FiberCertification {
-  FiberCertification({
-    required this.cerId,
-    required this.cerCategoryIdfk,
-    required this.cerName,
-    required this.cerIsActive,
-    this.cerSortid,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int cerId;
-  late final String cerCategoryIdfk;
-  late final String cerName;
-  late final String cerIsActive;
-  @ignore
-  late final Null cerSortid;
-
-  FiberCertification.fromJson(Map<String, dynamic> json){
-    cerId = json['cer_id'];
-    cerCategoryIdfk = json['cer_category_idfk'];
-    cerName = json['cer_name'];
-    cerIsActive = json['cer_is_active'];
-    cerSortid = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['cer_id'] = cerId;
-    _data['cer_category_idfk'] = cerCategoryIdfk;
-    _data['cer_name'] = cerName;
-    _data['cer_is_active'] = cerIsActive;
-    _data['cer_sortid'] = cerSortid;
     return _data;
   }
 }
@@ -430,56 +318,7 @@ class FiberUnits {
   }
 }
 
-@Entity(tableName: 'fiber_grade')
-class FiberGrades {
-  FiberGrades({
-    required this.grdId,
-    required this.grdCategoryIdfk,
-    required this.grdName,
-    required this.grdIsActive,
-    this.grdSortid,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int grdId;
-  late final String grdCategoryIdfk;
-  late final String grdName;
-  late final String grdIsActive;
-  @ignore
-  late final Null grdSortid;
-  @ignore
-  late final Null createdAt;
-  @ignore
-  late final Null updatedAt;
-  @ignore
-  late final Null deletedAt;
 
-  FiberGrades.fromJson(Map<String, dynamic> json){
-    grdId = json['grd_id'];
-    grdCategoryIdfk = json['grd_category_idfk'];
-    grdName = json['grd_name'];
-    grdIsActive = json['grd_is_active'];
-    grdSortid = null;
-    createdAt = null;
-    updatedAt = null;
-    deletedAt = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['grd_id'] = grdId;
-    _data['grd_category_idfk'] = grdCategoryIdfk;
-    _data['grd_name'] = grdName;
-    _data['grd_is_active'] = grdIsActive;
-    _data['grd_sortid'] = grdSortid;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
-    return _data;
-  }
-}
 
 @Entity(tableName: 'fiber_price_table')
 class FiberPriceTerms {
@@ -720,4 +559,5 @@ class FiberSettings {
     _data['mat_name'] = matName;
     return _data;
   }
+
 }

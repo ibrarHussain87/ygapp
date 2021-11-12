@@ -14,6 +14,8 @@ class AppStrings{
   static String email = "Email";
   static String family = "Family";
   static String blend = "Blend";
+  static String specifications = "Specifications";
+  static String selectSpecifications = "Select your accurate specifications";
 
   static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];
 

@@ -5,7 +5,7 @@ import 'package:yg_app/utils/colors.dart';
 
 class GridTileWidget extends StatefulWidget {
   Function? callback;
-  List<String> listOfItems;
+  List<dynamic> listOfItems;
   int? spanCount;
 
   GridTileWidget(
@@ -20,7 +20,21 @@ class GridTileWidget extends StatefulWidget {
 }
 
 class _GridTileWidgetState extends State<GridTileWidget> {
+
   int checkedTile = 0;
+  late double aspectRatio;
+
+  @override
+  void initState() {
+    if(widget.spanCount == 2) {
+      aspectRatio = 4.5;
+    }else if(widget.spanCount == 3){
+      aspectRatio = 2.9;
+    }else{
+      aspectRatio =2.2;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +45,7 @@ class _GridTileWidgetState extends State<GridTileWidget> {
           crossAxisSpacing: widget.spanCount! == 2? 16: 6,
           mainAxisSpacing: 8,
           crossAxisCount: widget.spanCount!,
-          childAspectRatio: widget.spanCount == 2 ? 4.5:2.4),
+          childAspectRatio: aspectRatio),
       itemCount: widget.listOfItems.length,
       itemBuilder: (context, index) {
         return buildGrid(index);
@@ -58,7 +72,8 @@ class _GridTileWidgetState extends State<GridTileWidget> {
             borderRadius: BorderRadius.all(Radius.circular(24.w))),
         child: Center(
           child: Text(
-            widget.listOfItems[index],
+            widget.listOfItems[index].toString(),
+            textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 11.sp,
                 color: checked ? Colors.white : AppColors.lightBlueTabs),

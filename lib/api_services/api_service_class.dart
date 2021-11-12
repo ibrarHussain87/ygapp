@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:yg_app/model/response/sync/sync_fiber_response.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 class ApiService {

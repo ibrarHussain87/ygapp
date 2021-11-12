@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                 AppStrings.forgetPassword,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: AppColors.textColorFBlue,
+                                  color: AppColors.btnColorLogin,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                   height: 1.5.h,

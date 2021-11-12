@@ -5,7 +5,6 @@ class AppColors{
   static var textColorGrey = HexColor.fromHex('#5C5C7B');
   static var tileGreyClr = HexColor.fromHex('#F0F2F5');
   static var textColorGreyLight = HexColor.fromHex('#A1A8B3');
-  static var textColorFBlue = HexColor.fromHex('#4B34DF');
   static var strokeGrey = HexColor.fromHex('#E0E0E0');
   static var btnGreen = HexColor.fromHex('#2AC54D');
   static var textFieldLabel = Color(0xFF251685);
