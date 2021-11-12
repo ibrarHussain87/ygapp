@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 
 import 'fiber_apperance.dart';
+import 'fiber_brands.dart';
 import 'fiber_certification.dart';
 import 'fiber_countries.dart';
 import 'fiber_grade.dart';
@@ -68,11 +69,11 @@ class FiberModel {
   late final List<FiberCategories> categories;
   late final List<FiberMaterial> material;
   late final List<FiberApperance> apperance;
-  late final List<FiberBrands> brands;
   late final List<FiberCountries> countries;
   late final List<FiberCertification> certification;
   late final List<FiberDeliveryPeriod> deliveryPeriod;
   late final List<FiberUnits> units;
+  late final List<FiberBrands> brands;
   late final List<FiberGrades> grades;
   late final List<FiberPriceTerms> priceTerms;
   late final List<FiberAvailbleForMarket> availbleForMarket;
@@ -103,6 +104,7 @@ class FiberModel {
     _data['certification'] = certification.map((e)=>e.toJson()).toList();
     _data['deliveryPeriod'] = deliveryPeriod.map((e)=>e.toJson()).toList();
     _data['units'] = units.map((e)=>e.toJson()).toList();
+    _data['brands'] = units.map((e)=>e.toJson()).toList();
     _data['grades'] = grades.map((e)=>e.toJson()).toList();
     _data['priceTerms'] = priceTerms.map((e)=>e.toJson()).toList();
     _data['availbleForMarket'] = availbleForMarket.map((e)=>e.toJson()).toList();
@@ -179,42 +181,6 @@ class FiberMaterial {
   }
 }
 
-@Entity(tableName: 'fiber_brand')
-class FiberBrands {
-  FiberBrands({
-    required this.brdId,
-    this.brdCategoryIdfk,
-    required this.brdName,
-    required this.brdIsActive,
-    this.brdSortid,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int brdId;
-  @ignore
-  late final Null brdCategoryIdfk;
-  late final String brdName;
-  late final String brdIsActive;
-  @ignore
-  late final Null brdSortid;
-
-  FiberBrands.fromJson(Map<String, dynamic> json){
-    brdId = json['brd_id'];
-    brdCategoryIdfk = null;
-    brdName = json['brd_name'];
-    brdIsActive = json['brd_is_active'];
-    brdSortid = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['brd_id'] = brdId;
-    _data['brd_category_idfk'] = brdCategoryIdfk;
-    _data['brd_name'] = brdName;
-    _data['brd_is_active'] = brdIsActive;
-    _data['brd_sortid'] = brdSortid;
-    return _data;
-  }
-}
 
 @Entity(tableName: 'fiber_delivery_period')
 class FiberDeliveryPeriod {

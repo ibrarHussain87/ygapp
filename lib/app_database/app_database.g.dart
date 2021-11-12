@@ -232,6 +232,41 @@ class _$FiberSettingDao extends FiberSettingDao {
   }
 
   @override
+  Future<List<FiberSettings>> findFiberSettings(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_setting where fbsFiberMaterialIdfk = ?1',
+        mapper: (Map<String, Object?> row) => FiberSettings(
+            fbsId: row['fbsId'] as int,
+            fbsCategoryIdfk: row['fbsCategoryIdfk'] as String,
+            fbsFiberMaterialIdfk: row['fbsFiberMaterialIdfk'] as String,
+            showLength: row['showLength'] as String,
+            lengthMinMax: row['lengthMinMax'] as String,
+            showGrade: row['showGrade'] as String,
+            showMicronaire: row['showMicronaire'] as String,
+            micMinMax: row['micMinMax'] as String,
+            showMoisture: row['showMoisture'] as String,
+            moiMinMax: row['moiMinMax'] as String,
+            showTrash: row['showTrash'] as String,
+            trashMinMax: row['trashMinMax'] as String,
+            showRd: row['showRd'] as String,
+            rdMinMax: row['rdMinMax'] as String,
+            showGpt: row['showGpt'] as String,
+            gptMinMax: row['gptMinMax'] as String,
+            showAppearance: row['showAppearance'] as String,
+            showBrand: row['showBrand'] as String,
+            showOrigin: row['showOrigin'] as String,
+            showCertification: row['showCertification'] as String,
+            showCountUnit: row['showCountUnit'] as String,
+            showDeliveryPeriod: row['showDeliveryPeriod'] as String,
+            showAvailableForMarket: row['showAvailableForMarket'] as String,
+            showPriceTerms: row['showPriceTerms'] as String,
+            fbsIsActive: row['fbsIsActive'] as String,
+            catName: row['catName'] as String,
+            matName: row['matName'] as String),
+        arguments: [id]);
+  }
+
+  @override
   Future<void> deleteFiberSetting(int id) async {
     await _queryAdapter.queryNoReturn('delete from fiber_setting where id = ?1',
         arguments: [id]);

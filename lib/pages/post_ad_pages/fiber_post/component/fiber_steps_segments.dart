@@ -8,6 +8,7 @@ import 'package:yg_app/utils/colors.dart';
 import 'fiber_specification_component.dart';
 
 class FiberStepsSagments extends StatefulWidget {
+
   Function? stepsCallback;
   Map<int, String>? stepsMapping;
   SyncFiberResponse syncFiberResponse;

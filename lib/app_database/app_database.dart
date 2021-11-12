@@ -4,6 +4,7 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_apperance.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_brands.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_certification.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_countries.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_grade.dart';
