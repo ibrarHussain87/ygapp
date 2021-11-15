@@ -7,8 +7,9 @@ class ElevatedButtonWithIcon extends StatefulWidget {
 
   Function? callback;
   Color? color;
+  String? btnText;
 
-  ElevatedButtonWithIcon({Key? key,required this.callback,required this.color}) : super(key: key);
+  ElevatedButtonWithIcon({Key? key,required this.callback,required this.color,required this.btnText}) : super(key: key);
 
   @override
   _ElevatedButtonWithIconState createState() => _ElevatedButtonWithIconState();
@@ -20,7 +21,7 @@ class _ElevatedButtonWithIconState extends State<ElevatedButtonWithIcon> {
     return ElevatedButton(
         child: Row(
           children: [
-            Expanded(child: Center(child: Text("Next".toUpperCase(), style: TextStyle(fontSize: 14.sp))),flex: 9,),
+            Expanded(child: Center(child: Text(widget.btnText!.toUpperCase(), style: TextStyle(fontSize: 14.sp))),flex: 9,),
             const Icon(
               Icons.navigate_next,
               color: Colors.white,
@@ -37,7 +38,7 @@ class _ElevatedButtonWithIconState extends State<ElevatedButtonWithIcon> {
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     side: BorderSide(color: Colors.transparent)))),
         onPressed: () {
-          widget.callback!;
+          widget.callback!();
         });
   }
 }

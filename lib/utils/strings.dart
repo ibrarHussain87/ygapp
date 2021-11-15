@@ -23,5 +23,6 @@ class AppStrings{
 
   //Shared preference Key
    static var USER_TOKEN_KEY = "USER_TOKEN";
+   static var USER_ID_KEY = "USER_ID";
 
 }

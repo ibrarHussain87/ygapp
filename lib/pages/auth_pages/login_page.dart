@@ -190,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ProgressDialogUtil.hideDialog();
                                         if (value.success) {
 
+                                          SharedPreferenceUtil.addStringToSF(AppStrings.USER_ID_KEY, value.data.user.id.toString());
                                           SharedPreferenceUtil.addStringToSF(AppStrings.USER_TOKEN_KEY, value.data.token);
 
                                           Fluttertoast.showToast(

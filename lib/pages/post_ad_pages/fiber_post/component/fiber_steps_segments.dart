@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/model/request/login_request/fiber_request.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
+import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/utils/colors.dart';
 
 import 'fiber_specification_component.dart';
@@ -13,7 +14,9 @@ class FiberStepsSagments extends StatefulWidget {
   Map<int, String>? stepsMapping;
   SyncFiberResponse syncFiberResponse;
 
-  FiberStepsSagments({Key? key,required this.syncFiberResponse, required this.stepsCallback}) : super(key: key);
+  FiberStepsSagments(
+      {Key? key, required this.syncFiberResponse, required this.stepsCallback})
+      : super(key: key);
 
   @override
   _FiberStepsSagmentsState createState() => _FiberStepsSagmentsState();
@@ -21,26 +24,35 @@ class FiberStepsSagments extends StatefulWidget {
 
 class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
 
-  late int? selectedValue = 1;
+  int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
   late SyncFiberResponse _syncFiberResponse;
+  FiberRequestModel? _fiberRequestModel;
 
   @override
   void initState() {
+
     _syncFiberResponse = widget.syncFiberResponse;
+    _pageController = PageController();
 
     _samplePages = [
       FiberSpecificationComponent(
-        syncFiberResponse:widget.syncFiberResponse,
+        syncFiberResponse: widget.syncFiberResponse,
         callback: (value) {
-          print(value);
+          setState(() {
+            selectedValue++;
+            _fiberRequestModel = value;
+          });
+          widget.stepsCallback!(value);
+          _pageController.animateToPage(selectedValue - 1,
+              duration: Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
         },
       ),
-      LabParameterPage(),
+      PackingDetails(requestModel :_fiberRequestModel,syncFiberResponse:widget.syncFiberResponse),
     ];
 
-    _pageController = PageController();
     super.initState();
   }
 
@@ -84,13 +96,12 @@ class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
                 },
                 onValueChanged: (value) {
                   setState(() {
-                    selectedValue = value as int?;
+                    selectedValue = value as int;
                   });
                   widget.stepsCallback!(value);
-                  _pageController.animateToPage(selectedValue! - 1,
+                  _pageController.animateToPage(selectedValue - 1,
                       duration: Duration(milliseconds: 400),
                       curve: Curves.easeInOut);
-                  print(value);
                 },
               ),
             ),

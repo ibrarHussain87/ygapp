@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/model/request/login_request/fiber_request.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_brands.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_countries.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/constants.dart';
+import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
 import 'package:yg_app/widgets/grid_tile_widget.dart';
+import 'package:yg_app/widgets/numeriacal_range_text_field.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
+import '../../packing_details_component.dart';
+
 class FiberSpecificationComponent extends StatefulWidget {
+
   Function? callback;
   SyncFiberResponse syncFiberResponse;
 
@@ -28,13 +35,26 @@ class FiberSpecificationComponent extends StatefulWidget {
 
 class _FiberSpecificationComponentState
     extends State<FiberSpecificationComponent> {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedMaterialIndex = 0;
+  DateTime selectedDate = DateTime.now();
+  TextEditingController _textEditingController = TextEditingController();
+  FiberRequestModel? _fiberRequestModel;
+  FiberSettings? _fiberSettings;
 
   @override
   void initState() {
-    /// Subscription Example
+    _fiberRequestModel = FiberRequestModel();
+
+    //INTIAIL VALUES
+    _fiberRequestModel!.spc_grade_idfk =
+        widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
+    _fiberRequestModel!.spc_certificate_idfk = widget
+        .syncFiberResponse.data.fiber.certification.first.cerId
+        .toString();
+
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
         (AppStrings.materialIndexBroadcast, (index) {
       setState(() {
@@ -50,12 +70,15 @@ class _FiberSpecificationComponentState
     return FutureBuilder<List<FiberSettings>>(
       future: getDbInstance().then((value) async {
         // await value.fiberSettingDao.deleteAll(data!.data.fiber.settings);
+
         return value.fiberSettingDao.findFiberSettings(widget.syncFiberResponse
             .data.fiber.material[_selectedMaterialIndex].fbmId);
       }),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
+          _fiberSettings = snapshot.data![0];
+
           return Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
@@ -116,7 +139,13 @@ class _FiberSpecificationComponentState
                                                 .data
                                                 .fiber
                                                 .grades,
-                                            callback: (value) {},
+                                            callback: (value) {
+                                              _fiberRequestModel!
+                                                      .spc_grade_idfk =
+                                                  widget.syncFiberResponse.data
+                                                      .fiber.grades[value].grdId
+                                                      .toString();
+                                            },
                                           ),
                                         ],
                                       ),
@@ -133,40 +162,48 @@ class _FiberSpecificationComponentState
                                           : false,
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top:8.w),
+                                          padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: 'Fiber Length')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter fiber length";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            "${snapshot.data![0].lengthMinMax} mm")),
-                                              ),
+                                              TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  cursorColor:
+                                                      AppColors.lightBlueTabs,
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  inputFormatters: [
+                                                    NumericalRangeFormatter(
+                                                        min: splitMin(snapshot
+                                                            .data![0]
+                                                            .lengthMinMax),
+                                                        max: splitMax(snapshot
+                                                            .data![0]
+                                                            .lengthMinMax))
+                                                  ],
+                                                  onSaved: (input) =>
+                                                      _fiberRequestModel!
+                                                              .spc_fiber_length_idfk =
+                                                          input,
+                                                  validator: (input) {
+                                                    if (input == null ||
+                                                        input.isEmpty) {
+                                                      return "Fiber length";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration:
+                                                      roundedTextFieldDecoration(
+                                                          "${snapshot.data![0].lengthMinMax} mm")),
                                               SizedBox(
                                                 width: 16.w,
                                               ),
@@ -176,7 +213,13 @@ class _FiberSpecificationComponentState
                                       ),
                                     ),
                                     SizedBox(
-                                      width: (snapshot.data![0].showLength== "1" && snapshot.data![0].showMicronaire == "1")? 16.w: 0,
+                                      width: (snapshot.data![0].showLength ==
+                                                  "1" &&
+                                              snapshot.data![0]
+                                                      .showMicronaire ==
+                                                  "1")
+                                          ? 16.w
+                                          : 0,
                                     ),
                                     Visibility(
                                       visible: int.parse(snapshot
@@ -192,34 +235,43 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: 'Micronaire (Mic)')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter Micronaire (Mic)";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            '${snapshot.data![0].micMinMax} mic')),
-                                              ),
+                                                      title:
+                                                          'Micronaire (Mic)')),
+                                              TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  cursorColor:
+                                                      AppColors.lightBlueTabs,
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  inputFormatters: [
+                                                    NumericalRangeFormatter(
+                                                        min: splitMin(snapshot
+                                                            .data![0]
+                                                            .micMinMax),
+                                                        max: splitMax(snapshot
+                                                            .data![0]
+                                                            .micMinMax))
+                                                  ],
+                                                  onSaved: (input) =>
+                                                      _fiberRequestModel!
+                                                              .spc_micronaire_idfk =
+                                                          input!,
+                                                  validator: (input) {
+                                                    if (input == null ||
+                                                        input.isEmpty) {
+                                                      return "Micronaire (Mic)";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration:
+                                                      roundedTextFieldDecoration(
+                                                          '${snapshot.data![0].micMinMax} mic')),
                                             ],
                                           ),
                                         ),
@@ -240,34 +292,42 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: 'Moisture')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter Moisture";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            '${snapshot.data![0].moiMinMax} %')),
-                                              ),
+                                              TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  cursorColor:
+                                                      AppColors.lightBlueTabs,
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  onSaved: (input) =>
+                                                      _fiberRequestModel!
+                                                              .spc_moisture_idfk =
+                                                          input!,
+                                                  inputFormatters: [
+                                                    NumericalRangeFormatter(
+                                                        min: splitMin(snapshot
+                                                            .data![0]
+                                                            .moiMinMax),
+                                                        max: splitMax(snapshot
+                                                            .data![0]
+                                                            .moiMinMax))
+                                                  ],
+                                                  validator: (input) {
+                                                    if (input == null ||
+                                                        input.isEmpty) {
+                                                      return "Moisture";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration:
+                                                      roundedTextFieldDecoration(
+                                                          '${snapshot.data![0].moiMinMax} %')),
                                             ],
                                           ),
                                         ),
@@ -279,7 +339,12 @@ class _FiberSpecificationComponentState
                                           : false,
                                     ),
                                     SizedBox(
-                                      width: (snapshot.data![0].showMoisture== "1" && snapshot.data![0].showTrash == "1")? 16.w: 0,
+                                      width: (snapshot.data![0].showMoisture ==
+                                                  "1" &&
+                                              snapshot.data![0].showTrash ==
+                                                  "1")
+                                          ? 16.w
+                                          : 0,
                                     ),
                                     Visibility(
                                         child: Expanded(
@@ -294,30 +359,38 @@ class _FiberSpecificationComponentState
                                                         left: 8.w),
                                                     child: TitleSmallTextWidget(
                                                         title: 'Trash')),
-                                                SizedBox(
-                                                  height: 36.w,
-                                                  child: TextFormField(
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      cursorColor:
-                                                          AppColors.lightBlueTabs,
-                                                      style: TextStyle(
-                                                          fontSize: 11.sp),
-                                                      textAlign: TextAlign.center,
-                                                      cursorHeight: 16.w,
-                                                      // onSaved: (input) =>
-                                                      // userName = input!,
-                                                      validator: (input) {
-                                                        if (input == null ||
-                                                            input.isEmpty) {
-                                                          return "Please enter Trash";
-                                                        }
-                                                        return null;
-                                                      },
-                                                      decoration:
-                                                          roundedTextFieldDecoration(
-                                                              '${snapshot.data![0].trashMinMax} %')),
-                                                ),
+                                                TextFormField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    cursorColor:
+                                                        AppColors.lightBlueTabs,
+                                                    style: TextStyle(
+                                                        fontSize: 11.sp),
+                                                    textAlign: TextAlign.center,
+                                                    cursorHeight: 16.w,
+                                                    onSaved: (input) =>
+                                                        _fiberRequestModel!
+                                                                .spc_trash_idfk =
+                                                            input!,
+                                                    inputFormatters: [
+                                                      NumericalRangeFormatter(
+                                                          min: splitMin(snapshot
+                                                              .data![0]
+                                                              .trashMinMax),
+                                                          max: splitMax(snapshot
+                                                              .data![0]
+                                                              .trashMinMax))
+                                                    ],
+                                                    validator: (input) {
+                                                      if (input == null ||
+                                                          input.isEmpty) {
+                                                        return "Trash";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    decoration:
+                                                        roundedTextFieldDecoration(
+                                                            '${snapshot.data![0].trashMinMax} %')),
                                               ],
                                             ),
                                           ),
@@ -342,34 +415,39 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: 'RD')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter RD";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            '${snapshot.data![0].rdMinMax} %')),
-                                              ),
+                                              TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  cursorColor:
+                                                      AppColors.lightBlueTabs,
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  onSaved: (input) =>
+                                                      _fiberRequestModel!
+                                                          .spc_rd_idfk = input!,
+                                                  inputFormatters: [
+                                                    NumericalRangeFormatter(
+                                                        min: splitMin(snapshot
+                                                            .data![0].rdMinMax),
+                                                        max: splitMax(snapshot
+                                                            .data![0].rdMinMax))
+                                                  ],
+                                                  validator: (input) {
+                                                    if (input == null ||
+                                                        input.isEmpty) {
+                                                      return "Enter RD";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration:
+                                                      roundedTextFieldDecoration(
+                                                          '${snapshot.data![0].rdMinMax} %')),
                                             ],
                                           ),
                                         ),
@@ -381,7 +459,10 @@ class _FiberSpecificationComponentState
                                               : false,
                                     ),
                                     SizedBox(
-                                      width: (snapshot.data![0].showRd== "1" && snapshot.data![0].showGpt == "1")? 16.w: 0,
+                                      width: (snapshot.data![0].showRd == "1" &&
+                                              snapshot.data![0].showGpt == "1")
+                                          ? 16.w
+                                          : 0,
                                     ),
                                     Visibility(
                                       child: Expanded(
@@ -392,34 +473,42 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: 'GPT')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter GPT";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            '${snapshot.data![0].gptMinMax} %')),
-                                              ),
+                                              TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  cursorColor:
+                                                      AppColors.lightBlueTabs,
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  inputFormatters: [
+                                                    NumericalRangeFormatter(
+                                                        min: splitMin(snapshot
+                                                            .data![0]
+                                                            .gptMinMax),
+                                                        max: splitMax(snapshot
+                                                            .data![0]
+                                                            .gptMinMax))
+                                                  ],
+                                                  onSaved: (input) =>
+                                                      _fiberRequestModel!
+                                                              .spc_gpt_idfk =
+                                                          input!,
+                                                  validator: (input) {
+                                                    if (input == null ||
+                                                        input.isEmpty) {
+                                                      return "Enter GPT";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration:
+                                                      roundedTextFieldDecoration(
+                                                          '${snapshot.data![0].gptMinMax} %')),
                                             ],
                                           ),
                                         ),
@@ -452,7 +541,17 @@ class _FiberSpecificationComponentState
                                           spanCount: 2,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.apperance,
-                                          callback: (value) {},
+                                          callback: (value) {
+                                            _fiberRequestModel!
+                                                    .spc_appearance_idfk =
+                                                widget
+                                                    .syncFiberResponse
+                                                    .data
+                                                    .fiber
+                                                    .apperance[value]
+                                                    .aprId
+                                                    .toString();
+                                          },
                                         ),
                                       ],
                                     ),
@@ -471,8 +570,8 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: 'Brand')),
                                               SizedBox(
@@ -489,7 +588,8 @@ class _FiberSpecificationComponentState
                                                           BorderRadius.all(
                                                               Radius.circular(
                                                                   24.w))),
-                                                  child: DropdownButtonFormField(
+                                                  child:
+                                                      DropdownButtonFormField(
                                                     hint: Text('Select Brand'),
                                                     items: widget
                                                         .syncFiberResponse
@@ -507,7 +607,13 @@ class _FiberSpecificationComponentState
                                                             ))
                                                         .toList(),
                                                     onChanged:
-                                                        (FiberBrands? value) {},
+                                                        (FiberBrands? value) {
+                                                      _fiberRequestModel!
+                                                              .spc_brand_idfk =
+                                                          value!.brdId
+                                                              .toString();
+                                                    },
+
                                                     // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                     decoration: InputDecoration(
                                                       contentPadding:
@@ -540,7 +646,10 @@ class _FiberSpecificationComponentState
                                           : false,
                                     ),
                                     SizedBox(
-                                      width: (snapshot.data![0].showBrand== "1")? 16.w: 0,
+                                      width:
+                                          (snapshot.data![0].showBrand == "1")
+                                              ? 16.w
+                                              : 0,
                                     ),
                                     Visibility(
                                       visible: true,
@@ -552,34 +661,42 @@ class _FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 8.w),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: 'Production Year')),
-                                              SizedBox(
-                                                height: 36.w,
-                                                child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    cursorColor:
-                                                        AppColors.lightBlueTabs,
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    showCursor: false,
-
-                                                    // onSaved: (input) =>
-                                                    // userName = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter production year";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        roundedTextFieldDecoration(
-                                                            'Production year')),
+                                                      title:
+                                                          'Production Year')),
+                                              TextFormField(
+                                                keyboardType:
+                                                    TextInputType.none,
+                                                controller:
+                                                    _textEditingController,
+                                                cursorColor:
+                                                    AppColors.lightBlueTabs,
+                                                autofocus: false,
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                                textAlign: TextAlign.center,
+                                                showCursor: false,
+                                                readOnly: true,
+                                                onSaved: (input) =>
+                                                    _fiberRequestModel!
+                                                            .spc_production_year =
+                                                        input!.toString(),
+                                                validator: (input) {
+                                                  if (input == null ||
+                                                      input.isEmpty) {
+                                                    return "Please enter production year";
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration:
+                                                    roundedTextFieldDecoration(
+                                                        'Production year'),
+                                                onTap: () {
+                                                  handleReadOnlyInputClick(
+                                                      context);
+                                                },
                                               ),
                                             ],
                                           ),
@@ -617,18 +734,23 @@ class _FiberSpecificationComponentState
                                             height: 36.w,
                                             child: DropdownButtonFormField(
                                               hint: Text('Select country'),
-                                              items: widget.syncFiberResponse.data
-                                                  .fiber.countries
+                                              items: widget.syncFiberResponse
+                                                  .data.fiber.countries
                                                   .map((value) =>
                                                       DropdownMenuItem(
-                                                        child: Text(value.conName,
-                                                            textAlign:
-                                                                TextAlign.center),
+                                                        child: Text(
+                                                            value.conName,
+                                                            textAlign: TextAlign
+                                                                .center),
                                                         value: value,
                                                       ))
                                                   .toList(),
                                               onChanged:
-                                                  (FiberCountries? value) {},
+                                                  (FiberCountries? value) {
+                                                _fiberRequestModel!
+                                                        .spc_origin_idfk =
+                                                    value!.conId.toString();
+                                              },
                                               // value: widget.syncFiberResponse.data.fiber.countries.first,
                                               decoration: InputDecoration(
                                                 contentPadding: EdgeInsets.only(
@@ -648,7 +770,8 @@ class _FiberSpecificationComponentState
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
-                                                  color: AppColors.textColorGrey),
+                                                  color:
+                                                      AppColors.textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -663,7 +786,8 @@ class _FiberSpecificationComponentState
                                       ? true
                                       : false,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w,bottom: 8.w),
+                                    padding:
+                                        EdgeInsets.only(top: 8.w, bottom: 8.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -677,7 +801,17 @@ class _FiberSpecificationComponentState
                                               .data.fiber.certification.length,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.certification,
-                                          callback: (value) {},
+                                          callback: (value) {
+                                            _fiberRequestModel!
+                                                    .spc_certificate_idfk =
+                                                widget
+                                                    .syncFiberResponse
+                                                    .data
+                                                    .fiber
+                                                    .certification[value]
+                                                    .cerId
+                                                    .toString();
+                                          },
                                         ),
                                       ],
                                     ),
@@ -701,8 +835,20 @@ class _FiberSpecificationComponentState
                     child: SizedBox(
                       width: double.maxFinite,
                       child: ElevatedButtonWithIcon(
-                        callback: () {},
+                        callback: (){
+                          if (validationAllPage()) {
+                            _fiberRequestModel!.spc_fiber_material_idfk = widget
+                                .syncFiberResponse
+                                .data
+                                .fiber
+                                .material[_selectedMaterialIndex]
+                                .fbmId
+                                .toString();
+                            widget.callback!(_fiberRequestModel);
+                          }
+                        },
                         color: AppColors.btnColorLogin,
+                        btnText: "Next",
                       ),
                     ),
                   ),
@@ -721,6 +867,72 @@ class _FiberSpecificationComponentState
       },
     );
   }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  bool validationAllPage() {
+    if (validateAndSave()) {
+      if (_fiberRequestModel!.spc_grade_idfk == null &&
+          _fiberSettings!.showGrade == "1") {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Please select Grade')));
+      } else if (_fiberRequestModel!.spc_appearance_idfk == null &&
+          _fiberSettings!.showAppearance == "1") {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Please select Appearance')));
+      } else if (_fiberRequestModel!.spc_brand_idfk == null &&
+          _fiberSettings!.showBrand == "1") {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Please select Brand')));
+      } else if (_fiberRequestModel!.spc_origin_idfk == null &&
+          _fiberSettings!.showOrigin == "1") {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Please select Country')));
+      } else if (_fiberRequestModel!.spc_certificate_idfk == null &&
+          _fiberSettings!.showCertification == "1") {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text('Please select Certification')));
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void handleReadOnlyInputClick(context) {
+    showBottomSheet(
+        context: context,
+        builder: (BuildContext context) => Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: YearPicker(
+                selectedDate: DateTime(DateTime.now().year),
+                firstDate: DateTime(DateTime.now().year - 100),
+                lastDate: DateTime.now(),
+                onChanged: (val) {
+                  _textEditingController.text = val.year.toString();
+                  Navigator.pop(context);
+                },
+              ),
+            ));
+  }
+}
+
+double splitMin(String minMax) {
+  var splitValue = minMax.split('-');
+  return double.parse(splitValue[0]);
+}
+
+double splitMax(String minMax) {
+  var splitValue = minMax.split('-');
+  return double.parse(splitValue[1]);
 }
 
 Future<AppDatabase> getDbInstance() async {

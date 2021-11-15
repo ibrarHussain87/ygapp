@@ -54,7 +54,7 @@ class _FiberPageState extends State<FiberPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FiberPostPage(businessArea:"Fiber",selectedTab:"requirement"),
+                      builder: (context) => const FiberPostPage(businessArea:"LOCAL",selectedTab:"requirement"),
                     ),
                   );
                 }
@@ -68,7 +68,7 @@ class _FiberPageState extends State<FiberPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FiberPostPage(businessArea:"Fiber",selectedTab:"Offering"),
+                      builder: (context) => const FiberPostPage(businessArea:"INTERNATIONAL",selectedTab:"Offering"),
                     ),
                   );
                 }

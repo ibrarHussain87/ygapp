@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
@@ -12,6 +13,7 @@ import 'package:yg_app/widgets/listview_image_filter.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
+
   final String? businessArea;
   final String? selectedTab;
 
@@ -112,7 +114,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
           Expanded(
             child: FiberStepsSagments(
               syncFiberResponse: data,
-              stepsCallback: (value) {},
+              stepsCallback: (value) {
+
+              },
             ),
           ),
         ],

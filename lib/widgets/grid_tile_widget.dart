@@ -7,12 +7,14 @@ class GridTileWidget extends StatefulWidget {
   Function? callback;
   List<dynamic> listOfItems;
   int? spanCount;
+  int? selectedIndex;
 
   GridTileWidget(
       {Key? key,
       required this.spanCount,
       required this.callback,
-      required this.listOfItems})
+      required this.listOfItems,
+      this.selectedIndex})
       : super(key: key);
 
   @override
@@ -21,11 +23,12 @@ class GridTileWidget extends StatefulWidget {
 
 class _GridTileWidgetState extends State<GridTileWidget> {
 
-  int checkedTile = 0;
+  int? checkedTile;
   late double aspectRatio;
 
   @override
   void initState() {
+    checkedTile = widget.selectedIndex??0;
     if(widget.spanCount == 2) {
       aspectRatio = 4.5;
     }else if(widget.spanCount == 3){

@@ -51,7 +51,8 @@ InputDecoration roundedTextFieldDecoration(String hint) {
     hintStyle: TextStyle(fontSize: 11.sp,),
     filled: true,
     fillColor: Colors.white,
-    contentPadding: EdgeInsets.only(left: 16.w, right: 16.w),
+    contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
+    isDense: true,
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
       borderSide: BorderSide(color: AppColors.lightBlueTabs),
@@ -60,5 +61,13 @@ InputDecoration roundedTextFieldDecoration(String hint) {
       borderRadius: BorderRadius.circular(24.0.w),
       borderSide: BorderSide(color: AppColors.lightBlueTabs),
     ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24.0.w),
+      borderSide: BorderSide(color: Colors.red),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24.0.w),
+      borderSide: BorderSide(color: Colors.red),
+    )
   );
 }
