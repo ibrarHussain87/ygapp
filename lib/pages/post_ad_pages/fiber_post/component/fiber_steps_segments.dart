@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/request/login_request/fiber_request.dart';
+import 'package:yg_app/model/request/fiber_request.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -13,9 +13,15 @@ class FiberStepsSagments extends StatefulWidget {
   Function? stepsCallback;
   Map<int, String>? stepsMapping;
   SyncFiberResponse syncFiberResponse;
+  final String? businessArea;
+  final String? selectedTab;
 
   FiberStepsSagments(
-      {Key? key, required this.syncFiberResponse, required this.stepsCallback})
+      {Key? key,
+      required this.syncFiberResponse,
+      required this.stepsCallback,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
@@ -23,12 +29,11 @@ class FiberStepsSagments extends StatefulWidget {
 }
 
 class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
-
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
   late SyncFiberResponse _syncFiberResponse;
-  FiberRequestModel? _fiberRequestModel;
+  // FiberRequestModel? _fiberRequestModel;
 
   @override
   void initState() {
@@ -39,18 +44,23 @@ class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
     _samplePages = [
       FiberSpecificationComponent(
         syncFiberResponse: widget.syncFiberResponse,
+        businessArea: widget.businessArea,
+        selectedTab: widget.selectedTab,
         callback: (value) {
           setState(() {
             selectedValue++;
-            _fiberRequestModel = value;
+            // _fiberRequestModel = value;
           });
           widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,
-              duration: Duration(milliseconds: 400),
-              curve: Curves.easeInOut);
+              duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
         },
       ),
-      PackingDetails(requestModel :_fiberRequestModel,syncFiberResponse:widget.syncFiberResponse),
+      PackagingDetails(
+          // requestModel: _fiberRequestModel,
+          businessArea: widget.businessArea,
+          selectedTab: widget.selectedTab,
+          syncFiberResponse: widget.syncFiberResponse),
     ];
 
     super.initState();

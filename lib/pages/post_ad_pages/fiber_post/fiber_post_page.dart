@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/model/request/fiber_request.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/strings.dart';
@@ -31,6 +33,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
     //Dispose broadcast
     BroadcastReceiver().unsubscribe(AppStrings.materialIndexBroadcast);
     BroadcastReceiver().unsubscribe(AppStrings.segmentIndexBroadcast);
+    BroadcastReceiver().unsubscribe(AppStrings.requestModelBroadCast);
     super.dispose();
   }
 
@@ -84,7 +87,6 @@ class _FiberPostPageState extends State<FiberPostPage> {
   }
 
   Widget getView(SyncFiberResponse data) {
-
     int selectedSegment = 1;
 
     return Padding(
@@ -97,7 +99,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
           Padding(
               padding: EdgeInsets.only(
                   top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
-              child: TitleTextWidget(
+              child: const TitleTextWidget(
                 title: 'Fiber Material',
               )),
           SizedBox(
@@ -105,21 +107,32 @@ class _FiberPostPageState extends State<FiberPostPage> {
             child: ListViewImageFilterWidget(
               listItem: data.data.fiber.material,
               onClickCallback: (index) {
+                FiberSpecificationComponent.fiberRequestModel!
+                    .spc_fiber_material_idfk =
+                    data.data.fiber.material[index].fbmId.toString();
+
                 /// Publishing Event
-                  BroadcastReceiver()
-                      .publish<int>(
-                      AppStrings.materialIndexBroadcast, arguments: index);
+                BroadcastReceiver()
+                    .publish<int>(
+                    AppStrings.materialIndexBroadcast, arguments: index);
               },
             ),
           ),
           Expanded(
             child: FiberStepsSagments(
               syncFiberResponse: data,
+              businessArea: widget.businessArea,
+              selectedTab: widget.selectedTab,
               stepsCallback: (value) {
+                if (value is FiberRequestModel) {
+
+                } else if (value is int) {
                   selectedSegment = value as int;
                   BroadcastReceiver()
                       .publish<int>(
-                      AppStrings.segmentIndexBroadcast, arguments: selectedSegment);
+                      AppStrings.segmentIndexBroadcast,
+                      arguments: selectedSegment);
+                }
               },
             ),
           ),
@@ -133,7 +146,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
 Future<AppDatabase> getDbInstance() async {
   var databaseInstance;
   final database =
-      $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
+  $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
   await database.then((value) => {databaseInstance = value});
 
   return databaseInstance;

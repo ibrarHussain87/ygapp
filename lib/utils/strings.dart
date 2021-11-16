@@ -17,6 +17,8 @@ class AppStrings{
   static String specifications = "Specifications";
   static String materialIndexBroadcast = "SELECTED_MATERIAL_INDEX";
   static String segmentIndexBroadcast = "SELECTED_SEGMENT_INDEX";
+  static String requestModelBroadCast = "REQUEST_MODEL_BROADCAST";
+  static String requestModelKey = "REQUEST_MODEL_KEY";
   static String selectSpecifications = "Select your accurate specifications";
 
   static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];

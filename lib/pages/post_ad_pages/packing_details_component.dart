@@ -1,32 +1,71 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/request/login_request/fiber_request.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/model/request/fiber_request.dart';
 import 'package:yg_app/model/response/sync/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/packing_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/sync/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_delievery_period.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/price_term.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/progress_dialog_util.dart';
+import 'package:yg_app/widgets/add_picture_widget.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
 import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
-class PackingDetails extends StatefulWidget {
-  FiberRequestModel? requestModel;
+class PackagingDetails extends StatefulWidget {
+  // FiberRequestModel? requestModel;
   SyncFiberResponse? syncFiberResponse;
+  final String? businessArea;
+  final String? selectedTab;
 
-  PackingDetails(
-      {Key? key, required this.requestModel, required this.syncFiberResponse})
+  PackagingDetails(
+      {Key? key,
+      // required this.requestModel,
+      required this.syncFiberResponse,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
-  _PackingDetailsState createState() => _PackingDetailsState();
+  _PackagingDetailsState createState() => _PackagingDetailsState();
 }
 
-class _PackingDetailsState extends State<PackingDetails> {
+class _PackagingDetailsState extends State<PackagingDetails>
+    with AutomaticKeepAliveClientMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> sellingRegion = ['Local', 'International'];
+  List<String> sellingRegion = [];
+  List<PickedFile> imageFiles = [];
+  FiberPriceTerms? _fiberPriceTerms;
+  PackingModel? _packingModel;
+  FiberDeliveryPeriod? _fiberDeliveryPeriod;
+  PaymentTypeModel? _paymentTypeModel;
+  LcTypeModel? _lcTypeModel;
+  FiberRequestModel? _fiberRequestModel;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    _fiberRequestModel = FiberSpecificationComponent.fiberRequestModel;
+    sellingRegion.add(widget.businessArea.toString());
+    _fiberPriceTerms = widget.syncFiberResponse!.data.fiber.priceTerms.first;
+    _packingModel = widget.syncFiberResponse!.data.fiber.packing.first;
+    _fiberDeliveryPeriod =
+        widget.syncFiberResponse!.data.fiber.deliveryPeriod.first;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +148,7 @@ class _PackingDetailsState extends State<PackingDetails> {
                                                   .toList(),
                                               onChanged:
                                                   (CountriesModel? value) {
-                                                widget.requestModel!
+                                                _fiberRequestModel!
                                                         .spc_origin_idfk =
                                                     value!.conId.toString();
                                               },
@@ -172,7 +211,7 @@ class _PackingDetailsState extends State<PackingDetails> {
                                                       ))
                                                   .toList(),
                                               onChanged: (PortsModel? value) {
-                                                widget.requestModel!
+                                                _fiberRequestModel!
                                                         .spc_origin_idfk =
                                                     value!.prtId.toString();
                                               },
@@ -210,24 +249,33 @@ class _PackingDetailsState extends State<PackingDetails> {
                                 spanCount: 3,
                                 listOfItems: widget
                                     .syncFiberResponse!.data.fiber.priceTerms,
-                                callback: (value) {}),
+                                callback: (value) {
+                                  _fiberPriceTerms = widget.syncFiberResponse!
+                                      .data.fiber.priceTerms[value];
+                                }),
                             Visibility(
-                              visible:false,
+                                visible: false,
                                 child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 8.w, left: 8.w),
-                                    child: TitleSmallTextWidget(
-                                        title: 'Payment Type')),
-                                GridTileWidget(
-                                    spanCount: 3,
-                                    listOfItems: widget.syncFiberResponse!.data
-                                        .fiber.paymentType,
-                                    callback: (value) {}),
-                              ],
-                            )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 8.w, left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: 'Payment Type')),
+                                    GridTileWidget(
+                                        spanCount: 3,
+                                        listOfItems: widget.syncFiberResponse!
+                                            .data.fiber.paymentType,
+                                        callback: (value) {
+                                          _paymentTypeModel = widget
+                                              .syncFiberResponse!
+                                              .data
+                                              .fiber
+                                              .paymentType[value];
+                                        }),
+                                  ],
+                                )),
                             Visibility(
                               visible: false,
                               child: Column(
@@ -242,7 +290,15 @@ class _PackingDetailsState extends State<PackingDetails> {
                                       spanCount: 4,
                                       listOfItems: widget
                                           .syncFiberResponse!.data.fiber.lcType,
-                                      callback: (value) {}),
+                                      callback: (value) {
+                                        if (_fiberRequestModel != null) {
+                                          _lcTypeModel = widget
+                                              .syncFiberResponse!
+                                              .data
+                                              .fiber
+                                              .lcType[value];
+                                        }
+                                      }),
                                 ],
                               ),
                             ),
@@ -260,7 +316,18 @@ class _PackingDetailsState extends State<PackingDetails> {
                                       spanCount: 4,
                                       listOfItems: widget
                                           .syncFiberResponse!.data.fiber.units,
-                                      callback: (value) {}),
+                                      callback: (value) {
+                                        if (_fiberRequestModel != null) {
+                                          _fiberRequestModel!
+                                                  .fbp_count_unit_idfk =
+                                              (widget
+                                                  .syncFiberResponse!
+                                                  .data
+                                                  .fiber
+                                                  .units[value]
+                                                  .untId as String?)!;
+                                        }
+                                      }),
                                 ],
                               ),
                             ),
@@ -281,8 +348,13 @@ class _PackingDetailsState extends State<PackingDetails> {
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
-                                        onSaved: (input) => widget
-                                            .requestModel!.fbp_price = input,
+                                        maxLines: 1,
+                                        onSaved: (input) {
+                                          if (_fiberRequestModel != null) {
+                                            _fiberRequestModel!.fbp_price =
+                                                input!;
+                                          }
+                                        },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
                                             return "Price/Unit";
@@ -309,8 +381,13 @@ class _PackingDetailsState extends State<PackingDetails> {
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
-                                        onSaved: (input) => widget.requestModel!
-                                            .fbp_min_quantity = input,
+                                        maxLines: 1,
+                                        onSaved: (input) {
+                                          if (_fiberRequestModel != null) {
+                                            _fiberRequestModel!
+                                                .fbp_min_quantity = input!;
+                                          }
+                                        },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
                                             return "Minimum Qty";
@@ -330,7 +407,12 @@ class _PackingDetailsState extends State<PackingDetails> {
                                 spanCount: 3,
                                 listOfItems: widget
                                     .syncFiberResponse!.data.fiber.packing,
-                                callback: (value) {}),
+                                callback: (value) {
+                                  if (_fiberRequestModel != null) {
+                                    _packingModel = widget.syncFiberResponse!
+                                        .data.fiber.packing[value];
+                                  }
+                                }),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
@@ -339,13 +421,21 @@ class _PackingDetailsState extends State<PackingDetails> {
                                 spanCount: 3,
                                 listOfItems: widget.syncFiberResponse!.data
                                     .fiber.deliveryPeriod,
-                                callback: (value) {}),
+                                callback: (value) {
+                                  if (_fiberRequestModel != null) {
+                                    _fiberDeliveryPeriod = widget
+                                        .syncFiberResponse!
+                                        .data
+                                        .fiber
+                                        .deliveryPeriod[value];
+                                  }
+                                }),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child:
                                     TitleSmallTextWidget(title: 'Description')),
                             SizedBox(
-                              height: 5 * 24.w,
+                              height: 5 * 22.w,
                               child: TextFormField(
                                   keyboardType: TextInputType.number,
                                   maxLines: 5,
@@ -353,8 +443,12 @@ class _PackingDetailsState extends State<PackingDetails> {
                                   style: TextStyle(fontSize: 11.sp),
                                   textAlign: TextAlign.start,
                                   cursorHeight: 16.w,
-                                  onSaved: (input) => widget
-                                      .requestModel!.fbp_min_quantity = input,
+                                  onSaved: (input) {
+                                    if (_fiberRequestModel != null) {
+                                      _fiberRequestModel!.fbp_description =
+                                          input!;
+                                    }
+                                  },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
                                       return "Description";
@@ -364,6 +458,12 @@ class _PackingDetailsState extends State<PackingDetails> {
                                   decoration: roundedDescriptionDecoration(
                                       "Description")),
                             ),
+                            AddPictureWidget(
+                              imageCount: 1,
+                              callbackImages: (value) {
+                                imageFiles = value;
+                              },
+                            )
                           ],
                         ),
                       ),
@@ -380,7 +480,43 @@ class _PackingDetailsState extends State<PackingDetails> {
               child: SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButtonWithIcon(
-                  callback: () {},
+                  callback: () {
+                    if (validateAndSave()) {
+                      if (_fiberRequestModel != null) {
+                        _fiberRequestModel!.spc_local_international =
+                            widget.businessArea!;
+                        _fiberRequestModel!.spc_local_international =
+                            widget.businessArea!.toUpperCase();
+                        _fiberRequestModel!.fbp_price_terms_idfk =
+                            _fiberPriceTerms!.ptrId.toString();
+                        _fiberRequestModel!.packing_idfk =
+                            _packingModel!.pacId.toString();
+                        _fiberRequestModel!.fbp_delivery_period_idfk =
+                            _fiberDeliveryPeriod!.dprId.toString();
+
+                        ProgressDialogUtil.showDialog(
+                            context, 'Please wait...');
+
+                        ApiService.multipartProdecudre(
+                                _fiberRequestModel!, imageFiles[0].path)
+                            .then((value) {
+                          ProgressDialogUtil.hideDialog();
+
+                          if(value.success){
+
+                              }else{
+                                Scaffold.of(context).showSnackBar(
+                                    SnackBar(content: Text(value.message)));
+                              }
+
+                        }).onError((error, stackTrace){
+                          ProgressDialogUtil.hideDialog();
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text(error.toString())));
+                        });
+                      }
+                    }
+                  },
                   color: AppColors.btnColorLogin,
                   btnText: 'Submit',
                 ),
@@ -391,5 +527,19 @@ class _PackingDetailsState extends State<PackingDetails> {
         ],
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      if (!imageFiles.isEmpty) {
+        form.save();
+        return true;
+      } else {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text('Please Capture Image first')));
+      }
+    }
+    return false;
   }
 }
