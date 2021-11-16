@@ -90,11 +90,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_entity` (`fbmId` INTEGER NOT NULL, `fbmCategoryIdfk` TEXT NOT NULL, `fbmName` TEXT NOT NULL, `fbmIsActive` TEXT NOT NULL, PRIMARY KEY (`fbmId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_brand` (`brdId` INTEGER NOT NULL, `brdName` TEXT NOT NULL, `brdIsActive` TEXT NOT NULL, PRIMARY KEY (`brdId`))');
+            'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT NOT NULL, `brdIsActive` TEXT NOT NULL, PRIMARY KEY (`brdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_country` (`conId` INTEGER NOT NULL, `conName` TEXT NOT NULL, `conIsoCode_2` TEXT NOT NULL, `conIsoCode_3` TEXT NOT NULL, `conAddressFormat` TEXT NOT NULL, `conPostcodeRequired` TEXT NOT NULL, `conIsActive` TEXT NOT NULL, PRIMARY KEY (`conId`))');
+            'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER NOT NULL, `conName` TEXT NOT NULL, `conIsoCode_2` TEXT NOT NULL, `conIsoCode_3` TEXT NOT NULL, `conAddressFormat` TEXT NOT NULL, `conPostcodeRequired` TEXT NOT NULL, `conIsActive` TEXT NOT NULL, PRIMARY KEY (`conId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_certification` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT NOT NULL, `cerName` TEXT NOT NULL, `cerIsActive` TEXT NOT NULL, PRIMARY KEY (`cerId`))');
+            'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT NOT NULL, `cerName` TEXT NOT NULL, `cerIsActive` TEXT NOT NULL, PRIMARY KEY (`cerId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT NOT NULL, `dprName` TEXT NOT NULL, `dprIsActive` TEXT NOT NULL, PRIMARY KEY (`dprId`))');
         await database.execute(
@@ -103,6 +103,16 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `fiber_grade` (`grdId` INTEGER NOT NULL, `grdCategoryIdfk` TEXT NOT NULL, `grdName` TEXT NOT NULL, `grdIsActive` TEXT NOT NULL, PRIMARY KEY (`grdId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_price_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT NOT NULL, `ptrName` TEXT NOT NULL, `ptrIsActive` TEXT NOT NULL, PRIMARY KEY (`ptrId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `companies` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `gst` TEXT NOT NULL, `address` TEXT NOT NULL, `countryId` TEXT NOT NULL, `cityStateId` TEXT NOT NULL, `zipCode` TEXT NOT NULL, `websiteUrl` TEXT NOT NULL, `whatsappNumber` TEXT NOT NULL, `wechatNumber` TEXT NOT NULL, `telephoneNumber` TEXT NOT NULL, `emailId` TEXT NOT NULL, `maxProduction` TEXT NOT NULL, `noOfUnits` TEXT NOT NULL, `yearEstablished` TEXT NOT NULL, `tradeCategory` TEXT NOT NULL, `licenseHolder` TEXT NOT NULL, `isVerified` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT NOT NULL, `lcIsActive` TEXT NOT NULL, PRIMARY KEY (`lcId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT NOT NULL, `pacIsActive` TEXT NOT NULL, PRIMARY KEY (`pacId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT NOT NULL, `payName` TEXT NOT NULL, `payIsActive` TEXT NOT NULL, PRIMARY KEY (`payId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT NOT NULL, `prtName` TEXT NOT NULL, `prtIsActive` TEXT NOT NULL, PRIMARY KEY (`prtId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
 

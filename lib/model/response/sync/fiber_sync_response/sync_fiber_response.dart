@@ -1,10 +1,18 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/model/response/sync/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/companies_reponse.dart';
+import 'package:yg_app/model/response/sync/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/packing_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/sync/fiber_sync_response/price_term.dart';
 
 import 'fiber_apperance.dart';
-import 'fiber_brands.dart';
-import 'fiber_certification.dart';
-import 'fiber_countries.dart';
+import '../common_response_models/certification_response.dart';
+import 'fiber_delievery_period.dart';
 import 'fiber_grade.dart';
+import 'fiber_unit_of_count.dart';
 
 class SyncFiberResponse {
   SyncFiberResponse({
@@ -69,28 +77,38 @@ class FiberModel {
   late final List<FiberCategories> categories;
   late final List<FiberMaterial> material;
   late final List<FiberApperance> apperance;
-  late final List<FiberCountries> countries;
-  late final List<FiberCertification> certification;
+  late final List<CountriesModel> countries;
+  late final List<CertificationModel> certification;
   late final List<FiberDeliveryPeriod> deliveryPeriod;
   late final List<FiberUnits> units;
-  late final List<FiberBrands> brands;
+  late final List<BrandsModel> brands;
   late final List<FiberGrades> grades;
   late final List<FiberPriceTerms> priceTerms;
   late final List<FiberAvailbleForMarket> availbleForMarket;
+  late final List<CompaniesModel> companies;
+  late final List<PaymentTypeModel> paymentType;
+  late final List<PortsModel> ports;
+  late final List<LcTypeModel> lcType;
+  late final List<PackingModel> packing;
   late final List<FiberSettings> settings;
 
   FiberModel.fromJson(Map<String, dynamic> json){
     categories = List.from(json['categories']).map((e)=>FiberCategories.fromJson(e)).toList();
     material = List.from(json['material']).map((e)=>FiberMaterial.fromJson(e)).toList();
     apperance = List.from(json['apperance']).map((e)=>FiberApperance.fromJson(e)).toList();
-    brands = List.from(json['brands']).map((e)=>FiberBrands.fromJson(e)).toList();
-    countries = List.from(json['countries']).map((e)=>FiberCountries.fromJson(e)).toList();
-    certification = List.from(json['certification']).map((e)=>FiberCertification.fromJson(e)).toList();
+    brands = List.from(json['brands']).map((e)=>BrandsModel.fromJson(e)).toList();
+    countries = List.from(json['countries']).map((e)=>CountriesModel.fromJson(e)).toList();
+    certification = List.from(json['certification']).map((e)=>CertificationModel.fromJson(e)).toList();
     deliveryPeriod = List.from(json['deliveryPeriod']).map((e)=>FiberDeliveryPeriod.fromJson(e)).toList();
     units = List.from(json['units']).map((e)=>FiberUnits.fromJson(e)).toList();
     grades = List.from(json['grades']).map((e)=>FiberGrades.fromJson(e)).toList();
     priceTerms = List.from(json['priceTerms']).map((e)=>FiberPriceTerms.fromJson(e)).toList();
     availbleForMarket = List.from(json['availbleForMarket']).map((e)=>FiberAvailbleForMarket.fromJson(e)).toList();
+    companies = List.from(json['companies']).map((e)=>CompaniesModel.fromJson(e)).toList();
+    paymentType = List.from(json['payment_types']).map((e)=>PaymentTypeModel.fromJson(e)).toList();
+    ports = List.from(json['ports']).map((e)=>PortsModel.fromJson(e)).toList();
+    lcType = List.from(json['lc_types']).map((e)=>LcTypeModel.fromJson(e)).toList();
+    packing = List.from(json['packing']).map((e)=>PackingModel.fromJson(e)).toList();
     settings = List.from(json['settings']).map((e)=>FiberSettings.fromJson(e)).toList();
   }
 
@@ -108,6 +126,11 @@ class FiberModel {
     _data['grades'] = grades.map((e)=>e.toJson()).toList();
     _data['priceTerms'] = priceTerms.map((e)=>e.toJson()).toList();
     _data['availbleForMarket'] = availbleForMarket.map((e)=>e.toJson()).toList();
+    _data['companies'] = companies.map((e)=>e.toJson()).toList();
+    _data['payment_types'] = paymentType.map((e)=>e.toJson()).toList();
+    _data['ports'] = ports.map((e)=>e.toJson()).toList();
+    _data['lc_types'] = lcType.map((e)=>e.toJson()).toList();
+    _data['packing'] = packing.map((e)=>e.toJson()).toList();
     _data['settings'] = settings.map((e)=>e.toJson()).toList();
     return _data;
   }
@@ -177,167 +200,6 @@ class FiberMaterial {
     _data['fbm_name'] = fbmName;
     _data['fbm_is_active'] = fbmIsActive;
     _data['fbm_sortid'] = fbmSortid;
-    return _data;
-  }
-}
-
-
-@Entity(tableName: 'fiber_delivery_period')
-class FiberDeliveryPeriod {
-  FiberDeliveryPeriod({
-    required this.dprId,
-    required this.dprCategoryIdfk,
-    required this.dprName,
-    required this.dprIsActive,
-    this.dprSortid,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int dprId;
-  late final String dprCategoryIdfk;
-  late final String dprName;
-  late final String dprIsActive;
-  @ignore
-  late final Null dprSortid;
-  @ignore
-  late final Null createdAt;
-  @ignore
-  late final Null updatedAt;
-  @ignore
-  late final Null deletedAt;
-
-  FiberDeliveryPeriod.fromJson(Map<String, dynamic> json){
-    dprId = json['dpr_id'];
-    dprCategoryIdfk = json['dpr_category_idfk'];
-    dprName = json['dpr_name'];
-    dprIsActive = json['dpr_is_active'];
-    dprSortid = null;
-    createdAt = null;
-    updatedAt = null;
-    deletedAt = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['dpr_id'] = dprId;
-    _data['dpr_category_idfk'] = dprCategoryIdfk;
-    _data['dpr_name'] = dprName;
-    _data['dpr_is_active'] = dprIsActive;
-    _data['dpr_sortid'] = dprSortid;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
-    return _data;
-  }
-}
-
-@Entity(tableName: 'fiber_units')
-class FiberUnits {
-  FiberUnits({
-    required this.untId,
-    required this.untCategoryIdfk,
-    required this.untName,
-    required this.untIsActive,
-    this.untSortid,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int untId;
-  late final String untCategoryIdfk;
-  late final String untName;
-  late final String untIsActive;
-  @ignore
-  late final Null untSortid;
-  @ignore
-  late final Null createdAt;
-  @ignore
-  late final Null updatedAt;
-  @ignore
-  late final Null deletedAt;
-
-  FiberUnits.fromJson(Map<String, dynamic> json){
-    untId = json['unt_id'];
-    untCategoryIdfk = json['unt_category_idfk'];
-    untName = json['unt_name'];
-    untIsActive = json['unt_is_active'];
-    untSortid = null;
-    createdAt = null;
-    updatedAt = null;
-    deletedAt = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['unt_id'] = untId;
-    _data['unt_category_idfk'] = untCategoryIdfk;
-    _data['unt_name'] = untName;
-    _data['unt_is_active'] = untIsActive;
-    _data['unt_sortid'] = untSortid;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
-    return _data;
-  }
-}
-
-
-
-@Entity(tableName: 'fiber_price_table')
-class FiberPriceTerms {
-  FiberPriceTerms({
-    required this.ptrId,
-    required this.ptrCategoryIdfk,
-    this.ptrCountryIdfk,
-    required this.ptrName,
-    required this.ptrIsActive,
-    this.ptrSortid,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-  });
-  @PrimaryKey(autoGenerate: false)
-  late final int ptrId;
-  late final String ptrCategoryIdfk;
-  @ignore
-  late final Null ptrCountryIdfk;
-  late final String ptrName;
-  late final String ptrIsActive;
-  @ignore
-  late final Null ptrSortid;
-  @ignore
-  late final Null createdAt;
-  @ignore
-  late final Null updatedAt;
-  @ignore
-  late final Null deletedAt;
-
-  FiberPriceTerms.fromJson(Map<String, dynamic> json){
-    ptrId = json['ptr_id'];
-    ptrCategoryIdfk = json['ptr_category_idfk'];
-    ptrCountryIdfk = null;
-    ptrName = json['ptr_name'];
-    ptrIsActive = json['ptr_is_active'];
-    ptrSortid = null;
-    createdAt = null;
-    updatedAt = null;
-    deletedAt = null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['ptr_id'] = ptrId;
-    _data['ptr_category_idfk'] = ptrCategoryIdfk;
-    _data['ptr_country_idfk'] = ptrCountryIdfk;
-    _data['ptr_name'] = ptrName;
-    _data['ptr_is_active'] = ptrIsActive;
-    _data['ptr_sortid'] = ptrSortid;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
     return _data;
   }
 }

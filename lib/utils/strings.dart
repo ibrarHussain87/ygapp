@@ -16,6 +16,7 @@ class AppStrings{
   static String blend = "Blend";
   static String specifications = "Specifications";
   static String materialIndexBroadcast = "SELECTED_MATERIAL_INDEX";
+  static String segmentIndexBroadcast = "SELECTED_SEGMENT_INDEX";
   static String selectSpecifications = "Select your accurate specifications";
 
   static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];

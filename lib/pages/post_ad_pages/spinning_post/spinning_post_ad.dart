@@ -7,7 +7,7 @@ import 'package:yg_app/utils/images.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/grid_widget.dart';
 import 'package:yg_app/widgets/list_widget_colored.dart';
-import 'package:yg_app/widgets/steps_segments.dart';
+import 'package:yg_app/widgets/steps_segments_widget.dart';
 
 class SpinningPostAdPage extends StatefulWidget {
   const SpinningPostAdPage(

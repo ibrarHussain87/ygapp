@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_brand')
-class FiberBrands {
-  FiberBrands({
+@Entity(tableName: 'brands')
+class BrandsModel {
+  BrandsModel({
     required this.brdId,
     this.brdCategoryIdfk,
     required this.brdName,
@@ -18,7 +18,7 @@ class FiberBrands {
   @ignore
   late final Null brdSortid;
 
-  FiberBrands.fromJson(Map<String, dynamic> json){
+  BrandsModel.fromJson(Map<String, dynamic> json){
     brdId = json['brd_id'];
     brdCategoryIdfk = null;
     brdName = json['brd_name'];

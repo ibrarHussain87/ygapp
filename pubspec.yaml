@@ -74,24 +74,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/splash.png
-    - images/logo.png
-    - images/ic_market_grey.png
-    - images/ic_market_blue.png
-    - images/yg_service_grey.png
-    - images/yg_service_blue.png
-    - images/post_ad_grey.png
-    - images/post_ad_blue.png
-    - images/ic_home_grey.png
-    - images/ic_home_blue.png
-    - images/cotton.png
-    - images/ic_cotton_grey.png
-    - images/ic_syen_grey.png
-    - images/ic_syenthatic.png
-    - images/ic_list.png
-    - images/ic_verified_supplier.png
-    - images/ic_weight.png
-    - images/svg/home_grey.svg
+    - images/
+
 flutter_native_splash:
   image: images/splash.png
   # An image asset can refer to one or more resolution-specific "variants", see

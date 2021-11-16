@@ -4,17 +4,16 @@ import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/model/request/login_request/fiber_request.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_brands.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_countries.dart';
+import 'package:yg_app/model/response/sync/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/constants.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
 import 'package:yg_app/widgets/grid_tile_widget.dart';
-import 'package:yg_app/widgets/numeriacal_range_text_field.dart';
+import 'package:yg_app/utils/numeriacal_range_text_field.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 import '../../packing_details_component.dart';
@@ -607,7 +606,7 @@ class _FiberSpecificationComponentState
                                                             ))
                                                         .toList(),
                                                     onChanged:
-                                                        (FiberBrands? value) {
+                                                        (BrandsModel? value) {
                                                       _fiberRequestModel!
                                                               .spc_brand_idfk =
                                                           value!.brdId
@@ -746,7 +745,7 @@ class _FiberSpecificationComponentState
                                                       ))
                                                   .toList(),
                                               onChanged:
-                                                  (FiberCountries? value) {
+                                                  (CountriesModel? value) {
                                                 _fiberRequestModel!
                                                         .spc_origin_idfk =
                                                     value!.conId.toString();

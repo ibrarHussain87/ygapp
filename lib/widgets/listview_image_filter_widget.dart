@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/network_icon_widget.dart';
 
 class ListViewImageFilterWidget extends StatefulWidget {
+
   Function? onClickCallback;
   List<dynamic>? listItem;
 
@@ -17,12 +20,25 @@ class ListViewImageFilterWidget extends StatefulWidget {
 }
 
 class _ListViewImageFilterWidgetState extends State<ListViewImageFilterWidget> {
+
   int checkedIndex = 0;
+  int _selectedSegmentIndex = 1;
+
+  @override
+  void initState() {
+    BroadcastReceiver().subscribe<int> // Data Type returned from publisher
+      (AppStrings.segmentIndexBroadcast, (index) {
+      setState(() {
+        _selectedSegmentIndex = index;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 10,
+      itemCount: widget.listItem!.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         return buildListBody(index);
@@ -39,7 +55,9 @@ class _ListViewImageFilterWidgetState extends State<ListViewImageFilterWidget> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          checkedIndex = index;
+          if(_selectedSegmentIndex == 1) {
+            checkedIndex = index;
+          }
         });
         widget.onClickCallback!(index);
       },

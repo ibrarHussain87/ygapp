@@ -61,7 +61,7 @@ class _GridTileWidgetState extends State<GridTileWidget> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          checkedTile = index;
+          checkedTile = widget.selectedIndex ?? index;
         });
         widget.callback!(index);
       },

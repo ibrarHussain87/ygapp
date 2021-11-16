@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_certification')
-class FiberCertification {
-  FiberCertification({
+@Entity(tableName: 'certifications')
+class CertificationModel {
+  CertificationModel({
     required this.cerId,
     required this.cerCategoryIdfk,
     required this.cerName,
@@ -17,7 +17,7 @@ class FiberCertification {
   @ignore
   late final Null cerSortid;
 
-  FiberCertification.fromJson(Map<String, dynamic> json){
+  CertificationModel.fromJson(Map<String, dynamic> json){
     cerId = json['cer_id'];
     cerCategoryIdfk = json['cer_category_idfk'];
     cerName = json['cer_name'];

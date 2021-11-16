@@ -9,7 +9,7 @@ import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_respon
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/listview_image_filter.dart';
+import 'package:yg_app/widgets/listview_image_filter_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
@@ -30,6 +30,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
   void dispose() {
     //Dispose broadcast
     BroadcastReceiver().unsubscribe(AppStrings.materialIndexBroadcast);
+    BroadcastReceiver().unsubscribe(AppStrings.segmentIndexBroadcast);
     super.dispose();
   }
 
@@ -84,7 +85,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
 
   Widget getView(SyncFiberResponse data) {
 
-    Function indexCallback;
+    int selectedSegment = 1;
 
     return Padding(
       padding: EdgeInsets.only(left: 8.w, right: 8.w),
@@ -105,9 +106,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
               listItem: data.data.fiber.material,
               onClickCallback: (index) {
                 /// Publishing Event
-                BroadcastReceiver()
-                    .publish<int>(AppStrings.materialIndexBroadcast, arguments: index);
-
+                  BroadcastReceiver()
+                      .publish<int>(
+                      AppStrings.materialIndexBroadcast, arguments: index);
               },
             ),
           ),
@@ -115,7 +116,10 @@ class _FiberPostPageState extends State<FiberPostPage> {
             child: FiberStepsSagments(
               syncFiberResponse: data,
               stepsCallback: (value) {
-
+                  selectedSegment = value as int;
+                  BroadcastReceiver()
+                      .publish<int>(
+                      AppStrings.segmentIndexBroadcast, arguments: selectedSegment);
               },
             ),
           ),
