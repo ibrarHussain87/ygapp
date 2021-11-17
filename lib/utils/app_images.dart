@@ -13,4 +13,5 @@ class AppImages {
   static String ygServicesGreyIcon = "images/yg_service_grey.png";
   static String syentheticIcon = "images/ic_syenthatic.png";
   static String syentheticGreyIcon = "images/ic_syen_grey.png";
+  static String ratingIcon = "images/ic_star.png";
 }

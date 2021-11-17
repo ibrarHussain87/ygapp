@@ -7,7 +7,7 @@ import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/images.dart';
+import 'package:yg_app/utils/app_images.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';

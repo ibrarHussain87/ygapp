@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
-import 'package:yg_app/utils/images.dart';
+import 'package:yg_app/utils/app_images.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 

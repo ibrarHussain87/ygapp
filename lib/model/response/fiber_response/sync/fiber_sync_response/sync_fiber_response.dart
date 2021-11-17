@@ -1,12 +1,12 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/sync/common_response_models/brands_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/companies_reponse.dart';
-import 'package:yg_app/model/response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/packing_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/payment_type_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/price_term.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/companies_reponse.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/packing_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
 
 import 'fiber_apperance.dart';
 import '../common_response_models/certification_response.dart';

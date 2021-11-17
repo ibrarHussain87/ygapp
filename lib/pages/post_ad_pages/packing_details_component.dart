@@ -1,18 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/request/fiber_request.dart';
-import 'package:yg_app/model/response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/packing_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/payment_type_response.dart';
-import 'package:yg_app/model/response/sync/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/fiber_delievery_period.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/price_term.dart';
-import 'package:yg_app/model/response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/packing_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/fiber_delievery_period.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/pages/main_pages/market_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
+import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
 import 'package:yg_app/widgets/add_picture_widget.dart';
@@ -502,14 +505,20 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             .then((value) {
                           ProgressDialogUtil.hideDialog();
 
-                          if(value.success){
-
-                              }else{
-                                Scaffold.of(context).showSnackBar(
-                                    SnackBar(content: Text(value.message)));
-                              }
-
-                        }).onError((error, stackTrace){
+                          if (value.status) {
+                            Fluttertoast.showToast(msg: value.message);
+                            Navigator.of(context)
+                                .pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        MarketPage()),
+                                    (Route<dynamic> route) =>
+                                false);
+                          }else{
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text(value.message)));
+                          }
+                        }).onError((error, stackTrace) {
                           ProgressDialogUtil.hideDialog();
                           Scaffold.of(context).showSnackBar(
                               SnackBar(content: Text(error.toString())));

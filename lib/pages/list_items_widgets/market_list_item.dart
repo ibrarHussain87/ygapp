@@ -1,527 +1,194 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/widgets/list_widgets/bid_now_widget.dart';
+import 'package:yg_app/widgets/list_widgets/brand_text.dart';
+import 'package:yg_app/widgets/list_widgets/gray_text_widget.dart';
+import 'package:yg_app/widgets/list_widgets/list_title_widget.dart';
+import 'package:yg_app/widgets/list_widgets/rating_widget.dart';
+import 'package:yg_app/widgets/list_widgets/short_detail_widget.dart';
+import 'package:yg_app/widgets/list_widgets/verified_supplier.dart';
+import 'package:yg_app/widgets/title_text_widget.dart';
 
-Widget buildWidget() {
-  return Padding(
-    padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Image.asset(
-              'images/ic_list.png',
-              width: 48.w,
-              height: 48.h,
-            ),
+Widget buildWidget(Specification specification) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Container(
+        color: AppColors.pintFeatureClr,
+        child: Padding(
+          padding:
+              EdgeInsets.only(left: 8.w, right: 8.w, top: 2.w, bottom: 2.w),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Featured',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 9.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Icon(
+                Icons.info_rounded,
+                size: 12.w,
+                color: Colors.white,
+              )
+            ],
           ),
-          flex: 1,
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: 8.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 4.0.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      ),
+      SizedBox(
+        height: 4.w,
+      ),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Padding(
+              child: CachedNetworkImage(
+                imageUrl: "https://cdn.sanity.io/images/0vv8moc6/contobgyn/d198c3b708a35d9adcfa0435ee12fe454db49662-640x400.png",
+                placeholder: (context, url) =>  Image.asset('images/image_not_available.png'),
+                errorWidget: (context, url, error) =>  Icon(Icons.error),
+                width: 124.w,
+              ),
+
+              padding: EdgeInsets.only(left: 4.w),
+            ),
+            flex: 2,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 8.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: BrandWidget(
+                          title: specification.brand,
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: ListRatingWidget(
+                            rating: "4.5",
+                          ),
+                        ),
+                        flex: 1
+                      ),
+                      // SizedBox(width: 8.w),
+                      VerifiedSupplier(),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4.0.w),
+                    child: ListTitleTextWidget(
+                      title:
+                          '${specification.material},${specification.apperance != null?"${specification.apperance}/":""}${specification.productYear!.substring(0, 4)}',
+                    ),
+                  ),
+                  Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                        child: Text(
-                          'Brand/Company',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: AppColors.textColorGreyLight,
-                              fontWeight: FontWeight.w400),
+                        child: GreyTextWidget(
+                          title: '${specification.length} mm',
                         ),
                         flex: 1,
                       ),
+                      SizedBox(width: 8.w),
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 4.w),
-                          child: RatingBarIndicator(
-                            rating: 4.2,
-                            itemCount: 5,
-                            itemSize: 16.0.w,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                          ),
+                        child: GreyTextWidget(
+                          title: '${specification.micronaire} mic',
                         ),
                         flex: 1,
                       ),
-                      Container(
-                        color: AppColors.pintFeatureClr,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 4.w, right: 4.w, top: 1.w, bottom: 1.w),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Featured',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Icon(
-                                Icons.info_rounded,
-                                size: 16.sp,
-                                color: Colors.white,
-                              )
-                            ],
-                          ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: GreyTextWidget(
+                          title: '${specification.trash} %',
+                        ),
+                        flex: 1,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8.w,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Wrap(
+                          children: [
+                            ShortDetailWidget(
+                                title: specification.unitCount),
+                            ShortDetailWidget(
+                                title: specification.priceUnit),
+                            ShortDetailWidget(
+                                title: specification.deliveryPeriod),
+                            ShortDetailWidget(
+                                title: specification.minQuantity),
+                          ],
                         ),
                       )
                     ],
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 4.0.w),
-                    child: Text(
-                      '100% Cotton Combed Yarn for Weaving',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.sp),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.tileGreyClr,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 8.w, right: 8.w, top: 4.w, bottom: 4.w),
-                          child: Center(
-                            child: Text(
-                              '20/S',
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: AppColors.textColorGrey),
-                            ),
-                          ),
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.tileGreyClr,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 8.w, right: 8.w, top: 4.w, bottom: 4.w),
-                          child: Center(
-                            child: Text(
-                              'CLSP 2600',
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: AppColors.textColorGrey),
-                            ),
-                          ),
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.tileGreyClr,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 8.w, right: 8.w, top: 4.w, bottom: 4.w),
-                          child: Center(
-                            child: Text(
-                              'IPI 300',
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: AppColors.textColorGrey),
-                            ),
-                          ),
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.tileSeaGreen,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(8.w),
-                                bottomRight: Radius.circular(8.w))),
-                        child: Center(
-                          child: Image.asset(
-                            'images/ic_verified_supplier.png',
-                            width: 52.w,
-                            height: 16.h,
-                          ),
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Wrap(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'images/ic_weight.png',
-                                  width: 12.w,
-                                  height: 12.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Visibility(
-                                        child: Text(
-                                          'Weight per Bag',
-                                          style: TextStyle(
-                                              fontSize: 9.sp,
-                                              fontWeight: FontWeight.normal,
-                                              color:
-                                                  AppColors.textColorGreyLight),
-                                        ),
-                                        visible: true,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '78 KG',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                  child: Container(
-                                    width: 0.5.w,
-                                    height: 30.h,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'images/ic_weight.png',
-                                  width: 12.w,
-                                  height: 12.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Visibility(
-                                        child: Text(
-                                          'Weight per Bag',
-                                          style: TextStyle(
-                                              fontSize: 9.sp,
-                                              fontWeight: FontWeight.normal,
-                                              color:
-                                                  AppColors.textColorGreyLight),
-                                        ),
-                                        visible: true,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '78 KG',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                  child: Container(
-                                    width: 0.5.w,
-                                    height: 30.h,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'images/ic_weight.png',
-                                  width: 12.w,
-                                  height: 12.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Visibility(
-                                        child: Text(
-                                          'Weight per Bag',
-                                          style: TextStyle(
-                                              fontSize: 9.sp,
-                                              fontWeight: FontWeight.normal,
-                                              color:
-                                                  AppColors.textColorGreyLight),
-                                        ),
-                                        visible: true,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '78 KG',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                  child: Container(
-                                    width: 0.5.w,
-                                    height: 30.h,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'images/ic_weight.png',
-                                  width: 12.w,
-                                  height: 12.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Visibility(
-                                        child: Text(
-                                          'Weight per Bag',
-                                          style: TextStyle(
-                                              fontSize: 9.sp,
-                                              fontWeight: FontWeight.normal,
-                                              color:
-                                                  AppColors.textColorGreyLight),
-                                        ),
-                                        visible: true,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '78 KG',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                  child: Container(
-                                    width: 0.5.w,
-                                    height: 30.h,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'images/ic_weight.png',
-                                  width: 12.w,
-                                  height: 12.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        'Weight per Bag',
-                                        style: TextStyle(
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.normal,
-                                            color:
-                                                AppColors.textColorGreyLight),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '78 KG',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                  child: Container(
-                                    width: 0.5.w,
-                                    height: 30.h,
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(right: 4.w),
-                            child: Image.asset(
-                              'images/ic_list.png',
-                              height: 32.w,
-                              width: 32.h,
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(right: 4.w),
-                            child: Image.asset(
-                              'images/ic_list.png',
-                              height: 32.h,
-                              width: 32.w,
-                            )),
-                        Image.asset(
-                          'images/ic_list.png',
-                          height: 32.h,
-                          width: 32.w,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'PKR 22,000',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13.sp,
-                              color: Colors.black87),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 8.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.btnGreen,
-                                borderRadius: BorderRadius.all(Radius.circular(4.w))),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.w),
-                              child: Center(
-                                child: Text(
-                                  'Bid Now',
-                                  style: TextStyle(
-                                      fontSize: 9.sp, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                )
-              ],
+                ],
+              ),
             ),
+            flex: 5,
           ),
-          flex: 9,
-        ),
-      ],
-    ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 16.w, right: 8.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  TitleTextWidget(
+                    title: 'PKR.${specification.priceUnit}',
+                  ),
+                  SizedBox(height:6.w,),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'images/ic_list.png',
+                        height: 24.w,
+                        width: 24.h,
+                      ),
+                      Image.asset(
+                        'images/ic_list.png',
+                        height: 24.h,
+                        width: 24.w,
+                      ),
+                      Image.asset(
+                        'images/ic_list.png',
+                        height: 24.h,
+                        width: 24.w,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height:8.w,),
+                  BidNowWidget(title: 'Bid Now')
+                ],
+              ),
+            ),
+            flex: 3,
+          ),
+        ],
+      ),
+    ],
   );
 }

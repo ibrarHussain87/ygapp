@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/images.dart';
+import 'package:yg_app/utils/app_images.dart';
 
 import 'main_pages/home_page.dart';
 import 'main_pages/international_page.dart';
