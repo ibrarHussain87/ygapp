@@ -11,6 +11,8 @@ class BrandWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title??"N/A",
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
           fontSize: 11.sp,
           color: AppColors.textColorGrey,

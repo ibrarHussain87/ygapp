@@ -62,19 +62,14 @@ class _MarketPageState extends State<MarketPage> {
     List<Tab> tabs = []; //create an empty list of Tab
     for (var i = 0; i < tabsList.length; i++) {
       tabs.add(Tab(
-        child: Container(
-          // decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(16),
-          //     border: Border.all(color: Colors.grey, width: 1)),
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-                padding: EdgeInsets.all(0),
-                child: Text(
-                  tabsList[i],
-                  style: TextStyle(fontSize: 12.sp),
-                )),
-          ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+              padding: EdgeInsets.all(0),
+              child: Text(
+                tabsList[i],
+                style: TextStyle(fontSize: 12.sp),
+              )),
         ),
       ));
     }

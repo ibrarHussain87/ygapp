@@ -14,14 +14,14 @@ class BidNowWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: AppColors.btnGreen,
           borderRadius:
-          BorderRadius.all(Radius.circular(4.w))),
+          BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
-        padding: EdgeInsets.all(8.w),
+        padding: EdgeInsets.only(top: 3.w,bottom: 3.w),
         child: Center(
           child: Text(
             title,
             style: TextStyle(
-                fontSize: 9.sp, color: Colors.white),
+                fontSize: 11.sp, color: Colors.white,fontWeight: FontWeight.w400),
           ),
         ),
       ),

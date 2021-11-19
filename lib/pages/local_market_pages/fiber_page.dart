@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/pages/detail_pages/fiber_detail_page.dart';
 import 'package:yg_app/pages/list_items_widgets/market_list_item.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -23,7 +25,7 @@ class _FiberPageState extends State<FiberPage> {
   Color requirementColor = Colors.white;
   Color textOfferClr = Colors.white;
   Color textReqClr = AppColors.textColorGreyLight;
-  bool offeringClick = false,requirementClick = false;
+  bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   @override
@@ -51,44 +53,45 @@ class _FiberPageState extends State<FiberPage> {
             SpeedDialChild(
                 label: 'Requirement',
                 backgroundColor: Colors.blue,
-                onTap: (){
+                onTap: () {
                   setState(() {
                     isDialOpen.value = false;
                   });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FiberPostPage(businessArea:"LOCAL",selectedTab:"requirement"),
+                      builder: (context) => const FiberPostPage(
+                          businessArea: "LOCAL", selectedTab: "requirement"),
                     ),
                   );
-                }
-            ),
+                }),
             SpeedDialChild(
                 label: 'Offering',
-                onTap: (){
+                onTap: () {
                   setState(() {
                     isDialOpen.value = false;
                   });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FiberPostPage(businessArea:"INTERNATIONAL",selectedTab:"Offering"),
+                      builder: (context) => const FiberPostPage(
+                          businessArea: "INTERNATIONAL",
+                          selectedTab: "Offering"),
                     ),
                   );
-                }
-            ),
+                }),
           ],
         ),
         body: FutureBuilder<FiberSpecificationResponse>(
           future: ApiService.getFiberSpecifications(),
-          builder: (BuildContext context,snapshot){
-            if(snapshot.connectionState == ConnectionState.done &&
-                snapshot.data != null){
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.data != null) {
               return getBody(snapshot.data);
-            }else if(snapshot.hasError){
+            } else if (snapshot.hasError) {
               return Center(
                   child: TitleTextWidget(title: snapshot.error.toString()));
-            }else{
+            } else {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -99,14 +102,13 @@ class _FiberPageState extends State<FiberPage> {
     );
   }
 
-
-  Widget getBody(FiberSpecificationResponse? data){
+  Widget getBody(FiberSpecificationResponse? data) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 8.w,right: 8.w),
+          padding: EdgeInsets.only(left: 8.w, right: 8.w),
           child: SizedBox(
               height: 50.h,
               child: ListView.builder(
@@ -168,7 +170,8 @@ class _FiberPageState extends State<FiberPage> {
                           padding: EdgeInsets.all(8.0.w),
                           child: Text(
                             'Offering',
-                            style: TextStyle(color: textOfferClr,fontSize: 11.sp),
+                            style:
+                                TextStyle(color: textOfferClr, fontSize: 11.sp),
                           ),
                         ),
                       ),
@@ -196,7 +199,8 @@ class _FiberPageState extends State<FiberPage> {
                             padding: EdgeInsets.all(8.0.w),
                             child: Text(
                               'Requirements',
-                              style: TextStyle(color: textReqClr,fontSize: 11.sp),
+                              style:
+                                  TextStyle(color: textReqClr, fontSize: 11.sp),
                             ),
                           ),
                         ),
@@ -208,12 +212,23 @@ class _FiberPageState extends State<FiberPage> {
             ),
           ),
         ),
-        SizedBox(height: 8.w,),
+        SizedBox(
+          height: 8.w,
+        ),
         Expanded(
           child: ListView.separated(
             physics: BouncingScrollPhysics(),
             itemCount: data!.data.specification.length,
-            itemBuilder: (context, index) => buildWidget(data.data.specification[index]),
+            itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FiberDetailPage(specification: data.data.specification[index]),
+                    ),
+                  );
+                },
+                child: buildWidget(data.data.specification[index])),
             separatorBuilder: (context, index) {
               return Divider(
                 height: 1,

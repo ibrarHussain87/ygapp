@@ -19,7 +19,7 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
     return Padding(
       padding: EdgeInsets.only(top: 4.w,right: 8.w,bottom: 4.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -31,7 +31,7 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
           Padding(
             padding: EdgeInsets.only(left: 4.w),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -46,15 +46,12 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
                   ),
                   visible: false,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.title??"N/A",
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                  ),
+                Text(
+                  widget.title??"N/A",
+                  style: TextStyle(
+                      fontSize: 9.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black),
                 ),
               ],
             ),

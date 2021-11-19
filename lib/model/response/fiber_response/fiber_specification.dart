@@ -153,7 +153,7 @@ class Pictures {
   Pictures({
     required this.picture,
   });
-  late final String? picture;
+  late final String picture;
 
   Pictures.fromJson(Map<String, dynamic> json){
     picture = json['picture'];

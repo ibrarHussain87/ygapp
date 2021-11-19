@@ -13,7 +13,7 @@ class GreyTextWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.tileGreyClr,
-          borderRadius: BorderRadius.all(Radius.circular(4))),
+          borderRadius: BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
         padding: EdgeInsets.only(
             left: 8.w, right: 8.w, top: 4.w, bottom: 4.w),
