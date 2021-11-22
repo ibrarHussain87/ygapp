@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/model/request/fiber_request.dart';
+import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/packing_response.dart';

@@ -12,6 +12,7 @@ class AppColors{
   static var lightBlueTabs = Color(0xFF1672EB);
   static var pintFeatureClr = Color(0xFFFC6A6D);
   static var tileSeaGreen = Color(0xFFE6F2FE);
+  static var appBarTextColor = Color(0xFF442CDE);
 }
 
 extension HexColor on Color {

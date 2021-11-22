@@ -11,6 +11,7 @@ import 'package:yg_app/widgets/title_text_widget.dart';
 import 'detail_page/detail_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {
+
   Specification specification;
 
   FiberDetailPage({Key? key, required this.specification}) : super(key: key);
@@ -42,7 +43,10 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                     )),
               )),
           title: Text('Detail',
-              style: TextStyle(fontSize: 16.0.w, color: AppColors.btnColorLogin,fontWeight: FontWeight.w400)),
+              style: TextStyle(
+                  fontSize: 16.0.w,
+                  color: AppColors.appBarTextColor,
+                  fontWeight: FontWeight.w400)),
         ),
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -91,7 +95,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                           text: '      0 DAYS. 8 HOURS,29 MINS',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: AppColors.lightBlueTabs,
+                              color: AppColors.appBarTextColor,
                               fontSize: 11.sp),
                         ),
                       ],
@@ -120,45 +124,46 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                       )
                     ],
                   ),
+                  SizedBox(
+                    height: 16.w,
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 16.w,
-              ),
               Expanded(
-                  child: Center(
                 child: DefaultTabController(
-                    length: tabsList.length,
-                    child: Scaffold(
-                      backgroundColor: Colors.white,
-                      appBar: PreferredSize(
-                        preferredSize: Size(double.infinity, 32.w),
-                        child: TabBar(
-                          // padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                          isScrollable: false,
-                          unselectedLabelColor: AppColors.textColorGrey,
-                          labelColor: Colors.white,
-                          indicatorColor: AppColors.lightBlueTabs,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicator: BoxDecoration(
-                            gradient: LinearGradient(colors: [
-                              AppColors.lightBlueTabs,
-                              AppColors.lightBlueTabs
-                            ]),
-                            borderRadius: BorderRadius.circular(8.w),
-                          ),
-                          tabs: tabMaker(),
-                        ),
+                length: tabsList.length,
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: PreferredSize(
+                    preferredSize: Size(double.infinity, 28.w),
+                    child: TabBar(
+                      // padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                      isScrollable: false,
+                      unselectedLabelColor: AppColors.textColorGrey,
+                      labelColor: Colors.white,
+                      indicatorColor: AppColors.lightBlueTabs,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          AppColors.lightBlueTabs,
+                          AppColors.lightBlueTabs
+                        ]),
+                        borderRadius: BorderRadius.circular(8.w),
                       ),
-                      body: TabBarView(children: [
-                        DetailTabPage(
-                          specification: widget.specification,
-                        ),
-                        ConverstionLeasingPage(),
-                        BidderListPage()
-                      ]),
-                    )),
-              )),
+                      tabs: tabMaker(),
+                    ),
+                  ),
+                  body: TabBarView(children: [
+                    DetailTabPage(
+                      specification: widget.specification,
+                    ),
+                    ConverstionLeasingPage(),
+                    BidderListPage(
+                      materialId: 1.toString(),
+                    )
+                  ]),
+                )),
+              ),
             ],
           ),
         ),
@@ -173,7 +178,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
         child: Align(
           alignment: Alignment.center,
           child: Padding(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: Text(
                 tabsList[i],
                 style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w400),

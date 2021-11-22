@@ -25,11 +25,11 @@ class GreyTextDetailWidget extends StatelessWidget {
           children: [
             Image.asset(
               'images/ic_weight.png',
-              width: 12.w,
-              height: 12.h,
+              width: 10.w,
+              height: 10.h,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 6.w),
+              padding: EdgeInsets.only(left: 8.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:yg_app/model/request/fiber_request.dart';
+import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:yg_app/utils/shared_pref_util.dart';
@@ -16,6 +17,7 @@ class ApiService {
   static const String _SYNC_FIBER_END_POINT = "/syncFiber";
   static const String _GET_FIBER_SPEC_END_POINT = "/getFiberSpecifications";
   static const String _CREATE_FIBER_END_POINT = "/createFiberSpecification";
+  static const String LIST_BIDDERS_END_POINT = "/listBidders";
 
   static Future<LoginResponse> login(
       LoginRequestModel requestModel) async {
@@ -80,4 +82,24 @@ class ApiService {
     return CreateFiberResponse.fromJson(json.decode(responsed.body));
 
   }
+
+  static Future<ListBiddersResponse> getListBidders(String catId,String specId) async{
+
+    String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
+
+    var userToken = await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    var userID = await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    Map<String, dynamic> data = {"category_id":catId,"user_id": userID.toString(),"specification_id":specId};
+    headerMap['Authorization'] = 'Bearer $userToken';
+    final response = await http.post(
+        Uri.parse(url),
+        headers:headerMap,
+        body: data
+    );
+
+    return ListBiddersResponse.fromJson(
+      json.decode(response.body),
+    );
+  }
+
 }

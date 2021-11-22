@@ -4,6 +4,7 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
+import 'package:yg_app/widgets/elevated_button_widget_2.dart';
 import 'package:yg_app/widgets/grey_text_detail_widget_.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
@@ -55,6 +56,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
@@ -71,9 +73,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ),
                   GridView.count(
                     crossAxisCount: 3,
-                    childAspectRatio: 2.44,
+                    childAspectRatio: 2.77,
                     mainAxisSpacing: 3.w,
-                    crossAxisSpacing: 3.w,
+                    crossAxisSpacing: 6.w,
                     shrinkWrap: true,
                     children:
                         List.generate(detailSpecification.length, (index) {
@@ -82,19 +84,19 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           detail: detailSpecification[index]._detail);
                     }),
                   ),
-                  Divider(),
+                  const Divider(),
                   SizedBox(
                     height: 4.w,
                   ),
-                  TitleTextWidget(title: 'Packing Details'),
+                  const TitleTextWidget(title: 'Packing Details'),
                   SizedBox(
                     height: 8.w,
                   ),
                   GridView.count(
                     crossAxisCount: 3,
-                    childAspectRatio: 2.44,
+                    childAspectRatio: 2.77,
                     mainAxisSpacing: 3.w,
-                    crossAxisSpacing: 3.w,
+                    crossAxisSpacing: 6.w,
                     shrinkWrap: true,
                     children: List.generate(detailPackaging.length, (index) {
                       return GreyTextDetailWidget(
@@ -119,7 +121,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(8.w))),
                 child: Padding(
-                  padding: EdgeInsets.all(4.w),
+                  padding: EdgeInsets.all(8.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -134,7 +136,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             size: 16.w,
                             color: Colors.grey,
                           )),
-                      TitleTextWidget(title: '${bidPrice}'),
+                      TitleTextWidget(title: '$bidPrice'),
                       GestureDetector(
                           onTap: () {
                             setState(() {
@@ -153,7 +155,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               SizedBox(
                 height: 8.w,
               ),
-              ElevatedButtonWithIcon(
+              ElevatedButtonWithoutIcon(
                   callback: () {},
                   color: AppColors.btnColorLogin,
                   btnText: 'Place Bid')
