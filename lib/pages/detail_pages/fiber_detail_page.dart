@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/bider_list_page.dart';
 import 'package:yg_app/pages/local_market_pages/converstion_leasing.dart';
-import 'package:yg_app/pages/local_market_pages/product_weaving.dart';
-import 'package:yg_app/pages/local_market_pages/stock_lot.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
@@ -22,18 +20,30 @@ class FiberDetailPage extends StatefulWidget {
 }
 
 class _FiberDetailPageState extends State<FiberDetailPage> {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> tabsList = [
-    'Details',
-    'Description',
-    'Bidder List'
-  ];
+  List<String> tabsList = ['Details', 'Description', 'Bidder List'];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          leading: Padding(
+              padding: EdgeInsets.all(12.w),
+              child: Card(
+                child: Padding(
+                    padding: EdgeInsets.only(left: 4.w),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                      size: 12.w,
+                    )),
+              )),
+          title: Text('Detail',
+              style: TextStyle(fontSize: 16.0.w, color: AppColors.btnColorLogin,fontWeight: FontWeight.w400)),
+        ),
         key: scaffoldKey,
         backgroundColor: Colors.white,
         body: Padding(
@@ -60,7 +70,9 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 2.w,),
+                  SizedBox(
+                    height: 2.w,
+                  ),
                   TitleTextWidget(
                     title:
                         '${widget.specification.material},${widget.specification.apperance != null ? "${widget.specification.apperance}/" : ""}${widget.specification.productYear!.substring(0, 4)}',
@@ -110,15 +122,18 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16.w,),
-              Expanded(child: Center(
+              SizedBox(
+                height: 16.w,
+              ),
+              Expanded(
+                  child: Center(
                 child: DefaultTabController(
                     length: tabsList.length,
                     child: Scaffold(
                       backgroundColor: Colors.white,
                       appBar: PreferredSize(
                         preferredSize: Size(double.infinity, 32.w),
-                        child:TabBar(
+                        child: TabBar(
                           // padding: EdgeInsets.only(left: 8.w, right: 8.w),
                           isScrollable: false,
                           unselectedLabelColor: AppColors.textColorGrey,
@@ -126,14 +141,19 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                           indicatorColor: AppColors.lightBlueTabs,
                           indicatorSize: TabBarIndicatorSize.tab,
                           indicator: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [AppColors.lightBlueTabs, AppColors.lightBlueTabs]),
-                              borderRadius: BorderRadius.circular(8.w),),
+                            gradient: LinearGradient(colors: [
+                              AppColors.lightBlueTabs,
+                              AppColors.lightBlueTabs
+                            ]),
+                            borderRadius: BorderRadius.circular(8.w),
+                          ),
                           tabs: tabMaker(),
                         ),
                       ),
                       body: TabBarView(children: [
-                        DetailTabPage(specification: widget.specification,),
+                        DetailTabPage(
+                          specification: widget.specification,
+                        ),
                         ConverstionLeasingPage(),
                         BidderListPage()
                       ]),
@@ -145,6 +165,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
       ),
     );
   }
+
   List<Tab> tabMaker() {
     List<Tab> tabs = []; //create an empty list of Tab
     for (var i = 0; i < tabsList.length; i++) {
@@ -155,7 +176,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
               padding: EdgeInsets.all(0),
               child: Text(
                 tabsList[i],
-                style: TextStyle(fontSize: 11.sp,fontWeight: FontWeight.w400),
+                style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w400),
               )),
         ),
       ));

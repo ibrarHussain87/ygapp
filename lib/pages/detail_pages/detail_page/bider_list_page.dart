@@ -48,7 +48,7 @@ class _BidderListPageState extends State<BidderListPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleSmallTextWidget(title: 'Bidder Name'),
+                    const TitleSmallTextWidget(title: 'Bidder Name'),
                     BrandWidget(title: '20-20-1998')
                   ],
                 ),
