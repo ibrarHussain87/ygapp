@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
+import 'package:yg_app/app_database/dao/fiber_dao/fiber_material_dao.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/companies_reponse.dart';
@@ -17,6 +18,7 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/fi
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
 
+import 'dao/fiber_dao/fiber_grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
@@ -25,4 +27,6 @@ part 'app_database.g.dart'; // the generated code will be there
   CertificationModel,FiberDeliveryPeriod,FiberUnits,FiberGrades,FiberPriceTerms,CompaniesModel,LcTypeModel,PackingModel,PaymentTypeModel,PortsModel,FiberSettings])
 abstract class AppDatabase extends FloorDatabase {
   FiberSettingDao get fiberSettingDao;
+  FiberGradesDao get fiberGradesDao;
+  FiberMaterialDao get fiberMaterialDao;
 }

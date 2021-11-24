@@ -63,6 +63,10 @@ class _$AppDatabase extends AppDatabase {
 
   FiberSettingDao? _fiberSettingDaoInstance;
 
+  FiberGradesDao? _fiberGradesDaoInstance;
+
+  FiberMaterialDao? _fiberMaterialDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -126,6 +130,18 @@ class _$AppDatabase extends AppDatabase {
   FiberSettingDao get fiberSettingDao {
     return _fiberSettingDaoInstance ??=
         _$FiberSettingDao(database, changeListener);
+  }
+
+  @override
+  FiberGradesDao get fiberGradesDao {
+    return _fiberGradesDaoInstance ??=
+        _$FiberGradesDao(database, changeListener);
+  }
+
+  @override
+  FiberMaterialDao get fiberMaterialDao {
+    return _fiberMaterialDaoInstance ??=
+        _$FiberMaterialDao(database, changeListener);
   }
 }
 
@@ -297,5 +313,164 @@ class _$FiberSettingDao extends FiberSettingDao {
   @override
   Future<int> deleteAll(List<FiberSettings> list) {
     return _fiberSettingsDeletionAdapter.deleteListAndReturnChangedRows(list);
+  }
+}
+
+class _$FiberGradesDao extends FiberGradesDao {
+  _$FiberGradesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fiberGradesInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_grade',
+            (FiberGrades item) => <String, Object?>{
+                  'grdId': item.grdId,
+                  'grdCategoryIdfk': item.grdCategoryIdfk,
+                  'grdName': item.grdName,
+                  'grdIsActive': item.grdIsActive
+                }),
+        _fiberGradesDeletionAdapter = DeletionAdapter(
+            database,
+            'fiber_grade',
+            ['grdId'],
+            (FiberGrades item) => <String, Object?>{
+                  'grdId': item.grdId,
+                  'grdCategoryIdfk': item.grdCategoryIdfk,
+                  'grdName': item.grdName,
+                  'grdIsActive': item.grdIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FiberGrades> _fiberGradesInsertionAdapter;
+
+  final DeletionAdapter<FiberGrades> _fiberGradesDeletionAdapter;
+
+  @override
+  Future<List<FiberGrades>> findAllFiberGrades() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_grade',
+        mapper: (Map<String, Object?> row) => FiberGrades(
+            grdId: row['grdId'] as int,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
+            grdName: row['grdName'] as String,
+            grdIsActive: row['grdIsActive'] as String));
+  }
+
+  @override
+  Future<List<FiberGrades>> findFiberGradeWithId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_setting where grd_category_idfk = ?1',
+        mapper: (Map<String, Object?> row) => FiberGrades(
+            grdId: row['grdId'] as int,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
+            grdName: row['grdName'] as String,
+            grdIsActive: row['grdIsActive'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFiberGrade(int id) async {
+    await _queryAdapter.queryNoReturn('delete from fiber_grade where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertFiberGrades(FiberGrades fiberGrades) async {
+    await _fiberGradesInsertionAdapter.insert(
+        fiberGrades, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFiberGrades(List<FiberGrades> fiberGrades) {
+    return _fiberGradesInsertionAdapter.insertListAndReturnIds(
+        fiberGrades, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<int> deleteAll(List<FiberGrades> list) {
+    return _fiberGradesDeletionAdapter.deleteListAndReturnChangedRows(list);
+  }
+}
+
+class _$FiberMaterialDao extends FiberMaterialDao {
+  _$FiberMaterialDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fiberMaterialInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_entity',
+            (FiberMaterial item) => <String, Object?>{
+                  'fbmId': item.fbmId,
+                  'fbmCategoryIdfk': item.fbmCategoryIdfk,
+                  'fbmName': item.fbmName,
+                  'fbmIsActive': item.fbmIsActive
+                }),
+        _fiberMaterialDeletionAdapter = DeletionAdapter(
+            database,
+            'fiber_entity',
+            ['fbmId'],
+            (FiberMaterial item) => <String, Object?>{
+                  'fbmId': item.fbmId,
+                  'fbmCategoryIdfk': item.fbmCategoryIdfk,
+                  'fbmName': item.fbmName,
+                  'fbmIsActive': item.fbmIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FiberMaterial> _fiberMaterialInsertionAdapter;
+
+  final DeletionAdapter<FiberMaterial> _fiberMaterialDeletionAdapter;
+
+  @override
+  Future<List<FiberMaterial>> findAllFiberMaterials() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_entity',
+        mapper: (Map<String, Object?> row) => FiberMaterial(
+            fbmId: row['fbmId'] as int,
+            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String,
+            fbmName: row['fbmName'] as String,
+            fbmIsActive: row['fbmIsActive'] as String));
+  }
+
+  @override
+  Future<List<FiberMaterial>> findFiberMaterials(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_entity where fbm_id = ?1',
+        mapper: (Map<String, Object?> row) => FiberMaterial(
+            fbmId: row['fbmId'] as int,
+            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String,
+            fbmName: row['fbmName'] as String,
+            fbmIsActive: row['fbmIsActive'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFiberSetting(int id) async {
+    await _queryAdapter.queryNoReturn('delete from fiber_entity where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertFiberSetting(FiberMaterial fiberMaterials) async {
+    await _fiberMaterialInsertionAdapter.insert(
+        fiberMaterials, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFiberMaterials(
+      List<FiberMaterial> fiberMaterials) {
+    return _fiberMaterialInsertionAdapter.insertListAndReturnIds(
+        fiberMaterials, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<int> deleteAll(List<FiberMaterial> list) {
+    return _fiberMaterialDeletionAdapter.deleteListAndReturnChangedRows(list);
   }
 }

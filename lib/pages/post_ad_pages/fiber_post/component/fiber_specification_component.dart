@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
@@ -12,7 +10,6 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sy
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
@@ -75,8 +72,6 @@ class _FiberSpecificationComponentState
   Widget build(BuildContext context) {
     return FutureBuilder<List<FiberSettings>>(
       future: getDbInstance().then((value) async {
-        // await value.fiberSettingDao.deleteAll(data!.data.fiber.settings);
-
         return value.fiberSettingDao.findFiberSettings(widget.syncFiberResponse
             .data.fiber.material[_selectedMaterialIndex].fbmId);
       }),

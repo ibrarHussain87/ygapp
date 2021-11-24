@@ -44,7 +44,7 @@ class Data {
   }
 }
 
-class Specification {
+class Specification  {
   Specification({
     this.businessArea,
     required this.locality,

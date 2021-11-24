@@ -13,6 +13,9 @@ class AppColors{
   static var pintFeatureClr = Color(0xFFFC6A6D);
   static var tileSeaGreen = Color(0xFFE6F2FE);
   static var appBarTextColor = Color(0xFF442CDE);
+  static var searchBarGreyStroke = Color(0xFF939598);
+  static var searchBarGreyText = Color(0xFFE0E0E0);
+  static var searchBarWhiteBg = Color(0xFFF7F7F7);
 }
 
 extension HexColor on Color {

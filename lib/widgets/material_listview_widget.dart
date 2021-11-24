@@ -5,21 +5,21 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sy
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/network_icon_widget.dart';
 
-class ListViewImageFilterWidget extends StatefulWidget {
+class MaterialListviewWidget extends StatefulWidget {
 
-  Function? onClickCallback;
-  List<dynamic>? listItem;
+  final Function? onClickCallback;
+  final List<dynamic>? listItem;
 
-  ListViewImageFilterWidget(
+  const MaterialListviewWidget(
       {Key? key, required this.listItem, required this.onClickCallback})
       : super(key: key);
 
   @override
-  _ListViewImageFilterWidgetState createState() =>
-      _ListViewImageFilterWidgetState();
+  _MaterialListviewWidgetState createState() =>
+      _MaterialListviewWidgetState();
 }
 
-class _ListViewImageFilterWidgetState extends State<ListViewImageFilterWidget> {
+class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
 
   int checkedIndex = 0;
   int _selectedSegmentIndex = 1;

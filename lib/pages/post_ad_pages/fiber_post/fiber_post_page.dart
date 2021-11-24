@@ -11,7 +11,7 @@ import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specificat
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/listview_image_filter_widget.dart';
+import 'package:yg_app/widgets/material_listview_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
@@ -66,9 +66,10 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
       future: getDbInstance().then((value) async {
-        // await value.fiberSettingDao.deleteAll(data!.data.fiber.settings);
+        await value.fiberGradesDao.insertAllFiberGrades(data!.data.fiber.grades);
+        await value.fiberMaterialDao.insertAllFiberMaterials(data.data.fiber.material);
         return value.fiberSettingDao
-            .insertAllFiberSettings(data!.data.fiber.settings);
+            .insertAllFiberSettings(data.data.fiber.settings);
       }),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
@@ -104,7 +105,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
               )),
           SizedBox(
             height: 64.w,
-            child: ListViewImageFilterWidget(
+            child: MaterialListviewWidget(
               listItem: data.data.fiber.material,
               onClickCallback: (index) {
                 FiberSpecificationComponent.fiberRequestModel!

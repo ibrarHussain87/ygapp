@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/pages/main_pages/yg_services.dart';
+import 'package:yg_app/pages/bottom_nav_main_pages/yg_services.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/specification_body.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -23,8 +23,8 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
     SpecificationComponent(callback: (value){
       print(value);
     },),
-    LabParameterPage(),
-    YGServices()
+    const LabParameterPage(),
+    const YGServices()
   ];
 
   @override
@@ -42,7 +42,7 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                 pressedColor: AppColors.lightBlueTabs,
                 children: {
                   1: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Text(
                       "Step 1",
                       style: TextStyle(

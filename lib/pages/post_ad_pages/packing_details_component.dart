@@ -13,7 +13,7 @@ import 'package:yg_app/model/response/fiber_response/sync/common_response_models
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/fiber_delievery_period.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
-import 'package:yg_app/pages/main_pages/market_page.dart';
+import 'package:yg_app/pages/bottom_nav_main_pages/market_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -101,7 +101,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w),
-                                child: TitleSmallTextWidget(
+                                child: const TitleSmallTextWidget(
                                     title: 'Selling Region')),
                             GridTileWidget(
                               spanCount: 2,
@@ -122,7 +122,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(
+                                            child: const TitleSmallTextWidget(
                                                 title: 'Country')),
                                         SizedBox(
                                           height: 36.w,
@@ -137,7 +137,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(24.w))),
                                             child: DropdownButtonFormField(
-                                              hint: Text('Select Country'),
+                                              hint: const Text('Select Country'),
                                               items: widget.syncFiberResponse!
                                                   .data.fiber.countries
                                                   .map((value) =>
@@ -186,7 +186,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(
+                                            child: const TitleSmallTextWidget(
                                                 title: 'Port')),
                                         SizedBox(
                                           height: 36.w,
@@ -201,7 +201,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(24.w))),
                                             child: DropdownButtonFormField(
-                                              hint: Text('Select Port'),
+                                              hint: const Text('Select Port'),
                                               items: widget.syncFiberResponse!
                                                   .data.fiber.ports
                                                   .map((value) =>
@@ -247,7 +247,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child:
-                                    TitleSmallTextWidget(title: 'Price Terms')),
+                                    const TitleSmallTextWidget(title: 'Price Terms')),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
@@ -264,7 +264,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
+                                        child: const TitleSmallTextWidget(
                                             title: 'Payment Type')),
                                     GridTileWidget(
                                         spanCount: 3,
@@ -287,7 +287,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
+                                      child: const TitleSmallTextWidget(
                                           title: 'LC Type')),
                                   GridTileWidget(
                                       spanCount: 4,
@@ -313,7 +313,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
+                                      child: const TitleSmallTextWidget(
                                           title: 'Unit Of Count')),
                                   GridTileWidget(
                                       spanCount: 4,
@@ -343,10 +343,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
+                                        child: const TitleSmallTextWidget(
                                             title: 'Price/Unit')),
                                     TextFormField(
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.text,
                                         cursorColor: AppColors.lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,
@@ -376,7 +376,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
+                                        child: const TitleSmallTextWidget(
                                             title: 'Minimum Qty')),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
@@ -405,7 +405,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(title: 'Packing')),
+                                child: const TitleSmallTextWidget(title: 'Packing')),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
@@ -418,7 +418,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 }),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(
+                                child: const TitleSmallTextWidget(
                                     title: 'Deilevery Period')),
                             GridTileWidget(
                                 spanCount: 3,
@@ -436,7 +436,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child:
-                                    TitleSmallTextWidget(title: 'Description')),
+                                    const TitleSmallTextWidget(title: 'Description')),
                             SizedBox(
                               height: 5 * 22.w,
                               child: TextFormField(
@@ -511,7 +511,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 .pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        MarketPage()),
+                                        const MarketPage()),
                                     (Route<dynamic> route) =>
                                 false);
                           }else{
@@ -546,7 +546,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
         return true;
       } else {
         Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Please Capture Image first')));
+            const SnackBar(content: Text('Please Capture Image first')));
       }
     }
     return false;

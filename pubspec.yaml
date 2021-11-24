@@ -49,6 +49,7 @@ dependencies:
   flutter_broadcast_receiver: ^1.0.0+2
   image_picker: ^0.8.4+4
   dotted_border: ^2.0.0+1
+  syncfusion_flutter_sliders: ^19.3.55
 #  bubble_tab_indicator: ^0.1.6
 
 dev_dependencies:
@@ -77,7 +78,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
-    -
 flutter_native_splash:
   image: images/splash.png
   # An image asset can refer to one or more resolution-specific "variants", see

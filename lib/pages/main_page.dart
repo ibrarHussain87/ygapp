@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/app_images.dart';
 
-import 'main_pages/home_page.dart';
-import 'main_pages/international_page.dart';
-import 'main_pages/market_page.dart';
-import 'main_pages/post_ad.dart';
-import 'main_pages/yg_services.dart';
+import 'bottom_nav_main_pages/home_page.dart';
+import 'bottom_nav_main_pages/international_page.dart';
+import 'bottom_nav_main_pages/market_page.dart';
+import 'bottom_nav_main_pages/post_ad.dart';
+import 'bottom_nav_main_pages/yg_services.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<Widget> _screens = [
+  final List<Widget> _screens = [
     HomePage(),
     MarketPage(),
     InternationalPage(),

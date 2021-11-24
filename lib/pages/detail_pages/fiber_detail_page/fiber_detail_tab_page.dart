@@ -108,7 +108,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                 ],
               ),
             ),
-            flex: 8,
+            flex: 9,
           ),
           Column(
             children: [

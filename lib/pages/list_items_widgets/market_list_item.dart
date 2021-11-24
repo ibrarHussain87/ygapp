@@ -154,7 +154,7 @@ Widget buildWidget(Specification specification) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TitleTextWidget(
-                    title: 'PKR.${specification.priceUnit}0000',
+                    title: 'PKR.${specification.priceUnit}',
                   ),
                   SizedBox(height: 8.w,),
                   Row(

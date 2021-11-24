@@ -5,7 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/pages/detail_pages/fiber_detail_page.dart';
+import 'package:yg_app/pages/detail_pages/fiber_detail_page/fiber_detail_page.dart';
 import 'package:yg_app/pages/list_items_widgets/market_list_item.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
