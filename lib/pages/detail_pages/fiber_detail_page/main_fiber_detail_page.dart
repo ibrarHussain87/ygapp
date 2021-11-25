@@ -6,7 +6,7 @@ import 'package:yg_app/pages/local_market_pages/converstion_leasing.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
-import 'fiber_bider_list_page.dart';
+import 'fiber_bider_tab_page.dart';
 import 'fiber_detail_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {
@@ -158,7 +158,8 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                     ),
                     ConverstionLeasingPage(),
                     BidderListPage(
-                      materialId: 1.toString(),
+                      materialId: widget.specification.categoryId,
+                      specId:widget.specification.spcId
                     )
                   ]),
                 )),

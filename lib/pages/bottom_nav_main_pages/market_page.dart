@@ -54,6 +54,7 @@ class _MarketPageState extends State<MarketPage>
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.white,
             body: Column(
       children: [
         Padding(

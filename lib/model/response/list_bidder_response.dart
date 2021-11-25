@@ -7,13 +7,13 @@ class ListBiddersResponse {
   });
   late final bool status;
   late final int responseCode;
-  late final List<Data> data;
+  late final List<ListBiddersData> data;
   late final String message;
 
   ListBiddersResponse.fromJson(Map<String, dynamic> json){
     status = json['status'];
     responseCode = json['response_code'];
-    data = List.from(json['data']).map((e)=>Data.fromJson(e)).toList();
+    data = List.from(json['data']).map((e)=>ListBiddersData.fromJson(e)).toList();
     message = json['message'];
   }
 
@@ -27,31 +27,48 @@ class ListBiddersResponse {
   }
 }
 
-class Data {
-  Data({
+class ListBiddersData {
+  ListBiddersData({
     required this.bidId,
-    required this.bidCategoryIdfk,
-    required this.bidSpecificationIdfk,
-    required this.bidUserIdfk,
+    required this.category,
+    this.specificationName,
+    this.userName,
+    required this.userId,
+    this.price,
+    required this.isAccepted,
+    required this.date,
   });
-  late final int bidId;
-  late final String bidCategoryIdfk;
-  late final String bidSpecificationIdfk;
-  late final String bidUserIdfk;
 
-  Data.fromJson(Map<String, dynamic> json){
+  late final int bidId;
+  late final String? category;
+  late final String? specificationName;
+  late final String? userName;
+  late final String? userId;
+  late final String? price;
+  late final String? isAccepted;
+  late final String? date;
+
+  ListBiddersData.fromJson(Map<String, dynamic> json){
     bidId = json['bid_id'];
-    bidCategoryIdfk = json['bid_category_idfk'];
-    bidSpecificationIdfk = json['bid_specification_idfk'];
-    bidUserIdfk = json['bid_user_idfk'];
+    category = json['category'];
+    specificationName = json['specification_name'];
+    userName = json['user_name'];
+    userId = json['user_id'];
+    price = json['price'];
+    isAccepted = json['is_accepted'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['bid_id'] = bidId;
-    _data['bid_category_idfk'] = bidCategoryIdfk;
-    _data['bid_specification_idfk'] = bidSpecificationIdfk;
-    _data['bid_user_idfk'] = bidUserIdfk;
+    _data['category'] = category;
+    _data['specification_name'] = specificationName;
+    _data['user_name'] = userName;
+    _data['user_id'] = userId;
+    _data['price'] = price;
+    _data['is_accepted'] = isAccepted;
+    _data['date'] = date;
     return _data;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
@@ -15,11 +16,10 @@ import 'package:yg_app/widgets/material_listview_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
-
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberPostPage({Key? key,this.businessArea, this.selectedTab})
+  const FiberPostPage({Key? key, this.businessArea, this.selectedTab})
       : super(key: key);
 
   @override
@@ -27,6 +27,14 @@ class FiberPostPage extends StatefulWidget {
 }
 
 class _FiberPostPageState extends State<FiberPostPage> {
+
+  FiberRequestModel? _fiberRequestModel;
+
+  @override
+  void initState() {
+    _fiberRequestModel = FiberRequestModel();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,7 +44,6 @@ class _FiberPostPageState extends State<FiberPostPage> {
     BroadcastReceiver().unsubscribe(AppStrings.requestModelBroadCast);
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +73,19 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
       future: getDbInstance().then((value) async {
-        await value.fiberGradesDao.insertAllFiberGrades(data!.data.fiber.grades);
-        await value.fiberMaterialDao.insertAllFiberMaterials(data.data.fiber.material);
+        await value.fiberGradesDao
+            .insertAllFiberGrades(data!.data.fiber.grades);
+        await value.fiberMaterialDao
+            .insertAllFiberMaterials(data.data.fiber.material);
         return value.fiberSettingDao
             .insertAllFiberSettings(data.data.fiber.settings);
       }),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          return getView(data!);
+          return Provider(
+            create: (_) => _fiberRequestModel,
+              child: getView(data!));
         } else if (snapshot.hasError) {
           return Center(
               child: TitleTextWidget(title: snapshot.error.toString()));
@@ -108,14 +119,13 @@ class _FiberPostPageState extends State<FiberPostPage> {
             child: MaterialListviewWidget(
               listItem: data.data.fiber.material,
               onClickCallback: (index) {
-                FiberSpecificationComponent.fiberRequestModel!
-                    .spc_fiber_material_idfk =
+                _fiberRequestModel!.spc_fiber_material_idfk =
                     data.data.fiber.material[index].fbmId.toString();
 
                 /// Publishing Event
-                BroadcastReceiver()
-                    .publish<int>(
-                    AppStrings.materialIndexBroadcast, arguments: index);
+                BroadcastReceiver().publish<int>(
+                    AppStrings.materialIndexBroadcast,
+                    arguments: index);
               },
             ),
           ),
@@ -126,11 +136,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
               selectedTab: widget.selectedTab,
               stepsCallback: (value) {
                 if (value is FiberRequestModel) {
-
                 } else if (value is int) {
                   selectedSegment = value as int;
-                  BroadcastReceiver()
-                      .publish<int>(
+                  BroadcastReceiver().publish<int>(
                       AppStrings.segmentIndexBroadcast,
                       arguments: selectedSegment);
                 }
@@ -143,11 +151,10 @@ class _FiberPostPageState extends State<FiberPostPage> {
   }
 }
 
-
 Future<AppDatabase> getDbInstance() async {
   var databaseInstance;
   final database =
-  $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
+      $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
   await database.then((value) => {databaseInstance = value});
 
   return databaseInstance;

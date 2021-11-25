@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/progress_dialog_util.dart';
+import 'package:yg_app/utils/show_messgae_util.dart';
 import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/elevated_button_widget.dart';
 import 'package:yg_app/widgets/elevated_button_widget_2.dart';
 import 'package:yg_app/widgets/grey_text_detail_widget_.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
@@ -25,29 +27,52 @@ class _DetailTabPageState extends State<DetailTabPage> {
   @override
   void initState() {
     detailSpecification = [
-      GridTileModel('Fiber Material', widget.specification!.material!),
-      GridTileModel('Fiber Length', '${widget.specification!.length!} mm'),
-      GridTileModel('Micronaire', '${widget.specification!.micronaire!} mic'),
-      GridTileModel('Trash', widget.specification!.trash! + " %"),
-      GridTileModel('RD', widget.specification!.rd! + " %"),
-      GridTileModel('GPT', widget.specification!.gpt! + " %"),
+      GridTileModel('Fiber Material', widget.specification!.material ?? "N/A"),
+      GridTileModel(
+          'Fiber Length',
+          widget.specification!.length != null
+              ? '${widget.specification!.length} mm'
+              : 'N/A'),
+      GridTileModel(
+          'Micronaire',
+          widget.specification!.micronaire != null
+              ? '${widget.specification!.micronaire!} mic'
+              : "N/A"),
+      GridTileModel(
+          'Trash',
+          widget.specification!.trash != null
+              ? widget.specification!.trash! + " %"
+              : "N/A"),
+      GridTileModel(
+          'RD',
+          widget.specification!.rd != null
+              ? widget.specification!.rd! + " %"
+              : 'N/A'),
+      GridTileModel(
+          'GPT',
+          widget.specification!.gpt != null
+              ? widget.specification!.gpt! + " %"
+              : 'N/A'),
       GridTileModel('Apperrence', widget.specification!.apperance ?? "N/A"),
-      GridTileModel('Brand', widget.specification!.brand!),
-      GridTileModel('Production year', widget.specification!.productYear!),
-      GridTileModel('Origin', widget.specification!.origin!),
-      GridTileModel('Certification', widget.specification!.certification!),
+      GridTileModel('Brand', widget.specification!.brand ?? "N/A"),
+      GridTileModel(
+          'Production year', widget.specification!.productYear ?? "N/A"),
+      GridTileModel('Origin', widget.specification!.origin ?? "N/A"),
+      GridTileModel(
+          'Certification', widget.specification!.certification ?? "N/A"),
     ];
 
     detailPackaging = [
-      GridTileModel('Unit Of Count', widget.specification!.unitCount!),
-      GridTileModel('Price', widget.specification!.priceUnit!),
-      GridTileModel('Packing', widget.specification!.priceTerms!),
-      GridTileModel('Minimum Quantity', widget.specification!.minQuantity!),
-      GridTileModel('Seller Location', widget.specification!.unitCount!)
+      GridTileModel('Unit Of Count', widget.specification!.unitCount ?? "N/A"),
+      GridTileModel('Price', widget.specification!.priceUnit ?? "N/A"),
+      GridTileModel('Packing', widget.specification!.priceTerms ?? "N/A"),
+      GridTileModel(
+          'Minimum Quantity', widget.specification!.minQuantity ?? "N/A"),
+      GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
     ];
 
     setState(() {
-      bidPrice = int.parse(widget.specification!.priceUnit!);
+      bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
     });
 
     super.initState();
@@ -156,7 +181,20 @@ class _DetailTabPageState extends State<DetailTabPage> {
                 height: 8.w,
               ),
               ElevatedButtonWithoutIcon(
-                  callback: () {},
+                  callback: () {
+                    ProgressDialogUtil.showDialog(context, "Please wait....");
+                    ApiService.createBid(
+                            widget.specification!.categoryId.toString(),
+                            widget.specification!.spcId.toString(),
+                            bidPrice.toString())
+                        .then((value) {
+                      ProgressDialogUtil.hideDialog();
+                      ShowMessageUtils.showSnackBar(context, value.message);
+                    }, onError: (stacktrace, error) {
+                      ShowMessageUtils.showSnackBar(
+                          context, error.message.toString());
+                    });
+                  },
                   color: AppColors.btnColorLogin,
                   btnText: 'Place Bid')
             ],

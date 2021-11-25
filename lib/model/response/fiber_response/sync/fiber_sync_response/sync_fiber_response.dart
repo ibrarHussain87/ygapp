@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
@@ -87,6 +88,7 @@ class FiberModel {
   late final List<FiberAvailbleForMarket> availbleForMarket;
   late final List<CompaniesModel> companies;
   late final List<PaymentTypeModel> paymentType;
+  late final List<CityState> cityState;
   late final List<PortsModel> ports;
   late final List<LcTypeModel> lcType;
   late final List<PackingModel> packing;
@@ -106,6 +108,7 @@ class FiberModel {
     availbleForMarket = List.from(json['availbleForMarket']).map((e)=>FiberAvailbleForMarket.fromJson(e)).toList();
     companies = List.from(json['companies']).map((e)=>CompaniesModel.fromJson(e)).toList();
     paymentType = List.from(json['payment_types']).map((e)=>PaymentTypeModel.fromJson(e)).toList();
+    cityState = List.from(json['city_state']).map((e)=>CityState.fromJson(e)).toList();
     ports = List.from(json['ports']).map((e)=>PortsModel.fromJson(e)).toList();
     lcType = List.from(json['lc_types']).map((e)=>LcTypeModel.fromJson(e)).toList();
     packing = List.from(json['packing']).map((e)=>PackingModel.fromJson(e)).toList();
@@ -128,6 +131,7 @@ class FiberModel {
     _data['availbleForMarket'] = availbleForMarket.map((e)=>e.toJson()).toList();
     _data['companies'] = companies.map((e)=>e.toJson()).toList();
     _data['payment_types'] = paymentType.map((e)=>e.toJson()).toList();
+    _data['city_state'] = cityState.map((e)=>e.toJson()).toList();
     _data['ports'] = ports.map((e)=>e.toJson()).toList();
     _data['lc_types'] = lcType.map((e)=>e.toJson()).toList();
     _data['packing'] = packing.map((e)=>e.toJson()).toList();
@@ -288,6 +292,7 @@ class FiberSettings {
     required this.showDeliveryPeriod,
     required this.showAvailableForMarket,
     required this.showPriceTerms,
+    required this.showLotNumber,
     required this.fbsIsActive,
     this.fbsSortid,
     required this.catName,
@@ -318,6 +323,7 @@ class FiberSettings {
   late final String showDeliveryPeriod;
   late final String showAvailableForMarket;
   late final String showPriceTerms;
+  late final String showLotNumber;
   late final String fbsIsActive;
   @ignore
   late final Null fbsSortid;
@@ -349,6 +355,7 @@ class FiberSettings {
     showDeliveryPeriod = json['show_delivery_period'];
     showAvailableForMarket = json['show_available_for_market'];
     showPriceTerms = json['show_price_terms'];
+    showLotNumber = json['show_lot_number'];
     fbsIsActive = json['fbs_is_active'];
     fbsSortid = null;
     catName = json['cat_name'];

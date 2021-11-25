@@ -118,7 +118,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT NOT NULL, `prtName` TEXT NOT NULL, `prtIsActive` TEXT NOT NULL, PRIMARY KEY (`prtId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -176,6 +176,7 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'showDeliveryPeriod': item.showDeliveryPeriod,
                   'showAvailableForMarket': item.showAvailableForMarket,
                   'showPriceTerms': item.showPriceTerms,
+                  'showLotNumber': item.showLotNumber,
                   'fbsIsActive': item.fbsIsActive,
                   'catName': item.catName,
                   'matName': item.matName
@@ -209,6 +210,7 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'showDeliveryPeriod': item.showDeliveryPeriod,
                   'showAvailableForMarket': item.showAvailableForMarket,
                   'showPriceTerms': item.showPriceTerms,
+                  'showLotNumber': item.showLotNumber,
                   'fbsIsActive': item.fbsIsActive,
                   'catName': item.catName,
                   'matName': item.matName
@@ -252,6 +254,7 @@ class _$FiberSettingDao extends FiberSettingDao {
             showDeliveryPeriod: row['showDeliveryPeriod'] as String,
             showAvailableForMarket: row['showAvailableForMarket'] as String,
             showPriceTerms: row['showPriceTerms'] as String,
+            showLotNumber: row['showLotNumber'] as String,
             fbsIsActive: row['fbsIsActive'] as String,
             catName: row['catName'] as String,
             matName: row['matName'] as String));
@@ -286,6 +289,7 @@ class _$FiberSettingDao extends FiberSettingDao {
             showDeliveryPeriod: row['showDeliveryPeriod'] as String,
             showAvailableForMarket: row['showAvailableForMarket'] as String,
             showPriceTerms: row['showPriceTerms'] as String,
+            showLotNumber: row['showLotNumber'] as String,
             fbsIsActive: row['fbsIsActive'] as String,
             catName: row['catName'] as String,
             matName: row['matName'] as String),

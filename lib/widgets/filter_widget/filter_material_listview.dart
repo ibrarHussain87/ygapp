@@ -49,7 +49,7 @@ class _FilterMaterialWidgetState extends State<FilterMaterialWidget> {
         setState(() {
           selectedIndex.contains(index)? selectedIndex.remove(index):selectedIndex.add(index);
         });
-        widget.onClickCallback!(index);
+        widget.onClickCallback!(castedList![index]);
       },
       child: SizedBox(
         width: 60.w,

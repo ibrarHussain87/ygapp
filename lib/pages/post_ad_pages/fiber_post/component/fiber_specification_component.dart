@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -21,7 +23,6 @@ class FiberSpecificationComponent extends StatefulWidget {
   SyncFiberResponse syncFiberResponse;
   final String? businessArea;
   final String? selectedTab;
-  static FiberRequestModel? fiberRequestModel = FiberRequestModel();
 
   FiberSpecificationComponent(
       {Key? key,
@@ -43,21 +44,15 @@ class _FiberSpecificationComponentState
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedMaterialIndex = 0;
   DateTime selectedDate = DateTime.now();
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
   FiberSettings? _fiberSettings;
+  FiberRequestModel? _fiberRequestModel;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    //INTIAIL VALUES
-    FiberSpecificationComponent.fiberRequestModel!.spc_grade_idfk =
-        widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
-    FiberSpecificationComponent.fiberRequestModel!.spc_certificate_idfk = widget
-        .syncFiberResponse.data.fiber.certification.first.cerId
-        .toString();
-
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
         (AppStrings.materialIndexBroadcast, (index) {
       setState(() {
@@ -70,6 +65,13 @@ class _FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
+    _fiberRequestModel = Provider.of<FiberRequestModel?>(context);
+    _fiberRequestModel!.spc_grade_idfk =
+        widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
+    _fiberRequestModel!.spc_certificate_idfk = widget
+        .syncFiberResponse.data.fiber.certification.first.cerId
+        .toString();
+
     return FutureBuilder<List<FiberSettings>>(
       future: getDbInstance().then((value) async {
         return value.fiberSettingDao.findFiberSettings(widget.syncFiberResponse
@@ -113,7 +115,7 @@ class _FiberSpecificationComponentState
                             key: globalFormKey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
+                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Visibility(
@@ -141,7 +143,7 @@ class _FiberSpecificationComponentState
                                                 .fiber
                                                 .grades,
                                             callback: (value) {
-                                              FiberSpecificationComponent.fiberRequestModel!
+                                              _fiberRequestModel!
                                                       .spc_grade_idfk =
                                                   widget.syncFiberResponse.data
                                                       .fiber.grades[value].grdId
@@ -192,7 +194,7 @@ class _FiberSpecificationComponentState
                                                             .lengthMinMax))
                                                   ],
                                                   onSaved: (input) =>
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                               .spc_fiber_length_idfk =
                                                           input!,
                                                   validator: (input) {
@@ -260,7 +262,7 @@ class _FiberSpecificationComponentState
                                                             .micMinMax))
                                                   ],
                                                   onSaved: (input) =>
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                               .spc_micronaire_idfk =
                                                           input!,
                                                   validator: (input) {
@@ -307,7 +309,7 @@ class _FiberSpecificationComponentState
                                                   textAlign: TextAlign.center,
                                                   cursorHeight: 16.w,
                                                   onSaved: (input) =>
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                               .spc_moisture_idfk =
                                                           input!,
                                                   inputFormatters: [
@@ -370,7 +372,7 @@ class _FiberSpecificationComponentState
                                                     textAlign: TextAlign.center,
                                                     cursorHeight: 16.w,
                                                     onSaved: (input) =>
-                                                        FiberSpecificationComponent.fiberRequestModel!
+                                                        _fiberRequestModel!
                                                                 .spc_trash_idfk =
                                                             input!,
                                                     inputFormatters: [
@@ -430,7 +432,7 @@ class _FiberSpecificationComponentState
                                                   textAlign: TextAlign.center,
                                                   cursorHeight: 16.w,
                                                   onSaved: (input) =>
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                           .spc_rd_idfk = input!,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
@@ -497,7 +499,7 @@ class _FiberSpecificationComponentState
                                                             .gptMinMax))
                                                   ],
                                                   onSaved: (input) =>
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                               .spc_gpt_idfk =
                                                           input!,
                                                   validator: (input) {
@@ -543,7 +545,7 @@ class _FiberSpecificationComponentState
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.apperance,
                                           callback: (value) {
-                                            FiberSpecificationComponent.fiberRequestModel!
+                                            _fiberRequestModel!
                                                     .spc_appearance_idfk =
                                                 widget
                                                     .syncFiberResponse
@@ -609,7 +611,7 @@ class _FiberSpecificationComponentState
                                                         .toList(),
                                                     onChanged:
                                                         (BrandsModel? value) {
-                                                      FiberSpecificationComponent.fiberRequestModel!
+                                                      _fiberRequestModel!
                                                               .spc_brand_idfk =
                                                           value!.brdId
                                                               .toString();
@@ -681,7 +683,7 @@ class _FiberSpecificationComponentState
                                                 showCursor: false,
                                                 readOnly: true,
                                                 onSaved: (input) =>
-                                                    FiberSpecificationComponent.fiberRequestModel!
+                                                    _fiberRequestModel!
                                                             .spc_production_year =
                                                         input!.toString(),
                                                 validator: (input) {
@@ -720,7 +722,7 @@ class _FiberSpecificationComponentState
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(
+                                            child: const TitleSmallTextWidget(
                                                 title: 'Country')),
                                         Container(
                                           decoration: BoxDecoration(
@@ -734,7 +736,8 @@ class _FiberSpecificationComponentState
                                           child: SizedBox(
                                             height: 36.w,
                                             child: DropdownButtonFormField(
-                                              hint: Text('Select country'),
+                                              hint:
+                                                  const Text('Select country'),
                                               items: widget.syncFiberResponse
                                                   .data.fiber.countries
                                                   .map((value) =>
@@ -748,7 +751,7 @@ class _FiberSpecificationComponentState
                                                   .toList(),
                                               onChanged:
                                                   (CountriesModel? value) {
-                                                FiberSpecificationComponent.fiberRequestModel!
+                                                _fiberRequestModel!
                                                         .spc_origin_idfk =
                                                     value!.conId.toString();
                                               },
@@ -759,7 +762,7 @@ class _FiberSpecificationComponentState
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
-                                                border: OutlineInputBorder(
+                                                border: const OutlineInputBorder(
                                                     borderSide: BorderSide
                                                         .none) /*OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -780,6 +783,103 @@ class _FiberSpecificationComponentState
                                     ),
                                   ),
                                 ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 8.w),
+                                          child: const TitleSmallTextWidget(
+                                              title: 'City State')),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: AppColors.lightBlueTabs,
+                                              width:
+                                                  1, //                   <--- border width here
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(24.w))),
+                                        child: SizedBox(
+                                          height: 36.w,
+                                          child: DropdownButtonFormField(
+                                            hint:
+                                                const Text('Select City State'),
+                                            items: widget.syncFiberResponse.data
+                                                .fiber.cityState
+                                                .map((value) =>
+                                                    DropdownMenuItem(
+                                                      child: Text(value.name,
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                      value: value,
+                                                    ))
+                                                .toList(),
+                                            onChanged: (CityState? value) {
+                                              _fiberRequestModel!
+                                                      .spc_city_state_idfk =
+                                                  value!.id.toString();
+                                            },
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 16.w,
+                                                  right: 6.w,
+                                                  top: 0,
+                                                  bottom: 0),
+                                              border: const OutlineInputBorder(
+                                                  borderSide: BorderSide.none),
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: AppColors.textColorGrey),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // Visibility(
+                                //   visible: int.parse(snapshot
+                                //       .data![0].showLotNumber) ==
+                                //       1
+                                //       ? true
+                                //       : false,
+                                  /*child:*/ Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding:
+                                            EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'Lot Number')),
+                                        TextFormField(
+                                            keyboardType: TextInputType.text,
+                                            cursorColor:
+                                            AppColors.lightBlueTabs,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            cursorHeight: 16.w,
+                                            onSaved: (input) =>
+                                            _fiberRequestModel!
+                                                .spc_lot_number = input!,
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty) {
+                                                return "Enter Lot Number";
+                                              }
+                                              return null;
+                                            },
+                                            decoration:
+                                            roundedTextFieldDecoration(
+                                                'Lot Number')),
+                                      ],
+                                    ),
+                                  ),
+                                // ),
                                 Visibility(
                                   visible: int.parse(snapshot
                                               .data![0].showCertification) ==
@@ -795,7 +895,7 @@ class _FiberSpecificationComponentState
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(
+                                            child: const TitleSmallTextWidget(
                                                 title: 'Certification')),
                                         GridTileWidget(
                                           spanCount: widget.syncFiberResponse
@@ -803,7 +903,7 @@ class _FiberSpecificationComponentState
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.certification,
                                           callback: (value) {
-                                            FiberSpecificationComponent.fiberRequestModel!
+                                            _fiberRequestModel!
                                                     .spc_certificate_idfk =
                                                 widget
                                                     .syncFiberResponse
@@ -813,6 +913,9 @@ class _FiberSpecificationComponentState
                                                     .cerId
                                                     .toString();
                                           },
+                                        ),
+                                        SizedBox(
+                                          height: 8.w,
                                         ),
                                       ],
                                     ),
@@ -838,7 +941,10 @@ class _FiberSpecificationComponentState
                       child: ElevatedButtonWithIcon(
                         callback: () {
                           if (validationAllPage()) {
-                            FiberSpecificationComponent.fiberRequestModel!.spc_fiber_material_idfk = widget
+                            _fiberRequestModel!.spc_category_idfk = widget.syncFiberResponse
+                                .data.fiber.material[_selectedMaterialIndex].fbmCategoryIdfk;
+
+                            _fiberRequestModel!.spc_fiber_material_idfk = widget
                                 .syncFiberResponse
                                 .data
                                 .fiber
@@ -880,26 +986,26 @@ class _FiberSpecificationComponentState
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (FiberSpecificationComponent.fiberRequestModel!.spc_grade_idfk == null &&
+      if (_fiberRequestModel!.spc_grade_idfk == null &&
           _fiberSettings!.showGrade == "1") {
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Please select Grade')));
-      } else if (FiberSpecificationComponent.fiberRequestModel!.spc_appearance_idfk == null &&
+            .showSnackBar(const SnackBar(content: Text('Please select Grade')));
+      } else if (_fiberRequestModel!.spc_appearance_idfk == null &&
           _fiberSettings!.showAppearance == "1") {
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Please select Appearance')));
-      } else if (FiberSpecificationComponent.fiberRequestModel!.spc_brand_idfk == null &&
+        Scaffold.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select Appearance')));
+      } else if (_fiberRequestModel!.spc_brand_idfk == null &&
           _fiberSettings!.showBrand == "1") {
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Please select Brand')));
-      } else if (FiberSpecificationComponent.fiberRequestModel!.spc_origin_idfk == null &&
+            .showSnackBar(const SnackBar(content: Text('Please select Brand')));
+      } else if (_fiberRequestModel!.spc_origin_idfk == null &&
           _fiberSettings!.showOrigin == "1") {
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Please select Country')));
-      } else if (FiberSpecificationComponent.fiberRequestModel!.spc_certificate_idfk == null &&
+        Scaffold.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select Country')));
+      } else if (_fiberRequestModel!.spc_certificate_idfk == null &&
           _fiberSettings!.showCertification == "1") {
         Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Please select Certification')));
+            const SnackBar(content: Text('Please select Certification')));
       } else {
         return true;
       }

@@ -7,13 +7,13 @@ class FiberSpecificationResponse {
   });
   late final bool status;
   late final int responseCode;
-  late final Data data;
+  late final FiberSpecificationData data;
   late final String message;
 
   FiberSpecificationResponse.fromJson(Map<String, dynamic> json){
     status = json['status'];
     responseCode = json['response_code'];
-    data = Data.fromJson(json['data']);
+    data = FiberSpecificationData.fromJson(json['data']);
     message = json['message'];
   }
 
@@ -27,13 +27,13 @@ class FiberSpecificationResponse {
   }
 }
 
-class Data {
-  Data({
+class FiberSpecificationData {
+  FiberSpecificationData({
     required this.specification,
   });
   late final List<Specification> specification;
 
-  Data.fromJson(Map<String, dynamic> json){
+  FiberSpecificationData.fromJson(Map<String, dynamic> json){
     specification = List.from(json['specification']).map((e)=>Specification.fromJson(e)).toList();
   }
 
@@ -46,6 +46,8 @@ class Data {
 
 class Specification  {
   Specification({
+    required this.spcId,
+    required this.categoryId,
     this.businessArea,
     required this.locality,
     required this.material,
@@ -62,6 +64,9 @@ class Specification  {
     required this.origin,
     required this.certification,
     required this.priceUnit,
+    required this.cityState,
+    required this.port,
+    required this.lotNumber,
     required this.unitCount,
     required this.deliveryPeriod,
     required this.available,
@@ -70,6 +75,8 @@ class Specification  {
     required this.description,
     required this.pictures,
   });
+  late final int spcId;
+  late final String categoryId;
   late final String? businessArea;
   late final String? locality;
   late final String? material;
@@ -86,6 +93,9 @@ class Specification  {
   late final String? origin;
   late final String? certification;
   late final String? priceUnit;
+  late final String? cityState;
+  late final String? port;
+  late final String? lotNumber;
   late final String? unitCount;
   late final String? deliveryPeriod;
   late final String? available;
@@ -95,33 +105,40 @@ class Specification  {
   late final List<Pictures> pictures;
 
   Specification.fromJson(Map<String, dynamic> json){
-    businessArea = json['business_area'];
-    locality = json['locality'];
-    material = json['material'];
-    length = json['length'];
+    spcId = json['spc_id']??"";
+    categoryId = json['category_id']??"";
+    businessArea = json['business_area']??"";
+    locality = json['locality']??"";
+    material = json['material']??"";
+    length = json['length']??"";
     grade = json['grade']??"";
-    micronaire = json['micronaire'];
-    moisture = json["moisture"];
-    trash = json['trash'];
-    rd = json['rd'];
+    micronaire = json['micronaire']??"";
+    moisture = json["moisture"]??"";
+    trash = json['trash']??"";
+    rd = json['rd']??"";
     gpt = json['gpt']??"";
     apperance = json['apperance'];
     brand = json['brand']??"";
-    productYear = json['product_year'];
+    productYear = json['product_year']??"";
     origin = json['origin']??"";
-    certification = json['certification'];
-    priceUnit = json['price_unit'];
+    certification = json['certification']??"";
+    priceUnit = json['price_unit']??"";
+    cityState = json['city_state']??"";
+    port = json['port']??"";
+    lotNumber = json['lot_number']??"";
     unitCount = json['unit_count'];
-    deliveryPeriod = json['delivery_period'];
-    available = json['available'];
-    priceTerms = json['price_terms'];
-    minQuantity = json['min_quantity'];
-    description = json['description'];
+    deliveryPeriod = json['delivery_period']??"";
+    available = json['available']??"";
+    priceTerms = json['price_terms']??"";
+    minQuantity = json['min_quantity']??"";
+    description = json['description']??"";
     pictures = List.from(json['pictures']).map((e)=>Pictures.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['spc_id'] = spcId;
+    _data['category_id'] = categoryId;
     _data['business_area'] = businessArea;
     _data['locality'] = locality;
     _data['material'] = material;
@@ -138,6 +155,9 @@ class Specification  {
     _data['origin'] = origin;
     _data['certification'] = certification;
     _data['price_unit'] = priceUnit;
+    _data['city_state'] = cityState;
+    _data['port'] = port;
+    _data['lot_number'] = lotNumber;
     _data['unit_count'] = unitCount;
     _data['delivery_period'] = deliveryPeriod;
     _data['available'] = available;

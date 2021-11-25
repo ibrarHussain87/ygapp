@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
@@ -60,7 +61,6 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
   @override
   void initState() {
-    _fiberRequestModel = FiberSpecificationComponent.fiberRequestModel;
     sellingRegion.add(widget.businessArea.toString());
     _fiberPriceTerms = widget.syncFiberResponse!.data.fiber.priceTerms.first;
     _packingModel = widget.syncFiberResponse!.data.fiber.packing.first;
@@ -72,6 +72,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
   @override
   Widget build(BuildContext context) {
+
+    _fiberRequestModel = Provider.of<FiberRequestModel?>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -440,7 +443,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             SizedBox(
                               height: 5 * 22.w,
                               child: TextFormField(
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.text,
                                   maxLines: 5,
                                   cursorColor: AppColors.lightBlueTabs,
                                   style: TextStyle(fontSize: 11.sp),

@@ -8,7 +8,7 @@ import 'package:yg_app/utils/colors.dart';
 
 import 'fiber_specification_component.dart';
 
-class FiberStepsSagments extends StatefulWidget {
+class FiberStepsSagments extends StatefulWidget{
 
   Function? stepsCallback;
   Map<int, String>? stepsMapping;
@@ -49,7 +49,6 @@ class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
         callback: (value) {
           setState(() {
             selectedValue++;
-            // _fiberRequestModel = value;
           });
           widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,

@@ -2,17 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/numeriacal_range_text_field.dart';
 import 'package:yg_app/utils/string_util.dart';
 
 import '../decoration_widgets.dart';
 import '../title_text_widget.dart';
 
 class FilterRangeSlider extends StatefulWidget {
-  final String? minMaxRange;
+
+  double? minValue=0.0;
+  double? maxValue = 100.0;
   final String? hintTxt;
 
-  const FilterRangeSlider(
-      {Key? key, required this.minMaxRange, required this.hintTxt})
+  FilterRangeSlider(
+      {Key? key, required this.minValue,required this.maxValue, required this.hintTxt})
       : super(key: key);
 
   @override
@@ -21,10 +24,20 @@ class FilterRangeSlider extends StatefulWidget {
 
 class _FilterRangeSliderState extends State<FilterRangeSlider> {
   RangeValues? _values;
+  double? low;
+  double? high;
+
+  TextEditingController minController = TextEditingController();
+  TextEditingController maxController = TextEditingController();
 
   @override
   void initState() {
-    _values = RangeValues(StringUtils.splitMin(widget.minMaxRange!), StringUtils.splitMax(widget.minMaxRange!));
+    // minValue = StringUtils.splitMin(widget.minMaxRange!);
+    // maxValue = StringUtils.splitMax(widget.minMaxRange!);
+    low = widget.minValue;
+    high = widget.maxValue;
+
+    _values = RangeValues(widget.minValue!, widget.maxValue!);
     super.initState();
   }
 
@@ -44,6 +57,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + ' min')),
                   TextFormField(
+                    controller: minController,
                       keyboardType: TextInputType.number,
                       cursorColor: AppColors.lightBlueTabs,
                       style: TextStyle(fontSize: 11.sp),
@@ -56,9 +70,20 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                         }
                         return null;
                       },
+                      inputFormatters: [
+                        NumericalRangeFormatterMin(
+                          min: widget.minValue!,
+                        )
+                      ],
+                      onChanged: (String value) {
+                        setState(() {
+                          low = double.tryParse(value);
+                          // minValue = double.tryParse(value);
+                            _values = RangeValues(low!, high!);
+                        });
+                      },
                       decoration: roundedTextFieldDecoration(
-                          StringUtils.splitMin(widget.minMaxRange!).toString() +
-                              ' %')),
+                              '${widget.minValue} %')),
                 ],
               ),
             ),
@@ -74,6 +99,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + " max")),
                   TextFormField(
+                    controller: maxController,
                       keyboardType: TextInputType.number,
                       cursorColor: AppColors.lightBlueTabs,
                       style: TextStyle(fontSize: 11.sp),
@@ -86,8 +112,21 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                         }
                         return null;
                       },
+                      onChanged: (String value) {
+                        setState(() {
+                          high = double.tryParse(value);
+                          // maxValue = double.tryParse(value);
+                          _values = RangeValues(low!, high!);
+
+                        });
+                      },
+                      inputFormatters: [
+                        NumericalRangeFormatterMax(
+                          max: widget.maxValue!,
+                        )
+                      ],
                       decoration: roundedTextFieldDecoration(
-                          StringUtils.splitMax(widget.minMaxRange!).toString() +
+                          widget.maxValue!.toString() +
                               ' %')),
                 ],
               ),
@@ -113,13 +152,17 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 overlayShape: SliderComponentShape.noOverlay,
               ),
               child: RangeSlider(
-                  min: 1.0,
-                  max: 10.0,
+                  min: widget.minValue!,
+                  max: widget.maxValue!,
                   values: _values!,
-                  labels: RangeLabels(_values!.start.toStringAsFixed(1),
-                      _values!.end.toStringAsFixed(1)),
+                  labels: RangeLabels(_values!.start.toStringAsFixed(0),
+                      _values!.end.toStringAsFixed(0)),
                   onChanged: (value) {
                     setState(() {
+                      // low = value.start;
+                      // high = value.end;
+                      minController.text = value.start.toStringAsFixed(0);
+                      maxController.text = value.end.toStringAsFixed(0);
                       _values = value;
                     });
                   })),
