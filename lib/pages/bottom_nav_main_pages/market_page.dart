@@ -26,6 +26,7 @@ class _MarketPageState extends State<MarketPage>
     'Stock Lot'
   ];
 
+  GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   TabController? _tabController;
 
   @override
@@ -37,10 +38,10 @@ class _MarketPageState extends State<MarketPage>
 
   void _handleTabSelection() {
     // if (_tabController!.indexIsChanging) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('${_tabController!.index}'),
-        duration: Duration(milliseconds: 500),
-      ));
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('${_tabController!.index}'),
+      duration: Duration(milliseconds: 500),
+    ));
     // }
   }
 
@@ -54,131 +55,143 @@ class _MarketPageState extends State<MarketPage>
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
             body: Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 8.w, left: 8.w, right: 8.w),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(4.w)),
-                      color: AppColors.searchBarWhiteBg),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8.w,
-                        ),
-                        Icon(
-                          Icons.search_rounded,
-                          size: 16.w,
-                          color: AppColors.searchBarGreyStroke,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            cursorColor: Colors.black,
-                            keyboardType: TextInputType.text,
-                            style: TextStyle(fontSize: 10.sp),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              isDense: true,
-                              // this will remove the default content padding
-                              // now you can customize it here or add padding widget
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 0, vertical: 0),
-                              // contentPadding:
-                              // EdgeInsets.only(left: 4, bottom: 4, top: 4, right: 4),
-                              hintText: "Search Product,Brand and Category",
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 8.w, left: 8.w, right: 8.w),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.w)),
+                              color: AppColors.searchBarWhiteBg),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Icon(
+                                  Icons.search_rounded,
+                                  size: 16.w,
+                                  color: AppColors.searchBarGreyStroke,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    cursorColor: Colors.black,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(fontSize: 10.sp),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      isDense: true,
+                                      // this will remove the default content padding
+                                      // now you can customize it here or add padding widget
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 0, vertical: 0),
+                                      // contentPadding:
+                                      // EdgeInsets.only(left: 4, bottom: 4, top: 4, right: 4),
+                                      hintText:
+                                          "Search Product,Brand and Category",
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 4.w,
+                      ),
+                      Card(
+                          elevation: 1,
+                          child: Padding(
+                              padding: EdgeInsets.all(4.w),
+                              child: Icon(
+                                Icons.notifications,
+                                color: Colors.grey,
+                                size: 16.w,
+                              ))),
+                      GestureDetector(
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FiberFilterPage()),
+                          ).then((value) {
+                            //Getting result from filter
+                            if (_tabController!.index == 0) {
+                              stateFiberPage.currentState!
+                                  .refreshListing(value);
+                            }
+                          });
+                        },
+                        child: Card(
+                            elevation: 1,
+                            child: Padding(
+                                padding: EdgeInsets.all(4.w),
+                                child: Icon(
+                                  Icons.filter_alt_sharp,
+                                  color: AppColors.lightBlueTabs,
+                                  size: 16.w,
+                                ))),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 4.w,
-              ),
-              Card(
-                  elevation: 1,
-                  child: Padding(
-                      padding: EdgeInsets.all(4.w),
-                      child: Icon(
-                        Icons.notifications,
-                        color: Colors.grey,
-                        size: 16.w,
-                      ))),
-              GestureDetector(
-                onTap: () async{
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FiberFilterPage()),
-                  );
-                },
-                child: Card(
-                    elevation: 1,
-                    child: Padding(
-                        padding: EdgeInsets.all(4.w),
-                        child: Icon(
-                          Icons.filter_alt_sharp,
-                          color: AppColors.lightBlueTabs,
-                          size: 16.w,
-                        ))),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: DefaultTabController(
-              length: tabsList.length,
-              child: Scaffold(
-                backgroundColor: Colors.white,
-                appBar: PreferredSize(
-                  preferredSize: const Size(double.infinity, kToolbarHeight),
-                  child: TabBar(
-                    padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                    isScrollable: true,
-                    controller: _tabController,
-                    unselectedLabelColor: AppColors.textColorGreyLight,
-                    labelColor: AppColors.lightBlueTabs,
-                    indicatorColor: AppColors.lightBlueTabs,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicator: UnderlineTabIndicator(
-                        borderSide: BorderSide(color: AppColors.lightBlueTabs),
-                        insets: EdgeInsets.only(bottom: 12.w)),
-                    tabs: tabMaker(),
-                  ),
-                ),
-                body: TabBarView(
-                  children: const [
-                    FiberPage(),
-                    SpinningPage(),
-                    ProductWeavingPage(),
-                    ConverstionLeasingPage(),
-                    StockLotPage()
-                  ],
-                  controller: _tabController,
-                ),
-              )),
-        )
-      ],
-    )));
+                Expanded(
+                  child: DefaultTabController(
+                      length: tabsList.length,
+                      child: Scaffold(
+                        backgroundColor: Colors.white,
+                        appBar: PreferredSize(
+                          preferredSize:
+                              const Size(double.infinity, kToolbarHeight),
+                          child: TabBar(
+                            padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                            isScrollable: true,
+                            controller: _tabController,
+                            unselectedLabelColor: AppColors.textColorGreyLight,
+                            labelColor: AppColors.lightBlueTabs,
+                            indicatorColor: AppColors.lightBlueTabs,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: UnderlineTabIndicator(
+                                borderSide:
+                                    BorderSide(color: AppColors.lightBlueTabs),
+                                insets: EdgeInsets.only(bottom: 12.w)),
+                            tabs: tabMaker(),
+                          ),
+                        ),
+                        body: TabBarView(
+                          children: [
+                            FiberPage(
+                              key: stateFiberPage,
+                            ),
+                            SpinningPage(),
+                            ProductWeavingPage(),
+                            ConverstionLeasingPage(),
+                            StockLotPage()
+                          ],
+                          controller: _tabController,
+                        ),
+                      )),
+                )
+              ],
+            )));
   }
 
   List<Tab> tabMaker() {

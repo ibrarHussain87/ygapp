@@ -349,7 +349,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         child: const TitleSmallTextWidget(
                                             title: 'Price/Unit')),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: AppColors.lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,

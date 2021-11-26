@@ -33,7 +33,7 @@ class ApiService {
 
   static Future<SyncFiberResponse> SyncFiber() async {
     var userToken =
-        SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
     String url = BASE_API_URL + _SYNC_FIBER_END_POINT;
@@ -45,19 +45,25 @@ class ApiService {
     );
   }
 
-  static Future<FiberSpecificationResponse> getFiberSpecifications() async {
+  static Future<FiberSpecificationResponse> getFiberSpecifications(
+      {Map<String, dynamic>? mapParams}) async {
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
     String url = BASE_API_URL + _GET_FIBER_SPEC_END_POINT;
 
-    Map<String, dynamic> data = {"user_id": userID.toString()};
+    // Map<String, dynamic> data = {"user_id": userID.toString()};
+    // if (mapParams != null) {
+      mapParams!['user_id'] = {'user_id': userID};
+    // } else {
+    //   mapParams = {"user_id": userID.toString()};
+    // }
 
     final response =
-        await http.post(Uri.parse(url), headers: headerMap, body: data);
+    await http.post(Uri.parse(url), headers: headerMap, body: json.encode(mapParams));
 
     return FiberSpecificationResponse.fromJson(
       json.decode(response.body),
@@ -70,30 +76,28 @@ class ApiService {
     var request = http.MultipartRequest(
         'POST', Uri.parse(BASE_API_URL + _CREATE_FIBER_END_POINT));
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     request.headers.addAll(
         {"Accept": "application/json", "Authorization": "Bearer $userToken"});
-    request.files
-        .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
-    var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    request.files.add(
+        await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+    var userID = await SharedPreferenceUtil.getStringValuesSF(
+        AppStrings.USER_ID_KEY);
     fiberRequestModel.spc_user_idfk = userID.toString();
-    fiberRequestModel.spc_production_year =
-        "${fiberRequestModel.spc_production_year}-1-1";
     request.fields.addAll(fiberRequestModel.toJson());
     var response = await request.send();
     var responsed = await http.Response.fromStream(response);
     return CreateFiberResponse.fromJson(json.decode(responsed.body));
   }
 
-  static Future<ListBiddersResponse> getListBidders(
-      String catId, String specId) async {
+  static Future<ListBiddersResponse> getListBidders(String catId,
+      String specId) async {
     String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
 
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     Map<String, dynamic> data = {
       "category_id": catId,
       "user_id": userID.toString(),
@@ -101,21 +105,21 @@ class ApiService {
     };
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
-        await http.post(Uri.parse(url), headers: headerMap, body: data);
+    await http.post(Uri.parse(url), headers: headerMap, body: data);
 
     return ListBiddersResponse.fromJson(
       json.decode(response.body),
     );
   }
 
-  static Future<CreateBidResponse> createBid(
-      String catId, String specId, String price) async {
+  static Future<CreateBidResponse> createBid(String catId, String specId,
+      String price) async {
     String url = BASE_API_URL + CREATE_BID_END_POINT;
 
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     Map<String, dynamic> data = {
       "bid_category_idfk": catId,
       "bid_user_idfk": userID.toString(),
@@ -124,7 +128,7 @@ class ApiService {
     };
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
-        await http.post(Uri.parse(url), headers: headerMap, body: data);
+    await http.post(Uri.parse(url), headers: headerMap, body: data);
 
     return CreateBidResponse.fromJson(
       json.decode(response.body),

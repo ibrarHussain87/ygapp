@@ -13,13 +13,14 @@ import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPage extends StatefulWidget {
+
   const FiberPage({Key? key}) : super(key: key);
 
   @override
-  _FiberPageState createState() => _FiberPageState();
+  FiberPageState createState() => FiberPageState();
 }
 
-class _FiberPageState extends State<FiberPage> {
+class FiberPageState extends State<FiberPage> {
 
   Color offeringColor = AppColors.lightBlueTabs;
   Color requirementColor = Colors.white;
@@ -27,6 +28,7 @@ class _FiberPageState extends State<FiberPage> {
   Color textReqClr = AppColors.textColorGreyLight;
   bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+  Map<String,dynamic> params = {};
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class _FiberPageState extends State<FiberPage> {
           ],
         ),
         body: FutureBuilder<FiberSpecificationResponse>(
-          future: ApiService.getFiberSpecifications(),
+          future: ApiService.getFiberSpecifications(mapParams: params),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
@@ -239,6 +241,12 @@ class _FiberPageState extends State<FiberPage> {
         ),
       ],
     );
+  }
+
+  refreshListing(Map<String,dynamic> map){
+    setState(() {
+      params = map;
+    });
   }
 
   void changeTabColor(bool value) {
