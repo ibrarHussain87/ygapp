@@ -21,7 +21,7 @@ class FiberDetailPage extends StatefulWidget {
 
 class _FiberDetailPageState extends State<FiberDetailPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> tabsList = ['Details', 'Description', 'Bidder List'];
+  List<String> tabsList = ['Details', 'Bidder List'];
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,6 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                     DetailTabPage(
                       specification: widget.specification,
                     ),
-                    ConverstionLeasingPage(),
                     BidderListPage(
                       materialId: widget.specification.categoryId,
                       specId:widget.specification.spcId

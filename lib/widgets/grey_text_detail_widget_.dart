@@ -36,24 +36,28 @@ class GreyTextDetailWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Visibility(
-                    child: Text(
-                      title,
-                      maxLines: 2,
-                      style: TextStyle(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.normal,
-                          color:
-                          AppColors.textColorGreyLight),
+                    child: Expanded(
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 8.sp,
+                            fontWeight: FontWeight.normal,
+                            color:
+                            AppColors.textColorGreyLight),
+                      ),
                     ),
                     visible: true,
                   ),
-                  Text(
-                    detail??"N/A",
-                    maxLines: 2,
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
+                  Expanded(
+                    child: Text(
+                      detail??"N/A",
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                    ),
                   ),
                 ],
               ),

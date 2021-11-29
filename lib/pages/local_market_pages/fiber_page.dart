@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/list_items_widgets/market_list_item.dart';
+import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/main_fiber_detail_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
@@ -28,7 +29,13 @@ class FiberPageState extends State<FiberPage> {
   Color textReqClr = AppColors.textColorGreyLight;
   bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  Map<String,dynamic> params = {};
+  FiberFilterRequestModel fiberRequestModel = FiberFilterRequestModel();
+
+  @override
+  void initState() {
+    fiberRequestModel.isOffering = "1";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +92,7 @@ class FiberPageState extends State<FiberPage> {
           ],
         ),
         body: FutureBuilder<FiberSpecificationResponse>(
-          future: ApiService.getFiberSpecifications(mapParams: params),
+          future: ApiService.getFiberSpecifications(mapParams: fiberRequestModel),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
@@ -243,23 +250,26 @@ class FiberPageState extends State<FiberPage> {
     );
   }
 
-  refreshListing(Map<String,dynamic> map){
+  refreshListing(FiberFilterRequestModel filterRequestModel){
     setState(() {
-      params = map;
+      fiberRequestModel = filterRequestModel;
     });
   }
 
   void changeTabColor(bool value) {
+    fiberRequestModel = FiberFilterRequestModel();
     if (value) {
       offeringColor = Colors.white;
       requirementColor = AppColors.lightBlueTabs;
       textOfferClr = AppColors.textColorGreyLight;
       textReqClr = Colors.white;
+      fiberRequestModel.isOffering = "0";
     } else {
       offeringColor = AppColors.lightBlueTabs;
       requirementColor = Colors.white;
       textReqClr = AppColors.textColorGreyLight;
       textOfferClr = Colors.white;
+      fiberRequestModel.isOffering = "1";
     }
   }
 }

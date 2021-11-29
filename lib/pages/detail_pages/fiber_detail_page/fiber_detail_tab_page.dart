@@ -6,6 +6,7 @@ import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
 import 'package:yg_app/utils/show_messgae_util.dart';
 import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget_2.dart';
 import 'package:yg_app/widgets/grey_text_detail_widget_.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
@@ -30,44 +31,49 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel('Fiber Material', widget.specification!.material ?? "N/A"),
       GridTileModel(
           'Fiber Length',
-          widget.specification!.length != null
+          widget.specification!.length!.isNotEmpty
               ? '${widget.specification!.length} mm'
               : 'N/A'),
       GridTileModel(
           'Micronaire',
-          widget.specification!.micronaire != null
+          widget.specification!.micronaire!.isNotEmpty
               ? '${widget.specification!.micronaire!} mic'
               : "N/A"),
       GridTileModel(
+          'Moisture',
+          widget.specification!.moisture!.isNotEmpty
+              ? '${widget.specification!.moisture!} %'
+              : "N/A"),
+      GridTileModel(
           'Trash',
-          widget.specification!.trash != null
+          widget.specification!.trash!.isNotEmpty
               ? widget.specification!.trash! + " %"
               : "N/A"),
       GridTileModel(
           'RD',
-          widget.specification!.rd != null
+          widget.specification!.rd!.isNotEmpty
               ? widget.specification!.rd! + " %"
               : 'N/A'),
       GridTileModel(
           'GPT',
-          widget.specification!.gpt != null
+          widget.specification!.gpt!.isNotEmpty
               ? widget.specification!.gpt! + " %"
               : 'N/A'),
-      GridTileModel('Apperrence', widget.specification!.apperance ?? "N/A"),
-      GridTileModel('Brand', widget.specification!.brand ?? "N/A"),
+      GridTileModel('Apperrence', widget.specification!.apperance!.isEmpty ? "N/A" : widget.specification!.apperance!),
+      GridTileModel('Brand', widget.specification!.brand!.isEmpty ? "N/A" :widget.specification!.brand!),
       GridTileModel(
-          'Production year', widget.specification!.productYear ?? "N/A"),
-      GridTileModel('Origin', widget.specification!.origin ?? "N/A"),
+          'Production year', widget.specification!.productYear!.isEmpty ? "N/A" : widget.specification!.productYear!),
+      GridTileModel('Origin', widget.specification!.origin!.isEmpty ? "N/A" :widget.specification!.origin!),
       GridTileModel(
-          'Certification', widget.specification!.certification ?? "N/A"),
+          'Certification', widget.specification!.certification!.isEmpty ? "N/A" : widget.specification!.certification!),
     ];
 
     detailPackaging = [
-      GridTileModel('Unit Of Count', widget.specification!.unitCount ?? "N/A"),
-      GridTileModel('Price', widget.specification!.priceUnit ?? "N/A"),
-      GridTileModel('Packing', widget.specification!.priceTerms ?? "N/A"),
+      GridTileModel('Unit Of Count', widget.specification!.unitCount!.isEmpty ? "N/A" :widget.specification!.unitCount!),
+      GridTileModel('Price', widget.specification!.priceUnit!.isEmpty ? "N/A" : widget.specification!.priceUnit!),
+      GridTileModel('Packing', widget.specification!.priceTerms!.isEmpty ? "N/A" :widget.specification!.priceTerms!),
       GridTileModel(
-          'Minimum Quantity', widget.specification!.minQuantity ?? "N/A"),
+          'Minimum Quantity', widget.specification!.minQuantity!.isEmpty ? "N/A" : widget.specification!.minQuantity!),
       GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
     ];
 
@@ -102,6 +108,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     mainAxisSpacing: 3.w,
                     crossAxisSpacing: 6.w,
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     children:
                         List.generate(detailSpecification.length, (index) {
                       return GreyTextDetailWidget(
@@ -123,6 +130,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     mainAxisSpacing: 3.w,
                     crossAxisSpacing: 6.w,
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     children: List.generate(detailPackaging.length, (index) {
                       return GreyTextDetailWidget(
                           title: detailPackaging[index]._title,
@@ -130,6 +138,29 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     }),
                   ),
                   Divider(),
+                  SizedBox(
+                    height: 8.w,
+                  ),
+
+                  Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child:
+                      const TitleSmallTextWidget(title: 'Description')),
+                  SizedBox(
+                    height: 5 * 22.w,
+                    child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        maxLines: 5,
+                        initialValue: widget.specification!.description!.isEmpty ? "N/A" :  widget.specification!.description!,
+                        cursorColor: AppColors.lightBlueTabs,
+                        style: TextStyle(fontSize: 11.sp),
+                        textAlign: TextAlign.start,
+                        cursorHeight: 16.w,
+                        showCursor: false,
+                        readOnly: true,
+                        decoration: roundedDescriptionDecoration(
+                            "Description")),
+                  ),
                 ],
               ),
             ),

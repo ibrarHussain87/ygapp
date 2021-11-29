@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
@@ -46,7 +47,7 @@ class ApiService {
   }
 
   static Future<FiberSpecificationResponse> getFiberSpecifications(
-      {Map<String, dynamic>? mapParams}) async {
+      {FiberFilterRequestModel? mapParams}) async {
     var userToken =
     await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
@@ -57,13 +58,13 @@ class ApiService {
 
     // Map<String, dynamic> data = {"user_id": userID.toString()};
     // if (mapParams != null) {
-      mapParams!['user_id'] = {'user_id': userID};
+     mapParams!.userId =  userID;
     // } else {
     //   mapParams = {"user_id": userID.toString()};
     // }
 
     final response =
-    await http.post(Uri.parse(url), headers: headerMap, body: json.encode(mapParams));
+    await http.post(Uri.parse(url), headers: headerMap, body: json.encode(mapParams.toJson()));
 
     return FiberSpecificationResponse.fromJson(
       json.decode(response.body),

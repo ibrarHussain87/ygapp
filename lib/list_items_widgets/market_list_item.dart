@@ -50,16 +50,14 @@ Widget buildWidget(Specification specification) {
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 54.w,
-            height: 54.w,
-            child: CachedNetworkImage(
-              imageUrl: "https://cdn.imgbin.com/9/24/6/imgbin-cotton-F5v67pL5ryN2sQ17AjGPKCJ0s.jpg",
-              placeholder: (context, url) =>
-                  Image.asset('images/ic_loading.png'),
-              errorWidget: (context, url, error) =>
-                  Image.asset('images/image_not_available.png'),
-            ),
+          CachedNetworkImage(
+            width: 56.w,
+            fit: BoxFit.cover,
+            imageUrl: specification.pictures.isNotEmpty ? specification.pictures.first.picture : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhchaTFvE9jCcmcVQDYDatyDuUEobkshz5BSMGTq_VXNse66GnIoChrJrUvahgKuIPskI&usqp=CAU',
+            placeholder: (context, url) =>
+                Image.asset('images/ic_loading.png'),
+            errorWidget: (context, url, error) =>
+                Image.asset('images/image_not_available.png'),
           ),
           Expanded(
             child: Padding(

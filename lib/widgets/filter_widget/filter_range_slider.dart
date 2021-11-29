@@ -111,7 +111,9 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       style: TextStyle(fontSize: 11.sp),
                       textAlign: TextAlign.center,
                       cursorHeight: 16.w,
-                      onSaved: (input) => {},
+                      onSaved: (input) => {
+
+                      },
                       validator: (input) {
                         if (input == null || input.isEmpty) {
                           return widget.hintTxt! + "max";
@@ -166,8 +168,8 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                     setState(() {
                       minController.text = value.start.toStringAsFixed(0);
                       maxController.text = value.end.toStringAsFixed(0);
-                      widget.minCallback(value.start.toStringAsFixed(0));
-                      widget.maxCallback(value.end.toStringAsFixed(0));
+                      widget.minCallback(double.parse(value.start.toStringAsFixed(0)));
+                      widget.maxCallback(double.parse(value.end.toStringAsFixed(0)));
                       _values = value;
                     });
                   })),

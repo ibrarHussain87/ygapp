@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/market_page.dart';
@@ -28,13 +29,14 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
 
   final TextEditingController _textEditingController = TextEditingController();
-  Map<String, dynamic> mapParams = {};
+  // Map<String, dynamic> mapParams = {};
+  FiberFilterRequestModel? _fiberFilterRequestModel;
 
   List<FiberSettings> listOfSettings = [];
   List<int> listOfMaterials = [];
   List<int> listOfGrades = [];
-  List<dynamic> listOfMic = [];
-  List<dynamic> listOfMos = [];
+  List<int> listOfMic = [];
+  List<int> listOfMos = [];
   List<int> listOfAppearance = [];
   List<int> listOfCertification = [];
   List<int> listOfPacking = [];
@@ -56,6 +58,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   @override
   void initState() {
+    _fiberFilterRequestModel = FiberFilterRequestModel();
     setState(() {
       listOfSettings = widget.syncFiberResponse.data.fiber.settings;
       _optimizeSettings();
@@ -93,8 +96,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {
                             _querySetting((value as FiberMaterial).fbmId);
-                            mapParams['fiber_material_id[]'] =
-                                filterList(listOfMaterials, (value).fbmId);
+                            // mapParams['fiber_material_id[]'] =
+                            //     filterList(listOfMaterials, (value).fbmId);
+
+                            _fiberFilterRequestModel!.fiberMaterialId = filterList(listOfMaterials, (value).fbmId);
                           },
                         ),
                       ),
@@ -110,7 +115,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.grades,
                             callback: (index) {
-                              mapParams['grade_id[]'] = filterList(
+                              // mapParams['grade_id[]'] = filterList(
+                              //     listOfGrades,
+                              //     widget.syncFiberResponse.data.fiber
+                              //         .grades[index].grdId);
+                              _fiberFilterRequestModel!.gradeId = filterList(
                                   listOfGrades,
                                   widget.syncFiberResponse.data.fiber
                                       .grades[index].grdId);
@@ -178,8 +187,13 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.apperance,
                             callback: (index) {
-                              mapParams['apperance_id[]'] = filterList(
-                                  listOfAppearance,
+                              // mapParams['apperance_id[]'] = filterList(
+                              //     listOfAppearance,
+                              //     widget.syncFiberResponse.data.fiber
+                              //         .apperance[index].aprId);
+
+                              _fiberFilterRequestModel!.apperanceId = filterList(
+                                  listOfGrades,
                                   widget.syncFiberResponse.data.fiber
                                       .apperance[index].aprId);
                             },
@@ -209,7 +223,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   showCursor: false,
                                   readOnly: true,
                                   onSaved: (input) {
-                                    mapParams["production_year"] = input;
+                                    // mapParams["production_year"] = input;
+                                    _fiberFilterRequestModel!.productionYear = input;
+
                                   },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
@@ -262,7 +278,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                               ))
                                           .toList(),
                                       onChanged: (CountriesModel? value) {
-                                        mapParams['origin_id[]'] = value!.conId;
+                                        // mapParams['origin_id[]'] = value!.conId;
+                                        List<int> originList = [value!.conId];
+                                        _fiberFilterRequestModel!.originId = originList;
                                       },
                                       // value: widget.syncFiberResponse.data.fiber.countries.first,
                                       decoration: InputDecoration(
@@ -300,7 +318,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             listOfItems: widget
                                 .syncFiberResponse.data.fiber.certification,
                             callback: (value) {
-                              mapParams['certification_id[]'] = filterList(
+                              // mapParams['certification_id[]'] = filterList(
+                              //     listOfCertification,
+                              //     widget.syncFiberResponse.data.fiber
+                              //         .certification[value].cerId);
+                              _fiberFilterRequestModel!.certificationId = filterList(
                                   listOfCertification,
                                   widget.syncFiberResponse.data.fiber
                                       .certification[value].cerId);
@@ -323,7 +345,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.packing,
                             callback: (value) {
-                              mapParams['packing_id[]'] = filterList(
+                              // mapParams['packing_id[]'] = filterList(
+                              //     listOfPacking,
+                              //     widget.syncFiberResponse.data.fiber
+                              //         .packing[value].pacId);
+                              _fiberFilterRequestModel!.packingId = filterList(
                                   listOfPacking,
                                   widget.syncFiberResponse.data.fiber
                                       .packing[value].pacId);
@@ -352,12 +378,22 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          listOfMic = [minValueMicParam != null? minValueMicParam!.toInt() :"" ,maxValueMicParam != null? maxValueMicParam!.toInt() :""];
-                          listOfMos = [minValueMosParam != null? minValueMosParam!.toInt() :"" ,maxValueMosParam != null? maxValueMosParam!.toInt() :""];
-                          mapParams['micronaire[]'] = listOfMic;
-                          mapParams['moisture[]'] = listOfMos;
-                          print(mapParams);
-                          Navigator.pop(context, mapParams);
+                          if(minValueMicParam!= null && maxValueMicParam!= null){
+                            listOfMic = [minValueMicParam!.toInt() ,maxValueMicParam!.toInt()];
+                            // mapParams['micronaire[]'] = listOfMic;
+                            _fiberFilterRequestModel!.micronaire = listOfMic;
+
+                          }
+
+                          if(minValueMosParam!= null && maxValueMosParam!= null){
+                            listOfMos = [minValueMosParam!.toInt() ,maxValueMosParam!.toInt()];
+                            // mapParams['moisture[]'] = listOfMos;
+                            _fiberFilterRequestModel!.moisture = listOfMos;
+
+                          }
+                          // listOfMos = [minValueMosParam != null? minValueMosParam!.toInt() :"" ,maxValueMosParam != null? maxValueMosParam!.toInt() :""];
+                          // print(mapParams);
+                          Navigator.pop(context, _fiberFilterRequestModel);
                         },
                         color: AppColors.textColorBlue,
                         btnText: 'Apply Filter'),
