@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/strings.dart';
@@ -16,10 +15,12 @@ import 'package:yg_app/widgets/material_listview_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
+
+  final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberPostPage({Key? key, this.businessArea, this.selectedTab})
+  const FiberPostPage({Key? key,required this.locality, this.businessArea, this.selectedTab})
       : super(key: key);
 
   @override
@@ -72,7 +73,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
 
   Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
-      future: getDbInstance().then((value) async {
+      future: AppDbInstance.getDbInstance().then((value) async {
         await value.fiberGradesDao
             .insertAllFiberGrades(data!.data.fiber.grades);
         await value.fiberMaterialDao
@@ -130,14 +131,15 @@ class _FiberPostPageState extends State<FiberPostPage> {
             ),
           ),
           Expanded(
-            child: FiberStepsSagments(
+            child: FiberStepsSegments(
               syncFiberResponse: data,
+              locality: widget.locality,
               businessArea: widget.businessArea,
               selectedTab: widget.selectedTab,
               stepsCallback: (value) {
                 if (value is FiberRequestModel) {
                 } else if (value is int) {
-                  selectedSegment = value as int;
+                  selectedSegment = value;
                   BroadcastReceiver().publish<int>(
                       AppStrings.segmentIndexBroadcast,
                       arguments: selectedSegment);
@@ -151,11 +153,3 @@ class _FiberPostPageState extends State<FiberPostPage> {
   }
 }
 
-Future<AppDatabase> getDbInstance() async {
-  var databaseInstance;
-  final database =
-      $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
-  await database.then((value) => {databaseInstance = value});
-
-  return databaseInstance;
-}

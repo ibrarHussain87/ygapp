@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
@@ -18,8 +19,8 @@ class ApiService {
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   static const String _LOGIN_END_POINT = "/login";
   static const String _SYNC_FIBER_END_POINT = "/syncFiber";
-  static const String _GET_FIBER_SPEC_END_POINT = "/getFiberSpecifications";
-  static const String _CREATE_FIBER_END_POINT = "/createFiberSpecification";
+  static const String _GET_FIBER_SPEC_END_POINT = "/getSpecifications";
+  static const String _CREATE_FIBER_END_POINT = "/createSpecification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
   static const String CREATE_BID_END_POINT = "/createBid";
 
@@ -46,29 +47,26 @@ class ApiService {
     );
   }
 
-  static Future<FiberSpecificationResponse> getFiberSpecifications(
-      {FiberFilterRequestModel? mapParams}) async {
+  static Future<FiberSpecificationResponse> getFiberSpecifications(FiberFilterRequestModel fiberRequestModel,String? locality) async {
+
+    String url = BASE_API_URL + _GET_FIBER_SPEC_END_POINT;
+
     var userToken =
     await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
     await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
-
-    String url = BASE_API_URL + _GET_FIBER_SPEC_END_POINT;
-
-    // Map<String, dynamic> data = {"user_id": userID.toString()};
-    // if (mapParams != null) {
-     mapParams!.userId =  userID;
-    // } else {
-    //   mapParams = {"user_id": userID.toString()};
-    // }
-
+     fiberRequestModel.userId =  userID;
+     fiberRequestModel.locality = locality;
     final response =
-    await http.post(Uri.parse(url), headers: headerMap, body: json.encode(mapParams.toJson()));
-
-    return FiberSpecificationResponse.fromJson(
-      json.decode(response.body),
+    await Dio().post(
+      url,
+      options: Options(
+        headers: headerMap
+      ),
+      data: json.encode(fiberRequestModel.toJson())
     );
+    return FiberSpecificationResponse.fromJson(response.data);
   }
 
   static Future<CreateFiberResponse> multipartProdecudre(

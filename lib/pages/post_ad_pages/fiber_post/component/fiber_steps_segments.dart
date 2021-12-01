@@ -8,42 +8,43 @@ import 'package:yg_app/utils/colors.dart';
 
 import 'fiber_specification_component.dart';
 
-class FiberStepsSagments extends StatefulWidget{
+class FiberStepsSegments extends StatefulWidget {
 
-  Function? stepsCallback;
-  Map<int, String>? stepsMapping;
-  SyncFiberResponse syncFiberResponse;
+  final Function? stepsCallback;
+  final Map<int, String>? stepsMapping;
+  final SyncFiberResponse syncFiberResponse;
+  final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  FiberStepsSagments(
-      {Key? key,
-      required this.syncFiberResponse,
-      required this.stepsCallback,
-      required this.businessArea,
-      required this.selectedTab})
+  const FiberStepsSegments({Key? key,
+    required this.syncFiberResponse,
+    required this.stepsCallback,
+    required this.locality,
+    required this.businessArea,
+    required this.selectedTab,
+    this.stepsMapping})
       : super(key: key);
 
   @override
-  _FiberStepsSagmentsState createState() => _FiberStepsSagmentsState();
+  _FiberStepsSegmentsState createState() => _FiberStepsSegmentsState();
 }
 
-class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
+class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
   late SyncFiberResponse _syncFiberResponse;
-  // FiberRequestModel? _fiberRequestModel;
 
   @override
   void initState() {
-
     _syncFiberResponse = widget.syncFiberResponse;
     _pageController = PageController();
 
     _samplePages = [
       FiberSpecificationComponent(
         syncFiberResponse: widget.syncFiberResponse,
+        locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
         callback: (value) {
@@ -52,11 +53,12 @@ class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
           });
           widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,
-              duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+              duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
         },
       ),
       PackagingDetails(
-          // requestModel: _fiberRequestModel,
+        // requestModel: _fiberRequestModel,
+          locality: widget.locality,
           businessArea: widget.businessArea,
           selectedTab: widget.selectedTab,
           syncFiberResponse: widget.syncFiberResponse),
@@ -109,7 +111,7 @@ class _FiberStepsSagmentsState extends State<FiberStepsSagments> {
                   });
                   widget.stepsCallback!(value);
                   _pageController.animateToPage(selectedValue - 1,
-                      duration: Duration(milliseconds: 400),
+                      duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut);
                 },
               ),

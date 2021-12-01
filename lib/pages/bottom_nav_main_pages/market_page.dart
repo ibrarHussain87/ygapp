@@ -2,15 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_page.dart';
-import 'package:yg_app/pages/local_market_pages/converstion_leasing.dart';
-import 'package:yg_app/pages/local_market_pages/fiber_page.dart';
-import 'package:yg_app/pages/local_market_pages/product_weaving.dart';
-import 'package:yg_app/pages/local_market_pages/spinning_page.dart';
-import 'package:yg_app/pages/local_market_pages/stock_lot.dart';
+import 'package:yg_app/pages/market_pages/converstion_leasing.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
+import 'package:yg_app/pages/market_pages/product_weaving.dart';
+import 'package:yg_app/pages/market_pages/spinning_page.dart';
+import 'package:yg_app/pages/market_pages/stock_lot.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class MarketPage extends StatefulWidget {
-  const MarketPage({Key? key}) : super(key: key);
+
+  String? locality;
+
+  MarketPage({Key? key,required this.locality}) : super(key: key);
 
   @override
   _MarketPageState createState() => _MarketPageState();
@@ -18,6 +21,7 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage>
     with SingleTickerProviderStateMixin {
+
   List<String> tabsList = [
     'Fiber',
     'Spinning',
@@ -38,10 +42,10 @@ class _MarketPageState extends State<MarketPage>
 
   void _handleTabSelection() {
     // if (_tabController!.indexIsChanging) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('${_tabController!.index}'),
-      duration: Duration(milliseconds: 500),
-    ));
+    // Scaffold.of(context).showSnackBar(SnackBar(
+    //   content: Text('${_tabController!.index}'),
+    //   duration: Duration(milliseconds: 500),
+    // ));
     // }
   }
 
@@ -137,7 +141,7 @@ class _MarketPageState extends State<MarketPage>
                             if (_tabController!.index == 0) {
                               if(value != null) {
                                 stateFiberPage.currentState!
-                                    .refreshListing(value);
+                                    .refreshListing(value,true);
                               }
                             }
                           });
@@ -182,6 +186,7 @@ class _MarketPageState extends State<MarketPage>
                           children: [
                             FiberPage(
                               key: stateFiberPage,
+                              locality: widget.locality,
                             ),
                             SpinningPage(),
                             ProductWeavingPage(),

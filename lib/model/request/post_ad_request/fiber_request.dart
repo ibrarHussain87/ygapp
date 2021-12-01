@@ -11,10 +11,12 @@ class FiberRequestModel{
   late String? spc_trash_idfk;
   late String? spc_rd_idfk;
   late String? spc_gpt_idfk;
+  late String? is_offering;
   late String? spc_appearance_idfk;
   late String? spc_brand_idfk;
   late String? spc_production_year;
   late String? spc_origin_idfk;
+  late String? spc_port_idfk;
   late String? spc_city_state_idfk;
   late String? spc_certificate_idfk;
   late String? fbp_price;
@@ -41,10 +43,12 @@ class FiberRequestModel{
       this.spc_trash_idfk,
       this.spc_rd_idfk,
       this.spc_gpt_idfk,
+      this.is_offering,
       this.spc_appearance_idfk,
       this.spc_brand_idfk,
       this.spc_production_year,
       this.spc_origin_idfk,
+      this.spc_port_idfk,
       this.spc_city_state_idfk,
       this.spc_certificate_idfk,
       this.fbp_price,
@@ -72,10 +76,12 @@ class FiberRequestModel{
       'spc_trash_idfk': spc_trash_idfk??"",
       'spc_rd_idfk': spc_rd_idfk??"",
       'spc_gpt_idfk': spc_gpt_idfk??"",
+      'is_offering': is_offering??"",
       'spc_appearance_idfk': spc_appearance_idfk??"",
       'spc_brand_idfk': spc_brand_idfk??"",
       'spc_production_year': spc_production_year??"",
       'spc_origin_idfk': spc_origin_idfk??"",
+      'spc_port_idfk': spc_port_idfk??"",
       'spc_city_state_idfk': spc_city_state_idfk??"",
       'spc_certificate_idfk': spc_certificate_idfk??"",
       'fbp_price': fbp_price??"",

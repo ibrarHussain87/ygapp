@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/pages/local_market_pages/converstion_leasing.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';

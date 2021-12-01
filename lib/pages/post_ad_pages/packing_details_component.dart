@@ -6,19 +6,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/packing_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/fiber_delievery_period.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/market_page.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
+import 'package:yg_app/utils/show_messgae_util.dart';
+import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/add_picture_widget.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
@@ -26,15 +21,16 @@ import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class PackagingDetails extends StatefulWidget {
-  // FiberRequestModel? requestModel;
-  SyncFiberResponse? syncFiberResponse;
+  final SyncFiberResponse? syncFiberResponse;
+  final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  PackagingDetails(
+  const PackagingDetails(
       {Key? key,
       // required this.requestModel,
       required this.syncFiberResponse,
+      required this.locality,
       required this.businessArea,
       required this.selectedTab})
       : super(key: key);
@@ -49,32 +45,28 @@ class _PackagingDetailsState extends State<PackagingDetails>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> sellingRegion = [];
   List<PickedFile> imageFiles = [];
-  FiberPriceTerms? _fiberPriceTerms;
-  PackingModel? _packingModel;
-  FiberDeliveryPeriod? _fiberDeliveryPeriod;
-  PaymentTypeModel? _paymentTypeModel;
-  LcTypeModel? _lcTypeModel;
+
+  // FiberPriceTerms? _fiberPriceTerms;
+  // PackingModel? _packingModel;
+  // FiberDeliveryPeriod? _fiberDeliveryPeriod;
+  // PaymentTypeModel? _paymentTypeModel;
+  // LcTypeModel? _lcTypeModel;
   FiberRequestModel? _fiberRequestModel;
+
+  @override
+  void initState() {
+    //INITIAL VALUES
+    sellingRegion.add(widget.locality.toString());
+    super.initState();
+  }
 
   @override
   bool get wantKeepAlive => true;
 
   @override
-  void initState() {
-    sellingRegion.add(widget.businessArea.toString());
-    _fiberPriceTerms = widget.syncFiberResponse!.data.fiber.priceTerms.first;
-    _packingModel = widget.syncFiberResponse!.data.fiber.packing.first;
-    _fiberDeliveryPeriod =
-        widget.syncFiberResponse!.data.fiber.deliveryPeriod.first;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-
     _fiberRequestModel = Provider.of<FiberRequestModel?>(context);
-
+    _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -94,8 +86,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const TitleTextWidget(
-                        title: 'Packing Details',
+                      TitleTextWidget(
+                        title: AppStrings.packingDetails,
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 8.w),
@@ -104,8 +96,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: 'Selling Region')),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.sellingRegion)),
                             GridTileWidget(
                               spanCount: 2,
                               listOfItems: sellingRegion,
@@ -113,211 +105,321 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               selectedIndex: 0,
                             ),
                             Visibility(
-                              visible: false,
-                              child: Column(
+                              visible:
+                                  widget.locality == AppStrings.international
+                                      ? true
+                                      : false,
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Country')),
-                                        SizedBox(
-                                          height: 36.w,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color:
-                                                      AppColors.lightBlueTabs,
-                                                  width:
-                                                      1, //                   <--- border width here
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(24.w))),
-                                            child: DropdownButtonFormField(
-                                              hint: const Text('Select Country'),
-                                              items: widget.syncFiberResponse!
-                                                  .data.fiber.countries
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
-                                                        child: Text(
-                                                            value.conName,
-                                                            textAlign: TextAlign
-                                                                .center),
-                                                        value: value,
-                                                      ))
-                                                  .toList(),
-                                              onChanged:
-                                                  (CountriesModel? value) {
-                                                _fiberRequestModel!
-                                                        .spc_origin_idfk =
-                                                    value!.conId.toString();
-                                              },
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 8.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
+                                              child: TitleSmallTextWidget(
+                                                  title: AppStrings.country)),
+                                          SizedBox(
+                                            height: 36.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color:
+                                                        AppColors.lightBlueTabs,
+                                                    width:
+                                                        1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              24.w))),
+                                              child: DropdownButtonFormField(
+                                                hint: const Text(
+                                                    'Select Country'),
+                                                items: widget.syncFiberResponse!
+                                                    .data.fiber.countries
+                                                    .map((value) =>
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              value.conName,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                          value: value,
+                                                        ))
+                                                    .toList(),
+                                                isExpanded: true,
+                                                onChanged:
+                                                    (CountriesModel? value) {
+                                                  _fiberRequestModel!
+                                                          .spc_origin_idfk =
+                                                      value!.conId.toString();
+                                                },
 
-                                              // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                              decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 16.w,
-                                                    right: 6.w,
-                                                    top: 0,
-                                                    bottom: 0),
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
+                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                                decoration: InputDecoration(
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
+                                                  border:
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
+                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 11.sp,
+                                                    color: AppColors
+                                                        .textColorGrey),
                                               ),
-                                              style: TextStyle(
-                                                  fontSize: 11.sp,
-                                                  color:
-                                                      AppColors.textColorGrey),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Port')),
-                                        SizedBox(
-                                          height: 36.w,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color:
-                                                      AppColors.lightBlueTabs,
-                                                  width:
-                                                      1, //                   <--- border width here
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(24.w))),
-                                            child: DropdownButtonFormField(
-                                              hint: const Text('Select Port'),
-                                              items: widget.syncFiberResponse!
-                                                  .data.fiber.ports
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
-                                                        child: Text(
-                                                            value.prtName,
-                                                            textAlign: TextAlign
-                                                                .center),
-                                                        value: value,
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (PortsModel? value) {
-                                                _fiberRequestModel!
-                                                        .spc_origin_idfk =
-                                                    value!.prtId.toString();
-                                              },
+                                  SizedBox(width: 16.w),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 8.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
+                                              child: TitleSmallTextWidget(
+                                                  title: AppStrings.port)),
+                                          SizedBox(
+                                            height: 36.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color:
+                                                        AppColors.lightBlueTabs,
+                                                    width:
+                                                        1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              24.w))),
+                                              child: DropdownButtonFormField(
+                                                hint: const Text('Select Port'),
+                                                items: widget.syncFiberResponse!
+                                                    .data.fiber.ports
+                                                    .map((value) =>
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              value.prtName,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                          value: value,
+                                                        ))
+                                                    .toList(),
+                                                isExpanded: true,
+                                                onChanged: (PortsModel? value) {
+                                                  _fiberRequestModel!
+                                                          .spc_port_idfk =
+                                                      value!.prtId.toString();
+                                                },
 
-                                              // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                              decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 16.w,
-                                                    right: 6.w,
-                                                    top: 0,
-                                                    bottom: 0),
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
+                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                                decoration: InputDecoration(
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
+                                                  border:
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
+                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 11.sp,
+                                                    color: AppColors
+                                                        .textColorGrey),
                                               ),
-                                              style: TextStyle(
-                                                  fontSize: 11.sp,
-                                                  color:
-                                                      AppColors.textColorGrey),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
+                            Visibility(
+                                visible:
+                                widget.locality == AppStrings.international
+                                    ? true
+                                    : false,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding:
+                                          EdgeInsets.only(left: 8.w),
+                                          child: TitleSmallTextWidget(
+                                              title: AppStrings.cityState)),
+                                      SizedBox(
+                                        height: 36.w,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color:
+                                                AppColors.lightBlueTabs,
+                                                width:
+                                                1, //                   <--- border width here
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(
+                                                  Radius.circular(
+                                                      24.w))),
+                                          child: DropdownButtonFormField(
+                                            hint: Text(
+                                                'Select ${AppStrings.cityState}'),
+                                            items: widget.syncFiberResponse!
+                                                .data.fiber.cityState
+                                                .map((value) =>
+                                                DropdownMenuItem(
+                                                  child: Text(
+                                                      value.name,
+                                                      textAlign:
+                                                      TextAlign
+                                                          .center),
+                                                  value: value,
+                                                ))
+                                                .toList(),
+                                            isExpanded: true,
+                                            onChanged:
+                                                (CityState? value) {
+                                              _fiberRequestModel!
+                                                  .spc_city_state_idfk =
+                                                  value!.countryId.toString();
+                                            },
+
+                                            // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                              EdgeInsets.only(
+                                                  left: 16.w,
+                                                  right: 6.w,
+                                                  top: 0,
+                                                  bottom: 0),
+                                              border:
+                                              const OutlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide.none),
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: AppColors
+                                                    .textColorGrey),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child:
-                                    const TitleSmallTextWidget(title: 'Price Terms')),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.priceTerms)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
                                     .syncFiberResponse!.data.fiber.priceTerms,
                                 callback: (value) {
-                                  _fiberPriceTerms = widget.syncFiberResponse!
-                                      .data.fiber.priceTerms[value];
+                                  _fiberRequestModel!.fbp_price_terms_idfk =
+                                      widget.syncFiberResponse!.data.fiber
+                                          .priceTerms[value].ptrId
+                                          .toString();
                                 }),
                             Visibility(
-                                visible: false,
+                                visible:
+                                    widget.locality == AppStrings.international
+                                        ? true
+                                        : false,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: const TitleSmallTextWidget(
-                                            title: 'Payment Type')),
+                                        child: TitleSmallTextWidget(
+                                            title: AppStrings.paymentType)),
                                     GridTileWidget(
                                         spanCount: 3,
                                         listOfItems: widget.syncFiberResponse!
                                             .data.fiber.paymentType,
                                         callback: (value) {
-                                          _paymentTypeModel = widget
-                                              .syncFiberResponse!
-                                              .data
-                                              .fiber
-                                              .paymentType[value];
+                                          _fiberRequestModel!
+                                                  .payment_type_idfk =
+                                              widget
+                                                  .syncFiberResponse!
+                                                  .data
+                                                  .fiber
+                                                  .paymentType[value]
+                                                  .payId;
                                         }),
                                   ],
                                 )),
                             Visibility(
-                              visible: false,
+                              visible:
+                                  widget.locality == AppStrings.international
+                                      ? true
+                                      : false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: 'LC Type')),
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.lcType)),
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget
                                           .syncFiberResponse!.data.fiber.lcType,
                                       callback: (value) {
                                         if (_fiberRequestModel != null) {
-                                          _lcTypeModel = widget
-                                              .syncFiberResponse!
-                                              .data
-                                              .fiber
-                                              .lcType[value];
+                                          _fiberRequestModel!.lc_type_idfk =
+                                              widget.syncFiberResponse!.data
+                                                  .fiber.lcType[value].lcId
+                                                  .toString();
                                         }
                                       }),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: false,
+                              visible:
+                                  widget.locality == AppStrings.international
+                                      ? true
+                                      : false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: 'Unit Of Count')),
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.unitCount)),
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget
@@ -326,12 +428,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         if (_fiberRequestModel != null) {
                                           _fiberRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              (widget
-                                                  .syncFiberResponse!
-                                                  .data
-                                                  .fiber
-                                                  .units[value]
-                                                  .untId as String?)!;
+                                              widget.syncFiberResponse!.data
+                                                  .fiber.units[value].untId
+                                                  .toString();
                                         }
                                       }),
                                 ],
@@ -346,8 +445,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: const TitleSmallTextWidget(
-                                            title: 'Price/Unit')),
+                                        child: TitleSmallTextWidget(
+                                            title: AppStrings.priceUnits)),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
                                         cursorColor: AppColors.lightBlueTabs,
@@ -363,12 +462,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Price/Unit";
+                                            return AppStrings.priceUnits;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            "Price/Unit")),
+                                            AppStrings.priceUnits)),
                                   ],
                                 )),
                                 SizedBox(width: 16.w),
@@ -379,8 +478,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
-                                        child: const TitleSmallTextWidget(
-                                            title: 'Minimum Qty')),
+                                        child: TitleSmallTextWidget(
+                                            title: AppStrings.minQty)),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
                                         cursorColor: AppColors.lightBlueTabs,
@@ -396,50 +495,56 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Minimum Qty";
+                                            return AppStrings.minQty;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            "Minimum Qty")),
+                                            AppStrings.minQty)),
                                   ],
                                 )),
                               ],
                             ),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: const TitleSmallTextWidget(title: 'Packing')),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.packing)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
                                     .syncFiberResponse!.data.fiber.packing,
                                 callback: (value) {
                                   if (_fiberRequestModel != null) {
-                                    _packingModel = widget.syncFiberResponse!
-                                        .data.fiber.packing[value];
+                                    _fiberRequestModel!.packing_idfk = widget
+                                        .syncFiberResponse!
+                                        .data
+                                        .fiber
+                                        .packing[value]
+                                        .pacId
+                                        .toString();
                                   }
                                 }),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: 'Deilevery Period')),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.deliveryPeriod)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget.syncFiberResponse!.data
                                     .fiber.deliveryPeriod,
                                 callback: (value) {
                                   if (_fiberRequestModel != null) {
-                                    _fiberDeliveryPeriod = widget
-                                        .syncFiberResponse!
-                                        .data
-                                        .fiber
-                                        .deliveryPeriod[value];
+                                    _fiberRequestModel!
+                                            .fbp_delivery_period_idfk =
+                                        widget.syncFiberResponse!.data.fiber
+                                            .deliveryPeriod[value].dprId
+                                            .toString();
                                   }
                                 }),
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child:
-                                    const TitleSmallTextWidget(title: 'Description')),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.descriptionStr)),
                             SizedBox(
                               height: 5 * 22.w,
                               child: TextFormField(
@@ -457,12 +562,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
-                                      return "Description";
+                                      return AppStrings.descriptionStr;
                                     }
                                     return null;
                                   },
                                   decoration: roundedDescriptionDecoration(
-                                      "Description")),
+                                      AppStrings.descriptionStr)),
                             ),
                             AddPictureWidget(
                               imageCount: 1,
@@ -490,15 +595,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                     if (validateAndSave()) {
                       if (_fiberRequestModel != null) {
                         _fiberRequestModel!.spc_local_international =
-                            widget.businessArea!;
-                        _fiberRequestModel!.spc_local_international =
-                            widget.businessArea!.toUpperCase();
-                        _fiberRequestModel!.fbp_price_terms_idfk =
-                            _fiberPriceTerms!.ptrId.toString();
-                        _fiberRequestModel!.packing_idfk =
-                            _packingModel!.pacId.toString();
-                        _fiberRequestModel!.fbp_delivery_period_idfk =
-                            _fiberDeliveryPeriod!.dprId.toString();
+                            widget.locality!.toUpperCase();
 
                         ProgressDialogUtil.showDialog(
                             context, 'Please wait...');
@@ -507,30 +604,23 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 _fiberRequestModel!, imageFiles[0].path)
                             .then((value) {
                           ProgressDialogUtil.hideDialog();
-
                           if (value.status) {
                             Fluttertoast.showToast(msg: value.message);
-                            Navigator.of(context)
-                                .pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MarketPage()),
-                                    (Route<dynamic> route) =>
-                                false);
-                          }else{
-                            Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text(value.message)));
+                            Navigator.pop(context);
+                          } else {
+                            ShowMessageUtils.showSnackBar(
+                                context, value.message);
                           }
                         }).onError((error, stackTrace) {
                           ProgressDialogUtil.hideDialog();
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text(error.toString())));
+                          ShowMessageUtils.showSnackBar(
+                              context, error.toString());
                         });
                       }
                     }
                   },
                   color: AppColors.btnColorLogin,
-                  btnText: 'Submit',
+                  btnText: AppStrings.submit,
                 ),
               ),
             ),
@@ -541,10 +631,29 @@ class _PackagingDetailsState extends State<PackagingDetails>
     );
   }
 
+  _initialValuesRequestModel() {
+    if (widget.locality == AppStrings.international) {
+      _fiberRequestModel!.lc_type_idfk =
+          widget.syncFiberResponse!.data.fiber.lcType.first.lcId.toString();
+      _fiberRequestModel!.fbp_count_unit_idfk =
+          widget.syncFiberResponse!.data.fiber.units.first.untId.toString();
+    }
+
+    _fiberRequestModel!.is_offering = widget.selectedTab;
+
+    _fiberRequestModel!.fbp_price_terms_idfk =
+        widget.syncFiberResponse!.data.fiber.priceTerms.first.ptrId.toString();
+    _fiberRequestModel!.packing_idfk =
+        widget.syncFiberResponse!.data.fiber.packing.first.pacId.toString();
+    _fiberRequestModel!.fbp_delivery_period_idfk = widget
+        .syncFiberResponse!.data.fiber.deliveryPeriod.first.dprId
+        .toString();
+  }
+
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate()) {
-      if (!imageFiles.isEmpty) {
+      if (imageFiles.isNotEmpty) {
         form.save();
         return true;
       } else {

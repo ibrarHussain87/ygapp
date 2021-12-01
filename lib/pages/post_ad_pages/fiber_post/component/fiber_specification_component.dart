@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
+import 'package:yg_app/utils/string_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget.dart';
@@ -19,15 +19,18 @@ import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
-  Function? callback;
-  SyncFiberResponse syncFiberResponse;
+
+  final Function? callback;
+  final SyncFiberResponse syncFiberResponse;
+  final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  FiberSpecificationComponent(
+  const FiberSpecificationComponent(
       {Key? key,
       required this.syncFiberResponse,
       required this.callback,
+      required this.locality,
       required this.businessArea,
       required this.selectedTab})
       : super(key: key);
@@ -73,7 +76,7 @@ class _FiberSpecificationComponentState
         .toString();
 
     return FutureBuilder<List<FiberSettings>>(
-      future: getDbInstance().then((value) async {
+      future: AppDbInstance.getDbInstance().then((value) async {
         return value.fiberSettingDao.findFiberSettings(widget.syncFiberResponse
             .data.fiber.material[_selectedMaterialIndex].fbmId);
       }),
@@ -134,7 +137,7 @@ class _FiberSpecificationComponentState
                                               padding:
                                                   EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
-                                                  title: 'Grades')),
+                                                  title: AppStrings.grades)),
                                           GridTileWidget(
                                             spanCount: 3,
                                             listOfItems: widget
@@ -174,7 +177,7 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: 'Fiber Length')),
+                                                      title: AppStrings.fiberLength)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -186,10 +189,10 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: splitMin(snapshot
+                                                        min: StringUtils.splitMin(snapshot
                                                             .data![0]
                                                             .lengthMinMax),
-                                                        max: splitMax(snapshot
+                                                        max: StringUtils.splitMax(snapshot
                                                             .data![0]
                                                             .lengthMinMax))
                                                   ],
@@ -200,7 +203,7 @@ class _FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return "Fiber length";
+                                                      return AppStrings.fiberLength;
                                                     }
                                                     return null;
                                                   },
@@ -241,8 +244,7 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title:
-                                                          'Micronaire (Mic)')),
+                                                      title: AppStrings.micStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -254,10 +256,10 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: splitMin(snapshot
+                                                        min: StringUtils.splitMin(snapshot
                                                             .data![0]
                                                             .micMinMax),
-                                                        max: splitMax(snapshot
+                                                        max: StringUtils.splitMax(snapshot
                                                             .data![0]
                                                             .micMinMax))
                                                   ],
@@ -268,7 +270,7 @@ class _FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return "Micronaire (Mic)";
+                                                      return AppStrings.micStr;
                                                     }
                                                     return null;
                                                   },
@@ -298,7 +300,7 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: 'Moisture')),
+                                                      title: AppStrings.moistureStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -314,17 +316,17 @@ class _FiberSpecificationComponentState
                                                           input!,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: splitMin(snapshot
+                                                        min: StringUtils.splitMin(snapshot
                                                             .data![0]
                                                             .moiMinMax),
-                                                        max: splitMax(snapshot
+                                                        max: StringUtils.splitMax(snapshot
                                                             .data![0]
                                                             .moiMinMax))
                                                   ],
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return "Moisture";
+                                                      return AppStrings.moistureStr;
                                                     }
                                                     return null;
                                                   },
@@ -361,7 +363,7 @@ class _FiberSpecificationComponentState
                                                     padding: EdgeInsets.only(
                                                         left: 8.w),
                                                     child: TitleSmallTextWidget(
-                                                        title: 'Trash')),
+                                                        title: AppStrings.trashStr)),
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
@@ -377,17 +379,17 @@ class _FiberSpecificationComponentState
                                                             input!,
                                                     inputFormatters: [
                                                       NumericalRangeFormatter(
-                                                          min: splitMin(snapshot
+                                                          min: StringUtils.splitMin(snapshot
                                                               .data![0]
                                                               .trashMinMax),
-                                                          max: splitMax(snapshot
+                                                          max: StringUtils.splitMax(snapshot
                                                               .data![0]
                                                               .trashMinMax))
                                                     ],
                                                     validator: (input) {
                                                       if (input == null ||
                                                           input.isEmpty) {
-                                                        return "Trash";
+                                                        return AppStrings.trashStr;
                                                       }
                                                       return null;
                                                     },
@@ -420,7 +422,7 @@ class _FiberSpecificationComponentState
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
-                                                  child: TitleSmallTextWidget(
+                                                  child: const TitleSmallTextWidget(
                                                       title: 'RD')),
                                               TextFormField(
                                                   keyboardType:
@@ -436,9 +438,9 @@ class _FiberSpecificationComponentState
                                                           .spc_rd_idfk = input!,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: splitMin(snapshot
+                                                        min: StringUtils.splitMin(snapshot
                                                             .data![0].rdMinMax),
-                                                        max: splitMax(snapshot
+                                                        max: StringUtils.splitMax(snapshot
                                                             .data![0].rdMinMax))
                                                   ],
                                                   validator: (input) {
@@ -478,7 +480,7 @@ class _FiberSpecificationComponentState
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
-                                                  child: TitleSmallTextWidget(
+                                                  child: const TitleSmallTextWidget(
                                                       title: 'GPT')),
                                               TextFormField(
                                                   keyboardType:
@@ -491,10 +493,10 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: splitMin(snapshot
+                                                        min: StringUtils.splitMin(snapshot
                                                             .data![0]
                                                             .gptMinMax),
-                                                        max: splitMax(snapshot
+                                                        max: StringUtils.splitMax(snapshot
                                                             .data![0]
                                                             .gptMinMax))
                                                   ],
@@ -538,7 +540,7 @@ class _FiberSpecificationComponentState
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(
+                                            child: const TitleSmallTextWidget(
                                                 title: 'Apperance')),
                                         GridTileWidget(
                                           spanCount: 2,
@@ -710,10 +712,10 @@ class _FiberSpecificationComponentState
                                 ),
                                 Visibility(
                                   visible:
-                                      int.parse(snapshot.data![0].showOrigin) ==
+                                      /*int.parse(snapshot.data![0].showOrigin) ==
                                               1
                                           ? true
-                                          : false,
+                                          :*/ false,
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -783,61 +785,64 @@ class _FiberSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 8.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 8.w),
-                                          child: const TitleSmallTextWidget(
-                                              title: 'City State')),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: AppColors.lightBlueTabs,
-                                              width:
-                                                  1, //                   <--- border width here
+                                Visibility(
+                                  visible:false,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'City State')),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: AppColors.lightBlueTabs,
+                                                width:
+                                                    1, //                   <--- border width here
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(24.w))),
+                                          child: SizedBox(
+                                            height: 36.w,
+                                            child: DropdownButtonFormField(
+                                              hint:
+                                                  const Text('Select City State'),
+                                              items: widget.syncFiberResponse.data
+                                                  .fiber.cityState
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(value.name,
+                                                            textAlign:
+                                                                TextAlign.center),
+                                                        value: value,
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (CityState? value) {
+                                                _fiberRequestModel!
+                                                        .spc_city_state_idfk =
+                                                    value!.id.toString();
+                                              },
+                                              decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(
+                                                    left: 16.w,
+                                                    right: 6.w,
+                                                    top: 0,
+                                                    bottom: 0),
+                                                border: const OutlineInputBorder(
+                                                    borderSide: BorderSide.none),
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 11.sp,
+                                                  color: AppColors.textColorGrey),
                                             ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(24.w))),
-                                        child: SizedBox(
-                                          height: 36.w,
-                                          child: DropdownButtonFormField(
-                                            hint:
-                                                const Text('Select City State'),
-                                            items: widget.syncFiberResponse.data
-                                                .fiber.cityState
-                                                .map((value) =>
-                                                    DropdownMenuItem(
-                                                      child: Text(value.name,
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                      value: value,
-                                                    ))
-                                                .toList(),
-                                            onChanged: (CityState? value) {
-                                              _fiberRequestModel!
-                                                      .spc_city_state_idfk =
-                                                  value!.id.toString();
-                                            },
-                                            decoration: InputDecoration(
-                                              contentPadding: EdgeInsets.only(
-                                                  left: 16.w,
-                                                  right: 6.w,
-                                                  top: 0,
-                                                  bottom: 0),
-                                              border: const OutlineInputBorder(
-                                                  borderSide: BorderSide.none),
-                                            ),
-                                            style: TextStyle(
-                                                fontSize: 11.sp,
-                                                color: AppColors.textColorGrey),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 // Visibility(
@@ -846,39 +851,38 @@ class _FiberSpecificationComponentState
                                 //       1
                                 //       ? true
                                 //       : false,
-                                  /*child:*/ Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding:
-                                            EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Lot Number')),
-                                        TextFormField(
-                                            keyboardType: TextInputType.text,
-                                            cursorColor:
-                                            AppColors.lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            onSaved: (input) =>
-                                            _fiberRequestModel!
-                                                .spc_lot_number = input!,
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty) {
-                                                return "Enter Lot Number";
-                                              }
-                                              return null;
-                                            },
-                                            decoration:
-                                            roundedTextFieldDecoration(
-                                                'Lot Number')),
-                                      ],
-                                    ),
+                                /*child:*/ Padding(
+                                  padding: EdgeInsets.only(top: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 8.w),
+                                          child: const TitleSmallTextWidget(
+                                              title: 'Lot Number')),
+                                      TextFormField(
+                                          keyboardType: TextInputType.text,
+                                          cursorColor: AppColors.lightBlueTabs,
+                                          style: TextStyle(fontSize: 11.sp),
+                                          textAlign: TextAlign.center,
+                                          cursorHeight: 16.w,
+                                          onSaved: (input) =>
+                                              _fiberRequestModel!
+                                                  .spc_lot_number = input!,
+                                          validator: (input) {
+                                            if (input == null ||
+                                                input.isEmpty) {
+                                              return "Enter Lot Number";
+                                            }
+                                            return null;
+                                          },
+                                          decoration:
+                                              roundedTextFieldDecoration(
+                                                  'Lot Number')),
+                                    ],
                                   ),
+                                ),
                                 // ),
                                 Visibility(
                                   visible: int.parse(snapshot
@@ -941,8 +945,12 @@ class _FiberSpecificationComponentState
                       child: ElevatedButtonWithIcon(
                         callback: () {
                           if (validationAllPage()) {
-                            _fiberRequestModel!.spc_category_idfk = widget.syncFiberResponse
-                                .data.fiber.material[_selectedMaterialIndex].fbmCategoryIdfk;
+                            _fiberRequestModel!.spc_category_idfk = widget
+                                .syncFiberResponse
+                                .data
+                                .fiber
+                                .material[_selectedMaterialIndex]
+                                .fbmCategoryIdfk;
 
                             _fiberRequestModel!.spc_fiber_material_idfk = widget
                                 .syncFiberResponse
@@ -998,11 +1006,11 @@ class _FiberSpecificationComponentState
           _fiberSettings!.showBrand == "1") {
         Scaffold.of(context)
             .showSnackBar(const SnackBar(content: Text('Please select Brand')));
-      } else if (_fiberRequestModel!.spc_origin_idfk == null &&
+      }/* else if (_fiberRequestModel!.spc_origin_idfk == null &&
           _fiberSettings!.showOrigin == "1") {
         Scaffold.of(context).showSnackBar(
             const SnackBar(content: Text('Please select Country')));
-      } else if (_fiberRequestModel!.spc_certificate_idfk == null &&
+      }*/ else if (_fiberRequestModel!.spc_certificate_idfk == null &&
           _fiberSettings!.showCertification == "1") {
         Scaffold.of(context).showSnackBar(
             const SnackBar(content: Text('Please select Certification')));
@@ -1032,21 +1040,3 @@ class _FiberSpecificationComponentState
   }
 }
 
-double splitMin(String minMax) {
-  var splitValue = minMax.split('-');
-  return double.parse(splitValue[0]);
-}
-
-double splitMax(String minMax) {
-  var splitValue = minMax.split('-');
-  return double.parse(splitValue[1]);
-}
-
-Future<AppDatabase> getDbInstance() async {
-  var databaseInstance;
-  final database =
-      $FloorAppDatabase.databaseBuilder(AppConstants.APP_DATABASE_NAME).build();
-  await database.then((value) => {databaseInstance = value});
-
-  return databaseInstance;
-}

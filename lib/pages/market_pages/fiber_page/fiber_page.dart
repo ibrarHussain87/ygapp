@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/list_items_widgets/market_list_item.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
@@ -14,15 +13,15 @@ import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPage extends StatefulWidget {
+  final String? locality;
 
-  const FiberPage({Key? key}) : super(key: key);
+  const FiberPage({Key? key, required this.locality}) : super(key: key);
 
   @override
   FiberPageState createState() => FiberPageState();
 }
 
 class FiberPageState extends State<FiberPage> {
-
   Color offeringColor = AppColors.lightBlueTabs;
   Color requirementColor = Colors.white;
   Color textOfferClr = Colors.white;
@@ -30,10 +29,13 @@ class FiberPageState extends State<FiberPage> {
   bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   FiberFilterRequestModel fiberRequestModel = FiberFilterRequestModel();
+  Future<FiberSpecificationResponse>? _future;
 
   @override
   void initState() {
     fiberRequestModel.isOffering = "1";
+    fiberRequestModel.categoryId = "1";
+    // _future = ApiService.getFiberSpecifications(fiberRequestModel: fiberRequestModel);
     super.initState();
   }
 
@@ -69,8 +71,10 @@ class FiberPageState extends State<FiberPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FiberPostPage(
-                          businessArea: "LOCAL", selectedTab: "requirement"),
+                      builder: (context) => FiberPostPage(
+                          locality: widget.locality,
+                          businessArea: 'Fiber',
+                          selectedTab: '0'),
                     ),
                   );
                 }),
@@ -83,16 +87,17 @@ class FiberPageState extends State<FiberPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FiberPostPage(
-                          businessArea: "INTERNATIONAL",
-                          selectedTab: "Offering"),
+                      builder: (context) => FiberPostPage(
+                          locality: widget.locality,
+                          businessArea: 'Fiber',
+                          selectedTab:'1'),
                     ),
                   );
                 }),
           ],
         ),
         body: FutureBuilder<FiberSpecificationResponse>(
-          future: ApiService.getFiberSpecifications(mapParams: fiberRequestModel),
+          future: ApiService.getFiberSpecifications(fiberRequestModel,widget.locality),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
@@ -225,39 +230,51 @@ class FiberPageState extends State<FiberPage> {
           height: 8.w,
         ),
         Expanded(
-          child: ListView.separated(
-            physics: BouncingScrollPhysics(),
-            itemCount: data!.data.specification.length,
-            itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FiberDetailPage(specification: data.data.specification[index]),
-                    ),
-                  );
-                },
-                child: buildWidget(data.data.specification[index])),
-            separatorBuilder: (context, index) {
-              return Divider(
-                height: 1,
-                color: Colors.grey.shade400,
-              );
-            },
-          ),
+          child: data!.data.specification.isNotEmpty
+              ? ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: data.data.specification.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FiberDetailPage(
+                                specification: data.data.specification[index]),
+                          ),
+                        );
+                      },
+                      child: buildWidget(data.data.specification[index])),
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      height: 1,
+                      color: Colors.grey.shade400,
+                    );
+                  },
+                )
+              : const Center(
+                  child: TitleSmallTextWidget(
+                    title: 'No Data Found',
+                  ),
+                ),
         ),
       ],
     );
   }
 
-  refreshListing(FiberFilterRequestModel filterRequestModel){
-    setState(() {
-      fiberRequestModel = filterRequestModel;
-    });
+  refreshListing(FiberFilterRequestModel filterRequestModel,bool callApi) {
+    if(callApi) {
+      setState(() {
+        filterRequestModel.categoryId = '1';
+        fiberRequestModel = filterRequestModel;
+      });
+    }
   }
 
   void changeTabColor(bool value) {
     fiberRequestModel = FiberFilterRequestModel();
+    fiberRequestModel.categoryId = "1";
+    fiberRequestModel.locality =widget.locality;
     if (value) {
       offeringColor = Colors.white;
       requirementColor = AppColors.lightBlueTabs;

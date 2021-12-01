@@ -13,7 +13,14 @@ class FiberSpecificationResponse {
   FiberSpecificationResponse.fromJson(Map<String, dynamic> json){
     status = json['status'];
     responseCode = json['response_code'];
-    data = FiberSpecificationData.fromJson(json['data']);
+    var dataList = json['data'];
+    if(dataList is List<dynamic>) {
+      if (dataList.isEmpty) {
+        data = FiberSpecificationData(specification: []);
+      }
+    }else {
+      data = FiberSpecificationData.fromJson(json['data']);
+    }
     message = json['message'];
   }
 
@@ -34,7 +41,9 @@ class FiberSpecificationData {
   late final List<Specification> specification;
 
   FiberSpecificationData.fromJson(Map<String, dynamic> json){
-    specification = List.from(json['specification']).map((e)=>Specification.fromJson(e)).toList();
+    specification = List.from(
+        json['specification']
+    ).map((e)=>Specification.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -72,6 +81,8 @@ class Specification  {
     required this.available,
     required this.priceTerms,
     this.minQuantity,
+    required this.isVerified,
+    required this.isFeatured,
     required this.description,
     required this.pictures,
   });
@@ -101,6 +112,8 @@ class Specification  {
   late final String? available;
   late final String? priceTerms;
   late final String? minQuantity;
+  late final String? isVerified;
+  late final String? isFeatured;
   late final String? description;
   late final List<Pictures> pictures;
 
@@ -126,11 +139,13 @@ class Specification  {
     cityState = json['city_state']??"";
     port = json['port']??"";
     lotNumber = json['lot_number']??"";
-    unitCount = json['unit_count'];
+    unitCount = json['unit_count']??"";
     deliveryPeriod = json['delivery_period']??"";
     available = json['available']??"";
     priceTerms = json['price_terms']??"";
     minQuantity = json['min_quantity']??"";
+    isFeatured = json['is_featured']??"";
+    isVerified = json['is_verified']??"";
     description = json['description']??"";
     pictures = List.from(json['pictures']).map((e)=>Pictures.fromJson(e)).toList();
   }
@@ -163,6 +178,8 @@ class Specification  {
     _data['available'] = available;
     _data['price_terms'] = priceTerms;
     _data['min_quantity'] = minQuantity;
+    _data['is_featured'] = isFeatured;
+    _data['is_verified'] = isVerified;
     _data['description'] = description;
     _data['pictures'] = pictures.map((e)=>e.toJson()).toList();
     return _data;
