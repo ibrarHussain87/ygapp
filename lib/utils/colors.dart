@@ -7,15 +7,20 @@ class AppColors{
   static var textColorGreyLight = HexColor.fromHex('#A1A8B3');
   static var strokeGrey = HexColor.fromHex('#E0E0E0');
   static var btnGreen = HexColor.fromHex('#2AC54D');
-  static var textFieldLabel = Color(0xFF251685);
-  static var btnColorLogin = Color(0xFF4B34DF);
-  static var lightBlueTabs = Color(0xFF1672EB);
-  static var pintFeatureClr = Color(0xFFFC6A6D);
-  static var tileSeaGreen = Color(0xFFE6F2FE);
-  static var appBarTextColor = Color(0xFF442CDE);
-  static var searchBarGreyStroke = Color(0xFF939598);
-  static var searchBarGreyText = Color(0xFFE0E0E0);
-  static var searchBarWhiteBg = Color(0xFFF7F7F7);
+  static var textFieldLabel = const Color(0xFF251685);
+  static var btnColorLogin = const Color(0xFF4B34DF);
+  static var lightBlueTabs = const Color(0xFF1672EB);
+  static var pintFeatureClr = const Color(0xFFFC6A6D);
+  static var tileSeaGreen = const Color(0xFFE6F2FE);
+  static var appBarTextColor = const Color(0xFF442CDE);
+  static var searchBarGreyStroke = const Color(0xFF939598);
+  static var searchBarGreyText = const Color(0xFFE0E0E0);
+  static var searchBarWhiteBg = const Color(0xFFF7F7F7);
+  static var homePremiumGradientLight = HexColor.fromHex('#456AB2');
+  static var homePremiumGradientDark = HexColor.fromHex('#2A4884');
+  static var bgWhiteMarketTrend = HexColor.fromHex('#F3F3F5');
+  static var greenClr = HexColor.fromHex('#42CE81');
+  static var redClr = HexColor.fromHex('#E45561');
 }
 
 extension HexColor on Color {

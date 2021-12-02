@@ -56,6 +56,9 @@ class AppStrings{
 
   static var cityState = 'City State';
 
+  static var todayPremium = "Today's premium";
+  static var marketTrends = "Market Trends";
+
 
 
 
