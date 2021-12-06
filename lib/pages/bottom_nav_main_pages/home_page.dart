@@ -1,14 +1,15 @@
-import 'package:dots_indicator/dots_indicator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/home_filter_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/home_premium_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_stock_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_trend_widget.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
+
+import 'home_widgets/home_filter_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,74 +32,250 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
-        child: Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.w),
-                    child: GFCarousel(
-                      height: MediaQuery.of(context).size.height/5,
-                      pagination: false,
-                      autoPlay: true,
-                      enableInfiniteScroll: true,
-                      activeIndicator: AppColors.lightBlueTabs,
-                      passiveIndicator: AppColors.textColorGreyLight,
-                      items: imgList.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0.w),
-                                child: Image.network(
-                                  i,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                      onPageChanged: (index){
-                        setState(() {
-                          currentImageBanner = index;
-                        });
-                      },
-                    ),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   centerTitle: false,
+        //   leading: Padding(
+        //       padding: EdgeInsets.all(8.w),
+        //       child: Row(
+        //         children: [
+        //           Container(
+        //             decoration: BoxDecoration(
+        //               color: AppColors.btnColorLogin,
+        //               shape: BoxShape.circle,
+        //             ),
+        //             child: Icon(
+        //               Icons.person,
+        //               color: Colors.white,
+        //               size: 32.w,
+        //             ),
+        //           ),
+        //           Container(
+        //             decoration: BoxDecoration(
+        //                 color: Colors.deepOrange,
+        //                 borderRadius: BorderRadius.only(
+        //                     topLeft: Radius.circular(8.0),
+        //                     topRight: Radius.circular(8.0))),
+        //             child: Text('Upgrade',
+        //                 style: TextStyle(
+        //                     fontSize: 16.0.w,
+        //                     color: AppColors.appBarTextColor,
+        //                     fontWeight: FontWeight.w400)),
+        //           )
+        //         ],
+        //       )),
+        //   // title: Text('Welcome to yurn Guru',
+        //   //     style: TextStyle(
+        //   //         fontSize: 16.0.w,
+        //   //         color: AppColors.appBarTextColor,
+        //   //         fontWeight: FontWeight.w400)),
+        // ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0.0, 1.0), //(x,y)
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                    color: Colors.white
                   ),
-                  DotsIndicator(
-                    dotsCount: imgList.length,
-                    position: double.tryParse(currentImageBanner.toString())!,
-                    decorator: DotsDecorator(
-                      size: Size.square(6.w),
-                      spacing: const EdgeInsets.all(4.0),
-                    ),
-                  )
-                ],
+                  child: Padding(
+                      padding: EdgeInsets.all(8.w),
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.btnColorLogin,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 32.w,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 3.w,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top:8.w,bottom: 8.w,left: 12.w,right: 12.w),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.deepOrange.shade400,
+                                    Colors.deepOrange.shade600,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12.w),
+                                )),
+                            child: Text('Upgrade',
+                                style: TextStyle(
+                                    fontSize: 9.0.w,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400)),
+                          )
+                        ],
+                      )),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.w),
+                  child: GFCarousel(
+                    height: MediaQuery.of(context).size.height / 7,
+                    pagination: true,
+                    pagerSize: 2.0,
+                    autoPlay: true,
+                    enableInfiniteScroll: true,
+                    activeIndicator: AppColors.lightBlueTabs,
+                    passiveIndicator: AppColors.textColorGreyLight,
+                    items: imgList.map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0.w),
+                              child: CachedNetworkImage(
+                                imageUrl: i,
+                                placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(
+                                  strokeWidth: 1.0,
+                                  color: AppColors.lightBlueTabs,
+                                )),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentImageBanner = index;
+                      });
+                    },
+                  ),
+                ),
+                // DotsIndicator(
+                //   dotsCount: imgList.length,
+                //   position: double.tryParse(currentImageBanner.toString())!,
+                //   decorator: DotsDecorator(
+                //     size: Size.square(6.w),
+                //     spacing: const EdgeInsets.all(4.0),
+                //   ),
+                // )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 16.w, right: 16.w, top: 8.w, bottom: 8.w),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                    aspectRatio: 32 / 2,
+                    scrollDirection: Axis.vertical,
+                    autoPlay: true,
+                    reverse: false,
+                    viewportFraction: 1,
+                    enlargeCenterPage: true,
+                    pageSnapping: true,
+                    disableCenter: false),
+                items: [1, 2, 3, 4, 5].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Icon(
+                            Icons.speaker,
+                            color: Colors.red,
+                            size: 12,
+                          ),
+                          Flexible(
+                            child: RichText(
+                              overflow: TextOverflow.ellipsis,
+                              strutStyle: StrutStyle(fontSize: 9.0.sp),
+                              text: TextSpan(
+                                  text:
+                                      'Alert text with animation with alert text that get from server $i',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 9.sp)),
+                            ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Icon(
+                                Icons.arrow_downward_outlined,
+                                color: Colors.red,
+                                size: 9,
+                              ),
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                strutStyle: StrutStyle(fontSize: 9.0.sp),
+                                text: TextSpan(
+                                    text: '+21.20%',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 8.sp)),
+                              ),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  );
+                }).toList(),
               ),
-              HomeFilterWidget(),
-              HomePremiumWidget(),
-              MarketStockWidget(),
-              Expanded(child: MarketTrendWidget())
-            ],
-          ),
-
-        ],
+            ),
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(40.0),
+                    )),
+                child: Column(
+                  children: [
+                    HomeFilterWidget(),
+                    HomePremiumWidget(),
+                    SizedBox(
+                      height: 8.w,
+                    ),
+                    MarketStockWidget(),
+                    Expanded(
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 8.0.w, left: 16.w, right: 16.w),
+                            child: MarketTrendWidget()))
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

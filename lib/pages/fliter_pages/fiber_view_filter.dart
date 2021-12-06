@@ -1,13 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/market_page.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/string_util.dart';
+import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget_2.dart';
 import 'package:yg_app/widgets/filter_widget/filter_grid_tile_widget.dart';
@@ -26,9 +27,8 @@ class FiberFilterView extends StatefulWidget {
 }
 
 class _FiberFilterViewState extends State<FiberFilterView> {
-
-
   final TextEditingController _textEditingController = TextEditingController();
+
   // Map<String, dynamic> mapParams = {};
   FiberFilterRequestModel? _fiberFilterRequestModel;
 
@@ -84,11 +84,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                          padding: EdgeInsets.only(
-                              top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
-                          child: const TitleTextWidget(
-                            title: 'Fiber Material',
-                          )),
+                        padding: EdgeInsets.only(
+                            top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
+                        child: const TitleTextWidget(
+                          title: 'Fiber Material',
+                        ),
+                      ),
                       SizedBox(
                         height: 58.w,
                         child: FilterMaterialWidget(
@@ -96,29 +97,24 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {
                             _querySetting((value as FiberMaterial).fbmId);
-                            // mapParams['fiber_material_id[]'] =
-                            //     filterList(listOfMaterials, (value).fbmId);
-
-                            _fiberFilterRequestModel!.fiberMaterialId = filterList(listOfMaterials, (value).fbmId);
+                            _fiberFilterRequestModel!.fiberMaterialId =
+                                filterList(listOfMaterials, (value).fbmId);
                           },
                         ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(left: 8.w),
-                              child:
-                                  const TitleSmallTextWidget(title: 'Grades')),
+                              padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                              child: TitleSmallTextWidget(
+                                  title: AppStrings.grades)),
                           FilterGridTileWidget(
                             spanCount: 3,
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.grades,
                             callback: (index) {
-                              // mapParams['grade_id[]'] = filterList(
-                              //     listOfGrades,
-                              //     widget.syncFiberResponse.data.fiber
-                              //         .grades[index].grdId);
                               _fiberFilterRequestModel!.gradeId = filterList(
                                   listOfGrades,
                                   widget.syncFiberResponse.data.fiber
@@ -128,8 +124,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         ],
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       FilterRangeSlider(
                         // minMaxRange: widget.syncFiberResponse.data.fiber
                         //     .settings[0].micMinMax,
@@ -146,6 +143,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                       SizedBox(
                         height: 8.w,
                       ),
+                      Divider(),
                       FilterRangeSlider(
                         // minMaxRange: widget.syncFiberResponse.data.fiber
                         //     .settings[0].moiMinMax,
@@ -160,8 +158,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         },
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       Visibility(
                         visible: true,
                         child: FilterRangeSlider(
@@ -173,36 +172,35 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         ),
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(left: 8.w),
+                              padding: EdgeInsets.only(
+                                  left: 8.w, top: 4.0.w, bottom: 8.w),
                               child: const TitleSmallTextWidget(
-                                  title: 'Apperance')),
+                                  title: 'Appearance')),
                           FilterGridTileWidget(
                             spanCount: 2,
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.apperance,
                             callback: (index) {
-                              // mapParams['apperance_id[]'] = filterList(
-                              //     listOfAppearance,
-                              //     widget.syncFiberResponse.data.fiber
-                              //         .apperance[index].aprId);
-
-                              _fiberFilterRequestModel!.apperanceId = filterList(
-                                  listOfGrades,
-                                  widget.syncFiberResponse.data.fiber
-                                      .apperance[index].aprId);
+                              _fiberFilterRequestModel!.apperanceId =
+                                  filterList(
+                                      listOfAppearance,
+                                      widget.syncFiberResponse.data.fiber
+                                          .apperance[index].aprId);
                             },
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       Row(
                         children: [
                           Expanded(
@@ -210,7 +208,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.only(left: 8.w),
+                                    padding: EdgeInsets.only(
+                                        left: 8.w, top: 4.0.w, bottom: 8.w),
                                     child: const TitleSmallTextWidget(
                                         title: 'Production Year')),
                                 TextFormField(
@@ -223,9 +222,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   showCursor: false,
                                   readOnly: true,
                                   onSaved: (input) {
-                                    // mapParams["production_year"] = input;
-                                    _fiberFilterRequestModel!.productionYear = input;
-
+                                    _fiberFilterRequestModel!.productionYear =
+                                        input;
                                   },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
@@ -233,8 +231,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     }
                                     return null;
                                   },
-                                  decoration: roundedTextFieldDecoration(
-                                      'Production year'),
+                                  decoration: roundedTFDGrey('Production year'),
                                   onTap: () {
                                     handleReadOnlyInputClick(context);
                                   },
@@ -250,13 +247,14 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.only(left: 8.w),
+                                    padding: EdgeInsets.only(
+                                        left: 8.w, top: 4.2, bottom: 8.w),
                                     child: const TitleSmallTextWidget(
                                         title: 'Country')),
                                 Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: AppColors.lightBlueTabs,
+                                        color: Colors.grey.shade300,
                                         width:
                                             1, //                   <--- border width here
                                       ),
@@ -267,20 +265,26 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     width: double.maxFinite,
                                     child: DropdownButtonFormField(
                                       isExpanded: true,
-                                      hint: const Text('Select country'),
+                                      hint: const Text(
+                                        'Select country',
+                                        style:
+                                            TextStyle(fontFamily: 'Metropolis'),
+                                      ),
                                       items: widget.syncFiberResponse.data.fiber
                                           .countries
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(value.conName,
-                                                    textAlign:
-                                                        TextAlign.center),
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            'Metropolis')),
                                                 value: value,
                                               ))
                                           .toList(),
                                       onChanged: (CountriesModel? value) {
-                                        // mapParams['origin_id[]'] = value!.conId;
                                         List<int> originList = [value!.conId];
-                                        _fiberFilterRequestModel!.originId = originList;
+                                        _fiberFilterRequestModel!.originId =
+                                            originList;
                                       },
                                       // value: widget.syncFiberResponse.data.fiber.countries.first,
                                       decoration: InputDecoration(
@@ -304,13 +308,15 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         ],
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(left: 8.w),
+                              padding: EdgeInsets.only(
+                                  left: 8.w, top: 4.2, bottom: 8.w),
                               child: const TitleSmallTextWidget(
                                   title: 'Certification')),
                           FilterGridTileWidget(
@@ -318,26 +324,25 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             listOfItems: widget
                                 .syncFiberResponse.data.fiber.certification,
                             callback: (value) {
-                              // mapParams['certification_id[]'] = filterList(
-                              //     listOfCertification,
-                              //     widget.syncFiberResponse.data.fiber
-                              //         .certification[value].cerId);
-                              _fiberFilterRequestModel!.certificationId = filterList(
-                                  listOfCertification,
-                                  widget.syncFiberResponse.data.fiber
-                                      .certification[value].cerId);
+                              _fiberFilterRequestModel!.certificationId =
+                                  filterList(
+                                      listOfCertification,
+                                      widget.syncFiberResponse.data.fiber
+                                          .certification[value].cerId);
                             },
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
+                      Divider(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(left: 8.w),
+                              padding: EdgeInsets.only(
+                                  left: 8.w, top: 4.2, bottom: 8.w),
                               child:
                                   const TitleSmallTextWidget(title: 'Packing')),
                           FilterGridTileWidget(
@@ -357,6 +362,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 4.w,
+                      ),
+                      Divider()
                     ],
                   ),
                 ),
@@ -378,18 +387,24 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          if(minValueMicParam!= null && maxValueMicParam!= null){
-                            listOfMic = [minValueMicParam!.toInt() ,maxValueMicParam!.toInt()];
+                          if (minValueMicParam != null &&
+                              maxValueMicParam != null) {
+                            listOfMic = [
+                              minValueMicParam!.toInt(),
+                              maxValueMicParam!.toInt()
+                            ];
                             // mapParams['micronaire[]'] = listOfMic;
                             _fiberFilterRequestModel!.micronaire = listOfMic;
-
                           }
 
-                          if(minValueMosParam!= null && maxValueMosParam!= null){
-                            listOfMos = [minValueMosParam!.toInt() ,maxValueMosParam!.toInt()];
+                          if (minValueMosParam != null &&
+                              maxValueMosParam != null) {
+                            listOfMos = [
+                              minValueMosParam!.toInt(),
+                              maxValueMosParam!.toInt()
+                            ];
                             // mapParams['moisture[]'] = listOfMos;
                             _fiberFilterRequestModel!.moisture = listOfMos;
-
                           }
                           // listOfMos = [minValueMosParam != null? minValueMosParam!.toInt() :"" ,maxValueMosParam != null? maxValueMosParam!.toInt() :""];
                           // print(mapParams);

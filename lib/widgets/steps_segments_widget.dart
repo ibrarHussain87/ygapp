@@ -59,6 +59,7 @@ class _StepsSegmentWidgetState extends State<StepsSegmentWidget> {
                       "Step 2",
                       style: TextStyle(
                         fontSize: 11.sp,
+                        fontFamily: 'Metropolis',
                         color: selectedValue == 2
                             ? Colors.white
                             : AppColors.lightBlueTabs,

@@ -32,6 +32,7 @@ Widget buildWidget(Specification specification) {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 6.sp,
+                          fontFamily: 'Metropolis',
                           fontWeight: FontWeight.bold,
                         ),
                       ),

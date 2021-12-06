@@ -1,22 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/response/family_data.dart';
 
-class GridWidet extends StatefulWidget {
-
-  List<FamilyData>? familyList;
+class GridWidget extends StatefulWidget {
+  List<dynamic>? familyList;
   Function? callback;
 
-  GridWidet(
-      {Key? key, required this.familyList,required this.callback})
+  GridWidget({Key? key, required this.familyList, required this.callback})
       : super(key: key);
 
-
   @override
-  _GridWidetState createState() => _GridWidetState();
+  _GridWidgetState createState() => _GridWidgetState();
 }
 
-class _GridWidetState extends State<GridWidet> {
+class _GridWidgetState extends State<GridWidget> {
   int checkedFamily = 0;
 
   @override
@@ -25,7 +21,8 @@ class _GridWidetState extends State<GridWidet> {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5, childAspectRatio: 3 / 2),
+          crossAxisCount: 4,
+          childAspectRatio: 3 / 2),
       itemCount: widget.familyList!.length,
       itemBuilder: (context, index) {
         return buildGrid(index);
@@ -41,7 +38,6 @@ class _GridWidetState extends State<GridWidet> {
           checkedFamily = index;
         });
         widget.callback!(index);
-
       },
       child: Column(
         children: [

@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       color: AppColors.textColorBlue,
                       fontSize: 24.sp,
+                      fontFamily: 'Metropolis',
                       fontWeight: FontWeight.w400),
                 ),
                 Padding(
@@ -72,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                       color: AppColors.textColorGrey,
                       fontSize: 9.sp,
+                      fontFamily: 'Metropolis',
                       fontWeight: FontWeight.w400,
                       height: 1.5.h,
                     ),
@@ -120,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               decoration: InputDecoration(
                                 labelText: AppStrings.password,
-                                labelStyle: TextStyle(fontSize: 12.sp),
+                                labelStyle: TextStyle(fontSize: 12.sp,fontFamily: 'Metropolis',),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: AppColors.textColorGrey),
@@ -153,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   color: AppColors.btnColorLogin,
                                   fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
                                   fontWeight: FontWeight.w500,
                                   height: 1.5.h,
                                 ),
@@ -166,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   child: Text("Sign in".toUpperCase(),
-                                      style: TextStyle(fontSize: 14.sp)),
+                                      style: TextStyle(fontSize: 14.sp,fontFamily: 'Metropolis',)),
                                   style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all<Color>(
@@ -234,6 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                     AppStrings.signUpStr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Metropolis',
                       color: AppColors.textColorGrey,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,

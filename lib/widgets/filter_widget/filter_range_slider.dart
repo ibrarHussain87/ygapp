@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
 
+import '../circule_thumb_shape.dart';
 import '../decoration_widgets.dart';
 import '../title_text_widget.dart';
 
@@ -58,13 +59,13 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(left: 8.w),
+                      padding: EdgeInsets.only(top:4.w,left: 8.w,bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + ' min')),
                   TextFormField(
                       controller: minController,
                       keyboardType: TextInputType.number,
-                      cursorColor: AppColors.lightBlueTabs,
+                      cursorColor: Colors.black,
                       style: TextStyle(fontSize: 11.sp),
                       textAlign: TextAlign.center,
                       cursorHeight: 16.w,
@@ -76,8 +77,8 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                         return null;
                       },
                       inputFormatters: [
-                        NumericalRangeFormatterMin(
-                          min: widget.minValue!,
+                        NumericalRangeFormatterMax(
+                          max: widget.maxValue!,
                         )
                       ],
                       onChanged: (String value) {
@@ -88,8 +89,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                           widget.minCallback(low);
                         });
                       },
-                      decoration:
-                          roundedTextFieldDecoration('${widget.minValue} %')),
+                      decoration: roundedTFDGrey('${widget.minValue} %')),
                 ],
               ),
             ),
@@ -101,13 +101,13 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(left: 8.w),
+                      padding: EdgeInsets.only(left: 8.w,bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + " max")),
                   TextFormField(
                       controller: maxController,
                       keyboardType: TextInputType.number,
-                      cursorColor: AppColors.lightBlueTabs,
+                      cursorColor: Colors.black,
                       style: TextStyle(fontSize: 11.sp),
                       textAlign: TextAlign.center,
                       cursorHeight: 16.w,
@@ -133,7 +133,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                           max: widget.maxValue!,
                         )
                       ],
-                      decoration: roundedTextFieldDecoration(
+                      decoration: roundedTFDGrey(
                           widget.maxValue!.toString() + ' %')),
                 ],
               ),
@@ -148,15 +148,17 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
           child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 activeTrackColor: AppColors.lightBlueTabs,
-                inactiveTrackColor: Colors.grey,
-                trackShape: const RectangularSliderTrackShape(),
-                trackHeight: 1.0,
-                thumbColor: AppColors.lightBlueTabs,
+                trackHeight: 0.1,
+                minThumbSeparation: 1,
+                thumbShape: const CircleThumbShape(
+                  thumbRadius: 12,
+                  roundness: 5,
+                  thickness: 12,
+                ),
                 showValueIndicator: ShowValueIndicator.always,
-                thumbShape:
-                    const RoundSliderThumbShape(enabledThumbRadius: 4.0),
                 overlayColor: Colors.red.withAlpha(32),
-                overlayShape: SliderComponentShape.noOverlay,
+                overlayShape: RoundSliderOverlayShape(overlayRadius: 3),
+                inactiveTrackColor: Colors.grey,
               ),
               child: RangeSlider(
                   min: widget.minValue!,

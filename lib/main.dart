@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:yg_app/utils/app_images.dart';
@@ -25,6 +26,7 @@ class YgApp extends StatelessWidget {
       title: 'Splash Screen',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        fontFamily: 'Metropolis'
       ),
       home: YgAppPage(),
       debugShowCheckedModeBanner: false,
@@ -41,18 +43,15 @@ class _YgAppPageState extends State<YgAppPage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () async {
-
-      var userTokem = await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
-
-      if(userTokem != null){
+    Timer(const Duration(seconds: 5), () async {
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+      if(userToken != null){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const MainPage()));
       }else{
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const LoginPage()));
       }
-
     });
   }
 

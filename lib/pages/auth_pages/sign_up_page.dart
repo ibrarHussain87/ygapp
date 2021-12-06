@@ -54,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Text(
                         'Sign up',
                         style: TextStyle(
+                            fontFamily: 'Metropolis',
                             fontSize: 28.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.textColorBlue),
@@ -66,6 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       'Delivery options and fees may vary based\non your country selection',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                        fontFamily: 'Metropolis',
                         color: AppColors.textColorGrey,
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
@@ -170,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     },
                                     decoration: InputDecoration(
                                       labelText: AppStrings.password,
-                                      labelStyle: TextStyle(fontSize: 12.sp),
+                                      labelStyle: TextStyle(fontFamily: 'Metropolis',fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: AppColors.textColorGrey),
@@ -209,7 +211,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     },
                                     decoration: InputDecoration(
                                       labelText: 'Confirm Password',
-                                      labelStyle: TextStyle(fontSize: 12.sp),
+                                      labelStyle: TextStyle(fontFamily: 'Metropolis',fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: AppColors.textColorGrey),
@@ -259,6 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         // Note: Styles for TextSpans must be explicitly defined.
                                         // Child text spans will inherit styles from parent
                                         style: TextStyle(
+                                          fontFamily: 'Metropolis',
                                           fontSize: 14.0.sp,
                                           color: Colors.black,
                                         ),
@@ -266,12 +269,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                           TextSpan(
                                               text: 'I Agree to ',
                                               style: TextStyle(
+                                                  fontFamily: 'Metropolis',
                                                   fontSize: 12.sp,
                                                   color:
                                                       AppColors.textColorGrey)),
                                           TextSpan(
                                               text: 'Terms & Conditions',
                                               style: TextStyle(
+                                                  fontFamily: 'Metropolis',
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black87)),
@@ -293,7 +298,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         width: double.infinity,
                         child: ElevatedButton(
                             child: Text("Sign Up".toUpperCase(),
-                                style: TextStyle(fontSize: 14.sp)),
+                                style: TextStyle(fontFamily: 'Metropolis',fontSize: 14.sp)),
                             style: ButtonStyle(
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(

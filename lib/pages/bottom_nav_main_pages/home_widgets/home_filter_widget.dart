@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/model/response/family_data.dart';
+import 'package:yg_app/utils/app_images.dart';
+import 'package:yg_app/widgets/grid_tile_more_widget/grid_tile_widget.dart';
+import 'package:yg_app/widgets/grid_tile_widget.dart';
 
 class HomeFilterWidget extends StatefulWidget {
   const HomeFilterWidget({Key? key}) : super(key: key);
@@ -9,39 +13,40 @@ class HomeFilterWidget extends StatefulWidget {
 }
 
 class _HomeFilterWidgetState extends State<HomeFilterWidget> {
+
+  List<FamilyData> familyList = <FamilyData>[
+    FamilyData(AppImages.cottonImage, AppImages.cottonGreyImage, 'Cotton'),
+    FamilyData(
+        AppImages.syentheticIcon, AppImages.syentheticGreyIcon, 'Syenthatic'),
+    FamilyData(AppImages.homeIcon, AppImages.homeGreyIcon, 'Syenthatic'),
+    FamilyData(AppImages.postAdIcon, AppImages.postAdGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic'),
+    FamilyData(
+        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic')
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 8.w, right: 8.w,top: 16.w),
-      child: SizedBox(
-          height: 50.h,
-          child: ListView.builder(
-            itemCount: 10,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: 60.w,
-                child: Column(
-                  children: [
-                    Image.asset(
-                      'images/cotton.png',
-                      height: 24.h,
-                      width: 24.w,
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Text(
-                      "Cotton",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          )),
+      child: GridMoreWidget(
+        spanCount: 4,
+        callback: (value){
+
+        },
+        listOfItems: familyList,
+      ),
     );
   }
 }

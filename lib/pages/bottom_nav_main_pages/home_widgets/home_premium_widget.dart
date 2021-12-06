@@ -50,11 +50,11 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
                             padding: EdgeInsets.only(left: 8.w,right: 8.w,top: 8.w,bottom: 8.w),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('20/S cdd Yarn for Weaving',style: TextStyle(color: Colors.white,fontSize: 12.sp),),
-                                Text('(100%) Cotton',style: TextStyle(color: Colors.white,fontSize: 12.sp),),
-                                Text('PKR.22,000',style: TextStyle(color: Colors.white,fontSize: 12.sp,fontWeight: FontWeight.bold),),
+                                Text('20/S cdd Yarn for Weaving',style: TextStyle(color: Colors.white,fontSize: 11.sp),),
+                                Text('(100%) Cotton',style: TextStyle(color: Colors.white,fontSize: 11.sp),),
+                                Text('PKR.22,000',style: TextStyle(color: Colors.white,fontSize: 11.sp,fontWeight: FontWeight.bold),),
                               ],
                             ),
                           ),
