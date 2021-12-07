@@ -15,11 +15,12 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 48.h,
+        height:0.07*MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(left: 16.w,right: 16.w,top: 8.w,bottom: 8.w),
         color: AppColors.bgWhiteMarketTrend,
         child: ListView.builder(
           itemCount: 3,
+          physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return Padding(

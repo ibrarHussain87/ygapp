@@ -5,10 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
@@ -23,6 +25,8 @@ class ApiService {
   static const String _CREATE_FIBER_END_POINT = "/createSpecification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
   static const String CREATE_BID_END_POINT = "/createBid";
+  static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
+  static const String GET_BANNERS_END_POINT = "/getBanners";
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     String url = BASE_API_URL + _LOGIN_END_POINT;
@@ -35,7 +39,7 @@ class ApiService {
 
   static Future<SyncFiberResponse> SyncFiber() async {
     var userToken =
-    SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
     String url = BASE_API_URL + _SYNC_FIBER_END_POINT;
@@ -47,25 +51,20 @@ class ApiService {
     );
   }
 
-  static Future<FiberSpecificationResponse> getFiberSpecifications(FiberFilterRequestModel fiberRequestModel,String? locality) async {
-
+  static Future<FiberSpecificationResponse> getFiberSpecifications(
+      FiberFilterRequestModel fiberRequestModel, String? locality) async {
     String url = BASE_API_URL + _GET_FIBER_SPEC_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
-     fiberRequestModel.userId =  userID;
-     fiberRequestModel.locality = locality;
-    final response =
-    await Dio().post(
-      url,
-      options: Options(
-        headers: headerMap
-      ),
-      data: json.encode(fiberRequestModel.toJson())
-    );
+    fiberRequestModel.userId = userID;
+    fiberRequestModel.locality = locality;
+    final response = await Dio().post(url,
+        options: Options(headers: headerMap),
+        data: json.encode(fiberRequestModel.toJson()));
     return FiberSpecificationResponse.fromJson(response.data);
   }
 
@@ -75,13 +74,13 @@ class ApiService {
     var request = http.MultipartRequest(
         'POST', Uri.parse(BASE_API_URL + _CREATE_FIBER_END_POINT));
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     request.headers.addAll(
         {"Accept": "application/json", "Authorization": "Bearer $userToken"});
-    request.files.add(
-        await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
-    var userID = await SharedPreferenceUtil.getStringValuesSF(
-        AppStrings.USER_ID_KEY);
+    request.files
+        .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+    var userID =
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     fiberRequestModel.spc_user_idfk = userID.toString();
     request.fields.addAll(fiberRequestModel.toJson());
     var response = await request.send();
@@ -89,14 +88,14 @@ class ApiService {
     return CreateFiberResponse.fromJson(json.decode(responsed.body));
   }
 
-  static Future<ListBiddersResponse> getListBidders(String catId,
-      String specId) async {
+  static Future<ListBiddersResponse> getListBidders(
+      String catId, String specId) async {
     String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     Map<String, dynamic> data = {
       "category_id": catId,
       "user_id": userID.toString(),
@@ -104,7 +103,7 @@ class ApiService {
     };
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
-    await http.post(Uri.parse(url), headers: headerMap, body: data);
+        await http.post(Uri.parse(url), headers: headerMap, body: data);
 
     return ListBiddersResponse.fromJson(
       json.decode(response.body),
@@ -112,25 +111,57 @@ class ApiService {
   }
 
   static Future<CreateBidResponse> createBid(String catId, String specId,
-      String price) async {
+      String price, String quantity, String remarks) async {
     String url = BASE_API_URL + CREATE_BID_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     var userID =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
     Map<String, dynamic> data = {
       "bid_category_idfk": catId,
       "bid_user_idfk": userID.toString(),
       "bid_specification_idfk": specId,
-      "bid_price": price
+      "bid_price": price,
+      "bid_quantity": quantity,
+      "bid_remarks": remarks
     };
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
-    await http.post(Uri.parse(url), headers: headerMap, body: data);
+        await http.post(Uri.parse(url), headers: headerMap, body: data);
 
     return CreateBidResponse.fromJson(
       json.decode(response.body),
     );
+  }
+
+  static Future<ChangeBidResponse> bidChangeStatus(
+      int bidId, int status) async {
+    String url = BASE_API_URL + CHANGE_BID_STATUS_END_POINT;
+
+    var userToken =
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    Map<String, dynamic> data = {
+      "bid_id": bidId.toString(),
+      "bid_status": status.toString(),
+    };
+    headerMap['Authorization'] = 'Bearer $userToken';
+    final response =
+        await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+    return ChangeBidResponse.fromJson(json.decode(response.body));
+  }
+
+  static Future<GetBannersResponse> getBanners() async {
+
+    String url = BASE_API_URL + GET_BANNERS_END_POINT;
+
+    var userToken =
+    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    headerMap['Authorization'] = 'Bearer $userToken';
+    final response =
+    await http.post(Uri.parse(url), headers: headerMap);
+
+    return GetBannersResponse.fromJson(json.decode(response.body));
   }
 }

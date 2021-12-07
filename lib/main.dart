@@ -44,8 +44,9 @@ class _YgAppPageState extends State<YgAppPage> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 5), () async {
-      var userToken = await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
-      if(userToken != null){
+      bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(AppStrings.IS_LOGIN);
+
+      if(userLogin){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const MainPage()));
       }else{

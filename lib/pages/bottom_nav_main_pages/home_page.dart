@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/banner_widgets/banner_home_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/home_premium_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_stock_widget.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_trend_widget.dart';
@@ -28,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
 
-  int currentImageBanner = 0;
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
@@ -137,44 +137,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 16.w),
-                  child: GFCarousel(
-                    height: MediaQuery.of(context).size.height / 7,
-                    pagination: true,
-                    pagerSize: 2.0,
-                    autoPlay: true,
-                    enableInfiniteScroll: true,
-                    activeIndicator: AppColors.lightBlueTabs,
-                    passiveIndicator: AppColors.textColorGreyLight,
-                    items: imgList.map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0.w),
-                              child: CachedNetworkImage(
-                                imageUrl: i,
-                                placeholder: (context, url) => Center(
-                                    child: CircularProgressIndicator(
-                                  strokeWidth: 1.0,
-                                  color: AppColors.lightBlueTabs,
-                                )),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentImageBanner = index;
-                      });
-                    },
-                  ),
+                  child: BannersWidget(),
                 ),
                 // DotsIndicator(
                 //   dotsCount: imgList.length,

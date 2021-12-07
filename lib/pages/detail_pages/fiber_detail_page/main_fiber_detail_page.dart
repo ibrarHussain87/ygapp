@@ -5,7 +5,7 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
-import 'fiber_bider_tab_page.dart';
+import 'list_bidder_components/fiber_bider_tab_page.dart';
 import 'fiber_detail_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {

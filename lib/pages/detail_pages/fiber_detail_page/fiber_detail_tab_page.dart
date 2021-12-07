@@ -12,9 +12,10 @@ import 'package:yg_app/widgets/grey_text_detail_widget_.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class DetailTabPage extends StatefulWidget {
-  Specification? specification;
+  final Specification? specification;
 
-  DetailTabPage({Key? key, required this.specification}) : super(key: key);
+  const DetailTabPage({Key? key, required this.specification})
+      : super(key: key);
 
   @override
   _DetailTabPageState createState() => _DetailTabPageState();
@@ -24,6 +25,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
   List<GridTileModel> detailSpecification = [];
   List<GridTileModel> detailPackaging = [];
   int? bidPrice;
+  int? bidQuantity = 1;
+  String bidRemarks = "";
 
   @override
   void initState() {
@@ -59,26 +62,60 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.specification!.gpt!.isNotEmpty
               ? widget.specification!.gpt! + " %"
               : 'N/A'),
-      GridTileModel('Apperrence', widget.specification!.apperance!.isEmpty ? "N/A" : widget.specification!.apperance!),
-      GridTileModel('Brand', widget.specification!.brand!.isEmpty ? "N/A" :widget.specification!.brand!),
       GridTileModel(
-          'Production year', widget.specification!.productYear!.isEmpty ? "N/A" : widget.specification!.productYear!),
-      GridTileModel('Origin', widget.specification!.origin!.isEmpty ? "N/A" :widget.specification!.origin!),
+          'Apperrence',
+          widget.specification!.apperance == null
+              ? "N/A"
+              : widget.specification!.apperance!),
       GridTileModel(
-          'Certification', widget.specification!.certification!.isEmpty ? "N/A" : widget.specification!.certification!),
+          'Brand',
+          widget.specification!.brand!.isEmpty
+              ? "N/A"
+              : widget.specification!.brand!),
+      GridTileModel(
+          'Production year',
+          widget.specification!.productYear!.isEmpty
+              ? "N/A"
+              : widget.specification!.productYear!),
+      GridTileModel(
+          'Origin',
+          widget.specification!.origin!.isEmpty
+              ? "N/A"
+              : widget.specification!.origin!),
+      GridTileModel(
+          'Certification',
+          widget.specification!.certification!.isEmpty
+              ? "N/A"
+              : widget.specification!.certification!),
     ];
 
     detailPackaging = [
-      GridTileModel('Unit Of Count', widget.specification!.unitCount!.isEmpty ? "N/A" :widget.specification!.unitCount!),
-      GridTileModel('Price', widget.specification!.priceUnit!.isEmpty ? "N/A" : widget.specification!.priceUnit!),
-      GridTileModel('Packing', widget.specification!.priceTerms!.isEmpty ? "N/A" :widget.specification!.priceTerms!),
       GridTileModel(
-          'Minimum Quantity', widget.specification!.minQuantity!.isEmpty ? "N/A" : widget.specification!.minQuantity!),
+          'Unit Of Count',
+          widget.specification!.unitCount!.isEmpty
+              ? "N/A"
+              : widget.specification!.unitCount!),
+      GridTileModel(
+          'Price',
+          widget.specification!.priceUnit!.isEmpty
+              ? "N/A"
+              : widget.specification!.priceUnit!),
+      GridTileModel(
+          'Packing',
+          widget.specification!.priceTerms!.isEmpty
+              ? "N/A"
+              : widget.specification!.priceTerms!),
+      GridTileModel(
+          'Minimum Quantity',
+          widget.specification!.minQuantity!.isEmpty
+              ? "N/A"
+              : widget.specification!.minQuantity!),
       GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
     ];
 
     setState(() {
       bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
+      bidQuantity = 1;
     });
 
     super.initState();
@@ -141,95 +178,202 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   SizedBox(
                     height: 8.w,
                   ),
-
-                  Padding(
-                      padding: EdgeInsets.only(left: 8.w),
-                      child:
-                      const TitleSmallTextWidget(title: 'Description')),
-                  SizedBox(
+                  const TitleSmallTextWidget(title: 'Description'),
+                  Container(
                     height: 5 * 22.w,
-                    child: TextFormField(
+                    decoration: BoxDecoration(
+                        color: AppColors.tileGreyClr,
+                        borderRadius: BorderRadius.all(Radius.circular(4.w))),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                      child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
-                        initialValue: widget.specification!.description!.isEmpty ? "N/A" :  widget.specification!.description!,
+                        initialValue: widget.specification!.description!.isEmpty
+                            ? "N/A"
+                            : widget.specification!.description!,
                         cursorColor: AppColors.lightBlueTabs,
                         style: TextStyle(fontSize: 11.sp),
                         textAlign: TextAlign.start,
                         cursorHeight: 16.w,
                         showCursor: false,
                         readOnly: true,
-                        decoration: roundedDescriptionDecoration(
-                            "Description")),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        /*decoration: roundedDescriptionDecoration(
+                              "Description")*/
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.all(4.w),
+                                child:
+                                    const TitleSmallTextWidget(title: 'Price')),
+                            Container(
+                              width: 200.w,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: AppColors.lightBlueTabs,
+                                    width:
+                                        1, //                   <--- border width here
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.w))),
+                              child: Padding(
+                                padding: EdgeInsets.all(8.w),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (bidPrice! >= 1) {
+                                              bidPrice = bidPrice! - 1;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.remove,
+                                          size: 16.w,
+                                          color: Colors.grey,
+                                        )),
+                                    TitleTextWidget(title: '$bidPrice'),
+                                    GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            bidPrice = bidPrice! + 1;
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 16.w,
+                                          color: Colors.grey,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.all(4.w),
+                                child: const TitleSmallTextWidget(
+                                    title: 'Quantity (Kg)')),
+                            Container(
+                              width: 200.w,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: AppColors.lightBlueTabs,
+                                    width:
+                                        1, //                   <--- border width here
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.w))),
+                              child: Padding(
+                                padding: EdgeInsets.all(8.w),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (bidQuantity! >= 1) {
+                                              bidQuantity = bidQuantity! - 1;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.remove,
+                                          size: 16.w,
+                                          color: Colors.grey,
+                                        )),
+                                    TitleTextWidget(title: '$bidQuantity'),
+                                    GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            bidQuantity = bidQuantity! + 1;
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 16.w,
+                                          color: Colors.grey,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16.w,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8.w),
+                      child: const TitleSmallTextWidget(title: 'Remarks')),
+                  SizedBox(
+                    height: 5 * 22.w,
+                    child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        maxLines: 5,
+                        cursorColor: AppColors.lightBlueTabs,
+                        style: TextStyle(fontSize: 11.sp),
+                        textAlign: TextAlign.start,
+                        cursorHeight: 16.w,
+                        showCursor: false,
+                        readOnly: false,
+                        onSaved: (value) {},
+                        onChanged: (value) {
+                          bidRemarks = value;
+                        },
+                        decoration: roundedDescriptionDecoration("Remarks")),
                   ),
                 ],
               ),
             ),
             flex: 9,
           ),
-          Column(
-            children: [
-              Container(
-                width: 200.w,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.lightBlueTabs,
-                      width: 1, //                   <--- border width here
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                child: Padding(
-                  padding: EdgeInsets.all(8.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              bidPrice = bidPrice! - 1;
-                            });
-                          },
-                          child: Icon(
-                            Icons.remove,
-                            size: 16.w,
-                            color: Colors.grey,
-                          )),
-                      TitleTextWidget(title: '$bidPrice'),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              bidPrice = bidPrice! + 1;
-                            });
-                          },
-                          child: Icon(
-                            Icons.add,
-                            size: 16.w,
-                            color: Colors.grey,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8.w,
-              ),
-              ElevatedButtonWithoutIcon(
-                  callback: () {
-                    ProgressDialogUtil.showDialog(context, "Please wait....");
-                    ApiService.createBid(
-                            widget.specification!.categoryId.toString(),
-                            widget.specification!.spcId.toString(),
-                            bidPrice.toString())
-                        .then((value) {
-                      ProgressDialogUtil.hideDialog();
-                      ShowMessageUtils.showSnackBar(context, value.message);
-                    }, onError: (stacktrace, error) {
-                      ShowMessageUtils.showSnackBar(
-                          context, error.message.toString());
-                    });
-                  },
-                  color: AppColors.btnColorLogin,
-                  btnText: 'Place Bid')
-            ],
-          )
+          ElevatedButtonWithoutIcon(
+              callback: () {
+                ProgressDialogUtil.showDialog(context, "Please wait....");
+                ApiService.createBid(
+                        widget.specification!.categoryId.toString(),
+                        widget.specification!.spcId.toString(),
+                        bidPrice.toString(),
+                        bidQuantity.toString(),
+                        bidRemarks)
+                    .then((value) {
+                  ProgressDialogUtil.hideDialog();
+                  ShowMessageUtils.showSnackBar(context, value.message);
+                }, onError: (stacktrace, error) {
+                  ShowMessageUtils.showSnackBar(
+                      context, error.message.toString());
+                });
+              },
+              color: AppColors.btnColorLogin,
+              btnText: 'Place Bid'),
         ],
       ),
     );

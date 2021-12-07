@@ -16,7 +16,7 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -26,7 +26,7 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
             height: 8.w,
           ),
           SizedBox(
-              height: 60.h,
+              height: 0.08*MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,

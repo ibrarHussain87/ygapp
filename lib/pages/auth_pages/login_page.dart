@@ -195,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
 
                                           SharedPreferenceUtil.addStringToSF(AppStrings.USER_ID_KEY, value.data.user.id.toString());
                                           SharedPreferenceUtil.addStringToSF(AppStrings.USER_TOKEN_KEY, value.data.token);
+                                          SharedPreferenceUtil.addBoolToSF(AppStrings.IS_LOGIN, true);
 
                                           Fluttertoast.showToast(
                                               msg: value.message,

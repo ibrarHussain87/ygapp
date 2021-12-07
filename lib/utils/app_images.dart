@@ -14,5 +14,6 @@ class AppImages {
   static String syentheticIcon = "images/ic_syenthatic.png";
   static String syentheticGreyIcon = "images/ic_syen_grey.png";
   static String ratingIcon = "images/ic_star.png";
+  static String loading = "images/loading.gif";
   static String placeHolder = "images/image_not_available.png";
 }

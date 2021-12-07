@@ -7,7 +7,8 @@ class AppStrings{
   //Shared preference Key
   static String USER_TOKEN_KEY = "USER_TOKEN";
   static String USER_ID_KEY = "USER_ID";
-  
+  static String IS_LOGIN = "USER_LOGIN";
+
   //APPLICATION STRINGS
   static String letsGetStarted = "Let's get started";
   static String loginDescription = "The Best Global B2B eCommere\nPlatform for Textiles";

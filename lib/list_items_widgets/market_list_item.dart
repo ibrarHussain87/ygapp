@@ -134,13 +134,13 @@ Widget buildWidget(Specification specification) {
                             spacing: 4.0,
                             runSpacing: 3.0,
                             children: [
-                              ShortDetailWidget(title: specification.unitCount),
-                              ShortDetailWidget(title: specification.priceUnit),
+                              ShortDetailWidget(title: specification.unitCount!.isEmpty? "N/A":specification.unitCount),
+                              ShortDetailWidget(title: specification.priceUnit!.isEmpty? "N/A":specification.priceUnit),
                               ShortDetailWidget(
-                                  title: specification.deliveryPeriod),
-                              ShortDetailWidget(title: specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity),
+                                  title: specification.deliveryPeriod!.isEmpty? "N/A":specification.deliveryPeriod),
+                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
+                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
+                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
                             ],
                           ),
                         )

@@ -37,8 +37,8 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 6,
-          mainAxisSpacing: 8,
+          crossAxisSpacing: 3,
+          mainAxisSpacing: 4,
           crossAxisCount: widget.spanCount!,
           childAspectRatio: 16 / 9),
       itemCount: 8,
@@ -70,8 +70,8 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
                     ? widget.listOfItems[index].imageUrl
                     : widget.listOfItems[index].unselectedImage
                 : 'images/more_icon.png',
-            height: 24.h,
-            width: 24.w,
+            height: 16.h,
+            width: 16.w,
           ),
           SizedBox(
             height: 2.h,

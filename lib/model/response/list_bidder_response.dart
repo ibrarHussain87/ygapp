@@ -55,7 +55,7 @@ class ListBiddersData {
     userName = json['user_name'];
     userId = json['user_id'];
     price = json['price'];
-    isAccepted = json['is_accepted'];
+    isAccepted = json['status'];
     date = json['date'];
   }
 
@@ -67,7 +67,7 @@ class ListBiddersData {
     _data['user_name'] = userName;
     _data['user_id'] = userId;
     _data['price'] = price;
-    _data['is_accepted'] = isAccepted;
+    _data['status'] = isAccepted;
     _data['date'] = date;
     return _data;
   }
