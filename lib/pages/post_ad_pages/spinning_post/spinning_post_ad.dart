@@ -1,119 +1,93 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/response/family_data.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/grid_widget.dart';
-import 'package:yg_app/widgets/list_widget_colored.dart';
-import 'package:yg_app/widgets/steps_segments_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_family_blend_body.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
+import 'package:yg_app/widgets/title_text_widget.dart';
 
 class SpinningPostAdPage extends StatefulWidget {
+  final String? locality;
+  final String? businessArea;
+  final String? selectedTab;
+
   const SpinningPostAdPage(
-      {Key? key, required this.businessArea, required this.selectedTab})
+      {Key? key,
+      required this.businessArea,
+      required this.selectedTab,
+      required this.locality})
       : super(key: key);
-  final String businessArea;
-  final String selectedTab;
 
   @override
   _SpinningPostAdPageState createState() => _SpinningPostAdPageState();
 }
 
 class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
+  FiberRequestModel? _fiberRequestModel;
+  Future<YarnSyncResponse>? _syncFuture;
 
-  Map<int,String> stepsMap = {1: 'Step 1', 2:'Step 2',3: 'Step 3'};
-  List<FamilyData> familyList = <FamilyData>[
-    FamilyData(AppImages.cottonImage, AppImages.cottonGreyImage, 'Cotton'),
-    FamilyData(
-        AppImages.syentheticIcon, AppImages.syentheticGreyIcon, 'Syenthatic'),
-    FamilyData(AppImages.homeIcon, AppImages.homeGreyIcon, 'Syenthatic'),
-    FamilyData(AppImages.postAdIcon, AppImages.postAdGreyIcon, 'Syenthatic'),
-    FamilyData(
-        AppImages.ygServicesIcon, AppImages.ygServicesGreyIcon, 'Syenthatic')
-  ];
+  @override
+  void initState() {
+    _fiberRequestModel = FiberRequestModel();
+    _syncFuture = ApiService.SyncYarn();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: AppColors.lightBlueTabs, //change your color here
-          ),
-          elevation: 4,
-          title: Text('Spinning Post Ad',style: TextStyle(color: AppColors.lightBlueTabs,fontSize: 13.sp),),
-          backgroundColor: Colors.white,
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Visibility(
-              visible: false,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 8.w,
-                  left: 24.w,
-                  right: 24.w,
-                ),
-                child: Text(
-                  AppStrings.family,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16.w, left: 8.w, right: 8.w),
-              child: GridWidget(
-                familyList: familyList,
-                callback: (index) {
-                  print(familyList[index]);
-                },
-              ),
-            ),
-            Visibility(
-              visible: false,
-              child: Padding(
-                padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                child: Text(
-                  AppStrings.blend,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.w, right: 8.w),
-              child: SizedBox(
-                height: 32.h,
-                child: ListViewWidgetColored(
-                  //just for dummy
-                  listItems: familyList,
-                  callback: (index) {},
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 8.w),
-                child: StepsSegmentWidget(
-                  stepsCallback: (value) {
-                  }),
-              ),
-            ),
-          ],
+        body: FutureBuilder<YarnSyncResponse>(
+          future: _syncFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.data != null) {
+              return insertIntoDB(snapshot.data);
+            } else if (snapshot.hasError) {
+              return Center(
+                  child: TitleTextWidget(title: snapshot.error.toString()));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
       ),
     );
   }
 
-
+  Widget insertIntoDB(YarnSyncResponse? data) {
+    return FutureBuilder<List<int>>(
+      future: AppDbInstance.getDbInstance().then((value) async {
+        await value.gradesDao.insertAllGrades(data!.data.yarn.grades);
+        return value.yarnSettingsDao
+            .insertAllYarnSettings(data.data.yarn.setting);
+      }),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null) {
+          return Provider(
+              create: (_) => _fiberRequestModel,
+              child: FamilyBlendBody(
+                yarnSyncResponse: data!,
+                locality: widget.locality,
+                businessArea: widget.businessArea,
+                selectedTab: widget.selectedTab,
+              ));
+        } else if (snapshot.hasError) {
+          return Center(
+              child: TitleTextWidget(title: snapshot.error.toString()));
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
 }

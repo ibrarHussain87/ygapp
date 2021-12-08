@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 import 'insert_data_into_db.dart';

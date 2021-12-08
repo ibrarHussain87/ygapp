@@ -55,7 +55,7 @@ InputDecoration roundedTextFieldDecoration(String hint) {
     isDense: true,
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
-      borderSide: BorderSide(color: AppColors.lightBlueTabs),
+      borderSide: BorderSide(color: Colors.grey.shade300),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
@@ -109,7 +109,7 @@ InputDecoration roundedDescriptionDecoration(String hint) {
       isDense: true,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24.0.w),
-        borderSide: BorderSide(color: AppColors.lightBlueTabs),
+        borderSide: BorderSide(color: Colors.grey.shade300),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24.0.w),

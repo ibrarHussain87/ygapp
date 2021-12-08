@@ -69,9 +69,11 @@ class _GridTileWidgetState extends State<GridTileWidget> {
         width: double.maxFinite,
         decoration: BoxDecoration(
             border: Border.all(
-              color: AppColors.lightBlueTabs,
+              color: Colors.transparent,
             ),
-            color: checked ? AppColors.lightBlueTabs : Colors.transparent,
+            color: checked
+                ? AppColors.lightBlueTabs.withOpacity(0.1)
+                : Colors.grey.shade200,
             borderRadius: BorderRadius.all(Radius.circular(24.w))),
         child: Center(
           child: Text(
@@ -79,7 +81,7 @@ class _GridTileWidgetState extends State<GridTileWidget> {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 11.sp,
-                color: checked ? Colors.white : AppColors.lightBlueTabs),
+                color: checked ? AppColors.lightBlueTabs : Colors.black54),
           ),
         ),
       ),

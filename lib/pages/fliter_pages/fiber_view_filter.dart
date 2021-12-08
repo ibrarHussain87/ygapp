@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/string_util.dart';
@@ -281,7 +281,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                 value: value,
                                               ))
                                           .toList(),
-                                      onChanged: (CountriesModel? value) {
+                                      onChanged: (Countries? value) {
                                         List<int> originList = [value!.conId];
                                         _fiberFilterRequestModel!.originId =
                                             originList;

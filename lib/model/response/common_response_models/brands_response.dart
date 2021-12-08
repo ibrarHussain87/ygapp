@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'brands')
-class BrandsModel {
-  BrandsModel({
+class Brands {
+  Brands({
     required this.brdId,
     this.brdCategoryIdfk,
     required this.brdName,
@@ -18,7 +18,7 @@ class BrandsModel {
   @ignore
   late final Null brdSortid;
 
-  BrandsModel.fromJson(Map<String, dynamic> json){
+  Brands.fromJson(Map<String, dynamic> json){
     brdId = json['brd_id'];
     brdCategoryIdfk = null;
     brdName = json['brd_name'];

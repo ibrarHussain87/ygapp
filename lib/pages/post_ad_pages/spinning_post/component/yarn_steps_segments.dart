@@ -1,50 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/pages/bottom_nav_main_pages/yg_services.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_specification_body.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/show_messgae_util.dart';
 
-import 'fiber_specification_component.dart';
+import '../../packing_details_component.dart';
 
-class FiberStepsSegments extends StatefulWidget {
+class YarnStepsSegments extends StatefulWidget {
 
-  final Function? stepsCallback;
-  final Map<int, String>? stepsMapping;
-  final SyncFiberResponse syncFiberResponse;
+  final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberStepsSegments({Key? key,
-    required this.syncFiberResponse,
-    required this.stepsCallback,
-    required this.locality,
-    required this.businessArea,
-    required this.selectedTab,
-    this.stepsMapping})
+  const YarnStepsSegments(
+      {Key? key,
+      required this.yarnSyncResponse,
+      required this.locality,
+      this.selectedTab,
+      required this.businessArea})
       : super(key: key);
 
   @override
-  _FiberStepsSegmentsState createState() => _FiberStepsSegmentsState();
+  YarnStepsSegmentsState createState() => YarnStepsSegmentsState();
 }
 
-class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
+class YarnStepsSegmentsState extends State<YarnStepsSegments> {
 
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
-  // late SyncFiberResponse _syncFiberResponse;
+  GlobalKey<YarnSpecificationComponentState> yarnSpecificationComponentStateKey = GlobalKey<YarnSpecificationComponentState>();
 
   @override
   void initState() {
-    // _syncFiberResponse = widget.syncFiberResponse;
-    _pageController = PageController();
 
+    _pageController = PageController();
     _samplePages = [
-      FiberSpecificationComponent(
-        syncFiberResponse: widget.syncFiberResponse,
+      YarnSpecificationComponent(
+        key: yarnSpecificationComponentStateKey,
+        yarnSyncResponse: widget.yarnSyncResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -52,17 +50,19 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
           setState(() {
             selectedValue++;
           });
-          widget.stepsCallback!(value);
+          // widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,
               duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
         },
       ),
-      PackagingDetails(
-        // requestModel: _fiberRequestModel,
-          locality: widget.locality,
-          businessArea: widget.businessArea,
-          selectedTab: widget.selectedTab,
-          syncFiberResponse: widget.syncFiberResponse),
+      YGServices(),
+      YGServices(),
+      // PackagingDetails(
+      //   // requestModel: _fiberRequestModel,
+      //     locality: widget.locality,
+      //     businessArea: widget.businessArea,
+      //     selectedTab: widget.selectedTab,
+      //     syncFiberResponse: widget.yarnSyncResponse),
     ];
 
     super.initState();
@@ -105,12 +105,24 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                       ),
                     ),
                   ),
+                  3: Container(
+                    padding: EdgeInsets.all(8.w),
+                    child: Text(
+                      "Step 3",
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: selectedValue == 3
+                            ? Colors.white
+                            : AppColors.textColorGrey,
+                      ),
+                    ),
+                  ),
                 },
                 onValueChanged: (value) {
                   setState(() {
                     selectedValue = value as int;
                   });
-                  widget.stepsCallback!(value);
+                  // widget.stepsCallback!(value);
                   _pageController.animateToPage(selectedValue - 1,
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut);
@@ -131,5 +143,10 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         ),
       ],
     );
+  }
+
+  onClickBlend(value){
+    yarnSpecificationComponentStateKey.currentState!.querySettings(value);
+    // ShowMessageUtils.showSnackBar(context, value.toString());
   }
 }

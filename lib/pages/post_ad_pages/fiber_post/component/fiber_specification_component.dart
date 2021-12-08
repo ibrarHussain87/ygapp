@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
 import 'package:yg_app/utils/string_util.dart';
@@ -19,7 +19,6 @@ import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
-
   final Function? callback;
   final SyncFiberResponse syncFiberResponse;
   final String? locality;
@@ -43,6 +42,7 @@ class FiberSpecificationComponent extends StatefulWidget {
 class _FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedMaterialIndex = 0;
@@ -68,6 +68,7 @@ class _FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
+
     _fiberRequestModel = Provider.of<FiberRequestModel?>(context);
     _fiberRequestModel!.spc_grade_idfk =
         widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
@@ -177,7 +178,8 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings.fiberLength)),
+                                                      title: AppStrings
+                                                          .fiberLength)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -189,12 +191,14 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: StringUtils.splitMin(snapshot
-                                                            .data![0]
-                                                            .lengthMinMax),
-                                                        max: StringUtils.splitMax(snapshot
-                                                            .data![0]
-                                                            .lengthMinMax))
+                                                        min: StringUtils
+                                                            .splitMin(snapshot
+                                                                .data![0]
+                                                                .lengthMinMax),
+                                                        max: StringUtils
+                                                            .splitMax(snapshot
+                                                                .data![0]
+                                                                .lengthMinMax))
                                                   ],
                                                   onSaved: (input) =>
                                                       _fiberRequestModel!
@@ -203,7 +207,8 @@ class _FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return AppStrings.fiberLength;
+                                                      return AppStrings
+                                                          .fiberLength;
                                                     }
                                                     return null;
                                                   },
@@ -244,7 +249,8 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings.micStr)),
+                                                      title:
+                                                          AppStrings.micStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -256,12 +262,14 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: StringUtils.splitMin(snapshot
-                                                            .data![0]
-                                                            .micMinMax),
-                                                        max: StringUtils.splitMax(snapshot
-                                                            .data![0]
-                                                            .micMinMax))
+                                                        min: StringUtils
+                                                            .splitMin(snapshot
+                                                                .data![0]
+                                                                .micMinMax),
+                                                        max: StringUtils
+                                                            .splitMax(snapshot
+                                                                .data![0]
+                                                                .micMinMax))
                                                   ],
                                                   onSaved: (input) =>
                                                       _fiberRequestModel!
@@ -300,7 +308,8 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings.moistureStr)),
+                                                      title: AppStrings
+                                                          .moistureStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -316,17 +325,20 @@ class _FiberSpecificationComponentState
                                                           input!,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: StringUtils.splitMin(snapshot
-                                                            .data![0]
-                                                            .moiMinMax),
-                                                        max: StringUtils.splitMax(snapshot
-                                                            .data![0]
-                                                            .moiMinMax))
+                                                        min: StringUtils
+                                                            .splitMin(snapshot
+                                                                .data![0]
+                                                                .moiMinMax),
+                                                        max: StringUtils
+                                                            .splitMax(snapshot
+                                                                .data![0]
+                                                                .moiMinMax))
                                                   ],
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return AppStrings.moistureStr;
+                                                      return AppStrings
+                                                          .moistureStr;
                                                     }
                                                     return null;
                                                   },
@@ -363,7 +375,8 @@ class _FiberSpecificationComponentState
                                                     padding: EdgeInsets.only(
                                                         left: 8.w),
                                                     child: TitleSmallTextWidget(
-                                                        title: AppStrings.trashStr)),
+                                                        title: AppStrings
+                                                            .trashStr)),
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
@@ -379,17 +392,20 @@ class _FiberSpecificationComponentState
                                                             input!,
                                                     inputFormatters: [
                                                       NumericalRangeFormatter(
-                                                          min: StringUtils.splitMin(snapshot
-                                                              .data![0]
-                                                              .trashMinMax),
-                                                          max: StringUtils.splitMax(snapshot
-                                                              .data![0]
-                                                              .trashMinMax))
+                                                          min: StringUtils
+                                                              .splitMin(snapshot
+                                                                  .data![0]
+                                                                  .trashMinMax),
+                                                          max: StringUtils
+                                                              .splitMax(snapshot
+                                                                  .data![0]
+                                                                  .trashMinMax))
                                                     ],
                                                     validator: (input) {
                                                       if (input == null ||
                                                           input.isEmpty) {
-                                                        return AppStrings.trashStr;
+                                                        return AppStrings
+                                                            .trashStr;
                                                       }
                                                       return null;
                                                     },
@@ -422,8 +438,9 @@ class _FiberSpecificationComponentState
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
-                                                  child: const TitleSmallTextWidget(
-                                                      title: 'RD')),
+                                                  child:
+                                                      const TitleSmallTextWidget(
+                                                          title: 'RD')),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -438,10 +455,14 @@ class _FiberSpecificationComponentState
                                                           .spc_rd_idfk = input!,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: StringUtils.splitMin(snapshot
-                                                            .data![0].rdMinMax),
-                                                        max: StringUtils.splitMax(snapshot
-                                                            .data![0].rdMinMax))
+                                                        min: StringUtils
+                                                            .splitMin(snapshot
+                                                                .data![0]
+                                                                .rdMinMax),
+                                                        max: StringUtils
+                                                            .splitMax(snapshot
+                                                                .data![0]
+                                                                .rdMinMax))
                                                   ],
                                                   validator: (input) {
                                                     if (input == null ||
@@ -480,8 +501,9 @@ class _FiberSpecificationComponentState
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
-                                                  child: const TitleSmallTextWidget(
-                                                      title: 'GPT')),
+                                                  child:
+                                                      const TitleSmallTextWidget(
+                                                          title: 'GPT')),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
@@ -493,12 +515,14 @@ class _FiberSpecificationComponentState
                                                   cursorHeight: 16.w,
                                                   inputFormatters: [
                                                     NumericalRangeFormatter(
-                                                        min: StringUtils.splitMin(snapshot
-                                                            .data![0]
-                                                            .gptMinMax),
-                                                        max: StringUtils.splitMax(snapshot
-                                                            .data![0]
-                                                            .gptMinMax))
+                                                        min: StringUtils
+                                                            .splitMin(snapshot
+                                                                .data![0]
+                                                                .gptMinMax),
+                                                        max: StringUtils
+                                                            .splitMax(snapshot
+                                                                .data![0]
+                                                                .gptMinMax))
                                                   ],
                                                   onSaved: (input) =>
                                                       _fiberRequestModel!
@@ -578,14 +602,14 @@ class _FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: 'Brand')),
+                                                      title: AppStrings.brand)),
                                               SizedBox(
                                                 height: 36.w,
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
-                                                        color: AppColors
-                                                            .lightBlueTabs,
+                                                        color: Colors
+                                                            .grey.shade300,
                                                         width:
                                                             1, //                   <--- border width here
                                                       ),
@@ -595,7 +619,8 @@ class _FiberSpecificationComponentState
                                                                   24.w))),
                                                   child:
                                                       DropdownButtonFormField(
-                                                    hint: Text('Select Brand'),
+                                                    hint: Text(
+                                                        'Select ${AppStrings.brand}'),
                                                     items: widget
                                                         .syncFiberResponse
                                                         .data
@@ -611,8 +636,7 @@ class _FiberSpecificationComponentState
                                                               value: value,
                                                             ))
                                                         .toList(),
-                                                    onChanged:
-                                                        (BrandsModel? value) {
+                                                    onChanged: (Brands? value) {
                                                       _fiberRequestModel!
                                                               .spc_brand_idfk =
                                                           value!.brdId
@@ -715,7 +739,8 @@ class _FiberSpecificationComponentState
                                       /*int.parse(snapshot.data![0].showOrigin) ==
                                               1
                                           ? true
-                                          :*/ false,
+                                          :*/
+                                      false,
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -751,8 +776,7 @@ class _FiberSpecificationComponentState
                                                         value: value,
                                                       ))
                                                   .toList(),
-                                              onChanged:
-                                                  (CountriesModel? value) {
+                                              onChanged: (Countries? value) {
                                                 _fiberRequestModel!
                                                         .spc_origin_idfk =
                                                     value!.conId.toString();
@@ -786,7 +810,7 @@ class _FiberSpecificationComponentState
                                   ),
                                 ),
                                 Visibility(
-                                  visible:false,
+                                  visible: false,
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -809,15 +833,15 @@ class _FiberSpecificationComponentState
                                           child: SizedBox(
                                             height: 36.w,
                                             child: DropdownButtonFormField(
-                                              hint:
-                                                  const Text('Select City State'),
-                                              items: widget.syncFiberResponse.data
-                                                  .fiber.cityState
+                                              hint: const Text(
+                                                  'Select City State'),
+                                              items: widget.syncFiberResponse
+                                                  .data.fiber.cityState
                                                   .map((value) =>
                                                       DropdownMenuItem(
                                                         child: Text(value.name,
-                                                            textAlign:
-                                                                TextAlign.center),
+                                                            textAlign: TextAlign
+                                                                .center),
                                                         value: value,
                                                       ))
                                                   .toList(),
@@ -832,12 +856,15 @@ class _FiberSpecificationComponentState
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
-                                                border: const OutlineInputBorder(
-                                                    borderSide: BorderSide.none),
+                                                border:
+                                                    const OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
-                                                  color: AppColors.textColorGrey),
+                                                  color:
+                                                      AppColors.textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -1006,11 +1033,13 @@ class _FiberSpecificationComponentState
           _fiberSettings!.showBrand == "1") {
         Scaffold.of(context)
             .showSnackBar(const SnackBar(content: Text('Please select Brand')));
-      }/* else if (_fiberRequestModel!.spc_origin_idfk == null &&
+      }
+      /* else if (_fiberRequestModel!.spc_origin_idfk == null &&
           _fiberSettings!.showOrigin == "1") {
         Scaffold.of(context).showSnackBar(
             const SnackBar(content: Text('Please select Country')));
-      }*/ else if (_fiberRequestModel!.spc_certificate_idfk == null &&
+      }*/
+      else if (_fiberRequestModel!.spc_certificate_idfk == null &&
           _fiberSettings!.showCertification == "1") {
         Scaffold.of(context).showSnackBar(
             const SnackBar(content: Text('Please select Certification')));
@@ -1039,4 +1068,3 @@ class _FiberSpecificationComponentState
             ));
   }
 }
-

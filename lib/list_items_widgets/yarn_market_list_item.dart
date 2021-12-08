@@ -12,7 +12,7 @@ import 'package:yg_app/widgets/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/widgets/list_widgets/verified_supplier.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
-Widget buildWidget(Specification specification) {
+Widget buildYarnWidget(Specification specification) {
   return Column(
     children: [
       Row(
@@ -62,10 +62,10 @@ Widget buildWidget(Specification specification) {
               fit: BoxFit.cover,
               imageUrl: specification.pictures.first.picture,
               placeholder: (context, url) =>
-                  Image.asset('images/ic_loading.png'),
+                  Image.asset('images/loading.gif',height: 56.w,width: 56.w,fit: BoxFit.fill),
               errorWidget: (context, url, error) =>
-                  Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.cover),
-            ) :Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.cover,),
+                  Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill),
+            ) :Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill,),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 4.w),
@@ -96,7 +96,7 @@ Widget buildWidget(Specification specification) {
                       padding: EdgeInsets.only(bottom: 4.0.w),
                       child: TitleTextWidget(
                         title:
-                            '${specification.material},${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
+                        '${specification.material},${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
                       ),
                     ),
                     Row(
@@ -185,7 +185,7 @@ Widget buildWidget(Specification specification) {
                     ),
                     SizedBox(height: 8.w,),
                     Padding(
-                      padding: EdgeInsets.only(left: 4.w,right: 4.w),
+                        padding: EdgeInsets.only(left: 4.w,right: 4.w),
                         child: BidNowWidget(title: 'Bid Now'))
                   ],
                 ),

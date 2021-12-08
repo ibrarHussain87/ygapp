@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_view_filter.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_specification_component.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -33,8 +32,8 @@ class _InsertFiberSyncResponseIntoDbState extends State<InsertFiberSyncResponseI
   Widget build(BuildContext context) {
     return FutureBuilder<List<int>>(
       future: getDbInstance().then((value) async {
-        await value.fiberGradesDao
-            .insertAllFiberGrades(widget.data!.data.fiber.grades);
+        await value.gradesDao
+            .insertAllGrades(widget.data!.data.fiber.grades);
         await value.fiberMaterialDao
             .insertAllFiberMaterials(widget.data!.data.fiber.material);
         return value.fiberSettingDao

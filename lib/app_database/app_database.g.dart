@@ -63,9 +63,11 @@ class _$AppDatabase extends AppDatabase {
 
   FiberSettingDao? _fiberSettingDaoInstance;
 
-  FiberGradesDao? _fiberGradesDaoInstance;
+  GradesDao? _gradesDaoInstance;
 
   FiberMaterialDao? _fiberMaterialDaoInstance;
+
+  YarnSettingDao? _yarnSettingsDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -86,7 +88,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_apperance` (`aprId` INTEGER NOT NULL, `aprCategoryIdfk` TEXT NOT NULL, `aprName` TEXT NOT NULL, `aprIsActive` TEXT NOT NULL, PRIMARY KEY (`aprId`))');
+            'CREATE TABLE IF NOT EXISTS `apperance` (`aprId` INTEGER NOT NULL, `aprCategoryIdfk` TEXT NOT NULL, `aprName` TEXT NOT NULL, `aprIsActive` TEXT NOT NULL, PRIMARY KEY (`aprId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_available_market` (`afmId` INTEGER NOT NULL, `afmCategoryIdfk` TEXT NOT NULL, `afmName` TEXT NOT NULL, `afmIsActive` TEXT NOT NULL, PRIMARY KEY (`afmId`))');
         await database.execute(
@@ -100,15 +102,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT NOT NULL, `cerName` TEXT NOT NULL, `cerIsActive` TEXT NOT NULL, PRIMARY KEY (`cerId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT NOT NULL, `dprName` TEXT NOT NULL, `dprIsActive` TEXT NOT NULL, PRIMARY KEY (`dprId`))');
+            'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT NOT NULL, `dprName` TEXT NOT NULL, `dprIsActive` TEXT NOT NULL, PRIMARY KEY (`dprId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_units` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT NOT NULL, `untName` TEXT NOT NULL, `untIsActive` TEXT NOT NULL, PRIMARY KEY (`untId`))');
+            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT NOT NULL, `untName` TEXT NOT NULL, `untIsActive` TEXT NOT NULL, PRIMARY KEY (`untId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_grade` (`grdId` INTEGER NOT NULL, `grdCategoryIdfk` TEXT NOT NULL, `grdName` TEXT NOT NULL, `grdIsActive` TEXT NOT NULL, PRIMARY KEY (`grdId`))');
+            'CREATE TABLE IF NOT EXISTS `grade` (`grdId` INTEGER NOT NULL, `grdCategoryIdfk` TEXT NOT NULL, `grdName` TEXT NOT NULL, `grdIsActive` TEXT NOT NULL, PRIMARY KEY (`grdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_price_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT NOT NULL, `ptrName` TEXT NOT NULL, `ptrIsActive` TEXT NOT NULL, PRIMARY KEY (`ptrId`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `companies` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `gst` TEXT NOT NULL, `address` TEXT NOT NULL, `countryId` TEXT NOT NULL, `cityStateId` TEXT NOT NULL, `zipCode` TEXT NOT NULL, `websiteUrl` TEXT NOT NULL, `whatsappNumber` TEXT NOT NULL, `wechatNumber` TEXT NOT NULL, `telephoneNumber` TEXT NOT NULL, `emailId` TEXT NOT NULL, `maxProduction` TEXT NOT NULL, `noOfUnits` TEXT NOT NULL, `yearEstablished` TEXT NOT NULL, `tradeCategory` TEXT NOT NULL, `licenseHolder` TEXT NOT NULL, `isVerified` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT NOT NULL, `ptrName` TEXT NOT NULL, `ptrIsActive` TEXT NOT NULL, PRIMARY KEY (`ptrId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT NOT NULL, `lcIsActive` TEXT NOT NULL, PRIMARY KEY (`lcId`))');
         await database.execute(
@@ -119,6 +119,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT NOT NULL, `prtName` TEXT NOT NULL, `prtIsActive` TEXT NOT NULL, PRIMARY KEY (`prtId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER NOT NULL, `ysBlendIdfk` TEXT NOT NULL, `ysFiberMaterialIdfk` TEXT NOT NULL, `showCount` TEXT NOT NULL, `showDannier` TEXT NOT NULL, `dannierMinMax` TEXT NOT NULL, `showFilament` TEXT NOT NULL, `filamentMinMax` TEXT NOT NULL, `showQlt` TEXT NOT NULL, `showClsp` TEXT NOT NULL, `showUniformity` TEXT NOT NULL, `showCv` TEXT NOT NULL, `showThinPlaces` TEXT NOT NULL, `showtThickPlaces` TEXT NOT NULL, `showNaps` TEXT NOT NULL, `showIpmKm` TEXT NOT NULL, `showHairness` TEXT NOT NULL, `showRkm` TEXT NOT NULL, `showElongation` TEXT NOT NULL, `showTpi` TEXT NOT NULL, `showTm` TEXT NOT NULL, `showDty` TEXT NOT NULL, `showFdy` TEXT NOT NULL, `ysIsActive` TEXT NOT NULL, PRIMARY KEY (`ysId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -133,15 +135,20 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  FiberGradesDao get fiberGradesDao {
-    return _fiberGradesDaoInstance ??=
-        _$FiberGradesDao(database, changeListener);
+  GradesDao get gradesDao {
+    return _gradesDaoInstance ??= _$GradesDao(database, changeListener);
   }
 
   @override
   FiberMaterialDao get fiberMaterialDao {
     return _fiberMaterialDaoInstance ??=
         _$FiberMaterialDao(database, changeListener);
+  }
+
+  @override
+  YarnSettingDao get yarnSettingsDao {
+    return _yarnSettingsDaoInstance ??=
+        _$YarnSettingDao(database, changeListener);
   }
 }
 
@@ -320,23 +327,23 @@ class _$FiberSettingDao extends FiberSettingDao {
   }
 }
 
-class _$FiberGradesDao extends FiberGradesDao {
-  _$FiberGradesDao(this.database, this.changeListener)
+class _$GradesDao extends GradesDao {
+  _$GradesDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _fiberGradesInsertionAdapter = InsertionAdapter(
+        _gradesInsertionAdapter = InsertionAdapter(
             database,
-            'fiber_grade',
-            (FiberGrades item) => <String, Object?>{
+            'grade',
+            (Grades item) => <String, Object?>{
                   'grdId': item.grdId,
                   'grdCategoryIdfk': item.grdCategoryIdfk,
                   'grdName': item.grdName,
                   'grdIsActive': item.grdIsActive
                 }),
-        _fiberGradesDeletionAdapter = DeletionAdapter(
+        _gradesDeletionAdapter = DeletionAdapter(
             database,
-            'fiber_grade',
+            'grade',
             ['grdId'],
-            (FiberGrades item) => <String, Object?>{
+            (Grades item) => <String, Object?>{
                   'grdId': item.grdId,
                   'grdCategoryIdfk': item.grdCategoryIdfk,
                   'grdName': item.grdName,
@@ -349,14 +356,14 @@ class _$FiberGradesDao extends FiberGradesDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<FiberGrades> _fiberGradesInsertionAdapter;
+  final InsertionAdapter<Grades> _gradesInsertionAdapter;
 
-  final DeletionAdapter<FiberGrades> _fiberGradesDeletionAdapter;
+  final DeletionAdapter<Grades> _gradesDeletionAdapter;
 
   @override
-  Future<List<FiberGrades>> findAllFiberGrades() async {
+  Future<List<Grades>> findAllGrades() async {
     return _queryAdapter.queryList('SELECT * FROM fiber_grade',
-        mapper: (Map<String, Object?> row) => FiberGrades(
+        mapper: (Map<String, Object?> row) => Grades(
             grdId: row['grdId'] as int,
             grdCategoryIdfk: row['grdCategoryIdfk'] as String,
             grdName: row['grdName'] as String,
@@ -364,10 +371,10 @@ class _$FiberGradesDao extends FiberGradesDao {
   }
 
   @override
-  Future<List<FiberGrades>> findFiberGradeWithId(int id) async {
+  Future<List<Grades>> findFiberGradeWithId(int id) async {
     return _queryAdapter.queryList(
         'SELECT * FROM fiber_setting where grd_category_idfk = ?1',
-        mapper: (Map<String, Object?> row) => FiberGrades(
+        mapper: (Map<String, Object?> row) => Grades(
             grdId: row['grdId'] as int,
             grdCategoryIdfk: row['grdCategoryIdfk'] as String,
             grdName: row['grdName'] as String,
@@ -376,26 +383,37 @@ class _$FiberGradesDao extends FiberGradesDao {
   }
 
   @override
-  Future<void> deleteFiberGrade(int id) async {
+  Future<List<Grades>> findYarnGradeWithId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_settings where grd_category_idfk = ?1',
+        mapper: (Map<String, Object?> row) => Grades(
+            grdId: row['grdId'] as int,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
+            grdName: row['grdName'] as String,
+            grdIsActive: row['grdIsActive'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteGrade(int id) async {
     await _queryAdapter.queryNoReturn('delete from fiber_grade where id = ?1',
         arguments: [id]);
   }
 
   @override
-  Future<void> insertFiberGrades(FiberGrades fiberGrades) async {
-    await _fiberGradesInsertionAdapter.insert(
-        fiberGrades, OnConflictStrategy.replace);
+  Future<void> insertGrades(Grades grades) async {
+    await _gradesInsertionAdapter.insert(grades, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertAllFiberGrades(List<FiberGrades> fiberGrades) {
-    return _fiberGradesInsertionAdapter.insertListAndReturnIds(
-        fiberGrades, OnConflictStrategy.replace);
+  Future<List<int>> insertAllGrades(List<Grades> grades) {
+    return _gradesInsertionAdapter.insertListAndReturnIds(
+        grades, OnConflictStrategy.replace);
   }
 
   @override
-  Future<int> deleteAll(List<FiberGrades> list) {
-    return _fiberGradesDeletionAdapter.deleteListAndReturnChangedRows(list);
+  Future<int> deleteAll(List<Grades> list) {
+    return _gradesDeletionAdapter.deleteListAndReturnChangedRows(list);
   }
 }
 
@@ -476,5 +494,164 @@ class _$FiberMaterialDao extends FiberMaterialDao {
   @override
   Future<int> deleteAll(List<FiberMaterial> list) {
     return _fiberMaterialDeletionAdapter.deleteListAndReturnChangedRows(list);
+  }
+}
+
+class _$YarnSettingDao extends YarnSettingDao {
+  _$YarnSettingDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _yarnSettingInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_settings',
+            (YarnSetting item) => <String, Object?>{
+                  'ysId': item.ysId,
+                  'ysBlendIdfk': item.ysBlendIdfk,
+                  'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
+                  'showCount': item.showCount,
+                  'showDannier': item.showDannier,
+                  'dannierMinMax': item.dannierMinMax,
+                  'showFilament': item.showFilament,
+                  'filamentMinMax': item.filamentMinMax,
+                  'showQlt': item.showQlt,
+                  'showClsp': item.showClsp,
+                  'showUniformity': item.showUniformity,
+                  'showCv': item.showCv,
+                  'showThinPlaces': item.showThinPlaces,
+                  'showtThickPlaces': item.showtThickPlaces,
+                  'showNaps': item.showNaps,
+                  'showIpmKm': item.showIpmKm,
+                  'showHairness': item.showHairness,
+                  'showRkm': item.showRkm,
+                  'showElongation': item.showElongation,
+                  'showTpi': item.showTpi,
+                  'showTm': item.showTm,
+                  'showDty': item.showDty,
+                  'showFdy': item.showFdy,
+                  'ysIsActive': item.ysIsActive
+                }),
+        _yarnSettingDeletionAdapter = DeletionAdapter(
+            database,
+            'yarn_settings',
+            ['ysId'],
+            (YarnSetting item) => <String, Object?>{
+                  'ysId': item.ysId,
+                  'ysBlendIdfk': item.ysBlendIdfk,
+                  'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
+                  'showCount': item.showCount,
+                  'showDannier': item.showDannier,
+                  'dannierMinMax': item.dannierMinMax,
+                  'showFilament': item.showFilament,
+                  'filamentMinMax': item.filamentMinMax,
+                  'showQlt': item.showQlt,
+                  'showClsp': item.showClsp,
+                  'showUniformity': item.showUniformity,
+                  'showCv': item.showCv,
+                  'showThinPlaces': item.showThinPlaces,
+                  'showtThickPlaces': item.showtThickPlaces,
+                  'showNaps': item.showNaps,
+                  'showIpmKm': item.showIpmKm,
+                  'showHairness': item.showHairness,
+                  'showRkm': item.showRkm,
+                  'showElongation': item.showElongation,
+                  'showTpi': item.showTpi,
+                  'showTm': item.showTm,
+                  'showDty': item.showDty,
+                  'showFdy': item.showFdy,
+                  'ysIsActive': item.ysIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<YarnSetting> _yarnSettingInsertionAdapter;
+
+  final DeletionAdapter<YarnSetting> _yarnSettingDeletionAdapter;
+
+  @override
+  Future<List<YarnSetting>> findAllYarnSettings() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_settings',
+        mapper: (Map<String, Object?> row) => YarnSetting(
+            ysId: row['ysId'] as int,
+            ysBlendIdfk: row['ysBlendIdfk'] as String,
+            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String,
+            showCount: row['showCount'] as String,
+            showDannier: row['showDannier'] as String,
+            dannierMinMax: row['dannierMinMax'] as String,
+            showFilament: row['showFilament'] as String,
+            filamentMinMax: row['filamentMinMax'] as String,
+            showQlt: row['showQlt'] as String,
+            showClsp: row['showClsp'] as String,
+            showUniformity: row['showUniformity'] as String,
+            showCv: row['showCv'] as String,
+            showThinPlaces: row['showThinPlaces'] as String,
+            showtThickPlaces: row['showtThickPlaces'] as String,
+            showNaps: row['showNaps'] as String,
+            showIpmKm: row['showIpmKm'] as String,
+            showHairness: row['showHairness'] as String,
+            showRkm: row['showRkm'] as String,
+            showElongation: row['showElongation'] as String,
+            showTpi: row['showTpi'] as String,
+            showTm: row['showTm'] as String,
+            showDty: row['showDty'] as String,
+            showFdy: row['showFdy'] as String,
+            ysIsActive: row['ysIsActive'] as String));
+  }
+
+  @override
+  Future<List<YarnSetting>> findYarnSettings(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_settings where ysBlendIdfk = ?1',
+        mapper: (Map<String, Object?> row) => YarnSetting(
+            ysId: row['ysId'] as int,
+            ysBlendIdfk: row['ysBlendIdfk'] as String,
+            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String,
+            showCount: row['showCount'] as String,
+            showDannier: row['showDannier'] as String,
+            dannierMinMax: row['dannierMinMax'] as String,
+            showFilament: row['showFilament'] as String,
+            filamentMinMax: row['filamentMinMax'] as String,
+            showQlt: row['showQlt'] as String,
+            showClsp: row['showClsp'] as String,
+            showUniformity: row['showUniformity'] as String,
+            showCv: row['showCv'] as String,
+            showThinPlaces: row['showThinPlaces'] as String,
+            showtThickPlaces: row['showtThickPlaces'] as String,
+            showNaps: row['showNaps'] as String,
+            showIpmKm: row['showIpmKm'] as String,
+            showHairness: row['showHairness'] as String,
+            showRkm: row['showRkm'] as String,
+            showElongation: row['showElongation'] as String,
+            showTpi: row['showTpi'] as String,
+            showTm: row['showTm'] as String,
+            showDty: row['showDty'] as String,
+            showFdy: row['showFdy'] as String,
+            ysIsActive: row['ysIsActive'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteYarnSetting(int id) async {
+    await _queryAdapter.queryNoReturn('delete from yarn_settings where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertYarnSetting(YarnSetting yarnSettings) async {
+    await _yarnSettingInsertionAdapter.insert(
+        yarnSettings, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllYarnSettings(List<YarnSetting> fiberSettings) {
+    return _yarnSettingInsertionAdapter.insertListAndReturnIds(
+        fiberSettings, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<int> deleteAll(List<YarnSetting> list) {
+    return _yarnSettingDeletionAdapter.deleteListAndReturnChangedRows(list);
   }
 }

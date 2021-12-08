@@ -9,27 +9,29 @@ import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 
 class ApiService {
   static Map<String, String> headerMap = {"Accept": "application/json"};
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
-  static const String _LOGIN_END_POINT = "/login";
-  static const String _SYNC_FIBER_END_POINT = "/syncFiber";
-  static const String _GET_FIBER_SPEC_END_POINT = "/getSpecifications";
-  static const String _CREATE_FIBER_END_POINT = "/createSpecification";
+  static const String LOGIN_END_POINT = "/login";
+  static const String SYNC_FIBER_END_POINT = "/syncFiber";
+  static const String SYNC_YARN_END_POINT = "/syncYarn";
+  static const String GET_FIBER_SPEC_END_POINT = "/getSpecifications";
+  static const String CREATE_FIBER_END_POINT = "/createSpecification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
   static const String CREATE_BID_END_POINT = "/createBid";
   static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
   static const String GET_BANNERS_END_POINT = "/getBanners";
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
-    String url = BASE_API_URL + _LOGIN_END_POINT;
+    String url = BASE_API_URL + LOGIN_END_POINT;
     final response = await http.post(Uri.parse(url),
         headers: headerMap, body: requestModel.toJson());
     return LoginResponse.fromJson(
@@ -42,7 +44,7 @@ class ApiService {
         SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
-    String url = BASE_API_URL + _SYNC_FIBER_END_POINT;
+    String url = BASE_API_URL + SYNC_FIBER_END_POINT;
 
     final response = await http.post(Uri.parse(url), headers: headerMap);
 
@@ -51,9 +53,23 @@ class ApiService {
     );
   }
 
+  static Future<YarnSyncResponse> SyncYarn() async {
+    var userToken =
+    SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    headerMap['Authorization'] = 'Bearer $userToken';
+
+    String url = BASE_API_URL + SYNC_YARN_END_POINT;
+
+    final response = await http.post(Uri.parse(url), headers: headerMap);
+
+    return YarnSyncResponse.fromJson(
+      json.decode(response.body),
+    );
+  }
+
   static Future<FiberSpecificationResponse> getFiberSpecifications(
       FiberFilterRequestModel fiberRequestModel, String? locality) async {
-    String url = BASE_API_URL + _GET_FIBER_SPEC_END_POINT;
+    String url = BASE_API_URL + GET_FIBER_SPEC_END_POINT;
 
     var userToken =
         await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
@@ -72,7 +88,7 @@ class ApiService {
       FiberRequestModel fiberRequestModel, String imagePath) async {
     //for multipartrequest
     var request = http.MultipartRequest(
-        'POST', Uri.parse(BASE_API_URL + _CREATE_FIBER_END_POINT));
+        'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));
     var userToken =
         await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
     request.headers.addAll(

@@ -10,10 +10,9 @@ import 'package:yg_app/pages/market_pages/stock_lot.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class MarketPage extends StatefulWidget {
-
   String? locality;
 
-  MarketPage({Key? key,required this.locality}) : super(key: key);
+  MarketPage({Key? key, required this.locality}) : super(key: key);
 
   @override
   _MarketPageState createState() => _MarketPageState();
@@ -21,7 +20,6 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage>
     with SingleTickerProviderStateMixin {
-
   List<String> tabsList = [
     'Fiber',
     'Spinning',
@@ -139,9 +137,9 @@ class _MarketPageState extends State<MarketPage>
                           ).then((value) {
                             //Getting result from filter
                             if (_tabController!.index == 0) {
-                              if(value != null) {
+                              if (value != null) {
                                 stateFiberPage.currentState!
-                                    .refreshListing(value,true);
+                                    .refreshListing(value, true);
                               }
                             }
                           });
@@ -188,7 +186,9 @@ class _MarketPageState extends State<MarketPage>
                               key: stateFiberPage,
                               locality: widget.locality,
                             ),
-                            SpinningPage(),
+                            SpinningPage(
+                              locality: widget.locality,
+                            ),
                             ProductWeavingPage(),
                             ConverstionLeasingPage(),
                             StockLotPage()

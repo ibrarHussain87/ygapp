@@ -6,10 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/progress_dialog_util.dart';
 import 'package:yg_app/utils/show_messgae_util.dart';
@@ -21,7 +21,8 @@ import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class PackagingDetails extends StatefulWidget {
-  final SyncFiberResponse? syncFiberResponse;
+
+  final SyncFiberResponse syncFiberResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
@@ -141,7 +142,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               child: DropdownButtonFormField(
                                                 hint: const Text(
                                                     'Select Country'),
-                                                items: widget.syncFiberResponse!
+                                                items: widget.syncFiberResponse
                                                     .data.fiber.countries
                                                     .map((value) =>
                                                         DropdownMenuItem(
@@ -155,7 +156,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     .toList(),
                                                 isExpanded: true,
                                                 onChanged:
-                                                    (CountriesModel? value) {
+                                                    (Countries? value) {
                                                   _fiberRequestModel!
                                                           .spc_origin_idfk =
                                                       value!.conId.toString();
@@ -214,7 +215,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                               24.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text('Select Port'),
-                                                items: widget.syncFiberResponse!
+                                                items: widget.syncFiberResponse
                                                     .data.fiber.ports
                                                     .map((value) =>
                                                         DropdownMenuItem(
@@ -227,7 +228,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         ))
                                                     .toList(),
                                                 isExpanded: true,
-                                                onChanged: (PortsModel? value) {
+                                                onChanged: (Ports? value) {
                                                   _fiberRequestModel!
                                                           .spc_port_idfk =
                                                       value!.prtId.toString();
@@ -293,7 +294,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           child: DropdownButtonFormField(
                                             hint: Text(
                                                 'Select ${AppStrings.cityState}'),
-                                            items: widget.syncFiberResponse!
+                                            items: widget.syncFiberResponse
                                                 .data.fiber.cityState
                                                 .map((value) =>
                                                 DropdownMenuItem(
@@ -343,10 +344,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
-                                    .syncFiberResponse!.data.fiber.priceTerms,
+                                    .syncFiberResponse.data.fiber.priceTerms,
                                 callback: (value) {
                                   _fiberRequestModel!.fbp_price_terms_idfk =
-                                      widget.syncFiberResponse!.data.fiber
+                                      widget.syncFiberResponse.data.fiber
                                           .priceTerms[value].ptrId
                                           .toString();
                                 }),
@@ -365,13 +366,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             title: AppStrings.paymentType)),
                                     GridTileWidget(
                                         spanCount: 3,
-                                        listOfItems: widget.syncFiberResponse!
+                                        listOfItems: widget.syncFiberResponse
                                             .data.fiber.paymentType,
                                         callback: (value) {
                                           _fiberRequestModel!
                                                   .payment_type_idfk =
                                               widget
-                                                  .syncFiberResponse!
+                                                  .syncFiberResponse
                                                   .data
                                                   .fiber
                                                   .paymentType[value]
@@ -395,11 +396,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget
-                                          .syncFiberResponse!.data.fiber.lcType,
+                                          .syncFiberResponse.data.fiber.lcType,
                                       callback: (value) {
                                         if (_fiberRequestModel != null) {
                                           _fiberRequestModel!.lc_type_idfk =
-                                              widget.syncFiberResponse!.data
+                                              widget.syncFiberResponse.data
                                                   .fiber.lcType[value].lcId
                                                   .toString();
                                         }
@@ -423,12 +424,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget
-                                          .syncFiberResponse!.data.fiber.units,
+                                          .syncFiberResponse.data.fiber.units,
                                       callback: (value) {
                                         if (_fiberRequestModel != null) {
                                           _fiberRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              widget.syncFiberResponse!.data
+                                              widget.syncFiberResponse.data
                                                   .fiber.units[value].untId
                                                   .toString();
                                         }
@@ -512,11 +513,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget
-                                    .syncFiberResponse!.data.fiber.packing,
+                                    .syncFiberResponse.data.fiber.packing,
                                 callback: (value) {
                                   if (_fiberRequestModel != null) {
                                     _fiberRequestModel!.packing_idfk = widget
-                                        .syncFiberResponse!
+                                        .syncFiberResponse
                                         .data
                                         .fiber
                                         .packing[value]
@@ -530,13 +531,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     title: AppStrings.deliveryPeriod)),
                             GridTileWidget(
                                 spanCount: 3,
-                                listOfItems: widget.syncFiberResponse!.data
+                                listOfItems: widget.syncFiberResponse.data
                                     .fiber.deliveryPeriod,
                                 callback: (value) {
                                   if (_fiberRequestModel != null) {
                                     _fiberRequestModel!
                                             .fbp_delivery_period_idfk =
-                                        widget.syncFiberResponse!.data.fiber
+                                        widget.syncFiberResponse.data.fiber
                                             .deliveryPeriod[value].dprId
                                             .toString();
                                   }
@@ -634,19 +635,19 @@ class _PackagingDetailsState extends State<PackagingDetails>
   _initialValuesRequestModel() {
     if (widget.locality == AppStrings.international) {
       _fiberRequestModel!.lc_type_idfk =
-          widget.syncFiberResponse!.data.fiber.lcType.first.lcId.toString();
+          widget.syncFiberResponse.data.fiber.lcType.first.lcId.toString();
       _fiberRequestModel!.fbp_count_unit_idfk =
-          widget.syncFiberResponse!.data.fiber.units.first.untId.toString();
+          widget.syncFiberResponse.data.fiber.units.first.untId.toString();
     }
 
     _fiberRequestModel!.is_offering = widget.selectedTab;
 
     _fiberRequestModel!.fbp_price_terms_idfk =
-        widget.syncFiberResponse!.data.fiber.priceTerms.first.ptrId.toString();
+        widget.syncFiberResponse.data.fiber.priceTerms.first.ptrId.toString();
     _fiberRequestModel!.packing_idfk =
-        widget.syncFiberResponse!.data.fiber.packing.first.pacId.toString();
+        widget.syncFiberResponse.data.fiber.packing.first.pacId.toString();
     _fiberRequestModel!.fbp_delivery_period_idfk = widget
-        .syncFiberResponse!.data.fiber.deliveryPeriod.first.dprId
+        .syncFiberResponse.data.fiber.deliveryPeriod.first.dprId
         .toString();
   }
 

@@ -5,7 +5,9 @@ import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class SpinningPage extends StatefulWidget {
-  const SpinningPage({Key? key}) : super(key: key);
+  final String? locality;
+
+  const SpinningPage({Key? key, required this.locality}) : super(key: key);
 
   @override
   _SpinningPageState createState() => _SpinningPageState();
@@ -13,15 +15,16 @@ class SpinningPage extends StatefulWidget {
 
 class _SpinningPageState extends State<SpinningPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
-        onWillPop: () async{
-          if(isDialOpen.value){
+        onWillPop: () async {
+          if (isDialOpen.value) {
             isDialOpen.value = false;
             return false;
-          }else{
+          } else {
             return true;
           }
         },
@@ -40,39 +43,41 @@ class _SpinningPageState extends State<SpinningPage> {
               SpeedDialChild(
                   label: 'Requirement',
                   backgroundColor: Colors.blue,
-                  onTap: (){
+                  onTap: () {
                     setState(() {
                       isDialOpen.value = false;
                     });
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SpinningPostAdPage(businessArea:"Spinning",selectedTab:"requirement"),
+                        builder: (context) => SpinningPostAdPage(
+                            locality: widget.locality,
+                            businessArea: "Yarn",
+                            selectedTab: '0'),
                       ),
                     );
-                  }
-              ),
+                  }),
               SpeedDialChild(
                   label: 'Offering',
-                  onTap: (){
+                  onTap: () {
                     setState(() {
                       isDialOpen.value = false;
                     });
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SpinningPostAdPage(businessArea:"Spinning",selectedTab:"Offering"),
+                        builder: (context) => SpinningPostAdPage(
+                            locality: widget.locality,
+                            businessArea: "Yarn",
+                            selectedTab: '1'),
                       ),
                     );
-                  }
-              ),
+                  }),
             ],
           ),
-          body: Container(
-          ),
+          body: Container(),
         ),
       ),
     );
   }
-
 }

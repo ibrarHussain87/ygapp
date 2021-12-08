@@ -7,7 +7,7 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/strings.dart';
@@ -74,8 +74,8 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
       future: AppDbInstance.getDbInstance().then((value) async {
-        await value.fiberGradesDao
-            .insertAllFiberGrades(data!.data.fiber.grades);
+        await value.gradesDao
+            .insertAllGrades(data!.data.fiber.grades);
         await value.fiberMaterialDao
             .insertAllFiberMaterials(data.data.fiber.material);
         return value.fiberSettingDao
@@ -115,20 +115,17 @@ class _FiberPostPageState extends State<FiberPostPage> {
               child: const TitleTextWidget(
                 title: 'Fiber Material',
               )),
-          SizedBox(
-            height: 64.w,
-            child: MaterialListviewWidget(
-              listItem: data.data.fiber.material,
-              onClickCallback: (index) {
-                _fiberRequestModel!.spc_fiber_material_idfk =
-                    data.data.fiber.material[index].fbmId.toString();
+          MaterialListviewWidget(
+            listItem: data.data.fiber.material,
+            onClickCallback: (index) {
+              _fiberRequestModel!.spc_fiber_material_idfk =
+                  data.data.fiber.material[index].fbmId.toString();
 
-                /// Publishing Event
-                BroadcastReceiver().publish<int>(
-                    AppStrings.materialIndexBroadcast,
-                    arguments: index);
-              },
-            ),
+              /// Publishing Event
+              BroadcastReceiver().publish<int>(
+                  AppStrings.materialIndexBroadcast,
+                  arguments: index);
+            },
           ),
           Expanded(
             child: FiberStepsSegments(
@@ -137,8 +134,8 @@ class _FiberPostPageState extends State<FiberPostPage> {
               businessArea: widget.businessArea,
               selectedTab: widget.selectedTab,
               stepsCallback: (value) {
-                if (value is FiberRequestModel) {
-                } else if (value is int) {
+               /* if (value is FiberRequestModel) {
+                } else*/ if (value is int) {
                   selectedSegment = value;
                   BroadcastReceiver().publish<int>(
                       AppStrings.segmentIndexBroadcast,

@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_delivery_period')
-class FiberDeliveryPeriod {
-  FiberDeliveryPeriod({
+@Entity(tableName: 'delivery_period')
+class DeliveryPeriod {
+  DeliveryPeriod({
     required this.dprId,
     required this.dprCategoryIdfk,
     required this.dprName,
@@ -26,7 +26,7 @@ class FiberDeliveryPeriod {
   @ignore
   late final Null deletedAt;
 
-  FiberDeliveryPeriod.fromJson(Map<String, dynamic> json){
+  DeliveryPeriod.fromJson(Map<String, dynamic> json){
     dprId = json['dpr_id'];
     dprCategoryIdfk = json['dpr_category_idfk'];
     dprName = json['dpr_name'];

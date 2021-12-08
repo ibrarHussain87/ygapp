@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/family_data.dart';
 import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/widgets/grid_tile_more_widget/grid_tile_widget.dart';
+import 'package:yg_app/widgets/grid_tile_more_widget/grid_tile_more_widget.dart';
 import 'package:yg_app/widgets/grid_tile_widget.dart';
 
 class HomeFilterWidget extends StatefulWidget {

@@ -11,16 +11,16 @@ import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class ListBidderBody extends StatefulWidget {
-
   final ListBiddersData listBiddersData;
-  const ListBidderBody({Key? key,required this.listBiddersData}) : super(key: key);
+
+  const ListBidderBody({Key? key, required this.listBiddersData})
+      : super(key: key);
 
   @override
   _ListBidderBodyState createState() => _ListBidderBodyState();
 }
 
 class _ListBidderBodyState extends State<ListBidderBody> {
-
   String? _changeColor;
 
   @override
@@ -56,8 +56,9 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleTextWidget(title: widget.listBiddersData.userName ?? ""),
-                    BrandWidget(title:  widget.listBiddersData.date ?? "N/A")
+                    TitleTextWidget(
+                        title: widget.listBiddersData.userName ?? ""),
+                    BrandWidget(title: widget.listBiddersData.date ?? "N/A")
                   ],
                 ),
                 flex: 8,
@@ -66,7 +67,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TitleTextWidget(title:  widget.listBiddersData.price ?? ""),
+                  TitleTextWidget(title: widget.listBiddersData.price ?? ""),
                   SizedBox(
                     height: 4.w,
                   ),
@@ -75,15 +76,17 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          _changeBidApi( widget.listBiddersData.bidId, 2);
+                          if (_changeColor == "0") {
+                            _changeBidApi(widget.listBiddersData.bidId, 2);
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color:  _changeColor == "0"
+                              color: _changeColor == "0"
                                   ? AppColors.redClr
                                   : AppColors.redClr.withOpacity(0.3),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(4.w))),
+                                  BorderRadius.all(Radius.circular(4.w))),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 3.w, bottom: 3.w, left: 12.w, right: 12.w),
@@ -104,15 +107,17 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          _changeBidApi( widget.listBiddersData.bidId, 1);
+                          if (_changeColor == '0') {
+                            _changeBidApi(widget.listBiddersData.bidId, 1);
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color:  _changeColor == "0"
+                              color: _changeColor == "0"
                                   ? AppColors.btnGreen
-                                  :  AppColors.greenClr.withOpacity(0.3),
+                                  : AppColors.greenClr.withOpacity(0.3),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(4.w))),
+                                  BorderRadius.all(Radius.circular(4.w))),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 3.w, bottom: 3.w, left: 12.w, right: 12.w),
@@ -140,13 +145,12 @@ class _ListBidderBodyState extends State<ListBidderBody> {
   }
 
   _changeBidApi(bidId, status) {
-
     ProgressDialogUtil.showDialog(context, "Please wait...");
     ApiService.bidChangeStatus(bidId, status).then((value) {
       ProgressDialogUtil.hideDialog();
       if (value.status) {
         setState(() {
-         _changeColor = "1";
+          _changeColor = "1";
         });
       }
 
@@ -157,5 +161,3 @@ class _ListBidderBodyState extends State<ListBidderBody> {
     });
   }
 }
-
-

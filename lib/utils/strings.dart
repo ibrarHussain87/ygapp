@@ -54,11 +54,11 @@ class AppStrings{
   static String deliveryPeriod = 'Delivery Period';
   static String descriptionStr = 'Description';
   static String submit = 'Submit';
-
   static var cityState = 'City State';
-
   static var todayPremium = "Today's premium";
   static var marketTrends = "Market Trends";
+  static var yarnCategory = 'Yarn Category';
+  static var brand = 'Brand';
 
 
 

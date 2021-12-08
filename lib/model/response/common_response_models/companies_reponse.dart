@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'companies')
-class CompaniesModel {
-  CompaniesModel({
+class Companies {
+  Companies({
     required this.id,
     required this.name,
     required this.gst,
@@ -51,7 +51,7 @@ class CompaniesModel {
   @ignore
   late final Null rating;
 
-  CompaniesModel.fromJson(Map<String, dynamic> json){
+  Companies.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
     gst = json['gst'];

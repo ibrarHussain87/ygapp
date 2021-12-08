@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_units')
-class FiberUnits {
-  FiberUnits({
+@Entity(tableName: 'units_table')
+class Units {
+  Units({
     required this.untId,
     required this.untCategoryIdfk,
     required this.untName,
@@ -26,7 +26,7 @@ class FiberUnits {
   @ignore
   late final Null deletedAt;
 
-  FiberUnits.fromJson(Map<String, dynamic> json){
+  Units.fromJson(Map<String, dynamic> json){
     untId = json['unt_id'];
     untCategoryIdfk = json['unt_category_idfk'];
     untName = json['unt_name'];

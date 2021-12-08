@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GridWidget extends StatefulWidget {
-  List<dynamic>? familyList;
-  Function? callback;
+class GridFamilyWidget extends StatefulWidget {
+  final List<dynamic>? familyList;
+  final Function? callback;
 
-  GridWidget({Key? key, required this.familyList, required this.callback})
+  const GridFamilyWidget({Key? key, required this.familyList, required this.callback})
       : super(key: key);
 
   @override
-  _GridWidgetState createState() => _GridWidgetState();
+  _GridFamilyWidgetState createState() => _GridFamilyWidgetState();
 }
 
-class _GridWidgetState extends State<GridWidget> {
+class _GridFamilyWidgetState extends State<GridFamilyWidget> {
   int checkedFamily = 0;
 
   @override
@@ -41,27 +41,25 @@ class _GridWidgetState extends State<GridWidget> {
       },
       child: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  checked
-                      ? widget.familyList![index].imageUrl
-                      : widget.familyList![index].unselectedImage,
-                  height: 24.h,
-                  width: 24.w,
+          Column(
+            children: [
+              Image.asset(
+                checked
+                    ? widget.familyList![index].imageUrl
+                    : widget.familyList![index].unselectedImage,
+                height: 24.h,
+                width: 24.w,
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              Text(
+                widget.familyList![index].familyName,
+                style: TextStyle(
+                  fontSize: 11.sp,
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  widget.familyList![index].familyName,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           )
         ],
       ),

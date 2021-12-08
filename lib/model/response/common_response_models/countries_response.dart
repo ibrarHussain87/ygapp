@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'countries')
-class CountriesModel {
-  CountriesModel({
+class Countries {
+  Countries({
     required this.conId,
     required this.conName,
     required this.conIsoCode_2,
@@ -21,7 +21,7 @@ class CountriesModel {
   late final String conPostcodeRequired;
   late final String conIsActive;
 
-  CountriesModel.fromJson(Map<String, dynamic> json){
+  Countries.fromJson(Map<String, dynamic> json){
     conId = json['con_id'];
     conName = json['con_name'];
     conIsoCode_2 = json['con_iso_code_2'];

@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 @dao
 abstract class FiberMaterialDao{

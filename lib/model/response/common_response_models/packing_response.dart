@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'packing')
-class PackingModel {
-  PackingModel({
+class Packing {
+  Packing({
     required this.pacId,
     required this.pacName,
     required this.pacIsActive,
@@ -24,7 +24,7 @@ class PackingModel {
   @ignore
   late final Null deletedAt;
 
-  PackingModel.fromJson(Map<String, dynamic> json){
+  Packing.fromJson(Map<String, dynamic> json){
     pacId = json['pac_id'];
     pacName = json['pac_name'];
     pacIsActive = json['pac_is_active'];

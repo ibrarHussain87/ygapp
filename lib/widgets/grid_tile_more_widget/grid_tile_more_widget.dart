@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../grid_widget.dart';
+import '../grid_family_widget.dart';
 
 class GridMoreWidget extends StatefulWidget {
   Function? callback;
@@ -94,7 +94,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
           return Container(
             height: MediaQuery.of(context).size.height/3,
             padding: EdgeInsets.all(16.w),
-            child: GridWidget(
+            child: GridFamilyWidget(
               callback: (value) {
                 Navigator.pop(context);
               },

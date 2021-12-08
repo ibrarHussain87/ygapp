@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElevatedButtonWithoutIcon extends StatefulWidget {
-  Function? callback;
-  Color? color;
-  String? btnText;
-  String? textColor;
+  final Function? callback;
+  final Color? color;
+  final String? btnText;
+  final String? textColor;
 
-  ElevatedButtonWithoutIcon(
+  const ElevatedButtonWithoutIcon(
       {Key? key,
       required this.callback,
       required this.color,

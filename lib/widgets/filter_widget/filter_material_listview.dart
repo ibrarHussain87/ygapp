@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/sync_fiber_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/widgets/network_icon_widget.dart';
 

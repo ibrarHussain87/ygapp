@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/list_items_widgets/market_list_item.dart';
+import 'package:yg_app/list_items_widgets/fiber_market_list_item.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/main_fiber_detail_page.dart';
@@ -13,6 +13,7 @@ import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberPage extends StatefulWidget {
+
   final String? locality;
 
   const FiberPage({Key? key, required this.locality}) : super(key: key);
@@ -244,7 +245,7 @@ class FiberPageState extends State<FiberPage> {
                           ),
                         );
                       },
-                      child: buildWidget(data.data.specification[index])),
+                      child: buildFiberWidget(data.data.specification[index])),
                   separatorBuilder: (context, index) {
                     return Divider(
                       height: 1,

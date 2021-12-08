@@ -1,19 +1,18 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/brands_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/city_state_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/companies_reponse.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/packing_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/payment_type_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_sync_response/price_term.dart';
-
-import 'fiber_apperance.dart';
-import '../common_response_models/certification_response.dart';
-import 'fiber_delievery_period.dart';
-import 'fiber_grade.dart';
-import 'fiber_unit_of_count.dart';
+import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/certification_response.dart';
+import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/fiber_apperance.dart';
+import 'package:yg_app/model/response/common_response_models/fiber_delievery_period.dart';
+import 'package:yg_app/model/response/common_response_models/grade.dart';
+import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/common_response_models/packing_response.dart';
+import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/common_response_models/ports_response.dart';
+import 'package:yg_app/model/response/common_response_models/price_term.dart';
+import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 
 class SyncFiberResponse {
   SyncFiberResponse({
@@ -77,41 +76,41 @@ class FiberModel {
   });
   late final List<FiberCategories> categories;
   late final List<FiberMaterial> material;
-  late final List<FiberApperance> apperance;
-  late final List<CountriesModel> countries;
-  late final List<CertificationModel> certification;
-  late final List<FiberDeliveryPeriod> deliveryPeriod;
-  late final List<FiberUnits> units;
-  late final List<BrandsModel> brands;
-  late final List<FiberGrades> grades;
-  late final List<FiberPriceTerms> priceTerms;
+  late final List<Apperance> apperance;
+  late final List<Countries> countries;
+  late final List<Certification> certification;
+  late final List<DeliveryPeriod> deliveryPeriod;
+  late final List<Units> units;
+  late final List<Brands> brands;
+  late final List<Grades> grades;
+  late final List<FPriceTerms> priceTerms;
   late final List<FiberAvailbleForMarket> availbleForMarket;
-  late final List<CompaniesModel> companies;
-  late final List<PaymentTypeModel> paymentType;
+  late final List<Companies> companies;
+  late final List<PaymentType> paymentType;
   late final List<CityState> cityState;
-  late final List<PortsModel> ports;
-  late final List<LcTypeModel> lcType;
-  late final List<PackingModel> packing;
+  late final List<Ports> ports;
+  late final List<LcType> lcType;
+  late final List<Packing> packing;
   late final List<FiberSettings> settings;
 
   FiberModel.fromJson(Map<String, dynamic> json){
     categories = List.from(json['categories']).map((e)=>FiberCategories.fromJson(e)).toList();
     material = List.from(json['material']).map((e)=>FiberMaterial.fromJson(e)).toList();
-    apperance = List.from(json['apperance']).map((e)=>FiberApperance.fromJson(e)).toList();
-    brands = List.from(json['brands']).map((e)=>BrandsModel.fromJson(e)).toList();
-    countries = List.from(json['countries']).map((e)=>CountriesModel.fromJson(e)).toList();
-    certification = List.from(json['certification']).map((e)=>CertificationModel.fromJson(e)).toList();
-    deliveryPeriod = List.from(json['deliveryPeriod']).map((e)=>FiberDeliveryPeriod.fromJson(e)).toList();
-    units = List.from(json['units']).map((e)=>FiberUnits.fromJson(e)).toList();
-    grades = List.from(json['grades']).map((e)=>FiberGrades.fromJson(e)).toList();
-    priceTerms = List.from(json['priceTerms']).map((e)=>FiberPriceTerms.fromJson(e)).toList();
+    apperance = List.from(json['apperance']).map((e)=>Apperance.fromJson(e)).toList();
+    brands = List.from(json['brands']).map((e)=>Brands.fromJson(e)).toList();
+    countries = List.from(json['countries']).map((e)=>Countries.fromJson(e)).toList();
+    certification = List.from(json['certification']).map((e)=>Certification.fromJson(e)).toList();
+    deliveryPeriod = List.from(json['deliveryPeriod']).map((e)=>DeliveryPeriod.fromJson(e)).toList();
+    units = List.from(json['units']).map((e)=>Units.fromJson(e)).toList();
+    grades = List.from(json['grades']).map((e)=>Grades.fromJson(e)).toList();
+    priceTerms = List.from(json['priceTerms']).map((e)=>FPriceTerms.fromJson(e)).toList();
     availbleForMarket = List.from(json['availbleForMarket']).map((e)=>FiberAvailbleForMarket.fromJson(e)).toList();
-    companies = List.from(json['companies']).map((e)=>CompaniesModel.fromJson(e)).toList();
-    paymentType = List.from(json['payment_types']).map((e)=>PaymentTypeModel.fromJson(e)).toList();
+    companies = List.from(json['companies']).map((e)=>Companies.fromJson(e)).toList();
+    paymentType = List.from(json['payment_types']).map((e)=>PaymentType.fromJson(e)).toList();
     cityState = List.from(json['city_state']).map((e)=>CityState.fromJson(e)).toList();
-    ports = List.from(json['ports']).map((e)=>PortsModel.fromJson(e)).toList();
-    lcType = List.from(json['lc_types']).map((e)=>LcTypeModel.fromJson(e)).toList();
-    packing = List.from(json['packing']).map((e)=>PackingModel.fromJson(e)).toList();
+    ports = List.from(json['ports']).map((e)=>Ports.fromJson(e)).toList();
+    lcType = List.from(json['lc_types']).map((e)=>LcType.fromJson(e)).toList();
+    packing = List.from(json['packing']).map((e)=>Packing.fromJson(e)).toList();
     settings = List.from(json['settings']).map((e)=>FiberSettings.fromJson(e)).toList();
   }
 

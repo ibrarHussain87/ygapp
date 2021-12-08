@@ -47,7 +47,7 @@ class _ListViewWidgetColoredState extends State<ListViewWidgetColored> {
           width: 96.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(12.w)),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.grey,
                 blurRadius: 1.0,

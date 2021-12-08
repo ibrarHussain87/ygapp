@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'lc_type')
-class LcTypeModel {
-  LcTypeModel({
+class LcType {
+  LcType({
     required this.lcId,
     required this.lcName,
     required this.lcIsActive,
@@ -24,7 +24,7 @@ class LcTypeModel {
   @ignore
   late final Null deletedAt;
 
-  LcTypeModel.fromJson(Map<String, dynamic> json){
+  LcType.fromJson(Map<String, dynamic> json){
     lcId = json['lc_id'];
     lcName = json['lc_name'];
     lcIsActive = json['lc_is_active'];

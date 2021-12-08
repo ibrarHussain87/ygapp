@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_apperance')
-class FiberApperance {
-  FiberApperance({
+@Entity(tableName: 'apperance')
+class Apperance {
+  Apperance({
     required this.aprId,
     required this.aprCategoryIdfk,
     required this.aprName,
@@ -18,7 +18,7 @@ class FiberApperance {
   @ignore
   late final Null aprSortid;
 
-  FiberApperance.fromJson(Map<String, dynamic> json){
+  Apperance.fromJson(Map<String, dynamic> json){
     aprId = json['apr_id'];
     aprCategoryIdfk = json['apr_category_idfk'];
     aprName = json['apr_name'];

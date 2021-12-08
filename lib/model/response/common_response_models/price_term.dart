@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'fiber_price_table')
-class FiberPriceTerms {
-  FiberPriceTerms({
+@Entity(tableName: 'price_terms_table')
+class FPriceTerms {
+  FPriceTerms({
     required this.ptrId,
     required this.ptrCategoryIdfk,
     this.ptrCountryIdfk,
@@ -29,7 +29,7 @@ class FiberPriceTerms {
   @ignore
   late final Null deletedAt;
 
-  FiberPriceTerms.fromJson(Map<String, dynamic> json){
+  FPriceTerms.fromJson(Map<String, dynamic> json){
     ptrId = json['ptr_id'];
     ptrCategoryIdfk = json['ptr_category_idfk'];
     ptrCountryIdfk = null;

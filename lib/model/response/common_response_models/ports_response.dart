@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'ports')
-class PortsModel {
-  PortsModel({
+class Ports {
+  Ports({
     required this.prtId,
     required this.prtCountryIdfk,
     required this.prtName,
@@ -26,7 +26,7 @@ class PortsModel {
   @ignore
   late final Null deletedAt;
 
-  PortsModel.fromJson(Map<String, dynamic> json){
+  Ports.fromJson(Map<String, dynamic> json){
     prtId = json['prt_id'];
     prtCountryIdfk = json['prt_country_idfk'];
     prtName = json['prt_name'];

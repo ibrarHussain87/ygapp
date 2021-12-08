@@ -1,8 +1,8 @@
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'payment_type')
-class PaymentTypeModel {
-  PaymentTypeModel({
+class PaymentType {
+  PaymentType({
     required this.payId,
     required this.payName,
     required this.payIsActive,
@@ -24,7 +24,7 @@ class PaymentTypeModel {
   @ignore
   late final Null deletedAt;
 
-  PaymentTypeModel.fromJson(Map<String, dynamic> json){
+  PaymentType.fromJson(Map<String, dynamic> json){
     payId = json['pay_id'];
     payName = json['pay_name'];
     payIsActive = json['pay_is_active'];
