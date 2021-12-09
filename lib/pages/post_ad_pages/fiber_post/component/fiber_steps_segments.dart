@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/utils/colors.dart';
@@ -9,7 +8,6 @@ import 'package:yg_app/utils/colors.dart';
 import 'fiber_specification_component.dart';
 
 class FiberStepsSegments extends StatefulWidget {
-
   final Function? stepsCallback;
   final Map<int, String>? stepsMapping;
   final SyncFiberResponse syncFiberResponse;
@@ -17,13 +15,14 @@ class FiberStepsSegments extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberStepsSegments({Key? key,
-    required this.syncFiberResponse,
-    required this.stepsCallback,
-    required this.locality,
-    required this.businessArea,
-    required this.selectedTab,
-    this.stepsMapping})
+  const FiberStepsSegments(
+      {Key? key,
+      required this.syncFiberResponse,
+      required this.stepsCallback,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab,
+      this.stepsMapping})
       : super(key: key);
 
   @override
@@ -31,10 +30,11 @@ class FiberStepsSegments extends StatefulWidget {
 }
 
 class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
-
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
+
+  final GlobalKey<FiberSpecificationComponentState> _fiberSpecificationState = GlobalKey<FiberSpecificationComponentState>();
   // late SyncFiberResponse _syncFiberResponse;
 
   @override
@@ -44,6 +44,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
 
     _samplePages = [
       FiberSpecificationComponent(
+        key: _fiberSpecificationState,
         syncFiberResponse: widget.syncFiberResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
@@ -54,15 +55,25 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
           });
           widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,
-              duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
         },
       ),
       PackagingDetails(
         // requestModel: _fiberRequestModel,
-          locality: widget.locality,
-          businessArea: widget.businessArea,
-          selectedTab: widget.selectedTab,
-          syncFiberResponse: widget.syncFiberResponse),
+        locality: widget.locality,
+        businessArea: widget.businessArea,
+        selectedTab: widget.selectedTab,
+        lcType: widget.syncFiberResponse.data.fiber.lcType,
+        cityState: widget.syncFiberResponse.data.fiber.cityState,
+        countries: widget.syncFiberResponse.data.fiber.countries,
+        packing: widget.syncFiberResponse.data.fiber.packing,
+        paymentType: widget.syncFiberResponse.data.fiber.paymentType,
+        ports: widget.syncFiberResponse.data.fiber.ports,
+        priceTerms: widget.syncFiberResponse.data.fiber.priceTerms,
+        deliveryPeriod: widget.syncFiberResponse.data.fiber.deliveryPeriod,
+        units: widget.syncFiberResponse.data.fiber.units,
+      ),
     ];
 
     super.initState();
@@ -77,8 +88,9 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
           children: [
             Expanded(
               child: CupertinoSegmentedControl(
-                borderColor: Colors.black38,
+                borderColor: Colors.grey.shade300,
                 selectedColor: AppColors.lightBlueTabs,
+                pressedColor: Colors.white,
                 groupValue: selectedValue,
                 children: {
                   1: Container(
@@ -107,13 +119,10 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                   ),
                 },
                 onValueChanged: (value) {
-                  setState(() {
-                    selectedValue = value as int;
-                  });
-                  widget.stepsCallback!(value);
-                  _pageController.animateToPage(selectedValue - 1,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInOut);
+                  if(_fiberSpecificationState.currentState!.validationAllPage()){
+                    _moveToNextPage(value);
+                  }
+
                 },
               ),
             ),
@@ -131,5 +140,15 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         ),
       ],
     );
+  }
+
+  _moveToNextPage(value){
+    setState(() {
+      selectedValue = value as int;
+    });
+    widget.stepsCallback!(value);
+    _pageController.animateToPage(selectedValue - 1,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut);
   }
 }

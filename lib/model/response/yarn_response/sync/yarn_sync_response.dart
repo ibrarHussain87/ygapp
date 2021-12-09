@@ -424,6 +424,11 @@ class PatternCharectristic {
     _data['ypc_sortid'] = ypcSortid;
     return _data;
   }
+
+  @override
+  String toString() {
+    return ypcName;
+  }
 }
 
 class Ply {
@@ -779,6 +784,7 @@ class YarnSetting {
     required this.showTm,
     required this.showDty,
     required this.showFdy,
+    required this.showRatio,
     required this.ysIsActive,
     this.ysSortid,
   });
@@ -806,6 +812,7 @@ class YarnSetting {
   late final String showTm;
   late final String showDty;
   late final String showFdy;
+  late final String showRatio;
   late final String ysIsActive;
   @ignore
   late final Null ysSortid;
@@ -834,6 +841,7 @@ class YarnSetting {
     showTm = json['show_tm'];
     showDty = json['show_dty'];
     showFdy = json['show_fdy'];
+    showRatio = json['show_ratio'];
     ysIsActive = json['ys_is_active'];
     ysSortid = null;
   }
@@ -863,6 +871,7 @@ class YarnSetting {
     _data['show_tm'] = showTm;
     _data['show_dty'] = showDty;
     _data['show_fdy'] = showFdy;
+    _data['show_ratio'] = showRatio;
     _data['ys_is_active'] = ysIsActive;
     _data['ys_sortid'] = ysSortid;
     return _data;

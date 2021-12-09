@@ -6,7 +6,7 @@ import 'package:yg_app/utils/colors.dart';
 
 class ListViewWidgetColored extends StatefulWidget {
 
-  List<FamilyData>? listItems;
+  List<dynamic>? listItems;
   Function? callback;
 
   ListViewWidgetColored({Key? key,required this.listItems,required this.callback}) : super(key: key);
@@ -71,7 +71,7 @@ class _ListViewWidgetColoredState extends State<ListViewWidgetColored> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  widget.listItems![index].familyName,
+                  widget.listItems![index].toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 9.sp,

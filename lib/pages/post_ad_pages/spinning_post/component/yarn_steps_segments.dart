@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/bottom_nav_main_pages/yg_services.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_specification_body.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
 
 import '../../packing_details_component.dart';
 
 class YarnStepsSegments extends StatefulWidget {
-
   final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
@@ -29,15 +28,15 @@ class YarnStepsSegments extends StatefulWidget {
 }
 
 class YarnStepsSegmentsState extends State<YarnStepsSegments> {
-
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
-  GlobalKey<YarnSpecificationComponentState> yarnSpecificationComponentStateKey = GlobalKey<YarnSpecificationComponentState>();
+  GlobalKey<YarnSpecificationComponentState>
+      yarnSpecificationComponentStateKey =
+      GlobalKey<YarnSpecificationComponentState>();
 
   @override
   void initState() {
-
     _pageController = PageController();
     _samplePages = [
       YarnSpecificationComponent(
@@ -52,11 +51,30 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
           });
           // widget.stepsCallback!(value);
           _pageController.animateToPage(selectedValue - 1,
-              duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
         },
       ),
-      YGServices(),
-      YGServices(),
+      LabParameterPage(
+          yarnSyncResponse: widget.yarnSyncResponse,
+          locality: widget.locality,
+          businessArea: widget.businessArea,
+          selectedTab: widget.selectedTab),
+      PackagingDetails(
+        // requestModel: _fiberRequestModel,
+        locality: widget.locality,
+        businessArea: widget.businessArea,
+        selectedTab: widget.selectedTab,
+        lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+        cityState: widget.yarnSyncResponse.data.yarn.cityState,
+        countries: widget.yarnSyncResponse.data.yarn.countries,
+        packing: widget.yarnSyncResponse.data.yarn.packing,
+        paymentType: widget.yarnSyncResponse.data.yarn.paymentTypes,
+        ports: widget.yarnSyncResponse.data.yarn.ports,
+        priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
+        deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
+        units: widget.yarnSyncResponse.data.yarn.units,
+      ),
       // PackagingDetails(
       //   // requestModel: _fiberRequestModel,
       //     locality: widget.locality,
@@ -77,7 +95,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
           children: [
             Expanded(
               child: CupertinoSegmentedControl(
-                borderColor: Colors.black38,
+                borderColor: Colors.grey.shade300,
                 selectedColor: AppColors.lightBlueTabs,
                 groupValue: selectedValue,
                 children: {
@@ -145,7 +163,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
     );
   }
 
-  onClickBlend(value){
+  onClickBlend(value) {
     yarnSpecificationComponentStateKey.currentState!.querySettings(value);
     // ShowMessageUtils.showSnackBar(context, value.toString());
   }

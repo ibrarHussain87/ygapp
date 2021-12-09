@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/strings.dart';
 
 class SpinningPage extends StatefulWidget {
   final String? locality;
@@ -52,7 +53,7 @@ class _SpinningPageState extends State<SpinningPage> {
                       MaterialPageRoute(
                         builder: (context) => SpinningPostAdPage(
                             locality: widget.locality,
-                            businessArea: "Yarn",
+                            businessArea: AppStrings.yarn,
                             selectedTab: '0'),
                       ),
                     );

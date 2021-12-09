@@ -26,12 +26,12 @@ class SpinningPostAdPage extends StatefulWidget {
 }
 
 class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
-  FiberRequestModel? _fiberRequestModel;
+  CreateRequestModel? _fiberRequestModel;
   Future<YarnSyncResponse>? _syncFuture;
 
   @override
   void initState() {
-    _fiberRequestModel = FiberRequestModel();
+    _fiberRequestModel = CreateRequestModel();
     _syncFuture = ApiService.SyncYarn();
     super.initState();
   }

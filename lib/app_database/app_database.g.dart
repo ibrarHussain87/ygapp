@@ -120,7 +120,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER NOT NULL, `ysBlendIdfk` TEXT NOT NULL, `ysFiberMaterialIdfk` TEXT NOT NULL, `showCount` TEXT NOT NULL, `showDannier` TEXT NOT NULL, `dannierMinMax` TEXT NOT NULL, `showFilament` TEXT NOT NULL, `filamentMinMax` TEXT NOT NULL, `showQlt` TEXT NOT NULL, `showClsp` TEXT NOT NULL, `showUniformity` TEXT NOT NULL, `showCv` TEXT NOT NULL, `showThinPlaces` TEXT NOT NULL, `showtThickPlaces` TEXT NOT NULL, `showNaps` TEXT NOT NULL, `showIpmKm` TEXT NOT NULL, `showHairness` TEXT NOT NULL, `showRkm` TEXT NOT NULL, `showElongation` TEXT NOT NULL, `showTpi` TEXT NOT NULL, `showTm` TEXT NOT NULL, `showDty` TEXT NOT NULL, `showFdy` TEXT NOT NULL, `ysIsActive` TEXT NOT NULL, PRIMARY KEY (`ysId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER NOT NULL, `ysBlendIdfk` TEXT NOT NULL, `ysFiberMaterialIdfk` TEXT NOT NULL, `showCount` TEXT NOT NULL, `showDannier` TEXT NOT NULL, `dannierMinMax` TEXT NOT NULL, `showFilament` TEXT NOT NULL, `filamentMinMax` TEXT NOT NULL, `showQlt` TEXT NOT NULL, `showClsp` TEXT NOT NULL, `showUniformity` TEXT NOT NULL, `showCv` TEXT NOT NULL, `showThinPlaces` TEXT NOT NULL, `showtThickPlaces` TEXT NOT NULL, `showNaps` TEXT NOT NULL, `showIpmKm` TEXT NOT NULL, `showHairness` TEXT NOT NULL, `showRkm` TEXT NOT NULL, `showElongation` TEXT NOT NULL, `showTpi` TEXT NOT NULL, `showTm` TEXT NOT NULL, `showDty` TEXT NOT NULL, `showFdy` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `ysIsActive` TEXT NOT NULL, PRIMARY KEY (`ysId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -527,6 +527,7 @@ class _$YarnSettingDao extends YarnSettingDao {
                   'showTm': item.showTm,
                   'showDty': item.showDty,
                   'showFdy': item.showFdy,
+                  'showRatio': item.showRatio,
                   'ysIsActive': item.ysIsActive
                 }),
         _yarnSettingDeletionAdapter = DeletionAdapter(
@@ -557,6 +558,7 @@ class _$YarnSettingDao extends YarnSettingDao {
                   'showTm': item.showTm,
                   'showDty': item.showDty,
                   'showFdy': item.showFdy,
+                  'showRatio': item.showRatio,
                   'ysIsActive': item.ysIsActive
                 });
 
@@ -597,6 +599,7 @@ class _$YarnSettingDao extends YarnSettingDao {
             showTm: row['showTm'] as String,
             showDty: row['showDty'] as String,
             showFdy: row['showFdy'] as String,
+            showRatio: row['showRatio'] as String,
             ysIsActive: row['ysIsActive'] as String));
   }
 
@@ -628,6 +631,7 @@ class _$YarnSettingDao extends YarnSettingDao {
             showTm: row['showTm'] as String,
             showDty: row['showDty'] as String,
             showFdy: row['showFdy'] as String,
+            showRatio: row['showRatio'] as String,
             ysIsActive: row['ysIsActive'] as String),
         arguments: [id]);
   }

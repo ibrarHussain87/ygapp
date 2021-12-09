@@ -29,6 +29,7 @@ class AppStrings{
   static String requestModelKey = "REQUEST_MODEL_KEY";
   static String selectSpecifications = "Select your accurate specifications";
   static String local = 'LOCAL';
+  static String labParameters = 'Lab Paramets';
   static String international = 'INTERNATIONAL';
   static String home = 'Home';
   static String localMarket = 'Local';
@@ -54,11 +55,34 @@ class AppStrings{
   static String deliveryPeriod = 'Delivery Period';
   static String descriptionStr = 'Description';
   static String submit = 'Submit';
-  static var cityState = 'City State';
-  static var todayPremium = "Today's premium";
-  static var marketTrends = "Market Trends";
-  static var yarnCategory = 'Yarn Category';
-  static var brand = 'Brand';
+  static String cityState = 'City State';
+  static String todayPremium = "Today's premium";
+  static String marketTrends = "Market Trends";
+  static String yarnCategory = 'Yarn Category';
+  static String brand = 'Brand';
+  static String ratio = 'Ratio';
+  static String count = 'Count';
+  static String yarnTexturedType = 'Textured Yarn Type';
+  static String dannier = 'Dannier';
+  static String filament = 'Filament';
+  static String ply = 'Ply';
+  static String orientation = 'Orientation';
+  static String usage = 'Usage';
+  static String pattern = 'Pattern';
+  static String patternChar = 'Pattern Characteristics';
+  static String twistDirection = 'Twist Direction';
+  static String spunTech = 'Spun Technique';
+  static String quality = 'Quality';
+  static String certification = 'Certification';
+  static String colorTreatmentMethod = 'Color Treatment Method';
+  static String dyingMethod = 'Dying Method';
+  static String apperance = 'Appearence';
+  static String actualYarnCount = 'Actual Yarn Count';
+  static String CLSP = 'CLSP';
+  static String weightCones = 'Weight/Cones';
+  static String weightBags = 'Weight/Bags';
+  static String coneBags = 'Cone/Nags';
+  static String yarn = "Yarn";
 
 
 

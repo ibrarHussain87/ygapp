@@ -85,7 +85,7 @@ class ApiService {
   }
 
   static Future<CreateFiberResponse> multipartProdecudre(
-      FiberRequestModel fiberRequestModel, String imagePath) async {
+      CreateRequestModel fiberRequestModel, String imagePath) async {
     //for multipartrequest
     var request = http.MultipartRequest(
         'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));

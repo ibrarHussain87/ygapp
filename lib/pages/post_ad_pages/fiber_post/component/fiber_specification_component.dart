@@ -35,11 +35,11 @@ class FiberSpecificationComponent extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FiberSpecificationComponentState createState() =>
-      _FiberSpecificationComponentState();
+  FiberSpecificationComponentState createState() =>
+      FiberSpecificationComponentState();
 }
 
-class _FiberSpecificationComponentState
+class FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
 
@@ -49,7 +49,7 @@ class _FiberSpecificationComponentState
   DateTime selectedDate = DateTime.now();
   final TextEditingController _textEditingController = TextEditingController();
   FiberSettings? _fiberSettings;
-  FiberRequestModel? _fiberRequestModel;
+  CreateRequestModel? _fiberRequestModel;
 
   @override
   bool get wantKeepAlive => true;
@@ -69,7 +69,7 @@ class _FiberSpecificationComponentState
   @override
   Widget build(BuildContext context) {
 
-    _fiberRequestModel = Provider.of<FiberRequestModel?>(context);
+    _fiberRequestModel = Provider.of<CreateRequestModel?>(context);
     _fiberRequestModel!.spc_grade_idfk =
         widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
     _fiberRequestModel!.spc_certificate_idfk = widget

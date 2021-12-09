@@ -29,11 +29,11 @@ class FiberPostPage extends StatefulWidget {
 
 class _FiberPostPageState extends State<FiberPostPage> {
 
-  FiberRequestModel? _fiberRequestModel;
+  CreateRequestModel? _fiberRequestModel;
 
   @override
   void initState() {
-    _fiberRequestModel = FiberRequestModel();
+    _fiberRequestModel = CreateRequestModel();
     super.initState();
   }
 

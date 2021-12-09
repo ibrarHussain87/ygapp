@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
+import 'package:yg_app/widgets/list_widget_colored.dart';
 import 'package:yg_app/widgets/material_listview_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/widgets/yarn_widgets/listview_famiy_tile.dart';
 
 class FamilyBlendBody extends StatefulWidget {
   final YarnSyncResponse yarnSyncResponse;
@@ -26,8 +27,8 @@ class FamilyBlendBody extends StatefulWidget {
 }
 
 class _FamilyBlendBodyState extends State<FamilyBlendBody> {
-
-  GlobalKey<YarnStepsSegmentsState> yarnStepStateKey = GlobalKey<YarnStepsSegmentsState>();
+  GlobalKey<YarnStepsSegmentsState> yarnStepStateKey =
+      GlobalKey<YarnStepsSegmentsState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,12 @@ class _FamilyBlendBodyState extends State<FamilyBlendBody> {
               SizedBox(
                 height: 8.w,
               ),
-              GridTileWidget(
-                listOfItems: widget.yarnSyncResponse.data.yarn.family,
-                spanCount: 4,
-                callback: (value) {},
+              SizedBox(
+                height: 0.055*MediaQuery.of(context).size.height,
+                child: FamilyTileWidget(
+                  listItems: widget.yarnSyncResponse.data.yarn.family,
+                  callback: (value) {},
+                ),
               ),
               SizedBox(
                 height: 8.w,

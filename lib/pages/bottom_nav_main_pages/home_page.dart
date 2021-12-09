@@ -40,44 +40,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   centerTitle: false,
-        //   leading: Padding(
-        //       padding: EdgeInsets.all(8.w),
-        //       child: Row(
-        //         children: [
-        //           Container(
-        //             decoration: BoxDecoration(
-        //               color: AppColors.btnColorLogin,
-        //               shape: BoxShape.circle,
-        //             ),
-        //             child: Icon(
-        //               Icons.person,
-        //               color: Colors.white,
-        //               size: 32.w,
-        //             ),
-        //           ),
-        //           Container(
-        //             decoration: BoxDecoration(
-        //                 color: Colors.deepOrange,
-        //                 borderRadius: BorderRadius.only(
-        //                     topLeft: Radius.circular(8.0),
-        //                     topRight: Radius.circular(8.0))),
-        //             child: Text('Upgrade',
-        //                 style: TextStyle(
-        //                     fontSize: 16.0.w,
-        //                     color: AppColors.appBarTextColor,
-        //                     fontWeight: FontWeight.w400)),
-        //           )
-        //         ],
-        //       )),
-        //   // title: Text('Welcome to yurn Guru',
-        //   //     style: TextStyle(
-        //   //         fontSize: 16.0.w,
-        //   //         color: AppColors.appBarTextColor,
-        //   //         fontWeight: FontWeight.w400)),
-        // ),
+        resizeToAvoidBottomInset: true,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
