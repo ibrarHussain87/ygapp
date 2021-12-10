@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
 import 'package:yg_app/utils/colors.dart';
 
 import 'fiber_specification_component.dart';
@@ -35,6 +36,8 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
   late List<Widget> _samplePages;
 
   final GlobalKey<FiberSpecificationComponentState> _fiberSpecificationState = GlobalKey<FiberSpecificationComponentState>();
+  final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
+
   // late SyncFiberResponse _syncFiberResponse;
 
   @override
@@ -90,7 +93,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
               child: CupertinoSegmentedControl(
                 borderColor: Colors.grey.shade300,
                 selectedColor: AppColors.lightBlueTabs,
-                pressedColor: Colors.white,
+                pressedColor: Colors.transparent,
                 groupValue: selectedValue,
                 children: {
                   1: Container(
@@ -121,8 +124,9 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                 onValueChanged: (value) {
                   if(_fiberSpecificationState.currentState!.validationAllPage()){
                     _moveToNextPage(value);
+                  }else if(_labParameterState.currentState!.validateAndSave()){
+                    _moveToNextPage(value);
                   }
-
                 },
               ),
             ),

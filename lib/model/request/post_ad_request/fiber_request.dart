@@ -67,6 +67,13 @@ class CreateRequestModel {
   late String? ys_thin_places;
   late String? ys_thick_places;
   late String? ys_naps;
+  late String? ys_ipm_km;
+  late String? ys_hairness;
+  late String? ys_rkm;
+  late String? ys_elongation;
+  late String? ys_tpi;
+  late String? ys_tm;
+
   late String? ys_quality_idfk;
   late String? ys_spun_technique_idfk;
 
@@ -135,6 +142,12 @@ class CreateRequestModel {
       this.ys_thin_places,
       this.ys_thick_places,
       this.ys_naps,
+      this.ys_ipm_km,
+      this.ys_hairness,
+      this.ys_rkm,
+      this.ys_elongation,
+      this.ys_tpi,
+      this.ys_tm,
       this.ys_quality_idfk,
       this.ys_spun_technique_idfk,
       this.fpb_weight_cone,
@@ -180,7 +193,6 @@ class CreateRequestModel {
       'fpb_payment_type_idfk': fpb_payment_type_idfk ?? "",
       'fpb_lc_type_idfk': fpb_lc_type_idfk ?? "",
 
-
       //Yarn Keys
       'ys_family_idfk': ys_family_idfk ?? "",
       'ys_user_idfk': ys_user_idfk ?? "",
@@ -209,6 +221,12 @@ class CreateRequestModel {
       'ys_thin_places': ys_thin_places ?? "",
       'ys_thick_places': ys_thick_places ?? "",
       'ys_naps': ys_naps ?? "",
+      'ys_ipm_km': ys_ipm_km ?? "",
+      'ys_hairness': ys_hairness ?? "",
+      'ys_rkm': ys_rkm ?? "",
+      'ys_elongation': ys_elongation ?? "",
+      'ys_tpi': ys_tpi ?? "",
+      'ys_tm': ys_tm ?? "",
       'ys_quality_idfk': ys_quality_idfk ?? "",
       'ys_spun_technique_idfk': ys_spun_technique_idfk ?? "",
       'fpb_weight_cone': fpb_weight_cone ?? "",

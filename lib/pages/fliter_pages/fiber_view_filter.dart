@@ -30,7 +30,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   final TextEditingController _textEditingController = TextEditingController();
 
   // Map<String, dynamic> mapParams = {};
-  FiberFilterRequestModel? _fiberFilterRequestModel;
+  GetSpecificationRequestModel? _fiberFilterRequestModel;
 
   List<FiberSettings> listOfSettings = [];
   List<int> listOfMaterials = [];
@@ -58,7 +58,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   @override
   void initState() {
-    _fiberFilterRequestModel = FiberFilterRequestModel();
+    _fiberFilterRequestModel = GetSpecificationRequestModel();
     setState(() {
       listOfSettings = widget.syncFiberResponse.data.fiber.settings;
       _optimizeSettings();

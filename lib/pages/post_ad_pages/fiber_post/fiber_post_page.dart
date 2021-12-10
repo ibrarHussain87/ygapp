@@ -52,7 +52,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: FutureBuilder<SyncFiberResponse>(
-          future: ApiService.SyncFiber(),
+          future: ApiService.syncFiber(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {

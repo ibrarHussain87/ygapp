@@ -1,4 +1,4 @@
-class FiberFilterRequestModel {
+class GetSpecificationRequestModel {
   String? userId;
   String? categoryId;
   String? isOffering;
@@ -13,7 +13,7 @@ class FiberFilterRequestModel {
   List<int>? micronaire;
   List<int>? moisture;
 
-  FiberFilterRequestModel(
+  GetSpecificationRequestModel(
       {this.userId,
       this.categoryId,
       this.isOffering,

@@ -525,10 +525,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     cursorHeight: 16.w,
                                                     maxLines: 1,
                                                     onSaved: (input) {
-                                                      // if (_createRequestModel != null) {
-                                                      //   _createRequestModel!.fbp_price =
-                                                      //   input!;
-                                                      // }
+                                                      if (_createRequestModel != null) {
+                                                        _createRequestModel!.fpb_weight_cone =
+                                                        input!;
+                                                      }
                                                     },
                                                     validator: (input) {
                                                       if (input == null || input.isEmpty) {
@@ -558,10 +558,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     cursorHeight: 16.w,
                                                     maxLines: 1,
                                                     onSaved: (input) {
-                                                      // if (_createRequestModel != null) {
-                                                      //   _createRequestModel!
-                                                      //       .fbp_min_quantity = input!;
-                                                      // }
+                                                      if (_createRequestModel != null) {
+                                                        _createRequestModel!
+                                                            .fpb_weight_bag = input!;
+                                                      }
                                                     },
                                                     validator: (input) {
                                                       if (input == null || input.isEmpty) {
@@ -591,10 +591,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             cursorHeight: 16.w,
                                             maxLines: 1,
                                             onSaved: (input) {
-                                              // if (_createRequestModel != null) {
-                                              //   _createRequestModel!.fbp_price =
-                                              //   input!;
-                                              // }
+                                              if (_createRequestModel != null) {
+                                                _createRequestModel!.fpb_cones_bag =
+                                                input!;
+                                              }
                                             },
                                             validator: (input) {
                                               if (input == null || input.isEmpty) {
@@ -699,8 +699,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                         ProgressDialogUtil.showDialog(
                             context, 'Please wait...');
 
-                        ApiService.multipartProdecudre(
-                                _createRequestModel!, imageFiles[0].path)
+                        ApiService.createSpecification(
+                                _createRequestModel!, imageFiles.isNotEmpty ? imageFiles[0].path : "" )
                             .then((value) {
                           ProgressDialogUtil.hideDialog();
                           if (value.status) {

@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/widgets/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
@@ -12,14 +11,14 @@ import 'package:yg_app/widgets/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/widgets/list_widgets/verified_supplier.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
-Widget buildYarnWidget(Specification specification) {
+Widget buildYarnWidget(YarnSpecification specification) {
   return Column(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Visibility(
-            visible: specification.isFeatured == '1' ? true : false,
+            // visible: specification.isFeatured == '1' ? true : false,
             child: Container(
                 color: AppColors.pintFeatureClr,
                 child: Padding(
@@ -48,7 +47,9 @@ Widget buildYarnWidget(Specification specification) {
                   ),
                 )),
           ),
-          Visibility(visible: specification.isVerified == "1" ? true: false,child: VerifiedSupplier()),
+          Visibility(
+              // visible: specification.isVerified == "1" ? true : false,
+              child: VerifiedSupplier()),
         ],
       ),
       Padding(
@@ -56,16 +57,29 @@ Widget buildYarnWidget(Specification specification) {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            specification.pictures.isNotEmpty ? CachedNetworkImage(
-              width: 56.w,
-              height: 56.w,
-              fit: BoxFit.cover,
-              imageUrl: specification.pictures.first.picture,
-              placeholder: (context, url) =>
-                  Image.asset('images/loading.gif',height: 56.w,width: 56.w,fit: BoxFit.fill),
-              errorWidget: (context, url, error) =>
-                  Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill),
-            ) :Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill,),
+            specification.pictures.isNotEmpty
+                ? CachedNetworkImage(
+                    width: 56.w,
+                    height: 56.w,
+                    fit: BoxFit.cover,
+                    imageUrl: specification.pictures.first.picture,
+                    placeholder: (context, url) => Image.asset(
+                        'images/loading.gif',
+                        height: 56.w,
+                        width: 56.w,
+                        fit: BoxFit.fill),
+                    errorWidget: (context, url, error) => Image.asset(
+                        'images/image_not_available.png',
+                        height: 56.w,
+                        width: 56.w,
+                        fit: BoxFit.fill),
+                  )
+                : Image.asset(
+                    'images/image_not_available.png',
+                    height: 56.w,
+                    width: 56.w,
+                    fit: BoxFit.fill,
+                  ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 4.w),
@@ -77,11 +91,13 @@ Widget buildYarnWidget(Specification specification) {
                       children: [
                         Expanded(
                           child: BrandWidget(
-                            title: specification.brand,
+                            title: specification.yarnPattern,
                           ),
                           flex: 3,
                         ),
-                        SizedBox(width: 2.w,),
+                        SizedBox(
+                          width: 2.w,
+                        ),
                         Expanded(
                             child: Center(
                               child: ListRatingWidget(
@@ -96,7 +112,7 @@ Widget buildYarnWidget(Specification specification) {
                       padding: EdgeInsets.only(bottom: 4.0.w),
                       child: TitleTextWidget(
                         title:
-                        '${specification.material},${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
+                            '${specification.locality},${specification.minQuantity != null ? "${specification.priceTerms}/" : ""}${specification.description}',
                       ),
                     ),
                     Row(
@@ -104,21 +120,21 @@ Widget buildYarnWidget(Specification specification) {
                       children: [
                         Expanded(
                           child: GreyTextWidget(
-                            title: '${specification.length} mm',
+                            title: '${specification.yarnRtio}',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: GreyTextWidget(
-                            title: '${specification.micronaire} mic',
+                            title: '${specification.yarnRtio}',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: GreyTextWidget(
-                            title: '${specification.trash} %',
+                            title: '${specification.yarnRtio} %',
                           ),
                           flex: 1,
                         ),
@@ -134,13 +150,30 @@ Widget buildYarnWidget(Specification specification) {
                             spacing: 4.0,
                             runSpacing: 3.0,
                             children: [
-                              ShortDetailWidget(title: specification.unitCount!.isEmpty? "N/A":specification.unitCount),
-                              ShortDetailWidget(title: specification.priceUnit!.isEmpty? "N/A":specification.priceUnit),
                               ShortDetailWidget(
-                                  title: specification.deliveryPeriod!.isEmpty? "N/A":specification.deliveryPeriod),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
+                                  title: specification.priceTerms.isEmpty
+                                      ? "N/A"
+                                      : specification.priceTerms),
+                              ShortDetailWidget(
+                                  title: specification.priceTerms.isEmpty
+                                      ? "N/A"
+                                      : specification.priceTerms),
+                              ShortDetailWidget(
+                                  title: specification.deliveryPeriod.isEmpty
+                                      ? "N/A"
+                                      : specification.deliveryPeriod),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
                             ],
                           ),
                         )
@@ -153,7 +186,7 @@ Widget buildYarnWidget(Specification specification) {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 12.w,right: 6.w),
+                padding: EdgeInsets.only(left: 12.w, right: 6.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,7 +194,9 @@ Widget buildYarnWidget(Specification specification) {
                     TitleTextWidget(
                       title: specification.priceUnit,
                     ),
-                    SizedBox(height: 8.w,),
+                    SizedBox(
+                      height: 8.w,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,9 +218,11 @@ Widget buildYarnWidget(Specification specification) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.w,),
+                    SizedBox(
+                      height: 8.w,
+                    ),
                     Padding(
-                        padding: EdgeInsets.only(left: 4.w,right: 4.w),
+                        padding: EdgeInsets.only(left: 4.w, right: 4.w),
                         child: BidNowWidget(title: 'Bid Now'))
                   ],
                 ),
@@ -195,7 +232,9 @@ Widget buildYarnWidget(Specification specification) {
           ],
         ),
       ),
-      SizedBox(height: 8.w,)
+      SizedBox(
+        height: 8.w,
+      )
     ],
   );
 }

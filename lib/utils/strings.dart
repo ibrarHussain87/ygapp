@@ -1,8 +1,10 @@
-
-
-class AppStrings{
-
-  static List<String> plyStringList = ["Single","Double","Triple","Quardruple"];
+class AppStrings {
+  static List<String> plyStringList = [
+    "Single",
+    "Double",
+    "Triple",
+    "Quardruple"
+  ];
 
   //Shared preference Key
   static String USER_TOKEN_KEY = "USER_TOKEN";
@@ -11,7 +13,8 @@ class AppStrings{
 
   //APPLICATION STRINGS
   static String letsGetStarted = "Let's get started";
-  static String loginDescription = "The Best Global B2B eCommere\nPlatform for Textiles";
+  static String loginDescription =
+      "The Best Global B2B eCommere\nPlatform for Textiles";
   static String userName = 'Username';
   static String password = 'Password';
   static String telephoneNumber = 'Telephone number';
@@ -84,7 +87,26 @@ class AppStrings{
   static String coneBags = 'Cone/Nags';
   static String yarn = "Yarn";
 
+  static var unifomity = 'U (Uniformity)%';
+  static var cv = 'CV%';
 
+  static var QLT = 'QLT';
 
+  static var thinPlaces = 'Thin Places';
 
+  static var thickPlaces = 'Thick Places';
+
+  static var naps = 'Naps';
+
+  static var IpmKm = 'IPM/KM';
+
+  static var hairness = 'H% (Hairness)';
+
+  static var Rkm = 'RKM';
+
+  static var elongation = 'Elongation%';
+
+  static var tpi = 'TPI';
+
+  static var tm = 'TM';
 }

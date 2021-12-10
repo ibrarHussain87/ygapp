@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/utils/strings.dart';
@@ -27,11 +29,19 @@ class FamilyBlendBody extends StatefulWidget {
 }
 
 class _FamilyBlendBodyState extends State<FamilyBlendBody> {
+
+
+  //Steps Segment State
   GlobalKey<YarnStepsSegmentsState> yarnStepStateKey =
       GlobalKey<YarnStepsSegmentsState>();
 
+  late CreateRequestModel _createRequestModel;
+
   @override
   Widget build(BuildContext context) {
+    _createRequestModel = Provider.of<CreateRequestModel>(context);
+    _createRequestModel.ys_family_idfk = widget.yarnSyncResponse.data.yarn.family[0].famId.toString();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +58,10 @@ class _FamilyBlendBodyState extends State<FamilyBlendBody> {
                 height: 0.055*MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
                   listItems: widget.yarnSyncResponse.data.yarn.family,
-                  callback: (value) {},
+                  callback: (value) {
+                    //Family Id
+                    _createRequestModel.ys_family_idfk = widget.yarnSyncResponse.data.yarn.family[value].famId.toString();
+                  },
                 ),
               ),
               SizedBox(

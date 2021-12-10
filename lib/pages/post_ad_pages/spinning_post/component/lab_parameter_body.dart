@@ -16,9 +16,11 @@ class LabParameterPage extends StatefulWidget {
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
+  final Function? callback;
 
   const LabParameterPage(
       {Key? key,
+      required this.callback,
       required this.yarnSyncResponse,
       required this.locality,
       required this.businessArea,
@@ -26,23 +28,31 @@ class LabParameterPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _LabParameterPageState createState() => _LabParameterPageState();
+  LabParameterPageState createState() => LabParameterPageState();
 }
 
-class _LabParameterPageState extends State<LabParameterPage>
+class LabParameterPageState extends State<LabParameterPage>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  CreateRequestModel? _createRequestModel;
+  late CreateRequestModel _createRequestModel;
   YarnSetting? _yarnSetting;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel?>(context);
+    _createRequestModel = Provider.of<CreateRequestModel>(context);
     _yarnSetting = Provider.of<YarnSetting?>(context);
+    _initGridValues();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -95,13 +105,17 @@ class _LabParameterPageState extends State<LabParameterPage>
                                     Container(
                                       child: TitleSmallTextWidget(
                                           title: AppStrings.actualYarnCount),
-                                      margin: EdgeInsets.only(left: 8.w,top:8.w),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
                                         keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_actual_yarn_count = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
                                             return AppStrings.actualYarnCount;
@@ -121,14 +135,19 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        child: TitleSmallTextWidget(
-                                            title: AppStrings.CLSP),
-                                    margin: EdgeInsets.only(left: 8.w,top:8.w),),
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.CLSP),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
+                                    ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_clsp = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
                                             return AppStrings.CLSP;
@@ -149,22 +168,26 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'U% (Uniformity)%'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.unifomity),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
                                         // onSaved: (input) =>
                                         // userName = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "U% (Uniformity)";
+                                            return AppStrings.unifomity;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            'U% (Uniformity)')),
+                                            AppStrings.unifomity)),
                                   ],
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
@@ -178,22 +201,26 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'CV%'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.cv),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) =>
+                                            _createRequestModel.ys_cv = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter CV%";
+                                            return "Please enter ${AppStrings.cv}";
                                           }
                                           return null;
                                         },
-                                        decoration:
-                                            roundedTextFieldDecoration('CV%')),
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.cv)),
                                   ],
                                 ),
                               ),
@@ -203,15 +230,23 @@ class _LabParameterPageState extends State<LabParameterPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                child: TitleSmallTextWidget(
-                                    title:'QLT'),
-                                margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                child:
+                                    TitleSmallTextWidget(title: AppStrings.QLT),
+                                margin: EdgeInsets.only(left: 8.w, top: 8.w),
                               ),
                               GridTileWidget(
                                   spanCount: 4,
-                                  callback: (value) {},
-                                  listOfItems: widget
-                                      .yarnSyncResponse.data.yarn.spunTechnique),
+                                  callback: (value) {
+                                    _createRequestModel.ys_qlt = widget
+                                        .yarnSyncResponse
+                                        .data
+                                        .yarn
+                                        .spunTechnique[value]
+                                        .ystId
+                                        .toString();
+                                  },
+                                  listOfItems: widget.yarnSyncResponse.data.yarn
+                                      .spunTechnique),
                             ],
                           ),
                           Row(
@@ -221,24 +256,29 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'Thin Places'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.thinPlaces),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_thin_places = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter actual thin places";
+                                            return AppStrings.thinPlaces;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            'Thin Places')),
+                                            AppStrings.thinPlaces)),
                                   ],
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                 ),
                               ),
                               SizedBox(
@@ -250,22 +290,26 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'Thick Places'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.thickPlaces),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_thick_places = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please thick places";
+                                            return "Please ${AppStrings.thickPlaces}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            'Thick Places')),
+                                            AppStrings.thickPlaces)),
                                   ],
                                 ),
                               ),
@@ -278,137 +322,26 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'Naps'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.naps),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_naps = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter Naps";
-                                          }
-                                          return null;
-                                        },
-                                        decoration:
-                                            roundedTextFieldDecoration('Naps')),
-                                  ],
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: TitleSmallTextWidget(
-                                          title:'IPM/KM'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
-                                    ),
-
-                                    TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
-                                        validator: (input) {
-                                          if (input == null || input.isEmpty) {
-                                            return "Please enter IPM/KM*";
-                                          }
-                                          return null;
-                                        },
-                                        decoration:
-                                            roundedTextFieldDecoration('IPM/KM')),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: TitleSmallTextWidget(
-                                          title:'H% (Hairness)'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
-                                    ),
-                                    TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
-                                        validator: (input) {
-                                          if (input == null || input.isEmpty) {
-                                            return "Please enter H% (Hairness)";
+                                            return "Please enter ${AppStrings.naps}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            'H% (Hairness)')),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: TitleSmallTextWidget(
-                                          title:'RKM'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
-                                    ),
-                                    TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
-                                        validator: (input) {
-                                          if (input == null || input.isEmpty) {
-                                            return "Please enter RKM";
-                                          }
-                                          return null;
-                                        },
-                                        decoration:
-                                            roundedTextFieldDecoration('RKM')),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: TitleSmallTextWidget(
-                                          title:'Elongation%'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
-                                    ),
-                                    TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
-                                        validator: (input) {
-                                          if (input == null || input.isEmpty) {
-                                            return "Please enter Elongation %";
-                                          }
-                                          return null;
-                                        },
-                                        decoration: roundedTextFieldDecoration(
-                                            'Elongation %')),
+                                            AppStrings.naps)),
                                   ],
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
@@ -422,22 +355,156 @@ class _LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title:'TPI'),
-                                      margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                          title: AppStrings.IpmKm),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
                                     TextFormField(
-                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
                                         cursorColor: Colors.black,
-                                        // onSaved: (input) =>
-                                        // userName = input!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_ipm_km = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter TPI";
+                                            return "Enter ${AppStrings.IpmKm}";
                                           }
                                           return null;
                                         },
-                                        decoration:
-                                            roundedTextFieldDecoration('TPI')),
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.IpmKm)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.hairness),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
+                                    ),
+                                    TextFormField(
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_hairness = input!,
+                                        validator: (input) {
+                                          if (input == null || input.isEmpty) {
+                                            return "Enter ${AppStrings.hairness}";
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.hairness)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.w,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.Rkm),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
+                                    ),
+                                    TextFormField(
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) =>
+                                            _createRequestModel.ys_rkm = input!,
+                                        validator: (input) {
+                                          if (input == null || input.isEmpty) {
+                                            return "Enter ${AppStrings.Rkm}";
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.Rkm)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.elongation),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
+                                    ),
+                                    TextFormField(
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_elongation = input!,
+                                        validator: (input) {
+                                          if (input == null || input.isEmpty) {
+                                            return "Enter ${AppStrings.elongation}";
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.elongation)),
+                                  ],
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16.w,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: TitleSmallTextWidget(
+                                          title: AppStrings.tpi),
+                                      margin:
+                                          EdgeInsets.only(left: 8.w, top: 8.w),
+                                    ),
+                                    TextFormField(
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) =>
+                                            _createRequestModel.ys_tpi = input!,
+                                        validator: (input) {
+                                          if (input == null || input.isEmpty) {
+                                            return "Enter ${AppStrings.tpi}";
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            AppStrings.tpi)),
                                   ],
                                 ),
                               ),
@@ -447,22 +514,26 @@ class _LabParameterPageState extends State<LabParameterPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                child: TitleSmallTextWidget(
-                                    title:'TM'),
-                                margin: EdgeInsets.only(left: 8.w,top: 8.w),
+                                child:
+                                    TitleSmallTextWidget(title: AppStrings.tm),
+                                margin: EdgeInsets.only(left: 8.w, top: 8.w),
                               ),
                               TextFormField(
-                                  keyboardType: TextInputType.text,
+                                  style: TextStyle(fontSize: 11.sp),
+                                  textAlign: TextAlign.center,
+                                  cursorHeight: 16.w,
+                                  keyboardType: TextInputType.number,
                                   cursorColor: Colors.black,
-                                  // onSaved: (input) =>
-                                  // userName = input!,
+                                  onSaved: (input) =>
+                                      _createRequestModel.ys_tm = input!,
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
-                                      return "Please enter TM";
+                                      return "Enter ${AppStrings.tm}";
                                     }
                                     return null;
                                   },
-                                  decoration: roundedTextFieldDecoration('TM')),
+                                  decoration: roundedTextFieldDecoration(
+                                      AppStrings.tm)),
                             ],
                           ),
                         ],
@@ -481,23 +552,9 @@ class _LabParameterPageState extends State<LabParameterPage>
                 width: double.maxFinite,
                 child: ElevatedButtonWithIcon(
                   callback: () {
-                    // if (validationAllPage()) {
-                    //   _fiberRequestModel!.spc_category_idfk = widget
-                    //       .syncFiberResponse
-                    //       .data
-                    //       .fiber
-                    //       .material[_selectedMaterialIndex]
-                    //       .fbmCategoryIdfk;
-                    //
-                    //   _fiberRequestModel!.spc_fiber_material_idfk = widget
-                    //       .syncFiberResponse
-                    //       .data
-                    //       .fiber
-                    //       .material[_selectedMaterialIndex]
-                    //       .fbmId
-                    //       .toString();
-                    //   widget.callback!(1);
-                    // }
+                    if (validateAndSave()) {
+                      widget.callback!(1);
+                    }
                   },
                   color: AppColors.btnColorLogin,
                   btnText: "Next",
@@ -508,5 +565,22 @@ class _LabParameterPageState extends State<LabParameterPage>
         ],
       ),
     );
+  }
+
+  _initGridValues() {
+    if (widget.yarnSyncResponse.data.yarn.spunTechnique.isNotEmpty) {
+      _createRequestModel.ys_qlt = widget
+          .yarnSyncResponse.data.yarn.spunTechnique.first.ystId
+          .toString();
+    }
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }

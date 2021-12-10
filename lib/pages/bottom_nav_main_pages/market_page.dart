@@ -5,7 +5,7 @@ import 'package:yg_app/pages/fliter_pages/fiber_filter_page.dart';
 import 'package:yg_app/pages/market_pages/converstion_leasing.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/product_weaving.dart';
-import 'package:yg_app/pages/market_pages/spinning_page.dart';
+import 'package:yg_app/pages/market_pages/yarn_page/spinning_page.dart';
 import 'package:yg_app/pages/market_pages/stock_lot.dart';
 import 'package:yg_app/utils/colors.dart';
 

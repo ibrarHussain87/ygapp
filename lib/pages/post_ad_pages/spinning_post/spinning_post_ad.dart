@@ -32,7 +32,7 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
   @override
   void initState() {
     _fiberRequestModel = CreateRequestModel();
-    _syncFuture = ApiService.SyncYarn();
+    _syncFuture = ApiService.syncYarn();
     super.initState();
   }
 

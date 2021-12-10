@@ -29,13 +29,13 @@ class FiberPageState extends State<FiberPage> {
   Color textReqClr = AppColors.textColorGreyLight;
   bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  FiberFilterRequestModel fiberRequestModel = FiberFilterRequestModel();
+  GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
   Future<FiberSpecificationResponse>? _future;
 
   @override
   void initState() {
-    fiberRequestModel.isOffering = "1";
-    fiberRequestModel.categoryId = "1";
+    getRequestModel.isOffering = "1";
+    getRequestModel.categoryId = "1";
     // _future = ApiService.getFiberSpecifications(fiberRequestModel: fiberRequestModel);
     super.initState();
   }
@@ -98,7 +98,7 @@ class FiberPageState extends State<FiberPage> {
           ],
         ),
         body: FutureBuilder<FiberSpecificationResponse>(
-          future: ApiService.getFiberSpecifications(fiberRequestModel,widget.locality),
+          future: ApiService.getFiberSpecifications(getRequestModel,widget.locality),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
@@ -263,31 +263,31 @@ class FiberPageState extends State<FiberPage> {
     );
   }
 
-  refreshListing(FiberFilterRequestModel filterRequestModel,bool callApi) {
+  refreshListing(GetSpecificationRequestModel filterRequestModel,bool callApi) {
     if(callApi) {
       setState(() {
         filterRequestModel.categoryId = '1';
-        fiberRequestModel = filterRequestModel;
+        getRequestModel = filterRequestModel;
       });
     }
   }
 
   void changeTabColor(bool value) {
-    fiberRequestModel = FiberFilterRequestModel();
-    fiberRequestModel.categoryId = "1";
-    fiberRequestModel.locality =widget.locality;
+    getRequestModel = GetSpecificationRequestModel();
+    getRequestModel.categoryId = "1";
+    getRequestModel.locality =widget.locality;
     if (value) {
       offeringColor = Colors.white;
       requirementColor = AppColors.lightBlueTabs;
       textOfferClr = AppColors.textColorGreyLight;
       textReqClr = Colors.white;
-      fiberRequestModel.isOffering = "0";
+      getRequestModel.isOffering = "0";
     } else {
       offeringColor = AppColors.lightBlueTabs;
       requirementColor = Colors.white;
       textReqClr = AppColors.textColorGreyLight;
       textOfferClr = Colors.white;
-      fiberRequestModel.isOffering = "1";
+      getRequestModel.isOffering = "1";
     }
   }
 }

@@ -7,6 +7,8 @@ import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
+import 'package:yg_app/utils/shared_pref_util.dart';
+import 'package:yg_app/utils/show_messgae_util.dart';
 import 'package:yg_app/utils/string_util.dart';
 import 'package:yg_app/utils/strings.dart';
 import 'package:yg_app/utils/ui_utils.dart';
@@ -16,11 +18,11 @@ import 'package:yg_app/widgets/grid_tile_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
+
   final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
-
   final Function? callback;
 
   const YarnSpecificationComponent(
@@ -39,13 +41,15 @@ class YarnSpecificationComponent extends StatefulWidget {
 
 class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   // DateTime selectedDate = DateTime.now();
   late YarnSetting _yarnSetting;
   late CreateRequestModel _createRequestModel;
   int selectedBlend = 1;
+  bool showPatternCharc = true;
+  late List<PatternCharectristic> _patternCharactristicList;
 
   @override
   bool get wantKeepAlive => true;
@@ -53,12 +57,14 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   @override
   void initState() {
     _yarnSetting = widget.yarnSyncResponse.data.yarn.setting.first;
+    _patternCharactristicList = widget.yarnSyncResponse.data.yarn.patternCharectristic.where((element) => element.ypcPatternIdfk == widget.yarnSyncResponse.data.yarn.pattern[0].ypId.toString()).toList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel>(context);
+    _initGridValues();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -186,7 +192,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             child: TitleSmallTextWidget(
                                                 title: AppStrings.count)),
                                         TextFormField(
-                                            keyboardType: TextInputType.text,
+                                            keyboardType: TextInputType.number,
                                             cursorColor:
                                                 AppColors.lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -434,6 +440,18 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                       listOfItems: widget
                                           .yarnSyncResponse.data.yarn.pattern,
                                       callback: (value) {
+                                        if(widget.yarnSyncResponse.data.yarn.pattern[value].ypId == 1 ||
+                                            widget.yarnSyncResponse.data.yarn.pattern[value].ypId == 4){
+                                          setState(() {
+                                            showPatternCharc = true;
+                                            _patternCharactristicList = widget.yarnSyncResponse.data.yarn.patternCharectristic.where((element) => element.ypcPatternIdfk == widget.yarnSyncResponse.data.yarn.pattern[value].ypId.toString()).toList();
+                                          });
+                                        }else{
+                                          setState(() {
+                                            showPatternCharc = false;
+                                            _createRequestModel.ys_pattern_charectristic_idfk = null;
+                                          });
+                                        }
                                         _createRequestModel.ys_pattern_idfk =
                                             widget.yarnSyncResponse.data.yarn
                                                 .pattern[value].ypId
@@ -444,28 +462,30 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: AppStrings.patternChar)),
-                                  GridTileWidget(
-                                    spanCount: 2,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.patternCharectristic,
-                                    callback: (value) {
-                                      _createRequestModel
-                                              .ys_pattern_charectristic_idfk =
-                                          widget.yarnSyncResponse.data.yarn
-                                              .patternCharectristic[value].ypcId
-                                              .toString();
-                                    },
-                                  ),
-                                ],
+                            Visibility(
+                              visible: showPatternCharc,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: AppStrings.patternChar)),
+                                    GridTileWidget(
+                                      spanCount: 4,
+                                      listOfItems: _patternCharactristicList,
+                                      callback: (value) {
+                                        _createRequestModel
+                                                .ys_pattern_charectristic_idfk =
+                                            widget.yarnSyncResponse.data.yarn
+                                                .patternCharectristic[value].ypcId
+                                                .toString();
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Visibility(
@@ -675,15 +695,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 child: SizedBox(
                   width: double.maxFinite,
                   child: ElevatedButtonWithIcon(
-                    callback: () {
+                    callback: () async {
                       if (validateAndSave()) {
-                        _createRequestModel.ys_blend_idfk = widget
-                            .yarnSyncResponse
-                            .data
-                            .yarn
-                            .blends[selectedBlend]
-                            .blnId
-                            .toString();
                         widget.callback!(1);
                       }
                     },
@@ -701,15 +714,106 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   querySettings(int id) {
     AppDbInstance.getDbInstance().then((value) async {
+
       value.yarnSettingsDao
           .findYarnSettings(widget.yarnSyncResponse.data.yarn.blends[id].blnId)
           .then((value) {
         setState(() {
           selectedBlend = id;
-          _yarnSetting = value[0];
+          if (value.isNotEmpty) {
+            _yarnSetting = value[0];
+          } else {
+            ShowMessageUtils.showSnackBar(context, 'No Settings Found');
+          }
         });
       });
     });
+  }
+
+  _initGridValues() async {
+
+    var userID =
+        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    _createRequestModel.ys_user_idfk = userID.toString();
+
+    //Category Id
+    _createRequestModel.spc_category_idfk = widget
+        .yarnSyncResponse
+        .data
+        .yarn
+        .blends[selectedBlend]
+        .blnCategoryIdfk
+        .toString();
+
+    //Selected Blend Id
+    _createRequestModel.ys_blend_idfk = widget
+        .yarnSyncResponse
+        .data
+        .yarn
+        .blends[selectedBlend]
+        .blnId
+        .toString();
+
+    if (widget.yarnSyncResponse.data.yarn.grades.isNotEmpty) {
+      _createRequestModel.ys_grade_idfk =
+          widget.yarnSyncResponse.data.yarn.grades.first.grdId.toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.ply.isNotEmpty) {
+      _createRequestModel.ys_ply_idfk =
+          widget.yarnSyncResponse.data.yarn.ply.first.plyId.toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.orientation.isNotEmpty) {
+      _createRequestModel.ys_orientation_idfk =
+          widget.yarnSyncResponse.data.yarn.orientation.first.yoId.toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.usage.isNotEmpty) {
+      _createRequestModel.ys_usage_idfk =
+          widget.yarnSyncResponse.data.yarn.usage.first.yuId.toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.pattern.isNotEmpty) {
+      _createRequestModel.ys_pattern_idfk =
+          widget.yarnSyncResponse.data.yarn.pattern.first.ypId.toString();
+    }
+
+    if(showPatternCharc) {
+      if (widget.yarnSyncResponse.data.yarn.patternCharectristic.isNotEmpty) {
+        _createRequestModel.ys_pattern_charectristic_idfk = widget
+            .yarnSyncResponse.data.yarn.patternCharectristic.first.ypcId
+            .toString();
+      }
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.twistDirection.isNotEmpty) {
+      _createRequestModel.ys_twist_direction_idfk = widget
+          .yarnSyncResponse.data.yarn.twistDirection.first.ytdId
+          .toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.spunTechnique.isNotEmpty) {
+      _createRequestModel.ys_spun_technique_idfk = widget
+          .yarnSyncResponse.data.yarn.spunTechnique.first.ystId
+          .toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.colorTreatmentMethod.isNotEmpty) {
+      _createRequestModel.ys_color_treatment_method_idfk = widget
+          .yarnSyncResponse.data.yarn.colorTreatmentMethod.first.yctmId
+          .toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.dyingMethod.isNotEmpty) {
+      _createRequestModel.ys_dying_method_idfk =
+          widget.yarnSyncResponse.data.yarn.dyingMethod.first.ydmId.toString();
+    }
+
+    if (widget.yarnSyncResponse.data.yarn.apperance.isNotEmpty) {
+      _createRequestModel.ys_apperance_idfk =
+          widget.yarnSyncResponse.data.yarn.apperance.first.aprId.toString();
+    }
   }
 
   bool validateAndSave() {
