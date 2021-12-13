@@ -5,7 +5,7 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_family_blend_body.dart';
+import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_family_blend_ad_body.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
@@ -73,7 +73,7 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
             snapshot.data != null) {
           return Provider(
               create: (_) => _fiberRequestModel,
-              child: FamilyBlendBody(
+              child: FamilyBlendAdsBody(
                 yarnSyncResponse: data!,
                 locality: widget.locality,
                 businessArea: widget.businessArea,

@@ -13,10 +13,10 @@ class YarnSpecificationList extends StatefulWidget {
       : super(key: key);
 
   @override
-  _YarnSpecificationListState createState() => _YarnSpecificationListState();
+  YarnSpecificationListState createState() => YarnSpecificationListState();
 }
 
-class _YarnSpecificationListState extends State<YarnSpecificationList> {
+class YarnSpecificationListState extends State<YarnSpecificationList> {
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
 
   @override
@@ -29,18 +29,15 @@ class _YarnSpecificationListState extends State<YarnSpecificationList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<GetYarnSpecificationResponse>(
-      future:
-          ApiService.getYarnSpecifications(getRequestModel, widget.locality),
+      future: ApiService.getYarnSpecifications(getRequestModel, widget.locality),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          return Container(
-            child: ListView.builder(
-              itemCount: snapshot.data!.data.specification.length,
-                itemBuilder: (context, index) {
-              return buildYarnWidget(snapshot.data!.data.specification[index]);
-            }),
-          );
+          return ListView.builder(
+            itemCount: snapshot.data!.data.specification.length,
+              itemBuilder: (context, index) {
+            return buildYarnWidget(snapshot.data!.data.specification[index]);
+          });
         } else if (snapshot.hasError) {
           return Center(
               child: TitleTextWidget(title: snapshot.error.toString()));
@@ -51,5 +48,11 @@ class _YarnSpecificationListState extends State<YarnSpecificationList> {
         }
       },
     );
+  }
+
+  searchData(data){
+    setState(() {
+      getRequestModel.categoryId = '2';
+    });
   }
 }

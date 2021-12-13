@@ -10,13 +10,13 @@ import 'package:yg_app/widgets/material_listview_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 import 'package:yg_app/widgets/yarn_widgets/listview_famiy_tile.dart';
 
-class FamilyBlendBody extends StatefulWidget {
+class FamilyBlendAdsBody extends StatefulWidget {
   final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const FamilyBlendBody(
+  const FamilyBlendAdsBody(
       {Key? key,
       required this.yarnSyncResponse,
       required this.selectedTab,
@@ -25,10 +25,10 @@ class FamilyBlendBody extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FamilyBlendBodyState createState() => _FamilyBlendBodyState();
+  _FamilyBlendAdsBodyState createState() => _FamilyBlendAdsBodyState();
 }
 
-class _FamilyBlendBodyState extends State<FamilyBlendBody> {
+class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
 
   //Steps Segment State
