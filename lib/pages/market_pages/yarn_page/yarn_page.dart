@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_widget.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
 import 'package:yg_app/utils/strings.dart';
 
 class SpinningPage extends StatefulWidget {
-
   final String? locality;
 
   const SpinningPage({Key? key, required this.locality}) : super(key: key);
@@ -19,9 +19,9 @@ class SpinningPage extends StatefulWidget {
 }
 
 class _SpinningPageState extends State<SpinningPage> {
-
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  final GlobalKey<YarnSpecificationListState> _yarnSpecificationListState = GlobalKey<YarnSpecificationListState>();
+  final GlobalKey<YarnSpecificationListState> _yarnSpecificationListState =
+      GlobalKey<YarnSpecificationListState>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +85,19 @@ class _SpinningPageState extends State<SpinningPage> {
           body: Column(
             children: [
               YarnFamilyBlendListingBody(
-                blendCallback: (blend){
-                  _yarnSpecificationListState.currentState!.searchData(blend);
+                blendCallback: (blend) {
+                  _yarnSpecificationListState.currentState!
+                      .searchData(GetSpecificationRequestModel());
                 },
-                yarnFamilyCallback: (yarnFamily){
-                  _yarnSpecificationListState.currentState!.searchData(yarnFamily);
+                yarnFamilyCallback: (yarnFamily) {
+                  _yarnSpecificationListState.currentState!
+                      .searchData(GetSpecificationRequestModel());
                 },
               ),
+              OfferingRequirementSegmentComponent(callback: (value) {
+                _yarnSpecificationListState.currentState!.searchData(
+                    GetSpecificationRequestModel(isOffering: value.toString()));
+              }),
               Expanded(
                 child: YarnSpecificationList(
                   key: _yarnSpecificationListState,

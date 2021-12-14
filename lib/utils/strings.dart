@@ -109,4 +109,6 @@ class AppStrings {
   static var tpi = 'TPI';
 
   static var tm = 'TM';
+  static var offering = 'Offering';
+  static var requirement = 'Requiremnet';
 }

@@ -138,8 +138,7 @@ class _MarketPageState extends State<MarketPage>
                             //Getting result from filter
                             if (_tabController!.index == 0) {
                               if (value != null) {
-                                stateFiberPage.currentState!
-                                    .refreshListing(value, true);
+                                stateFiberPage.currentState!.fiberListingState.currentState!.refreshListing(value);
                               }
                             }
                           });

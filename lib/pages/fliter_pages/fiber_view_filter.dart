@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/constants.dart';
 import 'package:yg_app/utils/string_util.dart';
 import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/utils/ui_utils.dart';
 import 'package:yg_app/widgets/decoration_widgets.dart';
 import 'package:yg_app/widgets/elevated_button_widget_2.dart';
 import 'package:yg_app/widgets/filter_widget/filter_grid_tile_widget.dart';
@@ -29,8 +29,7 @@ class FiberFilterView extends StatefulWidget {
 class _FiberFilterViewState extends State<FiberFilterView> {
   final TextEditingController _textEditingController = TextEditingController();
 
-  // Map<String, dynamic> mapParams = {};
-  GetSpecificationRequestModel? _fiberFilterRequestModel;
+  GetSpecificationRequestModel? _getSpecificationRequestModel;
 
   List<FiberSettings> listOfSettings = [];
   List<int> listOfMaterials = [];
@@ -40,11 +39,30 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   List<int> listOfAppearance = [];
   List<int> listOfCertification = [];
   List<int> listOfPacking = [];
+
   double? minValueMicParam;
   double? maxValueMicParam;
   double? minValueMosParam;
   double? maxValueMosParam;
   bool isListClear = false;
+
+  bool? showLength;
+  bool? showGrade;
+  bool? showMicronaire;
+  bool? showMoisture;
+  bool? showTrash;
+  bool? showRd;
+  bool? showGpt;
+  bool? showAppearance;
+  bool? showBrand;
+  bool? showOrigin;
+  bool? showCertification;
+  bool? showCountUnit;
+  bool? showDeliveryPeriod;
+  bool? showAvailableForMarket;
+  bool? showPriceTerms;
+  bool? showLotNumber;
+
   double minMois = 0.0;
   double minRd = 0.0;
   double minTrash = 0.0;
@@ -58,10 +76,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   @override
   void initState() {
-    _fiberFilterRequestModel = GetSpecificationRequestModel();
+    _getSpecificationRequestModel = GetSpecificationRequestModel();
     setState(() {
-      listOfSettings = widget.syncFiberResponse.data.fiber.settings;
-      _optimizeSettings();
+      _minMaxConfiguration();
     });
     super.initState();
   }
@@ -97,110 +114,144 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {
                             _querySetting((value as FiberMaterial).fbmId);
-                            _fiberFilterRequestModel!.fiberMaterialId =
+                            _getSpecificationRequestModel!.fiberMaterialId =
                                 filterList(listOfMaterials, (value).fbmId);
                           },
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                              child: TitleSmallTextWidget(
-                                  title: AppStrings.grades)),
-                          FilterGridTileWidget(
-                            spanCount: 3,
-                            listOfItems:
-                                widget.syncFiberResponse.data.fiber.grades,
-                            callback: (index) {
-                              _fiberFilterRequestModel!.gradeId = filterList(
-                                  listOfGrades,
-                                  widget.syncFiberResponse.data.fiber
-                                      .grades[index].grdId);
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Divider(),
-                      FilterRangeSlider(
-                        // minMaxRange: widget.syncFiberResponse.data.fiber
-                        //     .settings[0].micMinMax,
-                        minValue: minMic,
-                        maxValue: maxMic,
-                        hintTxt: "Micronaire (Mic)",
-                        minCallback: (value) {
-                          minValueMicParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueMicParam = value;
-                        },
-                      ),
-                      SizedBox(
-                        height: 8.w,
-                      ),
-                      Divider(),
-                      FilterRangeSlider(
-                        // minMaxRange: widget.syncFiberResponse.data.fiber
-                        //     .settings[0].moiMinMax,
-                        minValue: minMois,
-                        maxValue: maxMois,
-                        hintTxt: "Moisture",
-                        minCallback: (value) {
-                          minValueMosParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueMosParam = value;
-                        },
-                      ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Divider(),
                       Visibility(
-                        visible: true,
-                        child: FilterRangeSlider(
-                          minValue: minRd,
-                          maxValue: maxRd,
-                          hintTxt: "RD",
-                          minCallback: (value) {},
-                          maxCallback: (value) {},
+                        visible: showGrade ?? true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(
+                                    title: AppStrings.grades)),
+                            FilterGridTileWidget(
+                              spanCount: 3,
+                              listOfItems:
+                                  widget.syncFiberResponse.data.fiber.grades,
+                              callback: (index) {
+                                _getSpecificationRequestModel!.gradeId =
+                                    filterList(
+                                        listOfGrades,
+                                        widget.syncFiberResponse.data.fiber
+                                            .grades[index].grdId);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            Divider(),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 4.w,
+                      Visibility(
+                        visible: showMicronaire ?? true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FilterRangeSlider(
+                              // minMaxRange: widget.syncFiberResponse.data.fiber
+                              //     .settings[0].micMinMax,
+                              minValue: minMic,
+                              maxValue: maxMic,
+                              hintTxt: "Micronaire (Mic)",
+                              minCallback: (value) {
+                                minValueMicParam = value;
+                              },
+                              maxCallback: (value) {
+                                maxValueMicParam = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Divider(),
+                          ],
+                        ),
                       ),
-                      Divider(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 8.w, top: 4.0.w, bottom: 8.w),
-                              child: const TitleSmallTextWidget(
-                                  title: 'Appearance')),
-                          FilterGridTileWidget(
-                            spanCount: 2,
-                            listOfItems:
-                                widget.syncFiberResponse.data.fiber.apperance,
-                            callback: (index) {
-                              _fiberFilterRequestModel!.apperanceId =
-                                  filterList(
-                                      listOfAppearance,
-                                      widget.syncFiberResponse.data.fiber
-                                          .apperance[index].aprId);
-                            },
-                          ),
-                        ],
+                      Visibility(
+                          visible: showMoisture ?? true,
+                          child: Column(
+                            children: [
+                              FilterRangeSlider(
+                                // minMaxRange: widget.syncFiberResponse.data.fiber
+                                //     .settings[0].moiMinMax,
+                                minValue: minMois,
+                                maxValue: maxMois,
+                                hintTxt: "Moisture",
+                                minCallback: (value) {
+                                  minValueMosParam = value;
+                                },
+                                maxCallback: (value) {
+                                  maxValueMosParam = value;
+                                },
+                              ),
+                              SizedBox(
+                                height: 4.w,
+                              ),
+                              Divider(),
+                            ],
+                          )),
+                      Visibility(
+                        visible: showRd ?? true,
+                        child: Column(
+                          children: [
+                            FilterRangeSlider(
+                              minValue: minRd,
+                              maxValue: maxRd,
+                              hintTxt: "RD",
+                              minCallback: (value) {},
+                              maxCallback: (value) {},
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            Divider(),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Divider(),
+                      Visibility(
+                          visible: showAppearance ?? true,
+                          child: Column(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, top: 4.0.w, bottom: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: 'Appearance')),
+                                  FilterGridTileWidget(
+                                    spanCount: 2,
+                                    listOfItems: widget
+                                        .syncFiberResponse.data.fiber.apperance,
+                                    callback: (index) {
+                                      _getSpecificationRequestModel!
+                                              .apperanceId =
+                                          filterList(
+                                              listOfAppearance,
+                                              widget
+                                                  .syncFiberResponse
+                                                  .data
+                                                  .fiber
+                                                  .apperance[index]
+                                                  .aprId);
+                                    },
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.w,
+                              ),
+                              Divider(),
+                            ],
+                          )),
                       Row(
                         children: [
                           Expanded(
@@ -221,10 +272,6 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   textAlign: TextAlign.center,
                                   showCursor: false,
                                   readOnly: true,
-                                  onSaved: (input) {
-                                    _fiberFilterRequestModel!.productionYear =
-                                        input;
-                                  },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
                                       return "Please enter production year";
@@ -239,104 +286,117 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            width: 16.w,
-                          ),
-                          Expanded(
-                            child: Column(
+                          Visibility(
+                              visible: showOrigin ?? true,
+                              child: Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 16.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.w, top: 4.w, bottom: 8.w),
+                                          child: const TitleSmallTextWidget(
+                                              title: 'Country')),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey.shade300,
+                                              width:
+                                                  1, //                   <--- border width here
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(24.w))),
+                                        child: SizedBox(
+                                          height: 36.w,
+                                          width: double.maxFinite,
+                                          child: DropdownButtonFormField(
+                                            isExpanded: true,
+                                            hint: const Text(
+                                              'Select country',
+                                              style: TextStyle(
+                                                  fontFamily: 'Metropolis'),
+                                            ),
+                                            items: widget.syncFiberResponse.data
+                                                .fiber.countries
+                                                .map((value) => DropdownMenuItem(
+                                                      child: Text(value.conName,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: const TextStyle(
+                                                              fontFamily:
+                                                                  'Metropolis')),
+                                                      value: value,
+                                                    ))
+                                                .toList(),
+                                            onChanged: (Countries? value) {
+                                              List<int> originList = [
+                                                value!.conId
+                                              ];
+                                              _getSpecificationRequestModel!
+                                                  .originId = originList;
+                                            },
+                                            // value: widget.syncFiberResponse.data.fiber.countries.first,
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 16.w,
+                                                  right: 6.w,
+                                                  top: 0,
+                                                  bottom: 0),
+                                              border: const OutlineInputBorder(
+                                                  borderSide: BorderSide.none),
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: AppColors.textColorGrey),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4.w,
+                      ),
+                      Divider(),
+                      Visibility(
+                        visible: showCertification ?? true,
+                        child: Column(
+                          children: [
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                     padding: EdgeInsets.only(
                                         left: 8.w, top: 4.2, bottom: 8.w),
                                     child: const TitleSmallTextWidget(
-                                        title: 'Country')),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.grey.shade300,
-                                        width:
-                                            1, //                   <--- border width here
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(24.w))),
-                                  child: SizedBox(
-                                    height: 36.w,
-                                    width: double.maxFinite,
-                                    child: DropdownButtonFormField(
-                                      isExpanded: true,
-                                      hint: const Text(
-                                        'Select country',
-                                        style:
-                                            TextStyle(fontFamily: 'Metropolis'),
-                                      ),
-                                      items: widget.syncFiberResponse.data.fiber
-                                          .countries
-                                          .map((value) => DropdownMenuItem(
-                                                child: Text(value.conName,
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                        fontFamily:
-                                                            'Metropolis')),
-                                                value: value,
-                                              ))
-                                          .toList(),
-                                      onChanged: (Countries? value) {
-                                        List<int> originList = [value!.conId];
-                                        _fiberFilterRequestModel!.originId =
-                                            originList;
-                                      },
-                                      // value: widget.syncFiberResponse.data.fiber.countries.first,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 16.w,
-                                            right: 6.w,
-                                            top: 0,
-                                            bottom: 0),
-                                        border: const OutlineInputBorder(
-                                            borderSide: BorderSide.none),
-                                      ),
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          color: AppColors.textColorGrey),
-                                    ),
-                                  ),
+                                        title: 'Certification')),
+                                FilterGridTileWidget(
+                                  spanCount: 4,
+                                  listOfItems: widget.syncFiberResponse.data
+                                      .fiber.certification,
+                                  callback: (value) {
+                                    _getSpecificationRequestModel!
+                                            .certificationId =
+                                        filterList(
+                                            listOfCertification,
+                                            widget.syncFiberResponse.data.fiber
+                                                .certification[value].cerId);
+                                  },
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            Divider(),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Divider(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 8.w, top: 4.2, bottom: 8.w),
-                              child: const TitleSmallTextWidget(
-                                  title: 'Certification')),
-                          FilterGridTileWidget(
-                            spanCount: 4,
-                            listOfItems: widget
-                                .syncFiberResponse.data.fiber.certification,
-                            callback: (value) {
-                              _fiberFilterRequestModel!.certificationId =
-                                  filterList(
-                                      listOfCertification,
-                                      widget.syncFiberResponse.data.fiber
-                                          .certification[value].cerId);
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Divider(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -354,10 +414,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               //     listOfPacking,
                               //     widget.syncFiberResponse.data.fiber
                               //         .packing[value].pacId);
-                              _fiberFilterRequestModel!.packingId = filterList(
-                                  listOfPacking,
-                                  widget.syncFiberResponse.data.fiber
-                                      .packing[value].pacId);
+                              _getSpecificationRequestModel!.packingId =
+                                  filterList(
+                                      listOfPacking,
+                                      widget.syncFiberResponse.data.fiber
+                                          .packing[value].pacId);
                             },
                           ),
                         ],
@@ -375,7 +436,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                 children: [
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
-                      callback: () {},
+                      callback: () {
+                        setState(() {
+                          _getSpecificationRequestModel =
+                              GetSpecificationRequestModel();
+                        });
+                      },
                       color: Colors.grey.shade300,
                       btnText: 'Reset',
                       textColor: 'black',
@@ -393,8 +459,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               minValueMicParam!.toInt(),
                               maxValueMicParam!.toInt()
                             ];
-                            // mapParams['micronaire[]'] = listOfMic;
-                            _fiberFilterRequestModel!.micronaire = listOfMic;
+                            _getSpecificationRequestModel!.micronaire =
+                                listOfMic;
                           }
 
                           if (minValueMosParam != null &&
@@ -403,12 +469,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               minValueMosParam!.toInt(),
                               maxValueMosParam!.toInt()
                             ];
-                            // mapParams['moisture[]'] = listOfMos;
-                            _fiberFilterRequestModel!.moisture = listOfMos;
+                            _getSpecificationRequestModel!.moisture = listOfMos;
                           }
-                          // listOfMos = [minValueMosParam != null? minValueMosParam!.toInt() :"" ,maxValueMosParam != null? maxValueMosParam!.toInt() :""];
-                          // print(mapParams);
-                          Navigator.pop(context, _fiberFilterRequestModel);
+                          Navigator.pop(context, _getSpecificationRequestModel);
                         },
                         color: AppColors.textColorBlue,
                         btnText: 'Apply Filter'),
@@ -422,38 +485,53 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     );
   }
 
-  //
-  // _queryAllSettings() {
-  //   getDbInstance().then((value){
-  //      value.fiberSettingDao.findAllFiberSettings().then((value) {
-  //       setState(() {
-  //         listOfSettings = value;
-  //         _optimizeSettings();
-  //       });
-  //     });
-  //   });
-  // }
-
   _querySetting(int id) {
-    getDbInstance().then(
+    AppDbInstance.getDbInstance().then(
         (value) => value.fiberSettingDao.findFiberSettings(id).then((value) {
-              setState(() {
-                if (!isListClear) {
-                  listOfSettings.clear();
-                  isListClear = true;
+              late bool isSettingInList;
+              late FiberSettings _fiberSettings;
+
+              if (!isListClear) {
+                listOfSettings.clear();
+                isListClear = true;
+              }
+              if (listOfSettings.isNotEmpty) {
+                for (var element in listOfSettings) {
+                  _fiberSettings = value[0];
+
+                  if (element.fbsFiberMaterialIdfk ==
+                      _fiberSettings.fbsFiberMaterialIdfk) {
+                    isSettingInList = true;
+                    break;
+                  } else {
+                    isSettingInList = false;
+                  }
                 }
-                if (listOfSettings.contains(value[0])) {
-                  listOfSettings.remove(value[0]);
-                } else {
-                  listOfSettings.add(value[0]);
-                }
-                _optimizeSettings();
-              });
+
+                isSettingInList
+                    ? listOfSettings.removeWhere((element) =>
+                        element.fbsFiberMaterialIdfk ==
+                        _fiberSettings.fbsFiberMaterialIdfk)
+                    // ? listOfSettings.toSet().toList()
+                    : listOfSettings.add(_fiberSettings);
+              } else {
+                listOfSettings.add(value[0]);
+              }
+              _minMaxConfiguration();
+              _showHideConfiguration();
             }));
   }
 
-  _optimizeSettings() {
-    for (var element in listOfSettings) {
+  _minMaxConfiguration() {
+    for (var element in listOfSettings.isEmpty
+        ? widget.syncFiberResponse.data.fiber.settings
+        : listOfSettings) {
+      _setMinMaxConfiguration(element);
+    }
+  }
+
+  void _setMinMaxConfiguration(FiberSettings element) {
+    setState(() {
       if (StringUtils.splitMin(element.micMinMax) > minMic) {
         minMic = StringUtils.splitMin(element.micMinMax);
       }
@@ -484,6 +562,104 @@ class _FiberFilterViewState extends State<FiberFilterView> {
       if (StringUtils.splitMax(element.trashMinMax) > maxTrash) {
         maxTrash = StringUtils.splitMax(element.trashMinMax);
       }
+    });
+  }
+
+  void _showHideConfiguration() {
+    bool? tempShowGrade;
+    bool? tempShowMic;
+    bool? tempShowMos;
+    bool? tempShowRd;
+    bool? tempShowAppearance;
+    bool? tempShowOrigin;
+    bool? tempShowCertification;
+
+    if (listOfSettings.isNotEmpty) {
+      for (var element in listOfSettings) {
+        // setState(() {
+        tempShowGrade = tempShowGrade == null
+            ? Ui.showHide(element.showGrade)
+            : (showGrade! && Ui.showHide(element.showGrade) && tempShowGrade)
+                ? true
+                : false;
+
+        tempShowMic = tempShowMic == null
+            ? Ui.showHide(element.showMicronaire)
+            : (showMicronaire! &&
+                    Ui.showHide(element.showMicronaire) &&
+                    tempShowMic)
+                ? true
+                : false;
+
+        tempShowMos = tempShowMos == null
+            ? Ui.showHide(element.showMoisture)
+            : (showMoisture! &&
+                    Ui.showHide(element.showMoisture) &&
+                    tempShowMos)
+                ? true
+                : false;
+
+        tempShowRd = tempShowRd == null
+            ? Ui.showHide(element.showRd)
+            : (showRd! && Ui.showHide(element.showRd) && tempShowRd)
+                ? true
+                : false;
+
+        tempShowAppearance = tempShowAppearance == null
+            ? Ui.showHide(element.showAppearance)
+            : (showAppearance! &&
+                    Ui.showHide(element.showAppearance) &&
+                    tempShowAppearance)
+                ? true
+                : false;
+
+        tempShowOrigin = tempShowOrigin == null
+            ? Ui.showHide(element.showOrigin)
+            : (showOrigin! &&
+                    Ui.showHide(element.showOrigin) &&
+                    tempShowOrigin)
+                ? true
+                : false;
+
+        tempShowCertification = tempShowCertification == null
+            ? Ui.showHide(element.showCertification)
+            : (showCertification! &&
+                    Ui.showHide(element.showCertification) &&
+                    tempShowCertification)
+                ? true
+                : false;
+
+        // });
+      }
+
+      setState(() {
+        showGrade = tempShowGrade;
+        showMicronaire = tempShowMic;
+        showMoisture = tempShowMos;
+        showCertification = tempShowCertification;
+        showAppearance = tempShowAppearance;
+        showOrigin = tempShowOrigin;
+        showRd = tempShowRd;
+      });
+    } else {
+      setState(() {
+        showGrade = null;
+        showMicronaire = null;
+        showLength = null;
+        showMoisture = null;
+        showTrash = null;
+        showRd = null;
+        showGpt = null;
+        showAppearance = null;
+        showBrand = null;
+        showOrigin = null;
+        showCertification = null;
+        showCountUnit = null;
+        showDeliveryPeriod = null;
+        showAvailableForMarket = null;
+        showPriceTerms = null;
+        showLotNumber = null;
+      });
     }
   }
 
@@ -499,6 +675,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                 lastDate: DateTime.now(),
                 onChanged: (val) {
                   _textEditingController.text = val.year.toString();
+                  _getSpecificationRequestModel!.productionYear =
+                      val.year.toString();
                   Navigator.pop(context);
                 },
               ),
@@ -513,15 +691,5 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     }
 
     return list;
-  }
-
-  Future<AppDatabase> getDbInstance() async {
-    var databaseInstance;
-    final database = $FloorAppDatabase
-        .databaseBuilder(AppConstants.APP_DATABASE_NAME)
-        .build();
-    await database.then((value) => {databaseInstance = value});
-
-    return databaseInstance;
   }
 }

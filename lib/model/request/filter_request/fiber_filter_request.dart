@@ -32,17 +32,17 @@ class GetSpecificationRequestModel {
     Map<String, dynamic> map = {
       'user_id': userId!.trim(),
       'category_id': categoryId!.trim(),
-      'grade_id[]': gradeId,
+      'grade_id': gradeId,
       'locality': locality,
       'is_offering': isOffering,
-      'fiber_material_id[]': fiberMaterialId,
+      'fiber_material_id': fiberMaterialId,
       'origin_id[]': originId ?? "",
-      'apperance_id[]': apperanceId,
+      'apperance_id': apperanceId,
       'production_year': productionYear,
-      'certification_id[]': certificationId,
-      'packing_id[]': packingId,
-      'micronaire[]': micronaire,
-      'moisture[]': moisture,
+      'certification_id': certificationId,
+      'packing_id': packingId,
+      'micronaire': micronaire,
+      'moisture': moisture,
     };
 
     return map;

@@ -50,9 +50,11 @@ class YarnSpecificationListState extends State<YarnSpecificationList> {
     );
   }
 
-  searchData(data){
+  searchData(GetSpecificationRequestModel data){
     setState(() {
-      getRequestModel.categoryId = '2';
+      data.categoryId = '2';
+      getRequestModel = data;
+
     });
   }
 }

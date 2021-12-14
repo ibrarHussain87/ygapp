@@ -34,14 +34,14 @@ class _YarnFamilyBlendListingBodyState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                padding: EdgeInsets.only(left: 8.w, right: 8.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleTextWidget(title: AppStrings.yarnCategory),
-                    SizedBox(
-                      height: 8.w,
-                    ),
+                    Visibility(visible:false,child: TitleTextWidget(title: AppStrings.yarnCategory)),
+                    // SizedBox(
+                    //   height: 8.w,
+                    // ),
                     SizedBox(
                       height: 0.055 * MediaQuery.of(context).size.height,
                       child: FamilyTileWidget(
@@ -58,9 +58,12 @@ class _YarnFamilyBlendListingBodyState
                   ],
                 ),
               ),
-              Padding(
-                  padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                  child: TitleTextWidget(title: AppStrings.blend)),
+              Visibility(
+                visible: false,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
+                    child: TitleTextWidget(title: AppStrings.blend)),
+              ),
               MaterialListviewWidget(
                 listItem: snapshot.data!.data.yarn.blends,
                 onClickCallback: (value) {

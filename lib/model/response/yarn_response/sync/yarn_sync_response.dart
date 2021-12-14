@@ -1015,7 +1015,7 @@ class Blends {
 
   Blends.fromJson(Map<String, dynamic> json){
     blnId = json['bln_id'];
-    blnCategoryIdfk = json['bln_category_idfk'];
+    blnCategoryIdfk = json['bln_material_idfk'];
     blnName = json['bln_name'];
     blnIsActive = json['bln_is_active'];
     blnSortid = json['bln_sortid'];

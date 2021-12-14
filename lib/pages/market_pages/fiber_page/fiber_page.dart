@@ -2,18 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/list_items_widgets/fiber_market_list_item.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/pages/detail_pages/fiber_detail_page/main_fiber_detail_page.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/utils/strings.dart';
 
 class FiberPage extends StatefulWidget {
-
   final String? locality;
 
   const FiberPage({Key? key, required this.locality}) : super(key: key);
@@ -23,22 +21,9 @@ class FiberPage extends StatefulWidget {
 }
 
 class FiberPageState extends State<FiberPage> {
-  Color offeringColor = AppColors.lightBlueTabs;
-  Color requirementColor = Colors.white;
-  Color textOfferClr = Colors.white;
-  Color textReqClr = AppColors.textColorGreyLight;
-  bool offeringClick = false, requirementClick = false;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
-  Future<FiberSpecificationResponse>? _future;
-
-  @override
-  void initState() {
-    getRequestModel.isOffering = "1";
-    getRequestModel.categoryId = "1";
-    // _future = ApiService.getFiberSpecifications(fiberRequestModel: fiberRequestModel);
-    super.initState();
-  }
+  final GlobalKey<FiberListingComponentState> fiberListingState =
+      GlobalKey<FiberListingComponentState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +48,7 @@ class FiberPageState extends State<FiberPage> {
           closeManually: true,
           children: [
             SpeedDialChild(
-                label: 'Requirement',
+                label: AppStrings.requirement,
                 backgroundColor: Colors.blue,
                 onTap: () {
                   setState(() {
@@ -80,7 +65,7 @@ class FiberPageState extends State<FiberPage> {
                   );
                 }),
             SpeedDialChild(
-                label: 'Offering',
+                label: AppStrings.offering,
                 onTap: () {
                   setState(() {
                     isDialOpen.value = false;
@@ -91,203 +76,33 @@ class FiberPageState extends State<FiberPage> {
                       builder: (context) => FiberPostPage(
                           locality: widget.locality,
                           businessArea: 'Fiber',
-                          selectedTab:'1'),
+                          selectedTab: '1'),
                     ),
                   );
                 }),
           ],
         ),
-        body: FutureBuilder<FiberSpecificationResponse>(
-          future: ApiService.getFiberSpecifications(getRequestModel,widget.locality),
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.data != null) {
-              return getBody(snapshot.data);
-            } else if (snapshot.hasError) {
-              return Center(
-                  child: TitleTextWidget(title: snapshot.error.toString()));
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            FiberFamilyComponent(
+              callback: (FiberMaterial value) {
+                fiberListingState.currentState!.refreshListing(
+                    GetSpecificationRequestModel(
+                        fiberMaterialId: [value.fbmId]));
+              },
+            ),
+            OfferingRequirementSegmentComponent(callback: (value) {
+              fiberListingState.currentState!.refreshListing(
+                  GetSpecificationRequestModel(isOffering: value.toString()));
+            }),
+            Expanded(
+                child: FiberListingComponent(
+                    key: fiberListingState, locality: widget.locality))
+          ],
         ),
       ),
     );
-  }
-
-  Widget getBody(FiberSpecificationResponse? data) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 8.w, right: 8.w),
-          child: SizedBox(
-              height: 50.h,
-              child: ListView.builder(
-                itemCount: 10,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 60.w,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'images/cotton.png',
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        Text(
-                          "Cotton",
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              )),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: AppColors.strokeGrey,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(6.w))),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        offeringClick = true;
-                        requirementClick = false;
-                        if (!offeringClick) {
-                          changeTabColor(true);
-                        } else {
-                          changeTabColor(false);
-                        }
-                      });
-                    },
-                    child: Container(
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0.w),
-                          child: Text(
-                            'Offering',
-                            style:
-                                TextStyle(color: textOfferClr, fontSize: 11.sp),
-                          ),
-                        ),
-                      ),
-                      decoration: getOfferingDec(offeringColor),
-                    ),
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        offeringClick = false;
-                        requirementClick = true;
-                        if (!requirementClick) {
-                          changeTabColor(false);
-                        } else {
-                          changeTabColor(true);
-                        }
-                      });
-                    },
-                    child: Container(
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0.w),
-                            child: Text(
-                              'Requirements',
-                              style:
-                                  TextStyle(color: textReqClr, fontSize: 11.sp),
-                            ),
-                          ),
-                        ),
-                        decoration: getRequirementDec(requirementColor)),
-                  ),
-                  flex: 1,
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 8.w,
-        ),
-        Expanded(
-          child: data!.data.specification.isNotEmpty
-              ? ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: data.data.specification.length,
-                  itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FiberDetailPage(
-                                specification: data.data.specification[index]),
-                          ),
-                        );
-                      },
-                      child: buildFiberWidget(data.data.specification[index])),
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      height: 1,
-                      color: Colors.grey.shade400,
-                    );
-                  },
-                )
-              : const Center(
-                  child: TitleSmallTextWidget(
-                    title: 'No Data Found',
-                  ),
-                ),
-        ),
-      ],
-    );
-  }
-
-  refreshListing(GetSpecificationRequestModel filterRequestModel,bool callApi) {
-    if(callApi) {
-      setState(() {
-        filterRequestModel.categoryId = '1';
-        getRequestModel = filterRequestModel;
-      });
-    }
-  }
-
-  void changeTabColor(bool value) {
-    getRequestModel = GetSpecificationRequestModel();
-    getRequestModel.categoryId = "1";
-    getRequestModel.locality =widget.locality;
-    if (value) {
-      offeringColor = Colors.white;
-      requirementColor = AppColors.lightBlueTabs;
-      textOfferClr = AppColors.textColorGreyLight;
-      textReqClr = Colors.white;
-      getRequestModel.isOffering = "0";
-    } else {
-      offeringColor = AppColors.lightBlueTabs;
-      requirementColor = Colors.white;
-      textReqClr = AppColors.textColorGreyLight;
-      textOfferClr = Colors.white;
-      getRequestModel.isOffering = "1";
-    }
   }
 }
