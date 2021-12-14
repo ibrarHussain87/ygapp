@@ -39,7 +39,54 @@ class YgAppPage extends StatefulWidget {
   _YgAppPageState createState() => _YgAppPageState();
 }
 
-class _YgAppPageState extends State<YgAppPage> {
+class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMixin {
+
+  // state variables                           <-- state
+  final _myDuration = const Duration(seconds: 1);
+  double heightC1 = 1.0;
+  double heightC2 = 1.0;
+  double widthC1 = 80.0;
+  double widthC2 = 80.0;
+  late Timer _timer;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..repeat(reverse: true);
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(1.5, 0.0),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticIn,
+  ));
+
+  _YgAppPageState(){
+    _timer = Timer(const Duration(milliseconds: 500),(){
+      setState(() {
+        _incrementCounter();
+      });
+    });
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      heightC1 = MediaQuery.of(context).size.width*0.75;
+      heightC2 = MediaQuery.of(context).size.width*1;
+      widthC1 = MediaQuery.of(context).size.width*0.75;
+      widthC2 = MediaQuery.of(context).size.width*1;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _controller.dispose();
+    super.dispose();
+
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -65,8 +112,65 @@ class _YgAppPageState extends State<YgAppPage> {
             maxHeight: MediaQuery.of(context).size.height),
         designSize: Size(360, 690),
         orientation: Orientation.portrait);
-    return Container(
-      child: Image.asset(AppImages.splashImage, fit: BoxFit.fill),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Positioned(
+            top:  -(MediaQuery.of(context).size.width * 0.1),
+            left: -(MediaQuery.of(context).size.width * 0.2),
+            child: AnimatedContainer(
+              height: heightC1,
+              width: widthC1,
+              duration: _myDuration,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF30BDD1),
+                      Color(0xFF0FD0CD),
+
+                    ],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+                borderRadius:BorderRadius.all(
+                  Radius.circular(MediaQuery.of(context).size.width*0.4),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom:  -(MediaQuery.of(context).size.width * 0.1),
+            right: -(MediaQuery.of(context).size.width * 0.2),
+            child: AnimatedContainer(
+              height: heightC2,
+              width: widthC2,
+              duration: _myDuration,
+              decoration: BoxDecoration(
+                // color: _myValue,
+                gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFFFC137),
+                      Color(0xFFFF8C31),
+
+                    ],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+                borderRadius:BorderRadius.only(
+                    topLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
+                    topRight: Radius.circular(MediaQuery.of(context).size.width*0.5),
+                    bottomLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
+                    bottomRight: Radius.circular(MediaQuery.of(context).size.width*0.5)
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(child: SlideTransition(position: _offsetAnimation,child: Align(alignment:Alignment.center,child: Image.asset(AppImages.logoImage,height: 64.w,width: 64.w))))
+        ],
+      ),
     );
   }
 }
