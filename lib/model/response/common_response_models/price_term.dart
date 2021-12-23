@@ -15,11 +15,11 @@ class FPriceTerms {
   });
   @PrimaryKey(autoGenerate: false)
   late final int ptrId;
-  late final String ptrCategoryIdfk;
+  late final String? ptrCategoryIdfk;
   @ignore
   late final Null ptrCountryIdfk;
-  late final String ptrName;
-  late final String ptrIsActive;
+  late final String? ptrName;
+  late final String? ptrIsActive;
   @ignore
   late final Null ptrSortid;
   @ignore
@@ -58,6 +58,6 @@ class FPriceTerms {
   @override
   String toString() {
     // TODO: implement toString
-    return ptrName;
+    return ptrName??"";
   }
 }

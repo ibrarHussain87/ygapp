@@ -4,71 +4,75 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/widgets/error_image_widget.dart';
 import 'package:yg_app/widgets/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/widgets/list_widgets/brand_text.dart';
 import 'package:yg_app/widgets/list_widgets/gray_text_widget.dart';
 import 'package:yg_app/widgets/list_widgets/rating_widget.dart';
 import 'package:yg_app/widgets/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/widgets/list_widgets/verified_supplier.dart';
+import 'package:yg_app/widgets/loading_image_widget.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 Widget buildFiberWidget(Specification specification) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Visibility(
-            visible: specification.isFeatured == '1' ? true : false,
-            child: Container(
-                color: AppColors.pintFeatureClr,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 6.w, top: 1.w, bottom: 1.w, right: 2.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Featured'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 6.sp,
-                          fontFamily: 'Metropolis',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 4.w),
-                        child: Icon(
-                          Icons.info_rounded,
-                          size: 8.w,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-          ),
-          Visibility(visible: specification.isVerified == "1" ? true: false,child: VerifiedSupplier()),
-        ],
-      ),
-      Padding(
-        padding: EdgeInsets.only(top: 4.w),
-        child: Row(
+  return Card(
+    color: Colors.white,
+    elevation: 18.0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Visibility(
+          visible: specification.isFeatured == '1' ? true : false,
+          // visible: true,
+          maintainSize: true,
+          maintainState: true,
+          maintainAnimation: true,
+          child: Container(
+              width: 48.w,
+              padding: EdgeInsets.all(3.w),
+              decoration: BoxDecoration(
+                  color: AppColors.pintFeatureClr,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.w),
+                  )),
+              child: Text(
+                'Featured'.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 6.sp,
+
+                  fontFamily: 'Metropolis',
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            specification.pictures.isNotEmpty ? CachedNetworkImage(
-              width: 56.w,
-              height: 56.w,
-              fit: BoxFit.cover,
-              imageUrl: specification.pictures.first.picture,
-              placeholder: (context, url) =>
-                  Image.asset('images/loading.gif',height: 56.w,width: 56.w,fit: BoxFit.fill),
-              errorWidget: (context, url, error) =>
-                  Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill),
-            ) :Image.asset('images/image_not_available.png',height: 56.w,width: 56.w,fit: BoxFit.fill,),
+            Expanded(
+              child: specification.pictures.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: CachedNetworkImage(
+                        width: 48.w,
+                        height: 48.w,
+                        fit: BoxFit.cover,
+                        imageUrl: specification.pictures.first.picture,
+                        placeholder: (context, url) => ImageLoadingWidget(),
+                        errorWidget: (context, url, error) =>
+                            ErrorImageWidget(),
+                      ),
+                    )
+                  : ErrorImageWidget(),
+              flex: 1,
+            ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 4.w),
+                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,23 +85,63 @@ Widget buildFiberWidget(Specification specification) {
                           ),
                           flex: 3,
                         ),
-                        SizedBox(width: 2.w,),
+                        SizedBox(
+                          width: 2.w,
+                        ),
                         Expanded(
                             child: Center(
-                              child: ListRatingWidget(
-                                rating: "4.5",
-                              ),
+                              child: Visibility(
+                                  visible: specification.isVerified == "1" ? true : false,
+                                  // visible: true,
+                                  maintainSize: true,
+                                  maintainState: true,
+                                  maintainAnimation: true,
+                                  child: Container(child: VerifiedSupplier())),
                             ),
                             flex: 1),
                         // SizedBox(width: 8.w),
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 4.0.w),
+                      padding: EdgeInsets.only(bottom: 2.0.w),
                       child: TitleTextWidget(
                         title:
                             '${specification.material},${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
                       ),
+                    ),
+                    Row(
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Last updated ",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: Colors.black
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Nov 23, 4:33PM",
+                                style: TextStyle(
+                                    fontSize: 9.sp,
+                                    color: AppColors.updatedDateColor
+                                ),
+                              )
+
+                            ]
+                          )
+                        ),
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        ListRatingWidget(
+                          rating: "4.5",
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 12.w,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -125,7 +169,7 @@ Widget buildFiberWidget(Specification specification) {
                       ],
                     ),
                     SizedBox(
-                      height: 4.w,
+                      height: 12.w,
                     ),
                     Row(
                       children: [
@@ -134,13 +178,30 @@ Widget buildFiberWidget(Specification specification) {
                             spacing: 4.0,
                             runSpacing: 3.0,
                             children: [
-                              ShortDetailWidget(title: specification.unitCount!.isEmpty? "N/A":specification.unitCount),
-                              ShortDetailWidget(title: specification.priceUnit!.isEmpty? "N/A":specification.priceUnit),
                               ShortDetailWidget(
-                                  title: specification.deliveryPeriod!.isEmpty? "N/A":specification.deliveryPeriod),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
-                              ShortDetailWidget(title: specification.minQuantity!.isEmpty? "N/A":specification.minQuantity),
+                                  title: specification.unitCount!.isEmpty
+                                      ? "N/A"
+                                      : specification.unitCount),
+                              ShortDetailWidget(
+                                  title: specification.priceUnit!.isEmpty
+                                      ? "N/A"
+                                      : specification.priceUnit),
+                              ShortDetailWidget(
+                                  title: specification.deliveryPeriod!.isEmpty
+                                      ? "N/A"
+                                      : specification.deliveryPeriod),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity!.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity!.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
+                              ShortDetailWidget(
+                                  title: specification.minQuantity!.isEmpty
+                                      ? "N/A"
+                                      : specification.minQuantity),
                             ],
                           ),
                         )
@@ -153,15 +214,23 @@ Widget buildFiberWidget(Specification specification) {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 12.w,right: 6.w),
+                padding: EdgeInsets.only(left: 12.w, right: 6.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TitleTextWidget(
-                      title: specification.priceUnit,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TitleTextWidget(
+                          title: specification.priceUnit.toString(),
+                        ),
+                        TitleSmallTextWidget(title: "Ex- Factory")
+                      ],
                     ),
-                    SizedBox(height: 8.w,),
+                    SizedBox(
+                      height: 16.w,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,9 +252,11 @@ Widget buildFiberWidget(Specification specification) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.w,),
+                    SizedBox(
+                      height: 8.w,
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(left: 4.w,right: 4.w),
+                        padding: EdgeInsets.only(left: 4.w, right: 4.w),
                         child: BidNowWidget(title: 'Bid Now'))
                   ],
                 ),
@@ -194,8 +265,7 @@ Widget buildFiberWidget(Specification specification) {
             ),
           ],
         ),
-      ),
-      SizedBox(height: 8.w,)
-    ],
+      ],
+    ),
   );
 }

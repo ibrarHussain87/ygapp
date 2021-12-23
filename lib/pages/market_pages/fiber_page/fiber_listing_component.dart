@@ -24,7 +24,6 @@ class FiberListingComponentState extends State<FiberListingComponent> {
   void initState() {
     getRequestModel.isOffering = "1";
     getRequestModel.categoryId = "1";
-    // _future = ApiService.getFiberSpecifications(fiberRequestModel: fiberRequestModel);
     super.initState();
   }
 
@@ -37,8 +36,7 @@ class FiberListingComponentState extends State<FiberListingComponent> {
             snapshot.data != null) {
           return Container(
             child: snapshot.data!.data.specification.isNotEmpty
-                ? ListView.separated(
-              physics: const BouncingScrollPhysics(),
+                ? ListView.builder(
               itemCount: snapshot.data!.data.specification.length,
               itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
@@ -51,12 +49,12 @@ class FiberListingComponentState extends State<FiberListingComponent> {
                     );
                   },
                   child: buildFiberWidget(snapshot.data!.data.specification[index])),
-              separatorBuilder: (context, index) {
-                return Divider(
-                  height: 1,
-                  color: Colors.grey.shade400,
-                );
-              },
+              // separatorBuilder: (context, index) {
+              //   return Divider(
+              //     height: 1,
+              //     color: Colors.grey.shade400,
+              //   );
+              // },
             )
                 : const Center(
               child: TitleSmallTextWidget(

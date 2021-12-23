@@ -38,7 +38,7 @@ class AppStrings {
   static String localMarket = 'Local';
   static String internationalMarket = 'International';
   static String ygService = 'YG Service';
-  static String postAd = 'Post Ad';
+  static String auction = 'Auction';
   static String grades = 'Grades';
   static String fiberLength = 'Fiber Length';
   static String micStr = 'Micronaire (Mic)';

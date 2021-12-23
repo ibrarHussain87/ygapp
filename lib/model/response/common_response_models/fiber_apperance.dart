@@ -12,9 +12,9 @@ class Apperance {
 
   @PrimaryKey(autoGenerate: false)
   late final int aprId;
-  late final String aprCategoryIdfk;
-  late final String aprName;
-  late final String aprIsActive;
+  late final String? aprCategoryIdfk;
+  late final String? aprName;
+  late final String? aprIsActive;
   @ignore
   late final Null aprSortid;
 
@@ -38,6 +38,6 @@ class Apperance {
 
   @override
   String toString() {
-    return aprName;
+    return aprName??"";
   }
 }

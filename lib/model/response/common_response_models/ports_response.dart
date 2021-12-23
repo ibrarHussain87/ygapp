@@ -14,9 +14,9 @@ class Ports {
   });
   @PrimaryKey(autoGenerate: false)
   late final int prtId;
-  late final String prtCountryIdfk;
-  late final String prtName;
-  late final String prtIsActive;
+  late final String? prtCountryIdfk;
+  late final String? prtName;
+  late final String? prtIsActive;
   @ignore
   late final Null prtSortid;
   @ignore
@@ -53,6 +53,6 @@ class Ports {
   @override
   String toString() {
     // TODO: implement toString
-    return prtName;
+    return prtName??"";
   }
 }

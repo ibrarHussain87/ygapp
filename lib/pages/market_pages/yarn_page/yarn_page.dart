@@ -84,24 +84,64 @@ class _SpinningPageState extends State<SpinningPage> {
           ),
           body: Column(
             children: [
-              YarnFamilyBlendListingBody(
-                blendCallback: (blend) {
-                  _yarnSpecificationListState.currentState!
-                      .searchData(GetSpecificationRequestModel());
-                },
-                yarnFamilyCallback: (yarnFamily) {
-                  _yarnSpecificationListState.currentState!
-                      .searchData(GetSpecificationRequestModel());
-                },
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration:  BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0.w), //(x,y)
+                    blurRadius: 2.0.w,
+                  ),
+                ], color: Colors.white),
+                child: Column(
+                  children: [
+                    YarnFamilyBlendListingBody(
+                      blendCallback: (blend) {
+                        _yarnSpecificationListState.currentState!
+                            .searchData(GetSpecificationRequestModel());
+                      },
+                      yarnFamilyCallback: (yarnFamily) {
+                        _yarnSpecificationListState.currentState!
+                            .searchData(GetSpecificationRequestModel());
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 9,
+                          child: Center(
+                            child: OfferingRequirementSegmentComponent(callback: (value) {
+                              _yarnSpecificationListState.currentState!.searchData(
+                                  GetSpecificationRequestModel(isOffering: value.toString()));
+                            },),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Card(
+                                elevation: 1,
+                                child: Padding(
+                                    padding: EdgeInsets.all(4.w),
+                                    child: Icon(
+                                      Icons.filter_alt_sharp,
+                                      color: AppColors.lightBlueTabs,
+                                      size: 16.w,
+                                    ))),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              OfferingRequirementSegmentComponent(callback: (value) {
-                _yarnSpecificationListState.currentState!.searchData(
-                    GetSpecificationRequestModel(isOffering: value.toString()));
-              }),
               Expanded(
-                child: YarnSpecificationList(
-                  key: _yarnSpecificationListState,
-                  locality: widget.locality!,
+                child: Container(
+                  margin: EdgeInsets.only(top: 8.w),
+                  child: YarnSpecificationList(
+                    key: _yarnSpecificationListState,
+                    locality: widget.locality!,
+                  ),
                 ),
               )
             ],

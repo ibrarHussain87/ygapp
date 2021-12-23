@@ -11,9 +11,9 @@ class CityState {
   });
   @primaryKey
   late final int id;
-  late final String countryId;
-  late final String name;
-  late final String code;
+  late final String? countryId;
+  late final String? name;
+  late final String? code;
 
   CityState.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -33,6 +33,6 @@ class CityState {
 
   @override
   String toString() {
-    return name;
+    return name??"";
   }
 }

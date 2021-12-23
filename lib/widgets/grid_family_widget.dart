@@ -13,7 +13,7 @@ class GridFamilyWidget extends StatefulWidget {
 }
 
 class _GridFamilyWidgetState extends State<GridFamilyWidget> {
-  int checkedFamily = 0;
+  int checkedFamily = -1;
 
   @override
   Widget build(BuildContext context) {

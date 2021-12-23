@@ -14,12 +14,12 @@ class Countries {
 
   @PrimaryKey(autoGenerate: false)
   late final int conId;
-  late final String conName;
-  late final String conIsoCode_2;
-  late final String conIsoCode_3;
-  late final String conAddressFormat;
-  late final String conPostcodeRequired;
-  late final String conIsActive;
+  late final String? conName;
+  late final String? conIsoCode_2;
+  late final String? conIsoCode_3;
+  late final String? conAddressFormat;
+  late final String? conPostcodeRequired;
+  late final String? conIsActive;
 
   Countries.fromJson(Map<String, dynamic> json){
     conId = json['con_id'];
@@ -46,6 +46,6 @@ class Countries {
   @override
   String toString() {
     // TODO: implement toString
-    return conName;
+    return conName??"";
   }
 }

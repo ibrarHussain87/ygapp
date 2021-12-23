@@ -12,9 +12,9 @@ class PaymentType {
     this.deletedAt,
   });
   @PrimaryKey(autoGenerate: false)
-  late final String payId;
-  late final String payName;
-  late final String payIsActive;
+  late final String? payId;
+  late final String? payName;
+  late final String? payIsActive;
   @ignore
   late final Null paySortid;
   @ignore
@@ -49,6 +49,6 @@ class PaymentType {
   @override
   String toString() {
     // TODO: implement toString
-    return payName;
+    return payName??"";
   }
 }

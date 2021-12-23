@@ -27,27 +27,27 @@ class Companies {
   });
   @PrimaryKey(autoGenerate: false)
   late final int id;
-  late final String name;
-  late final String gst;
+  late final String? name;
+  late final String? gst;
   @ignore
   late final Null logo;
   @ignore
   late final Null tradeMark;
-  late final String address;
-  late final String countryId;
-  late final String cityStateId;
-  late final String zipCode;
-  late final String websiteUrl;
-  late final String whatsappNumber;
-  late final String wechatNumber;
-  late final String telephoneNumber;
-  late final String emailId;
-  late final String maxProduction;
-  late final String noOfUnits;
-  late final String yearEstablished;
-  late final String tradeCategory;
-  late final String licenseHolder;
-  late final String isVerified;
+  late final String? address;
+  late final String? countryId;
+  late final String? cityStateId;
+  late final String? zipCode;
+  late final String? websiteUrl;
+  late final String? whatsappNumber;
+  late final String? wechatNumber;
+  late final String? telephoneNumber;
+  late final String? emailId;
+  late final String? maxProduction;
+  late final String? noOfUnits;
+  late final String? yearEstablished;
+  late final String? tradeCategory;
+  late final String? licenseHolder;
+  late final String? isVerified;
   @ignore
   late final Null rating;
 
@@ -104,6 +104,6 @@ class Companies {
   @override
   String toString() {
     // TODO: implement toString
-    return name;
+    return name??"";
   }
 }

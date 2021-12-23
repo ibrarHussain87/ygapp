@@ -163,7 +163,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     .map((value) =>
                                                         DropdownMenuItem(
                                                           child: Text(
-                                                              value.conName,
+                                                              value.conName??"N/A",
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -233,7 +233,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     .map((value) =>
                                                         DropdownMenuItem(
                                                           child: Text(
-                                                              value.prtName,
+                                                              value.prtName??"N/A",
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -306,7 +306,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             items: widget.cityState
                                                 .map((value) =>
                                                     DropdownMenuItem(
-                                                      child: Text(value.name,
+                                                      child: Text(value.name??"N/A",
                                                           textAlign:
                                                               TextAlign.center),
                                                       value: value,

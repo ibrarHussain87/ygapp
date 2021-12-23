@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:yg_app/utils/app_images.dart';
+import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/shared_pref_util.dart';
 import 'package:yg_app/utils/strings.dart';
 
@@ -25,7 +26,8 @@ class YgApp extends StatelessWidget {
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primaryColor: AppColors.lightBlueTabs,
+        primarySwatch: Colors.green,
         fontFamily: 'Metropolis'
       ),
       home: YgAppPage(),
@@ -50,7 +52,7 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
   late Timer _timer;
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
+    duration: const Duration(seconds: 2),
     vsync: this,
   )..repeat(reverse: true);
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
@@ -161,7 +163,7 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
                     tileMode: TileMode.clamp),
                 borderRadius:BorderRadius.only(
                     topLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
-                    topRight: Radius.circular(MediaQuery.of(context).size.width*0.5),
+                    topRight: Radius.circular(MediaQuery.of(context).size.width*0.59),
                     bottomLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
                     bottomRight: Radius.circular(MediaQuery.of(context).size.width*0.5)
                 ),

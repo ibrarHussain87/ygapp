@@ -190,10 +190,10 @@ class ColorTreatmentMethod {
     this.yctmSortid,
   });
   late final int yctmId;
-  late final String yctmName;
-  late final String yctmColorMethodIdfk;
+  late final String? yctmName;
+  late final String? yctmColorMethodIdfk;
   late final Null yctmDescription;
-  late final String yctmIsActive;
+  late final String? yctmIsActive;
   late final Null yctmSortid;
 
   ColorTreatmentMethod.fromJson(Map<String, dynamic> json){
@@ -219,7 +219,7 @@ class ColorTreatmentMethod {
   @override
   String toString() {
     // TODO: implement toString
-    return yctmName;
+    return yctmName?? "";
   }
 }
 
@@ -234,11 +234,11 @@ class DyingMethod {
     this.ydmSortid,
   });
   late final int ydmId;
-  late final String ydmName;
-  late final String ydmType;
-  late final String ydmColorTreatmentMethodIdfk;
+  late final String? ydmName;
+  late final String? ydmType;
+  late final String? ydmColorTreatmentMethodIdfk;
   late final Null ydmDescription;
-  late final String ydmIsActive;
+  late final String? ydmIsActive;
   late final Null ydmSortid;
 
   DyingMethod.fromJson(Map<String, dynamic> json){
@@ -266,7 +266,7 @@ class DyingMethod {
   @override
   String toString() {
     // TODO: implement toString
-    return ydmName;
+    return ydmName??"";
   }
 }
 
@@ -280,10 +280,10 @@ class Family {
     this.catSortid,
   });
   late final int famId;
-  late final String famName;
-  late final String famType;
-  late final String famDescription;
-  late final String catIsActive;
+  late final String? famName;
+  late final String? famType;
+  late final String? famDescription;
+  late final String? catIsActive;
   late final Null catSortid;
 
   Family.fromJson(Map<String, dynamic> json){
@@ -309,7 +309,7 @@ class Family {
   @override
   String toString() {
     // TODO: implement toString
-    return famName;
+    return famName??"";
   }
 }
 
@@ -322,9 +322,9 @@ class Orientation {
     this.catSortid,
   });
   late final int yoId;
-  late final String yoName;
+  late final String? yoName;
   late final Null yoDescription;
-  late final String yoIsActive;
+  late final String? yoIsActive;
   late final Null catSortid;
 
   Orientation.fromJson(Map<String, dynamic> json){
@@ -347,7 +347,7 @@ class Orientation {
 
   @override
   String toString() {
-    return yoName;
+    return yoName??"";
   }
 }
 
@@ -360,9 +360,9 @@ class Pattern {
     this.catSortid,
   });
   late final int ypId;
-  late final String ypName;
+  late final String? ypName;
   late final Null ypDescription;
-  late final String ypIsActive;
+  late final String? ypIsActive;
   late final Null catSortid;
 
   Pattern.fromJson(Map<String, dynamic> json){
@@ -385,7 +385,7 @@ class Pattern {
   @override
   String toString() {
     // TODO: implement toString
-    return ypName;
+    return ypName??"";
   }
 }
 
@@ -399,10 +399,10 @@ class PatternCharectristic {
     this.ypcSortid,
   });
   late final int ypcId;
-  late final String ypcName;
-  late final String ypcPatternIdfk;
-  late final String ypcDescription;
-  late final String ypcIsActive;
+  late final String? ypcName;
+  late final String? ypcPatternIdfk;
+  late final String? ypcDescription;
+  late final String? ypcIsActive;
   late final Null ypcSortid;
 
   PatternCharectristic.fromJson(Map<String, dynamic> json){
@@ -427,7 +427,7 @@ class PatternCharectristic {
 
   @override
   String toString() {
-    return ypcName;
+    return ypcName??"";
   }
 }
 
@@ -440,9 +440,9 @@ class Ply {
     this.catSortid,
   });
   late final int plyId;
-  late final String plyName;
+  late final String? plyName;
   late final Null plyDescription;
-  late final String catIsActive;
+  late final String? catIsActive;
   late final Null catSortid;
 
   Ply.fromJson(Map<String, dynamic> json){
@@ -465,7 +465,7 @@ class Ply {
   @override
   String toString() {
     // TODO: implement toString
-    return plyName;
+    return plyName??"";
   }
 }
 
@@ -479,10 +479,10 @@ class Quality {
     this.yqSortid,
   });
   late final int yqId;
-  late final String yqName;
-  late final String yqBlendIdfk;
+  late final String? yqName;
+  late final String? yqBlendIdfk;
   late final Null yqDescription;
-  late final String yqIsActive;
+  late final String? yqIsActive;
   late final Null yqSortid;
 
   Quality.fromJson(Map<String, dynamic> json){
@@ -508,7 +508,7 @@ class Quality {
   @override
   String toString() {
     // TODO: implement toString
-    return yqName;
+    return yqName??"";
   }
 }
 
@@ -790,30 +790,30 @@ class YarnSetting {
   });
   @PrimaryKey(autoGenerate: false)
   late final int ysId;
-  late final String ysBlendIdfk;
-  late final String ysFiberMaterialIdfk;
-  late final String showCount;
-  late final String showDannier;
-  late final String dannierMinMax;
-  late final String showFilament;
-  late final String filamentMinMax;
-  late final String showQlt;
-  late final String showClsp;
-  late final String showUniformity;
-  late final String showCv;
-  late final String showThinPlaces;
-  late final String showtThickPlaces;
-  late final String showNaps;
-  late final String showIpmKm;
-  late final String showHairness;
-  late final String showRkm;
-  late final String showElongation;
-  late final String showTpi;
-  late final String showTm;
-  late final String showDty;
-  late final String showFdy;
-  late final String showRatio;
-  late final String ysIsActive;
+  late final String? ysBlendIdfk;
+  late final String? ysFiberMaterialIdfk;
+  late final String? showCount;
+  late final String? showDannier;
+  late final String? dannierMinMax;
+  late final String? showFilament;
+  late final String? filamentMinMax;
+  late final String? showQlt;
+  late final String? showClsp;
+  late final String? showUniformity;
+  late final String? showCv;
+  late final String? showThinPlaces;
+  late final String? showtThickPlaces;
+  late final String? showNaps;
+  late final String? showIpmKm;
+  late final String? showHairness;
+  late final String? showRkm;
+  late final String? showElongation;
+  late final String? showTpi;
+  late final String? showTm;
+  late final String? showDty;
+  late final String? showFdy;
+  late final String? showRatio;
+  late final String? ysIsActive;
   @ignore
   late final Null ysSortid;
 
@@ -888,10 +888,10 @@ class SpunTechnique {
     this.ystSortid,
   });
   late final int ystId;
-  late final String ystName;
-  late final String ystBlendIdfd;
+  late final String? ystName;
+  late final String? ystBlendIdfd;
   late final Null ystDescription;
-  late final String ystIsActive;
+  late final String? ystIsActive;
   late final Null ystSortid;
 
   SpunTechnique.fromJson(Map<String, dynamic> json){
@@ -917,7 +917,7 @@ class SpunTechnique {
   @override
   String toString() {
     // TODO: implement toString
-    return ystName;
+    return ystName??"";
   }
 }
 
@@ -930,9 +930,9 @@ class TwistDirection {
     this.catSortid,
   });
   late final int ytdId;
-  late final String ytdName;
+  late final String? ytdName;
   late final Null ytdDescription;
-  late final String ytdIsActive;
+  late final String? ytdIsActive;
   late final Null catSortid;
 
   TwistDirection.fromJson(Map<String, dynamic> json){
@@ -956,7 +956,7 @@ class TwistDirection {
   @override
   String toString() {
     // TODO: implement toString
-    return ytdName;
+    return ytdName??"";
   }
 }
 
@@ -969,9 +969,9 @@ class Usage {
     this.yuSortid,
   });
   late final int yuId;
-  late final String yuName;
+  late final String? yuName;
   late final Null yuDescription;
-  late final String yuIsActive;
+  late final String? yuIsActive;
   late final Null yuSortid;
 
   Usage.fromJson(Map<String, dynamic> json){
@@ -995,7 +995,7 @@ class Usage {
   @override
   String toString() {
     // TODO: implement toString
-    return yuName;
+    return yuName??"";
   }
 }
 
@@ -1008,10 +1008,10 @@ class Blends {
     required this.blnSortid,
   });
   late final int blnId;
-  late final String blnCategoryIdfk;
-  late final String blnName;
-  late final String blnIsActive;
-  late final String blnSortid;
+  late final String? blnCategoryIdfk;
+  late final String? blnName;
+  late final String? blnIsActive;
+  late final String? blnSortid;
 
   Blends.fromJson(Map<String, dynamic> json){
     blnId = json['bln_id'];
@@ -1033,7 +1033,7 @@ class Blends {
 
   @override
   String toString() {
-    return blnName;
+    return blnName??"";
   }
 }
 
@@ -1320,28 +1320,28 @@ class Companies {
     required this.attachFiles,
   });
   late final int id;
-  late final String name;
-  late final String gst;
+  late final String? name;
+  late final String? gst;
   late final Null logo;
   late final Null tradeMark;
-  late final String address;
-  late final String countryId;
-  late final String cityStateId;
-  late final String zipCode;
-  late final String websiteUrl;
-  late final String whatsappNumber;
-  late final String wechatNumber;
-  late final String telephoneNumber;
-  late final String emailId;
-  late final String maxProduction;
-  late final String noOfUnits;
-  late final String yearEstablished;
-  late final String tradeCategory;
-  late final String licenseHolder;
+  late final String? address;
+  late final String? countryId;
+  late final String? cityStateId;
+  late final String? zipCode;
+  late final String? websiteUrl;
+  late final String? wechatNumber;
+  late final String? telephoneNumber;
+  late final String? whatsappNumber;
+  late final String? emailId;
+  late final String? maxProduction;
+  late final String? noOfUnits;
+  late final String? yearEstablished;
+  late final String? tradeCategory;
+  late final String? licenseHolder;
   late final Null icon;
-  late final String isVerified;
-  late final String rating;
-  late final String featured;
+  late final String? isVerified;
+  late final String? rating;
+  late final String? featured;
   late final List<dynamic> pictures;
   late final List<dynamic> attachFiles;
 

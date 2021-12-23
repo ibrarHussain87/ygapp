@@ -14,9 +14,9 @@ class Grades {
   });
   @PrimaryKey(autoGenerate: false)
   late final int grdId;
-  late final String grdCategoryIdfk;
-  late final String grdName;
-  late final String grdIsActive;
+  late final String? grdCategoryIdfk;
+  late final String? grdName;
+  late final String? grdIsActive;
   @ignore
   late final Null grdSortid;
   @ignore
@@ -52,6 +52,6 @@ class Grades {
 
   @override
   String toString() {
-    return grdName;
+    return grdName??"";
   }
 }

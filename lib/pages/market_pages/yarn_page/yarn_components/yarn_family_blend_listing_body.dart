@@ -76,7 +76,7 @@ class _YarnFamilyBlendListingBodyState
           return TitleSmallTextWidget(title: snapshot.error.toString());
         } else {
           return SizedBox(
-              height: 0.19 * MediaQuery.of(context).size.height,
+              height: 0.15 * MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   Expanded(child: LoadingListing()),

@@ -20,7 +20,7 @@ class _ListRatingWidgetState extends State<ListRatingWidget> {
       children: [
         BrandWidget(title: widget.rating),
         SizedBox(width: 2.w,),
-        Image.asset(AppImages.ratingIcon,width: 12.w,height: 12.w,)
+        Image.asset(AppImages.ratingIcon,width: 9.w,height: 9.w,)
       ],
     );
   }

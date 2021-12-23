@@ -631,7 +631,7 @@ class FiberSpecificationComponentState
                                                         .map((value) =>
                                                             DropdownMenuItem(
                                                               child: Text(
-                                                                  value.brdName,
+                                                                  value.brdName??"N/A",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center),
@@ -772,7 +772,7 @@ class FiberSpecificationComponentState
                                                   .map((value) =>
                                                       DropdownMenuItem(
                                                         child: Text(
-                                                            value.conName,
+                                                            value.conName??"N/A",
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,
@@ -841,7 +841,7 @@ class FiberSpecificationComponentState
                                                   .data.fiber.cityState
                                                   .map((value) =>
                                                       DropdownMenuItem(
-                                                        child: Text(value.name,
+                                                        child: Text(value.name??"N/A",
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,

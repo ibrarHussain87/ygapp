@@ -14,9 +14,9 @@ class Units {
   });
   @PrimaryKey(autoGenerate: false)
   late final int untId;
-  late final String untCategoryIdfk;
-  late final String untName;
-  late final String untIsActive;
+  late final String? untCategoryIdfk;
+  late final String? untName;
+  late final String? untIsActive;
   @ignore
   late final Null untSortid;
   @ignore
@@ -53,6 +53,6 @@ class Units {
   @override
   String toString() {
     // TODO: implement toString
-    return untName;
+    return untName??"";
   }
 }

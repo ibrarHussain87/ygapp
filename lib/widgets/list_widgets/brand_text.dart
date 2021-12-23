@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class BrandWidget extends StatelessWidget {
-  String? title;
+  final String? title;
 
-  BrandWidget({Key? key, required this.title}) : super(key: key);
+  const BrandWidget({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BrandWidget extends StatelessWidget {
       style: TextStyle(
           fontSize: 11.sp,
           color: AppColors.textColorGrey,
-          fontWeight: FontWeight.w400),
+          fontWeight: FontWeight.w600),
     );
   }
 }

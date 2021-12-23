@@ -14,9 +14,9 @@ class DeliveryPeriod {
   });
   @PrimaryKey(autoGenerate: false)
   late final int dprId;
-  late final String dprCategoryIdfk;
-  late final String dprName;
-  late final String dprIsActive;
+  late final String? dprCategoryIdfk;
+  late final String? dprName;
+  late final String? dprIsActive;
   @ignore
   late final Null dprSortid;
   @ignore
@@ -53,6 +53,6 @@ class DeliveryPeriod {
   @override
   String toString() {
     // TODO: implement toString
-    return dprName;
+    return dprName??"";
   }
 }

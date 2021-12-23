@@ -13,8 +13,8 @@ class Packing {
   });
   @PrimaryKey(autoGenerate: false)
   late final int pacId;
-  late final String pacName;
-  late final String pacIsActive;
+  late final String? pacName;
+  late final String? pacIsActive;
   @ignore
   late final Null pacSortid;
   @ignore
@@ -49,6 +49,6 @@ class Packing {
   @override
   String toString() {
     // TODO: implement toString
-    return pacName;
+    return pacName??"";
   }
 }

@@ -11,9 +11,9 @@ class Certification {
   });
   @PrimaryKey(autoGenerate: false)
   late final int cerId;
-  late final String cerCategoryIdfk;
-  late final String cerName;
-  late final String cerIsActive;
+  late final String? cerCategoryIdfk;
+  late final String? cerName;
+  late final String? cerIsActive;
   @ignore
   late final Null cerSortid;
 
@@ -38,6 +38,6 @@ class Certification {
   @override
   String toString() {
     // TODO: implement toString
-    return cerName;
+    return cerName??"";
   }
 }

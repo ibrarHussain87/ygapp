@@ -1,27 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/utils/decimal_text_input_formatter.dart';
 import 'package:yg_app/utils/numeriacal_range_text_field.dart';
 
-import '../circule_thumb_shape.dart';
 import '../decoration_widgets.dart';
 import '../title_text_widget.dart';
 
 class FilterRangeSlider extends StatefulWidget {
-  double? minValue = 0.0;
-  double? maxValue = 100.0;
+  final double minValue;
+  final double maxValue;
   final String? hintTxt;
   final Function minCallback;
   final Function maxCallback;
 
-  FilterRangeSlider(
+  const FilterRangeSlider(
       {Key? key,
       required this.minValue,
       required this.maxValue,
       required this.hintTxt,
       required this.minCallback,
-        required this.maxCallback})
+      required this.maxCallback})
       : super(key: key);
 
   @override
@@ -30,8 +31,8 @@ class FilterRangeSlider extends StatefulWidget {
 
 class _FilterRangeSliderState extends State<FilterRangeSlider> {
   RangeValues? _values;
-  double? low;
-  double? high;
+  late double low;
+  late double high;
 
   TextEditingController minController = TextEditingController();
   TextEditingController maxController = TextEditingController();
@@ -43,7 +44,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
     low = widget.minValue;
     high = widget.maxValue;
 
-    _values = RangeValues(widget.minValue!, widget.maxValue!);
+    _values = RangeValues(widget.minValue, widget.maxValue);
     super.initState();
   }
 
@@ -59,12 +60,17 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top:4.w,left: 8.w,bottom: 8.w),
+                      padding:
+                          EdgeInsets.only(top: 4.w, left: 8.w, bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + ' min')),
                   TextFormField(
                       controller: minController,
-                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        DecimalTextInputFormatter(decimalRange: 2,maxValue: widget.maxValue),
+                      ],
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
                       cursorColor: Colors.black,
                       style: TextStyle(fontSize: 11.sp),
                       textAlign: TextAlign.center,
@@ -76,18 +82,22 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                         }
                         return null;
                       },
-                      inputFormatters: [
-                        NumericalRangeFormatterMax(
-                          max: widget.maxValue!,
-                        )
-                      ],
+                      // inputFormatters: [
+                      //   NumericalRangeFormatter(
+                      //     min: 0,
+                      //     max: widget.maxValue!,
+                      //   )
+                      // ],
                       onChanged: (String value) {
-                        setState(() {
-                          low = double.tryParse(value);
-                          // minValue = double.tryParse(value);
-                          _values = RangeValues(low!, high!);
-                          widget.minCallback(low);
-                        });
+                        double numValue = double.parse(value);
+                        if (numValue >= low && numValue < high) {
+                          setState(() {
+                            low = double.tryParse(value)!;
+                            // minValue = double.tryParse(value);
+                            _values = RangeValues(low, high);
+                            widget.minCallback(low);
+                          });
+                        }
                       },
                       decoration: roundedTFDGrey('${widget.minValue} %')),
                 ],
@@ -101,19 +111,21 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(left: 8.w,bottom: 8.w),
+                      padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + " max")),
                   TextFormField(
                       controller: maxController,
-                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        DecimalTextInputFormatter(decimalRange: 2,maxValue: widget.maxValue),
+                      ],
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
                       cursorColor: Colors.black,
                       style: TextStyle(fontSize: 11.sp),
                       textAlign: TextAlign.center,
                       cursorHeight: 16.w,
-                      onSaved: (input) => {
-
-                      },
+                      onSaved: (input) => {},
                       validator: (input) {
                         if (input == null || input.isEmpty) {
                           return widget.hintTxt! + "max";
@@ -121,20 +133,24 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                         return null;
                       },
                       onChanged: (String value) {
-                        setState(() {
-                          high = double.tryParse(value);
-                          // maxValue = double.tryParse(value);
-                          _values = RangeValues(low!, high!);
-                          widget.maxCallback(high);
-                        });
+                        double numValue = double.parse(value);
+                        if (numValue >= low && numValue < high) {
+                          setState(() {
+                            high = double.tryParse(value)!;
+                            // maxValue = double.tryParse(value);
+                            _values = RangeValues(low, high);
+                            widget.maxCallback(high);
+                          });
+                        }
                       },
-                      inputFormatters: [
-                        NumericalRangeFormatterMax(
-                          max: widget.maxValue!,
-                        )
-                      ],
-                      decoration: roundedTFDGrey(
-                          widget.maxValue!.toString() + ' %')),
+                      // inputFormatters: [
+                      //   NumericalRangeFormatter(
+                      //     min: 0,
+                      //     max: widget.maxValue!,
+                      //   )
+                      // ],
+                      decoration:
+                          roundedTFDGrey(widget.maxValue.toString() + ' %')),
                 ],
               ),
             ),
@@ -150,28 +166,25 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 activeTrackColor: AppColors.lightBlueTabs,
                 trackHeight: 0.1,
                 minThumbSeparation: 1,
-                thumbShape: const CircleThumbShape(
-                  thumbRadius: 12,
-                  roundness: 5,
-                  thickness: 12,
-                ),
                 showValueIndicator: ShowValueIndicator.always,
                 overlayColor: Colors.red.withAlpha(32),
                 overlayShape: RoundSliderOverlayShape(overlayRadius: 3),
                 inactiveTrackColor: Colors.grey,
               ),
               child: RangeSlider(
-                  min: widget.minValue!,
-                  max: widget.maxValue!,
+                  min: widget.minValue,
+                  max: widget.maxValue,
                   values: _values!,
-                  labels: RangeLabels(_values!.start.toStringAsFixed(0),
-                      _values!.end.toStringAsFixed(0)),
+                  labels: RangeLabels(_values!.start.toStringAsFixed(2),
+                      _values!.end.toStringAsFixed(2)),
                   onChanged: (value) {
                     setState(() {
-                      minController.text = value.start.toStringAsFixed(0);
-                      maxController.text = value.end.toStringAsFixed(0);
-                      widget.minCallback(double.parse(value.start.toStringAsFixed(0)));
-                      widget.maxCallback(double.parse(value.end.toStringAsFixed(0)));
+                      minController.text = value.start.toStringAsFixed(2);
+                      maxController.text = value.end.toStringAsFixed(2);
+                      widget.minCallback(
+                          double.parse(value.start.toStringAsFixed(2)));
+                      widget.maxCallback(
+                          double.parse(value.end.toStringAsFixed(2)));
                       _values = value;
                     });
                   })),

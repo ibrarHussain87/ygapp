@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/widgets/title_text_widget.dart';
 
 import '../grid_family_widget.dart';
 
@@ -27,7 +28,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
 
   @override
   void initState() {
-    checkedTile = widget.selectedIndex ?? 0;
+    checkedTile = widget.selectedIndex ?? -1;
     super.initState();
   }
 
@@ -89,16 +90,32 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
 
   _showBottomSheet() {
     showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.w), topRight: Radius.circular(16.w)),
+        ),
         context: context,
         builder: (BuildContext buildContext) {
           return Container(
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery.of(context).size.height / 2,
             padding: EdgeInsets.all(16.w),
-            child: GridFamilyWidget(
-              callback: (value) {
-                Navigator.pop(context);
-              },
-              familyList: widget.listOfItems,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                    child: const TitleTextWidget(title: 'Please Select')),
+                SizedBox(
+                  height: 8.w,
+                ),
+                GridFamilyWidget(
+                  callback: (value) {
+                    Navigator.pop(context);
+                  },
+                  familyList: widget.listOfItems,
+                )
+              ],
             ),
           );
         });

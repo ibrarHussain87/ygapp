@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/utils/colors.dart';
 import 'package:yg_app/utils/strings.dart';
 
@@ -22,6 +23,7 @@ class OfferingRequirementSegmentComponentState
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.only(top: 4.w, right: 4.w),
       child: Row(
         children: [

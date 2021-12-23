@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/utils/colors.dart';
 
 class VerifiedSupplier extends StatefulWidget {
   const VerifiedSupplier({Key? key}) : super(key: key);
@@ -14,8 +13,9 @@ class _VerifiedSupplierState extends State<VerifiedSupplier> {
   Widget build(BuildContext context) {
     return Image.asset(
       'images/ic_verified_supplier.png',
-      width: 64.w,
+      width: 16.w,
       height: 16.w,
+      fit: BoxFit.fill,
     );
   }
 }

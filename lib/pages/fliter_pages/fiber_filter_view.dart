@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -17,6 +16,7 @@ import 'package:yg_app/widgets/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/widgets/title_text_widget.dart';
 
 class FiberFilterView extends StatefulWidget {
+
   final SyncFiberResponse syncFiberResponse;
 
   const FiberFilterView({Key? key, required this.syncFiberResponse})
@@ -27,6 +27,7 @@ class FiberFilterView extends StatefulWidget {
 }
 
 class _FiberFilterViewState extends State<FiberFilterView> {
+
   final TextEditingController _textEditingController = TextEditingController();
 
   GetSpecificationRequestModel? _getSpecificationRequestModel;
@@ -85,10 +86,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
           padding: EdgeInsets.only(left: 16.w, right: 16.w),
           child: Column(
             children: [
@@ -111,7 +112,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         height: 58.w,
                         child: FilterMaterialWidget(
                           listItem:
-                              widget.syncFiberResponse.data.fiber.material,
+                          widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {
                             _querySetting((value as FiberMaterial).fbmId);
                             _getSpecificationRequestModel!.fiberMaterialId =
@@ -127,13 +128,13 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           children: [
                             Padding(
                                 padding:
-                                    EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                EdgeInsets.only(left: 8.w, bottom: 8.w),
                                 child: TitleSmallTextWidget(
                                     title: AppStrings.grades)),
                             FilterGridTileWidget(
                               spanCount: 3,
                               listOfItems:
-                                  widget.syncFiberResponse.data.fiber.grades,
+                              widget.syncFiberResponse.data.fiber.grades,
                               callback: (index) {
                                 _getSpecificationRequestModel!.gradeId =
                                     filterList(
@@ -233,7 +234,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                         .syncFiberResponse.data.fiber.apperance,
                                     callback: (index) {
                                       _getSpecificationRequestModel!
-                                              .apperanceId =
+                                          .apperanceId =
                                           filterList(
                                               listOfAppearance,
                                               widget
@@ -304,7 +305,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             border: Border.all(
                                               color: Colors.grey.shade300,
                                               width:
-                                                  1, //                   <--- border width here
+                                              1, //                   <--- border width here
                                             ),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(24.w))),
@@ -321,14 +322,14 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             items: widget.syncFiberResponse.data
                                                 .fiber.countries
                                                 .map((value) => DropdownMenuItem(
-                                                      child: Text(value.conName,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: const TextStyle(
-                                                              fontFamily:
-                                                                  'Metropolis')),
-                                                      value: value,
-                                                    ))
+                                              child: Text(value.conName??"",
+                                                  textAlign:
+                                                  TextAlign.center,
+                                                  style: const TextStyle(
+                                                      fontFamily:
+                                                      'Metropolis')),
+                                              value: value,
+                                            ))
                                                 .toList(),
                                             onChanged: (Countries? value) {
                                               List<int> originList = [
@@ -381,7 +382,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       .fiber.certification,
                                   callback: (value) {
                                     _getSpecificationRequestModel!
-                                            .certificationId =
+                                        .certificationId =
                                         filterList(
                                             listOfCertification,
                                             widget.syncFiberResponse.data.fiber
@@ -404,11 +405,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               padding: EdgeInsets.only(
                                   left: 8.w, top: 4.2, bottom: 8.w),
                               child:
-                                  const TitleSmallTextWidget(title: 'Packing')),
+                              const TitleSmallTextWidget(title: 'Packing')),
                           FilterGridTileWidget(
                             spanCount: 3,
                             listOfItems:
-                                widget.syncFiberResponse.data.fiber.packing,
+                            widget.syncFiberResponse.data.fiber.packing,
                             callback: (value) {
                               // mapParams['packing_id[]'] = filterList(
                               //     listOfPacking,
@@ -480,8 +481,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
               )
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 

@@ -13,8 +13,8 @@ class LcType {
   });
   @PrimaryKey(autoGenerate: false)
   late final int lcId;
-  late final String lcName;
-  late final String lcIsActive;
+  late final String? lcName;
+  late final String? lcIsActive;
   @ignore
   late final Null lcSortid;
   @ignore
@@ -49,6 +49,6 @@ class LcType {
   @override
   String toString() {
     // TODO: implement toString
-    return lcName;
+    return lcName??"";
   }
 }

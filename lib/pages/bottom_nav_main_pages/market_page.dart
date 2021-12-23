@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/pages/fliter_pages/fiber_filter_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/market_pages/converstion_leasing.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/product_weaving.dart';
-import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 import 'package:yg_app/pages/market_pages/stock_lot.dart';
+import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 import 'package:yg_app/utils/colors.dart';
 
 class MarketPage extends StatefulWidget {
@@ -15,26 +16,26 @@ class MarketPage extends StatefulWidget {
   MarketPage({Key? key, required this.locality}) : super(key: key);
 
   @override
-  _MarketPageState createState() => _MarketPageState();
+  MarketPageState createState() => MarketPageState();
 }
 
-class _MarketPageState extends State<MarketPage>
+class MarketPageState extends State<MarketPage>
     with SingleTickerProviderStateMixin {
   List<String> tabsList = [
     'Fiber',
-    'Spinning',
+    'Yarn',
     'Product Weaving',
     'Converstion (Leasing)',
     'Stock Lot'
   ];
 
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
-  TabController? _tabController;
+  TabController? tabController;
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: tabsList.length);
-    _tabController!.addListener(_handleTabSelection);
+    tabController = TabController(vsync: this, length: tabsList.length);
+    tabController!.addListener(_handleTabSelection);
     super.initState();
   }
 
@@ -49,18 +50,21 @@ class _MarketPageState extends State<MarketPage>
 
   @override
   void dispose() {
-    _tabController!.dispose();
+    tabController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: Colors.white,
-            body: Column(
-              children: [
-                Padding(
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              Visibility(
+                visible: false,
+                child: Padding(
                   padding: EdgeInsets.only(top: 8.w, left: 8.w, right: 8.w),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -130,18 +134,35 @@ class _MarketPageState extends State<MarketPage>
                               ))),
                       GestureDetector(
                         onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const FiberFilterPage()),
-                          ).then((value) {
-                            //Getting result from filter
-                            if (_tabController!.index == 0) {
-                              if (value != null) {
-                                stateFiberPage.currentState!.fiberListingState.currentState!.refreshListing(value);
+                          if(stateFiberPage
+                              .currentState!
+                              .familySateFiber
+                              .currentState!
+                              .fiberSyncResponse != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FiberFilterView(
+                                        syncFiberResponse: stateFiberPage
+                                            .currentState!
+                                            .familySateFiber
+                                            .currentState!
+                                            .fiberSyncResponse!,
+                                      )),
+                            ).then((value) {
+                              //Getting result from filter
+                              if (tabController!.index == 0) {
+                                if (value != null) {
+                                  stateFiberPage.currentState!.fiberListingState
+                                      .currentState!
+                                      .refreshListing(value);
+                                }
                               }
-                            }
-                          });
+                            });
+                          }else{
+                            Fluttertoast.showToast(msg: "Please wait...");
+                          }
                         },
                         child: Card(
                             elevation: 1,
@@ -156,48 +177,50 @@ class _MarketPageState extends State<MarketPage>
                     ],
                   ),
                 ),
-                Expanded(
-                  child: DefaultTabController(
-                      length: tabsList.length,
-                      child: Scaffold(
-                        backgroundColor: Colors.white,
-                        appBar: PreferredSize(
-                          preferredSize:
-                              const Size(double.infinity, kToolbarHeight),
-                          child: TabBar(
-                            padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                            isScrollable: true,
-                            controller: _tabController,
-                            unselectedLabelColor: AppColors.textColorGreyLight,
-                            labelColor: AppColors.lightBlueTabs,
-                            indicatorColor: AppColors.lightBlueTabs,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            indicator: UnderlineTabIndicator(
-                                borderSide:
-                                    BorderSide(color: AppColors.lightBlueTabs),
-                                insets: EdgeInsets.only(bottom: 12.w)),
-                            tabs: tabMaker(),
+              ),
+              Expanded(
+                child: DefaultTabController(
+                    length: tabsList.length,
+                    child: Scaffold(
+                      backgroundColor: Colors.white,
+                      appBar: PreferredSize(
+                        preferredSize:
+                        Size(double.infinity,
+                            MediaQuery.of(context).size.height * 0.03),
+                        child: TabBar(
+                          isScrollable: true,
+                          controller: tabController,
+                          unselectedLabelColor: AppColors.textColorGreyLight,
+                          labelColor: AppColors.lightBlueTabs,
+                          indicatorColor: AppColors.lightBlueTabs,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicator: UnderlineTabIndicator(
+                              borderSide:
+                                  BorderSide(color: AppColors.lightBlueTabs),
+                              insets: EdgeInsets.only(bottom: 5.w)),
+                          tabs: tabMaker(),
+                        ),
+                      ),
+                      body: TabBarView(
+                        children: [
+                          FiberPage(
+                            key: stateFiberPage,
+                            locality: widget.locality,
                           ),
-                        ),
-                        body: TabBarView(
-                          children: [
-                            FiberPage(
-                              key: stateFiberPage,
-                              locality: widget.locality,
-                            ),
-                            SpinningPage(
-                              locality: widget.locality,
-                            ),
-                            ProductWeavingPage(),
-                            ConverstionLeasingPage(),
-                            StockLotPage()
-                          ],
-                          controller: _tabController,
-                        ),
-                      )),
-                )
-              ],
-            )));
+                          SpinningPage(
+                            locality: widget.locality,
+                          ),
+                          ProductWeavingPage(),
+                          ConverstionLeasingPage(),
+                          StockLotPage()
+                        ],
+                        controller: tabController,
+                      ),
+                    )),
+              )
+            ],
+          )),
+    );
   }
 
   List<Tab> tabMaker() {

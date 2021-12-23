@@ -13,8 +13,8 @@ class Brands {
   late final int brdId;
   @ignore
   late final Null brdCategoryIdfk;
-  late final String brdName;
-  late final String brdIsActive;
+  late final String? brdName;
+  late final String? brdIsActive;
   @ignore
   late final Null brdSortid;
 
@@ -39,6 +39,6 @@ class Brands {
   @override
   String toString() {
     // TODO: implement toString
-    return brdName;
+    return brdName??"";
   }
 }

@@ -39,7 +39,7 @@ class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 0.07*MediaQuery.of(context).size.height,
+      height: 0.06*MediaQuery.of(context).size.height,
       child: ListView.builder(
         itemCount: widget.listItem!.length,
         scrollDirection: Axis.horizontal,
