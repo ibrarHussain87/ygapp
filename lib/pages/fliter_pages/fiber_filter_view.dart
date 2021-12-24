@@ -4,16 +4,16 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/string_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/utils/ui_utils.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget_2.dart';
-import 'package:yg_app/widgets/filter_widget/filter_grid_tile_widget.dart';
-import 'package:yg_app/widgets/filter_widget/filter_material_listview.dart';
-import 'package:yg_app/widgets/filter_widget/filter_range_slider.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
+import 'package:yg_app/elements/filter_widget/filter_material_listview.dart';
+import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberFilterView extends StatefulWidget {
 
@@ -130,7 +130,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 padding:
                                 EdgeInsets.only(left: 8.w, bottom: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.grades)),
+                                    title: grades)),
                             FilterGridTileWidget(
                               spanCount: 3,
                               listOfItems:
@@ -267,7 +267,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 TextFormField(
                                   keyboardType: TextInputType.none,
                                   controller: _textEditingController,
-                                  cursorColor: AppColors.lightBlueTabs,
+                                  cursorColor: lightBlueTabs,
                                   autofocus: false,
                                   style: TextStyle(fontSize: 11.sp),
                                   textAlign: TextAlign.center,
@@ -350,7 +350,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             ),
                                             style: TextStyle(
                                                 fontSize: 11.sp,
-                                                color: AppColors.textColorGrey),
+                                                color: textColorGrey),
                                           ),
                                         ),
                                       ),
@@ -474,7 +474,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           }
                           Navigator.pop(context, _getSpecificationRequestModel);
                         },
-                        color: AppColors.textColorBlue,
+                        color: textColorBlue,
                         btnText: 'Apply Filter'),
                   ),
                 ],

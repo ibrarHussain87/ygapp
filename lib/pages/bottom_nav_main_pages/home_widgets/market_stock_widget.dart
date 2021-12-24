@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
 
 class MarketStockWidget extends StatefulWidget {
   const MarketStockWidget({Key? key}) : super(key: key);
@@ -15,38 +14,55 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height:0.07*MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(left: 16.w,right: 16.w,top: 8.w,bottom: 8.w),
-        color: AppColors.bgWhiteMarketTrend,
-        child: ListView.builder(
-          itemCount: 3,
-          physics: NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.all(4.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                    children: [
-                      Text('US Cottom', style: TextStyle(
-                          color: Colors.black, fontSize: 12.sp),),
-                      SizedBox(width: 4.w,),
-                      Text('+7.87 %', style: TextStyle(
-                          color: AppColors.redClr, fontSize: 9.sp),),
-                    ],
-                  ),
-                  TitleTextWidget(title: '425.31')
-                ],
-              )
-              ,
-            );
-          },
+        margin: EdgeInsets.symmetric(vertical: 4.w),
+        height: 0.057 * MediaQuery.of(context).size.height,
+        child: Center(
+          child: ListView.builder(
+            itemCount: 3,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(left:12.w,right: 12.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'US Cotton',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "Metropolis"),
+                        ),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        Text(
+                          '+7.87%',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              color: redClr,
+                              fontSize: 9.sp,
+                              fontFamily: "Metropolis"),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top:4.0.w),
+                      child: const TitleTextWidget(title: '425.31',color: Colors.red,),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ));
   }
 }

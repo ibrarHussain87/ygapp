@@ -15,8 +15,8 @@ import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
-import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 
 class ApiService {
   static Map<String, String> headerMap = {"Accept": "application/json"};
@@ -42,7 +42,7 @@ class ApiService {
 
   static Future<SyncFiberResponse> syncFiber() async {
     var userToken =
-        SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
     String url = BASE_API_URL + SYNC_FIBER_END_POINT;
@@ -59,9 +59,9 @@ class ApiService {
     String url = BASE_API_URL + GET_SPEC_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     var userID =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
     getRequestModel.userId = userID;
     getRequestModel.locality = locality;
@@ -73,7 +73,7 @@ class ApiService {
 
   static Future<YarnSyncResponse> syncYarn() async {
     var userToken =
-    SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
 
     String url = BASE_API_URL + SYNC_YARN_END_POINT;
@@ -90,9 +90,9 @@ class ApiService {
     String url = BASE_API_URL + GET_SPEC_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     var userID =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
     getRequestModel.userId = userID;
     getRequestModel.locality = locality;
@@ -108,7 +108,7 @@ class ApiService {
     var request = http.MultipartRequest(
         'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     request.headers.addAll(
         {"Accept": "application/json", "Authorization": "Bearer $userToken"});
 
@@ -127,9 +127,9 @@ class ApiService {
     String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
 
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     Map<String, dynamic> data = {
       "category_id": catId,
       "user_id": userID.toString(),
@@ -149,9 +149,9 @@ class ApiService {
     String url = BASE_API_URL + CREATE_BID_END_POINT;
 
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     Map<String, dynamic> data = {
       "bid_category_idfk": catId,
       "bid_user_idfk": userID.toString(),
@@ -174,7 +174,7 @@ class ApiService {
     String url = BASE_API_URL + CHANGE_BID_STATUS_END_POINT;
 
     var userToken =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     Map<String, dynamic> data = {
       "bid_id": bidId.toString(),
       "bid_status": status.toString(),
@@ -191,7 +191,7 @@ class ApiService {
     String url = BASE_API_URL + GET_BANNERS_END_POINT;
 
     var userToken =
-    await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_TOKEN_KEY);
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
     await http.post(Uri.parse(url), headers: headerMap);

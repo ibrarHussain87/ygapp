@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
-import 'package:yg_app/utils/colors.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
 
 import 'fiber_specification_component.dart';
 
@@ -92,7 +92,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
             Expanded(
               child: CupertinoSegmentedControl(
                 borderColor: Colors.grey.shade300,
-                selectedColor: AppColors.lightBlueTabs,
+                selectedColor: lightBlueTabs,
                 pressedColor: Colors.transparent,
                 groupValue: selectedValue,
                 children: {
@@ -104,7 +104,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                         fontSize: 11.sp,
                         color: selectedValue == 1
                             ? Colors.white
-                            : AppColors.textColorGrey,
+                            : textColorGrey,
                       ),
                     ),
                   ),
@@ -116,7 +116,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                         fontSize: 11.sp,
                         color: selectedValue == 2
                             ? Colors.white
-                            : AppColors.textColorGrey,
+                            : textColorGrey,
                       ),
                     ),
                   ),

@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
+import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class LabParameterPage extends StatefulWidget {
   final YarnSyncResponse yarnSyncResponse;
@@ -76,12 +76,12 @@ class LabParameterPageState extends State<LabParameterPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TitleTextWidget(
-                            title: AppStrings.labParameters,
+                            title: labParameters,
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 2.w),
                             child: Text(
-                              'Enter ${AppStrings.labParameters} details',
+                              'Enter ${labParameters} details',
                               style: TextStyle(
                                   fontSize: 11.sp, color: Colors.grey.shade600),
                             ),
@@ -104,7 +104,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.actualYarnCount),
+                                          title: actualYarnCount),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -118,12 +118,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_actual_yarn_count = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.actualYarnCount;
+                                            return actualYarnCount;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.actualYarnCount))
+                                            actualYarnCount))
                                   ],
                                 ),
                               ),
@@ -136,7 +136,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.CLSP),
+                                          title: CLSP),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -150,12 +150,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_clsp = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.CLSP;
+                                            return CLSP;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.CLSP)),
+                                            CLSP)),
                                   ],
                                 ),
                               ),
@@ -168,7 +168,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.unifomity),
+                                          title: unifomity),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -182,12 +182,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                         // userName = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.unifomity;
+                                            return unifomity;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.unifomity)),
+                                            unifomity)),
                                   ],
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
@@ -201,7 +201,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.cv),
+                                          title: cv),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -215,12 +215,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             _createRequestModel.ys_cv = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter ${AppStrings.cv}";
+                                            return "Please enter ${cv}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.cv)),
+                                            cv)),
                                   ],
                                 ),
                               ),
@@ -231,7 +231,7 @@ class LabParameterPageState extends State<LabParameterPage>
                             children: [
                               Container(
                                 child:
-                                    TitleSmallTextWidget(title: AppStrings.QLT),
+                                    TitleSmallTextWidget(title: QLT),
                                 margin: EdgeInsets.only(left: 8.w, top: 8.w),
                               ),
                               GridTileWidget(
@@ -256,7 +256,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.thinPlaces),
+                                          title: thinPlaces),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -270,12 +270,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_thin_places = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.thinPlaces;
+                                            return thinPlaces;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.thinPlaces)),
+                                            thinPlaces)),
                                   ],
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
@@ -290,7 +290,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.thickPlaces),
+                                          title: thickPlaces),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -304,12 +304,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_thick_places = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please ${AppStrings.thickPlaces}";
+                                            return "Please ${thickPlaces}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.thickPlaces)),
+                                            thickPlaces)),
                                   ],
                                 ),
                               ),
@@ -322,7 +322,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.naps),
+                                          title: naps),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -336,12 +336,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_naps = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Please enter ${AppStrings.naps}";
+                                            return "Please enter ${naps}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.naps)),
+                                            naps)),
                                   ],
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
@@ -355,7 +355,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.IpmKm),
+                                          title: IpmKm),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -369,12 +369,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_ipm_km = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Enter ${AppStrings.IpmKm}";
+                                            return "Enter ${IpmKm}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.IpmKm)),
+                                            IpmKm)),
                                   ],
                                 ),
                               ),
@@ -388,7 +388,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.hairness),
+                                          title: hairness),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -402,12 +402,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_hairness = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Enter ${AppStrings.hairness}";
+                                            return "Enter ${hairness}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.hairness)),
+                                            hairness)),
                                   ],
                                 ),
                               ),
@@ -420,7 +420,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.Rkm),
+                                          title: Rkm),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -434,12 +434,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             _createRequestModel.ys_rkm = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Enter ${AppStrings.Rkm}";
+                                            return "Enter ${Rkm}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.Rkm)),
+                                            Rkm)),
                                   ],
                                 ),
                               ),
@@ -452,7 +452,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.elongation),
+                                          title: elongation),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -466,12 +466,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             .ys_elongation = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Enter ${AppStrings.elongation}";
+                                            return "Enter ${elongation}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.elongation)),
+                                            elongation)),
                                   ],
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
@@ -485,7 +485,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                   children: [
                                     Container(
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.tpi),
+                                          title: tpi),
                                       margin:
                                           EdgeInsets.only(left: 8.w, top: 8.w),
                                     ),
@@ -499,12 +499,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                             _createRequestModel.ys_tpi = input!,
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return "Enter ${AppStrings.tpi}";
+                                            return "Enter ${tpi}";
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.tpi)),
+                                            tpi)),
                                   ],
                                 ),
                               ),
@@ -515,7 +515,7 @@ class LabParameterPageState extends State<LabParameterPage>
                             children: [
                               Container(
                                 child:
-                                    TitleSmallTextWidget(title: AppStrings.tm),
+                                    TitleSmallTextWidget(title: tm),
                                 margin: EdgeInsets.only(left: 8.w, top: 8.w),
                               ),
                               TextFormField(
@@ -528,12 +528,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                       _createRequestModel.ys_tm = input!,
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
-                                      return "Enter ${AppStrings.tm}";
+                                      return "Enter ${tm}";
                                     }
                                     return null;
                                   },
                                   decoration: roundedTextFieldDecoration(
-                                      AppStrings.tm)),
+                                      tm)),
                             ],
                           ),
                         ],
@@ -556,7 +556,7 @@ class LabParameterPageState extends State<LabParameterPage>
                       widget.callback!(1);
                     }
                   },
-                  color: AppColors.btnColorLogin,
+                  color: btnColorLogin,
                   btnText: "Next",
                 ),
               ),

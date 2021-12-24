@@ -41,6 +41,7 @@ dependencies:
   flutter_speed_dial: ^4.6.6
   dropdown_plus: ^0.0.9
   http: ^0.13.4
+  mvc_pattern: ^7:0.0
   shared_preferences: ^2.0.9
   stylish_dialog: ^0.0.8+1
   fluttertoast: ^8.0.8

@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
 import 'package:yg_app/pages/main_page.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/progress_dialog_util.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -52,15 +53,15 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.only(top: 40.w, bottom: 40.w),
                   child: Image.asset(
-                    AppImages.logoImage,
+                    logoImage,
                     width: 60.w,
                     height: 60.h,
                   ),
                 ),
                 Text(
-                  AppStrings.letsGetStarted,
+                  letsGetStarted,
                   style: TextStyle(
-                      color: AppColors.textColorBlue,
+                      color: textColorBlue,
                       fontSize: 24.sp,
                       fontFamily: 'Metropolis',
                       fontWeight: FontWeight.w400),
@@ -68,10 +69,10 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Text(
-                    AppStrings.loginDescription,
+                    loginDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.textColorGrey,
+                      color: textColorGrey,
                       fontSize: 9.sp,
                       fontFamily: 'Metropolis',
                       fontWeight: FontWeight.w400,
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                                   return null;
                                 },
                                 decoration:
-                                    textFormFieldDec(AppStrings.userName)),
+                                    textFormFieldDec(userName)),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -121,11 +122,11 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                labelText: AppStrings.password,
+                                labelText: password,
                                 labelStyle: TextStyle(fontSize: 12.sp,fontFamily: 'Metropolis',),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: AppColors.textColorGrey),
+                                      color: textColorGrey),
                                 ),
                                 suffixIcon: GestureDetector(
                                   onTap: () {
@@ -135,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                     _showPassword
                                         ? Icons.visibility
                                         : Icons.visibility_off,
-                                    color: AppColors.textColorGrey,
+                                    color: textColorGrey,
                                   ),
                                 ),
                               ),
@@ -150,10 +151,10 @@ class _LoginPageState extends State<LoginPage> {
                               padding: EdgeInsets.only(
                                   top: 0, bottom: 8.w, left: 8.w, right: 8.w),
                               child: Text(
-                                AppStrings.forgetPassword,
+                                forgetPassword,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: AppColors.btnColorLogin,
+                                  color: btnColorLogin,
                                   fontSize: 12.sp,
                                   fontFamily: 'Metropolis',
                                   fontWeight: FontWeight.w500,
@@ -176,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                                               Colors.white),
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
-                                              AppColors.btnColorLogin),
+                                              btnColorLogin),
                                       shape: MaterialStateProperty.all<
                                               RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
@@ -193,9 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                                         ProgressDialogUtil.hideDialog();
                                         if (value.success) {
 
-                                          SharedPreferenceUtil.addStringToSF(AppStrings.USER_ID_KEY, value.data.user.id.toString());
-                                          SharedPreferenceUtil.addStringToSF(AppStrings.USER_TOKEN_KEY, value.data.token);
-                                          SharedPreferenceUtil.addBoolToSF(AppStrings.IS_LOGIN, true);
+                                          SharedPreferenceUtil.addStringToSF(USER_ID_KEY, value.data.user.id.toString());
+                                          SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
+                                          SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
                                           Fluttertoast.showToast(
                                               msg: value.message,
@@ -235,11 +236,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   child: Text(
-                    AppStrings.signUpStr,
+                    signUpStr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Metropolis',
-                      color: AppColors.textColorGrey,
+                      color: textColorGrey,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                       height: 1.5.h,

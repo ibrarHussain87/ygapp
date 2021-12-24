@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/list_widget_colored.dart';
-import 'package:yg_app/widgets/material_listview_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
-import 'package:yg_app/widgets/yarn_widgets/listview_famiy_tile.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/list_widgets/list_widget_colored.dart';
+import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 
 class FamilyBlendAdsBody extends StatefulWidget {
   final YarnSyncResponse yarnSyncResponse;
@@ -50,7 +50,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleTextWidget(title: AppStrings.yarnCategory),
+              TitleTextWidget(title: yarnCategory),
               SizedBox(
                 height: 8.w,
               ),
@@ -72,7 +72,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         ),
         Padding(
             padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-            child: TitleTextWidget(title: AppStrings.blend)),
+            child: TitleTextWidget(title: blend)),
         MaterialListviewWidget(
           listItem: widget.yarnSyncResponse.data.yarn.blends,
           onClickCallback: (value) {

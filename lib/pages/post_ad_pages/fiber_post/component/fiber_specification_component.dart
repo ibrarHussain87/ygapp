@@ -9,15 +9,15 @@ import 'package:yg_app/model/response/common_response_models/brands_response.dar
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/numeriacal_range_text_field.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
-import 'package:yg_app/utils/string_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
+import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
   final Function? callback;
@@ -58,7 +58,7 @@ class FiberSpecificationComponentState
   @override
   void initState() {
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
-        (AppStrings.materialIndexBroadcast, (index) {
+        (materialIndexBroadcast, (index) {
       setState(() {
         _selectedMaterialIndex = index;
       });
@@ -107,12 +107,12 @@ class FiberSpecificationComponentState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TitleTextWidget(
-                            title: AppStrings.specifications,
+                            title: specifications,
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 2.w),
                             child: Text(
-                              AppStrings.selectSpecifications,
+                              selectSpecifications,
                               style: TextStyle(
                                   fontSize: 11.sp, color: Colors.grey.shade600),
                             ),
@@ -140,7 +140,7 @@ class FiberSpecificationComponentState
                                               padding:
                                                   EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
-                                                  title: AppStrings.grades)),
+                                                  title: grades)),
                                           GridTileWidget(
                                             spanCount: 3,
                                             listOfItems: widget
@@ -180,13 +180,13 @@ class FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings
-                                                          .fiberLength)),
+                                                      title:
+                                                          fiberLength)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor:
-                                                      AppColors.lightBlueTabs,
+                                                      lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -209,8 +209,7 @@ class FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return AppStrings
-                                                          .fiberLength;
+                                                      return fiberLength;
                                                     }
                                                     return null;
                                                   },
@@ -252,12 +251,12 @@ class FiberSpecificationComponentState
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title:
-                                                          AppStrings.micStr)),
+                                                          micStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor:
-                                                      AppColors.lightBlueTabs,
+                                                      lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -280,7 +279,7 @@ class FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return AppStrings.micStr;
+                                                      return micStr;
                                                     }
                                                     return null;
                                                   },
@@ -310,13 +309,12 @@ class FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings
-                                                          .moistureStr)),
+                                                      title: moistureStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor:
-                                                      AppColors.lightBlueTabs,
+                                                      lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -339,8 +337,7 @@ class FiberSpecificationComponentState
                                                   validator: (input) {
                                                     if (input == null ||
                                                         input.isEmpty) {
-                                                      return AppStrings
-                                                          .moistureStr;
+                                                      return moistureStr;
                                                     }
                                                     return null;
                                                   },
@@ -377,13 +374,12 @@ class FiberSpecificationComponentState
                                                     padding: EdgeInsets.only(
                                                         left: 8.w),
                                                     child: TitleSmallTextWidget(
-                                                        title: AppStrings
-                                                            .trashStr)),
+                                                        title: trashStr)),
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
                                                     cursorColor:
-                                                        AppColors.lightBlueTabs,
+                                                        lightBlueTabs,
                                                     style: TextStyle(
                                                         fontSize: 11.sp),
                                                     textAlign: TextAlign.center,
@@ -406,8 +402,7 @@ class FiberSpecificationComponentState
                                                     validator: (input) {
                                                       if (input == null ||
                                                           input.isEmpty) {
-                                                        return AppStrings
-                                                            .trashStr;
+                                                        return trashStr;
                                                       }
                                                       return null;
                                                     },
@@ -447,7 +442,7 @@ class FiberSpecificationComponentState
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor:
-                                                      AppColors.lightBlueTabs,
+                                                      lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -510,7 +505,7 @@ class FiberSpecificationComponentState
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor:
-                                                      AppColors.lightBlueTabs,
+                                                      lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -604,7 +599,7 @@ class FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title: AppStrings.brand)),
+                                                      title: brand)),
                                               SizedBox(
                                                 height: 36.w,
                                                 child: Container(
@@ -622,7 +617,7 @@ class FiberSpecificationComponentState
                                                   child:
                                                       DropdownButtonFormField(
                                                     hint: Text(
-                                                        'Select ${AppStrings.brand}'),
+                                                        'Select ${brand}'),
                                                     items: widget
                                                         .syncFiberResponse
                                                         .data
@@ -661,8 +656,7 @@ class FiberSpecificationComponentState
                                                     ),
                                                     style: TextStyle(
                                                         fontSize: 11.sp,
-                                                        color: AppColors
-                                                            .textColorGrey),
+                                                        color: textColorGrey),
                                                   ),
                                                 ),
                                               ),
@@ -703,7 +697,7 @@ class FiberSpecificationComponentState
                                                 controller:
                                                     _textEditingController,
                                                 cursorColor:
-                                                    AppColors.lightBlueTabs,
+                                                    lightBlueTabs,
                                                 autofocus: false,
                                                 style:
                                                     TextStyle(fontSize: 11.sp),
@@ -756,7 +750,7 @@ class FiberSpecificationComponentState
                                         Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: AppColors.lightBlueTabs,
+                                                color: lightBlueTabs,
                                                 width:
                                                     1, //                   <--- border width here
                                               ),
@@ -794,7 +788,7 @@ class FiberSpecificationComponentState
                                                     borderSide: BorderSide
                                                         .none) /*OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: AppColors.lightBlueTabs),
+                                              color: lightBlueTabs),
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(24.w),
                                           ))*/
@@ -803,7 +797,7 @@ class FiberSpecificationComponentState
                                               style: TextStyle(
                                                   fontSize: 11.sp,
                                                   color:
-                                                      AppColors.textColorGrey),
+                                                      textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -826,7 +820,7 @@ class FiberSpecificationComponentState
                                         Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: AppColors.lightBlueTabs,
+                                                color: lightBlueTabs,
                                                 width:
                                                     1, //                   <--- border width here
                                               ),
@@ -866,7 +860,7 @@ class FiberSpecificationComponentState
                                               style: TextStyle(
                                                   fontSize: 11.sp,
                                                   color:
-                                                      AppColors.textColorGrey),
+                                                      textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -892,7 +886,7 @@ class FiberSpecificationComponentState
                                               title: 'Lot Number')),
                                       TextFormField(
                                           keyboardType: TextInputType.text,
-                                          cursorColor: AppColors.lightBlueTabs,
+                                          cursorColor: lightBlueTabs,
                                           style: TextStyle(fontSize: 11.sp),
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
@@ -990,13 +984,13 @@ class FiberSpecificationComponentState
                                 .toString();
 
                             var userID =
-                                await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+                                await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
                             _createRequestModel!.spc_user_idfk = userID.toString();
 
                             widget.callback!(1);
                           }
                         },
-                        color: AppColors.btnColorLogin,
+                        color: btnColorLogin,
                         btnText: "Next",
                       ),
                     ),

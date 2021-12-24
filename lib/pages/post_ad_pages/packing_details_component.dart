@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -15,15 +16,15 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/progress_dialog_util.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/add_picture_widget.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/add_picture_widget.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
+import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -106,7 +107,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       TitleTextWidget(
-                        title: AppStrings.packingDetails,
+                        title: packingDetails,
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 8.w),
@@ -116,7 +117,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.sellingRegion)),
+                                    title: sellingRegionStr)),
                             GridTileWidget(
                               spanCount: 2,
                               listOfItems: sellingRegion,
@@ -125,7 +126,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
                             Visibility(
                               visible:
-                                  widget.locality == AppStrings.international
+                                  widget.locality == international
                                       ? true
                                       : false,
                               child: Row(
@@ -142,7 +143,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               padding:
                                                   EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
-                                                  title: AppStrings.country)),
+                                                  title: country)),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -192,8 +193,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
-                                                    color: AppColors
-                                                        .textColorGrey),
+                                                    color: textColorGrey),
                                               ),
                                             ),
                                           ),
@@ -213,7 +213,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               padding:
                                                   EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
-                                                  title: AppStrings.port)),
+                                                  title: port)),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -262,8 +262,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
-                                                    color: AppColors
-                                                        .textColorGrey),
+                                                    color: textColorGrey),
                                               ),
                                             ),
                                           ),
@@ -276,7 +275,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
                             Visibility(
                                 visible:
-                                    widget.locality == AppStrings.international
+                                    widget.locality == international
                                         ? true
                                         : false,
                                 child: Padding(
@@ -288,7 +287,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       Padding(
                                           padding: EdgeInsets.only(left: 8.w),
                                           child: TitleSmallTextWidget(
-                                              title: AppStrings.cityState)),
+                                              title: cityState)),
                                       SizedBox(
                                         height: 36.w,
                                         child: Container(
@@ -302,7 +301,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   Radius.circular(24.w))),
                                           child: DropdownButtonFormField(
                                             hint: Text(
-                                                'Select ${AppStrings.cityState}'),
+                                                'Select ${cityState}'),
                                             items: widget.cityState
                                                 .map((value) =>
                                                     DropdownMenuItem(
@@ -331,7 +330,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             ),
                                             style: TextStyle(
                                                 fontSize: 11.sp,
-                                                color: AppColors.textColorGrey),
+                                                color: textColorGrey),
                                           ),
                                         ),
                                       ),
@@ -341,7 +340,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.priceTerms)),
+                                    title: priceTerms)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget.priceTerms as List<dynamic>,
@@ -352,7 +351,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 }),
                             Visibility(
                                 visible:
-                                    widget.locality == AppStrings.international
+                                    widget.locality == international
                                         ? true
                                         : false,
                                 child: Column(
@@ -362,7 +361,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.paymentType)),
+                                            title: paymentType)),
                                     GridTileWidget(
                                         spanCount: 3,
                                         listOfItems:
@@ -376,7 +375,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 )),
                             Visibility(
                               visible:
-                                  widget.locality == AppStrings.international
+                                  widget.locality == international
                                       ? true
                                       : false,
                               child: Column(
@@ -386,7 +385,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.lcType)),
+                                          title: lcType)),
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems:
@@ -403,7 +402,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
                             Visibility(
                               visible:
-                                  widget.locality == AppStrings.international
+                                  widget.locality == international
                                       ? true
                                       : false,
                               child: Column(
@@ -413,7 +412,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.unitCount)),
+                                          title: unitCount)),
                                   GridTileWidget(
                                       spanCount: 4,
                                       listOfItems:
@@ -439,10 +438,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.priceUnits)),
+                                            title: priceUnits)),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
-                                        cursorColor: AppColors.lightBlueTabs,
+                                        cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
@@ -455,12 +454,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.priceUnits;
+                                            return priceUnits;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.priceUnits)),
+                                            priceUnits)),
                                   ],
                                 )),
                                 SizedBox(width: 16.w),
@@ -472,10 +471,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         padding: EdgeInsets.only(
                                             top: 8.w, left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.minQty)),
+                                            title: minQty)),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
-                                        cursorColor: AppColors.lightBlueTabs,
+                                        cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
@@ -488,19 +487,19 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         validator: (input) {
                                           if (input == null || input.isEmpty) {
-                                            return AppStrings.minQty;
+                                            return minQty;
                                           }
                                           return null;
                                         },
                                         decoration: roundedTextFieldDecoration(
-                                            AppStrings.minQty)),
+                                            minQty)),
                                   ],
                                 )),
                               ],
                             ),
 
                             Visibility(
-                              visible: widget.businessArea == AppStrings.yarn ? true: false,
+                              visible: widget.businessArea == yarn ? true: false,
                               child: Container(
                                 margin: EdgeInsets.only(top: 8.w),
                                 child: Column(
@@ -516,10 +515,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     padding: EdgeInsets.only(
                                                         top: 8.w, left: 8.w),
                                                     child: TitleSmallTextWidget(
-                                                        title: AppStrings.weightCones)),
+                                                        title: weightCones)),
                                                 TextFormField(
                                                     keyboardType: TextInputType.number,
-                                                    cursorColor: AppColors.lightBlueTabs,
+                                                    cursorColor: lightBlueTabs,
                                                     style: TextStyle(fontSize: 11.sp),
                                                     textAlign: TextAlign.center,
                                                     cursorHeight: 16.w,
@@ -532,12 +531,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     },
                                                     validator: (input) {
                                                       if (input == null || input.isEmpty) {
-                                                        return AppStrings.weightCones;
+                                                        return weightCones;
                                                       }
                                                       return null;
                                                     },
                                                     decoration: roundedTextFieldDecoration(
-                                                        AppStrings.weightCones)),
+                                                        weightCones)),
                                               ],
                                             )),
                                         SizedBox(width: 16.w),
@@ -549,10 +548,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     padding: EdgeInsets.only(
                                                         top: 8.w, left: 8.w),
                                                     child: TitleSmallTextWidget(
-                                                        title: AppStrings.weightBags)),
+                                                        title: weightBags)),
                                                 TextFormField(
                                                     keyboardType: TextInputType.number,
-                                                    cursorColor: AppColors.lightBlueTabs,
+                                                    cursorColor: lightBlueTabs,
                                                     style: TextStyle(fontSize: 11.sp),
                                                     textAlign: TextAlign.center,
                                                     cursorHeight: 16.w,
@@ -565,12 +564,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     },
                                                     validator: (input) {
                                                       if (input == null || input.isEmpty) {
-                                                        return AppStrings.weightBags;
+                                                        return weightBags;
                                                       }
                                                       return null;
                                                     },
                                                     decoration: roundedTextFieldDecoration(
-                                                        AppStrings.weightBags)),
+                                                        weightBags)),
                                               ],
                                             )),
                                       ],
@@ -582,10 +581,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             padding: EdgeInsets.only(
                                                 top: 8.w, left: 8.w),
                                             child: TitleSmallTextWidget(
-                                                title: AppStrings.coneBags)),
+                                                title: coneBags)),
                                         TextFormField(
                                             keyboardType: TextInputType.number,
-                                            cursorColor: AppColors.lightBlueTabs,
+                                            cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
@@ -598,12 +597,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             },
                                             validator: (input) {
                                               if (input == null || input.isEmpty) {
-                                                return AppStrings.coneBags;
+                                                return coneBags;
                                               }
                                               return null;
                                             },
                                             decoration: roundedTextFieldDecoration(
-                                                AppStrings.coneBags)),
+                                                coneBags)),
                                       ],
                                     )
                                   ],
@@ -614,7 +613,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.packing)),
+                                    title: packing)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems: widget.packing as List<dynamic>,
@@ -627,7 +626,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.deliveryPeriod)),
+                                    title: deliveryPeriod)),
                             GridTileWidget(
                                 spanCount: 3,
                                 listOfItems:
@@ -643,13 +642,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
-                                    title: AppStrings.descriptionStr)),
+                                    title: descriptionStr)),
                             SizedBox(
                               height: 5 * 22.w,
                               child: TextFormField(
                                   keyboardType: TextInputType.text,
                                   maxLines: 5,
-                                  cursorColor: AppColors.lightBlueTabs,
+                                  cursorColor: lightBlueTabs,
                                   style: TextStyle(fontSize: 11.sp),
                                   textAlign: TextAlign.start,
                                   cursorHeight: 16.w,
@@ -661,12 +660,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   },
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
-                                      return AppStrings.descriptionStr;
+                                      return descriptionStr;
                                     }
                                     return null;
                                   },
                                   decoration: roundedDescriptionDecoration(
-                                      AppStrings.descriptionStr)),
+                                      descriptionStr)),
                             ),
                             AddPictureWidget(
                               imageCount: 1,
@@ -707,19 +706,19 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Fluttertoast.showToast(msg: value.message);
                             Navigator.pop(context);
                           } else {
-                            ShowMessageUtils.showSnackBar(
+                            Ui.showSnackBar(
                                 context, value.message);
                           }
                         }).onError((error, stackTrace) {
                           ProgressDialogUtil.hideDialog();
-                          ShowMessageUtils.showSnackBar(
+                          Ui.showSnackBar(
                               context, error.toString());
                         });
                       }
                     }
                   },
-                  color: AppColors.btnColorLogin,
-                  btnText: AppStrings.submit,
+                  color: btnColorLogin,
+                  btnText: submit,
                 ),
               ),
             ),
@@ -731,7 +730,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    if (widget.locality == AppStrings.international) {
+    if (widget.locality == international) {
       _createRequestModel!.lc_type_idfk = widget.lcType!.first.lcId.toString();
       _createRequestModel!.fbp_count_unit_idfk =
           widget.units!.first.untId.toString();

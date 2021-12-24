@@ -5,17 +5,17 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/numeriacal_range_text_field.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
-import 'package:yg_app/utils/string_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/utils/ui_utils.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget.dart';
-import 'package:yg_app/widgets/grid_tile_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+
+import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
+import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
 
@@ -90,12 +90,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TitleTextWidget(
-                              title: AppStrings.specifications,
+                              title: specifications,
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 2.w),
                               child: Text(
-                                AppStrings.selectSpecifications,
+                                selectSpecifications,
                                 style: TextStyle(
                                     fontSize: 11.sp,
                                     color: Colors.grey.shade600),
@@ -119,7 +119,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.grades)),
+                                          title: grades)),
                                   GridTileWidget(
                                     spanCount: 3,
                                     listOfItems: widget
@@ -147,11 +147,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         Padding(
                                             padding: EdgeInsets.only(left: 4.w),
                                             child: TitleSmallTextWidget(
-                                                title: AppStrings.ratio)),
+                                                title: ratio)),
                                         TextFormField(
                                             keyboardType: TextInputType.number,
                                             cursorColor:
-                                                AppColors.lightBlueTabs,
+                                                lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
@@ -161,13 +161,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             validator: (input) {
                                               if (input == null ||
                                                   input.isEmpty) {
-                                                return "Enter ${AppStrings.ratio}";
+                                                return "Enter ${ratio}";
                                               }
                                               return null;
                                             },
                                             decoration:
                                                 roundedTextFieldDecoration(
-                                                    AppStrings.ratio)),
+                                                    ratio)),
                                       ],
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -190,11 +190,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         Padding(
                                             padding: EdgeInsets.only(left: 4.w),
                                             child: TitleSmallTextWidget(
-                                                title: AppStrings.count)),
+                                                title: count)),
                                         TextFormField(
                                             keyboardType: TextInputType.number,
                                             cursorColor:
-                                                AppColors.lightBlueTabs,
+                                                lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
@@ -204,13 +204,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             validator: (input) {
                                               if (input == null ||
                                                   input.isEmpty) {
-                                                return "Enter ${AppStrings.count}";
+                                                return "Enter ${count}";
                                               }
                                               return null;
                                             },
                                             decoration:
                                                 roundedTextFieldDecoration(
-                                                    AppStrings.count)),
+                                                    count)),
                                       ],
                                     ),
                                   ),
@@ -228,7 +228,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
                                             title:
-                                                AppStrings.yarnTexturedType)),
+                                                yarnTexturedType)),
                                     GridTileWidget(
                                       spanCount: 3,
                                       listOfItems: widget
@@ -258,11 +258,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         Padding(
                                             padding: EdgeInsets.only(left: 4.w),
                                             child: TitleSmallTextWidget(
-                                                title: AppStrings.dannier)),
+                                                title: dannier)),
                                         TextFormField(
                                             keyboardType: TextInputType.text,
                                             cursorColor:
-                                                AppColors.lightBlueTabs,
+                                                lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
@@ -272,7 +272,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             validator: (input) {
                                               if (input == null ||
                                                   input.isEmpty) {
-                                                return "Enter ${AppStrings.dannier}";
+                                                return "Enter ${dannier}";
                                               }
                                               return null;
                                             },
@@ -287,7 +287,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             ],
                                             decoration:
                                                 roundedTextFieldDecoration(
-                                                    AppStrings.dannier)),
+                                                    dannier)),
                                       ],
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -313,11 +313,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         Padding(
                                             padding: EdgeInsets.only(left: 4.w),
                                             child: TitleSmallTextWidget(
-                                                title: AppStrings.filament)),
+                                                title: filament)),
                                         TextFormField(
                                             keyboardType: TextInputType.text,
                                             cursorColor:
-                                                AppColors.lightBlueTabs,
+                                                lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
@@ -327,7 +327,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             validator: (input) {
                                               if (input == null ||
                                                   input.isEmpty) {
-                                                return "Enter ${AppStrings.filament}";
+                                                return "Enter ${filament}";
                                               }
                                               return null;
                                             },
@@ -342,7 +342,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                             ],
                                             decoration:
                                                 roundedTextFieldDecoration(
-                                                    AppStrings.filament)),
+                                                    filament)),
                                       ],
                                     ),
                                   ),
@@ -357,7 +357,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.ply)),
+                                          title: ply)),
                                   GridTileWidget(
                                     spanCount: 4,
                                     listOfItems:
@@ -383,7 +383,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.orientation)),
+                                          title: orientation)),
                                   GridTileWidget(
                                     spanCount: 2,
                                     listOfItems: widget
@@ -408,7 +408,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.usage)),
+                                            title: usage)),
                                     GridTileWidget(
                                       spanCount: 2,
                                       listOfItems: widget
@@ -434,7 +434,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.pattern)),
+                                            title: pattern)),
                                     GridTileWidget(
                                       spanCount: 3,
                                       listOfItems: widget
@@ -472,7 +472,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.patternChar)),
+                                            title: patternChar)),
                                     GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: _patternCharactristicList,
@@ -498,7 +498,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.twistDirection)),
+                                            title: twistDirection)),
                                     GridTileWidget(
                                       spanCount: 2,
                                       listOfItems: widget.yarnSyncResponse.data
@@ -525,7 +525,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.spunTech)),
+                                            title: spunTech)),
                                     GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget.yarnSyncResponse.data
@@ -552,7 +552,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.quality)),
+                                            title: quality)),
                                     GridTileWidget(
                                       spanCount: 2,
                                       listOfItems: widget
@@ -581,7 +581,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.certification)),
+                                            title: certification)),
                                     GridTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget.yarnSyncResponse.data
@@ -607,8 +607,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings
-                                                .colorTreatmentMethod)),
+                                            title: colorTreatmentMethod)),
                                     GridTileWidget(
                                       spanCount: 3,
                                       listOfItems: widget.yarnSyncResponse.data
@@ -636,7 +635,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
-                                          title: AppStrings.dyingMethod)),
+                                          title: dyingMethod)),
                                   GridTileWidget(
                                     spanCount: 2,
                                     listOfItems: widget
@@ -661,7 +660,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: TitleSmallTextWidget(
-                                            title: AppStrings.apperance)),
+                                            title: apperance)),
                                     GridTileWidget(
                                       spanCount: 2,
                                       listOfItems: widget
@@ -700,7 +699,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         widget.callback!(1);
                       }
                     },
-                    color: AppColors.btnColorLogin,
+                    color: btnColorLogin,
                     btnText: "Next",
                   ),
                 ),
@@ -723,7 +722,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           if (value.isNotEmpty) {
             _yarnSetting = value[0];
           } else {
-            ShowMessageUtils.showSnackBar(context, 'No Settings Found');
+            Ui.showSnackBar(context, 'No Settings Found');
           }
         });
       });
@@ -733,7 +732,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   _initGridValues() async {
 
     var userID =
-        await SharedPreferenceUtil.getStringValuesSF(AppStrings.USER_ID_KEY);
+        await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     _createRequestModel.ys_user_idfk = userID.toString();
 
     //Category Id

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/list_items_widgets/fiber_market_list_item.dart';
+import 'package:yg_app/elements/list_items_widgets/fiber_market_list_item.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/main_fiber_detail_page.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberListingComponent extends StatefulWidget {
 
@@ -40,13 +41,7 @@ class FiberListingComponentState extends State<FiberListingComponent> {
               itemCount: snapshot.data!.data.specification.length,
               itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FiberDetailPage(
-                            specification: snapshot.data!.data.specification[index]),
-                      ),
-                    );
+                    openFiberDetailsScreen(context,snapshot.data!.data.specification[index]);
                   },
                   child: buildFiberWidget(snapshot.data!.data.specification[index])),
               // separatorBuilder: (context, index) {

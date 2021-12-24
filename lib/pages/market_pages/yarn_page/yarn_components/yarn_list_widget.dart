@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/list_items_widgets/yarn_list_items.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/list_items_widgets/yarn_list_items.dart';
 
 class YarnSpecificationList extends StatefulWidget {
   final String locality;

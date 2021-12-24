@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
@@ -10,12 +11,12 @@ import 'package:yg_app/pages/market_pages/common_components/offering_requirment_
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 
 class FiberPage extends StatefulWidget {
-  final String? locality;
 
+  final String? locality;
   const FiberPage({Key? key, required this.locality}) : super(key: key);
 
   @override
@@ -52,37 +53,21 @@ class FiberPageState extends State<FiberPage> {
           closeManually: true,
           children: [
             SpeedDialChild(
-                label: AppStrings.requirement,
+                label: requirement,
                 backgroundColor: Colors.blue,
                 onTap: () {
                   setState(() {
                     isDialOpen.value = false;
                   });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FiberPostPage(
-                          locality: widget.locality,
-                          businessArea: 'Fiber',
-                          selectedTab: '0'),
-                    ),
-                  );
+                  openFiberPostPage(context,widget.locality,'Fiber','0');
                 }),
             SpeedDialChild(
-                label: AppStrings.offering,
+                label: offering,
                 onTap: () {
                   setState(() {
                     isDialOpen.value = false;
                   });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FiberPostPage(
-                          locality: widget.locality,
-                          businessArea: 'Fiber',
-                          selectedTab: '1'),
-                    ),
-                  );
+                  openFiberPostPage(context,widget.locality,'Fiber','1');
                 }),
           ],
         ),
@@ -110,7 +95,6 @@ class FiberPageState extends State<FiberPage> {
                   Row(
                     children: [
                       Expanded(
-                        flex: 9,
                         child: Center(
                           child: OfferingRequirementSegmentComponent(
                             callback: (value) {
@@ -121,9 +105,10 @@ class FiberPageState extends State<FiberPage> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
+                      Visibility(
+                        visible: false,
                         child: Center(
+
                           child: GestureDetector(
                             onTap: () async {
                               if (familySateFiber
@@ -155,7 +140,7 @@ class FiberPageState extends State<FiberPage> {
                                     padding: EdgeInsets.all(4.w),
                                     child: Icon(
                                       Icons.filter_alt_sharp,
-                                      color: AppColors.lightBlueTabs,
+                                      color: lightBlueTabs,
                                       size: 16.w,
                                     ))),
                           ),

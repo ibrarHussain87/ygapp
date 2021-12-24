@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/list_bidder_components/list_bidder_body.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/progress_dialog_util.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
-import 'package:yg_app/widgets/list_widgets/brand_text.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class BidderListPage extends StatefulWidget {
   final String materialId;

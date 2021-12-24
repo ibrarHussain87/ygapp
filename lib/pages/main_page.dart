@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 
 import 'bottom_nav_main_pages/home_page.dart';
 import 'bottom_nav_main_pages/market_page.dart';
@@ -21,10 +21,10 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _screens = [
     const HomePage(),
     MarketPage(
-      locality: AppStrings.local,
+      locality: local,
     ),
     MarketPage(
-      locality: AppStrings.international,
+      locality: international,
     ),
     const YGServices(),
     const PastAdPage()
@@ -53,8 +53,8 @@ class _MainPageState extends State<MainPage> {
 
   BottomNavigationBar _generateBottomBar() {
     return BottomNavigationBar(
-      selectedItemColor: AppColors.textColorBlue,
-      unselectedItemColor: AppColors.textColorGrey,
+      selectedItemColor: textColorBlue,
+      unselectedItemColor: textColorGrey,
       selectedFontSize: 9.5.sp,
       unselectedFontSize: 9.5.sp,
       elevation: 24,
@@ -68,43 +68,43 @@ class _MainPageState extends State<MainPage> {
                 ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
-                      AppImages.homeIcon,
+                      homeIcon,
                       width: 20.w,
                       height: 20.h,
                     ))
                 : Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Image.asset(
-                      AppImages.homeGreyIcon,
+                      homeGreyIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
                   ),
-            label: AppStrings.home),
+            label: home),
         BottomNavigationBarItem(
             icon: _selectedIndex == 1
                 ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
-                      AppImages.marketIcon,
+                      marketIcon,
                       width: 20.w,
                       height: 20.h,
                     ))
                 : Padding(
                     padding: EdgeInsets.all(5.0.w),
                     child: Image.asset(
-                      AppImages.marketGreyIcon,
+                      marketGreyIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
                   ),
-            label: AppStrings.localMarket),
+            label: localMarket),
         BottomNavigationBarItem(
             icon: _selectedIndex == 2
                 ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
-                      AppImages.marketIcon,
+                      marketIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
@@ -112,18 +112,18 @@ class _MainPageState extends State<MainPage> {
                 : Padding(
                     padding: EdgeInsets.all(5.0.w),
                     child: Image.asset(
-                      AppImages.marketGreyIcon,
+                      marketGreyIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
                   ),
-            label: AppStrings.internationalMarket),
+            label: internationalMarket),
         BottomNavigationBarItem(
             icon: _selectedIndex == 3
                 ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
-                      AppImages.ygServicesIcon,
+                      ygServicesIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
@@ -131,18 +131,18 @@ class _MainPageState extends State<MainPage> {
                 : Padding(
                     padding: EdgeInsets.all(5.0.w),
                     child: Image.asset(
-                      AppImages.ygServicesGreyIcon,
+                      ygServicesGreyIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
                   ),
-            label: AppStrings.ygService),
+            label: ygService),
         BottomNavigationBarItem(
             icon: _selectedIndex == 4
                 ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
-                      AppImages.postAdIcon,
+                      postAdIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
@@ -150,12 +150,12 @@ class _MainPageState extends State<MainPage> {
                 : Padding(
                     padding: EdgeInsets.all(5.0.w),
                     child: Image.asset(
-                      AppImages.postAdGreyIcon,
+                      postAdGreyIcon,
                       width: 20.w,
                       height: 20.h,
                     ),
                   ),
-            label: AppStrings.auction),
+            label: auction),
       ],
     );
   }

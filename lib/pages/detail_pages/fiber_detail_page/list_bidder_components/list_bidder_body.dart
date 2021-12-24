@@ -2,13 +2,14 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/progress_dialog_util.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
-import 'package:yg_app/widgets/list_widgets/brand_text.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class ListBidderBody extends StatefulWidget {
   final ListBiddersData listBiddersData;
@@ -45,7 +46,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                AppImages.postAdGreyIcon,
+                postAdGreyIcon,
                 width: 24.w,
                 height: 24.w,
               ),
@@ -83,8 +84,8 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: _changeColor == "0"
-                                  ? AppColors.redClr
-                                  : AppColors.redClr.withOpacity(0.3),
+                                  ? redClr
+                                  : redClr.withOpacity(0.3),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.w))),
                           child: Padding(
@@ -114,8 +115,8 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: _changeColor == "0"
-                                  ? AppColors.btnGreen
-                                  : AppColors.greenClr.withOpacity(0.3),
+                                  ? btnGreen
+                                  : greenClr.withOpacity(0.3),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.w))),
                           child: Padding(
@@ -154,10 +155,10 @@ class _ListBidderBodyState extends State<ListBidderBody> {
         });
       }
 
-      ShowMessageUtils.showSnackBar(context, value.message);
+      Ui.showSnackBar(context, value.message);
     }, onError: (error, stackTrac) {
       ProgressDialogUtil.hideDialog();
-      ShowMessageUtils.showSnackBar(context, error.toString());
+      Ui.showSnackBar(context, error.toString());
     });
   }
 }

@@ -1,18 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/widgets/list_widgets/brand_text.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 import 'list_bidder_components/fiber_bider_tab_page.dart';
 import 'fiber_detail_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {
 
-  Specification specification;
+  final Specification specification;
 
-  FiberDetailPage({Key? key, required this.specification}) : super(key: key);
+  const FiberDetailPage({Key? key, required this.specification}) : super(key: key);
 
   @override
   _FiberDetailPageState createState() => _FiberDetailPageState();
@@ -29,21 +30,26 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
-          leading: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: Card(
-                child: Padding(
-                    padding: EdgeInsets.only(left: 4.w),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                      size: 12.w,
-                    )),
-              )),
+          leading: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Padding(
+                padding: EdgeInsets.all(12.w),
+                child: Card(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 4.w),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.black,
+                        size: 12.w,
+                      )),
+                )),
+          ),
           title: Text('Detail',
               style: TextStyle(
                   fontSize: 16.0.w,
-                  color: AppColors.appBarTextColor,
+                  color: appBarTextColor,
                   fontWeight: FontWeight.w400)),
         ),
         key: scaffoldKey,
@@ -86,14 +92,14 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                         TextSpan(
                             text: 'Time Left',
                             style: TextStyle(
-                                color: AppColors.textColorGrey,
+                                color: textColorGrey,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11.sp)),
                         TextSpan(
                           text: '      0 DAYS. 8 HOURS,29 MINS',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: AppColors.appBarTextColor,
+                              color: appBarTextColor,
                               fontSize: 11.sp),
                         ),
                       ],
@@ -116,7 +122,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                             '(CLOSES 09/20/2021 | 09:35 AM EST)',
                             style: TextStyle(
                                 fontSize: 7.sp,
-                                color: AppColors.textColorGreyLight),
+                                color: textColorGreyLight),
                           )
                         ],
                       )
@@ -137,14 +143,14 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                     child: TabBar(
                       // padding: EdgeInsets.only(left: 8.w, right: 8.w),
                       isScrollable: false,
-                      unselectedLabelColor: AppColors.textColorGrey,
+                      unselectedLabelColor: textColorGrey,
                       labelColor: Colors.white,
-                      indicatorColor: AppColors.lightBlueTabs,
+                      indicatorColor: lightBlueTabs,
                       indicatorSize: TabBarIndicatorSize.tab,
                       indicator: BoxDecoration(
                         gradient: LinearGradient(colors: [
-                          AppColors.lightBlueTabs,
-                          AppColors.lightBlueTabs
+                          lightBlueTabs,
+                          lightBlueTabs
                         ]),
                         borderRadius: BorderRadius.circular(8.w),
                       ),

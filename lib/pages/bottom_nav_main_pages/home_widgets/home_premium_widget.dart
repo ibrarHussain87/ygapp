@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 
 class HomePremiumWidget extends StatefulWidget {
   const HomePremiumWidget({Key? key}) : super(key: key);
@@ -16,51 +16,72 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 4.w),
+      color: Colors.white,
+      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 4.w,top: 4.w),
+      margin: EdgeInsets.only(bottom: 4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          TitleTextWidget(title: AppStrings.todayPremium),
-          SizedBox(
-            height: 8.w,
+          Container(
+            child: TitleTextWidget(title: todayPremium),
+            margin: EdgeInsets.only(bottom: 4.w),
           ),
           SizedBox(
-              height: 0.08*MediaQuery.of(context).size.height,
+              height: 0.08 * MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(4.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.w),
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              AppColors.homePremiumGradientDark,
-                              AppColors.homePremiumGradientLight,
-                            ],
-                          )),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 8.w,right: 8.w,top: 8.w,bottom: 8.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('20/S cdd Yarn for Weaving',style: TextStyle(color: Colors.white,fontSize: 11.sp),),
-                                Text('(100%) Cotton',style: TextStyle(color: Colors.white,fontSize: 11.sp),),
-                                Text('PKR.22,000',style: TextStyle(color: Colors.white,fontSize: 11.sp,fontWeight: FontWeight.bold),),
+                  return Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.w),
+                        child: Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                homePremiumGradientDark,
+                                homePremiumGradientLight,
                               ],
+                            )),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '20/S cdd Yarn for Weaving',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 11.sp),
+                                  ),
+                                  Text(
+                                    '(100%) Cotton',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 11.sp),
+                                  ),
+                                  Text(
+                                    'PKR.22,000',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 4.w,
+                      )
+                    ],
                   );
                 },
               ))

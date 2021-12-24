@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_widget.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 
 class SpinningPage extends StatefulWidget {
   final String? locality;
@@ -40,7 +41,7 @@ class _SpinningPageState extends State<SpinningPage> {
           floatingActionButton: SpeedDial(
             icon: Icons.add,
             openCloseDial: isDialOpen,
-            backgroundColor: AppColors.btnColorLogin,
+            backgroundColor: Colors.blueAccent,
             overlayColor: Colors.grey,
             overlayOpacity: 0.5,
             spacing: 3.w,
@@ -54,15 +55,7 @@ class _SpinningPageState extends State<SpinningPage> {
                     setState(() {
                       isDialOpen.value = false;
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SpinningPostAdPage(
-                            locality: widget.locality,
-                            businessArea: AppStrings.yarn,
-                            selectedTab: '0'),
-                      ),
-                    );
+                    openYarnPostPage(context,widget.locality,yarn,'0');
                   }),
               SpeedDialChild(
                   label: 'Offering',
@@ -70,15 +63,8 @@ class _SpinningPageState extends State<SpinningPage> {
                     setState(() {
                       isDialOpen.value = false;
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SpinningPostAdPage(
-                            locality: widget.locality,
-                            businessArea: "Yarn",
-                            selectedTab: '1'),
-                      ),
-                    );
+                    openYarnPostPage(context,widget.locality,yarn,'1');
+
                   }),
             ],
           ),
@@ -108,7 +94,6 @@ class _SpinningPageState extends State<SpinningPage> {
                     Row(
                       children: [
                         Expanded(
-                          flex: 9,
                           child: Center(
                             child: OfferingRequirementSegmentComponent(callback: (value) {
                               _yarnSpecificationListState.currentState!.searchData(
@@ -116,18 +101,21 @@ class _SpinningPageState extends State<SpinningPage> {
                             },),
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Card(
-                                elevation: 1,
-                                child: Padding(
-                                    padding: EdgeInsets.all(4.w),
-                                    child: Icon(
-                                      Icons.filter_alt_sharp,
-                                      color: AppColors.lightBlueTabs,
-                                      size: 16.w,
-                                    ))),
+                        Visibility(
+                          visible: false,
+                          child: Expanded(
+                            flex: 1,
+                            child: Center(
+                              child: Card(
+                                  elevation: 1,
+                                  child: Padding(
+                                      padding: EdgeInsets.all(4.w),
+                                      child: Icon(
+                                        Icons.filter_alt_sharp,
+                                        color: lightBlueTabs,
+                                        size: 16.w,
+                                      ))),
+                            ),
                           ),
                         ),
                       ],

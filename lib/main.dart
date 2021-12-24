@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
-import 'package:yg_app/utils/app_images.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/shared_pref_util.dart';
-import 'package:yg_app/utils/strings.dart';
+
+import 'helper_utils/app_constants.dart';
 
 void main() {
   runApp(YgApp());
@@ -26,10 +27,9 @@ class YgApp extends StatelessWidget {
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(
-        primaryColor: AppColors.lightBlueTabs,
-        primarySwatch: Colors.green,
-        fontFamily: 'Metropolis'
-      ),
+          primaryColor: lightBlueTabs,
+          primarySwatch: Colors.green,
+          fontFamily: 'Metropolis'),
       home: YgAppPage(),
       debugShowCheckedModeBanner: false,
     );
@@ -41,8 +41,7 @@ class YgAppPage extends StatefulWidget {
   _YgAppPageState createState() => _YgAppPageState();
 }
 
-class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMixin {
-
+class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   // state variables                           <-- state
   final _myDuration = const Duration(seconds: 1);
   double heightC1 = 1.0;
@@ -50,21 +49,19 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
   double widthC1 = 80.0;
   double widthC2 = 80.0;
   late Timer _timer;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
-    vsync: this,
-  )..repeat(reverse: true);
-  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
-    begin: Offset.zero,
-    end: const Offset(1.5, 0.0),
-  ).animate(CurvedAnimation(
-    parent: _controller,
-    curve: Curves.elasticIn,
-  ));
+  // late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+  //   begin: Offset.zero,
+  //   end: const Offset(1.5, 0.0),
+  // ).animate(CurvedAnimation(
+  //   parent: _controller,
+  //   curve: Curves.elasticIn,
+  // ));
 
-  _YgAppPageState(){
-    _timer = Timer(const Duration(milliseconds: 500),(){
+  _YgAppPageState() {
+    _timer = Timer(const Duration(milliseconds: 500), () {
       setState(() {
         _incrementCounter();
       });
@@ -73,10 +70,10 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
 
   void _incrementCounter() {
     setState(() {
-      heightC1 = MediaQuery.of(context).size.width*0.75;
-      heightC2 = MediaQuery.of(context).size.width*1;
-      widthC1 = MediaQuery.of(context).size.width*0.75;
-      widthC2 = MediaQuery.of(context).size.width*1;
+      heightC1 = MediaQuery.of(context).size.width * 0.75;
+      heightC2 = MediaQuery.of(context).size.width * 1;
+      widthC1 = MediaQuery.of(context).size.width * 0.75;
+      widthC2 = MediaQuery.of(context).size.width * 1;
     });
   }
 
@@ -85,22 +82,32 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
     _timer.cancel();
     _controller.dispose();
     super.dispose();
-
-
   }
 
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 5), () async {
-      bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(AppStrings.IS_LOGIN);
 
-      if(userLogin){
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 6000),
+        vsync: this,
+        lowerBound: 0,
+        upperBound: 1);
+
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
+
+    _controller.forward();
+
+    Timer(const Duration(seconds: 5), () async {
+      bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+
+      if (userLogin) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const MainPage()));
-      }else{
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const LoginPage()));
+      } else {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const LoginPage()));
       }
     });
   }
@@ -119,7 +126,7 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
       body: Stack(
         children: [
           Positioned(
-            top:  -(MediaQuery.of(context).size.width * 0.1),
+            top: -(MediaQuery.of(context).size.width * 0.1),
             left: -(MediaQuery.of(context).size.width * 0.2),
             child: AnimatedContainer(
               height: heightC1,
@@ -130,20 +137,19 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
                     colors: [
                       Color(0xFF30BDD1),
                       Color(0xFF0FD0CD),
-
                     ],
                     begin: FractionalOffset(0.0, 0.0),
                     end: FractionalOffset(1.0, 0.0),
                     stops: [0.0, 1.0],
                     tileMode: TileMode.clamp),
-                borderRadius:BorderRadius.all(
-                  Radius.circular(MediaQuery.of(context).size.width*0.4),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(MediaQuery.of(context).size.width * 0.4),
                 ),
               ),
             ),
           ),
           Positioned(
-            bottom:  -(MediaQuery.of(context).size.width * 0.1),
+            bottom: -(MediaQuery.of(context).size.width * 0.1),
             right: -(MediaQuery.of(context).size.width * 0.2),
             child: AnimatedContainer(
               height: heightC2,
@@ -155,22 +161,32 @@ class _YgAppPageState extends State<YgAppPage> with SingleTickerProviderStateMix
                     colors: [
                       Color(0xFFFFC137),
                       Color(0xFFFF8C31),
-
                     ],
                     begin: FractionalOffset(0.0, 0.0),
                     end: FractionalOffset(1.0, 0.0),
                     stops: [0.0, 1.0],
                     tileMode: TileMode.clamp),
-                borderRadius:BorderRadius.only(
-                    topLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
-                    topRight: Radius.circular(MediaQuery.of(context).size.width*0.59),
-                    bottomLeft: Radius.circular(MediaQuery.of(context).size.width*0.6),
-                    bottomRight: Radius.circular(MediaQuery.of(context).size.width*0.5)
-                ),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.6),
+                    topRight: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.59),
+                    bottomLeft: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.6),
+                    bottomRight: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.5)),
               ),
             ),
           ),
-          Positioned.fill(child: SlideTransition(position: _offsetAnimation,child: Align(alignment:Alignment.center,child: Image.asset(AppImages.logoImage,height: 64.w,width: 64.w))))
+          // FadeIn
+          Positioned.fill(
+              child: FadeTransition(
+            opacity: _animation,
+            child: Align(
+                alignment: Alignment.center,
+                child: Image.asset(logoImage,
+                    height: 64.w, width: 64.w)),
+          ))
         ],
       ),
     );

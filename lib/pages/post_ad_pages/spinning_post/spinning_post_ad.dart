@@ -7,7 +7,7 @@ import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_family_blend_ad_body.dart';
 import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class SpinningPostAdPage extends StatefulWidget {
   final String? locality;

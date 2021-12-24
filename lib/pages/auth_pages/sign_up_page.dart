@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 
 import '../main_page.dart';
 
@@ -57,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: 'Metropolis',
                             fontSize: 28.sp,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.textColorBlue),
+                            color: textColorBlue),
                       ),
                     ),
                   ),
@@ -68,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Metropolis',
-                        color: AppColors.textColorGrey,
+                        color: textColorGrey,
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
@@ -98,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         return null;
                                       },
                                       decoration: textFormFieldDec(
-                                          AppStrings.userName)),
+                                          userName)),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -118,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         return null;
                                       },
                                       decoration: textFormFieldDec(
-                                          AppStrings.telephoneNumber)),
+                                          telephoneNumber)),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -134,7 +135,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         return null;
                                       },
                                       decoration: textFormFieldDec(
-                                          AppStrings.operator)),
+                                          operator)),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -150,7 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       return null;
                                     },
                                     decoration:
-                                        textFormFieldDec(AppStrings.email),
+                                        textFormFieldDec(email),
                                   ),
                                 ),
                                 Padding(
@@ -171,11 +172,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                      labelText: AppStrings.password,
+                                      labelText: password,
                                       labelStyle: TextStyle(fontFamily: 'Metropolis',fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: AppColors.textColorGrey),
+                                            color: textColorGrey),
                                       ),
                                       suffixIcon: GestureDetector(
                                         onTap: () {
@@ -185,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                           _showPassword
                                               ? Icons.visibility
                                               : Icons.visibility_off,
-                                          color: AppColors.textColorGrey,
+                                          color: textColorGrey,
                                         ),
                                       ),
                                     ),
@@ -214,7 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       labelStyle: TextStyle(fontFamily: 'Metropolis',fontSize: 12.sp),
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: AppColors.textColorGrey),
+                                            color: textColorGrey),
                                       ),
                                       suffixIcon: GestureDetector(
                                         onTap: () {
@@ -224,7 +225,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                           _showPassword
                                               ? Icons.visibility
                                               : Icons.visibility_off,
-                                          color: AppColors.textColorGrey,
+                                          color: textColorGrey,
                                         ),
                                       ),
                                     ),
@@ -244,7 +245,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       return null;
                                     },
                                     decoration: textFormFieldDec(
-                                        AppStrings.businessArea),
+                                        businessArea),
                                   ),
                                 ),
                                 Row(
@@ -272,7 +273,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   fontFamily: 'Metropolis',
                                                   fontSize: 12.sp,
                                                   color:
-                                                      AppColors.textColorGrey)),
+                                                      textColorGrey)),
                                           TextSpan(
                                               text: 'Terms & Conditions',
                                               style: TextStyle(
@@ -305,7 +306,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Colors.white),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        AppColors.btnColorLogin),
+                                        btnColorLogin),
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     const RoundedRectangleBorder(

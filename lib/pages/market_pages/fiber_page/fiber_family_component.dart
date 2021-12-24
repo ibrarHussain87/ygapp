@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/widgets/loading_widgets/loading_listing.dart';
-import 'package:yg_app/widgets/material_listview_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
+import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberFamilyComponent extends StatefulWidget {
   final Function callback;

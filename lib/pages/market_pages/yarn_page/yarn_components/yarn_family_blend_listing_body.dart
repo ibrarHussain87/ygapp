@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/loading_widgets/loading_listing.dart';
-import 'package:yg_app/widgets/material_listview_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
-import 'package:yg_app/widgets/yarn_widgets/listview_famiy_tile.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
+import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 
 class YarnFamilyBlendListingBody extends StatefulWidget {
   final Function yarnFamilyCallback;
@@ -38,7 +38,7 @@ class _YarnFamilyBlendListingBodyState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Visibility(visible:false,child: TitleTextWidget(title: AppStrings.yarnCategory)),
+                    Visibility(visible:false,child: TitleTextWidget(title: yarnCategory)),
                     // SizedBox(
                     //   height: 8.w,
                     // ),
@@ -62,7 +62,7 @@ class _YarnFamilyBlendListingBodyState
                 visible: false,
                 child: Padding(
                     padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                    child: TitleTextWidget(title: AppStrings.blend)),
+                    child: TitleTextWidget(title: blend)),
               ),
               MaterialListviewWidget(
                 listItem: snapshot.data!.data.yarn.blends,

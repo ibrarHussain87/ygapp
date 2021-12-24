@@ -9,10 +9,10 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
-import 'package:yg_app/utils/constants.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/material_listview_widget.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
 
@@ -40,9 +40,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
   @override
   void dispose() {
     //Dispose broadcast
-    BroadcastReceiver().unsubscribe(AppStrings.materialIndexBroadcast);
-    BroadcastReceiver().unsubscribe(AppStrings.segmentIndexBroadcast);
-    BroadcastReceiver().unsubscribe(AppStrings.requestModelBroadCast);
+    BroadcastReceiver().unsubscribe(materialIndexBroadcast);
+    BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
+    BroadcastReceiver().unsubscribe(requestModelBroadCast);
     super.dispose();
   }
 
@@ -123,7 +123,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
 
               /// Publishing Event
               BroadcastReceiver().publish<int>(
-                  AppStrings.materialIndexBroadcast,
+                  materialIndexBroadcast,
                   arguments: index);
             },
           ),
@@ -138,7 +138,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                 } else*/ if (value is int) {
                   selectedSegment = value;
                   BroadcastReceiver().publish<int>(
-                      AppStrings.segmentIndexBroadcast,
+                      segmentIndexBroadcast,
                       arguments: selectedSegment);
                 }
               },

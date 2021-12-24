@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/utils/colors.dart';
-import 'package:yg_app/utils/progress_dialog_util.dart';
-import 'package:yg_app/utils/show_messgae_util.dart';
-import 'package:yg_app/utils/strings.dart';
-import 'package:yg_app/widgets/decoration_widgets.dart';
-import 'package:yg_app/widgets/elevated_button_widget_2.dart';
-import 'package:yg_app/widgets/grey_text_detail_widget_.dart';
-import 'package:yg_app/widgets/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/grey_text_detail_widget_.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class DetailTabPage extends StatefulWidget {
   final Specification? specification;
@@ -135,7 +136,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   SizedBox(
                     height: 16.w,
                   ),
-                  TitleTextWidget(title: AppStrings.specifications),
+                  TitleTextWidget(title: specifications),
                   SizedBox(
                     height: 8.w,
                   ),
@@ -182,7 +183,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   Container(
                     height: 5 * 22.w,
                     decoration: BoxDecoration(
-                        color: AppColors.tileGreyClr,
+                        color: tileGreyClr,
                         borderRadius: BorderRadius.all(Radius.circular(4.w))),
                     child: Padding(
                       padding: EdgeInsets.only(left: 8.w, right: 8.w),
@@ -192,7 +193,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         initialValue: widget.specification!.description!.isEmpty
                             ? "N/A"
                             : widget.specification!.description!,
-                        cursorColor: AppColors.lightBlueTabs,
+                        cursorColor: lightBlueTabs,
                         style: TextStyle(fontSize: 11.sp),
                         textAlign: TextAlign.start,
                         cursorHeight: 16.w,
@@ -222,7 +223,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               width: 200.w,
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: AppColors.lightBlueTabs,
+                                    color: lightBlueTabs,
                                     width:
                                         1, //                   <--- border width here
                                   ),
@@ -281,7 +282,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               width: 200.w,
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: AppColors.lightBlueTabs,
+                                    color: lightBlueTabs,
                                     width:
                                         1, //                   <--- border width here
                                   ),
@@ -338,7 +339,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
-                        cursorColor: AppColors.lightBlueTabs,
+                        cursorColor: lightBlueTabs,
                         style: TextStyle(fontSize: 11.sp),
                         textAlign: TextAlign.start,
                         cursorHeight: 16.w,
@@ -366,13 +367,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         bidRemarks)
                     .then((value) {
                   ProgressDialogUtil.hideDialog();
-                  ShowMessageUtils.showSnackBar(context, value.message);
+                  Ui.showSnackBar(context, value.message);
                 }, onError: (stacktrace, error) {
-                  ShowMessageUtils.showSnackBar(
+                  Ui.showSnackBar(
                       context, error.message.toString());
                 });
               },
-              color: AppColors.btnColorLogin,
+              color: btnColorLogin,
               btnText: 'Place Bid'),
         ],
       ),
