@@ -140,7 +140,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     filterList(
                                         listOfGrades,
                                         widget.syncFiberResponse.data.fiber
-                                            .grades[index].grdId);
+                                            .grades[index].grdId!);
                               },
                             ),
                             SizedBox(
@@ -242,7 +242,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                   .data
                                                   .fiber
                                                   .apperance[index]
-                                                  .aprId);
+                                                  .aprId!);
                                     },
                                   ),
                                 ],

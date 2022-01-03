@@ -64,9 +64,9 @@ class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
   Widget insertIntoDB(YarnSyncResponse? data) {
     return FutureBuilder<List<int>>(
       future: AppDbInstance.getDbInstance().then((value) async {
-        await value.gradesDao.insertAllGrades(data!.data.yarn.grades);
+        await value.gradesDao.insertAllGrades(data!.data.yarn.grades!);
         return value.yarnSettingsDao
-            .insertAllYarnSettings(data.data.yarn.setting);
+            .insertAllYarnSettings(data.data.yarn.setting!);
       }),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&

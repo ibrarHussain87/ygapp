@@ -6,8 +6,11 @@ abstract class YarnSettingDao {
   @Query('SELECT * FROM yarn_settings')
   Future<List<YarnSetting>> findAllYarnSettings();
 
-  @Query('SELECT * FROM yarn_settings where ysBlendIdfk = :id')
-  Future<List<YarnSetting>> findYarnSettings(int id);
+  @Query('SELECT * FROM yarn_settings where ysBlendIdfk = :id and ysFiberMaterialIdfk = :materialId')
+  Future<List<YarnSetting>> findFamilyAndBlendYarnSettings(int id,int materialId);
+
+  @Query('SELECT * FROM yarn_settings where ysFiberMaterialIdfk = :id')
+  Future<List<YarnSetting>> findFamilyYarnSettings(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertYarnSetting(YarnSetting yarnSettings);

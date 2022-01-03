@@ -4,7 +4,7 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/common_response_models/fiber_apperance.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/common_response_models/fiber_delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
@@ -76,7 +76,7 @@ class FiberModel {
   });
   late final List<FiberCategories> categories;
   late final List<FiberMaterial> material;
-  late final List<Apperance> apperance;
+  late final List<FiberAppearance> apperance;
   late final List<Countries> countries;
   late final List<Certification> certification;
   late final List<DeliveryPeriod> deliveryPeriod;
@@ -96,7 +96,7 @@ class FiberModel {
   FiberModel.fromJson(Map<String, dynamic> json){
     categories = List.from(json['categories']).map((e)=>FiberCategories.fromJson(e)).toList();
     material = List.from(json['material']).map((e)=>FiberMaterial.fromJson(e)).toList();
-    apperance = List.from(json['apperance']).map((e)=>Apperance.fromJson(e)).toList();
+    apperance = List.from(json['apperance']).map((e)=>FiberAppearance.fromJson(e)).toList();
     brands = List.from(json['brands']).map((e)=>Brands.fromJson(e)).toList();
     countries = List.from(json['countries']).map((e)=>Countries.fromJson(e)).toList();
     certification = List.from(json['certification']).map((e)=>Certification.fromJson(e)).toList();

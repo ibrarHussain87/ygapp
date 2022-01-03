@@ -20,6 +20,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 
 class ApiService {
   static Map<String, String> headerMap = {"Accept": "application/json"};
+  static String BASE_URL = "http://yarnonline.net/dev/public/";
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SYNC_FIBER_END_POINT = "/syncFiber";

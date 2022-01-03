@@ -40,6 +40,8 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   final GlobalKey<LabParameterPageState> _labParameterPage =
       GlobalKey<LabParameterPageState>();
 
+  String? selectedFamily;
+
   @override
   void initState() {
     _pageController = PageController();
@@ -80,11 +82,11 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
         lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
-        cityState: widget.yarnSyncResponse.data.yarn.cityState,
-        countries: widget.yarnSyncResponse.data.yarn.countries,
+        cityState: widget.yarnSyncResponse.data.yarn.cityState!,
+        countries: widget.yarnSyncResponse.data.yarn.countries!,
         packing: widget.yarnSyncResponse.data.yarn.packing,
         paymentType: widget.yarnSyncResponse.data.yarn.paymentTypes,
-        ports: widget.yarnSyncResponse.data.yarn.ports,
+        ports: widget.yarnSyncResponse.data.yarn.ports!,
         priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
         deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
         units: widget.yarnSyncResponse.data.yarn.units,
@@ -176,8 +178,12 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   }
 
   onClickBlend(value) {
-    yarnSpecificationComponentStateKey.currentState!.querySettings(value);
-    // ShowMessageUtils.showSnackBar(context, value.toString());
+    yarnSpecificationComponentStateKey.currentState!.queryBlendSettings(value);
+  }
+
+  onClickFamily(value) {
+    selectedFamily = value.toString();
+    yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
   }
 
   _moveToNext(value) {

@@ -15,19 +15,19 @@ class FPriceTerms {
   });
   @PrimaryKey(autoGenerate: false)
   late final int ptrId;
-  late final String? ptrCategoryIdfk;
+  String? ptrCategoryIdfk;
   @ignore
-  late final Null ptrCountryIdfk;
-  late final String? ptrName;
-  late final String? ptrIsActive;
+  Null ptrCountryIdfk;
+  String? ptrName;
+  String? ptrIsActive;
   @ignore
-  late final Null ptrSortid;
+  Null ptrSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   FPriceTerms.fromJson(Map<String, dynamic> json){
     ptrId = json['ptr_id'];

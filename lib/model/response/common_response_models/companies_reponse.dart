@@ -27,29 +27,29 @@ class Companies {
   });
   @PrimaryKey(autoGenerate: false)
   late final int id;
-  late final String? name;
-  late final String? gst;
+  String? name;
+   String? gst;
   @ignore
   late final Null logo;
   @ignore
-  late final Null tradeMark;
-  late final String? address;
-  late final String? countryId;
-  late final String? cityStateId;
-  late final String? zipCode;
-  late final String? websiteUrl;
-  late final String? whatsappNumber;
-  late final String? wechatNumber;
-  late final String? telephoneNumber;
-  late final String? emailId;
-  late final String? maxProduction;
-  late final String? noOfUnits;
-  late final String? yearEstablished;
-  late final String? tradeCategory;
-  late final String? licenseHolder;
-  late final String? isVerified;
+  Null tradeMark;
+  String? address;
+  String? countryId;
+  String? cityStateId;
+  String? zipCode;
+  String? websiteUrl;
+  String? whatsappNumber;
+  String? wechatNumber;
+  String? telephoneNumber;
+  String? emailId;
+  String? maxProduction;
+  String? noOfUnits;
+  String? yearEstablished;
+  String? tradeCategory;
+  String? licenseHolder;
+  String? isVerified;
   @ignore
-  late final Null rating;
+  Null rating;
 
   Companies.fromJson(Map<String, dynamic> json){
     id = json['id'];

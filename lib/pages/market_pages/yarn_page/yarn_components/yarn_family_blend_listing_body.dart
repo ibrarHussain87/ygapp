@@ -48,7 +48,7 @@ class _YarnFamilyBlendListingBodyState
                         listItems: snapshot.data!.data.yarn.family,
                         callback: (value) {
                           widget.yarnFamilyCallback(
-                              snapshot.data!.data.yarn.family[value]);
+                              snapshot.data!.data.yarn.family![value]);
                         },
                       ),
                     ),
@@ -67,7 +67,7 @@ class _YarnFamilyBlendListingBodyState
               MaterialListviewWidget(
                 listItem: snapshot.data!.data.yarn.blends,
                 onClickCallback: (value) {
-                  widget.blendCallback(snapshot.data!.data.yarn.blends[value]);
+                  widget.blendCallback(snapshot.data!.data.yarn.blends![value]);
                 },
               ),
             ],

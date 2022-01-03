@@ -14,17 +14,17 @@ class Ports {
   });
   @PrimaryKey(autoGenerate: false)
   late final int prtId;
-  late final String? prtCountryIdfk;
-  late final String? prtName;
-  late final String? prtIsActive;
+  String? prtCountryIdfk;
+  String? prtName;
+  String? prtIsActive;
   @ignore
-  late final Null prtSortid;
+  Null prtSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   Ports.fromJson(Map<String, dynamic> json){
     prtId = json['prt_id'];

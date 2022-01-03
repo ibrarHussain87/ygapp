@@ -14,17 +14,17 @@ class DeliveryPeriod {
   });
   @PrimaryKey(autoGenerate: false)
   late final int dprId;
-  late final String? dprCategoryIdfk;
-  late final String? dprName;
-  late final String? dprIsActive;
+  String? dprCategoryIdfk;
+  String? dprName;
+  String? dprIsActive;
   @ignore
-  late final Null dprSortid;
+  Null dprSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   DeliveryPeriod.fromJson(Map<String, dynamic> json){
     dprId = json['dpr_id'];

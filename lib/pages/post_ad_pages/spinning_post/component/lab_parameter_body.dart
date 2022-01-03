@@ -241,12 +241,12 @@ class LabParameterPageState extends State<LabParameterPage>
                                         .yarnSyncResponse
                                         .data
                                         .yarn
-                                        .spunTechnique[value]
+                                        .spunTechnique![value]
                                         .ystId
                                         .toString();
                                   },
                                   listOfItems: widget.yarnSyncResponse.data.yarn
-                                      .spunTechnique),
+                                      .spunTechnique!),
                             ],
                           ),
                           Row(
@@ -568,9 +568,9 @@ class LabParameterPageState extends State<LabParameterPage>
   }
 
   _initGridValues() {
-    if (widget.yarnSyncResponse.data.yarn.spunTechnique.isNotEmpty) {
+    if (widget.yarnSyncResponse.data.yarn.spunTechnique!.isNotEmpty) {
       _createRequestModel.ys_qlt = widget
-          .yarnSyncResponse.data.yarn.spunTechnique.first.ystId
+          .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
           .toString();
     }
   }

@@ -53,11 +53,13 @@ class CreateRequestModel {
   String? ys_dty_filament;
   String? ys_fdy_filament;
   String? ys_ply_idfk;
+  String? ys_doubling_method_idFk;
   String? ys_grade_idfk;
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
   String? ys_color_idfk;
+  String? ys_color_code;
   String? ys_apperance_idfk;
   String? ys_actual_yarn_count;
   String? ys_qlt;
@@ -73,6 +75,9 @@ class CreateRequestModel {
   String? ys_elongation;
   String? ys_tpi;
   String? ys_tm;
+  String? ys_pattern_charectristic_thickness;
+  String? ys_length_pattern_charactristics;
+  String? ys_pause_patteren_charactristics;
 
   String? ys_quality_idfk;
   String? ys_spun_technique_idfk;
@@ -109,6 +114,7 @@ class CreateRequestModel {
       this.packing_idfk,
       this.payment_type_idfk,
       this.lc_type_idfk,
+      this.ys_color_code,
       this.fbp_count_unit_idfk,
       this.fbp_delivery_period_idfk,
       this.fbp_available_for_market_idfk,
@@ -122,10 +128,14 @@ class CreateRequestModel {
       this.ys_usage_idfk,
       this.ys_pattern_idfk,
       this.ys_pattern_charectristic_idfk,
+      this.ys_pattern_charectristic_thickness,
+      this.ys_length_pattern_charactristics,
+      this.ys_pause_patteren_charactristics,
       this.ys_orientation_idfk,
       this.ys_twist_direction_idfk,
       this.ys_count,
       this.ys_dty_filament,
+      this.ys_doubling_method_idFk,
       this.ys_fdy_filament,
       this.ys_ply_idfk,
       this.ys_grade_idfk,
@@ -201,6 +211,9 @@ class CreateRequestModel {
       'ys_usage_idfk': ys_usage_idfk ?? "",
       'ys_pattern_idfk': ys_pattern_idfk ?? "",
       'ys_pattern_charectristic_idfk': ys_pattern_charectristic_idfk ?? "",
+      'ys_pattern_charectristic_thickness': ys_pattern_charectristic_thickness ?? "",
+      'ys_pattern_charactristics_length': ys_length_pattern_charactristics ?? "",
+      'ys_patteren_charactristics_pause': ys_pause_patteren_charactristics ?? "",
       'ys_orientation_idfk': ys_orientation_idfk ?? "",
       'ys_twist_direction_idfk': ys_twist_direction_idfk ?? "",
       'ys_count': ys_count ?? "",
@@ -220,9 +233,11 @@ class CreateRequestModel {
       'ys_cv': ys_cv ?? "",
       'ys_thin_places': ys_thin_places ?? "",
       'ys_thick_places': ys_thick_places ?? "",
+      'ys_doubling_method_idFk': ys_doubling_method_idFk ?? "",
       'ys_naps': ys_naps ?? "",
       'ys_ipm_km': ys_ipm_km ?? "",
       'ys_hairness': ys_hairness ?? "",
+      'ys_color_code': ys_color_code ?? "",
       'ys_rkm': ys_rkm ?? "",
       'ys_elongation': ys_elongation ?? "",
       'ys_tpi': ys_tpi ?? "",

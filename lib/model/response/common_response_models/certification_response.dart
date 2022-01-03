@@ -11,9 +11,9 @@ class Certification {
   });
   @PrimaryKey(autoGenerate: false)
   late final int cerId;
-  late final String? cerCategoryIdfk;
-  late final String? cerName;
-  late final String? cerIsActive;
+  String? cerCategoryIdfk;
+  String? cerName;
+  String? cerIsActive;
   @ignore
   late final Null cerSortid;
 

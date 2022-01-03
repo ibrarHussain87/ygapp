@@ -13,16 +13,16 @@ class Packing {
   });
   @PrimaryKey(autoGenerate: false)
   late final int pacId;
-  late final String? pacName;
-  late final String? pacIsActive;
+  String? pacName;
+  String? pacIsActive;
   @ignore
-  late final Null pacSortid;
+  Null pacSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   Packing.fromJson(Map<String, dynamic> json){
     pacId = json['pac_id'];

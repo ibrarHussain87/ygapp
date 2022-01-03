@@ -13,16 +13,16 @@ class LcType {
   });
   @PrimaryKey(autoGenerate: false)
   late final int lcId;
-  late final String? lcName;
-  late final String? lcIsActive;
+  String? lcName;
+  String? lcIsActive;
   @ignore
-  late final Null lcSortid;
+  Null lcSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   LcType.fromJson(Map<String, dynamic> json){
     lcId = json['lc_id'];

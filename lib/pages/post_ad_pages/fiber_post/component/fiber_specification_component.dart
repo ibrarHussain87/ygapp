@@ -718,10 +718,10 @@ class FiberSpecificationComponentState
                                                 decoration:
                                                     roundedTextFieldDecoration(
                                                         'Production year'),
-                                                onTap: () {
-                                                  handleReadOnlyInputClick(
-                                                      context);
-                                                },
+                                                  onTap: () {
+                                                    handleReadOnlyInputClick(
+                                                        context);
+                                                  },
                                               ),
                                             ],
                                           ),
@@ -925,8 +925,7 @@ class FiberSpecificationComponentState
                                             child: const TitleSmallTextWidget(
                                                 title: 'Certification')),
                                         GridTileWidget(
-                                          spanCount: widget.syncFiberResponse
-                                              .data.fiber.certification.length,
+                                          spanCount: 3,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.certification,
                                           callback: (value) {

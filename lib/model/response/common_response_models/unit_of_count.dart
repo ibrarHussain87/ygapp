@@ -14,17 +14,17 @@ class Units {
   });
   @PrimaryKey(autoGenerate: false)
   late final int untId;
-  late final String? untCategoryIdfk;
-  late final String? untName;
-  late final String? untIsActive;
+  String? untCategoryIdfk;
+  String? untName;
+  String? untIsActive;
   @ignore
-  late final Null untSortid;
+  Null untSortid;
   @ignore
-  late final Null createdAt;
+  Null createdAt;
   @ignore
-  late final Null updatedAt;
+  Null updatedAt;
   @ignore
-  late final Null deletedAt;
+  Null deletedAt;
 
   Units.fromJson(Map<String, dynamic> json){
     untId = json['unt_id'];

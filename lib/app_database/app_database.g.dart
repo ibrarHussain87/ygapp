@@ -88,7 +88,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `apperance` (`aprId` INTEGER NOT NULL, `aprCategoryIdfk` TEXT NOT NULL, `aprName` TEXT NOT NULL, `aprIsActive` TEXT NOT NULL, PRIMARY KEY (`aprId`))');
+            'CREATE TABLE IF NOT EXISTS `apperance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_available_market` (`afmId` INTEGER NOT NULL, `afmCategoryIdfk` TEXT NOT NULL, `afmName` TEXT NOT NULL, `afmIsActive` TEXT NOT NULL, PRIMARY KEY (`afmId`))');
         await database.execute(
@@ -96,31 +96,31 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_entity` (`fbmId` INTEGER NOT NULL, `fbmCategoryIdfk` TEXT NOT NULL, `fbmName` TEXT NOT NULL, `fbmIsActive` TEXT NOT NULL, PRIMARY KEY (`fbmId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT NOT NULL, `brdIsActive` TEXT NOT NULL, PRIMARY KEY (`brdId`))');
+            'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER NOT NULL, `conName` TEXT NOT NULL, `conIsoCode_2` TEXT NOT NULL, `conIsoCode_3` TEXT NOT NULL, `conAddressFormat` TEXT NOT NULL, `conPostcodeRequired` TEXT NOT NULL, `conIsActive` TEXT NOT NULL, PRIMARY KEY (`conId`))');
+            'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER NOT NULL, `conName` TEXT, `conIsoCode_2` TEXT, `conIsoCode_3` TEXT, `conCurrency` TEXT, `conAddressFormat` TEXT, `conPostcodeRequired` TEXT, `conIsActive` TEXT, PRIMARY KEY (`conId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT NOT NULL, `cerName` TEXT NOT NULL, `cerIsActive` TEXT NOT NULL, PRIMARY KEY (`cerId`))');
+            'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT, `cerName` TEXT, `cerIsActive` TEXT, PRIMARY KEY (`cerId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT NOT NULL, `dprName` TEXT NOT NULL, `dprIsActive` TEXT NOT NULL, PRIMARY KEY (`dprId`))');
+            'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT, `dprName` TEXT, `dprIsActive` TEXT, PRIMARY KEY (`dprId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT NOT NULL, `untName` TEXT NOT NULL, `untIsActive` TEXT NOT NULL, PRIMARY KEY (`untId`))');
+            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `grade` (`grdId` INTEGER NOT NULL, `grdCategoryIdfk` TEXT NOT NULL, `grdName` TEXT NOT NULL, `grdIsActive` TEXT NOT NULL, PRIMARY KEY (`grdId`))');
+            'CREATE TABLE IF NOT EXISTS `grade` (`grdId` INTEGER, `familyId` TEXT, `grdCategoryIdfk` TEXT, `grdName` TEXT, `grdIsActive` TEXT, PRIMARY KEY (`grdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT NOT NULL, `ptrName` TEXT NOT NULL, `ptrIsActive` TEXT NOT NULL, PRIMARY KEY (`ptrId`))');
+            'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT, `ptrName` TEXT, `ptrIsActive` TEXT, PRIMARY KEY (`ptrId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT NOT NULL, `lcIsActive` TEXT NOT NULL, PRIMARY KEY (`lcId`))');
+            'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT, `lcIsActive` TEXT, PRIMARY KEY (`lcId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT NOT NULL, `pacIsActive` TEXT NOT NULL, PRIMARY KEY (`pacId`))');
+            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT, `pacIsActive` TEXT, PRIMARY KEY (`pacId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT NOT NULL, `payName` TEXT NOT NULL, `payIsActive` TEXT NOT NULL, PRIMARY KEY (`payId`))');
+            'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT, `payPriceTerrmIdfk` INTEGER, `payName` TEXT, `payIsActive` TEXT, PRIMARY KEY (`payId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT NOT NULL, `prtName` TEXT NOT NULL, `prtIsActive` TEXT NOT NULL, PRIMARY KEY (`prtId`))');
+            'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER NOT NULL, `ysBlendIdfk` TEXT NOT NULL, `ysFiberMaterialIdfk` TEXT NOT NULL, `showCount` TEXT NOT NULL, `showDannier` TEXT NOT NULL, `dannierMinMax` TEXT NOT NULL, `showFilament` TEXT NOT NULL, `filamentMinMax` TEXT NOT NULL, `showQlt` TEXT NOT NULL, `showClsp` TEXT NOT NULL, `showUniformity` TEXT NOT NULL, `showCv` TEXT NOT NULL, `showThinPlaces` TEXT NOT NULL, `showtThickPlaces` TEXT NOT NULL, `showNaps` TEXT NOT NULL, `showIpmKm` TEXT NOT NULL, `showHairness` TEXT NOT NULL, `showRkm` TEXT NOT NULL, `showElongation` TEXT NOT NULL, `showTpi` TEXT NOT NULL, `showTm` TEXT NOT NULL, `showDty` TEXT NOT NULL, `showFdy` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `ysIsActive` TEXT NOT NULL, PRIMARY KEY (`ysId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFiberMaterialIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, PRIMARY KEY (`ysId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -335,6 +335,7 @@ class _$GradesDao extends GradesDao {
             'grade',
             (Grades item) => <String, Object?>{
                   'grdId': item.grdId,
+                  'familyId': item.familyId,
                   'grdCategoryIdfk': item.grdCategoryIdfk,
                   'grdName': item.grdName,
                   'grdIsActive': item.grdIsActive
@@ -345,6 +346,7 @@ class _$GradesDao extends GradesDao {
             ['grdId'],
             (Grades item) => <String, Object?>{
                   'grdId': item.grdId,
+                  'familyId': item.familyId,
                   'grdCategoryIdfk': item.grdCategoryIdfk,
                   'grdName': item.grdName,
                   'grdIsActive': item.grdIsActive
@@ -364,10 +366,10 @@ class _$GradesDao extends GradesDao {
   Future<List<Grades>> findAllGrades() async {
     return _queryAdapter.queryList('SELECT * FROM fiber_grade',
         mapper: (Map<String, Object?> row) => Grades(
-            grdId: row['grdId'] as int,
-            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
-            grdName: row['grdName'] as String,
-            grdIsActive: row['grdIsActive'] as String));
+            grdId: row['grdId'] as int?,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
+            grdName: row['grdName'] as String?,
+            grdIsActive: row['grdIsActive'] as String?));
   }
 
   @override
@@ -375,10 +377,10 @@ class _$GradesDao extends GradesDao {
     return _queryAdapter.queryList(
         'SELECT * FROM fiber_setting where grd_category_idfk = ?1',
         mapper: (Map<String, Object?> row) => Grades(
-            grdId: row['grdId'] as int,
-            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
-            grdName: row['grdName'] as String,
-            grdIsActive: row['grdIsActive'] as String),
+            grdId: row['grdId'] as int?,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
+            grdName: row['grdName'] as String?,
+            grdIsActive: row['grdIsActive'] as String?),
         arguments: [id]);
   }
 
@@ -387,10 +389,10 @@ class _$GradesDao extends GradesDao {
     return _queryAdapter.queryList(
         'SELECT * FROM yarn_settings where grd_category_idfk = ?1',
         mapper: (Map<String, Object?> row) => Grades(
-            grdId: row['grdId'] as int,
-            grdCategoryIdfk: row['grdCategoryIdfk'] as String,
-            grdName: row['grdName'] as String,
-            grdIsActive: row['grdIsActive'] as String),
+            grdId: row['grdId'] as int?,
+            grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
+            grdName: row['grdName'] as String?,
+            grdIsActive: row['grdIsActive'] as String?),
         arguments: [id]);
   }
 
@@ -508,27 +510,62 @@ class _$YarnSettingDao extends YarnSettingDao {
                   'ysBlendIdfk': item.ysBlendIdfk,
                   'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
                   'showCount': item.showCount,
+                  'countMinMax': item.countMinMax,
+                  'showOrigin': item.showOrigin,
                   'showDannier': item.showDannier,
                   'dannierMinMax': item.dannierMinMax,
                   'showFilament': item.showFilament,
                   'filamentMinMax': item.filamentMinMax,
+                  'showBlend': item.showBlend,
+                  'showPly': item.showPly,
+                  'showSpunTechnique': item.showSpunTechnique,
+                  'showQuality': item.showQuality,
+                  'showGrade': item.showGrade,
+                  'showDoublingMethod': item.showDoublingMethod,
+                  'showCertification': item.showCertification,
+                  'showColorTreatmentMethod': item.showColorTreatmentMethod,
+                  'showDyingMethod': item.showDyingMethod,
+                  'showColor': item.showColor,
+                  'showAppearance': item.showAppearance,
                   'showQlt': item.showQlt,
+                  'qltMinMax': item.qltMinMax,
                   'showClsp': item.showClsp,
+                  'clspMinMax': item.clspMinMax,
                   'showUniformity': item.showUniformity,
+                  'uniformityMinMax': item.uniformityMinMax,
                   'showCv': item.showCv,
+                  'cvMinMax': item.cvMinMax,
                   'showThinPlaces': item.showThinPlaces,
+                  'thinPlacesMinMax': item.thinPlacesMinMax,
                   'showtThickPlaces': item.showtThickPlaces,
+                  'thickPlacesMinMax': item.thickPlacesMinMax,
                   'showNaps': item.showNaps,
+                  'napsMinMax': item.napsMinMax,
                   'showIpmKm': item.showIpmKm,
+                  'ipmKmMinMax': item.ipmKmMinMax,
                   'showHairness': item.showHairness,
+                  'hairnessMinMax': item.hairnessMinMax,
                   'showRkm': item.showRkm,
+                  'rkmMinMax': item.rkmMinMax,
                   'showElongation': item.showElongation,
+                  'elongationMinMax': item.elongationMinMax,
                   'showTpi': item.showTpi,
+                  'tpiMinMax': item.tpiMinMax,
                   'showTm': item.showTm,
+                  'tmMinMax': item.tmMinMax,
                   'showDty': item.showDty,
+                  'dtyMinMax': item.dtyMinMax,
                   'showFdy': item.showFdy,
+                  'fdyMinMax': item.fdyMinMax,
                   'showRatio': item.showRatio,
-                  'ysIsActive': item.ysIsActive
+                  'showTexturized': item.showTexturized,
+                  'showUsage': item.showUsage,
+                  'showPattern': item.showPattern,
+                  'showPatternCharectristic': item.showPatternCharectristic,
+                  'showOrientation': item.showOrientation,
+                  'showTwistDirection': item.showTwistDirection,
+                  'ysIsActive': item.ysIsActive,
+                  'ysSortid': item.ysSortid
                 }),
         _yarnSettingDeletionAdapter = DeletionAdapter(
             database,
@@ -539,27 +576,62 @@ class _$YarnSettingDao extends YarnSettingDao {
                   'ysBlendIdfk': item.ysBlendIdfk,
                   'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
                   'showCount': item.showCount,
+                  'countMinMax': item.countMinMax,
+                  'showOrigin': item.showOrigin,
                   'showDannier': item.showDannier,
                   'dannierMinMax': item.dannierMinMax,
                   'showFilament': item.showFilament,
                   'filamentMinMax': item.filamentMinMax,
+                  'showBlend': item.showBlend,
+                  'showPly': item.showPly,
+                  'showSpunTechnique': item.showSpunTechnique,
+                  'showQuality': item.showQuality,
+                  'showGrade': item.showGrade,
+                  'showDoublingMethod': item.showDoublingMethod,
+                  'showCertification': item.showCertification,
+                  'showColorTreatmentMethod': item.showColorTreatmentMethod,
+                  'showDyingMethod': item.showDyingMethod,
+                  'showColor': item.showColor,
+                  'showAppearance': item.showAppearance,
                   'showQlt': item.showQlt,
+                  'qltMinMax': item.qltMinMax,
                   'showClsp': item.showClsp,
+                  'clspMinMax': item.clspMinMax,
                   'showUniformity': item.showUniformity,
+                  'uniformityMinMax': item.uniformityMinMax,
                   'showCv': item.showCv,
+                  'cvMinMax': item.cvMinMax,
                   'showThinPlaces': item.showThinPlaces,
+                  'thinPlacesMinMax': item.thinPlacesMinMax,
                   'showtThickPlaces': item.showtThickPlaces,
+                  'thickPlacesMinMax': item.thickPlacesMinMax,
                   'showNaps': item.showNaps,
+                  'napsMinMax': item.napsMinMax,
                   'showIpmKm': item.showIpmKm,
+                  'ipmKmMinMax': item.ipmKmMinMax,
                   'showHairness': item.showHairness,
+                  'hairnessMinMax': item.hairnessMinMax,
                   'showRkm': item.showRkm,
+                  'rkmMinMax': item.rkmMinMax,
                   'showElongation': item.showElongation,
+                  'elongationMinMax': item.elongationMinMax,
                   'showTpi': item.showTpi,
+                  'tpiMinMax': item.tpiMinMax,
                   'showTm': item.showTm,
+                  'tmMinMax': item.tmMinMax,
                   'showDty': item.showDty,
+                  'dtyMinMax': item.dtyMinMax,
                   'showFdy': item.showFdy,
+                  'fdyMinMax': item.fdyMinMax,
                   'showRatio': item.showRatio,
-                  'ysIsActive': item.ysIsActive
+                  'showTexturized': item.showTexturized,
+                  'showUsage': item.showUsage,
+                  'showPattern': item.showPattern,
+                  'showPatternCharectristic': item.showPatternCharectristic,
+                  'showOrientation': item.showOrientation,
+                  'showTwistDirection': item.showTwistDirection,
+                  'ysIsActive': item.ysIsActive,
+                  'ysSortid': item.ysSortid
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -576,63 +648,146 @@ class _$YarnSettingDao extends YarnSettingDao {
   Future<List<YarnSetting>> findAllYarnSettings() async {
     return _queryAdapter.queryList('SELECT * FROM yarn_settings',
         mapper: (Map<String, Object?> row) => YarnSetting(
-            ysId: row['ysId'] as int,
-            ysBlendIdfk: row['ysBlendIdfk'] as String,
-            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String,
-            showCount: row['showCount'] as String,
-            showDannier: row['showDannier'] as String,
-            dannierMinMax: row['dannierMinMax'] as String,
-            showFilament: row['showFilament'] as String,
-            filamentMinMax: row['filamentMinMax'] as String,
-            showQlt: row['showQlt'] as String,
-            showClsp: row['showClsp'] as String,
-            showUniformity: row['showUniformity'] as String,
-            showCv: row['showCv'] as String,
-            showThinPlaces: row['showThinPlaces'] as String,
-            showtThickPlaces: row['showtThickPlaces'] as String,
-            showNaps: row['showNaps'] as String,
-            showIpmKm: row['showIpmKm'] as String,
-            showHairness: row['showHairness'] as String,
-            showRkm: row['showRkm'] as String,
-            showElongation: row['showElongation'] as String,
-            showTpi: row['showTpi'] as String,
-            showTm: row['showTm'] as String,
-            showDty: row['showDty'] as String,
-            showFdy: row['showFdy'] as String,
-            showRatio: row['showRatio'] as String,
-            ysIsActive: row['ysIsActive'] as String));
+            ysId: row['ysId'] as int?,
+            ysBlendIdfk: row['ysBlendIdfk'] as String?,
+            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?,
+            showCount: row['showCount'] as String?,
+            countMinMax: row['countMinMax'] as String?,
+            showOrigin: row['showOrigin'] as String?,
+            showDannier: row['showDannier'] as String?,
+            dannierMinMax: row['dannierMinMax'] as String?,
+            showFilament: row['showFilament'] as String?,
+            filamentMinMax: row['filamentMinMax'] as String?,
+            showBlend: row['showBlend'] as String?,
+            showPly: row['showPly'] as String?,
+            showSpunTechnique: row['showSpunTechnique'] as String?,
+            showQuality: row['showQuality'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showDoublingMethod: row['showDoublingMethod'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showDyingMethod: row['showDyingMethod'] as String?,
+            showColor: row['showColor'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showQlt: row['showQlt'] as String?,
+            qltMinMax: row['qltMinMax'] as String?,
+            showClsp: row['showClsp'] as String?,
+            clspMinMax: row['clspMinMax'] as String?,
+            showUniformity: row['showUniformity'] as String?,
+            uniformityMinMax: row['uniformityMinMax'] as String?,
+            showCv: row['showCv'] as String?,
+            cvMinMax: row['cvMinMax'] as String?,
+            showThinPlaces: row['showThinPlaces'] as String?,
+            thinPlacesMinMax: row['thinPlacesMinMax'] as String?,
+            showtThickPlaces: row['showtThickPlaces'] as String?,
+            thickPlacesMinMax: row['thickPlacesMinMax'] as String?,
+            showNaps: row['showNaps'] as String?,
+            napsMinMax: row['napsMinMax'] as String?,
+            showIpmKm: row['showIpmKm'] as String?,
+            ipmKmMinMax: row['ipmKmMinMax'] as String?,
+            showHairness: row['showHairness'] as String?,
+            hairnessMinMax: row['hairnessMinMax'] as String?,
+            showRkm: row['showRkm'] as String?,
+            rkmMinMax: row['rkmMinMax'] as String?,
+            showElongation: row['showElongation'] as String?,
+            elongationMinMax: row['elongationMinMax'] as String?,
+            showTpi: row['showTpi'] as String?,
+            tpiMinMax: row['tpiMinMax'] as String?,
+            showTm: row['showTm'] as String?,
+            tmMinMax: row['tmMinMax'] as String?,
+            showDty: row['showDty'] as String?,
+            dtyMinMax: row['dtyMinMax'] as String?,
+            showFdy: row['showFdy'] as String?,
+            fdyMinMax: row['fdyMinMax'] as String?,
+            showRatio: row['showRatio'] as String?,
+            showTexturized: row['showTexturized'] as String?,
+            showUsage: row['showUsage'] as String?,
+            showPattern: row['showPattern'] as String?,
+            showPatternCharectristic:
+                row['showPatternCharectristic'] as String?,
+            showOrientation: row['showOrientation'] as String?,
+            showTwistDirection: row['showTwistDirection'] as String?,
+            ysIsActive: row['ysIsActive'] as String?,
+            ysSortid: row['ysSortid'] as String?));
   }
 
   @override
-  Future<List<YarnSetting>> findYarnSettings(int id) async {
+  Future<List<YarnSetting>> findFamilyAndBlendYarnSettings(
+      int id, int materialId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM yarn_settings where ysBlendIdfk = ?1',
+        'SELECT * FROM yarn_settings where ysBlendIdfk = ?1 and ysFiberMaterialIdfk = ?2',
+        mapper: (Map<String, Object?> row) => YarnSetting(ysId: row['ysId'] as int?, ysBlendIdfk: row['ysBlendIdfk'] as String?, ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?, showCount: row['showCount'] as String?, countMinMax: row['countMinMax'] as String?, showOrigin: row['showOrigin'] as String?, showDannier: row['showDannier'] as String?, dannierMinMax: row['dannierMinMax'] as String?, showFilament: row['showFilament'] as String?, filamentMinMax: row['filamentMinMax'] as String?, showBlend: row['showBlend'] as String?, showPly: row['showPly'] as String?, showSpunTechnique: row['showSpunTechnique'] as String?, showQuality: row['showQuality'] as String?, showGrade: row['showGrade'] as String?, showDoublingMethod: row['showDoublingMethod'] as String?, showCertification: row['showCertification'] as String?, showColorTreatmentMethod: row['showColorTreatmentMethod'] as String?, showDyingMethod: row['showDyingMethod'] as String?, showColor: row['showColor'] as String?, showAppearance: row['showAppearance'] as String?, showQlt: row['showQlt'] as String?, qltMinMax: row['qltMinMax'] as String?, showClsp: row['showClsp'] as String?, clspMinMax: row['clspMinMax'] as String?, showUniformity: row['showUniformity'] as String?, uniformityMinMax: row['uniformityMinMax'] as String?, showCv: row['showCv'] as String?, cvMinMax: row['cvMinMax'] as String?, showThinPlaces: row['showThinPlaces'] as String?, thinPlacesMinMax: row['thinPlacesMinMax'] as String?, showtThickPlaces: row['showtThickPlaces'] as String?, thickPlacesMinMax: row['thickPlacesMinMax'] as String?, showNaps: row['showNaps'] as String?, napsMinMax: row['napsMinMax'] as String?, showIpmKm: row['showIpmKm'] as String?, ipmKmMinMax: row['ipmKmMinMax'] as String?, showHairness: row['showHairness'] as String?, hairnessMinMax: row['hairnessMinMax'] as String?, showRkm: row['showRkm'] as String?, rkmMinMax: row['rkmMinMax'] as String?, showElongation: row['showElongation'] as String?, elongationMinMax: row['elongationMinMax'] as String?, showTpi: row['showTpi'] as String?, tpiMinMax: row['tpiMinMax'] as String?, showTm: row['showTm'] as String?, tmMinMax: row['tmMinMax'] as String?, showDty: row['showDty'] as String?, dtyMinMax: row['dtyMinMax'] as String?, showFdy: row['showFdy'] as String?, fdyMinMax: row['fdyMinMax'] as String?, showRatio: row['showRatio'] as String?, showTexturized: row['showTexturized'] as String?, showUsage: row['showUsage'] as String?, showPattern: row['showPattern'] as String?, showPatternCharectristic: row['showPatternCharectristic'] as String?, showOrientation: row['showOrientation'] as String?, showTwistDirection: row['showTwistDirection'] as String?, ysIsActive: row['ysIsActive'] as String?, ysSortid: row['ysSortid'] as String?),
+        arguments: [id, materialId]);
+  }
+
+  @override
+  Future<List<YarnSetting>> findFamilyYarnSettings(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_settings where ysFiberMaterialIdfk = ?1',
         mapper: (Map<String, Object?> row) => YarnSetting(
-            ysId: row['ysId'] as int,
-            ysBlendIdfk: row['ysBlendIdfk'] as String,
-            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String,
-            showCount: row['showCount'] as String,
-            showDannier: row['showDannier'] as String,
-            dannierMinMax: row['dannierMinMax'] as String,
-            showFilament: row['showFilament'] as String,
-            filamentMinMax: row['filamentMinMax'] as String,
-            showQlt: row['showQlt'] as String,
-            showClsp: row['showClsp'] as String,
-            showUniformity: row['showUniformity'] as String,
-            showCv: row['showCv'] as String,
-            showThinPlaces: row['showThinPlaces'] as String,
-            showtThickPlaces: row['showtThickPlaces'] as String,
-            showNaps: row['showNaps'] as String,
-            showIpmKm: row['showIpmKm'] as String,
-            showHairness: row['showHairness'] as String,
-            showRkm: row['showRkm'] as String,
-            showElongation: row['showElongation'] as String,
-            showTpi: row['showTpi'] as String,
-            showTm: row['showTm'] as String,
-            showDty: row['showDty'] as String,
-            showFdy: row['showFdy'] as String,
-            showRatio: row['showRatio'] as String,
-            ysIsActive: row['ysIsActive'] as String),
+            ysId: row['ysId'] as int?,
+            ysBlendIdfk: row['ysBlendIdfk'] as String?,
+            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?,
+            showCount: row['showCount'] as String?,
+            countMinMax: row['countMinMax'] as String?,
+            showOrigin: row['showOrigin'] as String?,
+            showDannier: row['showDannier'] as String?,
+            dannierMinMax: row['dannierMinMax'] as String?,
+            showFilament: row['showFilament'] as String?,
+            filamentMinMax: row['filamentMinMax'] as String?,
+            showBlend: row['showBlend'] as String?,
+            showPly: row['showPly'] as String?,
+            showSpunTechnique: row['showSpunTechnique'] as String?,
+            showQuality: row['showQuality'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showDoublingMethod: row['showDoublingMethod'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showDyingMethod: row['showDyingMethod'] as String?,
+            showColor: row['showColor'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showQlt: row['showQlt'] as String?,
+            qltMinMax: row['qltMinMax'] as String?,
+            showClsp: row['showClsp'] as String?,
+            clspMinMax: row['clspMinMax'] as String?,
+            showUniformity: row['showUniformity'] as String?,
+            uniformityMinMax: row['uniformityMinMax'] as String?,
+            showCv: row['showCv'] as String?,
+            cvMinMax: row['cvMinMax'] as String?,
+            showThinPlaces: row['showThinPlaces'] as String?,
+            thinPlacesMinMax: row['thinPlacesMinMax'] as String?,
+            showtThickPlaces: row['showtThickPlaces'] as String?,
+            thickPlacesMinMax: row['thickPlacesMinMax'] as String?,
+            showNaps: row['showNaps'] as String?,
+            napsMinMax: row['napsMinMax'] as String?,
+            showIpmKm: row['showIpmKm'] as String?,
+            ipmKmMinMax: row['ipmKmMinMax'] as String?,
+            showHairness: row['showHairness'] as String?,
+            hairnessMinMax: row['hairnessMinMax'] as String?,
+            showRkm: row['showRkm'] as String?,
+            rkmMinMax: row['rkmMinMax'] as String?,
+            showElongation: row['showElongation'] as String?,
+            elongationMinMax: row['elongationMinMax'] as String?,
+            showTpi: row['showTpi'] as String?,
+            tpiMinMax: row['tpiMinMax'] as String?,
+            showTm: row['showTm'] as String?,
+            tmMinMax: row['tmMinMax'] as String?,
+            showDty: row['showDty'] as String?,
+            dtyMinMax: row['dtyMinMax'] as String?,
+            showFdy: row['showFdy'] as String?,
+            fdyMinMax: row['fdyMinMax'] as String?,
+            showRatio: row['showRatio'] as String?,
+            showTexturized: row['showTexturized'] as String?,
+            showUsage: row['showUsage'] as String?,
+            showPattern: row['showPattern'] as String?,
+            showPatternCharectristic:
+                row['showPatternCharectristic'] as String?,
+            showOrientation: row['showOrientation'] as String?,
+            showTwistDirection: row['showTwistDirection'] as String?,
+            ysIsActive: row['ysIsActive'] as String?,
+            ysSortid: row['ysSortid'] as String?),
         arguments: [id]);
   }
 

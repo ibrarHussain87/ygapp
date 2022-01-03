@@ -13,10 +13,11 @@ class Grades {
     this.deletedAt,
   });
   @PrimaryKey(autoGenerate: false)
-  late final int grdId;
-  late final String? grdCategoryIdfk;
-  late final String? grdName;
-  late final String? grdIsActive;
+  int? grdId;
+  String? familyId;
+  String? grdCategoryIdfk;
+  String? grdName;
+  String? grdIsActive;
   @ignore
   late final Null grdSortid;
   @ignore
@@ -28,7 +29,8 @@ class Grades {
 
   Grades.fromJson(Map<String, dynamic> json){
     grdId = json['grd_id'];
-    grdCategoryIdfk = json['grd_category_idfk'];
+    familyId = json['family_id'];
+    grdCategoryIdfk = json['grd_category_idfk']??"";
     grdName = json['grd_name'];
     grdIsActive = json['grd_is_active'];
     grdSortid = null;
@@ -40,6 +42,7 @@ class Grades {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['grd_id'] = grdId;
+    _data['family_id'] = familyId;
     _data['grd_category_idfk'] = grdCategoryIdfk;
     _data['grd_name'] = grdName;
     _data['grd_is_active'] = grdIsActive;
