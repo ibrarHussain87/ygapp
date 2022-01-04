@@ -13,6 +13,10 @@ class GetSpecificationRequestModel {
   List<int>? micronaire;
   List<int>? moisture;
 
+  //Yarn Keys
+  String? ysBlendIdFk;
+  String? ysFamilyIdFk;
+
   GetSpecificationRequestModel(
       {this.userId,
       this.categoryId,
@@ -26,7 +30,9 @@ class GetSpecificationRequestModel {
       this.certificationId,
       this.packingId,
       this.micronaire,
-      this.moisture});
+      this.moisture,
+      this.ysBlendIdFk,
+      this.ysFamilyIdFk});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
@@ -43,6 +49,8 @@ class GetSpecificationRequestModel {
       'packing_id': packingId,
       'micronaire': micronaire,
       'moisture': moisture,
+      'ys_family_idfk': ysFamilyIdFk,
+      'ys_blend_idfk': ysBlendIdFk,
     };
 
     return map;

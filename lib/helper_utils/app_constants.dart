@@ -83,7 +83,7 @@ String actualYarnCount = 'Actual Yarn Count';
 String CLSP = 'CLSP';
 String weightCones = 'Weight/Cones';
 String weightBags = 'Weight/Bags';
-String coneBags = 'Cone/Nags';
+String coneBags = 'Cone/Bags';
 String yarn = "Yarn";
 
 var unifomity = 'U (Uniformity)%';
@@ -110,3 +110,6 @@ var tpi = 'TPI';
 var tm = 'TM';
 var offering = 'Offering';
 var requirement = 'Requiremnet';
+
+int YARN_CATEGORY_ID = 2;
+int PATTERN_CHARACTERISTCS_SLUB_ID = 2;

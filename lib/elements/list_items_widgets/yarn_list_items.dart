@@ -1,18 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/elements/error_image_widget.dart';
-import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
+import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/rating_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
-import 'package:yg_app/elements/loading_widgets/loading_image_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 Widget buildYarnWidget(YarnSpecification specification) {
   return Card(
@@ -32,7 +28,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
             maintainState: true,
             maintainAnimation: true,
             child: Container(
-              width: 48.w,
+                width: 48.w,
                 padding: EdgeInsets.all(3.w),
                 decoration: BoxDecoration(
                     color: pintFeatureClr,
@@ -54,8 +50,8 @@ Widget buildYarnWidget(YarnSpecification specification) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 1,
-                  child: specification.pictures.isNotEmpty
+                  flex: 1,
+                  child: /*specification.pictures.isNotEmpty
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: CachedNetworkImage(
@@ -68,7 +64,37 @@ Widget buildYarnWidget(YarnSpecification specification) {
                                 ErrorImageWidget(),
                           ),
                         )
-                      : ErrorImageWidget()),
+                      : ErrorImageWidget())*/
+                      Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        color: Colors.grey.shade200),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          YARN_LIST_IMAGE,
+                          width: 54.w,
+                        ),
+                        Center(
+                            child: Column(
+                          children: [
+                            TitleExtraSmallTextWidget(
+                              title:
+                              '${specification.actualYarnCount}${specification.yarnTwistDirection != null ? " / ${specification.yarnTwistDirection}"  :  ""}',
+                              color: Colors.white,
+                            ),
+                            TitleExtraSmallTextWidget(
+                              title: specification.yarnFamily,
+                              color: Colors.white,
+                              textSize: 5.sp,
+                            ),
+                          ],
+                        ))
+                      ],
+                    ),
+                  )),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
@@ -94,36 +120,27 @@ Widget buildYarnWidget(YarnSpecification specification) {
                                     maintainSize: true,
                                     maintainState: true,
                                     maintainAnimation: true,
-                                    child: Container(child: VerifiedSupplier())),
+                                    child:
+                                        Container(child: VerifiedSupplier())),
                               ),
                               flex: 1),
                           // SizedBox(width: 8.w),
                         ],
                       ),
-
                       Row(
                         children: [
-                          Text.rich(
-                              TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Last updated ",
-                                      style: TextStyle(
-                                          fontSize: 9.sp,
-                                          color: Colors.black
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "Nov 23, 4:33PM",
-                                      style: TextStyle(
-                                          fontSize: 9.sp,
-                                          color: updatedDateColor
-                                      ),
-                                    )
-
-                                  ]
-                              )
-                          ),
+                          Text.rich(TextSpan(children: [
+                            TextSpan(
+                              text: "Last updated ",
+                              style: TextStyle(
+                                  fontSize: 9.sp, color: Colors.black),
+                            ),
+                            TextSpan(
+                              text: "Nov 23, 4:33PM",
+                              style: TextStyle(
+                                  fontSize: 9.sp, color: updatedDateColor),
+                            )
+                          ])),
                           SizedBox(
                             width: 8.w,
                           ),
@@ -133,10 +150,10 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 8.0.w,top: 8.w),
+                        padding: EdgeInsets.only(bottom: 8.0.w, top: 8.w),
                         child: TitleSmallTextWidget(
                           title:
-                          '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod??"N/A"}," : ""}${specification.yarnDetails??"N/A"}',
+                              '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
                         ),
                       ),
                       Row(
@@ -209,7 +226,9 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TitleTextWidget(
-                            title: "PKR." + specification.priceUnit.toString() +"/KG",
+                            title: "PKR." +
+                                specification.priceUnit.toString() +
+                                "/KG",
                           ),
                           TitleSmallTextWidget(title: "Ex- Factory")
                         ],

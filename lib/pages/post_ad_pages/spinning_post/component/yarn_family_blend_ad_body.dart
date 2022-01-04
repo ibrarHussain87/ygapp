@@ -37,11 +37,13 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
   late CreateRequestModel _createRequestModel;
   late YarnSetting _yarnSetting;
+  late String? selectedFamilyId;
 
   @override
   void initState() {
     // TODO: implement initState
     _yarnSetting = widget.yarnSyncResponse.data.yarn.setting!.first;
+    selectedFamilyId = widget.yarnSyncResponse.data.yarn.family!.first.famId.toString();
     super.initState();
   }
 
@@ -68,6 +70,9 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                   listItems: widget.yarnSyncResponse.data.yarn.family,
                   callback: (value) {
                     //Family Id
+                    setState(() {
+                      selectedFamilyId = widget.yarnSyncResponse.data.yarn.family![value].famId.toString();
+                    });
                     _createRequestModel.ys_family_idfk = widget.yarnSyncResponse.data.yarn.family![value].famId.toString();
                     queryFamilySettings(widget.yarnSyncResponse.data.yarn.family![value].famId!);
                     yarnStepStateKey.currentState!.onClickFamily(widget.yarnSyncResponse.data.yarn.family![value].famId);
@@ -91,7 +96,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 child: MaterialListviewWidget(
-                  listItem: widget.yarnSyncResponse.data.yarn.blends,
+                  listItem: widget.yarnSyncResponse.data.yarn.blends!.where((element) => element.familyIdfk == selectedFamilyId).toList(),
                   onClickCallback: (value) {
                     yarnStepStateKey.currentState!.onClickBlend(value);
                   },
@@ -101,12 +106,15 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           ),
         ),
         Expanded(
-          child: YarnStepsSegments(
-            key: yarnStepStateKey,
-            yarnSyncResponse: widget.yarnSyncResponse,
-            selectedTab: widget.selectedTab,
-            businessArea: widget.businessArea,
-            locality: widget.locality,
+          child: Provider(
+            create: (_) => widget.yarnSyncResponse.data.yarn.setting!.first,
+            child: YarnStepsSegments(
+              key: yarnStepStateKey,
+              yarnSyncResponse: widget.yarnSyncResponse,
+              selectedTab: widget.selectedTab,
+              businessArea: widget.businessArea,
+              locality: widget.locality,
+            ),
           ),
         )
       ],

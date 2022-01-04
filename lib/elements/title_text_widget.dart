@@ -47,8 +47,9 @@ class TitleExtraSmallTextWidget extends StatelessWidget {
 
   final String? title;
   final Color? color;
+  final double? textSize;
 
-  const TitleExtraSmallTextWidget({Key? key, required this.title,this.color}) : super(key: key);
+  const TitleExtraSmallTextWidget({Key? key, required this.title,this.color,this.textSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class TitleExtraSmallTextWidget extends StatelessWidget {
         title!,
         style: TextStyle(
             color: color ?? Colors.black87,
-            fontSize: 9.sp,
+            fontSize: textSize?? 9.sp,
             fontFamily: 'Metropolis',
             fontWeight: FontWeight.w500),
       ),

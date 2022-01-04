@@ -67,6 +67,7 @@ class PackagingDetails extends StatefulWidget {
 
 class _PackagingDetailsState extends State<PackagingDetails>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> sellingRegion = [];
@@ -337,18 +338,72 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     ],
                                   ),
                                 )),
-                            Padding(
-                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: priceTerms)),
-                            GridTileWidget(
-                                spanCount: 3,
-                                listOfItems: widget.priceTerms as List<dynamic>,
-                                callback: (value) {
-                                  _createRequestModel!.fbp_price_terms_idfk =
-                                      widget.priceTerms![value].ptrId
-                                          .toString();
-                                }),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: priceTerms)),
+
+                                  SizedBox(
+                                    height: 36.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                            width:
+                                            1, //                   <--- border width here
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(24.w))),
+                                      child: DropdownButtonFormField(
+                                        hint: const Text(
+                                            'Select Price Terms'),
+                                        items: widget.priceTerms!.map((value) =>
+                                            DropdownMenuItem(
+                                              child: Text(value.ptrName??"N/A",
+                                                  textAlign:
+                                                  TextAlign.center),
+                                              value: value,
+                                            ))
+                                            .toList(),
+                                        isExpanded: true,
+                                        onChanged: (FPriceTerms? value) {
+                                          _createRequestModel!
+                                              .fbp_price_terms_idfk =
+                                              value!.ptrId.toString();
+                                        },
+                                        validator: (value) => value == null ? 'field required' : null,
+                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 16.w,
+                                              right: 6.w,
+                                              top: 0,
+                                              bottom: 0),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: textColorGrey),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // GridTileWidget(
+                            //     spanCount: 3,
+                            //     listOfItems: widget.priceTerms as List<dynamic>,
+                            //     callback: (value) {
+                            //       _createRequestModel!.fbp_price_terms_idfk =
+                            //           widget.priceTerms![value].ptrId
+                            //               .toString();
+                            //     }),
+
                             Visibility(
                                 visible:
                                     widget.locality == international
@@ -738,8 +793,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
     _createRequestModel!.is_offering = widget.selectedTab;
 
-    _createRequestModel!.fbp_price_terms_idfk =
-        widget.priceTerms!.first.ptrId.toString();
+    // _createRequestModel!.fbp_price_terms_idfk =
+    //     widget.priceTerms!.first.ptrId.toString();
     _createRequestModel!.packing_idfk = widget.packing!.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
         widget.deliveryPeriod!.first.dprId.toString();

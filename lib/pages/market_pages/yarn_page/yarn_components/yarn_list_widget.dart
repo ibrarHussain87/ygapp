@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -52,7 +53,7 @@ class YarnSpecificationListState extends State<YarnSpecificationList> {
 
   searchData(GetSpecificationRequestModel data){
     setState(() {
-      data.categoryId = '2';
+      data.categoryId = YARN_CATEGORY_ID.toString();
       getRequestModel = data;
 
     });

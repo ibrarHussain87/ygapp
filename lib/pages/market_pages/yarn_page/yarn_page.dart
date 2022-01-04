@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_widget.dart';
@@ -82,13 +83,17 @@ class _SpinningPageState extends State<SpinningPage> {
                 child: Column(
                   children: [
                     YarnFamilyBlendListingBody(
-                      blendCallback: (blend) {
+                      blendCallback: (Blends? blend) {
+                        var model = GetSpecificationRequestModel();
+                        model.ysBlendIdFk = blend!.blnId.toString();
                         _yarnSpecificationListState.currentState!
-                            .searchData(GetSpecificationRequestModel());
+                            .searchData(model);
                       },
-                      yarnFamilyCallback: (yarnFamily) {
+                      yarnFamilyCallback: (Family? yarnFamily) {
+                        var model = GetSpecificationRequestModel();
+                        model.ysFamilyIdFk = yarnFamily!.famId.toString();
                         _yarnSpecificationListState.currentState!
-                            .searchData(GetSpecificationRequestModel());
+                            .searchData(model);
                       },
                     ),
                     Row(

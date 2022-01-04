@@ -8,14 +8,17 @@ class NumericalRangeFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    var value = int.parse(newValue.text);
-    if (value < min) {
-      return TextEditingValue(text: min.toString());
-    } else if (value > max) {
-      return TextEditingValue(text: max.toString());
+      TextEditingValue oldValue,
+      TextEditingValue newValue,
+      ) {
+
+    if (newValue.text == '') {
+      return newValue;
+    } else if (int.parse(newValue.text) < min) {
+      return TextEditingValue().copyWith(text: min.toStringAsFixed(2));
+    } else {
+      return int.parse(newValue.text) > max ? oldValue : newValue;
     }
-    return newValue;
   }
 }
 
@@ -41,6 +44,8 @@ class NumericalRangeFormatter extends TextInputFormatter {
 //   }
 // }
 //
+
+
 class NumericalRangeFormatterMax extends TextInputFormatter {
   final double max;
 
