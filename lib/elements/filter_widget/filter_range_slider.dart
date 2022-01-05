@@ -29,24 +29,22 @@ class FilterRangeSlider extends StatefulWidget {
 }
 
 class _FilterRangeSliderState extends State<FilterRangeSlider> {
+  String _valueToString(double value) {
+    return value.toStringAsFixed(2);
+  }
 
   RangeValues? _values;
-  late double low;
-  late double high;
   late double minSpinValue;
   late double maxSpinValue;
 
-
-  TextEditingController minController = TextEditingController();
-  TextEditingController maxController = TextEditingController();
+  // TextEditingController minController = TextEditingController();
+  // TextEditingController maxController = TextEditingController();
 
   @override
   void initState() {
-    low = widget.minValue;
-    high = widget.maxValue;
     minSpinValue = widget.minValue;
     maxSpinValue = widget.maxValue;
-    _values = RangeValues(low, high);
+    _values = RangeValues(widget.minValue, widget.maxValue);
     super.initState();
   }
 
@@ -98,8 +96,8 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                   //     },
                   //     decoration: roundedTFDGrey('${widget.minValue} %')),
                   SpinBox(
-                    max: widget.maxValue,
-                    min:widget.minValue,
+                    max: maxSpinValue,
+                    min: widget.minValue,
                     showButtons: false,
                     keyboardType: TextInputType.number,
                     decimals: 2,
@@ -107,20 +105,17 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                     enableInteractiveSelection: false,
                     step: 0.2,
                     readOnly: false,
-                    textStyle: TextStyle(fontSize: 9.sp,color: Colors.grey.shade600),
+                    textStyle:
+                        TextStyle(fontSize: 9.sp, color: Colors.grey.shade600),
                     decoration: roundedTFDGrey('${widget.minValue} %'),
                     onChanged: (value) {
-                        setState(() {
-                          if(value < low) {
-                            _values = RangeValues(low, high);
-                            minSpinValue = low;
-                          } else {
-                            _values = RangeValues(value, widget.maxValue);
-                            low = value;
-                          }
-                          _values = RangeValues(low, high);
-                          widget.minCallback(low);
-                        });
+                      setState(() {
+                        if (value != 0.0 && value <= widget.maxValue) {
+                          minSpinValue = value;
+                          widget.minCallback(value);
+                          _values = RangeValues(value, maxSpinValue);
+                        }
+                      });
                       // }
                     },
                   ),
@@ -172,6 +167,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
 
                   SpinBox(
                     max: widget.maxValue,
+                    min: minSpinValue,
                     showButtons: false,
                     keyboardType: TextInputType.number,
                     decimals: 2,
@@ -179,21 +175,19 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                     value: maxSpinValue,
                     enableInteractiveSelection: false,
                     readOnly: false,
-                    textStyle: TextStyle(fontSize: 9.sp,color: Colors.grey.shade600),
+                    textStyle:
+                        TextStyle(fontSize: 9.sp, color: Colors.grey.shade600),
                     decoration: roundedTFDGrey('${widget.minValue} %'),
                     onChanged: (value) {
-                        setState(() {
-                          high = value;
-                          if(high > low) {
-                            _values = RangeValues(low, high);
-                          } else {
-                            _values = RangeValues(low, widget.maxValue);
-                            maxSpinValue = widget.maxValue;
-                          }
-                          widget.maxCallback(high);
-                        });
+                      setState(() {
+                        if (value != 0.0 && value <= widget.maxValue && value > minSpinValue) {
+                          maxSpinValue = value;
+                          widget.maxCallback(value);
+                          _values = RangeValues(minSpinValue, value);
+                        }
+                      });
                     },
-                  ),
+                  )
                 ],
               ),
             ),
@@ -222,16 +216,12 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       _values!.end.toStringAsFixed(2)),
                   onChanged: (value) {
                     setState(() {
-                      // minController.text = value.start.toStringAsFixed(2);
-                      // maxController.text = value.end.toStringAsFixed(2);
-
-                      minSpinValue = double.parse(value.start.toStringAsFixed(2));
-                      maxSpinValue = double.parse(value.end.toStringAsFixed(2));
-
+                      minSpinValue = double.parse(_valueToString(value.start));
+                      maxSpinValue = double.parse(_valueToString(value.end));
                       widget.minCallback(
-                          double.parse(value.start.toStringAsFixed(2)));
-                      widget.maxCallback(
-                          double.parse(value.end.toStringAsFixed(2)));
+                          double.parse(_valueToString(value.start)));
+                      widget
+                          .maxCallback(double.parse(_valueToString(value.end)));
                       _values = value;
                     });
                   })),

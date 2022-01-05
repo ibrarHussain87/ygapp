@@ -4,7 +4,6 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/common_response_models/fiber_delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
@@ -13,6 +12,7 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 
 class SyncFiberResponse {
   SyncFiberResponse({
@@ -21,12 +21,13 @@ class SyncFiberResponse {
     required this.data,
     required this.message,
   });
+
   late final bool status;
   late final int responseCode;
   late final FiberSyncData data;
   late final String message;
 
-  SyncFiberResponse.fromJson(Map<String, dynamic> json){
+  SyncFiberResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
     data = FiberSyncData.fromJson(json['data']);
@@ -47,9 +48,10 @@ class FiberSyncData {
   FiberSyncData({
     required this.fiber,
   });
+
   late final FiberModel fiber;
 
-  FiberSyncData.fromJson(Map<String, dynamic> json){
+  FiberSyncData.fromJson(Map<String, dynamic> json) {
     fiber = FiberModel.fromJson(json['fiber']);
   }
 
@@ -59,9 +61,11 @@ class FiberSyncData {
     return _data;
   }
 }
+
 class FiberModel {
   FiberModel({
     required this.categories,
+    required this.natures,
     required this.material,
     required this.apperance,
     required this.brands,
@@ -74,7 +78,9 @@ class FiberModel {
     required this.availbleForMarket,
     required this.settings,
   });
+
   late final List<FiberCategories> categories;
+  late final List<FiberNature> natures;
   late final List<FiberMaterial> material;
   late final List<FiberAppearance> apperance;
   late final List<Countries> countries;
@@ -93,48 +99,76 @@ class FiberModel {
   late final List<Packing> packing;
   late final List<FiberSettings> settings;
 
-  FiberModel.fromJson(Map<String, dynamic> json){
-    categories = List.from(json['categories']).map((e)=>FiberCategories.fromJson(e)).toList();
-    material = List.from(json['material']).map((e)=>FiberMaterial.fromJson(e)).toList();
-    apperance = List.from(json['apperance']).map((e)=>FiberAppearance.fromJson(e)).toList();
-    brands = List.from(json['brands']).map((e)=>Brands.fromJson(e)).toList();
-    countries = List.from(json['countries']).map((e)=>Countries.fromJson(e)).toList();
-    certification = List.from(json['certification']).map((e)=>Certification.fromJson(e)).toList();
-    deliveryPeriod = List.from(json['deliveryPeriod']).map((e)=>DeliveryPeriod.fromJson(e)).toList();
-    units = List.from(json['units']).map((e)=>Units.fromJson(e)).toList();
-    grades = List.from(json['grades']).map((e)=>Grades.fromJson(e)).toList();
-    priceTerms = List.from(json['priceTerms']).map((e)=>FPriceTerms.fromJson(e)).toList();
-    availbleForMarket = List.from(json['availbleForMarket']).map((e)=>FiberAvailbleForMarket.fromJson(e)).toList();
-    companies = List.from(json['companies']).map((e)=>Companies.fromJson(e)).toList();
-    paymentType = List.from(json['payment_types']).map((e)=>PaymentType.fromJson(e)).toList();
-    cityState = List.from(json['city_state']).map((e)=>CityState.fromJson(e)).toList();
-    ports = List.from(json['ports']).map((e)=>Ports.fromJson(e)).toList();
-    lcType = List.from(json['lc_types']).map((e)=>LcType.fromJson(e)).toList();
-    packing = List.from(json['packing']).map((e)=>Packing.fromJson(e)).toList();
-    settings = List.from(json['settings']).map((e)=>FiberSettings.fromJson(e)).toList();
+  FiberModel.fromJson(Map<String, dynamic> json) {
+    categories = List.from(json['categories'])
+        .map((e) => FiberCategories.fromJson(e))
+        .toList();
+    natures = List.from(json['nature'])
+        .map((e) => FiberNature.fromJson(e))
+        .toList();
+    material = List.from(json['material'])
+        .map((e) => FiberMaterial.fromJson(e))
+        .toList();
+    apperance = List.from(json['apperance'])
+        .map((e) => FiberAppearance.fromJson(e))
+        .toList();
+    brands = List.from(json['brands']).map((e) => Brands.fromJson(e)).toList();
+    countries =
+        List.from(json['countries']).map((e) => Countries.fromJson(e)).toList();
+    certification = List.from(json['certification'])
+        .map((e) => Certification.fromJson(e))
+        .toList();
+    deliveryPeriod = List.from(json['deliveryPeriod'])
+        .map((e) => DeliveryPeriod.fromJson(e))
+        .toList();
+    units = List.from(json['units']).map((e) => Units.fromJson(e)).toList();
+    grades = List.from(json['grades']).map((e) => Grades.fromJson(e)).toList();
+    priceTerms = List.from(json['priceTerms'])
+        .map((e) => FPriceTerms.fromJson(e))
+        .toList();
+    availbleForMarket = List.from(json['availbleForMarket'])
+        .map((e) => FiberAvailbleForMarket.fromJson(e))
+        .toList();
+    companies =
+        List.from(json['companies']).map((e) => Companies.fromJson(e)).toList();
+    paymentType = List.from(json['payment_types'])
+        .map((e) => PaymentType.fromJson(e))
+        .toList();
+    cityState = List.from(json['city_state'])
+        .map((e) => CityState.fromJson(e))
+        .toList();
+    ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();
+    lcType =
+        List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
+    packing =
+        List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
+    settings = List.from(json['settings'])
+        .map((e) => FiberSettings.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['categories'] = categories.map((e)=>e.toJson()).toList();
-    _data['material'] = material.map((e)=>e.toJson()).toList();
-    _data['apperance'] = apperance.map((e)=>e.toJson()).toList();
-    _data['brands'] = brands.map((e)=>e.toJson()).toList();
-    _data['countries'] = countries.map((e)=>e.toJson()).toList();
-    _data['certification'] = certification.map((e)=>e.toJson()).toList();
-    _data['deliveryPeriod'] = deliveryPeriod.map((e)=>e.toJson()).toList();
-    _data['units'] = units.map((e)=>e.toJson()).toList();
-    _data['brands'] = units.map((e)=>e.toJson()).toList();
-    _data['grades'] = grades.map((e)=>e.toJson()).toList();
-    _data['priceTerms'] = priceTerms.map((e)=>e.toJson()).toList();
-    _data['availbleForMarket'] = availbleForMarket.map((e)=>e.toJson()).toList();
-    _data['companies'] = companies.map((e)=>e.toJson()).toList();
-    _data['payment_types'] = paymentType.map((e)=>e.toJson()).toList();
-    _data['city_state'] = cityState.map((e)=>e.toJson()).toList();
-    _data['ports'] = ports.map((e)=>e.toJson()).toList();
-    _data['lc_types'] = lcType.map((e)=>e.toJson()).toList();
-    _data['packing'] = packing.map((e)=>e.toJson()).toList();
-    _data['settings'] = settings.map((e)=>e.toJson()).toList();
+    _data['categories'] = categories.map((e) => e.toJson()).toList();
+    _data['material'] = material.map((e) => e.toJson()).toList();
+    _data['apperance'] = apperance.map((e) => e.toJson()).toList();
+    _data['brands'] = brands.map((e) => e.toJson()).toList();
+    _data['countries'] = countries.map((e) => e.toJson()).toList();
+    _data['certification'] = certification.map((e) => e.toJson()).toList();
+    _data['deliveryPeriod'] = deliveryPeriod.map((e) => e.toJson()).toList();
+    _data['units'] = units.map((e) => e.toJson()).toList();
+    _data['brands'] = units.map((e) => e.toJson()).toList();
+    _data['grades'] = grades.map((e) => e.toJson()).toList();
+    _data['priceTerms'] = priceTerms.map((e) => e.toJson()).toList();
+    _data['availbleForMarket'] =
+        availbleForMarket.map((e) => e.toJson()).toList();
+    _data['companies'] = companies.map((e) => e.toJson()).toList();
+    _data['payment_types'] = paymentType.map((e) => e.toJson()).toList();
+    _data['city_state'] = cityState.map((e) => e.toJson()).toList();
+    _data['ports'] = ports.map((e) => e.toJson()).toList();
+    _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
+    _data['packing'] = packing.map((e) => e.toJson()).toList();
+    _data['settings'] = settings.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -147,16 +181,19 @@ class FiberCategories {
     required this.catIsActive,
     this.catSortid,
   });
+
   @PrimaryKey(autoGenerate: false)
   late final int catId;
   late final String catName;
+
   late final String catIsActive;
   @ignore
   late final Null catSortid;
 
-  FiberCategories.fromJson(Map<String, dynamic> json){
+  FiberCategories.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];
     catName = json['cat_name'];
+
     catIsActive = json['cat_is_active'];
     catSortid = null;
   }
@@ -165,9 +202,40 @@ class FiberCategories {
     final _data = <String, dynamic>{};
     _data['cat_id'] = catId;
     _data['cat_name'] = catName;
+
     _data['cat_is_active'] = catIsActive;
     _data['cat_sortid'] = catSortid;
     return _data;
+  }
+}
+
+class FiberNature {
+  FiberNature({
+    required this.id,
+    required this.nature,
+  });
+
+  late final int id;
+  late final String nature;
+
+
+  FiberNature.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nature = json['nature'];
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['nature'] = nature;
+    return _data;
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return nature;
   }
 }
 
@@ -176,22 +244,32 @@ class FiberMaterial {
   FiberMaterial({
     required this.fbmId,
     required this.fbmCategoryIdfk,
+    required this.nature_id,
     required this.fbmName,
+    required this.icon_selected,
+    required this.icon_unselected,
     required this.fbmIsActive,
     this.fbmSortid,
   });
+
   @PrimaryKey(autoGenerate: false)
   late final int fbmId;
-  late final String fbmCategoryIdfk;
-  late final String fbmName;
-  late final String fbmIsActive;
+  String? fbmCategoryIdfk;
+  String? nature_id;
+  String? fbmName;
+  String? icon_selected;
+  String? icon_unselected;
+  String? fbmIsActive;
   @ignore
   late final Null fbmSortid;
 
-  FiberMaterial.fromJson(Map<String, dynamic> json){
+  FiberMaterial.fromJson(Map<String, dynamic> json) {
     fbmId = json['fbm_id'];
     fbmCategoryIdfk = json['fbm_category_idfk'];
+    nature_id = json['nature_id'];
     fbmName = json['fbm_name'];
+    icon_selected = json['icon_selected'];
+    icon_unselected = json['icon_unselected'];
     fbmIsActive = json['fbm_is_active'];
     fbmSortid = null;
   }
@@ -200,7 +278,10 @@ class FiberMaterial {
     final _data = <String, dynamic>{};
     _data['fbm_id'] = fbmId;
     _data['fbm_category_idfk'] = fbmCategoryIdfk;
+    _data['nature_id'] = nature_id;
     _data['fbm_name'] = fbmName;
+    _data['icon_selected'] = icon_selected;
+    _data['icon_unselected'] = icon_unselected;
     _data['fbm_is_active'] = fbmIsActive;
     _data['fbm_sortid'] = fbmSortid;
     return _data;
@@ -237,7 +318,7 @@ class FiberAvailbleForMarket {
   @ignore
   late final Null deletedAt;
 
-  FiberAvailbleForMarket.fromJson(Map<String, dynamic> json){
+  FiberAvailbleForMarket.fromJson(Map<String, dynamic> json) {
     afmId = json['afm_id'];
     afmCategoryIdfk = json['afm_category_idfk'];
     afmPortIdfk = null;
@@ -297,6 +378,7 @@ class FiberSettings {
     required this.catName,
     required this.matName,
   });
+
   @PrimaryKey(autoGenerate: false)
   late final int fbsId;
   late final String fbsCategoryIdfk;
@@ -329,7 +411,7 @@ class FiberSettings {
   late final String catName;
   late final String matName;
 
-  FiberSettings.fromJson(Map<String, dynamic> json){
+  FiberSettings.fromJson(Map<String, dynamic> json) {
     fbsId = json['fbs_id'];
     fbsCategoryIdfk = json['fbs_category_idfk'];
     fbsFiberMaterialIdfk = json['fbs_fiber_material_idfk'];
@@ -393,5 +475,4 @@ class FiberSettings {
     _data['mat_name'] = matName;
     return _data;
   }
-
 }

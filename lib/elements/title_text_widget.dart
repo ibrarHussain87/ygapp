@@ -10,7 +10,7 @@ class TitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      title!,
+      title??"N/A",
       style: TextStyle(
           color: color??Colors.black,
           fontSize: 14.sp,

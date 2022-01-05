@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/elements/network_icon_widget.dart';
@@ -40,7 +41,7 @@ class _FilterMaterialWidgetState extends State<FilterMaterialWidget> {
 
   Widget buildListBody(int index) {
     bool isSelected = selectedIndex.contains(index);
-    List<FiberMaterial>? castedList;
+    List<FiberMaterial> castedList = [];
     if (widget.listItem is List<FiberMaterial>) {
       castedList = widget.listItem!.cast<FiberMaterial>();
     }
@@ -49,7 +50,7 @@ class _FilterMaterialWidgetState extends State<FilterMaterialWidget> {
         setState(() {
           selectedIndex.contains(index)? selectedIndex.remove(index):selectedIndex.add(index);
         });
-        widget.onClickCallback!(castedList![index]);
+        widget.onClickCallback!(castedList[index]);
       },
       child: SizedBox(
         width: 60.w,
@@ -60,15 +61,15 @@ class _FilterMaterialWidgetState extends State<FilterMaterialWidget> {
           children: [
             NetworkImageIconWidget(
               imageUrl: isSelected
-                  ? 'https://static.thenounproject.com/png/18663-200.png'
-                  : 'https://static.thenounproject.com/png/223920-200.png',
+                  ? '${ApiService.BASE_URL}${castedList[index].icon_selected??""}'
+                  : '${ApiService.BASE_URL}${castedList[index].icon_unselected??""}',
             ),
             SizedBox(
               height: 2.h,
             ),
             Expanded(
               child: Text(
-                castedList![index].fbmName,
+                castedList[index].fbmName??"N/A",
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
