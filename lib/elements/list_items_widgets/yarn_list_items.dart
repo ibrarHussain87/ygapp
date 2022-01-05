@@ -8,6 +8,7 @@ import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 Widget buildYarnWidget(YarnSpecification specification) {
@@ -23,7 +24,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
         mainAxisSize: MainAxisSize.max,
         children: [
           Visibility(
-            visible: true,
+            visible: Ui.showHide(specification.is_featured),
             maintainSize: true,
             maintainState: true,
             maintainAnimation: true,
@@ -116,12 +117,11 @@ Widget buildYarnWidget(YarnSpecification specification) {
                           Expanded(
                               child: Center(
                                 child: Visibility(
-                                    visible: true,
+                                    visible: Ui.showHide(specification.is_verified),
                                     maintainSize: true,
                                     maintainState: true,
                                     maintainAnimation: true,
-                                    child:
-                                        Container(child: VerifiedSupplier())),
+                                    child: VerifiedSupplier()),
                               ),
                               flex: 1),
                           // SizedBox(width: 8.w),
@@ -225,7 +225,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TitleTextWidget(
+                          TitleSmallTextWidget(
                             title: "PKR." +
                                 specification.priceUnit.toString() +
                                 "/KG",

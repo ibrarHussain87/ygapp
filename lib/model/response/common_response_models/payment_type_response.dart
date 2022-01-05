@@ -14,7 +14,7 @@ class PaymentType {
   });
   @PrimaryKey(autoGenerate: false)
   late final String? payId;
-  int? payPriceTerrmIdfk;
+  String? payPriceTerrmIdfk;
   String? payName;
   String? payIsActive;
   @ignore

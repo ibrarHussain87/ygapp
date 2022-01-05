@@ -715,6 +715,8 @@ class YarnSetting {
   String? showTwistDirection;
   String? ysIsActive;
   String? ysSortid;
+  String? show_actual_count;
+  String? actual_count_min_max;
 
   YarnSetting(
       {this.ysId,
@@ -776,7 +778,9 @@ class YarnSetting {
       this.showOrientation,
       this.showTwistDirection,
       this.ysIsActive,
-      this.ysSortid});
+      this.ysSortid,
+      this.show_actual_count,
+      this.actual_count_min_max});
 
   YarnSetting.fromJson(Map<String, dynamic> json) {
     ysId = json['ys_id'];
@@ -839,6 +843,8 @@ class YarnSetting {
     showTwistDirection = json['show_twist_direction'];
     ysIsActive = json['ys_is_active'];
     ysSortid = json['ys_sortid'];
+    show_actual_count = json['show_actual_count'];
+    actual_count_min_max = json['actual_count_min_max'];
   }
 
   Map<String, dynamic> toJson() {
@@ -903,6 +909,8 @@ class YarnSetting {
     data['show_twist_direction'] = this.showTwistDirection;
     data['ys_is_active'] = this.ysIsActive;
     data['ys_sortid'] = this.ysSortid;
+    data['show_actual_count'] = this.show_actual_count;
+    data['actual_count_min_max'] = this.actual_count_min_max;
     return data;
   }
 }

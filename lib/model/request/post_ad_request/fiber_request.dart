@@ -55,6 +55,7 @@ class CreateRequestModel {
   String? ys_ply_idfk;
   String? ys_doubling_method_idFk;
   String? ys_grade_idfk;
+  String? ys_yarn_type_idfk;
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
@@ -122,6 +123,7 @@ class CreateRequestModel {
       this.fbp_min_quantity,
       this.fbp_description,
       this.fpb_packing,
+      this.ys_yarn_type_idfk,
       this.fpb_payment_type_idfk,
       this.fpb_lc_type_idfk,
       this.ys_ratio,
@@ -219,6 +221,7 @@ class CreateRequestModel {
       'ys_count': ys_count ?? "",
       'ys_dty_filament': ys_dty_filament ?? "",
       'ys_fdy_filament': ys_fdy_filament ?? "",
+      'ys_yarn_type_idfk': ys_yarn_type_idfk ?? "",
       'ys_ply_idfk': ys_ply_idfk ?? "",
       'ys_grade_idfk': ys_grade_idfk ?? "",
       'ys_certification_idfk': ys_certification_idfk ?? "",

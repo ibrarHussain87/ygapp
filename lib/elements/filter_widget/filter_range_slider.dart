@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
-import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
 
 import '../decoration_widgets.dart';
 import '../title_text_widget.dart';
@@ -30,21 +29,24 @@ class FilterRangeSlider extends StatefulWidget {
 }
 
 class _FilterRangeSliderState extends State<FilterRangeSlider> {
+
   RangeValues? _values;
   late double low;
   late double high;
+  late double minSpinValue;
+  late double maxSpinValue;
+
 
   TextEditingController minController = TextEditingController();
   TextEditingController maxController = TextEditingController();
 
   @override
   void initState() {
-    // minValue = StringUtils.splitMin(widget.minMaxRange!);
-    // maxValue = StringUtils.splitMax(widget.minMaxRange!);
     low = widget.minValue;
     high = widget.maxValue;
-
-    _values = RangeValues(widget.minValue, widget.maxValue);
+    minSpinValue = widget.minValue;
+    maxSpinValue = widget.maxValue;
+    _values = RangeValues(low, high);
     super.initState();
   }
 
@@ -64,42 +66,64 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                           EdgeInsets.only(top: 4.w, left: 8.w, bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + ' min')),
-                  TextFormField(
-                      controller: minController,
-                      inputFormatters: [
-                        DecimalTextInputFormatter(decimalRange: 2,maxValue: widget.maxValue),
-                      ],
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
-                      cursorColor: Colors.black,
-                      style: TextStyle(fontSize: 11.sp),
-                      textAlign: TextAlign.center,
-                      cursorHeight: 16.w,
-                      onSaved: (input) => {},
-                      validator: (input) {
-                        if (input == null || input.isEmpty) {
-                          return widget.hintTxt! + " min";
-                        }
-                        return null;
-                      },
-                      // inputFormatters: [
-                      //   NumericalRangeFormatter(
-                      //     min: 0,
-                      //     max: widget.maxValue!,
-                      //   )
-                      // ],
-                      onChanged: (String value) {
-                        double numValue = double.parse(value);
-                        if (numValue >= low && numValue < high) {
-                          setState(() {
-                            low = double.tryParse(value)!;
-                            // minValue = double.tryParse(value);
+                  // TextFormField(
+                  //     controller: minController,
+                  //     inputFormatters: [
+                  //       DecimalTextInputFormatter(decimalRange: 2),
+                  //       FilteringTextInputFormatter.allow(
+                  //           RegExp(r'^\d*\.?\d{0,2}')),
+                  //     ],
+                  //     keyboardType: TextInputType.number,
+                  //     cursorColor: Colors.black,
+                  //     style: TextStyle(fontSize: 11.sp),
+                  //     textAlign: TextAlign.center,
+                  //     cursorHeight: 16.w,
+                  //     onSaved: (input) => {},
+                  //     validator: (input) {
+                  //       if (input == null || input.isEmpty) {
+                  //         return widget.hintTxt! + " min";
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onChanged: (String value) {
+                  //       double numValue = double.parse(value);
+                  //       if (numValue >= low && numValue < high) {
+                  //         setState(() {
+                  //           low = double.tryParse(value)!;
+                  //           // minValue = double.tryParse(value);
+                  //           _values = RangeValues(low, high);
+                  //           widget.minCallback(low);
+                  //         });
+                  //       }
+                  //     },
+                  //     decoration: roundedTFDGrey('${widget.minValue} %')),
+                  SpinBox(
+                    max: widget.maxValue,
+                    min:widget.minValue,
+                    showButtons: false,
+                    keyboardType: TextInputType.number,
+                    decimals: 2,
+                    value: minSpinValue,
+                    enableInteractiveSelection: false,
+                    step: 0.2,
+                    readOnly: false,
+                    textStyle: TextStyle(fontSize: 9.sp,color: Colors.grey.shade600),
+                    decoration: roundedTFDGrey('${widget.minValue} %'),
+                    onChanged: (value) {
+                        setState(() {
+                          if(value < low) {
                             _values = RangeValues(low, high);
-                            widget.minCallback(low);
-                          });
-                        }
-                      },
-                      decoration: roundedTFDGrey('${widget.minValue} %')),
+                            minSpinValue = low;
+                          } else {
+                            _values = RangeValues(value, widget.maxValue);
+                            low = value;
+                          }
+                          _values = RangeValues(low, high);
+                          widget.minCallback(low);
+                        });
+                      // }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -114,43 +138,62 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                       child: TitleSmallTextWidget(
                           title: widget.hintTxt! + " max")),
-                  TextFormField(
-                      controller: maxController,
-                      inputFormatters: [
-                        DecimalTextInputFormatter(decimalRange: 2,maxValue: widget.maxValue),
-                      ],
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
-                      cursorColor: Colors.black,
-                      style: TextStyle(fontSize: 11.sp),
-                      textAlign: TextAlign.center,
-                      cursorHeight: 16.w,
-                      onSaved: (input) => {},
-                      validator: (input) {
-                        if (input == null || input.isEmpty) {
-                          return widget.hintTxt! + "max";
-                        }
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        double numValue = double.parse(value);
-                        if (numValue >= low && numValue < high) {
-                          setState(() {
-                            high = double.tryParse(value)!;
-                            // maxValue = double.tryParse(value);
+                  // TextFormField(
+                  //     controller: maxController,
+                  //     inputFormatters: [
+                  //       DecimalTextInputFormatter(decimalRange: 2),
+                  //       FilteringTextInputFormatter.allow(
+                  //           RegExp(r'^\d*\.?\d{0,2}')),
+                  //     ],
+                  //     keyboardType: TextInputType.number,
+                  //     cursorColor: Colors.black,
+                  //     style: TextStyle(fontSize: 11.sp),
+                  //     textAlign: TextAlign.center,
+                  //     cursorHeight: 16.w,
+                  //     onSaved: (input) => {},
+                  //     validator: (input) {
+                  //       if (input == null || input.isEmpty) {
+                  //         return widget.hintTxt! + "max";
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onChanged: (value) {
+                  //       double numValue = double.parse(value);
+                  //       if (numValue >= low && numValue < high) {
+                  //         setState(() {
+                  //           high = double.tryParse(value)!;
+                  //           _values = RangeValues(low, high);
+                  //           widget.maxCallback(high);
+                  //         });
+                  //       }
+                  //     },
+                  //     decoration:
+                  //         roundedTFDGrey(widget.maxValue.toString() + ' %')),
+
+                  SpinBox(
+                    max: widget.maxValue,
+                    showButtons: false,
+                    keyboardType: TextInputType.number,
+                    decimals: 2,
+                    step: 0.2,
+                    value: maxSpinValue,
+                    enableInteractiveSelection: false,
+                    readOnly: false,
+                    textStyle: TextStyle(fontSize: 9.sp,color: Colors.grey.shade600),
+                    decoration: roundedTFDGrey('${widget.minValue} %'),
+                    onChanged: (value) {
+                        setState(() {
+                          high = value;
+                          if(high > low) {
                             _values = RangeValues(low, high);
-                            widget.maxCallback(high);
-                          });
-                        }
-                      },
-                      // inputFormatters: [
-                      //   NumericalRangeFormatter(
-                      //     min: 0,
-                      //     max: widget.maxValue!,
-                      //   )
-                      // ],
-                      decoration:
-                          roundedTFDGrey(widget.maxValue.toString() + ' %')),
+                          } else {
+                            _values = RangeValues(low, widget.maxValue);
+                            maxSpinValue = widget.maxValue;
+                          }
+                          widget.maxCallback(high);
+                        });
+                    },
+                  ),
                 ],
               ),
             ),
@@ -168,7 +211,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                 minThumbSeparation: 1,
                 showValueIndicator: ShowValueIndicator.always,
                 overlayColor: Colors.red.withAlpha(32),
-                overlayShape: RoundSliderOverlayShape(overlayRadius: 3),
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 3),
                 inactiveTrackColor: Colors.grey,
               ),
               child: RangeSlider(
@@ -179,8 +222,12 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                       _values!.end.toStringAsFixed(2)),
                   onChanged: (value) {
                     setState(() {
-                      minController.text = value.start.toStringAsFixed(2);
-                      maxController.text = value.end.toStringAsFixed(2);
+                      // minController.text = value.start.toStringAsFixed(2);
+                      // maxController.text = value.end.toStringAsFixed(2);
+
+                      minSpinValue = double.parse(value.start.toStringAsFixed(2));
+                      maxSpinValue = double.parse(value.end.toStringAsFixed(2));
+
                       widget.minCallback(
                           double.parse(value.start.toStringAsFixed(2)));
                       widget.maxCallback(

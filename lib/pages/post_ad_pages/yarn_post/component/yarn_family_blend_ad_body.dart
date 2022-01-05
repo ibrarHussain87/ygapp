@@ -9,7 +9,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
+import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
 
 class FamilyBlendAdsBody extends StatefulWidget {
   final YarnSyncResponse yarnSyncResponse;

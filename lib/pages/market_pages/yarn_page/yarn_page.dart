@@ -7,7 +7,6 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_widget.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/spinning_post_ad.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 

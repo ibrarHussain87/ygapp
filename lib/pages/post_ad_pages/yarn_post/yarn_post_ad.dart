@@ -5,16 +5,16 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_family_blend_ad_body.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 
-class SpinningPostAdPage extends StatefulWidget {
+import 'component/yarn_family_blend_ad_body.dart';
+
+class YarnPostAdPage extends StatefulWidget {
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const SpinningPostAdPage(
+  const YarnPostAdPage(
       {Key? key,
       required this.businessArea,
       required this.selectedTab,
@@ -22,10 +22,10 @@ class SpinningPostAdPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SpinningPostAdPageState createState() => _SpinningPostAdPageState();
+  _YarnPostAdPageState createState() => _YarnPostAdPageState();
 }
 
-class _SpinningPostAdPageState extends State<SpinningPostAdPage> {
+class _YarnPostAdPageState extends State<YarnPostAdPage> {
   CreateRequestModel? _fiberRequestModel;
   Future<YarnSyncResponse>? _syncFuture;
 

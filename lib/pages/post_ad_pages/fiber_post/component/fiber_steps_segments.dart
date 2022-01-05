@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
-import 'package:yg_app/pages/post_ad_pages/spinning_post/component/lab_parameter_body.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/pages/post_ad_pages/yarn_post/component/lab_parameter_body.dart';
 
 import 'fiber_specification_component.dart';
 

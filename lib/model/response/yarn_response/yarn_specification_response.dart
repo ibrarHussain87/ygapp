@@ -5,12 +5,13 @@ class GetYarnSpecificationResponse {
     required this.data,
     required this.message,
   });
+
   late final bool status;
   late final int responseCode;
   late final YarnSpecificationData data;
   late final String message;
 
-  GetYarnSpecificationResponse.fromJson(Map<String, dynamic> json){
+  GetYarnSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
     data = YarnSpecificationData.fromJson(json['data']);
@@ -31,15 +32,18 @@ class YarnSpecificationData {
   YarnSpecificationData({
     required this.specification,
   });
+
   late final List<YarnSpecification> specification;
 
-  YarnSpecificationData.fromJson(Map<String, dynamic> json){
-    specification = List.from(json['specification']).map((e)=>YarnSpecification.fromJson(e)).toList();
+  YarnSpecificationData.fromJson(Map<String, dynamic> json) {
+    specification = List.from(json['specification'])
+        .map((e) => YarnSpecification.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['specification'] = specification.map((e)=>e.toJson()).toList();
+    _data['specification'] = specification.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -85,6 +89,8 @@ class YarnSpecification {
     this.packing,
     this.paymentType,
     this.lcType,
+    this.is_featured,
+    this.is_verified,
     required this.deliveryPeriod,
     this.available,
     required this.priceTerms,
@@ -93,8 +99,9 @@ class YarnSpecification {
     required this.pictures,
     required this.certifications,
   });
-  late final Null yarnTitle;
-  late final Null yarnDetails;
+
+  late final String? yarnTitle;
+  late final String? yarnDetails;
   late final String? locality;
   late final String? yarnFamily;
   late final String? yarnBlend;
@@ -104,43 +111,45 @@ class YarnSpecification {
   late final String? yarnPatternCharectristic;
   late final String? yarnOrientation;
   late final String? yarnTwistDirection;
-  late final Null count;
+  late final String? count;
   late final String? dtyFilament;
   late final String? fdyFilament;
   late final String? yarnPly;
   late final String? yarnSpunTechnique;
-  late final Null yarnQuality;
+  late final String? yarnQuality;
   late final String? yarnGrade;
   late final String? yarnCertification;
-  late final Null yarnColorTreatmentMethod;
+  late final String? yarnColorTreatmentMethod;
   late final String? yarnDyingMethod;
-  late final Null color;
+  late final String? color;
   late final String? yarnApperance;
   late final String? actualYarnCount;
   late final String? qlt;
   late final String? clsp;
-  late final Null uniformity;
+  late final String? uniformity;
   late final String? cv;
   late final String? thinPlaces;
+  late final String? is_featured;
+  late final String? is_verified;
   late final String? thickPlaces;
   late final String? naps;
   late final String? priceUnit;
-  late final Null unitCount;
+  late final String? unitCount;
   late final String? weightCone;
   late final String? weightBag;
   late final String? conesBag;
-  late final Null packing;
-  late final Null paymentType;
-  late final Null lcType;
+  late final String? packing;
+  late final String? paymentType;
+  late final String? lcType;
   late final String? deliveryPeriod;
-  late final Null available;
+  late final String? available;
   late final String? priceTerms;
   late final String? minQuantity;
   late final String? description;
   late final List<dynamic> pictures;
   late final List<dynamic> certifications;
 
-  YarnSpecification.fromJson(Map<String, dynamic> json){
+  YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = null;
     yarnDetails = null;
     locality = json['locality'];
@@ -177,6 +186,8 @@ class YarnSpecification {
     weightCone = json['weight_cone'];
     weightBag = json['weight_bag'];
     conesBag = json['cones_bag'];
+    is_featured = json['is_featured'];
+    is_verified = json['is_verified'];
     packing = null;
     paymentType = null;
     lcType = null;
@@ -218,6 +229,8 @@ class YarnSpecification {
     _data['qlt'] = qlt;
     _data['clsp'] = clsp;
     _data['uniformity'] = uniformity;
+    _data['is_featured'] = is_featured;
+    _data['is_verified'] = is_verified;
     _data['cv'] = cv;
     _data['thin_places'] = thinPlaces;
     _data['thick_places'] = thickPlaces;

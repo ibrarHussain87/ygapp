@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_material_listview.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 class FiberFilterView extends StatefulWidget {
-
   final SyncFiberResponse syncFiberResponse;
 
   const FiberFilterView({Key? key, required this.syncFiberResponse})
@@ -27,7 +26,6 @@ class FiberFilterView extends StatefulWidget {
 }
 
 class _FiberFilterViewState extends State<FiberFilterView> {
-
   final TextEditingController _textEditingController = TextEditingController();
 
   GetSpecificationRequestModel? _getSpecificationRequestModel;
@@ -112,7 +110,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                         height: 58.w,
                         child: FilterMaterialWidget(
                           listItem:
-                          widget.syncFiberResponse.data.fiber.material,
+                              widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {
                             _querySetting((value as FiberMaterial).fbmId);
                             _getSpecificationRequestModel!.fiberMaterialId =
@@ -120,6 +118,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           },
                         ),
                       ),
+
+                      //Show Grade
                       Visibility(
                         visible: showGrade ?? true,
                         child: Column(
@@ -128,13 +128,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           children: [
                             Padding(
                                 padding:
-                                EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: grades)),
+                                    EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(title: grades)),
                             FilterGridTileWidget(
                               spanCount: 3,
                               listOfItems:
-                              widget.syncFiberResponse.data.fiber.grades,
+                                  widget.syncFiberResponse.data.fiber.grades,
                               callback: (index) {
                                 _getSpecificationRequestModel!.gradeId =
                                     filterList(
@@ -146,10 +145,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             SizedBox(
                               height: 4.w,
                             ),
-                            Divider(),
+                            const Divider(),
                           ],
                         ),
                       ),
+
                       Visibility(
                         visible: showMicronaire ?? true,
                         child: Column(
@@ -175,6 +175,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           ],
                         ),
                       ),
+
                       Visibility(
                           visible: showMoisture ?? true,
                           child: Column(
@@ -198,6 +199,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               Divider(),
                             ],
                           )),
+
                       Visibility(
                         visible: showRd ?? true,
                         child: Column(
@@ -216,6 +218,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           ],
                         ),
                       ),
+
                       Visibility(
                           visible: showAppearance ?? true,
                           child: Column(
@@ -234,7 +237,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                         .syncFiberResponse.data.fiber.apperance,
                                     callback: (index) {
                                       _getSpecificationRequestModel!
-                                          .apperanceId =
+                                              .apperanceId =
                                           filterList(
                                               listOfAppearance,
                                               widget
@@ -253,6 +256,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               Divider(),
                             ],
                           )),
+
                       Row(
                         children: [
                           Expanded(
@@ -293,7 +297,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
@@ -305,7 +310,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             border: Border.all(
                                               color: Colors.grey.shade300,
                                               width:
-                                              1, //                   <--- border width here
+                                                  1, //                   <--- border width here
                                             ),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(24.w))),
@@ -321,15 +326,17 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             ),
                                             items: widget.syncFiberResponse.data
                                                 .fiber.countries
-                                                .map((value) => DropdownMenuItem(
-                                              child: Text(value.conName??"",
-                                                  textAlign:
-                                                  TextAlign.center,
-                                                  style: const TextStyle(
-                                                      fontFamily:
-                                                      'Metropolis')),
-                                              value: value,
-                                            ))
+                                                .map((value) =>
+                                                    DropdownMenuItem(
+                                                      child: Text(
+                                                          value.conName ?? "",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: const TextStyle(
+                                                              fontFamily:
+                                                                  'Metropolis')),
+                                                      value: value,
+                                                    ))
                                                 .toList(),
                                             onChanged: (Countries? value) {
                                               List<int> originList = [
@@ -360,10 +367,13 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               ))
                         ],
                       ),
+
                       SizedBox(
                         height: 4.w,
                       ),
-                      Divider(),
+
+                      const Divider(),
+
                       Visibility(
                         visible: showCertification ?? true,
                         child: Column(
@@ -382,7 +392,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       .fiber.certification,
                                   callback: (value) {
                                     _getSpecificationRequestModel!
-                                        .certificationId =
+                                            .certificationId =
                                         filterList(
                                             listOfCertification,
                                             widget.syncFiberResponse.data.fiber
@@ -398,6 +408,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           ],
                         ),
                       ),
+
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -405,11 +416,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               padding: EdgeInsets.only(
                                   left: 8.w, top: 4.2, bottom: 8.w),
                               child:
-                              const TitleSmallTextWidget(title: 'Packing')),
+                                  const TitleSmallTextWidget(title: 'Packing')),
                           FilterGridTileWidget(
                             spanCount: 3,
                             listOfItems:
-                            widget.syncFiberResponse.data.fiber.packing,
+                                widget.syncFiberResponse.data.fiber.packing,
                             callback: (value) {
                               // mapParams['packing_id[]'] = filterList(
                               //     listOfPacking,
@@ -424,10 +435,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                           ),
                         ],
                       ),
+
                       SizedBox(
                         height: 4.w,
                       ),
-                      Divider()
+
+                      const Divider()
                     ],
                   ),
                 ),
@@ -616,9 +629,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
         tempShowOrigin = tempShowOrigin == null
             ? Ui.showHide(element.showOrigin)
-            : (showOrigin! &&
-                    Ui.showHide(element.showOrigin) &&
-                    tempShowOrigin)
+            : (showOrigin! && Ui.showHide(element.showOrigin) && tempShowOrigin)
                 ? true
                 : false;
 

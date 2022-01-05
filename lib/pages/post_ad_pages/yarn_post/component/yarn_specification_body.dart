@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -40,7 +39,6 @@ class YarnSpecificationComponent extends StatefulWidget {
 
 class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
-
   // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() {
@@ -175,6 +173,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+
                           //Show Texturized
                           Visibility(
                             visible: Ui.showHide(_yarnSetting!.showTexturized),
@@ -191,10 +190,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     spanCount: 3,
                                     listOfItems: _yarnData!.yarnTypes!,
                                     callback: (value) {
-                                      // _fiberRequestModel.type =
-                                      //     _yarnData!
-                                      //         .grades[value].grdId
-                                      //         .toString();
+                                      _createRequestModel.ys_yarn_type_idfk =
+                                          _yarnData!.yarnTypes![value].ytId
+                                              .toString();
                                     },
                                   ),
                                 ],
@@ -214,34 +212,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                           padding: EdgeInsets.only(left: 4.w),
                                           child: TitleSmallTextWidget(
                                               title: dannier)),
-                                      TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
+                                      YgTextFormFieldWithRange(
                                           onSaved: (input) =>
                                               _createRequestModel
                                                   .ys_dty_filament = input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Enter $dannier";
-                                            }
-                                            return null;
-                                          },
-                                          inputFormatters: [
-                                            NumericalRangeFormatter(
-                                                min: StringUtils.splitMin(
-                                                    _yarnSetting!
-                                                        .dannierMinMax),
-                                                max: StringUtils.splitMax(
-                                                    _yarnSetting!
-                                                        .dannierMinMax))
-                                          ],
-                                          decoration:
-                                              roundedTextFieldDecoration(
-                                                  dannier)),
+                                          minMax: _yarnSetting!.dannierMinMax!,
+                                          errorText: dannier),
                                     ],
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -267,34 +243,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                           padding: EdgeInsets.only(left: 4.w),
                                           child: TitleSmallTextWidget(
                                               title: filament)),
-                                      TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
-                                          onSaved: (input) =>
-                                              _createRequestModel
-                                                  .ys_fdy_filament = input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Enter $filament";
-                                            }
-                                            return null;
-                                          },
-                                          inputFormatters: [
-                                            NumericalRangeFormatter(
-                                                min: StringUtils.splitMin(
-                                                    _yarnSetting!
-                                                        .filamentMinMax),
-                                                max: StringUtils.splitMax(
-                                                    _yarnSetting!
-                                                        .filamentMinMax))
-                                          ],
-                                          decoration:
-                                              roundedTextFieldDecoration(
-                                                  filament)),
+                                      YgTextFormFieldWithRange(
+                                        minMax: _yarnSetting!.filamentMinMax!,
+                                        onSaved: (input) => _createRequestModel
+                                            .ys_fdy_filament = input!,
+                                        errorText: filament,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -479,25 +433,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                               left: 4.w, top: 8.w),
                                           child: TitleSmallTextWidget(
                                               title: ratio)),
-                                      TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
-                                          onSaved: (input) =>
-                                              _createRequestModel.ys_ratio =
-                                                  input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Enter ${ratio}";
-                                            }
-                                            return null;
-                                          },
-                                          decoration:
-                                              roundedTextFieldDecoration(
-                                                  ratio)),
+                                      YgTextFormFieldWithoutRange(
+                                          errorText: ratio,
+                                          onSaved: (input) {
+                                            _createRequestModel.ys_ratio =
+                                                input;
+                                          })
                                     ],
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -522,32 +463,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                               left: 4.w, top: 8.w),
                                           child: TitleSmallTextWidget(
                                               title: count)),
-                                      TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
-                                          inputFormatters: [
-                                            NumericalRangeFormatter(
-                                                min: StringUtils.splitMin(
-                                                    _yarnSetting!.countMinMax),
-                                                max: StringUtils.splitMax(
-                                                    _yarnSetting!.countMinMax))
-                                          ],
-                                          onSaved: (input) =>
-                                              _createRequestModel.ys_count =
-                                                  input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Enter $count";
-                                            }
-                                            return null;
-                                          },
-                                          decoration:
-                                              roundedTextFieldDecoration(
-                                                  count)),
+                                      YgTextFormFieldWithRange(
+                                          errorText: count,
+                                          minMax: _yarnSetting!.countMinMax!,
+                                          onSaved: (input) {
+                                            _createRequestModel
+                                                .ys_actual_yarn_count = input;
+                                          })
                                     ],
                                   ),
                                 ),
@@ -872,7 +794,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             ),
                           ),
 
-                          //Show Pattern charactristics
+                          //Show Pattern characteristics
                           Visibility(
                             visible: showPatternCharc,
                             child: selectedPatternId ==
@@ -888,28 +810,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                                 child:
                                                     const TitleSmallTextWidget(
                                                         title: "Thickness")),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                onSaved: (input) =>
-                                                    _createRequestModel
-                                                            .ys_pattern_charectristic_thickness =
-                                                        input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Enter Thickness";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        "Thickness")),
+                                            YgTextFormFieldWithoutRange(
+                                              onSaved: (input) =>
+                                                  _createRequestModel
+                                                          .ys_pattern_charectristic_thickness =
+                                                      input!,
+                                              errorText: "Thickness",
+                                            ),
                                           ],
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -928,29 +835,14 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                                     left: 4.w, top: 8.w),
                                                 child:
                                                     const TitleSmallTextWidget(
-                                                        title: "Lenght")),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                onSaved: (input) =>
-                                                    _createRequestModel
-                                                            .ys_length_pattern_charactristics =
-                                                        input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Enter Length";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        "Length")),
+                                                        title: "Length")),
+                                            YgTextFormFieldWithoutRange(
+                                              onSaved: (input) =>
+                                                  _createRequestModel
+                                                          .ys_length_pattern_charactristics =
+                                                      input!,
+                                              errorText: "Length",
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -968,28 +860,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                                 child:
                                                     const TitleSmallTextWidget(
                                                         title: "Pause")),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                onSaved: (input) =>
-                                                    _createRequestModel
-                                                            .ys_pause_patteren_charactristics =
-                                                        input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Enter Pause";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        "Pause")),
+                                            YgTextFormFieldWithoutRange(
+                                              errorText: "Pause",
+                                              onSaved: (input) =>
+                                                  _createRequestModel
+                                                          .ys_pause_patteren_charactristics =
+                                                      input!,
+                                            ),
                                           ],
                                         ),
                                       ),
