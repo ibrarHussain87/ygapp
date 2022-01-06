@@ -16,7 +16,7 @@ class _MarketTrendWidgetState extends State<MarketTrendWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 4.w),
+      margin: EdgeInsets.symmetric(vertical: 8.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

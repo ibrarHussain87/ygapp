@@ -4,20 +4,20 @@ import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
+import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
   final Function? callback;
@@ -43,7 +43,6 @@ class FiberSpecificationComponent extends StatefulWidget {
 class FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
-
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedMaterialIndex = 0;
@@ -69,14 +68,12 @@ class FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
-
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
     _createRequestModel!.spc_grade_idfk =
         widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
     _createRequestModel!.spc_certificate_idfk = widget
         .syncFiberResponse.data.fiber.certification.first.cerId
         .toString();
-
 
     return FutureBuilder<List<FiberSettings>>(
       future: AppDbInstance.getDbInstance().then((value) async {
@@ -180,13 +177,11 @@ class FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title:
-                                                          fiberLength)),
+                                                      title: fiberLength)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  cursorColor:
-                                                      lightBlueTabs,
+                                                  cursorColor: lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -250,13 +245,11 @@ class FiberSpecificationComponentState
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
-                                                      title:
-                                                          micStr)),
+                                                      title: micStr)),
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  cursorColor:
-                                                      lightBlueTabs,
+                                                  cursorColor: lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -313,8 +306,7 @@ class FiberSpecificationComponentState
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  cursorColor:
-                                                      lightBlueTabs,
+                                                  cursorColor: lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -378,8 +370,7 @@ class FiberSpecificationComponentState
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
-                                                    cursorColor:
-                                                        lightBlueTabs,
+                                                    cursorColor: lightBlueTabs,
                                                     style: TextStyle(
                                                         fontSize: 11.sp),
                                                     textAlign: TextAlign.center,
@@ -441,8 +432,7 @@ class FiberSpecificationComponentState
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  cursorColor:
-                                                      lightBlueTabs,
+                                                  cursorColor: lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -504,8 +494,7 @@ class FiberSpecificationComponentState
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  cursorColor:
-                                                      lightBlueTabs,
+                                                  cursorColor: lightBlueTabs,
                                                   style: TextStyle(
                                                       fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
@@ -616,8 +605,8 @@ class FiberSpecificationComponentState
                                                                   24.w))),
                                                   child:
                                                       DropdownButtonFormField(
-                                                    hint: Text(
-                                                        'Select ${brand}'),
+                                                    hint:
+                                                        Text('Select ${brand}'),
                                                     items: widget
                                                         .syncFiberResponse
                                                         .data
@@ -626,7 +615,8 @@ class FiberSpecificationComponentState
                                                         .map((value) =>
                                                             DropdownMenuItem(
                                                               child: Text(
-                                                                  value.brdName??"N/A",
+                                                                  value.brdName ??
+                                                                      "N/A",
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center),
@@ -696,8 +686,7 @@ class FiberSpecificationComponentState
                                                     TextInputType.none,
                                                 controller:
                                                     _textEditingController,
-                                                cursorColor:
-                                                    lightBlueTabs,
+                                                cursorColor: lightBlueTabs,
                                                 autofocus: false,
                                                 style:
                                                     TextStyle(fontSize: 11.sp),
@@ -718,10 +707,10 @@ class FiberSpecificationComponentState
                                                 decoration:
                                                     roundedTextFieldDecoration(
                                                         'Production year'),
-                                                  onTap: () {
-                                                    handleReadOnlyInputClick(
-                                                        context);
-                                                  },
+                                                onTap: () {
+                                                  handleReadOnlyInputClick(
+                                                      context);
+                                                },
                                               ),
                                             ],
                                           ),
@@ -766,7 +755,8 @@ class FiberSpecificationComponentState
                                                   .map((value) =>
                                                       DropdownMenuItem(
                                                         child: Text(
-                                                            value.conName??"N/A",
+                                                            value.conName ??
+                                                                "N/A",
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,
@@ -796,8 +786,7 @@ class FiberSpecificationComponentState
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
-                                                  color:
-                                                      textColorGrey),
+                                                  color: textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -835,7 +824,8 @@ class FiberSpecificationComponentState
                                                   .data.fiber.cityState
                                                   .map((value) =>
                                                       DropdownMenuItem(
-                                                        child: Text(value.name??"N/A",
+                                                        child: Text(
+                                                            value.name ?? "N/A",
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,
@@ -859,8 +849,7 @@ class FiberSpecificationComponentState
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
-                                                  color:
-                                                      textColorGrey),
+                                                  color: textColorGrey),
                                             ),
                                           ),
                                         ),
@@ -974,17 +963,16 @@ class FiberSpecificationComponentState
                                 .material[_selectedMaterialIndex]
                                 .fbmCategoryIdfk;
 
-                            _createRequestModel!.spc_fiber_material_idfk = widget
-                                .syncFiberResponse
-                                .data
-                                .fiber
-                                .material[_selectedMaterialIndex]
-                                .fbmId
-                                .toString();
+                            _createRequestModel!.spc_fiber_material_idfk =
+                                widget.syncFiberResponse.data.fiber
+                                    .material[_selectedMaterialIndex].fbmId
+                                    .toString();
 
                             var userID =
-                                await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-                            _createRequestModel!.spc_user_idfk = userID.toString();
+                                await SharedPreferenceUtil.getStringValuesSF(
+                                    USER_ID_KEY);
+                            _createRequestModel!.spc_user_idfk =
+                                userID.toString();
 
                             widget.callback!(1);
                           }
@@ -1058,7 +1046,7 @@ class FiberSpecificationComponentState
               height: MediaQuery.of(context).size.height / 2,
               child: YearPicker(
                 selectedDate: DateTime(DateTime.now().year),
-                firstDate: DateTime(DateTime.now().year - 100),
+                firstDate: DateTime(DateTime.now().year - 4),
                 lastDate: DateTime.now(),
                 onChanged: (val) {
                   _textEditingController.text = val.year.toString();

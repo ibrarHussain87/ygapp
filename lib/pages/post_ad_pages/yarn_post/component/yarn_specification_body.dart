@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
@@ -37,8 +38,7 @@ class YarnSpecificationComponent extends StatefulWidget {
       YarnSpecificationComponentState();
 }
 
-class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
-    with AutomaticKeepAliveClientMixin {
+class YarnSpecificationComponentState extends State<YarnSpecificationComponent> {
   // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() {
@@ -74,6 +74,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     );
   }
 
+  var logger = Logger();
+
   //Keys
   final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -103,8 +105,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   String? selectedPatternId;
   String? selectedAppearenceId;
 
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -128,6 +128,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel>(context);
     _yarnSetting ??= Provider.of<YarnSetting>(context);
+
+    logger.e(_createRequestModel.toJson());
+
     _initGridValues();
 
     return Scaffold(
@@ -216,6 +219,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                           onSaved: (input) =>
                                               _createRequestModel
                                                   .ys_dty_filament = input!,
+                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting!.dannierMinMax!,
                                           errorText: dannier),
                                     ],
@@ -247,6 +251,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                         minMax: _yarnSetting!.filamentMinMax!,
                                         onSaved: (input) => _createRequestModel
                                             .ys_fdy_filament = input!,
+                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         errorText: filament,
                                       ),
                                     ],
@@ -381,42 +386,54 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               visible: showDyingMethod
                                   ? Ui.showHide(_yarnSetting!.showColor)
                                   : false,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                margin: EdgeInsets.only(top: 8.w),
-                                child: SizedBox(
-                                  width: 120.w,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.none,
-                                    controller: _textEditingController,
-                                    autofocus: false,
-                                    showCursor: false,
-                                    readOnly: true,
-                                    style: TextStyle(fontSize: 11.sp),
-                                    textAlign: TextAlign.center,
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_color_code = input!,
-                                    validator: (input) {
-                                      if (input == null || input.isEmpty) {
-                                        return "Select Color Code";
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide.none),
-                                        contentPadding: EdgeInsets.all(2.0),
-                                        hintText: "Select Color",
-                                        filled: true,
-                                        fillColor: pickerColor),
-                                    onTap: () {
-                                      openDialogBox();
-                                    },
-                                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top:8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 8.0),
+                                      child: TitleSmallTextWidget(
+                                          title: "Select Color"),
+                                    ),
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: SizedBox(
+                                        width: 120.w,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.none,
+                                          controller: _textEditingController,
+                                          autofocus: false,
+                                          showCursor: false,
+                                          readOnly: true,
+                                          style: TextStyle(fontSize: 11.sp),
+                                          textAlign: TextAlign.center,
+                                          onSaved: (input) => _createRequestModel
+                                              .ys_color_code = input!,
+                                          validator: (input) {
+                                            if (input == null || input.isEmpty) {
+                                              return "Select Color Code";
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10.0),
+                                                  borderSide: BorderSide.none),
+                                              contentPadding: EdgeInsets.all(2.0),
+                                              hintText: "Select Color",
+                                              filled: true,
+                                              fillColor: pickerColor),
+                                          onTap: () {
+                                            openDialogBox();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )),
 
@@ -465,10 +482,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                               title: count)),
                                       YgTextFormFieldWithRange(
                                           errorText: count,
+                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting!.countMinMax!,
                                           onSaved: (input) {
                                             _createRequestModel
                                                 .ys_actual_yarn_count = input;
+
                                           })
                                     ],
                                   ),
@@ -741,7 +760,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                       child:
                                           TitleSmallTextWidget(title: pattern)),
                                   GridTileWidget(
-                                    spanCount: 4,
+                                    spanCount: 3,
                                     listOfItems: _yarnData!.pattern!
                                         .where((element) =>
                                             element.familyId ==
@@ -1024,10 +1043,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     AppDbInstance.getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
-          //Resting the fields in visibility
-          // showDyingMethod = false;
-          // showDoublingMethod = false;
-          // showPatternCharc = false;
           selectedFamilyId = id.toString();
           if (value.isNotEmpty) {
             _yarnSetting = value[0];

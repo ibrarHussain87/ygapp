@@ -182,7 +182,9 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   }
 
   onClickFamily(value) {
-    selectedFamily = value.toString();
+    setState(() {
+      selectedFamily = value.toString();
+    });
     yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
   }
 

@@ -3,11 +3,12 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/alert_widget.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/banner_body.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/home_premium_widget.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_stock_widget.dart';
-import 'package:yg_app/pages/bottom_nav_main_pages/home_widgets/market_trend_widget.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/market_stock_widget.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/market_trend_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 import 'home_widgets/home_filter_widget.dart';
@@ -46,18 +47,23 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(8.w),
                   child: Row(
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: btnColorLogin,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 22.w,
+                      GestureDetector(
+                        onTap: (){
+                          openProfileScreen(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: btnColorLogin,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 22.w,
+                            ),
                           ),
                         ),
                       ),
@@ -116,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   color: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  height: 0.9 * MediaQuery.of(context).size.height,
+                  height: 0.45 * MediaQuery.of(context).size.height,
                   child: MarketTrendWidget(),
                 ),
               )

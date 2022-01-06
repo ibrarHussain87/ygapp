@@ -14,7 +14,7 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 4.w),
+        margin: EdgeInsets.symmetric(vertical: 8.w),
         height: 0.057 * MediaQuery.of(context).size.height,
         child: Center(
           child: ListView.builder(

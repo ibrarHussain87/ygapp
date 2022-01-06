@@ -5,10 +5,10 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 
-import 'bottom_nav_main_pages/home_page.dart';
-import 'bottom_nav_main_pages/market_page.dart';
-import 'bottom_nav_main_pages/post_ad.dart';
-import 'bottom_nav_main_pages/yg_services.dart';
+import 'dashboard_pages/home_page.dart';
+import 'dashboard_pages/market_page.dart';
+import 'dashboard_pages/yg_services.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
       locality: international,
     ),
     const YGServices(),
-    const PastAdPage()
+    // const PastAdPage()
   ];
   int _selectedIndex = 0;
 
@@ -137,25 +137,25 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
             label: ygService),
-        BottomNavigationBarItem(
-            icon: _selectedIndex == 4
-                ? Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Image.asset(
-                      postAdIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  )
-                : Padding(
-                    padding: EdgeInsets.all(5.0.w),
-                    child: Image.asset(
-                      postAdGreyIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
-            label: auction),
+        // BottomNavigationBarItem(
+        //     icon: _selectedIndex == 4
+        //         ? Padding(
+        //             padding: EdgeInsets.all(5.w),
+        //             child: Image.asset(
+        //               postAdIcon,
+        //               width: 20.w,
+        //               height: 20.h,
+        //             ),
+        //           )
+        //         : Padding(
+        //             padding: EdgeInsets.all(5.0.w),
+        //             child: Image.asset(
+        //               postAdGreyIcon,
+        //               width: 20.w,
+        //               height: 20.h,
+        //             ),
+        //           ),
+        //     label: auction),
       ],
     );
   }

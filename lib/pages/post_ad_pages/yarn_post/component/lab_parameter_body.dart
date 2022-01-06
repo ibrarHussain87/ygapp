@@ -98,6 +98,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
                     Form(
                       key: globalFormKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         children: [
                           //Actual Yarn Count && CLSP
@@ -119,6 +120,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                         errorText: actualYarnCount,
                                         onSaved: (input) => _createRequestModel
                                             .ys_actual_yarn_count = input!,
+                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         minMax:
                                             _yarnSetting.actual_count_min_max!,
                                       )
@@ -128,37 +130,39 @@ class LabParameterPageState extends State<LabParameterPage>
                                 visible:
                                     Ui.showHide(_yarnSetting.show_actual_count),
                               ),
-                              SizedBox(
-                                width: Ui.showHide(
-                                            _yarnSetting.show_actual_count) &&
-                                        Ui.showHide(_yarnSetting.showClsp)
-                                    ? 16.w
-                                    : 0,
-                              ),
-                              Visibility(
-                                visible: Ui.showHide(_yarnSetting.showClsp),
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        child:
-                                            TitleSmallTextWidget(title: CLSP),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
-                                      YgTextFormFieldWithRange(
-                                        errorText: "CLSP",
-                                        onSaved: (input) => _createRequestModel
-                                            .ys_clsp = input!,
-                                        minMax: _yarnSetting.clspMinMax!,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: Ui.showHide(
+                              //               _yarnSetting.show_actual_count) &&
+                              //           Ui.showHide(_yarnSetting.showClsp)
+                              //       ? 16.w
+                              //       : 0,
+                              // ),
+
                             ],
+                          ),
+
+                          Visibility(
+                            visible: Ui.showHide(_yarnSetting.showClsp),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child:
+                                  TitleSmallTextWidget(title: CLSP),
+                                  margin: EdgeInsets.only(
+                                      left: 8.w, top: 8.w),
+                                ),
+                                YgTextFormFieldWithRange(
+                                  errorText: "CLSP",
+                                  onSaved: (input) => _createRequestModel
+                                      .ys_clsp = input!,
+                                  // onChanged:(value) => globalFormKey.currentState!.reset(),
+
+                                  minMax: _yarnSetting.clspMinMax!,
+                                )
+                              ],
+                            ),
                           ),
 
                           //  IPI/KM && Thin Places
@@ -181,6 +185,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                         errorText: "IPKM",
                                         onSaved: (input) => _createRequestModel
                                             .ys_ipm_km = input!,
+                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         minMax: _yarnSetting.ipmKmMinMax!,
                                       ),
                                     ],

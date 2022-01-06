@@ -5,19 +5,19 @@ import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
-class NatureFamilyBody extends StatefulWidget {
+class NatureFamilyBodyComponent extends StatefulWidget {
   final SyncFiberResponse syncFiberResponse;
   final Function callback;
 
-  const NatureFamilyBody(
+  const NatureFamilyBodyComponent(
       {Key? key, required this.syncFiberResponse, required this.callback})
       : super(key: key);
 
   @override
-  _NatureFamilyBodyState createState() => _NatureFamilyBodyState();
+  _NatureFamilyBodyComponentState createState() => _NatureFamilyBodyComponentState();
 }
 
-class _NatureFamilyBodyState extends State<NatureFamilyBody> {
+class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
   List<FiberMaterial> materialList = [];
 
   @override
@@ -88,8 +88,7 @@ class _NatureFamilyBodyState extends State<NatureFamilyBody> {
               MaterialListviewWidget(
                 listItem: materialList,
                 onClickCallback: (index) {
-                  widget.callback(
-                      widget.syncFiberResponse.data.fiber.material[index]);
+                  widget.callback(materialList[index]);
                 },
               ),
             ],

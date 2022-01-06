@@ -17,7 +17,7 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 4.w,top: 4.w),
+      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 8.w,top: 8.w),
       margin: EdgeInsets.only(bottom: 4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

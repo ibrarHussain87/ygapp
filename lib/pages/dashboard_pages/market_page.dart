@@ -25,9 +25,9 @@ class MarketPageState extends State<MarketPage>
   List<String> tabsList = [
     'Fiber',
     'Yarn',
-    'Product Weaving',
-    'Converstion (Leasing)',
-    'Stock Lot'
+    // 'Product Weaving',
+    // 'Converstion (Leasing)',
+    // 'Stock Lot'
   ];
 
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
@@ -236,15 +236,14 @@ class MarketPageState extends State<MarketPage>
                             pinned: true,
                             snap: true,
                             bottom: TabBar(
-                              isScrollable: true,
+                              isScrollable: false,
                               controller: tabController,
                               unselectedLabelColor: textColorGreyLight,
                               labelColor: lightBlueTabs,
                               indicatorColor: lightBlueTabs,
-                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicatorSize: TabBarIndicatorSize.label,
                               indicator: UnderlineTabIndicator(
-                                  borderSide:
-                                  BorderSide(color: lightBlueTabs, width: 2.w),
+                                  borderSide: BorderSide(color: lightBlueTabs, width: 2.w),
                                   insets: const EdgeInsets.symmetric(
                                       horizontal: 24.0, vertical: 5)),
                               tabs: tabMaker(),
@@ -398,9 +397,9 @@ class MarketPageState extends State<MarketPage>
                     SpinningPage(
                       locality: widget.locality,
                     ),
-                    ProductWeavingPage(),
-                    ConverstionLeasingPage(),
-                    StockLotPage()
+                    // ProductWeavingPage(),
+                    // ConverstionLeasingPage(),
+                    // StockLotPage()
                   ],
                   controller: tabController,
                 ),

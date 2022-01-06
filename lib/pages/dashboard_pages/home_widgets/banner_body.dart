@@ -7,6 +7,7 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BannerBody extends StatefulWidget {
   const BannerBody({Key? key}) : super(key: key);
@@ -18,6 +19,10 @@ class BannerBody extends StatefulWidget {
 class _BannerBodyState extends State<BannerBody> {
   int currentImageBanner = 0;
   BannerData? _bannerData;
+
+  void _launchURL(_url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
 
   @override
   void initState() {
@@ -51,21 +56,26 @@ class _BannerBodyState extends State<BannerBody> {
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0.w),
-                          child: CachedNetworkImage(
-                            imageUrl: i.banner,
-                            placeholder: (context,
-                                    url) => /*Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            color: lightBlueTabs,
-                          ))*/
-                                Image.asset(
-                              loading,
+                          child: GestureDetector(
+                            onTap: (){
+                              _launchURL(i.url);
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: i.banner??"",
+                              placeholder: (context,
+                                      url) => /*Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.0,
+                              color: lightBlueTabs,
+                            ))*/
+                                  Image.asset(
+                                loading,
+                                fit: BoxFit.fill,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                               fit: BoxFit.fill,
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.fill,
                           ),
                         ),
                       );

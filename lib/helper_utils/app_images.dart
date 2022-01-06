@@ -33,4 +33,6 @@ String DELIVERY_PERIOD_IMAGE = "images/ic_delivery_period.png";
 String IC_BAG = "images/ic_bag.png";
 String YARN_ROLL_IMAGE = "images/ic_yarn_roll.png";
 String YARN_LIST_IMAGE = "images/yarn_image_list.png";
+String USER_IMAGE = "images/user.png";
+String PROFILE_DETAILS_IMAGE = "images/profile_details.png";
 

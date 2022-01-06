@@ -683,7 +683,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
               height: MediaQuery.of(context).size.height / 2,
               child: YearPicker(
                 selectedDate: DateTime(DateTime.now().year),
-                firstDate: DateTime(DateTime.now().year - 100),
+                firstDate: DateTime(DateTime.now().year - 4),
                 lastDate: DateTime.now(),
                 onChanged: (val) {
                   _textEditingController.text = val.year.toString();

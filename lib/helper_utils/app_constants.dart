@@ -1,4 +1,5 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
+const int APP_DATABASE_VERSION = 2;
 List<String> plyStringList = [
   "Single",
   "Double",
@@ -58,7 +59,7 @@ String deliveryPeriod = 'Delivery Period';
 String descriptionStr = 'Description';
 String submit = 'Submit';
 String cityState = 'City State';
-String todayPremium = "Today's premium";
+String todayPremium = "Today's Premium";
 String marketTrends = "Market Trends";
 String yarnCategory = 'Yarn Category';
 String brand = 'Brand';

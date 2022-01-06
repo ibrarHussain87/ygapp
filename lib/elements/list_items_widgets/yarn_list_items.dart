@@ -136,7 +136,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                                   fontSize: 9.sp, color: Colors.black),
                             ),
                             TextSpan(
-                              text: "Nov 23, 4:33PM",
+                              text: "Nov 23, 4:33 PM",
                               style: TextStyle(
                                   fontSize: 9.sp, color: updatedDateColor),
                             )

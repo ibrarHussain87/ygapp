@@ -12,6 +12,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
   final String errorText;
   final String minMax;
   final Function onSaved;
+  // final Function onChanged;
   final bool? validation;
 
   const YgTextFormFieldWithRange(
@@ -19,18 +20,21 @@ class YgTextFormFieldWithRange extends StatelessWidget {
       required this.errorText,
       required this.minMax,
       required this.onSaved,
+      // required this.onChanged,
       this.validation})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
         style: TextStyle(fontSize: 11.sp),
         textAlign: TextAlign.center,
         cursorHeight: 16.w,
         onSaved: (input) => onSaved(input),
+        // onChanged: (input) => onChanged(input),
         inputFormatters: [
           DecimalTextInputFormatter(decimalRange: 2),
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
@@ -57,6 +61,7 @@ class YgTextFormFieldWithoutRange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
         style: TextStyle(fontSize: 11.sp),
@@ -90,6 +95,7 @@ class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
         style: TextStyle(fontSize: 11.sp),

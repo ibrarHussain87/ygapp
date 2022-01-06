@@ -50,17 +50,20 @@ class Banners {
     required this.banner,
   });
   late final int id;
-  late final String banner;
+  String? banner;
+  String? url;
 
   Banners.fromJson(Map<String, dynamic> json){
     id = json['id'];
     banner = json['banner'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['banner'] = banner;
+    _data['url'] = url;
     return _data;
   }
 }
