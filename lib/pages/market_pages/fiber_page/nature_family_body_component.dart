@@ -6,11 +6,14 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 class NatureFamilyBodyComponent extends StatefulWidget {
-  final SyncFiberResponse syncFiberResponse;
+  // final SyncFiberResponse syncFiberResponse;
   final Function callback;
+  final String? natureId;
+  final List<FiberNature> fiberNaturesList;
+  final List<FiberMaterial> fiberMaterialList;
 
   const NatureFamilyBodyComponent(
-      {Key? key, required this.syncFiberResponse, required this.callback})
+      {Key? key,this.natureId, required this.fiberNaturesList,required this.fiberMaterialList, required this.callback})
       : super(key: key);
 
   @override
@@ -18,16 +21,13 @@ class NatureFamilyBodyComponent extends StatefulWidget {
 }
 
 class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
-  List<FiberMaterial> materialList = [];
+  // List<FiberMaterial> materialList = [];
+  String? natureId;
 
   @override
   void initState() {
-    materialList = widget.syncFiberResponse.data.fiber.material
-        .where((element) =>
-            element.nature_id ==
-            widget.syncFiberResponse.data.fiber.natures.first.id.toString())
-        .toList();
     super.initState();
+    natureId = widget.natureId;
   }
 
   @override
@@ -52,21 +52,17 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
               ),
               SizedBox(
                   height: 0.055 * MediaQuery.of(context).size.height,
-                  child: GridTileWidget(
-                    spanCount: 2,
-                    listOfItems: widget.syncFiberResponse.data.fiber.natures,
-                    callback: (value) {
-                      setState(() {
-                        materialList = widget
-                            .syncFiberResponse.data.fiber.material
-                            .where((element) =>
-                                element.nature_id ==
-                                widget.syncFiberResponse.data.fiber
-                                    .natures[value].id
-                                    .toString())
-                            .toList();
-                      });
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:2.0),
+                    child: GridTileWidget(
+                      spanCount: 2,
+                      listOfItems: widget.fiberNaturesList,
+                      callback: (value) {
+                        setState(() {
+                         natureId = widget.fiberNaturesList[value].id.toString();
+                        });
+                      },
+                    ),
                   )),
               SizedBox(
                 height: 8.w,
@@ -86,9 +82,9 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
                     )),
               ),
               MaterialListviewWidget(
-                listItem: materialList,
+                listItem: widget.fiberMaterialList.where((element) => element.nature_id == natureId).toList(),
                 onClickCallback: (index) {
-                  widget.callback(materialList[index]);
+                  widget.callback(widget.fiberMaterialList[index]);
                 },
               ),
             ],

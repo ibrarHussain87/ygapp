@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -22,7 +23,6 @@ class _YarnFamilyBlendListingBodyState
     extends State<YarnFamilyBlendListingBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -33,6 +33,12 @@ class _YarnFamilyBlendListingBodyState
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
+
+          AppDbInstance.getDbInstance().then((value) async{
+            await value.yarnFamilyDao.insertAllYarnFamily(snapshot.data!.data.yarn.family!);
+            await value.yarnBlendDao.insertAllYarnBlend(snapshot.data!.data.yarn.blends!);
+          });
+
           return BlendFamily(
             yarnSyncResponse: snapshot.data!,
             yarnFamilyCallback: (value) {

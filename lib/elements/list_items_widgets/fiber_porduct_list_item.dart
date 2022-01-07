@@ -15,7 +15,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
-Widget buildFiberWidget(Specification specification) {
+Widget buildFiberProductWidget(Specification specification) {
   return Card(
     color: Colors.white,
     elevation: 18.0,
@@ -213,13 +213,13 @@ Widget buildFiberWidget(Specification specification) {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TitleTextWidget(
-                          title: specification.priceUnit.toString(),
+                          title: specification.priceUnit?? "N/A",
                         ),
                         TitleSmallTextWidget(title: "Ex- Factory")
                       ],
                     ),
                     SizedBox(
-                      height: 14.w,
+                      height: 4.w,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -247,7 +247,7 @@ Widget buildFiberWidget(Specification specification) {
                     ),
                     Padding(
                         padding: EdgeInsets.only(left: 4.w, right: 4.w),
-                        child: BidNowWidget(title: 'Bid Now'))
+                        child: BidNowWidget(title: 'Update'))
                   ],
                 ),
               ),

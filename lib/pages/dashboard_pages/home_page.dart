@@ -51,20 +51,11 @@ class _HomePageState extends State<HomePage> {
                         onTap: (){
                           openProfileScreen(context);
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: btnColorLogin,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 22.w,
-                            ),
-                          ),
+                        child: const CircleAvatar(
+                          radius: 24,
+                          backgroundColor: Colors.green,
+                          child: Icon(Icons.person, color: Colors.white,
+                            size: 24,),
                         ),
                       ),
                       SizedBox(

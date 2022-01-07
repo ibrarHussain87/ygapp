@@ -1,3 +1,5 @@
+import 'package:floor/floor.dart';
+
 class LoginResponse {
   LoginResponse({
     required this.code,
@@ -52,6 +54,7 @@ class Data {
   }
 }
 
+@Entity(tableName: 'user_table')
 class User {
   User({
     required this.id,
@@ -73,28 +76,30 @@ class User {
     this.deletedAt,
     required this.createdAt,
     required this.updatedAt,
-    required this.certifications,
+    // required this.certifications,
   });
+  @PrimaryKey(autoGenerate: false)
   late final int id;
-  late final String name;
-  late final String telephoneNumber;
-  late final String operatorId;
-  late final String status;
-  late final Null lastActive;
-  late final Null fcmToken;
-  late final Null otp;
-  late final Null postalCode;
-  late final String countryId;
-  late final Null cityStateId;
-  late final Null profileStatus;
-  late final String email;
-  late final Null emailVerifiedAt;
-  late final String roleId;
-  late final Null apiToken;
-  late final Null deletedAt;
-  late final String createdAt;
-  late final String updatedAt;
-  late final List<dynamic> certifications;
+  String? name;
+  String? telephoneNumber;
+  String? operatorId;
+  String? status;
+  String? lastActive;
+  String? fcmToken;
+  String? otp;
+  String? postalCode;
+  String? countryId;
+  String? cityStateId;
+  String? profileStatus;
+  String? email;
+  String? emailVerifiedAt;
+  String? roleId;
+  String? apiToken;
+  String? deletedAt;
+  String? createdAt;
+  String? updatedAt;
+  // @ignore
+  // late final List<dynamic> certifications;
 
   User.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -116,7 +121,7 @@ class User {
     deletedAt = null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
+    // certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 
   Map<String, dynamic> toJson() {
@@ -140,7 +145,7 @@ class User {
     _data['deleted_at'] = deletedAt;
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
-    _data['certifications'] = certifications;
+    // _data['certifications'] = certifications;
     return _data;
   }
 }

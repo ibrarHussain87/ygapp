@@ -331,6 +331,7 @@ class DyingMethod {
   }
 }
 
+@Entity(tableName: "yarn_family")
 class Family {
   Family({
     required this.famId,
@@ -343,6 +344,7 @@ class Family {
     this.catSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? famId;
   String? famName;
   String? iconSelected;
@@ -350,6 +352,7 @@ class Family {
   String? famType;
   String? famDescription;
   String? catIsActive;
+  @ignore
   Null catSortid;
 
   Family.fromJson(Map<String, dynamic> json) {
@@ -1055,7 +1058,9 @@ class Usage {
   }
 }
 
+@Entity(tableName: "yarn_blend")
 class Blends {
+  @PrimaryKey(autoGenerate: false)
   int? blnId;
   String? familyIdfk;
   String? blnName;

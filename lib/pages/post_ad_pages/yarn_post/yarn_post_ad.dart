@@ -65,6 +65,8 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     return FutureBuilder<List<int>>(
       future: AppDbInstance.getDbInstance().then((value) async {
         await value.gradesDao.insertAllGrades(data!.data.yarn.grades!);
+        await value.yarnFamilyDao.insertAllYarnFamily(data.data.yarn.family!);
+        await value.yarnBlendDao.insertAllYarnBlend(data.data.yarn.blends!);
         return value.yarnSettingsDao
             .insertAllYarnSettings(data.data.yarn.setting!);
       }),

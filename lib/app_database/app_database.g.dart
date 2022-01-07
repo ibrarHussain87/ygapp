@@ -61,18 +61,26 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
+  UserDao? _userDaoInstance;
+
   FiberSettingDao? _fiberSettingDaoInstance;
 
   GradesDao? _gradesDaoInstance;
+
+  FiberNatureDao? _fiberNatureDaoInstance;
 
   FiberMaterialDao? _fiberMaterialDaoInstance;
 
   YarnSettingDao? _yarnSettingsDaoInstance;
 
+  YarnFamilyDao? _yarnFamilyDaoInstance;
+
+  YarnBlendDao? _yarnBlendDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 1,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -87,6 +95,10 @@ class _$AppDatabase extends AppDatabase {
         await callback?.onUpgrade?.call(database, startVersion, endVersion);
       },
       onCreate: (database, version) async {
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER NOT NULL, `name` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fiber_natures` (`id` INTEGER NOT NULL, `nature` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `apperance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
         await database.execute(
@@ -121,11 +133,20 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFiberMaterialIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, `show_actual_count` TEXT, `actual_count_min_max` TEXT, PRIMARY KEY (`ysId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
 
         await callback?.onCreate?.call(database, version);
       },
     );
     return sqfliteDatabaseFactory.openDatabase(path, options: databaseOptions);
+  }
+
+  @override
+  UserDao get userDao {
+    return _userDaoInstance ??= _$UserDao(database, changeListener);
   }
 
   @override
@@ -140,6 +161,12 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
+  FiberNatureDao get fiberNatureDao {
+    return _fiberNatureDaoInstance ??=
+        _$FiberNatureDao(database, changeListener);
+  }
+
+  @override
   FiberMaterialDao get fiberMaterialDao {
     return _fiberMaterialDaoInstance ??=
         _$FiberMaterialDao(database, changeListener);
@@ -149,6 +176,88 @@ class _$AppDatabase extends AppDatabase {
   YarnSettingDao get yarnSettingsDao {
     return _yarnSettingsDaoInstance ??=
         _$YarnSettingDao(database, changeListener);
+  }
+
+  @override
+  YarnFamilyDao get yarnFamilyDao {
+    return _yarnFamilyDaoInstance ??= _$YarnFamilyDao(database, changeListener);
+  }
+
+  @override
+  YarnBlendDao get yarnBlendDao {
+    return _yarnBlendDaoInstance ??= _$YarnBlendDao(database, changeListener);
+  }
+}
+
+class _$UserDao extends UserDao {
+  _$UserDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _userInsertionAdapter = InsertionAdapter(
+            database,
+            'user_table',
+            (User item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'telephoneNumber': item.telephoneNumber,
+                  'operatorId': item.operatorId,
+                  'status': item.status,
+                  'lastActive': item.lastActive,
+                  'fcmToken': item.fcmToken,
+                  'otp': item.otp,
+                  'postalCode': item.postalCode,
+                  'countryId': item.countryId,
+                  'cityStateId': item.cityStateId,
+                  'profileStatus': item.profileStatus,
+                  'email': item.email,
+                  'emailVerifiedAt': item.emailVerifiedAt,
+                  'roleId': item.roleId,
+                  'apiToken': item.apiToken,
+                  'deletedAt': item.deletedAt,
+                  'createdAt': item.createdAt,
+                  'updatedAt': item.updatedAt
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<User> _userInsertionAdapter;
+
+  @override
+  Future<User?> getUser() async {
+    return _queryAdapter.query('SELECT * FROM user_table',
+        mapper: (Map<String, Object?> row) => User(
+            id: row['id'] as int,
+            name: row['name'] as String?,
+            telephoneNumber: row['telephoneNumber'] as String?,
+            operatorId: row['operatorId'] as String?,
+            status: row['status'] as String?,
+            lastActive: row['lastActive'] as String?,
+            fcmToken: row['fcmToken'] as String?,
+            otp: row['otp'] as String?,
+            postalCode: row['postalCode'] as String?,
+            countryId: row['countryId'] as String?,
+            cityStateId: row['cityStateId'] as String?,
+            profileStatus: row['profileStatus'] as String?,
+            email: row['email'] as String?,
+            emailVerifiedAt: row['emailVerifiedAt'] as String?,
+            roleId: row['roleId'] as String?,
+            apiToken: row['apiToken'] as String?,
+            deletedAt: row['deletedAt'] as String?,
+            createdAt: row['createdAt'] as String?,
+            updatedAt: row['updatedAt'] as String?));
+  }
+
+  @override
+  Future<void> deleteUserData() async {
+    await _queryAdapter.queryNoReturn('delete * from user_table');
+  }
+
+  @override
+  Future<void> insertUser(User user) async {
+    await _userInsertionAdapter.insert(user, OnConflictStrategy.replace);
   }
 }
 
@@ -187,40 +296,6 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'fbsIsActive': item.fbsIsActive,
                   'catName': item.catName,
                   'matName': item.matName
-                }),
-        _fiberSettingsDeletionAdapter = DeletionAdapter(
-            database,
-            'fiber_setting',
-            ['fbsId'],
-            (FiberSettings item) => <String, Object?>{
-                  'fbsId': item.fbsId,
-                  'fbsCategoryIdfk': item.fbsCategoryIdfk,
-                  'fbsFiberMaterialIdfk': item.fbsFiberMaterialIdfk,
-                  'showLength': item.showLength,
-                  'lengthMinMax': item.lengthMinMax,
-                  'showGrade': item.showGrade,
-                  'showMicronaire': item.showMicronaire,
-                  'micMinMax': item.micMinMax,
-                  'showMoisture': item.showMoisture,
-                  'moiMinMax': item.moiMinMax,
-                  'showTrash': item.showTrash,
-                  'trashMinMax': item.trashMinMax,
-                  'showRd': item.showRd,
-                  'rdMinMax': item.rdMinMax,
-                  'showGpt': item.showGpt,
-                  'gptMinMax': item.gptMinMax,
-                  'showAppearance': item.showAppearance,
-                  'showBrand': item.showBrand,
-                  'showOrigin': item.showOrigin,
-                  'showCertification': item.showCertification,
-                  'showCountUnit': item.showCountUnit,
-                  'showDeliveryPeriod': item.showDeliveryPeriod,
-                  'showAvailableForMarket': item.showAvailableForMarket,
-                  'showPriceTerms': item.showPriceTerms,
-                  'showLotNumber': item.showLotNumber,
-                  'fbsIsActive': item.fbsIsActive,
-                  'catName': item.catName,
-                  'matName': item.matName
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -230,8 +305,6 @@ class _$FiberSettingDao extends FiberSettingDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<FiberSettings> _fiberSettingsInsertionAdapter;
-
-  final DeletionAdapter<FiberSettings> _fiberSettingsDeletionAdapter;
 
   @override
   Future<List<FiberSettings>> findAllFiberSettings() async {
@@ -310,6 +383,11 @@ class _$FiberSettingDao extends FiberSettingDao {
   }
 
   @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from fiber_setting');
+  }
+
+  @override
   Future<void> insertFiberSetting(FiberSettings fiberSettings) async {
     await _fiberSettingsInsertionAdapter.insert(
         fiberSettings, OnConflictStrategy.replace);
@@ -319,11 +397,6 @@ class _$FiberSettingDao extends FiberSettingDao {
   Future<List<int>> insertAllFiberSettings(List<FiberSettings> fiberSettings) {
     return _fiberSettingsInsertionAdapter.insertListAndReturnIds(
         fiberSettings, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<int> deleteAll(List<FiberSettings> list) {
-    return _fiberSettingsDeletionAdapter.deleteListAndReturnChangedRows(list);
   }
 }
 
@@ -339,17 +412,6 @@ class _$GradesDao extends GradesDao {
                   'grdCategoryIdfk': item.grdCategoryIdfk,
                   'grdName': item.grdName,
                   'grdIsActive': item.grdIsActive
-                }),
-        _gradesDeletionAdapter = DeletionAdapter(
-            database,
-            'grade',
-            ['grdId'],
-            (Grades item) => <String, Object?>{
-                  'grdId': item.grdId,
-                  'familyId': item.familyId,
-                  'grdCategoryIdfk': item.grdCategoryIdfk,
-                  'grdName': item.grdName,
-                  'grdIsActive': item.grdIsActive
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -359,8 +421,6 @@ class _$GradesDao extends GradesDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Grades> _gradesInsertionAdapter;
-
-  final DeletionAdapter<Grades> _gradesDeletionAdapter;
 
   @override
   Future<List<Grades>> findAllGrades() async {
@@ -403,6 +463,11 @@ class _$GradesDao extends GradesDao {
   }
 
   @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from fiber_grade');
+  }
+
+  @override
   Future<void> insertGrades(Grades grades) async {
     await _gradesInsertionAdapter.insert(grades, OnConflictStrategy.replace);
   }
@@ -412,10 +477,49 @@ class _$GradesDao extends GradesDao {
     return _gradesInsertionAdapter.insertListAndReturnIds(
         grades, OnConflictStrategy.replace);
   }
+}
+
+class _$FiberNatureDao extends FiberNatureDao {
+  _$FiberNatureDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fiberNatureInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_natures',
+            (FiberNature item) =>
+                <String, Object?>{'id': item.id, 'nature': item.nature});
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FiberNature> _fiberNatureInsertionAdapter;
 
   @override
-  Future<int> deleteAll(List<Grades> list) {
-    return _gradesDeletionAdapter.deleteListAndReturnChangedRows(list);
+  Future<List<FiberNature>> findAllFiberNatures() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_natures',
+        mapper: (Map<String, Object?> row) =>
+            FiberNature(id: row['id'] as int, nature: row['nature'] as String));
+  }
+
+  @override
+  Future<List<FiberNature>> findFiberNatures(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_natures where id = ?1',
+        mapper: (Map<String, Object?> row) =>
+            FiberNature(id: row['id'] as int, nature: row['nature'] as String),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from fiber_natures');
+  }
+
+  @override
+  Future<List<int>> insertAllFiberNatures(List<FiberNature> fiberNature) {
+    return _fiberNatureInsertionAdapter.insertListAndReturnIds(
+        fiberNature, OnConflictStrategy.replace);
   }
 }
 
@@ -433,19 +537,6 @@ class _$FiberMaterialDao extends FiberMaterialDao {
                   'icon_selected': item.icon_selected,
                   'icon_unselected': item.icon_unselected,
                   'fbmIsActive': item.fbmIsActive
-                }),
-        _fiberMaterialDeletionAdapter = DeletionAdapter(
-            database,
-            'fiber_entity',
-            ['fbmId'],
-            (FiberMaterial item) => <String, Object?>{
-                  'fbmId': item.fbmId,
-                  'fbmCategoryIdfk': item.fbmCategoryIdfk,
-                  'nature_id': item.nature_id,
-                  'fbmName': item.fbmName,
-                  'icon_selected': item.icon_selected,
-                  'icon_unselected': item.icon_unselected,
-                  'fbmIsActive': item.fbmIsActive
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -455,8 +546,6 @@ class _$FiberMaterialDao extends FiberMaterialDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<FiberMaterial> _fiberMaterialInsertionAdapter;
-
-  final DeletionAdapter<FiberMaterial> _fiberMaterialDeletionAdapter;
 
   @override
   Future<List<FiberMaterial>> findAllFiberMaterials() async {
@@ -487,15 +576,8 @@ class _$FiberMaterialDao extends FiberMaterialDao {
   }
 
   @override
-  Future<void> deleteFiberSetting(int id) async {
-    await _queryAdapter.queryNoReturn('delete from fiber_entity where id = ?1',
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> insertFiberSetting(FiberMaterial fiberMaterials) async {
-    await _fiberMaterialInsertionAdapter.insert(
-        fiberMaterials, OnConflictStrategy.replace);
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from fiber_entity');
   }
 
   @override
@@ -503,11 +585,6 @@ class _$FiberMaterialDao extends FiberMaterialDao {
       List<FiberMaterial> fiberMaterials) {
     return _fiberMaterialInsertionAdapter.insertListAndReturnIds(
         fiberMaterials, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<int> deleteAll(List<FiberMaterial> list) {
-    return _fiberMaterialDeletionAdapter.deleteListAndReturnChangedRows(list);
   }
 }
 
@@ -818,6 +895,11 @@ class _$YarnSettingDao extends YarnSettingDao {
   }
 
   @override
+  Future<void> deleteYarnSettings() async {
+    await _queryAdapter.queryNoReturn('delete * from yarn_settings');
+  }
+
+  @override
   Future<void> insertYarnSetting(YarnSetting yarnSettings) async {
     await _yarnSettingInsertionAdapter.insert(
         yarnSettings, OnConflictStrategy.replace);
@@ -830,7 +912,136 @@ class _$YarnSettingDao extends YarnSettingDao {
   }
 
   @override
-  Future<int> deleteAll(List<YarnSetting> list) {
-    return _yarnSettingDeletionAdapter.deleteListAndReturnChangedRows(list);
+  Future<void> deleteAll(List<YarnSetting> list) async {
+    await _yarnSettingDeletionAdapter.deleteList(list);
+  }
+}
+
+class _$YarnFamilyDao extends YarnFamilyDao {
+  _$YarnFamilyDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _familyInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_family',
+            (Family item) => <String, Object?>{
+                  'famId': item.famId,
+                  'famName': item.famName,
+                  'iconSelected': item.iconSelected,
+                  'iconUnSelected': item.iconUnSelected,
+                  'famType': item.famType,
+                  'famDescription': item.famDescription,
+                  'catIsActive': item.catIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Family> _familyInsertionAdapter;
+
+  @override
+  Future<List<Family>> findAllYarnFamily() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_family',
+        mapper: (Map<String, Object?> row) => Family(
+            famId: row['famId'] as int?,
+            famName: row['famName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnSelected: row['iconUnSelected'] as String?,
+            famType: row['famType'] as String?,
+            famDescription: row['famDescription'] as String?,
+            catIsActive: row['catIsActive'] as String?));
+  }
+
+  @override
+  Future<List<Family>> findYarnFamily(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_family where famId = ?1',
+        mapper: (Map<String, Object?> row) => Family(
+            famId: row['famId'] as int?,
+            famName: row['famName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnSelected: row['iconUnSelected'] as String?,
+            famType: row['famType'] as String?,
+            famDescription: row['famDescription'] as String?,
+            catIsActive: row['catIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from yarn_family');
+  }
+
+  @override
+  Future<void> insertAllYarnFamily(List<Family> yarnFamily) async {
+    await _familyInsertionAdapter.insertList(
+        yarnFamily, OnConflictStrategy.replace);
+  }
+}
+
+class _$YarnBlendDao extends YarnBlendDao {
+  _$YarnBlendDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _blendsInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_blend',
+            (Blends item) => <String, Object?>{
+                  'blnId': item.blnId,
+                  'familyIdfk': item.familyIdfk,
+                  'blnName': item.blnName,
+                  'minMax': item.minMax,
+                  'iconSelected': item.iconSelected,
+                  'iconUnselected': item.iconUnselected,
+                  'blnIsActive': item.blnIsActive,
+                  'blnSortid': item.blnSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Blends> _blendsInsertionAdapter;
+
+  @override
+  Future<List<Blends>> findAllYarnBlends() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_blend',
+        mapper: (Map<String, Object?> row) => Blends(
+            blnId: row['blnId'] as int?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnName: row['blnName'] as String?,
+            minMax: row['minMax'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?));
+  }
+
+  @override
+  Future<List<Blends>> findYarnBlend(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_blend where blnId = ?1',
+        mapper: (Map<String, Object?> row) => Blends(
+            blnId: row['blnId'] as int?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnName: row['blnName'] as String?,
+            minMax: row['minMax'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from yarn_blend');
+  }
+
+  @override
+  Future<void> insertAllYarnBlend(List<Blends> yarnBlend) async {
+    await _blendsInsertionAdapter.insertList(
+        yarnBlend, OnConflictStrategy.replace);
   }
 }

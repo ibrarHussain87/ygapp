@@ -51,4 +51,9 @@ class SharedPreferenceUtil {
     bool? boolValue = prefs.getBool(key);
     return boolValue??false;
   }
+
+  static remove(String key) async{
+    SharedPreferences preferences = await _prefs;
+    preferences.remove(key);
+  }
 }

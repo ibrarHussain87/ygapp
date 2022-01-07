@@ -13,6 +13,7 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
+import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -199,4 +200,25 @@ class ApiService {
 
     return GetBannersResponse.fromJson(json.decode(response.body));
   }
+
+  static Future<MyProductsResponse> myProducts() async {
+    var userToken =
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+    headerMap['Authorization'] = 'Bearer $userToken';
+
+    var userID =
+    await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    Map<String, dynamic> data = {
+      "user_id": userID.toString()
+    };
+    String url = BASE_API_URL + "/myAds";
+
+    final response = await http.post(Uri.parse(url), headers: headerMap,body: data);
+
+    return MyProductsResponse.fromJson(
+      json.decode(response.body),
+    );
+  }
+
 }

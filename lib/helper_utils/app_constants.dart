@@ -1,5 +1,5 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
-const int APP_DATABASE_VERSION = 2;
+const int APP_DATABASE_VERSION = 4;
 List<String> plyStringList = [
   "Single",
   "Double",

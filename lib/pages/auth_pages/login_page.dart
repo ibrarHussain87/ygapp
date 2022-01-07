@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/model/request/login_request/login_request.dart';
-import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
-import 'package:yg_app/pages/main_page.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
+import 'package:yg_app/model/request/login_request/login_request.dart';
+import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
+import 'package:yg_app/pages/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -101,8 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                   return null;
                                 },
-                                decoration:
-                                    textFormFieldDec(userName)),
+                                decoration: textFormFieldDec(userName)),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -123,10 +122,12 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               decoration: InputDecoration(
                                 labelText: password,
-                                labelStyle: TextStyle(fontSize: 12.sp,fontFamily: 'Metropolis',),
+                                labelStyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
+                                ),
                                 border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: textColorGrey),
+                                  borderSide: BorderSide(color: textColorGrey),
                                 ),
                                 suffixIcon: GestureDetector(
                                   onTap: () {
@@ -170,7 +171,10 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   child: Text("Sign in".toUpperCase(),
-                                      style: TextStyle(fontSize: 14.sp,fontFamily: 'Metropolis',)),
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontFamily: 'Metropolis',
+                                      )),
                                   style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all<Color>(
@@ -183,7 +187,8 @@ class _LoginPageState extends State<LoginPage> {
                                           const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(8)),
-                                              side: BorderSide(color: Colors.transparent)))),
+                                              side: BorderSide(
+                                                  color: Colors.transparent)))),
                                   onPressed: () {
                                     if (validateAndSave()) {
                                       ProgressDialogUtil.showDialog(
@@ -193,17 +198,25 @@ class _LoginPageState extends State<LoginPage> {
                                           .then((value) {
                                         ProgressDialogUtil.hideDialog();
                                         if (value.success) {
+                                          AppDbInstance.getDbInstance()
+                                              .then((db) async {
+                                            await db.userDao
+                                                .insertUser(value.data.user);
+                                          });
 
-                                          SharedPreferenceUtil.addStringToSF(USER_ID_KEY, value.data.user.id.toString());
-                                          SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
-                                          SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+                                          SharedPreferenceUtil.addStringToSF(
+                                              USER_ID_KEY,
+                                              value.data.user.id.toString());
+                                          SharedPreferenceUtil.addStringToSF(
+                                              USER_TOKEN_KEY, value.data.token);
+                                          SharedPreferenceUtil.addBoolToSF(
+                                              IS_LOGIN, true);
 
                                           Fluttertoast.showToast(
                                               msg: value.message,
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1
-                                          );
+                                              timeInSecForIosWeb: 1);
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(

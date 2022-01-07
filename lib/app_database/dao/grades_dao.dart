@@ -21,6 +21,6 @@ abstract class GradesDao{
   @Query("delete from fiber_grade where id = :id")
   Future<void> deleteGrade(int id);
 
-  @delete
-  Future<int> deleteAll(List<Grades> list);
+  @Query("delete * from fiber_grade")
+  Future<void> deleteAll();
 }

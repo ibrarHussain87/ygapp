@@ -115,39 +115,42 @@ class Specification  {
   late final String? isVerified;
   late final String? isFeatured;
   late final String? description;
-  late final List<Pictures> pictures;
+  List<Pictures>? pictures;
 
   Specification.fromJson(Map<String, dynamic> json){
-    spcId = json['spc_id']??"";
-    categoryId = json['category_id']??"";
-    businessArea = json['business_area']??"";
-    locality = json['locality']??"";
-    material = json['material']??"";
-    length = json['length']??"";
-    grade = json['grade']??"";
-    micronaire = json['micronaire']??"";
-    moisture = json["moisture"]??"";
-    trash = json['trash']??"";
-    rd = json['rd']??"";
-    gpt = json['gpt']??"";
+    spcId = json['spc_id'] ?? "";
+    categoryId = json['category_id'] ?? "";
+    businessArea = json['business_area'] ?? "";
+    locality = json['locality'] ?? "";
+    material = json['material'] ?? "";
+    length = json['length'] ?? "";
+    grade = json['grade'] ?? "";
+    micronaire = json['micronaire'] ?? "";
+    moisture = json["moisture"] ?? "";
+    trash = json['trash'] ?? "";
+    rd = json['rd'] ?? "";
+    gpt = json['gpt'] ?? "";
     apperance = json['apperance'];
-    brand = json['brand']??"";
-    productYear = json['product_year']??"";
-    origin = json['origin']??"";
-    certification = json['certification']??"";
-    priceUnit = json['price_unit']??"";
-    cityState = json['city_state']??"";
-    port = json['port']??"";
-    lotNumber = json['lot_number']??"";
-    unitCount = json['unit_count']??"";
-    deliveryPeriod = json['delivery_period']??"";
-    available = json['available']??"";
-    priceTerms = json['price_terms']??"";
-    minQuantity = json['min_quantity']??"";
-    isFeatured = json['is_featured']??"";
-    isVerified = json['is_verified']??"";
-    description = json['description']??"";
-    pictures = List.from(json['pictures']).map((e)=>Pictures.fromJson(e)).toList();
+    brand = json['brand'] ?? "";
+    productYear = json['product_year'] ?? "";
+    origin = json['origin'] ?? "";
+    certification = json['certification'] ?? "";
+    priceUnit = json['price_unit'] ?? "";
+    cityState = json['city_state'] ?? "";
+    port = json['port'] ?? "";
+    lotNumber = json['lot_number'] ?? "";
+    unitCount = json['unit_count'] ?? "";
+    deliveryPeriod = json['delivery_period'] ?? "";
+    available = json['available'] ?? "";
+    priceTerms = json['price_terms'] ?? "";
+    minQuantity = json['min_quantity'] ?? "";
+    isFeatured = json['is_featured'] ?? "";
+    isVerified = json['is_verified'] ?? "";
+    description = json['description'] ?? "";
+    if (json['pictures']  != null) {
+      pictures =
+          List.from(json['pictures']).map((e) => Pictures.fromJson(e)).toList();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -181,7 +184,9 @@ class Specification  {
     _data['is_featured'] = isFeatured;
     _data['is_verified'] = isVerified;
     _data['description'] = description;
-    _data['pictures'] = pictures.map((e)=>e.toJson()).toList();
+    if(pictures != null) {
+      _data['pictures'] = pictures!.map((e) => e.toJson()).toList();
+    }
     return _data;
   }
 }
@@ -190,7 +195,7 @@ class Pictures {
   Pictures({
     required this.picture,
   });
-  late final String picture;
+  String? picture;
 
   Pictures.fromJson(Map<String, dynamic> json){
     picture = json['picture'];

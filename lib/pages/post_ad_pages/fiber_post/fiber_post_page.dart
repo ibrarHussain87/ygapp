@@ -78,6 +78,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
             .insertAllGrades(data!.data.fiber.grades);
         await value.fiberMaterialDao
             .insertAllFiberMaterials(data.data.fiber.material);
+        await value.fiberNatureDao.insertAllFiberNatures(data.data.fiber.natures);
         return value.fiberSettingDao
             .insertAllFiberSettings(data.data.fiber.settings);
       }),

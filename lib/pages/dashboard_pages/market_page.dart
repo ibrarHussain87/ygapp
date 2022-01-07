@@ -33,36 +33,11 @@ class MarketPageState extends State<MarketPage>
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   TabController? tabController;
 
-  late ScrollController _scrollViewController;
-  bool _showAppbar = true;
-  bool isScrollingDown = false;
-
   @override
   void initState() {
     tabController = TabController(vsync: this, length: tabsList.length);
     tabController!.addListener(_handleTabSelection);
     super.initState();
-
-    _scrollViewController = ScrollController();
-    _scrollViewController.addListener(() {
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (!isScrollingDown) {
-          isScrollingDown = true;
-          _showAppbar = false;
-          setState(() {});
-        }
-      }
-
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        if (isScrollingDown) {
-          isScrollingDown = false;
-          _showAppbar = true;
-          setState(() {});
-        }
-      }
-    });
   }
 
   void _handleTabSelection() {
@@ -77,8 +52,6 @@ class MarketPageState extends State<MarketPage>
   @override
   void dispose() {
     tabController!.dispose();
-    _scrollViewController.dispose();
-    _scrollViewController.removeListener(() {});
     super.dispose();
   }
 
@@ -91,24 +64,6 @@ class MarketPageState extends State<MarketPage>
             length: tabsList.length,
             child: Scaffold(
               backgroundColor: Colors.white,
-              // appBar: PreferredSize(
-              //   preferredSize: Size(double.infinity,
-              //       MediaQuery.of(context).size.height * 0.05),
-              //   child: TabBar(
-              //     isScrollable: true,
-              //     controller: tabController,
-              //     unselectedLabelColor: textColorGreyLight,
-              //     labelColor: lightBlueTabs,
-              //     indicatorColor: lightBlueTabs,
-              //     indicatorSize: TabBarIndicatorSize.tab,
-              //     indicator: UnderlineTabIndicator(
-              //         borderSide:
-              //             BorderSide(color: lightBlueTabs, width: 2.w),
-              //         insets: const EdgeInsets.symmetric(
-              //             horizontal: 24.0, vertical: 5)),
-              //     tabs: tabMaker(),
-              //   ),
-              // ),
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {
@@ -405,21 +360,6 @@ class MarketPageState extends State<MarketPage>
                 ),
               ),
             ),
-            // body: TabBarView(
-            //   children: [
-            //     FiberPage(
-            //       key: stateFiberPage,
-            //       locality: widget.locality,
-            //     ),
-            //     SpinningPage(
-            //       locality: widget.locality,
-            //     ),
-            //     ProductWeavingPage(),
-            //     ConverstionLeasingPage(),
-            //     StockLotPage()
-            //   ],
-            //   controller: tabController,
-            // ),
           )),
     );
   }

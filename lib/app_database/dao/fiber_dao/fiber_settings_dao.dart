@@ -17,6 +17,6 @@ abstract class FiberSettingDao {
   @Query("delete from fiber_setting where id = :id")
   Future<void> deleteFiberSetting(int id);
 
-  @delete
-  Future<int> deleteAll(List<FiberSettings> list);
+  @Query("delete * from fiber_setting")
+  Future<void> deleteAll();
 }

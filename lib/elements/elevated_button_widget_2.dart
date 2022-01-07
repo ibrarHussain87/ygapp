@@ -28,7 +28,7 @@ class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
         child: Center(
             child: Text(widget.btnText!,
                 style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 12.sp,
                     color: widget.textColor == null
                         ? Colors.white
                         : Colors.black))),

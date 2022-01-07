@@ -209,12 +209,14 @@ class FiberCategories {
   }
 }
 
+@Entity(tableName: 'fiber_natures')
 class FiberNature {
   FiberNature({
     required this.id,
     required this.nature,
   });
 
+  @PrimaryKey(autoGenerate: false)
   late final int id;
   late final String nature;
 
