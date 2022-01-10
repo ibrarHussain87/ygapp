@@ -39,56 +39,54 @@ class _BlendFamilyState extends State<BlendFamily> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 8.w, right: 8.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                    visible: false,
-                    child: TitleTextWidget(title: yarnCategory)),
-                SizedBox(
-                  height: 0.055 * MediaQuery.of(context).size.height,
-                  child: FamilyTileWidget(
-                    listItems: widget.yarnSyncResponse.data.yarn.family,
-                    callback: (value) {
-                      queryFamilySettings(widget
-                          .yarnSyncResponse.data.yarn.family![value].famId!);
-                      widget.yarnFamilyCallback(
-                          widget.yarnSyncResponse.data.yarn.family![value]);
-                    },
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 8.w, right: 8.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                  visible: false,
+                  child: TitleTextWidget(title: yarnCategory)),
+              SizedBox(
+                height: 0.055 * MediaQuery.of(context).size.height,
+                child: FamilyTileWidget(
+                  listItems: widget.yarnSyncResponse.data.yarn.family,
+                  callback: (value) {
+                    queryFamilySettings(widget
+                        .yarnSyncResponse.data.yarn.family![value].famId!);
+                    widget.yarnFamilyCallback(
+                        widget.yarnSyncResponse.data.yarn.family![value]);
+                  },
                 ),
-                SizedBox(
-                  height: 8.w,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 8.w,
+              ),
+            ],
           ),
-          Visibility(
-            visible: false,
-            child: Padding(
-                padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                child: TitleTextWidget(title: blend)),
+        ),
+        Visibility(
+          visible: false,
+          child: Padding(
+              padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
+              child: TitleTextWidget(title: blend)),
+        ),
+        Visibility(
+          visible: Ui.showHide(_yarnSetting.showBlend),
+          child: MaterialListviewWidget(
+            listItem: widget.yarnSyncResponse.data.yarn.blends!
+                .where((element) =>
+                    element.familyIdfk == selectedFamilyId.toString())
+                .toList(),
+            onClickCallback: (value) {
+              widget.blendCallback(widget.yarnSyncResponse.data.yarn.blends![value]);
+            },
           ),
-          Visibility(
-            visible: Ui.showHide(_yarnSetting.showBlend),
-            child: MaterialListviewWidget(
-              listItem: widget.yarnSyncResponse.data.yarn.blends!
-                  .where((element) =>
-                      element.familyIdfk == selectedFamilyId.toString())
-                  .toList(),
-              onClickCallback: (value) {
-                widget.blendCallback(widget.yarnSyncResponse.data.yarn.blends![value]);
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -99,9 +97,9 @@ class _BlendFamilyState extends State<BlendFamily> {
           selectedFamilyId = id;
           if (value.isNotEmpty) {
             _yarnSetting = value[0];
-          } else {
+          }/*else {
             Ui.showSnackBar(context, 'No Settings Found');
-          }
+          }*/
         });
       });
     });

@@ -54,20 +54,22 @@ Widget buildFiberProductWidget(Specification specification) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: specification.pictures!= null
+              child: specification.pictures != null &&
+                      specification.pictures!.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: CachedNetworkImage(
                         width: 48.w,
                         height: 48.w,
                         fit: BoxFit.cover,
-                        imageUrl: specification.pictures!.first.picture??"",
-                        placeholder: (context, url) => ImageLoadingWidget(),
+                        imageUrl: specification.pictures!.first.picture ?? "",
+                        placeholder: (context, url) =>
+                            const ImageLoadingWidget(),
                         errorWidget: (context, url, error) =>
-                            ErrorImageWidget(),
+                            const ErrorImageWidget(),
                       ),
                     )
-                  : ErrorImageWidget(),
+                  : const ErrorImageWidget(),
               flex: 1,
             ),
             Expanded(
@@ -98,7 +100,7 @@ Widget buildFiberProductWidget(Specification specification) {
                                   maintainSize: true,
                                   maintainState: true,
                                   maintainAnimation: true,
-                                  child: Container(child: VerifiedSupplier())),
+                                  child: const VerifiedSupplier()),
                             ),
                             flex: 1),
                         // SizedBox(width: 8.w),
@@ -141,21 +143,21 @@ Widget buildFiberProductWidget(Specification specification) {
                       children: [
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.length} mm',
+                            title: '${specification.length ?? ""} mm',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.micronaire} mic',
+                            title: '${specification.micronaire ?? ""} mic',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.trash} %',
+                            title: '${specification.trash ?? ""} %',
                           ),
                           flex: 1,
                         ),
@@ -172,26 +174,21 @@ Widget buildFiberProductWidget(Specification specification) {
                             runSpacing: 3.0,
                             children: [
                               ShortDetailWidget(
-                                title: specification.priceTerms!.isEmpty
-                                    ? "N/A"
-                                    : specification.priceTerms,
+                                title: specification.priceTerms ?? "N/A",
                                 imageIcon: IC_BAG,
                               ),
                               ShortDetailWidget(
-                                  title: specification.priceUnit!.isEmpty
-                                      ? "N/A"
-                                      : specification.priceUnit,
-                              imageIcon: YARN_ROLL_IMAGE,),
+                                title: specification.priceUnit ?? "N/A",
+                                imageIcon: YARN_ROLL_IMAGE,
+                              ),
                               ShortDetailWidget(
-                                  title: specification.priceUnit!.isEmpty
-                                      ? "N/A"
-                                      : specification.priceUnit,
-                              imageIcon: DELIVERY_PERIOD_IMAGE,),
+                                title: specification.deliveryPeriod ?? "N/A",
+                                imageIcon: DELIVERY_PERIOD_IMAGE,
+                              ),
                               ShortDetailWidget(
-                                  title: specification.minQuantity!.isEmpty
-                                      ? "N/A"
-                                      : specification.locality,
-                              imageIcon: LOCATION_IMAGE,),
+                                title: specification.cityState ?? "N/A",
+                                imageIcon: LOCATION_IMAGE,
+                              ),
                             ],
                           ),
                         )
@@ -213,13 +210,13 @@ Widget buildFiberProductWidget(Specification specification) {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TitleTextWidget(
-                          title: specification.priceUnit?? "N/A",
+                          title: specification.priceUnit ?? "N/A",
                         ),
                         TitleSmallTextWidget(title: "Ex- Factory")
                       ],
                     ),
                     SizedBox(
-                      height: 4.w,
+                      height: 12.w,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

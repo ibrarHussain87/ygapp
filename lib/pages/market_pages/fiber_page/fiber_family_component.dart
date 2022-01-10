@@ -33,6 +33,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
               await value.fiberMaterialDao.insertAllFiberMaterials(snapshot.data!.data.fiber.material);
             });
             return NatureFamilyBodyComponent(
+              natureId: fiberSyncResponse!.data.fiber.natures.first.id.toString(),
               fiberMaterialList: fiberSyncResponse!.data.fiber.material,
               fiberNaturesList: fiberSyncResponse!.data.fiber.natures,
               callback: (value) {

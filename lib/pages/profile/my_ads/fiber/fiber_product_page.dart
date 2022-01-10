@@ -5,9 +5,9 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items_widgets/fiber_porduct_list_item.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/nature_family_body_component.dart';
 
 class FiberProductPage extends StatefulWidget {
@@ -17,42 +17,70 @@ class FiberProductPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FiberProductPageState createState() => _FiberProductPageState();
+  FiberProductPageState createState() => FiberProductPageState();
 }
 
-class _FiberProductPageState extends State<FiberProductPage> {
+class FiberProductPageState extends State<FiberProductPage> {
+
+
+  void _filterMaterial(value) {
+    setState(() {
+      _filteredSpecification = _specification!
+          .where((element) =>
+      (element!.material!.toLowerCase() ==
+          value.toString().toLowerCase() && element.is_offering == isOffering))
+          .toList();
+    });
+  }
+
+  filterListSearch(value) {
+    setState(() {
+      _filteredSpecification = _specification!
+          .where(
+              (element) => (element!.material.toString().toLowerCase().contains(value) || element.grade.toString().contains(value)))
+          .toList();
+    });
+  }
+
   List<FiberNature> fiberNatureList = [];
   List<FiberMaterial> fiberMaterialList = [];
+  List<Specification?>? _specification;
+  List<Specification?>? _filteredSpecification;
+  String isOffering = "1";
 
   @override
   void initState() {
-    AppDbInstance.getDbInstance().then((db) async {});
+
+    _specification = widget.specification;
+    _filteredSpecification = _specification!.where((element) => element!.is_offering == isOffering).toList();
+
+    AppDbInstance.getDbInstance().then((db) async {
+      await db.fiberNatureDao
+          .findAllFiberNatures()
+          .then((value) => setState(() {
+                fiberNatureList = value;
+              }));
+      await db.fiberMaterialDao.findAllFiberMaterials().then((value) {
+        setState(() {
+          fiberMaterialList = value;
+        });
+      });
+      return true;
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool?>(
-      future: AppDbInstance.getDbInstance().then((db) {
-        db.fiberNatureDao.findAllFiberNatures().then((value) => setState(() {
-              fiberNatureList = value;
-            }));
-        db.fiberMaterialDao.findAllFiberMaterials().then((value) {
-          setState(() {
-            fiberMaterialList = value;
-          });
-        });
-        return true;
-      }),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Container(
+    return (fiberNatureList.isNotEmpty && fiberMaterialList.isNotEmpty)
+        ? Container(
             color: Colors.grey.shade200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 16.0,right: 16.0,top:8.w,bottom: 8.w),
+                  padding: EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 8.w, bottom: 8.w),
                   child: Row(
                     children: [
                       Expanded(
@@ -65,7 +93,8 @@ class _FiberProductPageState extends State<FiberProductPage> {
                               height: 4.w,
                             ),
                             const TitleExtraSmallTextWidget(
-                                title: "You are currently seeing your requirment")
+                                title:
+                                    "You are currently seeing your requirment")
                           ],
                         ),
                       ),
@@ -79,28 +108,40 @@ class _FiberProductPageState extends State<FiberProductPage> {
                     ],
                   ),
                 ),
-
                 NatureFamilyBodyComponent(
                   natureId: fiberNatureList.first.id.toString(),
                   fiberNaturesList: fiberNatureList,
                   fiberMaterialList: fiberMaterialList,
-                  callback: (value) {
-                    // widget.callback(value);
+                  callback: (FiberMaterial? value) {
+                    _filterMaterial(value!.fbmName.toString());
                   },
                 ),
-
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: OfferingRequirementSegmentComponent(
+                      callback: (value) {
+                        setState(() {
+                          isOffering = value.toString();
+                          _filteredSpecification = _specification!.where((element) => isOffering == value.toString()).toList();
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 Expanded(
                     child: Container(
-                  child: widget.specification!.isNotEmpty
+                  child: _filteredSpecification!.isNotEmpty
                       ? ListView.builder(
-                          itemCount: widget.specification!.length,
+                          itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
                               onTap: () {
                                 // openFiberDetailsScreen(
                                 //     context, widget.specification![index]!);
                               },
                               child: buildFiberProductWidget(
-                                  widget.specification![index]!)),
+                                  _filteredSpecification![index]!)),
                           // separatorBuilder: (context, index) {
                           //   return Divider(
                           //     height: 1,
@@ -116,11 +157,7 @@ class _FiberProductPageState extends State<FiberProductPage> {
                 ))
               ],
             ),
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
+          )
+        : Container();
   }
 }

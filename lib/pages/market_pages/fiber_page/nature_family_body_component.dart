@@ -84,7 +84,7 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
               MaterialListviewWidget(
                 listItem: widget.fiberMaterialList.where((element) => element.nature_id == natureId).toList(),
                 onClickCallback: (index) {
-                  widget.callback(widget.fiberMaterialList[index]);
+                  widget.callback(widget.fiberMaterialList.where((element) => element.nature_id == natureId).toList()[index]);
                 },
               ),
             ],

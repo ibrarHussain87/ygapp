@@ -54,14 +54,14 @@ Widget buildFiberWidget(Specification specification) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: specification.pictures!= null
+              child: specification.pictures != null && specification.pictures!.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: CachedNetworkImage(
                         width: 48.w,
                         height: 48.w,
                         fit: BoxFit.cover,
-                        imageUrl: specification.pictures!.first.picture??"",
+                        imageUrl: specification.pictures!.first.picture ?? "",
                         placeholder: (context, url) => ImageLoadingWidget(),
                         errorWidget: (context, url, error) =>
                             ErrorImageWidget(),
@@ -172,26 +172,21 @@ Widget buildFiberWidget(Specification specification) {
                             runSpacing: 3.0,
                             children: [
                               ShortDetailWidget(
-                                title: specification.priceTerms!.isEmpty
-                                    ? "N/A"
-                                    : specification.priceTerms,
+                                title: specification.priceTerms ?? "N/A",
                                 imageIcon: IC_BAG,
                               ),
                               ShortDetailWidget(
-                                  title: specification.priceUnit!.isEmpty
-                                      ? "N/A"
-                                      : specification.priceUnit,
-                              imageIcon: YARN_ROLL_IMAGE,),
+                                title: specification.priceUnit ?? "N/A",
+                                imageIcon: YARN_ROLL_IMAGE,
+                              ),
                               ShortDetailWidget(
-                                  title: specification.priceUnit!.isEmpty
-                                      ? "N/A"
-                                      : specification.priceUnit,
-                              imageIcon: DELIVERY_PERIOD_IMAGE,),
+                                title: specification.priceUnit ?? "N/A",
+                                imageIcon: DELIVERY_PERIOD_IMAGE,
+                              ),
                               ShortDetailWidget(
-                                  title: specification.minQuantity!.isEmpty
-                                      ? "N/A"
-                                      : specification.locality,
-                              imageIcon: LOCATION_IMAGE,),
+                                title: specification.minQuantity ?? "N/A",
+                                imageIcon: LOCATION_IMAGE,
+                              ),
                             ],
                           ),
                         )

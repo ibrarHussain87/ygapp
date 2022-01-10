@@ -6,23 +6,23 @@ import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
-import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_widget.dart';
+import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_future_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 
-class SpinningPage extends StatefulWidget {
+class YarnPage extends StatefulWidget {
   final String? locality;
 
-  const SpinningPage({Key? key, required this.locality}) : super(key: key);
+  const YarnPage({Key? key, required this.locality}) : super(key: key);
 
   @override
-  _SpinningPageState createState() => _SpinningPageState();
+  YarnPageState createState() => YarnPageState();
 }
 
-class _SpinningPageState extends State<SpinningPage> {
+class YarnPageState extends State<YarnPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  final GlobalKey<YarnSpecificationListState> _yarnSpecificationListState =
-      GlobalKey<YarnSpecificationListState>();
+  final GlobalKey<YarnSpecificationListFutureState> yarnSpecificationListState =
+      GlobalKey<YarnSpecificationListFutureState>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +85,12 @@ class _SpinningPageState extends State<SpinningPage> {
                       blendCallback: (Blends? blend) {
                         var model = GetSpecificationRequestModel();
                         model.ysBlendIdFk = blend!.blnId.toString();
-                        _yarnSpecificationListState.currentState!
-                            .searchData(model);
+                        yarnSpecificationListState.currentState!.searchData(model);
                       },
                       yarnFamilyCallback: (Family? yarnFamily) {
                         var model = GetSpecificationRequestModel();
                         model.ysFamilyIdFk = yarnFamily!.famId.toString();
-                        _yarnSpecificationListState.currentState!
-                            .searchData(model);
+                        yarnSpecificationListState.currentState!.searchData(model);
                       },
                     ),
                     Row(
@@ -100,7 +98,7 @@ class _SpinningPageState extends State<SpinningPage> {
                         Expanded(
                           child: Center(
                             child: OfferingRequirementSegmentComponent(callback: (value) {
-                              _yarnSpecificationListState.currentState!.searchData(
+                              yarnSpecificationListState.currentState!.searchData(
                                   GetSpecificationRequestModel(isOffering: value.toString()));
                             },),
                           ),
@@ -130,8 +128,8 @@ class _SpinningPageState extends State<SpinningPage> {
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(top: 8.w),
-                  child: YarnSpecificationList(
-                    key: _yarnSpecificationListState,
+                  child: YarnSpecificationListFuture(
+                    key: yarnSpecificationListState,
                     locality: widget.locality!,
                   ),
                 ),

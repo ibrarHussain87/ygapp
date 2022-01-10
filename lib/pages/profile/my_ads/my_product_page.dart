@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/pages/market_pages/converstion_leasing.dart';
-import 'package:yg_app/pages/profile/my_ads/fiber_product_page.dart';
+import 'package:yg_app/pages/profile/my_ads/fiber/fiber_product_page.dart';
+import 'package:yg_app/pages/profile/my_ads/yarn/yarn_product_page.dart';
 
 class MyProductPage extends StatefulWidget {
   const MyProductPage({Key? key}) : super(key: key);
@@ -31,25 +30,29 @@ class _MyProductPageState extends State<MyProductPage>
   List<FiberMaterial> fiberMaterialList = [];
   List<Blends> yarnBlendsList = [];
   List<Family> yarnFamilyList = [];
+  final GlobalKey<YarnProductPageState> yarnProductPageState =
+      GlobalKey<YarnProductPageState>();
+  final GlobalKey<FiberProductPageState> fiberProductPageState =
+      GlobalKey<FiberProductPageState>();
 
   @override
   void initState() {
     tabController = TabController(vsync: this, length: tabsList.length);
     tabController!.addListener(_handleTabSelection);
-    AppDbInstance.getDbInstance().then((db) async {
-      await db.yarnBlendDao
-          .findAllYarnBlends()
-          .then((value) => yarnBlendsList = value);
-      await db.yarnFamilyDao
-          .findAllYarnFamily()
-          .then((value) => yarnFamilyList = value);
-      await db.fiberNatureDao
-          .findAllFiberNatures()
-          .then((value) => fiberNatureList = value);
-      await db.fiberMaterialDao
-          .findAllFiberMaterials()
-          .then((value) => fiberMaterialList = value);
-    });
+    // AppDbInstance.getDbInstance().then((db) async {
+    //   await db.yarnBlendDao
+    //       .findAllYarnBlends()
+    //       .then((value) => yarnBlendsList = value);
+    //   await db.yarnFamilyDao
+    //       .findAllYarnFamily()
+    //       .then((value) => yarnFamilyList = value);
+    //   await db.fiberNatureDao
+    //       .findAllFiberNatures()
+    //       .then((value) => fiberNatureList = value);
+    //   await db.fiberMaterialDao
+    //       .findAllFiberMaterials()
+    //       .then((value) => fiberMaterialList = value);
+    // });
     super.initState();
   }
 
@@ -90,9 +93,8 @@ class _MyProductPageState extends State<MyProductPage>
                             (BuildContext context, bool innerBoxIsScrolled) {
                           return <Widget>[
                             SliverOverlapAbsorber(
-                              handle:
-                                  NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                      context),
+                              handle: NestedScrollView
+                                  .sliverOverlapAbsorberHandleFor(context),
                               sliver: SliverSafeArea(
                                 top: false,
                                 sliver: SliverAppBar(
@@ -128,13 +130,38 @@ class _MyProductPageState extends State<MyProductPage>
                                             ),
                                             Expanded(
                                               child: TextFormField(
+                                                onChanged: (value) {
+
+                                                  if (fiberProductPageState
+                                                      .currentState !=
+                                                      null) {
+                                                    fiberProductPageState
+                                                        .currentState!
+                                                        .filterListSearch(
+                                                        value);
+                                                  }
+
+                                                  if (yarnProductPageState
+                                                          .currentState !=
+                                                      null) {
+                                                    yarnProductPageState
+                                                        .currentState!
+                                                        .filterListSearch(
+                                                            value);
+                                                  }
+                                                },
                                                 cursorColor: Colors.black,
-                                                keyboardType: TextInputType.text,
-                                                style: TextStyle(fontSize: 11.sp),
-                                                decoration: const InputDecoration(
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                                decoration:
+                                                    const InputDecoration(
                                                   border: InputBorder.none,
-                                                  focusedBorder: InputBorder.none,
-                                                  enabledBorder: InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  enabledBorder:
+                                                      InputBorder.none,
                                                   errorBorder: InputBorder.none,
                                                   disabledBorder:
                                                       InputBorder.none,
@@ -181,8 +208,12 @@ class _MyProductPageState extends State<MyProductPage>
                         },
                         body: TabBarView(
                           children: [
-                            FiberProductPage(specification:snapshots.data!.data!.fiber),
-                            ConverstionLeasingPage(),
+                            FiberProductPage(
+                                key: fiberProductPageState,
+                                specification: snapshots.data!.data!.fiber),
+                            YarnProductPage(
+                                key: yarnProductPageState,
+                                specification: snapshots.data!.data!.yarn),
                             // StockLotPage()
                           ],
                           controller: tabController,
@@ -197,7 +228,9 @@ class _MyProductPageState extends State<MyProductPage>
                 ),
               );
             } else {
-              return Container(color:Colors.white,child: const Center(child: CircularProgressIndicator()));
+              return Container(
+                  color: Colors.white,
+                  child: const Center(child: CircularProgressIndicator()));
             }
           },
         ),

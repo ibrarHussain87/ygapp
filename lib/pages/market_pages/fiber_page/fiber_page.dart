@@ -9,7 +9,7 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_component.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_future_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';

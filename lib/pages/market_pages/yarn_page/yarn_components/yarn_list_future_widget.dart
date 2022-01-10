@@ -6,19 +6,21 @@ import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/list_items_widgets/yarn_list_items.dart';
+import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_body.dart';
 
-class YarnSpecificationList extends StatefulWidget {
+class YarnSpecificationListFuture extends StatefulWidget {
   final String locality;
 
-  const YarnSpecificationList({Key? key, required this.locality})
+  const YarnSpecificationListFuture({Key? key, required this.locality})
       : super(key: key);
 
   @override
-  YarnSpecificationListState createState() => YarnSpecificationListState();
+  YarnSpecificationListFutureState createState() => YarnSpecificationListFutureState();
 }
 
-class YarnSpecificationListState extends State<YarnSpecificationList> {
+class YarnSpecificationListFutureState extends State<YarnSpecificationListFuture> {
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
+  GlobalKey<YarnListBodyState> yarnListBodyState = GlobalKey<YarnListBodyState>();
 
   @override
   void initState() {
@@ -34,11 +36,7 @@ class YarnSpecificationListState extends State<YarnSpecificationList> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          return ListView.builder(
-            itemCount: snapshot.data!.data.specification.length,
-              itemBuilder: (context, index) {
-            return buildYarnWidget(snapshot.data!.data.specification[index]);
-          });
+          return YarnListBody(key:yarnListBodyState,specification:snapshot.data!.data.specification);
         } else if (snapshot.hasError) {
           return Center(
               child: TitleTextWidget(title: snapshot.error.toString()));

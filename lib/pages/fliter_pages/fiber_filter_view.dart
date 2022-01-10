@@ -45,22 +45,22 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   double? maxValueMosParam;
   bool isListClear = false;
 
-  bool? showLength;
-  bool? showGrade;
-  bool? showMicronaire;
-  bool? showMoisture;
-  bool? showTrash;
-  bool? showRd;
-  bool? showGpt;
-  bool? showAppearance;
-  bool? showBrand;
-  bool? showOrigin;
-  bool? showCertification;
-  bool? showCountUnit;
-  bool? showDeliveryPeriod;
-  bool? showAvailableForMarket;
-  bool? showPriceTerms;
-  bool? showLotNumber;
+    bool? showLength;
+    bool? showGrade;
+    bool? showMicronaire;
+    bool? showMoisture;
+    bool? showTrash;
+    bool? showRd;
+    bool? showGpt;
+    bool? showAppearance;
+    bool? showBrand;
+    bool? showOrigin;
+    bool? showCertification;
+    bool? showCountUnit;
+    bool? showDeliveryPeriod;
+    bool? showAvailableForMarket;
+    bool? showPriceTerms;
+    bool? showLotNumber;
 
   double minMois = 0.0;
   double minRd = 0.0;
@@ -501,7 +501,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   _querySetting(int id) {
     AppDbInstance.getDbInstance().then(
-        (value) => value.fiberSettingDao.findFiberSettings(id).then((value) {
+        (db) => db.fiberSettingDao.findFiberSettings(id).then((value) {
               late bool isSettingInList;
               late FiberSettings _fiberSettings;
 

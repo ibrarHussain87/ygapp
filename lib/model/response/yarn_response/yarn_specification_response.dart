@@ -89,6 +89,7 @@ class YarnSpecification {
     this.packing,
     this.paymentType,
     this.lcType,
+    this.is_offering,
     this.is_featured,
     this.is_verified,
     required this.deliveryPeriod,
@@ -100,54 +101,55 @@ class YarnSpecification {
     required this.certifications,
   });
 
-  late final String? yarnTitle;
-  late final String? yarnDetails;
-  late final String? locality;
-  late final String? yarnFamily;
-  late final String? yarnBlend;
-  late final String? yarnRtio;
-  late final String? yarnUsage;
-  late final String? yarnPattern;
-  late final String? yarnPatternCharectristic;
-  late final String? yarnOrientation;
-  late final String? yarnTwistDirection;
-  late final String? count;
-  late final String? dtyFilament;
-  late final String? fdyFilament;
-  late final String? yarnPly;
-  late final String? yarnSpunTechnique;
-  late final String? yarnQuality;
-  late final String? yarnGrade;
-  late final String? yarnCertification;
-  late final String? yarnColorTreatmentMethod;
-  late final String? yarnDyingMethod;
-  late final String? color;
-  late final String? yarnApperance;
-  late final String? actualYarnCount;
-  late final String? qlt;
-  late final String? clsp;
-  late final String? uniformity;
-  late final String? cv;
-  late final String? thinPlaces;
-  late final String? is_featured;
-  late final String? is_verified;
-  late final String? thickPlaces;
-  late final String? naps;
-  late final String? priceUnit;
-  late final String? unitCount;
-  late final String? weightCone;
-  late final String? weightBag;
-  late final String? conesBag;
-  late final String? packing;
-  late final String? paymentType;
-  late final String? lcType;
-  late final String? deliveryPeriod;
-  late final String? available;
-  late final String? priceTerms;
-  late final String? minQuantity;
-  late final String? description;
-  late final List<dynamic> pictures;
-  late final List<dynamic> certifications;
+   String? yarnTitle;
+   String? yarnDetails;
+   String? locality;
+   String? yarnFamily;
+   String? yarnBlend;
+   String? yarnRtio;
+   String? yarnUsage;
+   String? yarnPattern;
+   String? yarnPatternCharectristic;
+   String? yarnOrientation;
+   String? yarnTwistDirection;
+   String? count;
+   String? dtyFilament;
+   String? fdyFilament;
+   String? yarnPly;
+   String? yarnSpunTechnique;
+   String? yarnQuality;
+   String? yarnGrade;
+   String? yarnCertification;
+   String? yarnColorTreatmentMethod;
+   String? yarnDyingMethod;
+   String? color;
+   String? yarnApperance;
+   String? actualYarnCount;
+   String? qlt;
+   String? clsp;
+   String? uniformity;
+   String? cv;
+   String? thinPlaces;
+   String? is_offering;
+   String? is_featured;
+   String? is_verified;
+   String? thickPlaces;
+   String? naps;
+   String? priceUnit;
+   String? unitCount;
+   String? weightCone;
+   String? weightBag;
+   String? conesBag;
+   String? packing;
+   String? paymentType;
+   String? lcType;
+   String? deliveryPeriod;
+   String? available;
+   String? priceTerms;
+   String? minQuantity;
+   String? description;
+   List<dynamic>? pictures;
+   List<dynamic>? certifications;
 
   YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = null;
@@ -186,6 +188,7 @@ class YarnSpecification {
     weightCone = json['weight_cone'];
     weightBag = json['weight_bag'];
     conesBag = json['cones_bag'];
+    is_offering = json['is_offering'];
     is_featured = json['is_featured'];
     is_verified = json['is_verified'];
     packing = null;
@@ -240,6 +243,7 @@ class YarnSpecification {
     _data['weight_cone'] = weightCone;
     _data['weight_bag'] = weightBag;
     _data['cones_bag'] = conesBag;
+    _data['is_offering'] = is_offering;
     _data['packing'] = packing;
     _data['payment_type'] = paymentType;
     _data['lc_type'] = lcType;

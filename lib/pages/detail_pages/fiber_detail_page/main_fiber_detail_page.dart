@@ -162,7 +162,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                       specification: widget.specification,
                     ),
                     BidderListPage(
-                      materialId: widget.specification.categoryId,
+                      materialId: widget.specification.categoryId!,
                       specId:widget.specification.spcId
                     )
                   ]),

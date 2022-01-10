@@ -106,7 +106,7 @@ class ApiService {
 
   static Future<CreateFiberResponse> createSpecification(
       CreateRequestModel createRequestModel, String imagePath) async {
-    //for multipartrequest
+    //for multipart Request
     var request = http.MultipartRequest(
         'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));
     var userToken =

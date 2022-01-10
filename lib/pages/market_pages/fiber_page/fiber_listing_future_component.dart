@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/elements/list_items_widgets/fiber_market_list_item.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/pages/detail_pages/fiber_detail_page/main_fiber_detail_page.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 
 class FiberListingComponent extends StatefulWidget {
-
   final String? locality;
 
-  const FiberListingComponent({Key? key,required this.locality}) : super(key: key);
+  const FiberListingComponent({Key? key, required this.locality})
+      : super(key: key);
 
   @override
   FiberListingComponentState createState() => FiberListingComponentState();
 }
 
 class FiberListingComponentState extends State<FiberListingComponent> {
-
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
+  GlobalKey<FiberListingBodyState> fiberListingBodyState = GlobalKey<
+      FiberListingBodyState>();
 
   @override
   void initState() {
@@ -31,25 +30,16 @@ class FiberListingComponentState extends State<FiberListingComponent> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FiberSpecificationResponse>(
-      future: ApiService.getFiberSpecifications(getRequestModel,widget.locality),
+      future:
+      ApiService.getFiberSpecifications(getRequestModel, widget.locality),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return Container(
             child: snapshot.data!.data.specification.isNotEmpty
-                ? ListView.builder(
-              itemCount: snapshot.data!.data.specification.length,
-              itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    openFiberDetailsScreen(context,snapshot.data!.data.specification[index]);
-                  },
-                  child: buildFiberWidget(snapshot.data!.data.specification[index])),
-              // separatorBuilder: (context, index) {
-              //   return Divider(
-              //     height: 1,
-              //     color: Colors.grey.shade400,
-              //   );
-              // },
+                ? FiberListingBody(
+              key: fiberListingBodyState,
+              specification: snapshot.data!.data.specification,
             )
                 : const Center(
               child: TitleSmallTextWidget(
@@ -69,11 +59,10 @@ class FiberListingComponentState extends State<FiberListingComponent> {
     );
   }
 
-  refreshListing(
-      GetSpecificationRequestModel filterRequestModel) {
-      setState(() {
-        filterRequestModel.categoryId = '1';
-        getRequestModel = filterRequestModel;
-      });
+  refreshListing(GetSpecificationRequestModel filterRequestModel) {
+    setState(() {
+      filterRequestModel.categoryId = '1';
+      getRequestModel = filterRequestModel;
+    });
   }
 }

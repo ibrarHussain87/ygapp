@@ -17,14 +17,14 @@ class BgLightBlueTextWidget extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
         padding: EdgeInsets.only(
-            left: 8.w, right: 8.w, top: 4.w, bottom: 4.w),
+            left: 4.w, right: 4.w, top: 4.w, bottom: 4.w),
         child: Center(
           child: Text.rich( TextSpan(
             children: [
               TextSpan(
                 text: title.split(' ')[0],
                 style: TextStyle(
-                    fontSize: 9.sp, color: Colors.black,
+                    fontSize: 7.sp, color: Colors.black,
                   fontWeight: FontWeight.bold
                 ),
               ),
@@ -32,7 +32,7 @@ class BgLightBlueTextWidget extends StatelessWidget {
               TextSpan(
                 text:" "+title.split(' ')[1],
                 style: TextStyle(
-                    fontSize: 9.sp, color: Colors.black),
+                    fontSize: 7.sp, color: Colors.black),
               ),
             ]
           )),

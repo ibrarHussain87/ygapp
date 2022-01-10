@@ -35,32 +35,32 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel('Fiber Material', widget.specification!.material ?? "N/A"),
       GridTileModel(
           'Fiber Length',
-          widget.specification!.length!.isNotEmpty
+          widget.specification!.length != null
               ? '${widget.specification!.length} mm'
               : 'N/A'),
       GridTileModel(
           'Micronaire',
-          widget.specification!.micronaire!.isNotEmpty
+          widget.specification!.micronaire != null
               ? '${widget.specification!.micronaire!} mic'
               : "N/A"),
       GridTileModel(
           'Moisture',
-          widget.specification!.moisture!.isNotEmpty
+          widget.specification!.moisture != null
               ? '${widget.specification!.moisture!} %'
               : "N/A"),
       GridTileModel(
           'Trash',
-          widget.specification!.trash!.isNotEmpty
+          widget.specification!.trash!=null
               ? widget.specification!.trash! + " %"
               : "N/A"),
       GridTileModel(
           'RD',
-          widget.specification!.rd!.isNotEmpty
+          widget.specification!.rd!=null
               ? widget.specification!.rd! + " %"
               : 'N/A'),
       GridTileModel(
           'GPT',
-          widget.specification!.gpt!.isNotEmpty
+          widget.specification!.gpt!= null
               ? widget.specification!.gpt! + " %"
               : 'N/A'),
       GridTileModel(
@@ -70,22 +70,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.apperance!),
       GridTileModel(
           'Brand',
-          widget.specification!.brand!.isEmpty
+          widget.specification!.brand==null
               ? "N/A"
               : widget.specification!.brand!),
       GridTileModel(
           'Production year',
-          widget.specification!.productYear!.isEmpty
+          widget.specification!.productYear ==null
               ? "N/A"
               : widget.specification!.productYear!),
       GridTileModel(
           'Origin',
-          widget.specification!.origin!.isEmpty
+          widget.specification!.origin == null
               ? "N/A"
               : widget.specification!.origin!),
       GridTileModel(
           'Certification',
-          widget.specification!.certification!.isEmpty
+          widget.specification!.certification==null
               ? "N/A"
               : widget.specification!.certification!),
     ];
@@ -93,22 +93,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
     detailPackaging = [
       GridTileModel(
           'Unit Of Count',
-          widget.specification!.unitCount!.isEmpty
+          widget.specification!.unitCount==null
               ? "N/A"
               : widget.specification!.unitCount!),
       GridTileModel(
           'Price',
-          widget.specification!.priceUnit!.isEmpty
+          widget.specification!.priceUnit == null
               ? "N/A"
               : widget.specification!.priceUnit!),
       GridTileModel(
           'Packing',
-          widget.specification!.priceTerms!.isEmpty
+          widget.specification!.priceTerms==null
               ? "N/A"
               : widget.specification!.priceTerms!),
       GridTileModel(
           'Minimum Quantity',
-          widget.specification!.minQuantity!.isEmpty
+          widget.specification!.minQuantity==null
               ? "N/A"
               : widget.specification!.minQuantity!),
       GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
@@ -190,7 +190,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
-                        initialValue: widget.specification!.description!.isEmpty
+                        initialValue: widget.specification!.description==null
                             ? "N/A"
                             : widget.specification!.description!,
                         cursorColor: lightBlueTabs,
