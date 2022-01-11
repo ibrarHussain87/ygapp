@@ -5,15 +5,18 @@ class ListBiddersResponse {
     required this.data,
     required this.message,
   });
+
   late final bool status;
   late final int responseCode;
   late final List<ListBiddersData> data;
   late final String message;
 
-  ListBiddersResponse.fromJson(Map<String, dynamic> json){
+  ListBiddersResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
-    data = List.from(json['data']).map((e)=>ListBiddersData.fromJson(e)).toList();
+    data = List.from(json['data'])
+        .map((e) => ListBiddersData.fromJson(e))
+        .toList();
     message = json['message'];
   }
 
@@ -21,7 +24,7 @@ class ListBiddersResponse {
     final _data = <String, dynamic>{};
     _data['status'] = status;
     _data['response_code'] = responseCode;
-    _data['data'] = data.map((e)=>e.toJson()).toList();
+    _data['data'] = data.map((e) => e.toJson()).toList();
     _data['message'] = message;
     return _data;
   }
@@ -31,7 +34,9 @@ class ListBiddersData {
   ListBiddersData({
     required this.bidId,
     required this.category,
+    required this.categoryId,
     this.specificationName,
+    this.specificationId,
     this.userName,
     required this.userId,
     this.price,
@@ -40,18 +45,22 @@ class ListBiddersData {
   });
 
   late final int bidId;
-  late final String? category;
-  late final String? specificationName;
-  late final String? userName;
-  late final String? userId;
-  late final String? price;
-  late final String? isAccepted;
-  late final String? date;
+  String? category;
+  String? categoryId;
+  String? specificationName;
+  String? specificationId;
+  String? userName;
+  String? userId;
+  String? price;
+  String? isAccepted;
+  String? date;
 
-  ListBiddersData.fromJson(Map<String, dynamic> json){
+  ListBiddersData.fromJson(Map<String, dynamic> json) {
     bidId = json['bid_id'];
     category = json['category'];
+    categoryId = json['category_id'];
     specificationName = json['specification_name'];
+    specificationId = json['specification_id'];
     userName = json['user_name'];
     userId = json['user_id'];
     price = json['price'];
@@ -63,6 +72,8 @@ class ListBiddersData {
     final _data = <String, dynamic>{};
     _data['bid_id'] = bidId;
     _data['category'] = category;
+    _data['category_id'] = categoryId;
+    _data['specification_id'] = specificationId;
     _data['specification_name'] = specificationName;
     _data['user_name'] = userName;
     _data['user_id'] = userId;

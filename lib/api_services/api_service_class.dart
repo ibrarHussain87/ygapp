@@ -177,6 +177,12 @@ class ApiService {
 
     var userToken =
         await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+    var userDeviceToken =
+    await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+
+    headerMap['device_token'] = '$userDeviceToken';
+
     Map<String, dynamic> data = {
       "bid_id": bidId.toString(),
       "bid_status": status.toString(),
@@ -184,6 +190,35 @@ class ApiService {
     headerMap['Authorization'] = 'Bearer $userToken';
     final response =
         await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+    return ChangeBidResponse.fromJson(json.decode(response.body));
+  }
+
+  static Future<ChangeBidResponse> bidChangeStatusBids(
+      int bidId, int status,String specId) async {
+    String url = BASE_API_URL + CHANGE_BID_STATUS_END_POINT;
+
+    var userToken =
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+    var userId =
+    await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+
+    Map<String, dynamic> data = {
+      "bid_id": bidId.toString(),
+      "bid_specification_idfk": specId.toString(),
+      "bid_status": status.toString(),
+    };
+    headerMap['Authorization'] = 'Bearer $userToken';
+
+    var userDeviceToken =
+    await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+
+      headerMap['device_token'] = '$userDeviceToken';
+      headerMap['user_id'] = userId.toString();
+
+    final response =
+    await http.post(Uri.parse(url), headers: headerMap, body: data);
 
     return ChangeBidResponse.fromJson(json.decode(response.body));
   }
@@ -217,6 +252,23 @@ class ApiService {
     final response = await http.post(Uri.parse(url), headers: headerMap,body: data);
 
     return MyProductsResponse.fromJson(
+      json.decode(response.body),
+    );
+  }
+  static Future<ListBiddersResponse> getListBids() async {
+    var userToken =
+    await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+    headerMap['Authorization'] = 'Bearer $userToken';
+    var userID =
+    await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    Map<String, dynamic> data = {
+      "user_id": userID.toString()
+    };
+    String url = BASE_API_URL + "/listBids";
+
+    final response = await http.post(Uri.parse(url), headers: headerMap,body: data);
+
+    return ListBiddersResponse.fromJson(
       json.decode(response.body),
     );
   }

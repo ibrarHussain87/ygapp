@@ -156,19 +156,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const Divider()
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "My Requirements",
-                                            image: PROFILE_DETAILS_IMAGE),
-                                        const Divider()
-                                      ],
+                                    GestureDetector(
+                                      onTap: (){},
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "My Requirements",
+                                              image: PROFILE_DETAILS_IMAGE),
+                                          const Divider()
+                                        ],
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Auction",
-                                            image: PROFILE_DETAILS_IMAGE),
-                                        const Divider()
-                                      ],
+                                    GestureDetector(
+                                      onTap: (){
+                                        openMyBidsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "My Bids",
+                                              image: PROFILE_DETAILS_IMAGE),
+                                          const Divider()
+                                        ],
+                                      ),
                                     ),
                                     Column(
                                       children: [

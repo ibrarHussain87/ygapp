@@ -9,6 +9,7 @@ List<String> plyStringList = [
 
 //Shared preference Key
 String USER_TOKEN_KEY = "USER_TOKEN";
+String USER_DEVICE_TOKEN_KEY = "USER_DEVICE_TOKEN_KEY";
 String USER_ID_KEY = "USER_ID";
 String IS_LOGIN = "USER_LOGIN";
 

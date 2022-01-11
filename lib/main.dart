@@ -1,20 +1,32 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
+import 'package:yg_app/model/push_notification.dart';
 
 import 'helper_utils/app_constants.dart';
+import 'notification/notification.dart';
 
-void main() {
+void main() async{
+  await init();
   runApp(YgApp());
 }
+
+Future init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+}
+
 
 class YgApp extends StatelessWidget {
   @override
@@ -42,6 +54,11 @@ class YgAppPage extends StatefulWidget {
 }
 
 class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
+
+  String notificationTitle = 'No Title';
+  String notificationBody = 'No Body';
+  String notificationData = 'No Data';
+
   // state variables                           <-- state
   final _myDuration = const Duration(seconds: 1);
   double heightC1 = 1.0;
@@ -86,6 +103,16 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+
+    final firebaseMessaging = FCM();
+    firebaseMessaging.setNotifications();
+    firebaseMessaging.setDeviceToken();
+
+    firebaseMessaging.streamCtlr.stream.listen(_changeData);
+    firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
+    firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
+
+
     super.initState();
 
     _controller = AnimationController(
@@ -111,6 +138,10 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
       }
     });
   }
+
+  _changeData(String msg) => setState(() => notificationData = msg);
+  _changeBody(String msg) => setState(() => notificationBody = msg);
+  _changeTitle(String msg) => setState(() => notificationTitle = msg);
 
   @override
   Widget build(BuildContext context) {
