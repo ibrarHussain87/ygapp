@@ -334,7 +334,7 @@ class _SignUpPageState extends State<SignUpPage> {
       form.save();
       return true;
     }else if(!_termsChecked){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please accept Terms & Conditions')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please accept Terms & Conditions')));
     }
     return false;
   }

@@ -8,13 +8,15 @@ class GetYarnSpecificationResponse {
 
   late final bool status;
   late final int responseCode;
-  late final YarnSpecificationData data;
-  late final String message;
+  YarnSpecificationData? data;
+  String? message;
 
   GetYarnSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
-    data = YarnSpecificationData.fromJson(json['data']);
+    // if(List.from(json['data']).isNotEmpty) {
+      data = YarnSpecificationData.fromJson(json['data']);
+    // }
     message = json['message'];
   }
 
@@ -22,7 +24,9 @@ class GetYarnSpecificationResponse {
     final _data = <String, dynamic>{};
     _data['status'] = status;
     _data['response_code'] = responseCode;
-    _data['data'] = data.toJson();
+    if(data!=null) {
+      _data['data'] = data!.toJson();
+    }
     _data['message'] = message;
     return _data;
   }
@@ -33,7 +37,7 @@ class YarnSpecificationData {
     required this.specification,
   });
 
-  late final List<YarnSpecification> specification;
+  List<YarnSpecification>? specification;
 
   YarnSpecificationData.fromJson(Map<String, dynamic> json) {
     specification = List.from(json['specification'])
@@ -43,7 +47,9 @@ class YarnSpecificationData {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['specification'] = specification.map((e) => e.toJson()).toList();
+    if(specification!= null) {
+      _data['specification'] = specification!.map((e) => e.toJson()).toList();
+    }
     return _data;
   }
 }

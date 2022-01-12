@@ -8,11 +8,10 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/numeriacal_range_text_field.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -83,8 +82,9 @@ class FiberSpecificationComponentState
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          _fiberSettings = snapshot.data![0];
-
+          if (snapshot.data!.isNotEmpty) {
+            _fiberSettings = snapshot.data![0];
+          }
           return Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
@@ -178,39 +178,49 @@ class FiberSpecificationComponentState
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: fiberLength)),
-                                              TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  cursorColor: lightBlueTabs,
-                                                  style: TextStyle(
-                                                      fontSize: 11.sp),
-                                                  textAlign: TextAlign.center,
-                                                  cursorHeight: 16.w,
-                                                  inputFormatters: [
-                                                    NumericalRangeFormatter(
-                                                        min: StringUtils
-                                                            .splitMin(snapshot
-                                                                .data![0]
-                                                                .lengthMinMax),
-                                                        max: StringUtils
-                                                            .splitMax(snapshot
-                                                                .data![0]
-                                                                .lengthMinMax))
-                                                  ],
-                                                  onSaved: (input) =>
-                                                      _createRequestModel!
-                                                              .spc_fiber_length_idfk =
-                                                          input!,
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty) {
-                                                      return fiberLength;
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      roundedTextFieldDecoration(
-                                                          "${snapshot.data![0].lengthMinMax} mm")),
+                                              // TextFormField(
+                                              //     keyboardType:
+                                              //         TextInputType.number,
+                                              //     cursorColor: lightBlueTabs,
+                                              //     style: TextStyle(
+                                              //         fontSize: 11.sp),
+                                              //     textAlign: TextAlign.center,
+                                              //     cursorHeight: 16.w,
+                                              //     inputFormatters: [
+                                              //       NumericalRangeFormatter(
+                                              //           min: StringUtils
+                                              //               .splitMin(snapshot
+                                              //                   .data![0]
+                                              //                   .lengthMinMax),
+                                              //           max: StringUtils
+                                              //               .splitMax(snapshot
+                                              //                   .data![0]
+                                              //                   .lengthMinMax))
+                                              //     ],
+                                              //     onSaved: (input) =>
+                                              //         _createRequestModel!
+                                              //                 .spc_fiber_length_idfk =
+                                              //             input!,
+                                              //     validator: (input) {
+                                              //       if (input == null ||
+                                              //           input.isEmpty) {
+                                              //         return fiberLength;
+                                              //       }
+                                              //       return null;
+                                              //     },
+                                              //     decoration:
+                                              //         roundedTextFieldDecoration(
+                                              //             "${snapshot.data![0].lengthMinMax} mm")),
+
+                                              YgTextFormFieldWithRange(
+                                                  errorText: fiberLength,
+                                                  minMax: snapshot
+                                                      .data![0].lengthMinMax,
+                                                  onSaved: (input) {
+                                                    _createRequestModel!
+                                                            .spc_fiber_length_idfk =
+                                                        input;
+                                                  }),
                                               SizedBox(
                                                 width: 16.w,
                                               ),
@@ -246,7 +256,16 @@ class FiberSpecificationComponentState
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: micStr)),
-                                              TextFormField(
+                                              YgTextFormFieldWithRange(
+                                                  errorText: micStr,
+                                                  minMax: snapshot
+                                                      .data![0].micMinMax,
+                                                  onSaved: (input) {
+                                                    _createRequestModel!
+                                                            .spc_micronaire_idfk =
+                                                        input;
+                                                  }),
+                                              /* TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor: lightBlueTabs,
@@ -278,7 +297,7 @@ class FiberSpecificationComponentState
                                                   },
                                                   decoration:
                                                       roundedTextFieldDecoration(
-                                                          '${snapshot.data![0].micMinMax} mic')),
+                                                          '${snapshot.data![0].micMinMax} mic')),*/
                                             ],
                                           ),
                                         ),
@@ -303,39 +322,48 @@ class FiberSpecificationComponentState
                                                       left: 8.w),
                                                   child: TitleSmallTextWidget(
                                                       title: moistureStr)),
-                                              TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  cursorColor: lightBlueTabs,
-                                                  style: TextStyle(
-                                                      fontSize: 11.sp),
-                                                  textAlign: TextAlign.center,
-                                                  cursorHeight: 16.w,
-                                                  onSaved: (input) =>
-                                                      _createRequestModel!
-                                                              .spc_moisture_idfk =
-                                                          input!,
-                                                  inputFormatters: [
-                                                    NumericalRangeFormatter(
-                                                        min: StringUtils
-                                                            .splitMin(snapshot
-                                                                .data![0]
-                                                                .moiMinMax),
-                                                        max: StringUtils
-                                                            .splitMax(snapshot
-                                                                .data![0]
-                                                                .moiMinMax))
-                                                  ],
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty) {
-                                                      return moistureStr;
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      roundedTextFieldDecoration(
-                                                          '${snapshot.data![0].moiMinMax} %')),
+                                              YgTextFormFieldWithRange(
+                                                  errorText: moistureStr,
+                                                  minMax: snapshot
+                                                      .data![0].moiMinMax,
+                                                  onSaved: (input) {
+                                                    _createRequestModel!
+                                                            .spc_moisture_idfk =
+                                                        input;
+                                                  }),
+                                              // TextFormField(
+                                              //     keyboardType:
+                                              //         TextInputType.number,
+                                              //     cursorColor: lightBlueTabs,
+                                              //     style: TextStyle(
+                                              //         fontSize: 11.sp),
+                                              //     textAlign: TextAlign.center,
+                                              //     cursorHeight: 16.w,
+                                              //     onSaved: (input) =>
+                                              //         _createRequestModel!
+                                              //                 .spc_moisture_idfk =
+                                              //             input!,
+                                              //     inputFormatters: [
+                                              //       NumericalRangeFormatter(
+                                              //           min: StringUtils
+                                              //               .splitMin(snapshot
+                                              //                   .data![0]
+                                              //                   .moiMinMax),
+                                              //           max: StringUtils
+                                              //               .splitMax(snapshot
+                                              //                   .data![0]
+                                              //                   .moiMinMax))
+                                              //     ],
+                                              //     validator: (input) {
+                                              //       if (input == null ||
+                                              //           input.isEmpty) {
+                                              //         return moistureStr;
+                                              //       }
+                                              //       return null;
+                                              //     },
+                                              //     decoration:
+                                              //         roundedTextFieldDecoration(
+                                              //             '${snapshot.data![0].moiMinMax} %')),
                                             ],
                                           ),
                                         ),
@@ -367,7 +395,16 @@ class FiberSpecificationComponentState
                                                         left: 8.w),
                                                     child: TitleSmallTextWidget(
                                                         title: trashStr)),
-                                                TextFormField(
+                                                YgTextFormFieldWithRange(
+                                                    errorText: trashStr,
+                                                    minMax: snapshot
+                                                        .data![0].trashMinMax,
+                                                    onSaved: (input) {
+                                                      _createRequestModel!
+                                                              .spc_trash_idfk =
+                                                          input;
+                                                    }),
+                                                /* TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
                                                     cursorColor: lightBlueTabs,
@@ -399,7 +436,7 @@ class FiberSpecificationComponentState
                                                     },
                                                     decoration:
                                                         roundedTextFieldDecoration(
-                                                            '${snapshot.data![0].trashMinMax} %')),
+                                                            '${snapshot.data![0].trashMinMax} %')),*/
                                               ],
                                             ),
                                           ),
@@ -429,7 +466,15 @@ class FiberSpecificationComponentState
                                                   child:
                                                       const TitleSmallTextWidget(
                                                           title: 'RD')),
-                                              TextFormField(
+                                              YgTextFormFieldWithRange(
+                                                  errorText: 'RD',
+                                                  minMax: snapshot
+                                                      .data![0].rdMinMax,
+                                                  onSaved: (input) {
+                                                    _createRequestModel!
+                                                        .spc_rd_idfk = input;
+                                                  }),
+                                              /*TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor: lightBlueTabs,
@@ -460,7 +505,7 @@ class FiberSpecificationComponentState
                                                   },
                                                   decoration:
                                                       roundedTextFieldDecoration(
-                                                          '${snapshot.data![0].rdMinMax} %')),
+                                                          '${snapshot.data![0].rdMinMax} %')),*/
                                             ],
                                           ),
                                         ),
@@ -491,7 +536,15 @@ class FiberSpecificationComponentState
                                                   child:
                                                       const TitleSmallTextWidget(
                                                           title: 'GPT')),
-                                              TextFormField(
+                                              YgTextFormFieldWithRange(
+                                                  errorText: "GPT",
+                                                  minMax: snapshot
+                                                      .data![0].gptMinMax,
+                                                  onSaved: (input) {
+                                                    _createRequestModel!
+                                                        .spc_gpt_idfk = input;
+                                                  }),
+                                              /* TextFormField(
                                                   keyboardType:
                                                       TextInputType.number,
                                                   cursorColor: lightBlueTabs,
@@ -523,7 +576,7 @@ class FiberSpecificationComponentState
                                                   },
                                                   decoration:
                                                       roundedTextFieldDecoration(
-                                                          '${snapshot.data![0].gptMinMax} %')),
+                                                          '${snapshot.data![0].gptMinMax} %')),*/
                                             ],
                                           ),
                                         ),
@@ -551,7 +604,7 @@ class FiberSpecificationComponentState
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
                                             child: const TitleSmallTextWidget(
-                                                title: 'Apperance')),
+                                                title: 'Appearance')),
                                         GridTileWidget(
                                           spanCount: 2,
                                           listOfItems: widget.syncFiberResponse
@@ -605,8 +658,7 @@ class FiberSpecificationComponentState
                                                                   24.w))),
                                                   child:
                                                       DropdownButtonFormField(
-                                                    hint:
-                                                        Text('Select ${brand}'),
+                                                    hint: Text('Select $brand'),
                                                     items: widget
                                                         .syncFiberResponse
                                                         .data
@@ -678,9 +730,10 @@ class FiberSpecificationComponentState
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
-                                                  child: TitleSmallTextWidget(
-                                                      title:
-                                                          'Production Year')),
+                                                  child:
+                                                      const TitleSmallTextWidget(
+                                                          title:
+                                                              'Production Year')),
                                               TextFormField(
                                                 keyboardType:
                                                     TextInputType.none,
@@ -988,7 +1041,7 @@ class FiberSpecificationComponentState
           );
         } else if (snapshot.hasError) {
           return Center(
-              child: TitleTextWidget(title: snapshot.error.toString()));
+              child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: CircularProgressIndicator(),

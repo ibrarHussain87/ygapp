@@ -45,11 +45,11 @@ class _BidderListPageState extends State<BidderListPage> {
                 });
           } else if (snapshot.hasError) {
             return Center(
-                child: TitleTextWidget(title: snapshot.error.toString()));
+                child: TitleSmallTextWidget(title: snapshot.error.toString()));
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.data.isEmpty) {
             return const Center(
-                child: TitleTextWidget(title: 'No data found!!'));
+                child: TitleSmallTextWidget(title: 'No data found!!'));
           } else {
             return const Center(
               child: CircularProgressIndicator(),

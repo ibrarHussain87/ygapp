@@ -221,12 +221,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Dannier",
-                        minCallback: (value) {
-                          minValueDannierParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueDannierParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueDannierParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueDannierParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -248,12 +250,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minFilament,
                         maxValue: maxFilament,
                         hintTxt: "Filament",
-                        minCallback: (value) {
-                          minValueFilamentParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueFilamentParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueFilamentParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueFilamentParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -275,12 +279,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minCount,
                         maxValue: maxCount,
                         hintTxt: "Count",
-                        minCallback: (value) {
-                          minValueCountParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueCountParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueCountParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueCountParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -302,12 +308,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -468,12 +476,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minRatio,
                         maxValue: maxRatio,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -495,12 +505,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minCount,
                         maxValue: maxCount,
                         hintTxt: "Count",
-                        minCallback: (value) {
-                          minValueCountParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueCountParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueCountParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueCountParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -725,12 +737,13 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        valueCallback: (value){},
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
                       ),
                       SizedBox(
                         height: 8.w,
@@ -750,12 +763,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -775,12 +790,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
+                        valueCallback: (value){},
+
                       ),
                       SizedBox(
                         height: 8.w,
@@ -800,12 +817,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         minValue: minDannier,
                         maxValue: maxDannier,
                         hintTxt: "Ratio",
-                        minCallback: (value) {
-                          minValueRatioParam = value;
-                        },
-                        maxCallback: (value) {
-                          maxValueRatioParam = value;
-                        },
+                        valueCallback: (value){},
+
+                        // minCallback: (value) {
+                        //   minValueRatioParam = value;
+                        // },
+                        // maxCallback: (value) {
+                        //   maxValueRatioParam = value;
+                        // },
                       ),
                       SizedBox(
                         height: 8.w,

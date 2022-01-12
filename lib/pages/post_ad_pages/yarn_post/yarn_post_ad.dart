@@ -49,7 +49,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
               return insertIntoDB(snapshot.data);
             } else if (snapshot.hasError) {
               return Center(
-                  child: TitleTextWidget(title: snapshot.error.toString()));
+                  child: TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -83,7 +83,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
               ));
         } else if (snapshot.hasError) {
           return Center(
-              child: TitleTextWidget(title: snapshot.error.toString()));
+              child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: CircularProgressIndicator(),

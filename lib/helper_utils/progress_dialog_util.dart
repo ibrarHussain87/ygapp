@@ -12,6 +12,7 @@ class ProgressDialogUtil {
       context: context,
       alertType: StylishDialogType.PROGRESS,
       contentText: value,
+      dismissOnTouchOutside: false
     );
 
     _stylishDialog!.show();

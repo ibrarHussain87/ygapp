@@ -5,7 +5,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/list_bidder_components/list_bidder_body.dart';
-import 'package:yg_app/pages/list_bids_page/list_bids_body.dart';
+import 'package:yg_app/pages/profile/my_ads/list_bids_page/list_bids_body.dart';
 
 class BidsListPage extends StatefulWidget {
   const BidsListPage({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _BidsListPageState extends State<BidsListPage> {
             future: ApiService.getListBids(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.data!.data.isNotEmpty) {
+                  snapshot.data != null) {
                 return ListView.builder(
                     itemCount: snapshot.data!.data.length,
                     itemBuilder: (context, index) {
@@ -64,11 +64,7 @@ class _BidsListPageState extends State<BidsListPage> {
                     });
               } else if (snapshot.hasError) {
                 return Center(
-                    child: TitleTextWidget(title: snapshot.error.toString()));
-              } else if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.data!.data.isEmpty) {
-                return const Center(
-                    child: TitleTextWidget(title: 'No data found!!'));
+                    child: TitleSmallTextWidget(title: snapshot.error.toString()));
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),

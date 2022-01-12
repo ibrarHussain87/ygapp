@@ -71,6 +71,7 @@ dependencies:
   firebase_core: ^1.1.0
   firebase_messaging: ^11.2.5
   overlay_support: ^1.2.1
+  connectivity_plus: ^2.2.0
 #  bubble_tab_indicator: ^0.1.6
 
 dev_dependencies:

@@ -1,5 +1,5 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
-const int APP_DATABASE_VERSION = 4;
+const int APP_DATABASE_VERSION = 5;
 List<String> plyStringList = [
   "Single",
   "Double",
@@ -115,3 +115,5 @@ var requirement = 'Requiremnet';
 
 int YARN_CATEGORY_ID = 2;
 int PATTERN_CHARACTERISTCS_SLUB_ID = 2;
+const String no_internet_available_msg = "No Internet available.";
+const String check_internet_msg = "Please check your internet connection.";

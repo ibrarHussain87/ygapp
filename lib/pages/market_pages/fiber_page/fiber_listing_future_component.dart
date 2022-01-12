@@ -49,7 +49,7 @@ class FiberListingComponentState extends State<FiberListingComponent> {
           );
         } else if (snapshot.hasError) {
           return Center(
-              child: TitleTextWidget(title: snapshot.error.toString()));
+              child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: CircularProgressIndicator(),

@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
 
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
 import 'dashboard_pages/yg_services.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    _synData();
   }
 
   @override
@@ -158,5 +160,73 @@ class _MainPageState extends State<MainPage> {
         //     label: auction),
       ],
     );
+  }
+
+  _synData() async {
+    var syncFiberResponse = await ApiService.syncFiber();
+    var syncYarnResponse = await ApiService.syncYarn();
+    AppDbInstance.getDbInstance().then((value) async {
+      await value.fiberSettingDao
+          .insertAllFiberSettings(syncFiberResponse.data.fiber.settings);
+      await value.gradesDao
+          .insertAllGrades(syncFiberResponse.data.fiber.grades);
+      await value.fiberNatureDao
+          .insertAllFiberNatures(syncFiberResponse.data.fiber.natures);
+      await value.fiberMaterialDao
+          .insertAllFiberMaterials(syncFiberResponse.data.fiber.material);
+
+      //insert Common objects
+      await value.brandsDao
+          .insertAllBrands(syncFiberResponse.data.fiber.brands);
+      await value.certificationDao
+          .insertAllCertification(syncFiberResponse.data.fiber.certification);
+      await value.cityStateDao
+          .insertAllCityState(syncFiberResponse.data.fiber.cityState);
+      await value.companiesDao
+          .insertAllCompanies(syncFiberResponse.data.fiber.companies);
+      await value.countriesDao
+          .insertAllCountry(syncFiberResponse.data.fiber.countries);
+      await value.deliveryPeriodDao.insertAllDeliveryPeriods(
+          syncFiberResponse.data.fiber.deliveryPeriod);
+      await value.lcTypeDao
+          .insertAllLcType(syncFiberResponse.data.fiber.lcType);
+      await value.paymentTypeDao
+          .insertAllPaymentType(syncFiberResponse.data.fiber.paymentType);
+      await value.portsDao.insertAllPorts(syncFiberResponse.data.fiber.ports);
+      await value.priceTermsDao
+          .insertAllFPriceTerms(syncFiberResponse.data.fiber.priceTerms);
+      await value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units);
+    });
+
+    await AppDbInstance.getDbInstance().then((value) async {
+      await value.yarnSettingsDao
+          .insertAllYarnSettings(syncYarnResponse.data.yarn.setting!);
+      await value.yarnBlendDao
+          .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!);
+      await value.yarnFamilyDao
+          .insertAllYarnFamily(syncYarnResponse.data.yarn.family!);
+      await value.gradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!);
+
+      //Insert All Common Objects
+      await value.brandsDao.insertAllBrands(syncYarnResponse.data.yarn.brands!);
+      await value.certificationDao
+          .insertAllCertification(syncYarnResponse.data.yarn.certification!);
+      await value.cityStateDao
+          .insertAllCityState(syncYarnResponse.data.yarn.cityState!);
+      await value.companiesDao
+          .insertAllCompanies(syncYarnResponse.data.yarn.companies!);
+      await value.countriesDao
+          .insertAllCountry(syncYarnResponse.data.yarn.countries!);
+      await value.deliveryPeriodDao
+          .insertAllDeliveryPeriods(syncYarnResponse.data.yarn.deliveryPeriod!);
+      await value.lcTypeDao
+          .insertAllLcType(syncYarnResponse.data.yarn.lcTypes!);
+      await value.paymentTypeDao
+          .insertAllPaymentType(syncYarnResponse.data.yarn.paymentTypes!);
+      await value.portsDao.insertAllPorts(syncYarnResponse.data.yarn.ports!);
+      await value.priceTermsDao
+          .insertAllFPriceTerms(syncYarnResponse.data.yarn.priceTerms!);
+      await value.unitDao.insertAllUnit(syncYarnResponse.data.yarn.units!);
+    });
   }
 }

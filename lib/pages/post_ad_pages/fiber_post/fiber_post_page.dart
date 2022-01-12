@@ -59,7 +59,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
               return insertIntoDB(snapshot.data);
             } else if (snapshot.hasError) {
               return Center(
-                  child: TitleTextWidget(title: snapshot.error.toString()));
+                  child: TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -90,7 +90,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
               child: getView(data!));
         } else if (snapshot.hasError) {
           return Center(
-              child: TitleTextWidget(title: snapshot.error.toString()));
+              child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: CircularProgressIndicator(),

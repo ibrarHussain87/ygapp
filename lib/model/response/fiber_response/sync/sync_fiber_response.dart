@@ -4,7 +4,7 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/common_response_models/fiber_delievery_period.dart';
+import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/packing_response.dart';

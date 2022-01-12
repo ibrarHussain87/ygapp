@@ -12,16 +12,19 @@ class FilterRangeSlider extends StatefulWidget {
   final double minValue;
   final double maxValue;
   final String? hintTxt;
-  final Function minCallback;
-  final Function maxCallback;
+  // final Function minCallback;
+  // final Function maxCallback;
+  final Function valueCallback;
 
   const FilterRangeSlider(
       {Key? key,
       required this.minValue,
       required this.maxValue,
       required this.hintTxt,
-      required this.minCallback,
-      required this.maxCallback})
+      // required this.minCallback,
+      // required this.maxCallback
+       required this.valueCallback
+      })
       : super(key: key);
 
   @override
@@ -29,28 +32,59 @@ class FilterRangeSlider extends StatefulWidget {
 }
 
 class _FilterRangeSliderState extends State<FilterRangeSlider> {
-  String _valueToString(double value) {
-    return value.toStringAsFixed(2);
-  }
+  // String _valueToString(double value) {
+  //   return value.toStringAsFixed(2);
+  // }
 
-  RangeValues? _values;
-  late double minSpinValue;
-  late double maxSpinValue;
+  // RangeValues? _values;
+  // late double minSpinValue;
+  // late double maxSpinValue;
 
   // TextEditingController minController = TextEditingController();
   // TextEditingController maxController = TextEditingController();
 
   @override
   void initState() {
-    minSpinValue = widget.minValue;
-    maxSpinValue = widget.maxValue;
-    _values = RangeValues(widget.minValue, widget.maxValue);
+    // minSpinValue = widget.minValue;
+    // maxSpinValue = widget.maxValue;
+    // _values = RangeValues(widget.minValue, widget.maxValue);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleSmallTextWidget(title: widget.hintTxt),
+        SizedBox(
+          height: 4.w,
+        ),
+        SpinBox(
+          max: widget.maxValue,
+          min: widget.minValue,
+          showButtons: false,
+          keyboardType: TextInputType.number,
+          decimals: 2,
+          step: 0.2,
+          enableInteractiveSelection: false,
+          readOnly: false,
+          textStyle:
+          TextStyle(fontSize: 9.sp, color: Colors.grey.shade600),
+          decoration: roundedTFDGrey('${widget.minValue} %'),
+          onChanged: (value) {
+            widget.valueCallback(value);
+            // setState(() {
+              // if (value != 0.0 && value <= widget.maxValue && value > minSpinValue) {
+              //   maxSpinValue = value;
+              //   widget.maxCallback(value);
+              //   _values = RangeValues(minSpinValue, value);
+              // }
+            // });
+          },
+        ),
+      ],
+    )/*Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -227,6 +261,6 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                   })),
         )
       ],
-    );
+    )*/;
   }
 }

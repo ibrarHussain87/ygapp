@@ -10,8 +10,10 @@ class GetSpecificationRequestModel {
   List<int>? apperanceId;
   List<int>? certificationId;
   List<int>? packingId;
-  List<int>? micronaire;
-  List<int>? moisture;
+  List<double>? micronaire;
+  List<double>? moisture;
+  List<double>? rd;
+  List<double>? gpt;
 
   //Yarn Keys
   String? ysBlendIdFk;
@@ -31,6 +33,8 @@ class GetSpecificationRequestModel {
       this.packingId,
       this.micronaire,
       this.moisture,
+      this.rd,
+      this.gpt,
       this.ysBlendIdFk,
       this.ysFamilyIdFk});
 
@@ -49,6 +53,8 @@ class GetSpecificationRequestModel {
       'packing_id': packingId,
       'micronaire': micronaire,
       'moisture': moisture,
+      'rd': rd,
+      'gpt': gpt,
       'ys_family_idfk': ysFamilyIdFk,
       'ys_blend_idfk': ysBlendIdFk,
     };

@@ -33,16 +33,24 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   List<FiberSettings> listOfSettings = [];
   List<int> listOfMaterials = [];
   List<int> listOfGrades = [];
-  List<int> listOfMic = [];
-  List<int> listOfMos = [];
+  List<double> listOfMic = [];
+  List<double> listOfMos = [];
+  List<double> listOfRd = [];
+  List<double> listOfGpt = [];
   List<int> listOfAppearance = [];
   List<int> listOfCertification = [];
   List<int> listOfPacking = [];
 
-  double? minValueMicParam;
-  double? maxValueMicParam;
-  double? minValueMosParam;
-  double? maxValueMosParam;
+  // double? minValueMicParam;
+  // double? maxValueMicParam;
+  // double? minValueMosParam;
+  // double? maxValueMosParam;
+
+  double? micValue;
+  double? moisValue;
+  double? rdValue;
+  double? gptValue;
+
   bool isListClear = false;
 
     bool? showLength;
@@ -161,12 +169,15 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               minValue: minMic,
                               maxValue: maxMic,
                               hintTxt: "Micronaire (Mic)",
-                              minCallback: (value) {
-                                minValueMicParam = value;
+                              valueCallback: (value){
+
                               },
-                              maxCallback: (value) {
-                                maxValueMicParam = value;
-                              },
+                              // minCallback: (value) {
+                              //   minValueMicParam = value;
+                              // },
+                              // maxCallback: (value) {
+                              //   maxValueMicParam = value;
+                              // },
                             ),
                             SizedBox(
                               height: 8.w,
@@ -186,12 +197,13 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 minValue: minMois,
                                 maxValue: maxMois,
                                 hintTxt: "Moisture",
-                                minCallback: (value) {
-                                  minValueMosParam = value;
-                                },
-                                maxCallback: (value) {
-                                  maxValueMosParam = value;
-                                },
+                                // minCallback: (value) {
+                                //   minValueMosParam = value;
+                                // },
+                                // maxCallback: (value) {
+                                //   maxValueMosParam = value;
+                                // },
+                                valueCallback: (value){},
                               ),
                               SizedBox(
                                 height: 4.w,
@@ -208,8 +220,11 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               minValue: minRd,
                               maxValue: maxRd,
                               hintTxt: "RD",
-                              minCallback: (value) {},
-                              maxCallback: (value) {},
+                              // minCallback: (value) {},
+                              // maxCallback: (value) {},
+                              valueCallback: (value){
+
+                              },
                             ),
                             SizedBox(
                               height: 4.w,
@@ -467,24 +482,45 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          if (minValueMicParam != null &&
-                              maxValueMicParam != null) {
+                          if (micValue != null /*&&
+                              maxValueMicParam != null*/) {
                             listOfMic = [
-                              minValueMicParam!.toInt(),
-                              maxValueMicParam!.toInt()
+                              micValue!.toDouble()/*,
+                              maxValueMicParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.micronaire =
                                 listOfMic;
                           }
 
-                          if (minValueMosParam != null &&
-                              maxValueMosParam != null) {
+                          if (moisValue != null/* &&
+                              maxValueMosParam != null*/) {
                             listOfMos = [
-                              minValueMosParam!.toInt(),
-                              maxValueMosParam!.toInt()
+                              moisValue!/*,
+                              maxValueMosParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.moisture = listOfMos;
                           }
+
+                          if (rdValue != null/* &&
+                              maxValueMosParam != null*/) {
+                            listOfRd = [
+                              rdValue!/*,
+                              maxValueMosParam!.toInt()*/
+                            ];
+                            _getSpecificationRequestModel!.rd = listOfMos;
+                          }
+
+
+                          if (gptValue != null/* &&
+                              maxValueMosParam != null*/) {
+                            listOfGpt = [
+                              gptValue!/*,
+                              maxValueMosParam!.toInt()*/
+                            ];
+                            _getSpecificationRequestModel!.gpt = listOfGpt;
+                          }
+
+
                           Navigator.pop(context, _getSpecificationRequestModel);
                         },
                         color: textColorBlue,

@@ -8,6 +8,7 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
@@ -26,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool _showPassword = false;
   late LoginRequestModel _loginRequestModel;
+  bool? isOnline;
 
   void _togglevisibility() {
     setState(() {
@@ -37,6 +39,11 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _loginRequestModel = LoginRequestModel();
     super.initState();
+    ConnectionStatusSingleton.getInstance().connectionChange.listen((event) {
+      setState(() {
+        isOnline = event;
+      });
+    });
   }
 
   @override
@@ -191,52 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   color: Colors.transparent)))),
                                   onPressed: () {
                                     if (validateAndSave()) {
-                                      ProgressDialogUtil.showDialog(
-                                          context, 'Please wait...');
-
-                                      ApiService.login(_loginRequestModel)
-                                          .then((value) {
-                                        ProgressDialogUtil.hideDialog();
-                                        if (value.success) {
-                                          AppDbInstance.getDbInstance()
-                                              .then((db) async {
-                                            await db.userDao
-                                                .insertUser(value.data.user);
-                                          });
-
-                                          SharedPreferenceUtil.addStringToSF(
-                                              USER_ID_KEY,
-                                              value.data.user.id.toString());
-                                          SharedPreferenceUtil.addStringToSF(
-                                              USER_TOKEN_KEY, value.data.token);
-                                          SharedPreferenceUtil.addBoolToSF(
-                                              IS_LOGIN, true);
-
-                                          Fluttertoast.showToast(
-                                              msg: value.message,
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1);
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          MainPage()),
-                                                  (Route<dynamic> route) =>
-                                                      false);
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content:
-                                                      Text(value.message)));
-                                        }
-                                      }).onError((error, stackTrace) {
-                                        ProgressDialogUtil.hideDialog();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text(error.toString())));
-                                      });
+                                      _loginCall();
                                     }
                                   })),
                         ],
@@ -283,5 +245,43 @@ class _LoginPageState extends State<LoginPage> {
       return true;
     }
     return false;
+  }
+
+  void _loginCall() {
+    ProgressDialogUtil.showDialog(context, 'Please wait...');
+    if (isOnline!) {
+      ApiService.login(_loginRequestModel).then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.success) {
+          AppDbInstance.getDbInstance().then((db) async {
+            await db.userDao.insertUser(value.data.user);
+          });
+
+          SharedPreferenceUtil.addStringToSF(
+              USER_ID_KEY, value.data.user.id.toString());
+          SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
+          SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+
+          Fluttertoast.showToast(
+              msg: value.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MainPage()),
+              (Route<dynamic> route) => false);
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(value.message)));
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.toString())));
+      });
+    }else{
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
+    }
   }
 }

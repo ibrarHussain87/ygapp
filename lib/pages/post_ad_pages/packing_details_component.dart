@@ -18,7 +18,7 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/common_response_models/fiber_delievery_period.dart';
+import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
