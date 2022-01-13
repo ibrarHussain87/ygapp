@@ -15,6 +15,7 @@ var appBarTextColor = const Color(0xFF3BC458);
 var searchBarGreyStroke = const Color(0xFF939598);
 var searchBarGreyText = const Color(0xFFE0E0E0);
 var searchBarWhiteBg = const Color(0xFFF7F7F7);
+var blueBackgroundColor = const Color(0xFF142650);
 var homePremiumGradientLight = HexColor.fromHex('#7CD78F');
 var homePremiumGradientDark = HexColor.fromHex('#3BC458');
 var bgWhiteMarketTrend = HexColor.fromHex('#F3F3F5');
