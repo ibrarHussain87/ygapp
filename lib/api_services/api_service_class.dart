@@ -23,7 +23,6 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 class ApiService {
-
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
   static String BASE_URL = "http://yarnonline.net/dev/public/";
@@ -34,6 +33,7 @@ class ApiService {
   static const String GET_SPEC_END_POINT = "/getSpecifications";
   static const String CREATE_FIBER_END_POINT = "/createSpecification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
+  static const String GET_MATCHED_END_POINT = "/getMatched";
   static const String CREATE_BID_END_POINT = "/createBid";
   static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
   static const String GET_BANNERS_END_POINT = "/getBanners";
@@ -148,9 +148,7 @@ class ApiService {
           options: Options(headers: headerMap),
           data: json.encode(getRequestModel.toJson()));
 
-
       return GetYarnSpecificationResponse.fromJson(response.data);
-
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -170,8 +168,7 @@ class ApiService {
           'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userId =
-      await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       request.headers.addAll(
           {"Accept": "application/json", "Authorization": "Bearer $userToken"});
       if (imagePath.isNotEmpty) {
@@ -217,6 +214,41 @@ class ApiService {
       return ListBiddersResponse.fromJson(
         json.decode(response.body),
       );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<dynamic> getMatched(String catId, String specId) async {
+    try {
+      String url = BASE_API_URL + GET_MATCHED_END_POINT;
+
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      Map<String, dynamic> data = {
+        "category_id": catId,
+        // "user_id": userID.toString(),
+        "spec_id": specId
+      };
+      headerMap['Authorization'] = 'Bearer $userToken';
+      final response =
+          await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+      if (catId == "1") {
+
+        return Specification.fromJson(
+          json.decode(response.body),
+        );
+      } else {
+        return YarnSpecification.fromJson(json.decode(response.body));
+      }
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -408,6 +440,3 @@ class ApiService {
     }
   }
 }
-
-
-
