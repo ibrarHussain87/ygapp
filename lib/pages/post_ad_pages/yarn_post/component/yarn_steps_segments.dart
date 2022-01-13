@@ -148,13 +148,12 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                   ),
                 },
                 onValueChanged: (value) {
-                  if (yarnSpecificationComponentStateKey.currentState!
-                          .validateAndSave() &&
+                  if (yarnSpecificationComponentStateKey.currentState != null &&
+                  yarnSpecificationComponentStateKey.currentState!.validateAndSave() &&
                       (_labParameterPage.currentContext != null &&
                           _labParameterPage.currentState!.validateAndSave())) {
                     _moveToNext(value);
-                  }else if(yarnSpecificationComponentStateKey.currentState!
-                      .validateAndSave() &&
+                  }else if(yarnSpecificationComponentStateKey.currentState!.validateAndSave() &&
                       (_labParameterPage.currentContext == null)){
                     _moveToNext(value);
                   }

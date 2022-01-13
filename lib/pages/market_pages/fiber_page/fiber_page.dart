@@ -111,9 +111,9 @@ class FiberPageState extends State<FiberPage> {
 
                           child: GestureDetector(
                             onTap: () async {
-                              if (familySateFiber
-                                      .currentState!.fiberSyncResponse !=
-                                  null) {
+                              // if (familySateFiber
+                              //         .currentState!.fiberSyncResponse !=
+                              //     null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -129,9 +129,9 @@ class FiberPageState extends State<FiberPage> {
                                         .refreshListing(value);
                                   }
                                 });
-                              } else {
-                                Fluttertoast.showToast(msg: "Please wait...");
-                              }
+                              // } else {
+                              //   Fluttertoast.showToast(msg: "Please wait...");
+                              // }
                             },
                             child: Card(
                                 color: Colors.white,

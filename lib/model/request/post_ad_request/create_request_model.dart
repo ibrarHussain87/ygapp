@@ -60,7 +60,7 @@ class CreateRequestModel {
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
-  String? ys_color_idfk;
+  // String? ys_color_idfk;
   String? ys_color_code;
   String? ys_apperance_idfk;
   String? ys_actual_yarn_count;
@@ -146,7 +146,7 @@ class CreateRequestModel {
       this.ys_certification_idfk,
       this.ys_color_treatment_method_idfk,
       this.ys_dying_method_idfk,
-      this.ys_color_idfk,
+      // this.ys_color_idfk,
       this.ys_apperance_idfk,
       this.ys_actual_yarn_count,
       this.ys_qlt,
@@ -179,8 +179,8 @@ class CreateRequestModel {
       'spc_fiber_material_idfk': spc_fiber_material_idfk ?? "",
       'spc_fiber_length_idfk': spc_fiber_length_idfk ?? "",
       'spc_grade_idfk': spc_grade_idfk ?? "",
-      'spc_micronaire_idfk': spc_micronaire_idfk ?? "",
-      'spc_moisture_idfk': spc_moisture_idfk ?? "",
+      'spc_micronaire': spc_micronaire_idfk ?? "",
+      'spc_moisture': spc_moisture_idfk ?? "",
       'spc_trash_idfk': spc_trash_idfk ?? "",
       'spc_rd_idfk': spc_rd_idfk ?? "",
       'spc_gpt_idfk': spc_gpt_idfk ?? "",
@@ -230,7 +230,7 @@ class CreateRequestModel {
       'ys_certification_idfk': ys_certification_idfk ?? "",
       'ys_color_treatment_method_idfk': ys_color_treatment_method_idfk ?? "",
       'ys_dying_method_idfk': ys_dying_method_idfk ?? "",
-      'ys_color_idfk': ys_color_idfk ?? "",
+      // 'ys_color_idfk': ys_color_idfk ?? "",
       'ys_apperance_idfk': ys_apperance_idfk ?? "",
       'ys_actual_yarn_count': ys_actual_yarn_count ?? "",
       'ys_qlt': ys_qlt ?? "",
@@ -243,7 +243,7 @@ class CreateRequestModel {
       'ys_naps': ys_naps ?? "",
       'ys_ipm_km': ys_ipm_km ?? "",
       'ys_hairness': ys_hairness ?? "",
-      'ys_color_code': ys_color_code ?? "",
+      'ys_color': ys_color_code ?? "",
       'ys_rkm': ys_rkm ?? "",
       'ys_elongation': ys_elongation ?? "",
       'ys_tpi': ys_tpi ?? "",

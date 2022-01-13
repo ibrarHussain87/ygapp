@@ -14,7 +14,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
@@ -104,6 +104,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
   String? selectedPlyId;
   String? selectedPatternId;
   String? selectedAppearenceId;
+  bool isInit = false;
 
 
   @override
@@ -126,13 +127,14 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
 
   @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel>(context);
-    _yarnSetting ??= Provider.of<YarnSetting>(context);
-
-    logger.e(_createRequestModel.toJson());
-
-    _initGridValues();
-
+    if(!isInit) {
+      _createRequestModel = Provider.of<CreateRequestModel>(context);
+      _yarnSetting ??= Provider.of<YarnSetting>(context);
+      _yarnSetting ??= Provider.of<YarnSetting>(context);
+      logger.e(_createRequestModel.toJson());
+      _initGridValues();
+      isInit = true;
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -326,6 +328,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       } else {
                                         setState(() {
                                           showDyingMethod = false;
+                                          _createRequestModel.ys_dying_method_idfk = null;
+                                          _createRequestModel.ys_color_code = null;
                                         });
                                       }
                                     },
@@ -423,7 +427,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                                   borderRadius:
                                                       BorderRadius.circular(10.0),
                                                   borderSide: BorderSide.none),
-                                              contentPadding: EdgeInsets.all(2.0),
+                                              contentPadding: const EdgeInsets.all(2.0),
                                               hintText: "Select Color",
                                               filled: true,
                                               fillColor: pickerColor),
@@ -537,6 +541,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       } else {
                                         setState(() {
                                           showDoublingMethod = false;
+                                          _createRequestModel.ys_doubling_method_idFk = "";
                                         });
                                       }
                                     },

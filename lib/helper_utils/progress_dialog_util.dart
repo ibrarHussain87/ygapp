@@ -23,4 +23,22 @@ class ProgressDialogUtil {
       _stylishDialog!.dismiss();
     }
   }
+
+  static showDialogAsync(BuildContext context, String value) async{
+
+    _stylishDialog = StylishDialog(
+        context: context,
+        alertType: StylishDialogType.PROGRESS,
+        contentText: value,
+        dismissOnTouchOutside: false
+    );
+
+    _stylishDialog!.show();
+  }
+
+  static hideDialogAsync() async{
+    if(_stylishDialog!=null){
+      _stylishDialog!.dismiss();
+    }
+  }
 }

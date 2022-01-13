@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -19,10 +20,33 @@ class FiberFamilyComponent extends StatefulWidget {
 class FiberFamilyComponentState extends State<FiberFamilyComponent> {
 
   SyncFiberResponse? fiberSyncResponse;
+  List<FiberMaterial>? materials;
+  List<FiberNature>? fiberNature;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AppDbInstance.getDbInstance().then((value) async{
+      materials = await value.fiberMaterialDao.findAllFiberMaterials();
+      fiberNature = await value.fiberNatureDao.findAllFiberNatures();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<SyncFiberResponse>(
+    return /*fiberNature!.isNotEmpty && materials!.isNotEmpty ? NatureFamilyBodyComponent(
+      natureId: fiberNature!.first.id.toString(),
+      fiberMaterialList: materials??[],
+      fiberNaturesList: fiberNature??[],
+      callback: (value) {
+        widget.callback(value);
+      },
+    ):SizedBox(
+      child: const LoadingListing(),
+      height: 0.065 * MediaQuery.of(context).size.height,
+    );*/ FutureBuilder<SyncFiberResponse>(
         future: ApiService.syncFiber(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
@@ -51,4 +75,6 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
           }
         });
   }
+
+
 }

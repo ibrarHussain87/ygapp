@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -12,6 +13,7 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 
 class YarnSyncResponse {
   YarnSyncResponse({
@@ -99,7 +101,7 @@ class Yarn {
   List<DyingMethod>? dyingMethod;
   List<Family>? family;
   List<Orientation>? orientation;
-  List<Pattern>? pattern;
+  List<PatternModel>? pattern;
   List<PatternCharectristic>? patternCharectristic;
   List<Ply>? ply;
   List<Quality>? quality;
@@ -138,7 +140,7 @@ class Yarn {
         .map((e) => Orientation.fromJson(e))
         .toList();
     pattern =
-        List.from(json['pattern']).map((e) => Pattern.fromJson(e)).toList();
+        List.from(json['pattern']).map((e) => PatternModel.fromJson(e)).toList();
     patternCharectristic = List.from(json['pattern_charectristic'])
         .map((e) => PatternCharectristic.fromJson(e))
         .toList();
@@ -232,6 +234,7 @@ class Yarn {
   }
 }
 
+@Entity(tableName: "color_treatment_method")
 class ColorTreatmentMethod {
   ColorTreatmentMethod({
     required this.yctmId,
@@ -243,13 +246,14 @@ class ColorTreatmentMethod {
     this.yctmSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? yctmId;
   String? familyId;
   String? yctmName;
   String? yctmColorMethodIdfk;
-  Null yctmDescription;
+  String? yctmDescription;
   String? yctmIsActive;
-  Null yctmSortid;
+  String? yctmSortid;
 
   ColorTreatmentMethod.fromJson(Map<String, dynamic> json) {
     yctmId = json['yctm_id'];
@@ -280,6 +284,7 @@ class ColorTreatmentMethod {
   }
 }
 
+@Entity(tableName: "dying_method")
 class DyingMethod {
   DyingMethod({
     required this.ydmId,
@@ -292,14 +297,15 @@ class DyingMethod {
     this.ydmSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? ydmId;
   String? apperanceId;
   String? ydmName;
   String? ydmType;
   String? ydmColorTreatmentMethodIdfk;
-  Null ydmDescription;
+  String? ydmDescription;
   String? ydmIsActive;
-  Null ydmSortid;
+  String? ydmSortid;
 
   DyingMethod.fromJson(Map<String, dynamic> json) {
     ydmId = json['ydm_id'];
@@ -387,6 +393,7 @@ class Family {
   }
 }
 
+@Entity(tableName: "orientation_table")
 class Orientation {
   Orientation({
     required this.yoId,
@@ -397,12 +404,13 @@ class Orientation {
     this.catSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? yoId;
   String? familyId;
   String? yoName;
-  Null yoDescription;
+  String? yoDescription;
   String? yoIsActive;
-  Null catSortid;
+  String? catSortid;
 
   Orientation.fromJson(Map<String, dynamic> json) {
     yoId = json['yo_id'];
@@ -430,8 +438,9 @@ class Orientation {
   }
 }
 
-class Pattern {
-  Pattern({
+@Entity(tableName: "pattern_table")
+class PatternModel {
+  PatternModel({
     required this.ypId,
     required this.familyId,
     required this.ypName,
@@ -440,14 +449,15 @@ class Pattern {
     this.catSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? ypId;
   String? familyId;
   String? ypName;
-  Null ypDescription;
+  String? ypDescription;
   String? ypIsActive;
-  Null catSortid;
+  String? catSortid;
 
-  Pattern.fromJson(Map<String, dynamic> json) {
+  PatternModel.fromJson(Map<String, dynamic> json) {
     ypId = json['yp_id'];
     familyId = json['family_id'];
     ypName = json['yp_name'];
@@ -474,6 +484,7 @@ class Pattern {
   }
 }
 
+@Entity(tableName: "pattern_characteristics_table")
 class PatternCharectristic {
   PatternCharectristic({
     required this.ypcId,
@@ -484,12 +495,13 @@ class PatternCharectristic {
     this.ypcSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? ypcId;
   String? ypcName;
   String? ypcPatternIdfk;
   String? ypcDescription;
   String? ypcIsActive;
-  Null ypcSortid;
+  String? ypcSortid;
 
   PatternCharectristic.fromJson(Map<String, dynamic> json) {
     ypcId = json['ypc_id'];
@@ -517,6 +529,7 @@ class PatternCharectristic {
   }
 }
 
+@Entity(tableName: "ply_table")
 class Ply {
   Ply({
     required this.plyId,
@@ -527,12 +540,13 @@ class Ply {
     this.catSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? plyId;
   String? familyId;
   String? plyName;
-  Null plyDescription;
+  String? plyDescription;
   String? catIsActive;
-  Null catSortid;
+  String? catSortid;
 
   Ply.fromJson(Map<String, dynamic> json) {
     plyId = json['ply_id'];
@@ -561,6 +575,7 @@ class Ply {
   }
 }
 
+@Entity(tableName: "quality_table")
 class Quality {
   Quality({
     required this.yqId,
@@ -572,13 +587,14 @@ class Quality {
     this.yqSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? yqId;
   String? familyId;
   String? yqName;
   String? yqBlendIdfk;
-  Null yqDescription;
+  String? yqDescription;
   String? yqIsActive;
-  Null yqSortid;
+  String? yqSortid;
 
   Quality.fromJson(Map<String, dynamic> json) {
     yqId = json['yq_id'];
@@ -609,7 +625,9 @@ class Quality {
   }
 }
 
+@Entity(tableName: "yarn_types_table")
 class YarnTypes {
+  @PrimaryKey(autoGenerate: false)
   int? ytId;
   String? ytBlendIdfk;
   String? ytName;
@@ -919,6 +937,7 @@ class YarnSetting {
   }
 }
 
+@Entity(tableName: "spun_technique")
 class SpunTechnique {
   SpunTechnique({
     required this.ystId,
@@ -931,14 +950,15 @@ class SpunTechnique {
     this.ystSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? ystId;
   String? familyId;
   String? orientationId;
   String? ystName;
   String? ystBlendIdfd;
-  Null ystDescription;
+  String? ystDescription;
   String? ystIsActive;
-  Null ystSortid;
+  String? ystSortid;
 
   SpunTechnique.fromJson(Map<String, dynamic> json) {
     ystId = json['yst_id'];
@@ -971,6 +991,7 @@ class SpunTechnique {
   }
 }
 
+@Entity(tableName: "twist_direction")
 class TwistDirection {
   TwistDirection({
     required this.ytdId,
@@ -981,12 +1002,13 @@ class TwistDirection {
     this.catSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? ytdId;
   String? familyId;
   String? ytdName;
-  Null ytdDescription;
+  String? ytdDescription;
   String? ytdIsActive;
-  Null catSortid;
+  String? catSortid;
 
   TwistDirection.fromJson(Map<String, dynamic> json) {
     ytdId = json['ytd_id'];
@@ -1014,7 +1036,7 @@ class TwistDirection {
     return ytdName ?? "";
   }
 }
-
+@Entity(tableName: "usage_table")
 class Usage {
   Usage({
     required this.yuId,
@@ -1025,12 +1047,13 @@ class Usage {
     this.yuSortid,
   });
 
+  @PrimaryKey(autoGenerate: false)
   int? yuId;
   String? ysFamilyId;
   String? yuName;
-  Null yuDescription;
+  String? yuDescription;
   String? yuIsActive;
-  Null yuSortid;
+  String? yuSortid;
 
   Usage.fromJson(Map<String, dynamic> json) {
     yuId = json['yu_id'];
@@ -1106,13 +1129,15 @@ class Blends {
   }
 }
 
+@Entity(tableName: "corn_type")
 class ConeType {
+  @PrimaryKey(autoGenerate: false)
   int? yctId;
   String? familyId;
   String? yctName;
-  Null? yctDescription;
+  String? yctDescription;
   String? yctIsActive;
-  Null? yctSortid;
+  String? yctSortid;
 
   ConeType(
       {this.yctId,
@@ -1560,12 +1585,14 @@ class ConeType {
 //   }
 // }
 
+@Entity(tableName: "doubling_method")
 class DoublingMethod {
+  @PrimaryKey(autoGenerate: false)
   int? dmId;
   String? plyId;
   String? dmName;
   String? catIsActive;
-  Null? catSortid;
+  String? catSortid;
 
   DoublingMethod(
       {this.dmId, this.plyId, this.dmName, this.catIsActive, this.catSortid});
@@ -1595,13 +1622,15 @@ class DoublingMethod {
   }
 }
 
+@Entity(tableName: "yarn_appearance")
 class YarnAppearance {
+  @PrimaryKey(autoGenerate: false)
   int? yaId;
   String? familyId;
   String? usageId;
   String? yaName;
   String? yaIsActive;
-  Null? catSortid;
+  String? catSortid;
 
   YarnAppearance(
       {this.yaId,

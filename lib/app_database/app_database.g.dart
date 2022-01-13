@@ -69,6 +69,8 @@ class _$AppDatabase extends AppDatabase {
 
   FiberMaterialDao? _fiberMaterialDaoInstance;
 
+  FiberAppearanceDao? _fiberAppearanceDoaInstance;
+
   GradesDao? _gradesDaoInstance;
 
   BrandsDao? _brandsDaoInstance;
@@ -101,10 +103,36 @@ class _$AppDatabase extends AppDatabase {
 
   YarnBlendDao? _yarnBlendDaoInstance;
 
+  ColorTreatmentMethodDao? _colorTreatmentMethodDaoInstance;
+
+  ConeTypeDao? _coneTypeDaoInstance;
+
+  DyingMethodDao? _colorMethodDaoInstance;
+
+  OrientationDao? _orientationDaoInstance;
+
+  PatternCharacteristicsDao? _patternCharDaoInstance;
+
+  PatternDao? _patternDaoInstance;
+
+  PlyDao? _plyDaoInstance;
+
+  QualityDao? _qualityDaoInstance;
+
+  SpunTechniqueDao? _spunTechDaoInstance;
+
+  TwistDirectionDao? _twistDirectionDaoInstance;
+
+  UsageDao? _usageDaoInstance;
+
+  YarnTypesDao? _yarnTypesDaoInstance;
+
+  YarnAppearanceDao? _yarnAppearanceDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 5,
+      version: 6,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -124,7 +152,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_natures` (`id` INTEGER NOT NULL, `nature` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `apperance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_appearance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_available_market` (`afmId` INTEGER NOT NULL, `afmCategoryIdfk` TEXT NOT NULL, `afmName` TEXT NOT NULL, `afmIsActive` TEXT NOT NULL, PRIMARY KEY (`afmId`))');
         await database.execute(
@@ -165,6 +193,34 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `corn_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `dying_method` (`ydmId` INTEGER, `apperanceId` TEXT, `ydmName` TEXT, `ydmType` TEXT, `ydmColorTreatmentMethodIdfk` TEXT, `ydmDescription` TEXT, `ydmIsActive` TEXT, `ydmSortid` TEXT, PRIMARY KEY (`ydmId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fiber_appearance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_appearance` (`yaId` INTEGER, `familyId` TEXT, `usageId` TEXT, `yaName` TEXT, `yaIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`yaId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `orientation_table` (`yoId` INTEGER, `familyId` TEXT, `yoName` TEXT, `yoDescription` TEXT, `yoIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`yoId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `pattern_characteristics_table` (`ypcId` INTEGER, `ypcName` TEXT, `ypcPatternIdfk` TEXT, `ypcDescription` TEXT, `ypcIsActive` TEXT, `ypcSortid` TEXT, PRIMARY KEY (`ypcId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `pattern_table` (`ypId` INTEGER, `familyId` TEXT, `ypName` TEXT, `ypDescription` TEXT, `ypIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ypId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `ply_table` (`plyId` INTEGER, `familyId` TEXT, `plyName` TEXT, `plyDescription` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`plyId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `spun_technique` (`ystId` INTEGER, `familyId` TEXT, `orientationId` TEXT, `ystName` TEXT, `ystBlendIdfd` TEXT, `ystDescription` TEXT, `ystIsActive` TEXT, `ystSortid` TEXT, PRIMARY KEY (`ystId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `twist_direction` (`ytdId` INTEGER, `familyId` TEXT, `ytdName` TEXT, `ytdDescription` TEXT, `ytdIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ytdId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `usage_table` (`yuId` INTEGER, `ysFamilyId` TEXT, `yuName` TEXT, `yuDescription` TEXT, `yuIsActive` TEXT, `yuSortid` TEXT, PRIMARY KEY (`yuId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_types_table` (`ytId` INTEGER, `ytBlendIdfk` TEXT, `ytName` TEXT, `dannierRange` TEXT, `filamentRange` TEXT, `ytIsActive` TEXT, `ytSortid` TEXT, PRIMARY KEY (`ytId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -193,6 +249,12 @@ class _$AppDatabase extends AppDatabase {
   FiberMaterialDao get fiberMaterialDao {
     return _fiberMaterialDaoInstance ??=
         _$FiberMaterialDao(database, changeListener);
+  }
+
+  @override
+  FiberAppearanceDao get fiberAppearanceDoa {
+    return _fiberAppearanceDoaInstance ??=
+        _$FiberAppearanceDao(database, changeListener);
   }
 
   @override
@@ -277,6 +339,78 @@ class _$AppDatabase extends AppDatabase {
   @override
   YarnBlendDao get yarnBlendDao {
     return _yarnBlendDaoInstance ??= _$YarnBlendDao(database, changeListener);
+  }
+
+  @override
+  ColorTreatmentMethodDao get colorTreatmentMethodDao {
+    return _colorTreatmentMethodDaoInstance ??=
+        _$ColorTreatmentMethodDao(database, changeListener);
+  }
+
+  @override
+  ConeTypeDao get coneTypeDao {
+    return _coneTypeDaoInstance ??= _$ConeTypeDao(database, changeListener);
+  }
+
+  @override
+  DyingMethodDao get colorMethodDao {
+    return _colorMethodDaoInstance ??=
+        _$DyingMethodDao(database, changeListener);
+  }
+
+  @override
+  OrientationDao get orientationDao {
+    return _orientationDaoInstance ??=
+        _$OrientationDao(database, changeListener);
+  }
+
+  @override
+  PatternCharacteristicsDao get patternCharDao {
+    return _patternCharDaoInstance ??=
+        _$PatternCharacteristicsDao(database, changeListener);
+  }
+
+  @override
+  PatternDao get patternDao {
+    return _patternDaoInstance ??= _$PatternDao(database, changeListener);
+  }
+
+  @override
+  PlyDao get plyDao {
+    return _plyDaoInstance ??= _$PlyDao(database, changeListener);
+  }
+
+  @override
+  QualityDao get qualityDao {
+    return _qualityDaoInstance ??= _$QualityDao(database, changeListener);
+  }
+
+  @override
+  SpunTechniqueDao get spunTechDao {
+    return _spunTechDaoInstance ??=
+        _$SpunTechniqueDao(database, changeListener);
+  }
+
+  @override
+  TwistDirectionDao get twistDirectionDao {
+    return _twistDirectionDaoInstance ??=
+        _$TwistDirectionDao(database, changeListener);
+  }
+
+  @override
+  UsageDao get usageDao {
+    return _usageDaoInstance ??= _$UsageDao(database, changeListener);
+  }
+
+  @override
+  YarnTypesDao get yarnTypesDao {
+    return _yarnTypesDaoInstance ??= _$YarnTypesDao(database, changeListener);
+  }
+
+  @override
+  YarnAppearanceDao get yarnAppearanceDao {
+    return _yarnAppearanceDaoInstance ??=
+        _$YarnAppearanceDao(database, changeListener);
   }
 }
 
@@ -597,6 +731,62 @@ class _$FiberMaterialDao extends FiberMaterialDao {
       List<FiberMaterial> fiberMaterials) {
     return _fiberMaterialInsertionAdapter.insertListAndReturnIds(
         fiberMaterials, OnConflictStrategy.replace);
+  }
+}
+
+class _$FiberAppearanceDao extends FiberAppearanceDao {
+  _$FiberAppearanceDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fiberAppearanceInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_appearance',
+            (FiberAppearance item) => <String, Object?>{
+                  'aprId': item.aprId,
+                  'aprCategoryIdfk': item.aprCategoryIdfk,
+                  'aprName': item.aprName,
+                  'aprIsActive': item.aprIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FiberAppearance> _fiberAppearanceInsertionAdapter;
+
+  @override
+  Future<List<FiberAppearance>> findAllFiberAppearance() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_appearance',
+        mapper: (Map<String, Object?> row) => FiberAppearance(
+            aprId: row['aprId'] as int?,
+            aprCategoryIdfk: row['aprCategoryIdfk'] as String?,
+            aprName: row['aprName'] as String?,
+            aprIsActive: row['aprIsActive'] as String?));
+  }
+
+  @override
+  Future<List<FiberAppearance>> findFiberAppearance(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_appearance where aprId = ?1',
+        mapper: (Map<String, Object?> row) => FiberAppearance(
+            aprId: row['aprId'] as int?,
+            aprCategoryIdfk: row['aprCategoryIdfk'] as String?,
+            aprName: row['aprName'] as String?,
+            aprIsActive: row['aprIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from fiber_appearance');
+  }
+
+  @override
+  Future<List<int>> insertAllFiberAppearance(
+      List<FiberAppearance> fiberAppearance) {
+    return _fiberAppearanceInsertionAdapter.insertListAndReturnIds(
+        fiberAppearance, OnConflictStrategy.replace);
   }
 }
 
@@ -1977,5 +2167,969 @@ class _$YarnBlendDao extends YarnBlendDao {
   Future<void> insertAllYarnBlend(List<Blends> yarnBlend) async {
     await _blendsInsertionAdapter.insertList(
         yarnBlend, OnConflictStrategy.replace);
+  }
+}
+
+class _$ColorTreatmentMethodDao extends ColorTreatmentMethodDao {
+  _$ColorTreatmentMethodDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _colorTreatmentMethodInsertionAdapter = InsertionAdapter(
+            database,
+            'color_treatment_method',
+            (ColorTreatmentMethod item) => <String, Object?>{
+                  'yctmId': item.yctmId,
+                  'familyId': item.familyId,
+                  'yctmName': item.yctmName,
+                  'yctmColorMethodIdfk': item.yctmColorMethodIdfk,
+                  'yctmDescription': item.yctmDescription,
+                  'yctmIsActive': item.yctmIsActive,
+                  'yctmSortid': item.yctmSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<ColorTreatmentMethod>
+      _colorTreatmentMethodInsertionAdapter;
+
+  @override
+  Future<List<ColorTreatmentMethod>> findAllColorTreatmentMethod() async {
+    return _queryAdapter.queryList('SELECT * FROM color_treatment_method',
+        mapper: (Map<String, Object?> row) => ColorTreatmentMethod(
+            yctmId: row['yctmId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctmName: row['yctmName'] as String?,
+            yctmColorMethodIdfk: row['yctmColorMethodIdfk'] as String?,
+            yctmDescription: row['yctmDescription'] as String?,
+            yctmIsActive: row['yctmIsActive'] as String?,
+            yctmSortid: row['yctmSortid'] as String?));
+  }
+
+  @override
+  Future<ColorTreatmentMethod?> findYarnColorTreatmentMethodWithId(
+      int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM color_treatment_method where yctmId = ?1',
+        mapper: (Map<String, Object?> row) => ColorTreatmentMethod(
+            yctmId: row['yctmId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctmName: row['yctmName'] as String?,
+            yctmColorMethodIdfk: row['yctmColorMethodIdfk'] as String?,
+            yctmDescription: row['yctmDescription'] as String?,
+            yctmIsActive: row['yctmIsActive'] as String?,
+            yctmSortid: row['yctmSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteColorTreatmentMethod(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from color_treatment_method where yctmId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from color_treatment_method');
+  }
+
+  @override
+  Future<void> insertColorTreatmentMethod(ColorTreatmentMethod colorTm) async {
+    await _colorTreatmentMethodInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllColorTreatmentMethod(
+      List<ColorTreatmentMethod> colorTm) {
+    return _colorTreatmentMethodInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$ConeTypeDao extends ConeTypeDao {
+  _$ConeTypeDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _coneTypeInsertionAdapter = InsertionAdapter(
+            database,
+            'corn_type',
+            (ConeType item) => <String, Object?>{
+                  'yctId': item.yctId,
+                  'familyId': item.familyId,
+                  'yctName': item.yctName,
+                  'yctDescription': item.yctDescription,
+                  'yctIsActive': item.yctIsActive,
+                  'yctSortid': item.yctSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<ConeType> _coneTypeInsertionAdapter;
+
+  @override
+  Future<List<ConeType>> findAllConeType() async {
+    return _queryAdapter.queryList('SELECT * FROM corn_type',
+        mapper: (Map<String, Object?> row) => ConeType(
+            yctId: row['yctId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctName: row['yctName'] as String?,
+            yctDescription: row['yctDescription'] as String?,
+            yctIsActive: row['yctIsActive'] as String?,
+            yctSortid: row['yctSortid'] as String?));
+  }
+
+  @override
+  Future<ConeType?> findYarnConeTypeWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM corn_type where yctId = ?1',
+        mapper: (Map<String, Object?> row) => ConeType(
+            yctId: row['yctId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctName: row['yctName'] as String?,
+            yctDescription: row['yctDescription'] as String?,
+            yctIsActive: row['yctIsActive'] as String?,
+            yctSortid: row['yctSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteConeType(int id) async {
+    await _queryAdapter.queryNoReturn('delete from corn_type where yctId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from corn_type');
+  }
+
+  @override
+  Future<void> insertConeType(ConeType colorTm) async {
+    await _coneTypeInsertionAdapter.insert(colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllConeType(List<ConeType> colorTm) {
+    return _coneTypeInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$DyingMethodDao extends DyingMethodDao {
+  _$DyingMethodDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _dyingMethodInsertionAdapter = InsertionAdapter(
+            database,
+            'dying_method',
+            (DyingMethod item) => <String, Object?>{
+                  'ydmId': item.ydmId,
+                  'apperanceId': item.apperanceId,
+                  'ydmName': item.ydmName,
+                  'ydmType': item.ydmType,
+                  'ydmColorTreatmentMethodIdfk':
+                      item.ydmColorTreatmentMethodIdfk,
+                  'ydmDescription': item.ydmDescription,
+                  'ydmIsActive': item.ydmIsActive,
+                  'ydmSortid': item.ydmSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<DyingMethod> _dyingMethodInsertionAdapter;
+
+  @override
+  Future<List<DyingMethod>> findAllDyingMethod() async {
+    return _queryAdapter.queryList('SELECT * FROM dying_method',
+        mapper: (Map<String, Object?> row) => DyingMethod(
+            ydmId: row['ydmId'] as int?,
+            apperanceId: row['apperanceId'] as String?,
+            ydmName: row['ydmName'] as String?,
+            ydmType: row['ydmType'] as String?,
+            ydmColorTreatmentMethodIdfk:
+                row['ydmColorTreatmentMethodIdfk'] as String?,
+            ydmDescription: row['ydmDescription'] as String?,
+            ydmIsActive: row['ydmIsActive'] as String?,
+            ydmSortid: row['ydmSortid'] as String?));
+  }
+
+  @override
+  Future<DyingMethod?> findYarnDyingMethodWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM dying_method where ydmId = ?1',
+        mapper: (Map<String, Object?> row) => DyingMethod(
+            ydmId: row['ydmId'] as int?,
+            apperanceId: row['apperanceId'] as String?,
+            ydmName: row['ydmName'] as String?,
+            ydmType: row['ydmType'] as String?,
+            ydmColorTreatmentMethodIdfk:
+                row['ydmColorTreatmentMethodIdfk'] as String?,
+            ydmDescription: row['ydmDescription'] as String?,
+            ydmIsActive: row['ydmIsActive'] as String?,
+            ydmSortid: row['ydmSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteDyingMethod(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from dying_method where ydmId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from dying_method');
+  }
+
+  @override
+  Future<void> insertDyingMethod(DyingMethod dyingMethod) async {
+    await _dyingMethodInsertionAdapter.insert(
+        dyingMethod, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllDyingMethod(List<DyingMethod> dyingMethod) {
+    return _dyingMethodInsertionAdapter.insertListAndReturnIds(
+        dyingMethod, OnConflictStrategy.replace);
+  }
+}
+
+class _$OrientationDao extends OrientationDao {
+  _$OrientationDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _orientationInsertionAdapter = InsertionAdapter(
+            database,
+            'orientation_table',
+            (Orientation item) => <String, Object?>{
+                  'yoId': item.yoId,
+                  'familyId': item.familyId,
+                  'yoName': item.yoName,
+                  'yoDescription': item.yoDescription,
+                  'yoIsActive': item.yoIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Orientation> _orientationInsertionAdapter;
+
+  @override
+  Future<List<Orientation>> findAllOrientation() async {
+    return _queryAdapter.queryList('SELECT * FROM orientation_table',
+        mapper: (Map<String, Object?> row) => Orientation(
+            yoId: row['yoId'] as int?,
+            familyId: row['familyId'] as String?,
+            yoName: row['yoName'] as String?,
+            yoDescription: row['yoDescription'] as String?,
+            yoIsActive: row['yoIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<Orientation?> findYarnOrientationWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM orientation_table where yoId = ?1',
+        mapper: (Map<String, Object?> row) => Orientation(
+            yoId: row['yoId'] as int?,
+            familyId: row['familyId'] as String?,
+            yoName: row['yoName'] as String?,
+            yoDescription: row['yoDescription'] as String?,
+            yoIsActive: row['yoIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteOrientation(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from orientation_table where yoId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from orientation_table');
+  }
+
+  @override
+  Future<void> insertOrientation(Orientation orientation) async {
+    await _orientationInsertionAdapter.insert(
+        orientation, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllOrientation(List<Orientation> orientation) {
+    return _orientationInsertionAdapter.insertListAndReturnIds(
+        orientation, OnConflictStrategy.replace);
+  }
+}
+
+class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
+  _$PatternCharacteristicsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _patternCharectristicInsertionAdapter = InsertionAdapter(
+            database,
+            'pattern_characteristics_table',
+            (PatternCharectristic item) => <String, Object?>{
+                  'ypcId': item.ypcId,
+                  'ypcName': item.ypcName,
+                  'ypcPatternIdfk': item.ypcPatternIdfk,
+                  'ypcDescription': item.ypcDescription,
+                  'ypcIsActive': item.ypcIsActive,
+                  'ypcSortid': item.ypcSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<PatternCharectristic>
+      _patternCharectristicInsertionAdapter;
+
+  @override
+  Future<List<PatternCharectristic>> findAllPatternCharacteristics() async {
+    return _queryAdapter.queryList('SELECT * FROM pattern_table',
+        mapper: (Map<String, Object?> row) => PatternCharectristic(
+            ypcId: row['ypcId'] as int?,
+            ypcName: row['ypcName'] as String?,
+            ypcPatternIdfk: row['ypcPatternIdfk'] as String?,
+            ypcDescription: row['ypcDescription'] as String?,
+            ypcIsActive: row['ypcIsActive'] as String?,
+            ypcSortid: row['ypcSortid'] as String?));
+  }
+
+  @override
+  Future<PatternCharectristic?> findYarnPatternCharacteristicsWithId(
+      int id) async {
+    return _queryAdapter.query('SELECT * FROM pattern_table where ypId = ?1',
+        mapper: (Map<String, Object?> row) => PatternCharectristic(
+            ypcId: row['ypcId'] as int?,
+            ypcName: row['ypcName'] as String?,
+            ypcPatternIdfk: row['ypcPatternIdfk'] as String?,
+            ypcDescription: row['ypcDescription'] as String?,
+            ypcIsActive: row['ypcIsActive'] as String?,
+            ypcSortid: row['ypcSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deletePatternCharacteristics(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from pattern_table where ypId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from pattern_table');
+  }
+
+  @override
+  Future<void> insertPatternCharacteristics(
+      PatternCharectristic colorTm) async {
+    await _patternCharectristicInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllPatternCharacteristics(
+      List<PatternCharectristic> colorTm) {
+    return _patternCharectristicInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$PatternDao extends PatternDao {
+  _$PatternDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _patternModelInsertionAdapter = InsertionAdapter(
+            database,
+            'pattern_table',
+            (PatternModel item) => <String, Object?>{
+                  'ypId': item.ypId,
+                  'familyId': item.familyId,
+                  'ypName': item.ypName,
+                  'ypDescription': item.ypDescription,
+                  'ypIsActive': item.ypIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<PatternModel> _patternModelInsertionAdapter;
+
+  @override
+  Future<List<PatternModel>> findAllPattern() async {
+    return _queryAdapter.queryList('SELECT * FROM pattern_table',
+        mapper: (Map<String, Object?> row) => PatternModel(
+            ypId: row['ypId'] as int?,
+            familyId: row['familyId'] as String?,
+            ypName: row['ypName'] as String?,
+            ypDescription: row['ypDescription'] as String?,
+            ypIsActive: row['ypIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<PatternModel?> findYarnPatternWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM pattern_table where ypId = ?1',
+        mapper: (Map<String, Object?> row) => PatternModel(
+            ypId: row['ypId'] as int?,
+            familyId: row['familyId'] as String?,
+            ypName: row['ypName'] as String?,
+            ypDescription: row['ypDescription'] as String?,
+            ypIsActive: row['ypIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deletePattern(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from pattern_table where ypId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from pattern_table');
+  }
+
+  @override
+  Future<void> insertPattern(PatternModel colorTm) async {
+    await _patternModelInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllPattern(List<PatternModel> colorTm) {
+    return _patternModelInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$PlyDao extends PlyDao {
+  _$PlyDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _plyInsertionAdapter = InsertionAdapter(
+            database,
+            'ply_table',
+            (Ply item) => <String, Object?>{
+                  'plyId': item.plyId,
+                  'familyId': item.familyId,
+                  'plyName': item.plyName,
+                  'plyDescription': item.plyDescription,
+                  'catIsActive': item.catIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Ply> _plyInsertionAdapter;
+
+  @override
+  Future<List<Ply>> findAllPly() async {
+    return _queryAdapter.queryList('SELECT * FROM ply_table',
+        mapper: (Map<String, Object?> row) => Ply(
+            plyId: row['plyId'] as int?,
+            familyId: row['familyId'] as String?,
+            plyName: row['plyName'] as String?,
+            plyDescription: row['plyDescription'] as String?,
+            catIsActive: row['catIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<Ply?> findYarnPlyWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM ply_table where plyId = ?1',
+        mapper: (Map<String, Object?> row) => Ply(
+            plyId: row['plyId'] as int?,
+            familyId: row['familyId'] as String?,
+            plyName: row['plyName'] as String?,
+            plyDescription: row['plyDescription'] as String?,
+            catIsActive: row['catIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deletePly(int id) async {
+    await _queryAdapter.queryNoReturn('delete from ply_table where plyId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from ply_table');
+  }
+
+  @override
+  Future<void> insertPly(Ply colorTm) async {
+    await _plyInsertionAdapter.insert(colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllPly(List<Ply> colorTm) {
+    return _plyInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$QualityDao extends QualityDao {
+  _$QualityDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _qualityInsertionAdapter = InsertionAdapter(
+            database,
+            'quality_table',
+            (Quality item) => <String, Object?>{
+                  'yqId': item.yqId,
+                  'familyId': item.familyId,
+                  'yqName': item.yqName,
+                  'yqBlendIdfk': item.yqBlendIdfk,
+                  'yqDescription': item.yqDescription,
+                  'yqIsActive': item.yqIsActive,
+                  'yqSortid': item.yqSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Quality> _qualityInsertionAdapter;
+
+  @override
+  Future<List<Quality>> findAllQuality() async {
+    return _queryAdapter.queryList('SELECT * FROM quality_table',
+        mapper: (Map<String, Object?> row) => Quality(
+            yqId: row['yqId'] as int?,
+            familyId: row['familyId'] as String?,
+            yqName: row['yqName'] as String?,
+            yqBlendIdfk: row['yqBlendIdfk'] as String?,
+            yqDescription: row['yqDescription'] as String?,
+            yqIsActive: row['yqIsActive'] as String?,
+            yqSortid: row['yqSortid'] as String?));
+  }
+
+  @override
+  Future<Quality?> findYarnQualityWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM quality_table where yqId = ?1',
+        mapper: (Map<String, Object?> row) => Quality(
+            yqId: row['yqId'] as int?,
+            familyId: row['familyId'] as String?,
+            yqName: row['yqName'] as String?,
+            yqBlendIdfk: row['yqBlendIdfk'] as String?,
+            yqDescription: row['yqDescription'] as String?,
+            yqIsActive: row['yqIsActive'] as String?,
+            yqSortid: row['yqSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteQuality(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from quality_table where yqId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from quality_table');
+  }
+
+  @override
+  Future<void> insertQuality(Quality colorTm) async {
+    await _qualityInsertionAdapter.insert(colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllQuality(List<Quality> colorTm) {
+    return _qualityInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$SpunTechniqueDao extends SpunTechniqueDao {
+  _$SpunTechniqueDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _spunTechniqueInsertionAdapter = InsertionAdapter(
+            database,
+            'spun_technique',
+            (SpunTechnique item) => <String, Object?>{
+                  'ystId': item.ystId,
+                  'familyId': item.familyId,
+                  'orientationId': item.orientationId,
+                  'ystName': item.ystName,
+                  'ystBlendIdfd': item.ystBlendIdfd,
+                  'ystDescription': item.ystDescription,
+                  'ystIsActive': item.ystIsActive,
+                  'ystSortid': item.ystSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<SpunTechnique> _spunTechniqueInsertionAdapter;
+
+  @override
+  Future<List<SpunTechnique>> findAllSpunTechnique() async {
+    return _queryAdapter.queryList('SELECT * FROM spun_technique',
+        mapper: (Map<String, Object?> row) => SpunTechnique(
+            ystId: row['ystId'] as int?,
+            familyId: row['familyId'] as String?,
+            orientationId: row['orientationId'] as String?,
+            ystName: row['ystName'] as String?,
+            ystBlendIdfd: row['ystBlendIdfd'] as String?,
+            ystDescription: row['ystDescription'] as String?,
+            ystIsActive: row['ystIsActive'] as String?,
+            ystSortid: row['ystSortid'] as String?));
+  }
+
+  @override
+  Future<SpunTechnique?> findYarnSpunTechniqueWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM spun_technique where ystId = ?1',
+        mapper: (Map<String, Object?> row) => SpunTechnique(
+            ystId: row['ystId'] as int?,
+            familyId: row['familyId'] as String?,
+            orientationId: row['orientationId'] as String?,
+            ystName: row['ystName'] as String?,
+            ystBlendIdfd: row['ystBlendIdfd'] as String?,
+            ystDescription: row['ystDescription'] as String?,
+            ystIsActive: row['ystIsActive'] as String?,
+            ystSortid: row['ystSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteSpunTechnique(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from spun_technique where ystId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from spun_technique');
+  }
+
+  @override
+  Future<void> insertSpunTechnique(SpunTechnique colorTm) async {
+    await _spunTechniqueInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllSpunTechnique(List<SpunTechnique> colorTm) {
+    return _spunTechniqueInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$TwistDirectionDao extends TwistDirectionDao {
+  _$TwistDirectionDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _twistDirectionInsertionAdapter = InsertionAdapter(
+            database,
+            'twist_direction',
+            (TwistDirection item) => <String, Object?>{
+                  'ytdId': item.ytdId,
+                  'familyId': item.familyId,
+                  'ytdName': item.ytdName,
+                  'ytdDescription': item.ytdDescription,
+                  'ytdIsActive': item.ytdIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TwistDirection> _twistDirectionInsertionAdapter;
+
+  @override
+  Future<List<TwistDirection>> findAllTwistDirection() async {
+    return _queryAdapter.queryList('SELECT * FROM twist_direction',
+        mapper: (Map<String, Object?> row) => TwistDirection(
+            ytdId: row['ytdId'] as int?,
+            familyId: row['familyId'] as String?,
+            ytdName: row['ytdName'] as String?,
+            ytdDescription: row['ytdDescription'] as String?,
+            ytdIsActive: row['ytdIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<TwistDirection?> findYarnTwistDirectionWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM twist_direction where ytdId = ?1',
+        mapper: (Map<String, Object?> row) => TwistDirection(
+            ytdId: row['ytdId'] as int?,
+            familyId: row['familyId'] as String?,
+            ytdName: row['ytdName'] as String?,
+            ytdDescription: row['ytdDescription'] as String?,
+            ytdIsActive: row['ytdIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteTwistDirection(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from twist_direction where ytdId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from twist_direction');
+  }
+
+  @override
+  Future<void> insertTwistDirection(TwistDirection colorTm) async {
+    await _twistDirectionInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllTwistDirection(List<TwistDirection> colorTm) {
+    return _twistDirectionInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$UsageDao extends UsageDao {
+  _$UsageDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _usageInsertionAdapter = InsertionAdapter(
+            database,
+            'usage_table',
+            (Usage item) => <String, Object?>{
+                  'yuId': item.yuId,
+                  'ysFamilyId': item.ysFamilyId,
+                  'yuName': item.yuName,
+                  'yuDescription': item.yuDescription,
+                  'yuIsActive': item.yuIsActive,
+                  'yuSortid': item.yuSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Usage> _usageInsertionAdapter;
+
+  @override
+  Future<List<Usage>> findAllUsage() async {
+    return _queryAdapter.queryList('SELECT * FROM usage_table',
+        mapper: (Map<String, Object?> row) => Usage(
+            yuId: row['yuId'] as int?,
+            ysFamilyId: row['ysFamilyId'] as String?,
+            yuName: row['yuName'] as String?,
+            yuDescription: row['yuDescription'] as String?,
+            yuIsActive: row['yuIsActive'] as String?,
+            yuSortid: row['yuSortid'] as String?));
+  }
+
+  @override
+  Future<Usage?> findYarnUsageWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM usage_table where yuId = ?1',
+        mapper: (Map<String, Object?> row) => Usage(
+            yuId: row['yuId'] as int?,
+            ysFamilyId: row['ysFamilyId'] as String?,
+            yuName: row['yuName'] as String?,
+            yuDescription: row['yuDescription'] as String?,
+            yuIsActive: row['yuIsActive'] as String?,
+            yuSortid: row['yuSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteUsage(int id) async {
+    await _queryAdapter.queryNoReturn('delete from usage_table where yuId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from usage_table');
+  }
+
+  @override
+  Future<void> insertUsage(Usage colorTm) async {
+    await _usageInsertionAdapter.insert(colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllUsage(List<Usage> colorTm) {
+    return _usageInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$YarnTypesDao extends YarnTypesDao {
+  _$YarnTypesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _yarnTypesInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_types_table',
+            (YarnTypes item) => <String, Object?>{
+                  'ytId': item.ytId,
+                  'ytBlendIdfk': item.ytBlendIdfk,
+                  'ytName': item.ytName,
+                  'dannierRange': item.dannierRange,
+                  'filamentRange': item.filamentRange,
+                  'ytIsActive': item.ytIsActive,
+                  'ytSortid': item.ytSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<YarnTypes> _yarnTypesInsertionAdapter;
+
+  @override
+  Future<List<YarnTypes>> findAllYarnTypes() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_types_table',
+        mapper: (Map<String, Object?> row) => YarnTypes(
+            ytId: row['ytId'] as int?,
+            ytBlendIdfk: row['ytBlendIdfk'] as String?,
+            ytName: row['ytName'] as String?,
+            dannierRange: row['dannierRange'] as String?,
+            filamentRange: row['filamentRange'] as String?,
+            ytIsActive: row['ytIsActive'] as String?,
+            ytSortid: row['ytSortid'] as String?));
+  }
+
+  @override
+  Future<YarnTypes?> findYarnYarnTypesWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM yarn_types_table where ytId = ?1',
+        mapper: (Map<String, Object?> row) => YarnTypes(
+            ytId: row['ytId'] as int?,
+            ytBlendIdfk: row['ytBlendIdfk'] as String?,
+            ytName: row['ytName'] as String?,
+            dannierRange: row['dannierRange'] as String?,
+            filamentRange: row['filamentRange'] as String?,
+            ytIsActive: row['ytIsActive'] as String?,
+            ytSortid: row['ytSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteYarnTypes(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from yarn_types_table where ytId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from yarn_types_table');
+  }
+
+  @override
+  Future<void> insertYarnTypes(YarnTypes colorTm) async {
+    await _yarnTypesInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllYarnTypes(List<YarnTypes> colorTm) {
+    return _yarnTypesInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
+class _$YarnAppearanceDao extends YarnAppearanceDao {
+  _$YarnAppearanceDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _yarnAppearanceInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_appearance',
+            (YarnAppearance item) => <String, Object?>{
+                  'yaId': item.yaId,
+                  'familyId': item.familyId,
+                  'usageId': item.usageId,
+                  'yaName': item.yaName,
+                  'yaIsActive': item.yaIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<YarnAppearance> _yarnAppearanceInsertionAdapter;
+
+  @override
+  Future<List<YarnAppearance>> findAllYarnAppearance() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_appearance',
+        mapper: (Map<String, Object?> row) => YarnAppearance(
+            yaId: row['yaId'] as int?,
+            familyId: row['familyId'] as String?,
+            usageId: row['usageId'] as String?,
+            yaName: row['yaName'] as String?,
+            yaIsActive: row['yaIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<List<YarnAppearance>> findYarnAppearance(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_appearance where yaId = ?1',
+        mapper: (Map<String, Object?> row) => YarnAppearance(
+            yaId: row['yaId'] as int?,
+            familyId: row['familyId'] as String?,
+            usageId: row['usageId'] as String?,
+            yaName: row['yaName'] as String?,
+            yaIsActive: row['yaIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete * from yarn_appearance');
+  }
+
+  @override
+  Future<List<int>> insertAllYarnAppearance(
+      List<YarnAppearance> yarnAppearance) {
+    return _yarnAppearanceInsertionAdapter.insertListAndReturnIds(
+        yarnAppearance, OnConflictStrategy.replace);
   }
 }

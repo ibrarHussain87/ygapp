@@ -71,8 +71,7 @@ class FCM {
   }
 
   forgroundNotification() {
-    FirebaseMessaging.onMessage.listen(
-          (message) async {
+    FirebaseMessaging.onMessage.listen((message) async {
         if (message.data.containsKey('data')) {
           // Handle data message
           streamCtlr.sink.add(message.data['data']);

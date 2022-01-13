@@ -39,11 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _loginRequestModel = LoginRequestModel();
     super.initState();
-    ConnectionStatusSingleton.getInstance().connectionChange.listen((event) {
-      setState(() {
-        isOnline = event;
-      });
-    });
   }
 
   @override
@@ -248,40 +243,42 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _loginCall() {
-    ProgressDialogUtil.showDialog(context, 'Please wait...');
-    if (isOnline!) {
-      ApiService.login(_loginRequestModel).then((value) {
-        ProgressDialogUtil.hideDialog();
-        if (value.success) {
-          AppDbInstance.getDbInstance().then((db) async {
-            await db.userDao.insertUser(value.data.user);
-          });
+    check().then((value) {
+      if(value){
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+        ApiService.login(_loginRequestModel).then((value) {
+          ProgressDialogUtil.hideDialog();
+          if (value.success) {
+            AppDbInstance.getDbInstance().then((db) async {
+              await db.userDao.insertUser(value.data.user);
+            });
 
-          SharedPreferenceUtil.addStringToSF(
-              USER_ID_KEY, value.data.user.id.toString());
-          SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
-          SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+            SharedPreferenceUtil.addStringToSF(
+                USER_ID_KEY, value.data.user.id.toString());
+            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
+            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
-          Fluttertoast.showToast(
-              msg: value.message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1);
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => MainPage()),
-              (Route<dynamic> route) => false);
-        } else {
+            Fluttertoast.showToast(
+                msg: value.message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => MainPage()),
+                    (Route<dynamic> route) => false);
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message)));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value.message)));
-        }
-      }).onError((error, stackTrace) {
-        ProgressDialogUtil.hideDialog();
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      }else{
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.toString())));
-      });
-    }else{
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
-    }
+            .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
   }
 }

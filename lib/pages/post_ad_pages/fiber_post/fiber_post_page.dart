@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';

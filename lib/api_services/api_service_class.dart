@@ -9,7 +9,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
-import 'package:yg_app/model/request/post_ad_request/fiber_request.dart';
+import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
@@ -170,12 +170,15 @@ class ApiService {
           'POST', Uri.parse(BASE_API_URL + CREATE_FIBER_END_POINT));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userId =
+      await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       request.headers.addAll(
           {"Accept": "application/json", "Authorization": "Bearer $userToken"});
       if (imagePath.isNotEmpty) {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
       }
+      createRequestModel.spc_user_idfk = userId.toString();
       request.fields.addAll(createRequestModel.toJson());
       logger.e(createRequestModel.toJson());
       var response = await request.send();
@@ -405,3 +408,6 @@ class ApiService {
     }
   }
 }
+
+
+

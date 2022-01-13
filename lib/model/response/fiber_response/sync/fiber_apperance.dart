@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'apperance')
+@Entity(tableName: 'fiber_appearance')
 class FiberAppearance {
   FiberAppearance({
     required this.aprId,

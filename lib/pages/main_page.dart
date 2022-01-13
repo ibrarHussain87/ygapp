@@ -175,7 +175,7 @@ class _MainPageState extends State<MainPage> {
       await value.fiberMaterialDao
           .insertAllFiberMaterials(syncFiberResponse.data.fiber.material);
 
-      //insert Common objects
+      //insert Common objects for fiber
       await value.brandsDao
           .insertAllBrands(syncFiberResponse.data.fiber.brands);
       await value.certificationDao
@@ -196,9 +196,10 @@ class _MainPageState extends State<MainPage> {
       await value.priceTermsDao
           .insertAllFPriceTerms(syncFiberResponse.data.fiber.priceTerms);
       await value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units);
-    });
+      await value.fiberAppearanceDoa
+          .insertAllFiberAppearance(syncFiberResponse.data.fiber.apperance);
 
-    await AppDbInstance.getDbInstance().then((value) async {
+      //Yarn
       await value.yarnSettingsDao
           .insertAllYarnSettings(syncYarnResponse.data.yarn.setting!);
       await value.yarnBlendDao
@@ -207,7 +208,7 @@ class _MainPageState extends State<MainPage> {
           .insertAllYarnFamily(syncYarnResponse.data.yarn.family!);
       await value.gradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!);
 
-      //Insert All Common Objects
+      //Insert All Common Objects for yarn
       await value.brandsDao.insertAllBrands(syncYarnResponse.data.yarn.brands!);
       await value.certificationDao
           .insertAllCertification(syncYarnResponse.data.yarn.certification!);
@@ -227,6 +228,31 @@ class _MainPageState extends State<MainPage> {
       await value.priceTermsDao
           .insertAllFPriceTerms(syncYarnResponse.data.yarn.priceTerms!);
       await value.unitDao.insertAllUnit(syncYarnResponse.data.yarn.units!);
+      await value.colorTreatmentMethodDao.insertAllColorTreatmentMethod(
+          syncYarnResponse.data.yarn.colorTreatmentMethod!);
+      await value.coneTypeDao
+          .insertAllConeType(syncYarnResponse.data.yarn.coneType!);
+      await value.colorMethodDao
+          .insertAllDyingMethod(syncYarnResponse.data.yarn.dyingMethod!);
+      await value.orientationDao
+          .insertAllOrientation(syncYarnResponse.data.yarn.orientation!);
+      await value.patternCharDao.insertAllPatternCharacteristics(
+          syncYarnResponse.data.yarn.patternCharectristic!);
+      await value.patternDao
+          .insertAllPattern(syncYarnResponse.data.yarn.pattern!);
+      await value.plyDao.insertAllPly(syncYarnResponse.data.yarn.ply!);
+      await value.qualityDao
+          .insertAllQuality(syncYarnResponse.data.yarn.quality!);
+      await value.twistDirectionDao
+          .insertAllTwistDirection(syncYarnResponse.data.yarn.twistDirection!);
+      await value.usageDao.insertAllUsage(syncYarnResponse.data.yarn.usage!);
+      await value.yarnTypesDao
+          .insertAllYarnTypes(syncYarnResponse.data.yarn.yarnTypes!);
+
+      await value.yarnAppearanceDao
+          .insertAllYarnAppearance(syncYarnResponse.data.yarn.apperance!);
     });
+
+    // await AppDbInstance.getDbInstance().then((value) async {});
   }
 }
