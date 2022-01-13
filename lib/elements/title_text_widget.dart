@@ -20,6 +20,25 @@ class TitleTextWidget extends StatelessWidget {
   }
 }
 
+class LargeTitleTextWidget extends StatelessWidget {
+
+  final String? title;
+  final Color? color;
+  const LargeTitleTextWidget({Key? key, required this.title,this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title??"N/A",
+      style: TextStyle(
+          color: color??Colors.black,
+          fontSize: 16.sp,
+          fontFamily: 'Metropolis',
+          fontWeight: FontWeight.w400),
+    );
+  }
+}
+
 class NormalTitleTextWidget extends StatelessWidget {
 
   final String? title;

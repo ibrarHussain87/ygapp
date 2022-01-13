@@ -24,6 +24,7 @@ class DetailTabPage extends StatefulWidget {
 
 class _DetailTabPageState extends State<DetailTabPage> {
   List<GridTileModel> detailSpecification = [];
+  List<GridTileModel> labParameters = [];
   List<GridTileModel> detailPackaging = [];
   int? bidPrice;
   int? bidQuantity = 1;
@@ -50,17 +51,17 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : "N/A"),
       GridTileModel(
           'Trash',
-          widget.specification!.trash!=null
+          widget.specification!.trash != null
               ? widget.specification!.trash! + " %"
               : "N/A"),
       GridTileModel(
           'RD',
-          widget.specification!.rd!=null
+          widget.specification!.rd != null
               ? widget.specification!.rd! + " %"
               : 'N/A'),
       GridTileModel(
           'GPT',
-          widget.specification!.gpt!= null
+          widget.specification!.gpt != null
               ? widget.specification!.gpt! + " %"
               : 'N/A'),
       GridTileModel(
@@ -70,12 +71,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.apperance!),
       GridTileModel(
           'Brand',
-          widget.specification!.brand==null
+          widget.specification!.brand == null
               ? "N/A"
               : widget.specification!.brand!),
       GridTileModel(
           'Production year',
-          widget.specification!.productYear ==null
+          widget.specification!.productYear == null
               ? "N/A"
               : widget.specification!.productYear!),
       GridTileModel(
@@ -85,15 +86,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.origin!),
       GridTileModel(
           'Certification',
-          widget.specification!.certification==null
+          widget.specification!.certification == null
               ? "N/A"
               : widget.specification!.certification!),
     ];
 
-    detailPackaging = [
+    labParameters = [
       GridTileModel(
           'Unit Of Count',
-          widget.specification!.unitCount==null
+          widget.specification!.unitCount == null
               ? "N/A"
               : widget.specification!.unitCount!),
       GridTileModel(
@@ -103,12 +104,30 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.priceUnit!),
       GridTileModel(
           'Packing',
-          widget.specification!.priceTerms==null
+          widget.specification!.priceTerms == null
+              ? "N/A"
+              : widget.specification!.priceTerms!)
+    ];
+
+    detailPackaging = [
+      GridTileModel(
+          'Unit Of Count',
+          widget.specification!.unitCount == null
+              ? "N/A"
+              : widget.specification!.unitCount!),
+      GridTileModel(
+          'Price',
+          widget.specification!.priceUnit == null
+              ? "N/A"
+              : widget.specification!.priceUnit!),
+      GridTileModel(
+          'Packing',
+          widget.specification!.priceTerms == null
               ? "N/A"
               : widget.specification!.priceTerms!),
       GridTileModel(
           'Minimum Quantity',
-          widget.specification!.minQuantity==null
+          widget.specification!.minQuantity == null
               ? "N/A"
               : widget.specification!.minQuantity!),
       GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
@@ -158,6 +177,27 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   SizedBox(
                     height: 4.w,
                   ),
+                  const TitleTextWidget(title: 'Lab Parameters'),
+                  SizedBox(
+                    height: 8.w,
+                  ),
+                  GridView.count(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.77,
+                    mainAxisSpacing: 3.w,
+                    crossAxisSpacing: 6.w,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: List.generate(labParameters.length, (index) {
+                      return GreyTextDetailWidget(
+                          title: labParameters[index]._title,
+                          detail: labParameters[index]._detail);
+                    }),
+                  ),
+                  const Divider(),
+                  SizedBox(
+                    height: 4.w,
+                  ),
                   const TitleTextWidget(title: 'Packing Details'),
                   SizedBox(
                     height: 8.w,
@@ -190,7 +230,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       child: TextFormField(
                         keyboardType: TextInputType.text,
                         maxLines: 5,
-                        initialValue: widget.specification!.description==null
+                        initialValue: widget.specification!.description == null
                             ? "N/A"
                             : widget.specification!.description!,
                         cursorColor: lightBlueTabs,
@@ -207,6 +247,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 5.w,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
@@ -217,49 +258,80 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           children: [
                             Padding(
                                 padding: EdgeInsets.all(4.w),
-                                child:
-                                    const TitleSmallTextWidget(title: 'Price')),
+                                child: const Center(
+                                  child: TitleSmallTextWidget(title: 'Price'),
+                                )),
                             Container(
                               width: 200.w,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: lightBlueTabs,
-                                    width:
-                                        1, //                   <--- border width here
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.w))),
                               child: Padding(
-                                padding: EdgeInsets.all(8.w),
+                                padding: EdgeInsets.all(1.w),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            if (bidPrice! >= 1) {
-                                              bidPrice = bidPrice! - 1;
-                                            }
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.remove,
-                                          size: 16.w,
-                                          color: Colors.grey,
-                                        )),
-                                    TitleTextWidget(title: '$bidPrice'),
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            bidPrice = bidPrice! + 1;
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 16.w,
-                                          color: Colors.grey,
-                                        )),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: lightBlueTabs,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.w))),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.w),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (bidPrice! >= 1) {
+                                                      bidPrice = bidPrice! - 1;
+                                                    }
+                                                  });
+                                                },
+                                                child: Center(
+                                                  child: TitleTextWidget(
+                                                      title: '-1',color: lightBlueTabs,),
+                                                ),
+                                              ),
+                                            ))),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                        child: Padding(
+                                            padding: EdgeInsets.all(8.w),
+                                            child: Center(
+                                              child: LargeTitleTextWidget(
+                                                  title: '$bidPrice'),
+                                            ))),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: lightBlueTabs,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.w))),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.w),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    bidPrice = bidPrice! + 1;
+                                                  });
+                                                },
+                                                child: Center(
+                                                  child: TitleTextWidget(
+                                                      title: '+1',color: lightBlueTabs,),
+                                                ),
+                                              ),
+                                            )))
                                   ],
                                 ),
                               ),
@@ -268,57 +340,94 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         ),
                       ),
                       SizedBox(
-                        width: 8.w,
+                        width: 30.w,
                       ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                                padding: EdgeInsets.all(4.w),
-                                child: const TitleSmallTextWidget(
-                                    title: 'Quantity (Kg)')),
+                              padding: EdgeInsets.all(4.w),
+                              child: const Center(
+                                  child: TitleSmallTextWidget(
+                                      title: 'Quantity (Kg)')),
+                            ),
                             Container(
                               width: 200.w,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: lightBlueTabs,
-                                    width:
-                                        1, //                   <--- border width here
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.w))),
                               child: Padding(
-                                padding: EdgeInsets.all(8.w),
+                                padding: EdgeInsets.all(1.w),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            if (bidQuantity! >= 1) {
-                                              bidQuantity = bidQuantity! - 1;
-                                            }
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.remove,
-                                          size: 16.w,
-                                          color: Colors.grey,
-                                        )),
-                                    TitleTextWidget(title: '$bidQuantity'),
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            bidQuantity = bidQuantity! + 1;
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 16.w,
-                                          color: Colors.grey,
-                                        )),
+                                    Expanded(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: lightBlueTabs,
+                                              width:
+                                                  1, //                   <--- border width here
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12.w))),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.w),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                if (bidQuantity! >= 1) {
+                                                  bidQuantity =
+                                                      bidQuantity! - 1;
+                                                }
+                                              });
+                                            },
+                                            child: Center(
+                                              child:
+                                                  TitleTextWidget(title: '-1',color: lightBlueTabs,),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                        child: Padding(
+                                      padding: EdgeInsets.all(8.w),
+                                      child: Center(
+                                        child: LargeTitleTextWidget(
+                                            title: '$bidQuantity'),
+                                      ),
+                                    )),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: lightBlueTabs,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12.w))),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.w),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    bidQuantity =
+                                                        bidQuantity! + 1;
+                                                  });
+                                                },
+                                                child: Center(
+                                                  child: TitleTextWidget(
+                                                      title: '+1',color: lightBlueTabs,),
+                                                ),
+                                              ),
+                                            )))
                                   ],
                                 ),
                               ),
@@ -369,8 +478,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ProgressDialogUtil.hideDialog();
                   Ui.showSnackBar(context, value.message);
                 }, onError: (stacktrace, error) {
-                  Ui.showSnackBar(
-                      context, error.message.toString());
+                  Ui.showSnackBar(context, error.message.toString());
                 });
               },
               color: btnColorLogin,
