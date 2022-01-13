@@ -243,7 +243,7 @@ Widget buildFiberProductWidget(Specification specification) {
                       height: 8.w,
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 4.w, right: 4.w),
+                        padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 16.w),
                         child: BidNowWidget(title: 'Update'))
                   ],
                 ),

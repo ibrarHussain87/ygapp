@@ -45,8 +45,8 @@ class GreyTextDetailWidget extends StatelessWidget {
                         title,
                         maxLines: 1,
                         style: TextStyle(
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.normal,
+                            fontSize: 6.sp,
+                            fontWeight: FontWeight.w500,
                             color: textColorGreyLight),
                       ),
                     ),

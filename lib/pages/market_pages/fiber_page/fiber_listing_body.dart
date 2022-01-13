@@ -40,8 +40,8 @@ class FiberListingBodyState extends State<FiberListingBody> {
       itemCount: specificationFiltered!.length,
       itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            openFiberDetailsScreen(
-                context, specificationFiltered![index]);
+            openDetailsScreen(
+                context,specification: specificationFiltered![index]);
           },
           child: buildFiberWidget(specificationFiltered![index])),
       // separatorBuilder: (context, index) {

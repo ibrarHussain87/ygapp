@@ -1,20 +1,22 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
-import 'list_bidder_components/fiber_bider_tab_page.dart';
+
 import 'fiber_detail_tab_page.dart';
+import 'list_bidder_components/fiber_bider_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {
+  final Specification? specification;
+  final YarnSpecification? yarnSpecification;
 
-  final Specification specification;
-
-  const FiberDetailPage({Key? key, required this.specification}) : super(key: key);
+  const FiberDetailPage({Key? key, this.specification, this.yarnSpecification})
+      : super(key: key);
 
   @override
   _FiberDetailPageState createState() => _FiberDetailPageState();
@@ -22,7 +24,7 @@ class FiberDetailPage extends StatefulWidget {
 
 class _FiberDetailPageState extends State<FiberDetailPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> tabsList = ['Details', "Matched",'Bidder List'];
+  List<String> tabsList = ['Details', "Matched", 'Bidder List'];
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: Padding(
@@ -55,18 +57,21 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
         ),
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      BrandWidget(title: widget.specification.brand),
+                      BrandWidget(
+                          title: widget.specification == null
+                              ? widget.yarnSpecification!.yarnFamily
+                              : widget.specification!.brand),
                       RatingBarIndicator(
                         rating: 2.75,
                         itemBuilder: (context, index) => const Icon(
@@ -84,7 +89,10 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                   ),
                   TitleTextWidget(
                     title:
-                        '${widget.specification.material},${widget.specification.apperance != null ? "${widget.specification.apperance}/" : ""}${widget.specification.productYear!.substring(0, 4)}',
+                        widget.specification != null?
+                        '${widget.specification!.material},${widget.specification!.apperance != null ? "${widget.specification!.apperance}/" : ""}${widget.specification!.productYear!.substring(0, 4)}':
+                        '${widget.yarnSpecification!.yarnBlend ?? "N/A"},${widget.yarnSpecification!.yarnApperance != null ? "${widget.yarnSpecification!.yarnApperance ??"N/A"}/" : ""}${widget.yarnSpecification!.yarnPattern??"N/A"}'
+
                   ),
                   SizedBox(height: 4.w),
                   Text.rich(
@@ -115,15 +123,14 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TitleTextWidget(
-                              title: 'PKR.${widget.specification.priceUnit}'),
+                              title: 'PKR.${widget.specification!=null?widget.specification!.priceUnit:widget.yarnSpecification!.priceUnit}'),
                           SizedBox(
                             width: 12.w,
                           ),
                           Text(
                             '(CLOSES 09/20/2021 | 09:35 AM EST)',
                             style: TextStyle(
-                                fontSize: 7.sp,
-                                color: textColorGreyLight),
+                                fontSize: 7.sp, color: textColorGreyLight),
                           )
                         ],
                       )
@@ -134,44 +141,47 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                   ),
                 ],
               ),
-              Expanded(
-                child: DefaultTabController(
-                length: tabsList.length,
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  appBar: PreferredSize(
-                    preferredSize: Size(double.infinity, 28.w),
-                    child: TabBar(
-                      // padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                      isScrollable: false,
-                      unselectedLabelColor: textColorGrey,
-                      labelColor: Colors.white,
-                      indicatorColor: lightBlueTabs,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      indicator: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          lightBlueTabs,
-                          lightBlueTabs
-                        ]),
-                        borderRadius: BorderRadius.circular(8.w),
+            ),
+            Expanded(
+              child: DefaultTabController(
+                  length: tabsList.length,
+                  child: Scaffold(
+                    backgroundColor: Colors.white,
+                    appBar: PreferredSize(
+                      preferredSize: Size(double.infinity, 28.w),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: TabBar(
+                          // padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                          isScrollable: false,
+                          unselectedLabelColor: textColorGrey,
+                          labelColor: Colors.white,
+                          indicatorColor: lightBlueTabs,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicator: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [lightBlueTabs, lightBlueTabs]),
+                            borderRadius: BorderRadius.circular(8.w),
+                          ),
+                          tabs: tabMaker(),
+                        ),
                       ),
-                      tabs: tabMaker(),
                     ),
-                  ),
-                  body: TabBarView(children: [
-                    DetailTabPage(
-                      specification: widget.specification,
-                    ),
-                    MatchedPage(catId: widget.specification.categoryId!, specId: widget.specification.spcId),
-                    BidderListPage(
-                      materialId: widget.specification.categoryId!,
-                      specId:widget.specification.spcId
-                    )
-                  ]),
-                )),
-              ),
-            ],
-          ),
+                    body: TabBarView(children: [
+                      DetailTabPage(
+                        specification: widget.specification,
+                        yarnSpecification: widget.yarnSpecification,
+                      ),
+                      MatchedPage(
+                          catId: widget.specification != null ? widget.specification!.categoryId! : "2",
+                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.specId??1),
+                      BidderListPage(
+                          materialId: widget.specification != null ? widget.specification!.categoryId! : "2",
+                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.specId??1)
+                    ]),
+                  )),
+            ),
+          ],
         ),
       ),
     );

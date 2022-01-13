@@ -68,7 +68,7 @@ class _ListBidsBodyState extends State<ListBidsBody> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TitleTextWidget(title: widget.listBiddersData.price ?? ""),
+                  TitleTextWidget(title: "PKR${widget.listBiddersData.price ?? ""}"),
                   SizedBox(
                     height: 4.w,
                   ),

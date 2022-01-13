@@ -38,11 +38,14 @@ class _BidderListPageState extends State<BidderListPage> {
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.data.isNotEmpty) {
-            return ListView.builder(
-                itemCount: snapshot.data!.data.length,
-                itemBuilder: (context, index) {
-                  return ListBidderBody(listBiddersData: snapshot.data!.data[index]);
-                });
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.builder(
+                  itemCount: snapshot.data!.data.length,
+                  itemBuilder: (context, index) {
+                    return ListBidderBody(listBiddersData: snapshot.data!.data[index]);
+                  }),
+            );
           } else if (snapshot.hasError) {
             return Center(
                 child: TitleSmallTextWidget(title: snapshot.error.toString()));

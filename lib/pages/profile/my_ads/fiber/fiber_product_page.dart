@@ -5,6 +5,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items_widgets/fiber_porduct_list_item.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
@@ -137,8 +138,8 @@ class FiberProductPageState extends State<FiberProductPage> {
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
                               onTap: () {
-                                // openFiberDetailsScreen(
-                                //     context, widget.specification![index]!);
+                                openDetailsScreen(
+                                    context,specification: widget.specification![index]!);
                               },
                               child: buildFiberProductWidget(
                                   _filteredSpecification![index]!)),

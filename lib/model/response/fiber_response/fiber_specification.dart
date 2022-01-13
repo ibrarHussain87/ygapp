@@ -58,6 +58,7 @@ class FiberSpecificationData {
 class Specification {
   Specification({
     required this.spcId,
+    required this.spc_user_id,
     required this.categoryId,
     this.businessArea,
     required this.locality,
@@ -91,6 +92,7 @@ class Specification {
   });
 
   late final int spcId;
+  String? spc_user_id;
   String? categoryId;
   String? businessArea;
   String? locality;
@@ -124,6 +126,7 @@ class Specification {
 
   Specification.fromJson(Map<String, dynamic> json) {
     spcId = json['spc_id'];
+    spc_user_id = json['spc_user_id'];
     categoryId = json['category_id'];
     businessArea = json['business_area'];
     locality = json['locality'];
@@ -162,6 +165,7 @@ class Specification {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['spc_id'] = spcId;
+    _data['spc_user_id'] = spc_user_id;
     _data['category_id'] = categoryId;
     _data['business_area'] = businessArea;
     _data['locality'] = locality;

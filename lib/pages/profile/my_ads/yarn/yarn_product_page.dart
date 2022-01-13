@@ -6,6 +6,7 @@ import 'package:yg_app/elements/list_items_widgets/yarn_product_list_items.dart'
 import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -168,8 +169,8 @@ class YarnProductPageState extends State<YarnProductPage> {
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
                               onTap: () {
-                                // openFiberDetailsScreen(
-                                //     context, widget.specification![index]!);
+                                openDetailsScreen(
+                                    context, yarnSpecification: widget.specification![index]!);
                               },
                               child: buildYarnProductWidget(
                                   _filteredSpecification![index]!)),

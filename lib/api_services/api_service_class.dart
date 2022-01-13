@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
@@ -225,7 +226,7 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> getMatched(String catId, String specId) async {
+  static Future<MatchedResponse> getMatched(String catId, String specId) async {
     try {
       String url = BASE_API_URL + GET_MATCHED_END_POINT;
 
@@ -241,14 +242,8 @@ class ApiService {
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
-      if (catId == "1") {
+        return MatchedResponse.fromJson(json.decode(response.body));
 
-        return Specification.fromJson(
-          json.decode(response.body),
-        );
-      } else {
-        return YarnSpecification.fromJson(json.decode(response.body));
-      }
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

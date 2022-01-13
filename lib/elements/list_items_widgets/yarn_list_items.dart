@@ -107,7 +107,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         children: [
                           Expanded(
                             child: TitleTextWidget(
-                              title: specification.yarnBlend,
+                              title: specification.yarnFamily,
                             ),
                             flex: 3,
                           ),
@@ -153,7 +153,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         padding: EdgeInsets.only(bottom: 8.0.w, top: 8.w),
                         child: TitleSmallTextWidget(
                           title:
-                              '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
+                              '${specification.yarnBlend??"N/A"},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
                         ),
                       ),
                       Row(
@@ -168,14 +168,14 @@ Widget buildYarnWidget(YarnSpecification specification) {
                           SizedBox(width: 8.w),
                           Expanded(
                             child: BgLightBlueTextWidget(
-                              title: 'CLSP ${specification.clsp}',
+                              title: 'CLSP ${specification.clsp?? "N/A"}',
                             ),
                             flex: 1,
                           ),
                           SizedBox(width: 8.w),
                           Expanded(
                             child: BgLightBlueTextWidget(
-                              title: 'IPI ${specification.actualYarnCount}',
+                              title: 'IPI ${specification.actualYarnCount ?? "N/A"}',
                             ),
                             flex: 1,
                           ),

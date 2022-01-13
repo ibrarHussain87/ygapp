@@ -15,7 +15,7 @@ class GetYarnSpecificationResponse {
     status = json['status'];
     responseCode = json['response_code'];
     // if(List.from(json['data']).isNotEmpty) {
-      data = YarnSpecificationData.fromJson(json['data']);
+    data = YarnSpecificationData.fromJson(json['data']);
     // }
     message = json['message'];
   }
@@ -24,7 +24,7 @@ class GetYarnSpecificationResponse {
     final _data = <String, dynamic>{};
     _data['status'] = status;
     _data['response_code'] = responseCode;
-    if(data!=null) {
+    if (data != null) {
       _data['data'] = data!.toJson();
     }
     _data['message'] = message;
@@ -47,7 +47,7 @@ class YarnSpecificationData {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    if(specification!= null) {
+    if (specification != null) {
       _data['specification'] = specification!.map((e) => e.toJson()).toList();
     }
     return _data;
@@ -56,6 +56,8 @@ class YarnSpecificationData {
 
 class YarnSpecification {
   YarnSpecification({
+    this.specId,
+    this.ys_user_id,
     this.yarnTitle,
     this.yarnDetails,
     required this.locality,
@@ -107,59 +109,63 @@ class YarnSpecification {
     required this.certifications,
   });
 
-   String? yarnTitle;
-   String? yarnDetails;
-   String? locality;
-   String? yarnFamily;
-   String? yarnBlend;
-   String? yarnRtio;
-   String? yarnUsage;
-   String? yarnPattern;
-   String? yarnPatternCharectristic;
-   String? yarnOrientation;
-   String? yarnTwistDirection;
-   String? count;
-   String? dtyFilament;
-   String? fdyFilament;
-   String? yarnPly;
-   String? yarnSpunTechnique;
-   String? yarnQuality;
-   String? yarnGrade;
-   String? yarnCertification;
-   String? yarnColorTreatmentMethod;
-   String? yarnDyingMethod;
-   String? color;
-   String? yarnApperance;
-   String? actualYarnCount;
-   String? qlt;
-   String? clsp;
-   String? uniformity;
-   String? cv;
-   String? thinPlaces;
-   String? is_offering;
-   String? is_featured;
-   String? is_verified;
-   String? thickPlaces;
-   String? naps;
-   String? priceUnit;
-   String? unitCount;
-   String? weightCone;
-   String? weightBag;
-   String? conesBag;
-   String? packing;
-   String? paymentType;
-   String? lcType;
-   String? deliveryPeriod;
-   String? available;
-   String? priceTerms;
-   String? minQuantity;
-   String? description;
-   List<dynamic>? pictures;
-   List<dynamic>? certifications;
+  int? specId;
+  String? ys_user_id;
+  String? yarnTitle;
+  String? yarnDetails;
+  String? locality;
+  String? yarnFamily;
+  String? yarnBlend;
+  String? yarnRtio;
+  String? yarnUsage;
+  String? yarnPattern;
+  String? yarnPatternCharectristic;
+  String? yarnOrientation;
+  String? yarnTwistDirection;
+  String? count;
+  String? dtyFilament;
+  String? fdyFilament;
+  String? yarnPly;
+  String? yarnSpunTechnique;
+  String? yarnQuality;
+  String? yarnGrade;
+  String? yarnCertification;
+  String? yarnColorTreatmentMethod;
+  String? yarnDyingMethod;
+  String? color;
+  String? yarnApperance;
+  String? actualYarnCount;
+  String? qlt;
+  String? clsp;
+  String? uniformity;
+  String? cv;
+  String? thinPlaces;
+  String? is_offering;
+  String? is_featured;
+  String? is_verified;
+  String? thickPlaces;
+  String? naps;
+  String? priceUnit;
+  String? unitCount;
+  String? weightCone;
+  String? weightBag;
+  String? conesBag;
+  String? packing;
+  String? paymentType;
+  String? lcType;
+  String? deliveryPeriod;
+  String? available;
+  String? priceTerms;
+  String? minQuantity;
+  String? description;
+  List<dynamic>? pictures;
+  List<dynamic>? certifications;
 
   YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = null;
     yarnDetails = null;
+    specId = json['ys_id'];
+    ys_user_id = json['ys_user_id'];
     locality = json['locality'];
     yarnFamily = json['yarn_family'];
     yarnBlend = json['yarn_blend'];
@@ -211,6 +217,8 @@ class YarnSpecification {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['ys_id'] = specId;
+    _data['ys_user_id'] = ys_user_id;
     _data['yarn_title'] = yarnTitle;
     _data['yarn_details'] = yarnDetails;
     _data['locality'] = locality;
