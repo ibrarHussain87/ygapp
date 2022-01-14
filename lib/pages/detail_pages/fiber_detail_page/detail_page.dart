@@ -8,8 +8,8 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
 
-import 'fiber_detail_tab_page.dart';
-import 'list_bidder_components/fiber_bider_tab_page.dart';
+import 'detail_tab.dart';
+import 'list_bidder_components/bider_tab.dart';
 
 class FiberDetailPage extends StatefulWidget {
   final Specification? specification;
@@ -123,7 +123,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TitleTextWidget(
-                              title: 'PKR.${widget.specification!=null?widget.specification!.priceUnit:widget.yarnSpecification!.priceUnit}'),
+                              title: '${widget.specification!=null?widget.specification!.priceUnit:widget.yarnSpecification!.priceUnit}'),
                           SizedBox(
                             width: 12.w,
                           ),

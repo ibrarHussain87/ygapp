@@ -226,7 +226,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TitleTextWidget(
-                            title: "PKR." +
+                            title: /*"PKR." +*/
                                 specification.priceUnit.toString() +
                                 "/KG",
                           ),

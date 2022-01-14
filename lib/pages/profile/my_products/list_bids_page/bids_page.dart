@@ -5,7 +5,8 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/list_bidder_components/list_bidder_body.dart';
-import 'package:yg_app/pages/profile/my_ads/list_bids_page/list_bids_body.dart';
+
+import 'bids_body.dart';
 
 class BidsListPage extends StatefulWidget {
   const BidsListPage({Key? key}) : super(key: key);

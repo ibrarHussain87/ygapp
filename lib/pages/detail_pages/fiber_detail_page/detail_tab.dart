@@ -428,24 +428,27 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ),
               flex: 9,
             ),
-            ElevatedButtonWithoutIcon(
-                callback: () {
-                  ProgressDialogUtil.showDialog(context, "Please wait....");
-                  ApiService.createBid(
-                          widget.specification!.categoryId.toString(),
-                          widget.specification!.spcId.toString(),
-                          bidPrice.toString(),
-                          bidQuantity.toString(),
-                          bidRemarks)
-                      .then((value) {
-                    ProgressDialogUtil.hideDialog();
-                    Ui.showSnackBar(context, value.message);
-                  }, onError: (stacktrace, error) {
-                    Ui.showSnackBar(context, error.message.toString());
-                  });
-                },
-                color: btnColorLogin,
-                btnText: 'Place Bid'),
+            Visibility(
+              visible: showBidContainer,
+              child: ElevatedButtonWithoutIcon(
+                  callback: () {
+                    ProgressDialogUtil.showDialog(context, "Please wait....");
+                    ApiService.createBid(
+                            widget.specification!.categoryId.toString(),
+                            widget.specification!.spcId.toString(),
+                            bidPrice.toString(),
+                            bidQuantity.toString(),
+                            bidRemarks)
+                        .then((value) {
+                      ProgressDialogUtil.hideDialog();
+                      Ui.showSnackBar(context, value.message);
+                    }, onError: (stacktrace, error) {
+                      Ui.showSnackBar(context, error.message.toString());
+                    });
+                  },
+                  color: btnColorLogin,
+                  btnText: 'Place Bid'),
+            ),
           ],
         ),
       ),

@@ -212,7 +212,7 @@ Widget buildFiberProductWidget(Specification specification) {
                         TitleTextWidget(
                           title: specification.priceUnit ?? "N/A",
                         ),
-                        TitleSmallTextWidget(title: "Ex- Factory")
+                        const TitleSmallTextWidget(title: "Ex- Factory")
                       ],
                     ),
                     SizedBox(

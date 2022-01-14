@@ -6,9 +6,9 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/pages/profile/my_ads/fiber/fiber_product_page.dart';
-import 'package:yg_app/pages/profile/my_ads/yarn/yarn_product_page.dart';
+import 'package:yg_app/pages/profile/my_products/yarn/yarn_product_page.dart';
 
+import 'fiber/fiber_product_page.dart';
 class MyProductPage extends StatefulWidget {
   const MyProductPage({Key? key}) : super(key: key);
 

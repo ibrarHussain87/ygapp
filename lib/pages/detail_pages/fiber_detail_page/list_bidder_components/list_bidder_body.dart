@@ -29,6 +29,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
     setState(() {
       _changeColor = widget.listBiddersData.isAccepted;
     });
+
     super.initState();
   }
 

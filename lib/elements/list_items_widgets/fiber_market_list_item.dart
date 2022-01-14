@@ -141,21 +141,21 @@ Widget buildFiberWidget(Specification specification) {
                       children: [
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.length} mm',
+                            title: '${specification.length??""} mm',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.micronaire} mic',
+                            title: '${specification.micronaire??""} mic',
                           ),
                           flex: 1,
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: BgLightBlueTextWidget(
-                            title: '${specification.trash} %',
+                            title: '${specification.trash??""} %',
                           ),
                           flex: 1,
                         ),
