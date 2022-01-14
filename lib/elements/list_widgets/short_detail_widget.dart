@@ -53,8 +53,9 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
                     widget.title??"N/A",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 9.sp,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Metropolis',
                         color: Colors.black),
                   ),
                 ),

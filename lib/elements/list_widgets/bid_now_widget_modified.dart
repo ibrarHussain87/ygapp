@@ -12,7 +12,7 @@ class BidNowWidgetModified extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: btnGreen,
+          color: greenButton,
           borderRadius:
           BorderRadius.all(Radius.circular(2.w))),
       child: Padding(

@@ -6,8 +6,9 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 class BgLightBlueTextWidget extends StatelessWidget {
 
   final String title;
+  final Color? color;
 
-  const BgLightBlueTextWidget({Key? key,required this.title}) : super(key: key);
+  const BgLightBlueTextWidget({Key? key,required this.title,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +18,14 @@ class BgLightBlueTextWidget extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
         padding: EdgeInsets.only(
-            left: 4.w, right: 4.w, top: 4.w, bottom: 4.w),
+            left: 4.w, right: 4.w, top: 5.w, bottom: 4.w),
         child: Center(
           child: Text.rich( TextSpan(
             children: [
               TextSpan(
                 text: title.split(' ')[0],
                 style: TextStyle(
-                    fontSize: 7.sp, color: Colors.black,
+                    fontSize: 9.sp, color: color??Colors.black,
                   fontWeight: FontWeight.bold
                 ),
               ),
@@ -32,7 +33,7 @@ class BgLightBlueTextWidget extends StatelessWidget {
               TextSpan(
                 text:" "+title.split(' ')[1],
                 style: TextStyle(
-                    fontSize: 7.sp, color: Colors.black),
+                    fontSize: 9.sp, color: color??Colors.black),
               ),
             ]
           )),

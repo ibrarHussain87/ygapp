@@ -18,7 +18,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
       color: Colors.white,
       elevation: 18.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(0),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,18 +33,18 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
               maintainState: true,
               maintainAnimation: true,
               child: Container(
-                  width: 48.w,
-                  padding: EdgeInsets.all(3.w),
+                  width: 28.w,
+                  padding: EdgeInsets.symmetric(horizontal: 3.w,vertical: 3.w),
                   decoration: BoxDecoration(
-                      color: btnGreen,
+                      color: lightGreenContainer,
                       borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(16.w),
+                        topRight: Radius.circular(0.w),
                       )),
                   child: Text(
                     'Active',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: lightGreenLabel,
                       fontSize: 6.sp,
                       fontFamily: 'Metropolis',
                       fontWeight: FontWeight.bold,
@@ -52,7 +52,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                   )),
             ),
           ),
-          SizedBox(height: 2.w,),
+          SizedBox(height: 1.w,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -113,11 +113,11 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                         children: [
                            Container(
                             color: blueBackgroundColor,
-                              constraints: BoxConstraints(maxHeight: 15),
+                              constraints: const BoxConstraints(maxHeight: 19),
                               child: Padding(
-                                padding: const EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(5),
                                 child: Center(
-                                  child: TitleExtraSmallTextWidget(
+                                  child: TitleBoldSmallTextWidget(
                                     title:
                                     '${specification.actualYarnCount}${specification.yarnTwistDirection != null ? "/${specification.yarnTwistDirection}"  :  ""} ${specification.yarnFamily}',
                                     color: Colors.white,
@@ -125,10 +125,14 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                                 ),
                               )
                             ),
-                          SizedBox(width: 2.w,),
+                          SizedBox(width: 4.w,),
                           Expanded(
-                            child: TitleTextWidget(
-                              title: specification.yarnBlend,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: TitleMediumTextWidget(
+                                title: specification.yarnBlend,
+                                color: Colors.black87,
+                              ),
                             ),
                             flex: 1,
                           ),
@@ -147,10 +151,11 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 8.0.w, top: 8.w),
-                        child: TitleSmallTextWidget(
+                        padding: EdgeInsets.only(bottom: 6.0.w, top: 6.w),
+                        child: TitleSmallNormalTextWidget(
                           title:
                               '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
+                        color: lightGreyColor,
                         ),
                       ),
                       Row(
@@ -159,6 +164,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                           Expanded(
                             child: BgLightBlueTextWidget(
                               title: 'AC ${specification.actualYarnCount}',
+                              color: lightBlueLabel,
                             ),
                             flex: 1,
                           ),
@@ -166,6 +172,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                           Expanded(
                             child: BgLightBlueTextWidget(
                               title: 'CLSP ${specification.clsp}',
+                              color: lightBlueLabel,
                             ),
                             flex: 1,
                           ),
@@ -173,13 +180,14 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                           Expanded(
                             child: BgLightBlueTextWidget(
                               title: 'IPI ${specification.actualYarnCount}',
+                              color: lightBlueLabel,
                             ),
                             flex: 1,
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: 8.w,
+                        height: 4.w,
                       ),
                       Row(
                         children: [
@@ -216,18 +224,18 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                  padding: EdgeInsets.only(left: 6.w, right: 6.w,top: 4),
                   child: Column(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TitleTextWidget(
+                          TitleMediumTextWidget(
                             title: "PKR." +
                                 specification.priceUnit.toString() +
                                 "/KG",
                           ),
-                          const TitleSmallTextWidget(title: "Ex- Factory"),
+                          TitleSmallNormalTextWidget(title: "Ex- Factory",color: lightGreyColor,),
                           SizedBox(height: 3.w,),
                           Text.rich(TextSpan(children: [
                             TextSpan(
@@ -241,7 +249,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                             TextSpan(
                               text: "Nov 23, 4:33 PM",
                               style: TextStyle(
-                                  fontSize: 9.sp, color: updatedDateColor),
+                                  fontSize: 9.sp, color: lightBlueLabel),
                             )
                           ])),
                           SizedBox(height: 8.w,),
@@ -257,7 +265,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                             TextSpan(
                               text: "325",
                               style: TextStyle(
-                                  fontSize: 9.sp, color: updatedDateColor),
+                                  fontSize: 9.sp, color: lightBlueLabel),
                             )
                           ])),
                         ],
@@ -271,45 +279,128 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.w,vertical: 6.w),
+            padding: EdgeInsets.only(left: 18.w,right: 18.w,top: 3.w,bottom: 10.w),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        color: btnGreen,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(2.w))),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 6.w,bottom: 6.w),
-                      child: Center(
-                        child: Text(
-                          'Proposals',
-                          style: TextStyle(
-                              fontSize: 11.sp, color: Colors.white,fontWeight: FontWeight.w400),
+                        border: Border.all(
+                          color: greenButton,
+                          width:
+                          1, //                   <--- border width here
                         ),
-                      ),
-                    ),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(4.w))),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 6.w),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  'Proposals',
+                                  style: TextStyle(
+                                      fontSize: 9.sp, color: Colors.black87,fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  '4',
+                                  style: TextStyle(
+                                      fontSize: 9.sp, color: greenButton,fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(width: 3.w,)
+                              ],
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional.topEnd,
+                          child: Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                  color: redColor,
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10.w))),
+                              child: Center(
+                                child: Text(
+                                  '3',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 8.sp, color: Colors.white,fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ),
+                          )
+                        )
+                      ],
+                    )
                   )
                 ),
                 SizedBox(width: 10.w,),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: btnGreen,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(2.w))),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 6.w,bottom: 6.w),
-                      child: Center(
-                        child: Text(
-                          'Matches',
-                          style: TextStyle(
-                              fontSize: 11.sp, color: Colors.white,fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ),
-                  )
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: lightYellowContainer,
+                            border: Border.all(
+                              color: lightYellowContainer,
+                              width:
+                              1, //                   <--- border width here
+                            ),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(4.w))),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6.w),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'Matches',
+                                      style: TextStyle(
+                                          fontSize: 9.sp, color: lightYellowLabel,fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      '5',
+                                      style: TextStyle(
+                                          fontSize: 9.sp, color: lightYellowLabel,fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(width: 3.w,)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                                alignment: AlignmentDirectional.topEnd,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                        color: redColor,
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(10.w))),
+                                    child: Center(
+                                      child: Text(
+                                        '3',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 8.sp, color: Colors.white,fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            )
+                          ],
+                        )
+                    )
                 ),
                 SizedBox(width: 60.w,),
                 Expanded(
