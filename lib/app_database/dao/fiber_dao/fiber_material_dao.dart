@@ -7,6 +7,9 @@ abstract class FiberMaterialDao{
   @Query('SELECT * FROM fiber_entity')
   Future<List<FiberMaterial>> findAllFiberMaterials();
 
+  @Query('SELECT * FROM fiber_entity limit = :4')
+  Future<List<FiberMaterial>> findFFiberMaterials();
+
   @Query('SELECT * FROM fiber_entity where fbm_id = :id')
   Future<List<FiberMaterial>> findFiberMaterials(int id);
 

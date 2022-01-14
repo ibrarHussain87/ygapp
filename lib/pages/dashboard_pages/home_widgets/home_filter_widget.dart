@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
 import 'package:yg_app/model/response/family_data.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_more_widget.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class HomeFilterWidget extends StatefulWidget {
-  const HomeFilterWidget({Key? key}) : super(key: key);
+
+  final Function callback;
+  const HomeFilterWidget({Key? key,required this.callback}) : super(key: key);
 
   @override
   _HomeFilterWidgetState createState() => _HomeFilterWidgetState();
@@ -14,32 +20,43 @@ class HomeFilterWidget extends StatefulWidget {
 
 class _HomeFilterWidgetState extends State<HomeFilterWidget> {
 
-  List<FamilyData> familyList = <FamilyData>[
-    FamilyData(LYCRA_IMAGE, LYCRA_UNCHECK_IMAGE, 'Lycra'),
-    FamilyData(
-        MICRO_FIBER_IMAGE, MICRO_FIBER_UNCHECK_IMAGE, 'Micro Fiber'),
-    FamilyData(MODEL_IMAGE, MODEL_UNCHECK_IMAGE, 'Model'),
-    FamilyData(MODEL_IMAGE, MODEL_UNCHECK_IMAGE, 'Post Ad'),
-    FamilyData(
-        ORIENTATION_IMAGE, ORIENTATION_UNCHECK_IMAGE, 'Orientation'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
-    FamilyData(
-        POLY_COTTON_IMAGE, POLY_COTTON_UNCHECK_IMAGE, 'Poly Cotton'),
+  List<FamilyData> familyList = <FamilyData>[];
 
-  ];
+  List<FiberMaterial> _fiberMaterialList = [];
+  List<Family> _yarnFamilyList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    AppDbInstance.getDbInstance().then((value) async{
+
+      familyList.clear();
+      _fiberMaterialList.clear();
+      _yarnFamilyList.clear();
+
+      _fiberMaterialList = await value.fiberMaterialDao.findAllFiberMaterials();
+      _yarnFamilyList = await value.yarnFamilyDao.findAllYarnFamily();
+      setState(() {
+        if(_fiberMaterialList.isNotEmpty  && _fiberMaterialList.length >= 4){
+          _fiberMaterialList = _fiberMaterialList.take(4).toList();
+          for (var element in _fiberMaterialList) {
+            familyList.add(FamilyData(element.fbmId, element.icon_selected??"", element.icon_unselected!, element.fbmName!));
+          }
+
+        }
+
+        if(_yarnFamilyList.isNotEmpty && _yarnFamilyList.length >= 4){
+          _yarnFamilyList = _yarnFamilyList.take(4).toList();
+          for (var element in _yarnFamilyList) {
+            familyList.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
+          }
+        }
+      });
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +65,26 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
       padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.w),
       child: GridMoreWidget(
         spanCount: 4,
-        callback: (value){},
+        callback: (value){
+          widget.callback(1);
+        },
         listOfItems: familyList,
       ),
+      // child: Column(
+      //   children: [
+      //     MaterialListviewWidget(
+      //       listItem:_fiberMaterialList,
+      //       onClickCallback: (value) {
+      //       },
+      //     ),
+      //
+      //     MaterialListviewWidget(
+      //       listItem:familyList,
+      //       onClickCallback: (value) {
+      //       },
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

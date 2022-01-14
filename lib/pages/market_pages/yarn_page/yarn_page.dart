@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -27,46 +28,55 @@ class YarnPageState extends State<YarnPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: WillPopScope(
-        onWillPop: () async {
-          if (isDialOpen.value) {
-            isDialOpen.value = false;
-            return false;
-          } else {
-            return true;
-          }
-        },
+      // child: WillPopScope(
+      //   onWillPop: () async {
+      //     if (isDialOpen.value) {
+      //       isDialOpen.value = false;
+      //       return false;
+      //     } else {
+      //       return true;
+      //     }
+      //   },
         child: Scaffold(
           backgroundColor: Colors.white,
-          floatingActionButton: SpeedDial(
-            icon: Icons.add,
-            openCloseDial: isDialOpen,
+          // floatingActionButton: SpeedDial(
+          //   icon: Icons.add,
+          //   openCloseDial: isDialOpen,
+          //   backgroundColor: Colors.blueAccent,
+          //   overlayColor: Colors.grey,
+          //   overlayOpacity: 0.5,
+          //   spacing: 3.w,
+          //   spaceBetweenChildren: 3.w,
+          //   closeManually: true,
+          //   children: [
+          //     SpeedDialChild(
+          //         label: 'Requirement',
+          //         backgroundColor: Colors.blue,
+          //         onTap: () {
+          //           setState(() {
+          //             isDialOpen.value = false;
+          //           });
+          //           openYarnPostPage(context,widget.locality,yarn,'0');
+          //         }),
+          //     SpeedDialChild(
+          //         label: 'Offering',
+          //         onTap: () {
+          //           setState(() {
+          //             isDialOpen.value = false;
+          //           });
+          //           openYarnPostPage(context,widget.locality,yarn,'1');
+          //
+          //         }),
+          //   ],
+          // ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: (){
+              showBottomSheetOR(context,(value){
+                openFiberPostPage(context,widget.locality,yarn,value);
+              });
+            },
+            child: Icon(Icons.add),
             backgroundColor: Colors.blueAccent,
-            overlayColor: Colors.grey,
-            overlayOpacity: 0.5,
-            spacing: 3.w,
-            spaceBetweenChildren: 3.w,
-            closeManually: true,
-            children: [
-              SpeedDialChild(
-                  label: 'Requirement',
-                  backgroundColor: Colors.blue,
-                  onTap: () {
-                    setState(() {
-                      isDialOpen.value = false;
-                    });
-                    openYarnPostPage(context,widget.locality,yarn,'0');
-                  }),
-              SpeedDialChild(
-                  label: 'Offering',
-                  onTap: () {
-                    setState(() {
-                      isDialOpen.value = false;
-                    });
-                    openYarnPostPage(context,widget.locality,yarn,'1');
-
-                  }),
-            ],
           ),
           body: Column(
             children: [
@@ -137,7 +147,7 @@ class YarnPageState extends State<YarnPage> {
             ],
           ),
         ),
-      ),
+      // ),
     );
   }
 }

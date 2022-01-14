@@ -15,12 +15,14 @@ import 'home_widgets/home_filter_widget.dart';
 
 class HomePage extends StatefulWidget {
 
-  const HomePage({Key? key}) : super(key: key);
+  final Function callback;
+
+  const HomePage({Key? key,required this.callback}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
@@ -103,7 +105,11 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    const HomeFilterWidget(),
+                    HomeFilterWidget(
+                      callback: (value){
+                        widget.callback(value);
+                      },
+                    ),
                     HomePremiumWidget(),
                     MarketStockWidget(),
                   ],

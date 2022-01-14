@@ -707,6 +707,19 @@ class _$FiberMaterialDao extends FiberMaterialDao {
   }
 
   @override
+  Future<List<FiberMaterial>> findFFiberMaterials() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_entity limit = 4',
+        mapper: (Map<String, Object?> row) => FiberMaterial(
+            fbmId: row['fbmId'] as int,
+            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
+            nature_id: row['nature_id'] as String?,
+            fbmName: row['fbmName'] as String?,
+            icon_selected: row['icon_selected'] as String?,
+            icon_unselected: row['icon_unselected'] as String?,
+            fbmIsActive: row['fbmIsActive'] as String?));
+  }
+
+  @override
   Future<List<FiberMaterial>> findFiberMaterials(int id) async {
     return _queryAdapter.queryList(
         'SELECT * FROM fiber_entity where fbm_id = ?1',

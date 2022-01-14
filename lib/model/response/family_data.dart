@@ -1,10 +1,9 @@
 class FamilyData {
-  FamilyData(this._imageUrl, this._unselectedImage, this._familyName);
-
+  FamilyData(this.id,this._imageUrl, this._unselectedImage, this._familyName);
+  int id;
   String _imageUrl;
   String _unselectedImage;
   String _familyName;
-
   String get imageUrl => _imageUrl;
 
   set imageUrl(String value) {

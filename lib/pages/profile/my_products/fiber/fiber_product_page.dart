@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items_widgets/fiber_porduct_list_item.dart';
+import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
@@ -102,7 +103,11 @@ class FiberProductPageState extends State<FiberProductPage> {
                       Expanded(
                           flex: 3,
                           child: ElevatedButtonWithoutIcon(
-                            callback: () {},
+                            callback: () {
+                              showBottomSheetOR(context, (value){
+                                openFiberPostPage(context,"Local",'Fiber',value);
+                              });
+                            },
                             btnText: "Post Offer",
                             color: Colors.green,
                           ))

@@ -4,8 +4,10 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items_widgets/yarn_product_list_items.dart';
 import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -101,7 +103,11 @@ class YarnProductPageState extends State<YarnProductPage> {
                       Expanded(
                           flex: 3,
                           child: ElevatedButtonWithoutIcon(
-                            callback: () {},
+                            callback: () {
+                              showBottomSheetOR(context, (value){
+                                openFiberPostPage(context,"Local",yarn,value);
+                              });
+                            },
                             btnText: "Post Offer",
                             color: Colors.green,
                           ))

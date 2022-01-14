@@ -15,7 +15,19 @@ class GetYarnSpecificationResponse {
     status = json['status'];
     responseCode = json['response_code'];
     // if(List.from(json['data']).isNotEmpty) {
-    data = YarnSpecificationData.fromJson(json['data']);
+    // data = YarnSpecificationData.fromJson(json['data']);
+    // data = json['data'] != null ? YarnSpecificationData.fromJson(json['data']) : null;
+
+
+    var dataList = json['data'];
+    if (dataList is List<dynamic>) {
+      if (dataList.isEmpty) {
+        data = YarnSpecificationData(specification: []);
+      }
+    } else {
+      data = YarnSpecificationData.fromJson(json['data']);
+    }
+
     // }
     message = json['message'];
   }
@@ -40,15 +52,26 @@ class YarnSpecificationData {
   List<YarnSpecification>? specification;
 
   YarnSpecificationData.fromJson(Map<String, dynamic> json) {
-    specification = List.from(json['specification'])
-        .map((e) => YarnSpecification.fromJson(e))
-        .toList();
+
+    if (json['specification'] != null) {
+      specification = [];
+      json['specification'].forEach((v) {
+        specification!.add(YarnSpecification.fromJson(v));
+      });
+    }
+
+    // specification = List.from(json['specification'])
+    //     .map((e) => YarnSpecification.fromJson(e))
+    //     .toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    // if (specification != null) {
+    //   _data['specification'] = specification!.map((e) => e.toJson()).toList();
+    // }
     if (specification != null) {
-      _data['specification'] = specification!.map((e) => e.toJson()).toList();
+      _data['specification'] = specification!.map((v) => v.toJson()).toList();
     }
     return _data;
   }

@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/model/response/family_data.dart';
 
+import '../network_icon_widget.dart';
 import 'grid_family_widget.dart';
 
 class GridMoreWidget extends StatefulWidget {
   final Function? callback;
-  final List<dynamic> listOfItems;
+  final List<FamilyData> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
 
@@ -53,34 +56,39 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
     bool checked = index == checkedTile;
     return GestureDetector(
       onTap: () {
-        if (index != 7) {
+        // if (index != 7) {
           setState(() {
             checkedTile = widget.selectedIndex ?? index;
           });
           widget.callback!(index);
-        } else {
-          _showBottomSheet();
-        }
+        // } else {
+        //   _showBottomSheet();
+        // }
       },
       child: Center(
           child: Column(
         children: [
-          Image.asset(
-            index != 7
-                ? checked
+         /* Image.asset(
+            *//*index != 7
+                ?*//* checked
                     ? widget.listOfItems[index].imageUrl
-                    : widget.listOfItems[index].unselectedImage
-                : 'images/ic_load_more.png',
+                    : widget.listOfItems[index].unselectedImage,
+                // : 'images/ic_load_more.png',
             height: 18.h,
             width: 18.w,
+          ),*/
+          NetworkImageIconWidget(
+            imageUrl: "${ApiService.BASE_URL}${widget.listOfItems[index].imageUrl}"
           ),
           SizedBox(
             height: 5.h,
           ),
           Text(
-            index != 7 ? widget.listOfItems[index].familyName : 'Load More',
+
+            /*index != 7 ? */widget.listOfItems[index].familyName /*: 'Load More'*/,
+            maxLines: 1,
             style: TextStyle(
-                fontSize: 10.sp,
+                fontSize: 8.sp,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Metropolis'),
           ),

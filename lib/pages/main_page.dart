@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
@@ -19,18 +22,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List<Widget> _screens = [
-    const HomePage(),
-    MarketPage(
-      locality: local,
-    ),
-    MarketPage(
-      locality: international,
-    ),
-    const YGServices(),
-    // const PastAdPage()
-  ];
+
+  GlobalKey<HomePageState> homePageState = GlobalKey<HomePageState>();
+
+  List<Widget>? _screens;
   int _selectedIndex = 0;
+  bool isSynced = false;
 
   void _onItemTapped(int selectedIndex) {
     setState(() {
@@ -41,15 +38,115 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    _synData();
+    _screens = [
+      HomePage(
+        key: homePageState,
+        callback: (value) {
+          setState(() {
+            _onItemTapped(1);
+          });
+        },
+      ),
+      MarketPage(
+        locality: local,
+      ),
+      MarketPage(
+        locality: international,
+      ),
+      const YGServices(),
+      // const PastAdPage()
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-          body: /*buildPageView()*/ _screens[_selectedIndex],
-          bottomNavigationBar: _generateBottomBar()),
+      child: isSynced ? Scaffold(
+          body: /*buildPageView()*/ IndexedStack( index: _selectedIndex,children: _screens!),
+          bottomNavigationBar: _generateBottomBar()) : FutureBuilder<bool>(
+        future: _synData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data != null) {
+            isSynced = true;
+            ProgressDialogUtil.hideDialog();
+            return Scaffold(
+                body: /*buildPageView()*/ IndexedStack( index: _selectedIndex,children: _screens!),
+                bottomNavigationBar: _generateBottomBar());
+          } else {
+            return Scaffold(
+                extendBodyBehindAppBar: true,
+                backgroundColor: Colors.white,
+                resizeToAvoidBottomInset: true,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(50),
+                  child: Container(
+                    decoration: BoxDecoration(/*boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0.0, 1.0.w), //(x,y)
+                  blurRadius: 2.0.w,
+                ),
+              ],*/
+                        color: Colors.white.withOpacity(0.7)),
+                    child: Container(
+                        padding: EdgeInsets.all(8.w),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                openProfileScreen(context);
+                              },
+                              child: const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.green,
+                                child: Icon(Icons.person, color: Colors.white,
+                                  size: 24,),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 3.w,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 8.w,
+                                  bottom: 8.w,
+                                  left: 12.w,
+                                  right: 12.w),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.deepOrange.shade400,
+                                      Colors.deepOrange.shade600,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(12.w),
+                                  )),
+                              child: Text('Upgrade',
+                                  style: TextStyle(
+                                      fontSize: 9.0.w,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400)),
+                            )
+                          ],
+                        )),
+                  ),
+                ),
+                body: Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: TitleSmallTextWidget(
+                      title: "Syncing data please wait...",),
+                  ),
+
+                ),
+                bottomNavigationBar: _generateBottomBar());
+          }
+        },
+      ),
     );
   }
 
@@ -68,76 +165,76 @@ class _MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
             icon: _selectedIndex == 0
                 ? Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Image.asset(
-                      homeIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ))
+                padding: EdgeInsets.all(5.w),
+                child: Image.asset(
+                  homeIcon,
+                  width: 20.w,
+                  height: 20.h,
+                ))
                 : Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image.asset(
-                      homeGreyIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
+              padding: const EdgeInsets.all(5.0),
+              child: Image.asset(
+                homeGreyIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
             label: home),
         BottomNavigationBarItem(
             icon: _selectedIndex == 1
                 ? Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Image.asset(
-                      marketIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ))
+                padding: EdgeInsets.all(5.w),
+                child: Image.asset(
+                  marketIcon,
+                  width: 20.w,
+                  height: 20.h,
+                ))
                 : Padding(
-                    padding: EdgeInsets.all(5.0.w),
-                    child: Image.asset(
-                      marketGreyIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
+              padding: EdgeInsets.all(5.0.w),
+              child: Image.asset(
+                marketGreyIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
             label: localMarket),
         BottomNavigationBarItem(
             icon: _selectedIndex == 2
                 ? Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Image.asset(
-                      marketIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  )
+              padding: EdgeInsets.all(5.w),
+              child: Image.asset(
+                marketIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            )
                 : Padding(
-                    padding: EdgeInsets.all(5.0.w),
-                    child: Image.asset(
-                      marketGreyIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
+              padding: EdgeInsets.all(5.0.w),
+              child: Image.asset(
+                marketGreyIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
             label: internationalMarket),
         BottomNavigationBarItem(
             icon: _selectedIndex == 3
                 ? Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Image.asset(
-                      ygServicesIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  )
+              padding: EdgeInsets.all(5.w),
+              child: Image.asset(
+                ygServicesIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            )
                 : Padding(
-                    padding: EdgeInsets.all(5.0.w),
-                    child: Image.asset(
-                      ygServicesGreyIcon,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
+              padding: EdgeInsets.all(5.0.w),
+              child: Image.asset(
+                ygServicesGreyIcon,
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
             label: ygService),
         // BottomNavigationBarItem(
         //     icon: _selectedIndex == 4
@@ -162,18 +259,23 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  _synData() async {
+  Future<bool> _synData() async {
     var syncFiberResponse = await ApiService.syncFiber();
     var syncYarnResponse = await ApiService.syncYarn();
     AppDbInstance.getDbInstance().then((value) async {
+      await value.fiberMaterialDao
+          .insertAllFiberMaterials(syncFiberResponse.data.fiber.material);
+
+      await value.yarnFamilyDao
+          .insertAllYarnFamily(syncYarnResponse.data.yarn.family!);
+
       await value.fiberSettingDao
           .insertAllFiberSettings(syncFiberResponse.data.fiber.settings);
       await value.gradesDao
           .insertAllGrades(syncFiberResponse.data.fiber.grades);
       await value.fiberNatureDao
           .insertAllFiberNatures(syncFiberResponse.data.fiber.natures);
-      await value.fiberMaterialDao
-          .insertAllFiberMaterials(syncFiberResponse.data.fiber.material);
+
 
       //insert Common objects for fiber
       await value.brandsDao
@@ -204,8 +306,7 @@ class _MainPageState extends State<MainPage> {
           .insertAllYarnSettings(syncYarnResponse.data.yarn.setting!);
       await value.yarnBlendDao
           .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!);
-      await value.yarnFamilyDao
-          .insertAllYarnFamily(syncYarnResponse.data.yarn.family!);
+
       await value.gradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!);
 
       //Insert All Common Objects for yarn
@@ -253,6 +354,7 @@ class _MainPageState extends State<MainPage> {
           .insertAllYarnAppearance(syncYarnResponse.data.yarn.apperance!);
     });
 
+    return true;
     // await AppDbInstance.getDbInstance().then((value) async {});
   }
 }

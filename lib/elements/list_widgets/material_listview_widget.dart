@@ -21,7 +21,7 @@ class MaterialListviewWidget extends StatefulWidget {
 
 class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
   int checkedIndex = 0;
-  int _selectedSegmentIndex = 1;
+  int? _selectedSegmentIndex ;
 
   @override
   void initState() {
@@ -31,6 +31,7 @@ class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
         _selectedSegmentIndex = index;
       });
     });
+
     super.initState();
   }
 
@@ -58,6 +59,9 @@ class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
     } else if (widget.listItem is List<Blends>) {
       name = widget.listItem!.cast<Blends>()[index].blnName;
       castingCheckPos = 1;
+    }else if (widget.listItem is List<Family>) {
+      name = widget.listItem!.cast<Family>()[index].famName;
+      castingCheckPos = 2;
     }
     return GestureDetector(
       onTap: () {

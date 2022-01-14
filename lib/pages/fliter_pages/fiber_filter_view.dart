@@ -27,6 +27,7 @@ class FiberFilterView extends StatefulWidget {
 
 class _FiberFilterViewState extends State<FiberFilterView> {
   final TextEditingController _textEditingController = TextEditingController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   GetSpecificationRequestModel? _getSpecificationRequestModel;
 
@@ -94,6 +95,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
         backgroundColor: Colors.white,
         body: Container(
           padding: EdgeInsets.only(left: 16.w, right: 16.w),
@@ -712,23 +714,21 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   }
 
   void handleReadOnlyInputClick(context) {
-    showBottomSheet(
+    showModalBottomSheet(
         context: context,
-        builder: (BuildContext context) => SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2,
-              child: YearPicker(
-                selectedDate: DateTime(DateTime.now().year),
-                firstDate: DateTime(DateTime.now().year - 4),
-                lastDate: DateTime.now(),
-                onChanged: (val) {
-                  _textEditingController.text = val.year.toString();
-                  _getSpecificationRequestModel!.productionYear =
-                      val.year.toString();
-                  Navigator.pop(context);
-                },
-              ),
-            ));
+        builder: (BuildContext context) => Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 2,
+          child: YearPicker(
+            selectedDate: DateTime(DateTime.now().year),
+            firstDate: DateTime(DateTime.now().year - 4),
+            lastDate: DateTime.now(),
+            onChanged: (val) {
+              _textEditingController.text = val.year.toString();
+              Navigator.pop(context);
+            },
+          ),
+        ));
   }
 
   List<int> filterList(List<int> list, int value) {

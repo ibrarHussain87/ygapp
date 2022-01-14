@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -42,7 +43,7 @@ class FiberPageState extends State<FiberPage> {
   bodyContent() {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: SpeedDial(
+        /*floatingActionButton: SpeedDial(
           icon: Icons.add,
           openCloseDial: isDialOpen,
           backgroundColor: Colors.blueAccent,
@@ -70,6 +71,15 @@ class FiberPageState extends State<FiberPage> {
                   openFiberPostPage(context,widget.locality,'Fiber','1');
                 }),
           ],
+        ),*/
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            showBottomSheetOR(context,(value){
+              openFiberPostPage(context,widget.locality,'Fiber',value);
+            });
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.blueAccent,
         ),
         body: Column(
           children: [
