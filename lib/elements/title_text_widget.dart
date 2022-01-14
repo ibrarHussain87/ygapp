@@ -71,12 +71,87 @@ class TitleSmallTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding??2.w),
       child: Text(
-        title!,
+        title??"N/A",
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: 11.sp,
             fontFamily: 'Metropolis',
             fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+}
+
+class TitleSmallNormalTextWidget extends StatelessWidget {
+
+  final String? title;
+  final Color? color;
+  final double? padding;
+
+  const TitleSmallNormalTextWidget({Key? key, required this.title,this.color,this.padding}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: padding??2.w),
+      child: Text(
+        title??"N/A",
+        style: TextStyle(
+            color: color?? Colors.black87,
+            fontSize: 10.sp,
+            fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+}
+
+class TitleMediumTextWidget extends StatelessWidget {
+
+  final String? title;
+  final Color? color;
+  final double? padding;
+
+  const TitleMediumTextWidget({Key? key, required this.title,this.color,this.padding}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: padding??0.w,),
+      child: Text(
+        title??"N/A",
+        style: TextStyle(
+            color: color??Colors.black,
+            fontSize: 12.sp,
+            fontFamily: 'Metropolis',
+            fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+}
+
+class TitleBoldSmallTextWidget extends StatelessWidget {
+
+  final String? title;
+  final Color? color;
+  final double? textSize;
+
+  const TitleBoldSmallTextWidget({Key? key, required this.title,this.color,this.textSize}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 0.w),
+      child: Text(
+        title!,
+        style: TextStyle(
+            color: color ?? Colors.black87,
+            fontSize: textSize?? 10.sp,
+            fontFamily: 'Metropolis',
+            fontWeight: FontWeight.bold),
       ),
     );
   }
