@@ -10,6 +10,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
@@ -28,6 +29,7 @@ class ApiService {
   static String BASE_URL = "http://yarnonline.net/dev/public/";
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   static const String LOGIN_END_POINT = "/login";
+  static const String SIGN_UP_END_POINT = "/register";
   static const String SYNC_FIBER_END_POINT = "/syncFiber";
   static const String SYNC_YARN_END_POINT = "/syncYarn";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
@@ -41,6 +43,25 @@ class ApiService {
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + LOGIN_END_POINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return LoginResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<LoginResponse> signup(SignUpRequestModel requestModel) async {
+    try {
+      String url = BASE_API_URL + SIGN_UP_END_POINT;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return LoginResponse.fromJson(
