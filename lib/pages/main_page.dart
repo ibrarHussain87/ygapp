@@ -69,7 +69,6 @@ class _MainPageState extends State<MainPage> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data != null) {
             isSynced = true;
-            ProgressDialogUtil.hideDialog();
             return Scaffold(
                 body: /*buildPageView()*/ IndexedStack( index: _selectedIndex,children: _screens!),
                 bottomNavigationBar: _generateBottomBar());
