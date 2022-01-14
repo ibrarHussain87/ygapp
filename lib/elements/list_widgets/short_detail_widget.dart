@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 class ShortDetailWidget extends StatefulWidget {
-
   final String? title;
   final String? imageIcon;
 
-  const ShortDetailWidget({Key? key,required this.title,required this.imageIcon}) : super(key: key);
+  const ShortDetailWidget(
+      {Key? key, required this.title, required this.imageIcon})
+      : super(key: key);
 
   @override
   _ShortDetailWidgetState createState() => _ShortDetailWidgetState();
@@ -18,7 +19,7 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 4.w,right: 8.w,bottom: 4.w),
+      padding: EdgeInsets.only(top: 4.w, right: 8.w, bottom: 4.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,15 +43,14 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
                     style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.normal,
-                        color:
-                        textColorGreyLight),
+                        color: textColorGreyLight),
                   ),
                   visible: false,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 3.0),
                   child: Text(
-                    widget.title??"N/A",
+                    widget.title ?? "N/A",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 10.sp,
