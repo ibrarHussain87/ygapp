@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yg_app/elements/list_items_widgets/fiber_market_list_item.dart';
+import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 

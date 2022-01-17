@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -1044,7 +1045,10 @@ class FiberSpecificationComponentState
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
           );
         }
       },

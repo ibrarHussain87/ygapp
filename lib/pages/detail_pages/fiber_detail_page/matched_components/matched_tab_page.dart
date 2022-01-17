@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
@@ -59,7 +60,10 @@ class _MatchedPageState extends State<MatchedPage> {
                 child: TitleSmallTextWidget(title: snapshot.error.toString()));
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
             );
           }
         },

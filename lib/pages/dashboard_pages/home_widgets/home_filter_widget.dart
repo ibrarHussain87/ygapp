@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/model/response/family_data.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_more_widget.dart';
@@ -20,7 +20,7 @@ class HomeFilterWidget extends StatefulWidget {
 
 class _HomeFilterWidgetState extends State<HomeFilterWidget> {
 
-  List<FamilyData> familyList = <FamilyData>[];
+  List<FamilyData>? familyList;
 
   List<FiberMaterial> _fiberMaterialList = [];
   List<Family> _yarnFamilyList = [];
@@ -30,9 +30,11 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
     // TODO: implement initState
     super.initState();
 
+    familyList = [];
+
     AppDbInstance.getDbInstance().then((value) async{
 
-      familyList.clear();
+      familyList!.clear();
       _fiberMaterialList.clear();
       _yarnFamilyList.clear();
 
@@ -42,7 +44,7 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
         if(_fiberMaterialList.isNotEmpty  && _fiberMaterialList.length >= 4){
           _fiberMaterialList = _fiberMaterialList.take(4).toList();
           for (var element in _fiberMaterialList) {
-            familyList.add(FamilyData(element.fbmId, element.icon_selected??"", element.icon_unselected!, element.fbmName!));
+            familyList!.add(FamilyData(element.fbmId, element.icon_selected??"", element.icon_unselected!, element.fbmName!));
           }
 
         }
@@ -50,7 +52,7 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
         if(_yarnFamilyList.isNotEmpty && _yarnFamilyList.length >= 4){
           _yarnFamilyList = _yarnFamilyList.take(4).toList();
           for (var element in _yarnFamilyList) {
-            familyList.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
+            familyList!.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
           }
         }
       });
@@ -63,13 +65,15 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
     return Container(
       color: Colors.white30,
       padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.w),
-      child: GridMoreWidget(
+      child:  familyList != null ?GridMoreWidget(
         spanCount: 4,
         callback: (value){
           widget.callback(1);
         },
-        listOfItems: familyList,
-      ),
+        listOfItems: familyList!,
+      ):Container(
+        color: Colors.white,
+      )
       // child: Column(
       //   children: [
       //     MaterialListviewWidget(

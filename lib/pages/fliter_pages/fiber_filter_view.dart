@@ -4,7 +4,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
-import 'package:yg_app/elements/filter_widget/filter_material_listview.dart';
+import 'package:yg_app/elements/filter_widget/filter_cat_with_image_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -118,7 +118,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                       ),
                       SizedBox(
                         height: 58.w,
-                        child: FilterMaterialWidget(
+                        child: FilterCatWithImageWidget(
                           listItem:
                               widget.syncFiberResponse.data.fiber.material,
                           onClickCallback: (value) {

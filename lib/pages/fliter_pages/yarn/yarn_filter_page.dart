@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -42,7 +43,10 @@ class _YarnFilterPageState extends State<YarnFilterPage> {
                   child: TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
               );
             }
           },

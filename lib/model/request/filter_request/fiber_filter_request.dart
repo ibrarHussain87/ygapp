@@ -4,10 +4,25 @@ class GetSpecificationRequestModel {
   String? isOffering;
   String? productionYear;
   String? locality;
+
+
+  String? ys_color_code;
+  List<int>? yarnYypeId;
+  List<int>? yuId;
+  List<int>? plyId;
+  List<int>? colorTreatmentId;
+  List<int>? orientationId;
+  List<int>? twistDirectionId;
+  List<int>? spunTechId;
+  List<int>? qualityId;
+  List<int>? patternId;
+
+
   List<int>? gradeId;
   List<int>? fiberMaterialId;
   List<int>? originId;
   List<int>? apperanceId;
+  List<int>? apperanceYarnId;
   List<int>? certificationId;
   List<int>? packingId;
   List<double>? micronaire;
@@ -26,6 +41,7 @@ class GetSpecificationRequestModel {
       this.productionYear,
       this.locality,
       this.gradeId,
+      this.apperanceYarnId,
       this.fiberMaterialId,
       this.originId,
       this.apperanceId,
@@ -36,6 +52,16 @@ class GetSpecificationRequestModel {
       this.rd,
       this.gpt,
       this.ysBlendIdFk,
+      this.ys_color_code,
+      this.yarnYypeId,
+      this.yuId,
+      this.plyId,
+      this.colorTreatmentId,
+      this.orientationId,
+      this.twistDirectionId,
+      this.spunTechId,
+      this.qualityId,
+      this.patternId,
       this.ysFamilyIdFk});
 
   Map<String, dynamic> toJson() {
@@ -56,6 +82,17 @@ class GetSpecificationRequestModel {
       'rd': rd,
       'gpt': gpt,
       'ys_family_idfk': ysFamilyIdFk,
+      'ys_apperance_idfk': apperanceYarnId,
+      'ys_color': ys_color_code,
+      'ys_usage_idfk': yuId,
+      'ys_yarn_type_idfk': yarnYypeId,
+      'ys_ply_idfk': plyId,
+      'ys_color_treatment_method_idfk': colorTreatmentId,
+      'ys_orientation_idfk': orientationId,
+      'ys_twist_direction_idfk': twistDirectionId,
+      'ys_spun_technique_idfk': spunTechId,
+      'ys_quality_idfk': qualityId,
+      'ys_pattern_idfk': patternId,
       'ys_blend_idfk': ysBlendIdFk,
     };
 

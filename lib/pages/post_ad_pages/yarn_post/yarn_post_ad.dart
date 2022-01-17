@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -52,7 +53,10 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                   child: TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
               );
             }
           },
@@ -86,7 +90,10 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
           );
         }
       },

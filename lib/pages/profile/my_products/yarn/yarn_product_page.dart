@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/list_items_widgets/yarn_product_list_items.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_items/yarn_product_list_items.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
@@ -138,7 +138,7 @@ class YarnProductPageState extends State<YarnProductPage> {
                             : false,
                         child: SizedBox(
                           height: 48.w,
-                          child: MaterialListviewWidget(
+                          child: CatWithImageListWidget(
                             listItem: yarnBlendList
                                 .where((element) =>
                                     element.familyIdfk == famId.toString())

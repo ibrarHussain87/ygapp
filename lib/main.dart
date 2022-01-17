@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -15,6 +16,8 @@ import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
 void main() async {
   await init();
   runApp(YgApp());
@@ -22,6 +25,7 @@ void main() async {
 
 Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FCM.initialize(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
 }
 
@@ -83,9 +87,9 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
   void _incrementCounter() {
     setState(() {
-      heightC1 = MediaQuery.of(context).size.width * 0.75;
+      heightC1 = MediaQuery.of(context).size.width * 0.6;
       heightC2 = MediaQuery.of(context).size.width * 1;
-      widthC1 = MediaQuery.of(context).size.width * 0.75;
+      widthC1 = MediaQuery.of(context).size.width * 0.6;
       widthC2 = MediaQuery.of(context).size.width * 1;
     });
   }
@@ -100,7 +104,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   @override
   void initState() {
     final firebaseMessaging = FCM();
-    firebaseMessaging.setNotifications();
+    firebaseMessaging.setNotifications(flutterLocalNotificationsPlugin);
     firebaseMessaging.setDeviceToken();
 
     firebaseMessaging.streamCtlr.stream.listen(_changeData);
@@ -143,11 +147,23 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     });
   }
 
-  _changeData(String msg) => setState(() => notificationData = msg);
+  _changeData(String msg) {
+    if(mounted){
+      setState(() => notificationData = msg);
+    }
+  }
 
-  _changeBody(String msg) => setState(() => notificationBody = msg);
+  _changeBody(String msg) {
+    if(mounted){
+      setState(() => notificationBody = msg);
+    }
+  }
 
-  _changeTitle(String msg) => setState(() => notificationTitle = msg);
+  _changeTitle(String msg) {
+    if(mounted){
+      setState(() => notificationTitle = msg);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

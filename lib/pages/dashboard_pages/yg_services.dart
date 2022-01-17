@@ -10,9 +10,9 @@ class YGServices extends StatefulWidget {
 class _YGServicesState extends State<YGServices> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: Text("YG Service"),
+    return const SafeArea(
+      child: Center(
+        child: Text("Coming Soon.."),
       ),
     );
   }

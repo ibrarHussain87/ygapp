@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/elements/network_icon_widget.dart';
 
-class FilterMaterialWidget extends StatefulWidget {
+class FilterCatWithImageWidget extends StatefulWidget {
 
   final Function? onClickCallback;
   final List<dynamic>? listItem;
 
-  const FilterMaterialWidget(
+  const FilterCatWithImageWidget(
       {Key? key, required this.listItem, required this.onClickCallback})
       : super(key: key);
 
   @override
-  _FilterMaterialWidgetState createState() =>
-      _FilterMaterialWidgetState();
+  _FilterCatWithImageWidgetState createState() =>
+      _FilterCatWithImageWidgetState();
 }
 
-class _FilterMaterialWidgetState extends State<FilterMaterialWidget> {
+class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
 
   final List<int> selectedIndex = [];
   @override

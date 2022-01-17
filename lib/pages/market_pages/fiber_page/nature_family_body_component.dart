@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
@@ -81,7 +81,7 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
                       title: 'Fiber Material',
                     )),
               ),
-              MaterialListviewWidget(
+              CatWithImageListWidget(
                 listItem: widget.fiberMaterialList.where((element) => element.nature_id == natureId).toList(),
                 onClickCallback: (index) {
                   widget.callback(widget.fiberMaterialList.where((element) => element.nature_id == natureId).toList()[index]);

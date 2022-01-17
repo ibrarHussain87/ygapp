@@ -7,31 +7,32 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-class MaterialListviewWidget extends StatefulWidget {
+class CatWithImageListWidget extends StatefulWidget {
   final Function? onClickCallback;
   final List<dynamic>? listItem;
+  final int? selectedItem;
 
-  const MaterialListviewWidget(
-      {Key? key, required this.listItem, required this.onClickCallback})
+  const CatWithImageListWidget(
+      {Key? key, required this.listItem, required this.onClickCallback,this.selectedItem})
       : super(key: key);
 
   @override
-  _MaterialListviewWidgetState createState() => _MaterialListviewWidgetState();
+  _CatWithImageListWidgetState createState() => _CatWithImageListWidgetState();
 }
 
-class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
-  int checkedIndex = 0;
-  int? _selectedSegmentIndex ;
+class _CatWithImageListWidgetState extends State<CatWithImageListWidget> {
+  late int checkedIndex;
+  int _selectedSegmentIndex = 1;
 
   @override
   void initState() {
+    checkedIndex = widget.selectedItem ?? 0;
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
-        (segmentIndexBroadcast, (index) {
+      (segmentIndexBroadcast, (index) {
       setState(() {
         _selectedSegmentIndex = index;
       });
     });
-
     super.initState();
   }
 
@@ -59,9 +60,6 @@ class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
     } else if (widget.listItem is List<Blends>) {
       name = widget.listItem!.cast<Blends>()[index].blnName;
       castingCheckPos = 1;
-    }else if (widget.listItem is List<Family>) {
-      name = widget.listItem!.cast<Family>()[index].famName;
-      castingCheckPos = 2;
     }
     return GestureDetector(
       onTap: () {
@@ -83,25 +81,25 @@ class _MaterialListviewWidgetState extends State<MaterialListviewWidget> {
               NetworkImageIconWidget(
                 imageUrl: checked
                     ? castingCheckPos == 0
-                        ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_selected??""}'
-                        : widget.listItem!.cast<Blends>()[index].iconSelected !=
-                                null
-                            ? ApiService.BASE_URL +
-                                widget.listItem!
-                                    .cast<Blends>()[index]
-                                    .iconSelected!
-                            : ""
+                    ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_selected??""}'
+                    : widget.listItem!.cast<Blends>()[index].iconSelected !=
+                    null
+                    ? ApiService.BASE_URL +
+                    widget.listItem!
+                        .cast<Blends>()[index]
+                        .iconSelected!
+                    : ""
                     : castingCheckPos == 0
-                        ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_unselected??""}'
+                    ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_unselected??""}'
                     : widget.listItem!
-                                    .cast<Blends>()[index]
-                                    .iconUnselected !=
-                                null
-                            ? ApiService.BASE_URL +
-                                widget.listItem!
-                                    .cast<Blends>()[index]
-                                    .iconUnselected!
-                            : "",
+                    .cast<Blends>()[index]
+                    .iconUnselected !=
+                    null
+                    ? ApiService.BASE_URL +
+                    widget.listItem!
+                        .cast<Blends>()[index]
+                        .iconUnselected!
+                    : "",
               ),
               SizedBox(
                 height: 2.h,

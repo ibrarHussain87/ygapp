@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -76,7 +76,7 @@ class _BlendFamilyState extends State<BlendFamily> {
         ),
         Visibility(
           visible: Ui.showHide(_yarnSetting.showBlend),
-          child: MaterialListviewWidget(
+          child: CatWithImageListWidget(
             listItem: widget.yarnSyncResponse.data.yarn.blends!
                 .where((element) =>
                     element.familyIdfk == selectedFamilyId.toString())

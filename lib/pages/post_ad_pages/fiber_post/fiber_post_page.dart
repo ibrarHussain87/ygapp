@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database.dart';
@@ -11,7 +12,7 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/elements/list_widgets/material_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
@@ -62,7 +63,10 @@ class _FiberPostPageState extends State<FiberPostPage> {
                   child: TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
               );
             }
           },
@@ -93,7 +97,10 @@ class _FiberPostPageState extends State<FiberPostPage> {
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
+                  ),
           );
         }
       },
@@ -116,7 +123,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
               child: const TitleTextWidget(
                 title: 'Fiber Material',
               )),
-          MaterialListviewWidget(
+          CatWithImageListWidget(
             listItem: data.data.fiber.material,
             onClickCallback: (index) {
               _fiberRequestModel!.spc_fiber_material_idfk =

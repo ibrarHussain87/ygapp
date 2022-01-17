@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -136,9 +137,18 @@ class _MainPageState extends State<MainPage> {
                 ),
                 body: Container(
                   color: Colors.white,
-                  child: const Center(
-                    child: TitleSmallTextWidget(
-                      title: "Syncing data please wait...",),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SpinKitWave(
+                        color: Colors.green,
+                        size: 24.0,
+                      ),
+                      SizedBox(height: 6.w,),
+                      const TitleSmallTextWidget(
+                        title: "Syncing data please wait...",),
+                    ],
                   ),
 
                 ),
