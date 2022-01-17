@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yg_app/elements/list_items/yarn_list_items_renewed.dart';
 import 'package:yg_app/elements/list_items/yarn_market_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -45,7 +46,7 @@ class YarnListBodyState extends State<YarnListBody> {
                     openDetailsScreen(context,
                         yarnSpecification: _yarnFilteredSpecification![index]);
                   },
-                  child: buildYarnWidget(_yarnFilteredSpecification![index]));
+                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index]));
             })
         : const Center(
             child: TitleSmallTextWidget(
