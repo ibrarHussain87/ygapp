@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/elements/list_items_widgets/yarn_list_items.dart';
+import 'package:yg_app/elements/list_items_widgets/yarn_list_items_renewed.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -39,7 +40,7 @@ class YarnListBodyState extends State<YarnListBody> {
     return _yarnFilteredSpecification!.isNotEmpty ?ListView.builder(
         itemCount: _yarnFilteredSpecification!.length,
         itemBuilder: (context, index) {
-          return buildYarnWidget(_yarnFilteredSpecification![index]);
+          return buildYarnRenewedWidget(_yarnFilteredSpecification![index]);
         }):const Center(child: TitleSmallTextWidget(title: "No Data Found!!",),);
   }
 }

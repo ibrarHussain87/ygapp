@@ -1,12 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 InputDecoration textFormFieldDec(String hintLabel) {
   return InputDecoration(
       labelText: hintLabel,
       labelStyle: TextStyle(fontSize: 12.sp),
+      border: UnderlineInputBorder(
+          borderSide: BorderSide(color: textColorGrey)));
+}
+
+InputDecoration textFormFieldDecSignup(String hintLabel,String assetName) {
+  return InputDecoration(
+      hintText: "Enter Here",
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),
+      prefixIcon: IconButton(
+        padding: EdgeInsets.all(0.w),
+        onPressed: (){
+
+        },
+        icon: SvgPicture.asset(
+          assetName,
+          color: iconColor,
+            fit: BoxFit.cover,
+            height: 16,
+          width: 16,
+        ),
+      ),
       border: UnderlineInputBorder(
           borderSide: BorderSide(color: textColorGrey)));
 }
