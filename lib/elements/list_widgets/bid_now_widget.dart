@@ -5,8 +5,10 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 class BidNowWidget extends StatelessWidget {
 
   String title;
+  double? size;
+  double? padding;
 
-  BidNowWidget({Key? key,required this.title}) : super(key: key);
+  BidNowWidget({Key? key,required this.title,this.size,this.padding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,14 @@ class BidNowWidget extends StatelessWidget {
           borderRadius:
           BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
-        padding: EdgeInsets.only(top: 3.w,bottom: 3.w),
+        padding: EdgeInsets.symmetric(vertical:3.w,horizontal: padding??3.w),
         child: Center(
           child: Text(
             title,
             style: TextStyle(
-                fontSize: 11.sp, color: Colors.white,fontWeight: FontWeight.w400),
+                fontSize: size??11.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.w400),
           ),
         ),
       ),
