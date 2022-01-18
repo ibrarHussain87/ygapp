@@ -519,7 +519,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
   _initGridValues() {
     if (widget.yarnSyncResponse.data.yarn.spunTechnique!.isNotEmpty) {
-      _createRequestModel.ys_qlt = widget
+      _createRequestModel.ys_spun_technique_idfk = widget
           .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
           .toString();
     }

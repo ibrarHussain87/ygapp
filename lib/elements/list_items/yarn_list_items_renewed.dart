@@ -127,7 +127,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                       size: 12,
                                     ),
                                   ),
-                                  flex: 1,
+                                    flex: 1,
                                 ),
 
                               ],
@@ -135,8 +135,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title:
-                                '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
+                                title:setDetailsData(specification),
                                 color: Colors.black,
                               ),
                             ),

@@ -66,7 +66,6 @@ class CreateRequestModel {
   String? ys_color_code;
   String? ys_apperance_idfk;
   String? ys_actual_yarn_count;
-  String? ys_qlt;
   String? ys_clsp;
   String? ys_uniformity;
   String? ys_cv;
@@ -153,7 +152,6 @@ class CreateRequestModel {
       // this.ys_color_idfk,
       this.ys_apperance_idfk,
       this.ys_actual_yarn_count,
-      this.ys_qlt,
       this.ys_clsp,
       this.ys_uniformity,
       this.ys_cv,
@@ -239,7 +237,6 @@ class CreateRequestModel {
       // 'ys_color_idfk': ys_color_idfk ?? "",
       'ys_apperance_idfk': ys_apperance_idfk ?? "",
       'ys_actual_yarn_count': ys_actual_yarn_count ?? "",
-      'ys_qlt': ys_qlt ?? "",
       'ys_clsp': ys_clsp ?? "",
       'ys_uniformity': ys_uniformity ?? "",
       'ys_cv': ys_cv ?? "",

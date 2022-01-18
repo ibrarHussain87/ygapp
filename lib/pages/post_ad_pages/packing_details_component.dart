@@ -413,7 +413,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                       value!.conId;
                                                   _createRequestModel!
                                                           .spc_origin_idfk =
-                                                      value!.conId.toString();
+                                                      value.conId.toString();
                                                 },
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,

@@ -1,3 +1,5 @@
+import 'package:yg_app/helper_utils/app_constants.dart';
+
 class GetYarnSpecificationResponse {
   GetYarnSpecificationResponse({
     required this.status,
@@ -191,7 +193,7 @@ class YarnSpecification {
   YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = null;
     yarnDetails = null;
-    doublingMethod = null;
+    doublingMethod = json['ys_doubling_method'];
     yarnType = null;
     specId = json['ys_id'];
     ys_user_id = json['ys_user_id'];
@@ -205,12 +207,12 @@ class YarnSpecification {
     yarnPatternCharectristic = json['yarn_pattern_charectristic'];
     yarnOrientation = json['yarn_orientation'];
     yarnTwistDirection = json['yarn_twist_direction'];
-    count = null;
+    count = json['count'];
     dtyFilament = json['dty_filament'];
     fdyFilament = json['fdy_filament'];
     yarnPly = json['yarn_ply'];
     yarnSpunTechnique = json['yarn_spun_technique'];
-    yarnQuality = null;
+    yarnQuality = json['yarn_quality'];
     yarnGrade = json['yarn_grade'];
     yarnCertification = json['yarn_certification'];
     yarnColorTreatmentMethod = null;
@@ -241,6 +243,7 @@ class YarnSpecification {
     priceTerms = json['price_terms'];
     minQuantity = json['min_quantity'];
     description = json['description'];
+    yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
     certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
@@ -249,7 +252,7 @@ class YarnSpecification {
     final _data = <String, dynamic>{};
     _data['ys_id'] = specId;
     _data['ys_user_id'] = ys_user_id;
-    _data['doubling_method'] = doublingMethod;
+    _data['ys_doubling_method'] = doublingMethod;
     _data['yarn_type'] = yarnType;
     _data['yarn_title'] = yarnTitle;
     _data['yarn_details'] = yarnDetails;

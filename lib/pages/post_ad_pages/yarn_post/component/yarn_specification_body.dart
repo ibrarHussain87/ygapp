@@ -370,7 +370,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       }
                                     }).toList(),
                                     callback: (value) {
-                                      _createRequestModel.spc_grade_idfk =
+                                      _createRequestModel.ys_dying_method_idfk =
                                           widget
                                               .yarnSyncResponse
                                               .data
@@ -490,7 +490,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                           minMax: _yarnSetting!.countMinMax!,
                                           onSaved: (input) {
                                             _createRequestModel
-                                                .ys_actual_yarn_count = input;
+                                                .ys_count = input;
 
                                           })
                                     ],
@@ -738,7 +738,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             selectedFamilyId)
                                         .toList(),
                                     callback: (value) {
-                                      _createRequestModel.ys_qlt = widget
+                                      _createRequestModel.ys_quality_idfk = widget
                                           .yarnSyncResponse
                                           .data
                                           .yarn
@@ -976,7 +976,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.certification!,
                                     callback: (value) {
-                                      _createRequestModel.spc_grade_idfk =
+                                      _createRequestModel.ys_certification_idfk =
                                           _yarnData!.certification![value].cerId
                                               .toString();
                                     },
@@ -1072,9 +1072,19 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
           _yarnData!.grades!.first.grdId.toString();
     }
 
+    //Certification ID
+    if (Ui.showHide(_yarnSetting!.showCertification)) {
+      _createRequestModel.ys_certification_idfk = _yarnData!.certification!.first.cerId.toString();
+    }
+
     //PLY ID
     if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
       _createRequestModel.ys_ply_idfk = _yarnData!.ply!.first.plyId.toString();
+    }
+
+    //PLY ID
+    if (Ui.showHide(_yarnSetting!.showQuality)) {
+      _createRequestModel.ys_quality_idfk = _yarnData!.quality!.first.yqId.toString();
     }
 
     //ORIENTATION ID
@@ -1168,3 +1178,88 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
     return false;
   }
 }
+
+// ⛔ {
+// I/flutter (21719): │ ⛔   "spc_category_idfk": "2",
+// I/flutter (21719): │ ⛔   "spc_user_idfk": "29",
+// I/flutter (21719): │ ⛔   "spc_local_international": "INTERNATIONAL",
+// I/flutter (21719): │ ⛔   "spc_fiber_material_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_fiber_length_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_grade_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_micronaire": "",
+// I/flutter (21719): │ ⛔   "spc_moisture": "",
+// I/flutter (21719): │ ⛔   "spc_trash_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_yct_id": "1",
+// I/flutter (21719): │ ⛔   "spc_rd_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_gpt_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_no_of_days": "",
+// I/flutter (21719): │ ⛔   "is_offering": "0",
+// I/flutter (21719): │ ⛔   "spc_appearance_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_brand_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_production_year": "",
+// I/flutter (21719): │ ⛔   "spc_origin_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_port_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_city_state_idfk": "",
+// I/flutter (21719): │ ⛔   "spc_certificate_idfk": "",
+// I/flutter (21719): │ ⛔   "fbp_price": "23",
+// I/flutter (21719): │ ⛔   "packing_idfk": "1",
+// I/flutter (21719): │ ⛔   "payment_type_idfk": "1",
+// I/flutter (21719): │ ⛔   "lc_type_idfk": "1",
+// I/flutter (21719): │ ⛔   "fbp_count_unit_idfk": "1",
+// I/flutter (21719): │ ⛔   "fbp_delivery_period_idfk": "1",
+// I/flutter (21719): │ ⛔   "fbp_available_for_market_idfk": "",
+// I/flutter (21719): │ ⛔   "fbp_price_terms_idfk": "3",
+// I/flutter (21719): │ ⛔   "spc_lot_number": "",
+// I/flutter (21719): │ ⛔   "fbp_min_quantity": "56",
+// I/flutter (21719): │ ⛔   "fbp_available_quantity": "23",
+// I/flutter (21719): │ ⛔   "fbp_description": "522",
+// I/flutter (21719): │ ⛔   "fpb_packing": "",
+// I/flutter (21719): │ ⛔   "fpb_payment_type_idfk": "",
+// I/flutter (21719): │ ⛔   "fpb_lc_type_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_family_idfk": "1",
+// I/flutter (21719): │ ⛔   "ys_user_idfk": "29",
+// I/flutter (21719): │ ⛔   "ys_blend_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_ratio": "",
+// I/flutter (21719): │ ⛔   "ys_usage_idfk": "2",
+// I/flutter (21719): │ ⛔   "ys_pattern_idfk": "1",
+// I/flutter (21719): │ ⛔   "ys_pattern_charectristic_idfk": "3",
+// I/flutter (21719): │ ⛔   "ys_pattern_charectristic_thickness": "",
+// I/flutter (21719): │ ⛔   "ys_pattern_charactristics_length": "",
+// I/flutter (21719): │ ⛔   "ys_patteren_charactristics_pause": "",
+// I/flutter (21719): │ ⛔   "ys_orientation_idfk": "2",
+// I/flutter (21719): │ ⛔   "ys_twist_direction_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_count": "25",
+// I/flutter (21719): │ ⛔   "ys_dty_filament": "",
+// I/flutter (21719): │ ⛔   "ys_fdy_filament": "",
+// I/flutter (21719): │ ⛔   "ys_yarn_type_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_ply_idfk": "1",
+// I/flutter (21719): │ ⛔   "ys_grade_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_certification_idfk": "2",
+// I/flutter (21719): │ ⛔   "ys_color_treatment_method_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_dying_method_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_apperance_idfk": "2",
+// I/flutter (21719): │ ⛔   "ys_actual_yarn_count": "200",
+// I/flutter (21719): │ ⛔   "ys_qlt": "1",
+// I/flutter (21719): │ ⛔   "ys_clsp": "1200",
+// I/flutter (21719): │ ⛔   "ys_uniformity": "",
+// I/flutter (21719): │ ⛔   "ys_cv": "",
+// I/flutter (21719): │ ⛔   "ys_thin_places": "",
+// I/flutter (21719): │ ⛔   "ys_thick_places": "",
+// I/flutter (21719): │ ⛔   "ys_doubling_method_idFk": "",
+// I/flutter (21719): │ ⛔   "ys_naps": "",
+// I/flutter (21719): │ ⛔   "ys_ipm_km": "1200",
+// I/flutter (21719): │ ⛔   "ys_hairness": "",
+// I/flutter (21719): │ ⛔   "ys_color": "",
+// I/flutter (21719): │ ⛔   "ys_rkm": "",
+// I/flutter (21719): │ ⛔   "ys_elongation": "",
+// I/flutter (21719): │ ⛔   "ys_tpi": "",
+// I/flutter (21719): │ ⛔   "ys_tm": "",
+// I/flutter (21719): │ ⛔   "ys_quality_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_spun_technique_idfk": "4",
+// I/flutter (21719): │ ⛔   "fpb_weight_cone": "1.00",
+// I/flutter (21719): │ ⛔   "fpb_weight_bag": "23",
+// I/flutter (21719): │ ⛔   "fpb_cones_bag": "23",
+// I/flutter (21719): │ ⛔   "ys_details": "",
+// I/flutter (21719): │ ⛔   "ys_origin_idfk": "",
+// I/flutter (21719): │ ⛔   "ys_title": ""
+// I/flutter (21719): │ ⛔ }
