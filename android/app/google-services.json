@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "630720452091",
-    "project_id": "yurn-guru",
-    "storage_bucket": "yurn-guru.appspot.com"
+    "project_number": "236321379708",
+    "project_id": "yarnguru-4e2e5",
+    "storage_bucket": "yarnguru-4e2e5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:630720452091:android:a8d704f43c12cc0de1275e",
+        "mobilesdk_app_id": "1:236321379708:android:e9703abb770ab071b780f9",
         "android_client_info": {
-          "package_name": "com.example.ygapp.yg_app"
+          "package_name": "com.yarn.guru"
         }
       },
       "oauth_client": [
         {
-          "client_id": "630720452091-2m0appfbhmmmava8dvtvc9lf3fg61049.apps.googleusercontent.com",
+          "client_id": "236321379708-i6stflc49esk2i69fjqpt7o1gplmk9j9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFFqDVTIyibk5CHyHD0TCTXKbQQBrPbm0"
+          "current_key": "AIzaSyAcL9L5DDambbrrg7BddYlxCi1SOPqbZvI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "630720452091-2m0appfbhmmmava8dvtvc9lf3fg61049.apps.googleusercontent.com",
+              "client_id": "236321379708-i6stflc49esk2i69fjqpt7o1gplmk9j9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

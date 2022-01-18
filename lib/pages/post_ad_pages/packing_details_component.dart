@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/add_picture_widget.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -25,6 +24,7 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -35,6 +35,7 @@ class PackagingDetails extends StatefulWidget {
   final List<PaymentType>? paymentType;
   final List<Units>? units;
   final List<LcType>? lcType;
+  final List<ConeType>? coneType;
   final List<Countries> countries;
   final List<Ports> ports;
   final List<CityState> cityState;
@@ -56,6 +57,7 @@ class PackagingDetails extends StatefulWidget {
       required this.paymentType,
       required this.lcType,
       required this.units,
+      required this.coneType,
       required this.countries,
       required this.ports,
       required this.cityState})
@@ -74,11 +76,18 @@ class _PackagingDetailsState extends State<PackagingDetails>
   List<PickedFile> imageFiles = [];
   CreateRequestModel? _createRequestModel;
   bool noOfDays = false;
-  TextEditingController _noOfDaysTextCon = TextEditingController();
+  TextEditingController _coneWithController = TextEditingController();
+  TextEditingController _weigthPerBagController = TextEditingController();
+  TextEditingController _conePerBagController = TextEditingController();
+  bool? _showPaymentType;
+  bool? _showLcType;
+
+  int? selectedCountryId;
 
   @override
   void initState() {
     //INITIAL VALUES
+    selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
     packingList =
         widget.packing!.where((element) => element.pacIsActive == "1").toList();
@@ -119,17 +128,235 @@ class _PackagingDetailsState extends State<PackagingDetails>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8.w, bottom: 2.w),
-                                child: TitleSmallTextWidget(
-                                    title: sellingRegionStr)),
-                            GridTileWidget(
-                              spanCount: 2,
-                              listOfItems: sellingRegion,
-                              callback: (value) {},
-                              selectedIndex: 0,
+                            //Unit of count and Counting
+                            Visibility(
+                              visible: widget.locality == international
+                                  ? true
+                                  : false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: widget.businessArea == yarn
+                                              ? unitCounting
+                                              : unitCount)),
+                                  SingleSelectTileWidget(
+                                      spanCount: 4,
+                                      listOfItems:
+                                          widget.units as List<dynamic>,
+                                      callback: (value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!
+                                                  .fbp_count_unit_idfk =
+                                              widget.units![value].untId
+                                                  .toString();
+                                        }
+                                      }),
+                                ],
+                              ),
                             ),
+
+                            //Weight of count calculation
+                            Visibility(
+                              visible:
+                                  widget.businessArea == yarn ? true : false,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 8.w, left: 8.w),
+                                                child: TitleSmallTextWidget(
+                                                    title: weightBags)),
+                                            TextFormField(
+                                                controller:
+                                                    _weigthPerBagController,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                cursorColor: lightBlueTabs,
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                                textAlign: TextAlign.center,
+                                                cursorHeight: 16.w,
+                                                maxLines: 1,
+                                                onSaved: (input) {
+                                                  if (_createRequestModel !=
+                                                      null) {
+                                                    _createRequestModel!
+                                                            .fpb_weight_bag =
+                                                        input!;
+                                                  }
+                                                },
+                                                validator: (input) {
+                                                  if (input == null ||
+                                                      input.isEmpty) {
+                                                    return weightBags;
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration:
+                                                    roundedTextFieldDecoration(
+                                                        weightBags)),
+                                          ],
+                                        )),
+                                        SizedBox(width: 16.w),
+                                        Expanded(
+                                            child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 8.w, left: 8.w),
+                                                child: TitleSmallTextWidget(
+                                                    title: coneBags)),
+                                            TextFormField(
+                                                controller:
+                                                    _conePerBagController,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                cursorColor: lightBlueTabs,
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                                textAlign: TextAlign.center,
+                                                cursorHeight: 16.w,
+                                                maxLines: 1,
+                                                onSaved: (input) {
+                                                  if (_createRequestModel !=
+                                                      null) {
+                                                    _createRequestModel!
+                                                        .fpb_cones_bag = input!;
+                                                  }
+                                                },
+                                                onChanged: (value) {
+                                                  if (_weigthPerBagController
+                                                      .text.isNotEmpty) {
+                                                    _coneWithController
+                                                        .text = (int.parse(
+                                                                _weigthPerBagController
+                                                                    .text) /
+                                                            int.parse(value))
+                                                        .toStringAsFixed(2);
+                                                  } else {
+                                                    _coneWithController.text =
+                                                        "";
+                                                  }
+                                                },
+                                                validator: (input) {
+                                                  if (input == null ||
+                                                      input.isEmpty) {
+                                                    return coneBags;
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration:
+                                                    roundedTextFieldDecoration(
+                                                        coneBags)),
+                                          ],
+                                        )),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 8.w, left: 8.w),
+                                            child: TitleSmallTextWidget(
+                                                title: weightCones)),
+                                        TextFormField(
+                                            controller: _coneWithController,
+                                            keyboardType: TextInputType.number,
+                                            readOnly: true,
+                                            autofocus: false,
+                                            cursorColor: lightBlueTabs,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            cursorHeight: 16.w,
+                                            maxLines: 1,
+                                            onSaved: (input) {
+                                              if (_createRequestModel != null) {
+                                                _createRequestModel!
+                                                    .fpb_weight_cone = input!;
+                                              }
+                                            },
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty) {
+                                                return weightCones;
+                                              }
+                                              return null;
+                                            },
+                                            decoration:
+                                                roundedTextFieldDecoration(
+                                                    weightCones)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            //Show Cone type
+                            Visibility(
+                              visible: widget.coneType!.isEmpty ? false : true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: "Cone Type")),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      selectedIndex: -1,
+                                      listOfItems:
+                                          widget.coneType as List<dynamic>,
+                                      callback: (value) {
+                                        _createRequestModel!.cone_type_id =
+                                            widget.coneType![value].yctId
+                                                .toString();
+                                      }),
+                                ],
+                              ),
+                            ),
+
+                            //Selling Region
+                            Padding(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8.w, bottom: 2.w),
+                                      child: TitleSmallTextWidget(
+                                          title: sellingRegionStr)),
+                                  SingleSelectTileWidget(
+                                    spanCount: 2,
+                                    listOfItems: sellingRegion,
+                                    callback: (value) {},
+                                    selectedIndex: 0,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            //Country,port
                             Visibility(
                               visible: widget.locality == international
                                   ? true
@@ -179,6 +406,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     .toList(),
                                                 isExpanded: true,
                                                 onChanged: (Countries? value) {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          FocusNode());
+                                                  selectedCountryId =
+                                                      value!.conId;
                                                   _createRequestModel!
                                                           .spc_origin_idfk =
                                                       value!.conId.toString();
@@ -236,6 +468,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               child: DropdownButtonFormField(
                                                 hint: const Text('Select Port'),
                                                 items: widget.ports
+                                                    .where((element) =>
+                                                        element
+                                                            .prtCountryIdfk ==
+                                                        selectedCountryId)
+                                                    .toList()
                                                     .map((value) =>
                                                         DropdownMenuItem(
                                                           child: Text(
@@ -249,6 +486,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     .toList(),
                                                 isExpanded: true,
                                                 onChanged: (Ports? value) {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          FocusNode());
                                                   _createRequestModel!
                                                           .spc_port_idfk =
                                                       value!.prtId.toString();
@@ -280,6 +520,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
+                            //City State
                             Visibility(
                                 visible: widget.locality == international
                                     ? true
@@ -306,8 +547,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(24.w))),
                                           child: DropdownButtonFormField(
-                                            hint: Text('Select ${cityState}'),
+                                            hint: Text('Select $cityState'),
                                             items: widget.cityState
+                                                .where((element) =>
+                                                    element.countryId ==
+                                                    selectedCountryId
+                                                        .toString())
+                                                .toList()
                                                 .map((value) =>
                                                     DropdownMenuItem(
                                                       child: Text(
@@ -319,6 +565,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 .toList(),
                                             isExpanded: true,
                                             onChanged: (CityState? value) {
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
                                               _createRequestModel!
                                                       .spc_city_state_idfk =
                                                   value!.countryId.toString();
@@ -343,6 +591,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     ],
                                   ),
                                 )),
+
+                            //Price Terms
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -365,6 +615,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     child: DropdownButtonFormField(
                                       hint: const Text('Select Price Terms'),
                                       items: widget.priceTerms!
+                                          .where((element) =>
+                                              element.ptr_locality ==
+                                              widget.locality)
+                                          .toList()
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
                                                     value.ptrName ?? "N/A",
@@ -375,6 +629,20 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           .toList(),
                                       isExpanded: true,
                                       onChanged: (FPriceTerms? value) {
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
+                                        setState(() {
+                                          if (value!.ptrId == 3) {
+                                            _showPaymentType = true;
+                                          } else {
+                                            _showPaymentType = false;
+                                            _showLcType = false;
+                                            _createRequestModel!
+                                                .payment_type_idfk = null;
+                                            _createRequestModel!.lc_type_idfk =
+                                                null;
+                                          }
+                                        });
                                         _createRequestModel!
                                                 .fbp_price_terms_idfk =
                                             value!.ptrId.toString();
@@ -400,19 +668,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 ),
                               ],
                             ),
-                            // GridTileWidget(
-                            //     spanCount: 3,
-                            //     listOfItems: widget.priceTerms as List<dynamic>,
-                            //     callback: (value) {
-                            //       _createRequestModel!.fbp_price_terms_idfk =
-                            //           widget.priceTerms![value].ptrId
-                            //               .toString();
-                            //     }),
 
+                            //Payment Type
                             Visibility(
-                                visible: widget.locality == international
-                                    ? true
-                                    : false,
+                                visible: _showPaymentType ?? false,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -421,21 +680,34 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             top: 8.w, left: 8.w),
                                         child: TitleSmallTextWidget(
                                             title: paymentType)),
-                                    GridTileWidget(
+                                    SingleSelectTileWidget(
                                         spanCount: 3,
+                                        selectedIndex: -1,
                                         listOfItems:
                                             widget.paymentType as List<dynamic>,
                                         callback: (value) {
                                           _createRequestModel!
                                                   .payment_type_idfk =
                                               widget.paymentType![value].payId;
+
+                                          setState(() {
+                                            if (widget.paymentType![value]
+                                                    .payId ==
+                                                "1") {
+                                              _showLcType = true;
+                                            } else {
+                                              _showLcType = false;
+                                              _createRequestModel!
+                                                  .lc_type_idfk = null;
+                                            }
+                                          });
                                         }),
                                   ],
                                 )),
+
+                            //Lc Type
                             Visibility(
-                              visible: widget.locality == international
-                                  ? true
-                                  : false,
+                              visible: _showLcType ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -444,8 +716,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           EdgeInsets.only(top: 8.w, left: 8.w),
                                       child:
                                           TitleSmallTextWidget(title: lcType)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                       spanCount: 4,
+                                      selectedIndex: -1,
                                       listOfItems:
                                           widget.lcType as List<dynamic>,
                                       callback: (value) {
@@ -458,33 +731,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
-                            Visibility(
-                              visible: widget.locality == international
-                                  ? true
-                                  : false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: unitCount)),
-                                  GridTileWidget(
-                                      spanCount: 4,
-                                      listOfItems:
-                                          widget.units as List<dynamic>,
-                                      callback: (value) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!
-                                                  .fbp_count_unit_idfk =
-                                              widget.units![value].untId
-                                                  .toString();
-                                        }
-                                      }),
-                                ],
-                              ),
-                            ),
+
+                            //Price Unit and Avilable Quantity
                             Row(
                               children: [
                                 Expanded(
@@ -521,209 +769,141 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 )),
                                 SizedBox(width: 16.w),
                                 Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
-                                            title: minQty)),
-                                    TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        cursorColor: lightBlueTabs,
-                                        style: TextStyle(fontSize: 11.sp),
-                                        textAlign: TextAlign.center,
-                                        cursorHeight: 16.w,
-                                        maxLines: 1,
-                                        onSaved: (input) {
-                                          if (_createRequestModel != null) {
-                                            _createRequestModel!
-                                                .fbp_min_quantity = input!;
-                                          }
-                                        },
-                                        validator: (input) {
-                                          if (input == null || input.isEmpty) {
-                                            return minQty;
-                                          }
-                                          return null;
-                                        },
-                                        decoration:
-                                            roundedTextFieldDecoration(minQty)),
-                                  ],
-                                )),
+                                  child:
+                                      //Available Quantity
+                                      Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 8.w, left: 8.w),
+                                          child: const TitleSmallTextWidget(
+                                              title: "Available Quantity")),
+                                      TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          cursorColor: lightBlueTabs,
+                                          style: TextStyle(fontSize: 11.sp),
+                                          textAlign: TextAlign.center,
+                                          cursorHeight: 16.w,
+                                          maxLines: 1,
+                                          onSaved: (input) {
+                                            if (_createRequestModel != null) {
+                                              _createRequestModel!
+                                                      .fbp_available_quantity =
+                                                  input!;
+                                            }
+                                          },
+                                          validator: (input) {
+                                            if (input == null ||
+                                                input.isEmpty) {
+                                              return "Available Quantity";
+                                            }
+                                            return null;
+                                          },
+                                          decoration:
+                                              roundedTextFieldDecoration(
+                                                  "Available Quantity")),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
 
+                            //Minimum Quantity
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 8.w, left: 8.w),
+                                    child: TitleSmallTextWidget(title: minQty)),
+                                TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    cursorColor: lightBlueTabs,
+                                    style: TextStyle(fontSize: 11.sp),
+                                    textAlign: TextAlign.center,
+                                    cursorHeight: 16.w,
+                                    maxLines: 1,
+                                    onSaved: (input) {
+                                      if (_createRequestModel != null) {
+                                        _createRequestModel!.fbp_min_quantity =
+                                            input!;
+                                      }
+                                    },
+                                    validator: (input) {
+                                      if (input == null || input.isEmpty) {
+                                        return minQty;
+                                      }
+                                      return null;
+                                    },
+                                    decoration:
+                                        roundedTextFieldDecoration(minQty)),
+                              ],
+                            ),
+
+                            //Packing
                             Visibility(
                               visible:
-                                  widget.businessArea == yarn ? true : false,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 8.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
-                                                child: TitleSmallTextWidget(
-                                                    title: weightCones)),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                maxLines: 1,
-                                                onSaved: (input) {
-                                                  if (_createRequestModel !=
-                                                      null) {
-                                                    _createRequestModel!
-                                                            .fpb_weight_cone =
-                                                        input!;
-                                                  }
-                                                },
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return weightCones;
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        weightCones)),
-                                          ],
-                                        )),
-                                        SizedBox(width: 16.w),
-                                        Expanded(
-                                            child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
-                                                child: TitleSmallTextWidget(
-                                                    title: weightBags)),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                maxLines: 1,
-                                                onSaved: (input) {
-                                                  if (_createRequestModel !=
-                                                      null) {
-                                                    _createRequestModel!
-                                                            .fpb_weight_bag =
-                                                        input!;
-                                                  }
-                                                },
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return weightBags;
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        weightBags)),
-                                          ],
-                                        )),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: TitleSmallTextWidget(
-                                                title: coneBags)),
-                                        TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!
-                                                    .fpb_cones_bag = input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty) {
-                                                return coneBags;
-                                              }
-                                              return null;
-                                            },
-                                            decoration:
-                                                roundedTextFieldDecoration(
-                                                    coneBags)),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                  widget.businessArea == "Fiber" ? true : false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child:
+                                          TitleSmallTextWidget(title: packing)),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: packingList,
+                                      callback: (value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.packing_idfk =
+                                              widget.packing![value].pacId
+                                                  .toString();
+                                        }
+                                      }),
+                                ],
                               ),
                             ),
 
-                            Padding(
-                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(title: packing)),
-                            GridTileWidget(
-                                spanCount: 3,
-                                listOfItems: packingList,
-                                callback: (value) {
-                                  if (_createRequestModel != null) {
-                                    _createRequestModel!.packing_idfk =
-                                        widget.packing![value].pacId.toString();
-                                  }
-                                }),
-                            Padding(
-                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: deliveryPeriod)),
-                            GridTileWidget(
-                                spanCount: 3,
-                                listOfItems:
-                                    widget.deliveryPeriod as List<dynamic>,
-                                callback: (value) {
-                                  if (_createRequestModel != null) {
-                                    _createRequestModel!
-                                            .fbp_delivery_period_idfk =
-                                        widget.deliveryPeriod![value].dprId
-                                            .toString();
-                                    if (widget.deliveryPeriod![value].dprId ==
-                                        3) {
-                                      setState(() {
-                                        noOfDays = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        noOfDays = false;
-                                      });
-                                    }
-                                  }
-                                }),
+                            //Delivery Period
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 8.w, left: 8.w),
+                                    child: TitleSmallTextWidget(
+                                        title: deliveryPeriod)),
+                                SingleSelectTileWidget(
+                                    spanCount: 3,
+                                    listOfItems:
+                                        widget.deliveryPeriod as List<dynamic>,
+                                    callback: (value) {
+                                      if (_createRequestModel != null) {
+                                        _createRequestModel!
+                                                .fbp_delivery_period_idfk =
+                                            widget.deliveryPeriod![value].dprId
+                                                .toString();
+                                        if (widget
+                                                .deliveryPeriod![value].dprId ==
+                                            3) {
+                                          setState(() {
+                                            noOfDays = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            noOfDays = false;
+                                          });
+                                        }
+                                      }
+                                    }),
+                              ],
+                            ),
 
+                            //No of Days
                             Visibility(
                               visible: noOfDays,
                               child: Column(
@@ -741,47 +921,41 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           border: Border.all(
                                             color: Colors.grey.shade300,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
-                                          borderRadius:
-                                          BorderRadius.all(
-                                              Radius.circular(
-                                                  24.w))),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(24.w))),
                                       child: DropdownButtonFormField(
-                                        hint: const Text(
-                                            'Select Number'),
-                                        items: Iterable<int>.generate(101).toList().map((value) =>
-                                            DropdownMenuItem(
-                                              child: Text(
-                                                  value.toString(),
-                                                  textAlign:
-                                                  TextAlign
-                                                      .center),
-                                              value: value,
-                                            ))
+                                        hint: const Text('Select Number'),
+                                        items: Iterable<int>.generate(101)
+                                            .toList()
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(value.toString(),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
                                             .toList(),
                                         isExpanded: true,
                                         validator: (value) => value == null
                                             ? 'field required'
                                             : null,
                                         onChanged: (int? value) {
-                                          _createRequestModel!
-                                              .spc_no_of_days =
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
+                                          _createRequestModel!.spc_no_of_days =
                                               value!.toString();
                                         },
 
                                         // value: widget.syncFiberResponse.data.fiber.brands.first,
                                         decoration: InputDecoration(
-                                          contentPadding:
-                                          EdgeInsets.only(
+                                          contentPadding: EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border:
-                                          const OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide.none),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -793,6 +967,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               ),
                             ),
 
+                            //Description
                             Padding(
                                 padding: EdgeInsets.only(top: 8.w, left: 8.w),
                                 child: TitleSmallTextWidget(
@@ -822,6 +997,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   decoration: roundedDescriptionDecoration(
                                       descriptionStr)),
                             ),
+
                             AddPictureWidget(
                               imageCount: 1,
                               callbackImages: (value) {
@@ -911,5 +1087,4 @@ class _PackagingDetailsState extends State<PackagingDetails>
     }
     return false;
   }
-
 }

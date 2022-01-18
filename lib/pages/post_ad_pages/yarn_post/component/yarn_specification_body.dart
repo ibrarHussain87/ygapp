@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -191,7 +191,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: yarnTexturedType)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.yarnTypes!,
                                     callback: (value) {
@@ -275,7 +275,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child:
                                           TitleSmallTextWidget(title: usage)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 2,
                                     listOfItems: _yarnData!.usage!
                                         .where((element) =>
@@ -305,7 +305,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: apperance)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.apperance!
                                         .where((element) =>
@@ -353,7 +353,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: const TitleSmallTextWidget(
                                           title: "Dying Method")),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.dyingMethod!
                                         .where((element) {
@@ -511,7 +511,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(title: ply)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 4,
                                     listOfItems: _yarnData!.ply!
                                         .where((element) =>
@@ -565,7 +565,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: colorTreatmentMethod)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.doublingMethod!
@@ -597,7 +597,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: colorTreatmentMethod)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.colorTreatmentMethod!
@@ -633,7 +633,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: orientation)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 2,
                                     listOfItems: _yarnData!.orientation!
                                         .where((element) =>
@@ -664,7 +664,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: twistDirection)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 2,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.twistDirection!
@@ -698,7 +698,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: spunTech)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 4,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.spunTechnique!
@@ -730,7 +730,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child:
                                           TitleSmallTextWidget(title: quality)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 2,
                                     listOfItems: _yarnData!.quality!
                                         .where((element) =>
@@ -764,7 +764,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child:
                                           TitleSmallTextWidget(title: pattern)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.pattern!
                                         .where((element) =>
@@ -906,7 +906,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             padding: EdgeInsets.only(left: 8.w),
                                             child: TitleSmallTextWidget(
                                                 title: patternChar)),
-                                        GridTileWidget(
+                                        SingleSelectTileWidget(
                                           spanCount: 4,
                                           listOfItems:
                                               _patternCharactristicList ?? [],
@@ -940,7 +940,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child:
                                           TitleSmallTextWidget(title: grades)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.grades!
                                         .where((element) =>
@@ -971,7 +971,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                       padding: EdgeInsets.only(left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: certification)),
-                                  GridTileWidget(
+                                  SingleSelectTileWidget(
                                     spanCount: 4,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.certification!,

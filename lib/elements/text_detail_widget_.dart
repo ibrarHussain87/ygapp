@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
-class GreyTextDetailWidget extends StatelessWidget {
+class TextDetailWidget extends StatelessWidget {
   final String title;
   final String? detail;
 
-  const GreyTextDetailWidget(
+  const TextDetailWidget(
       {Key? key, required this.title, required this.detail})
       : super(key: key);
 

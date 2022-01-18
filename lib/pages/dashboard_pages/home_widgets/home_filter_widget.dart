@@ -5,7 +5,7 @@ import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart
 import 'package:yg_app/model/response/family_data.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/elements/list_widgets/grid_tile_more_widget.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 

@@ -7,6 +7,7 @@ class GetSpecificationRequestModel {
 
 
   String? ys_color_code;
+  List<int>? ys_dying_method_idfk;
   List<int>? yarnYypeId;
   List<int>? yuId;
   List<int>? plyId;
@@ -16,6 +17,7 @@ class GetSpecificationRequestModel {
   List<int>? spunTechId;
   List<int>? qualityId;
   List<int>? patternId;
+  List<int>? doublingMethodId;
 
 
   List<int>? gradeId;
@@ -25,6 +27,7 @@ class GetSpecificationRequestModel {
   List<int>? apperanceYarnId;
   List<int>? certificationId;
   List<int>? packingId;
+  List<int>? patternCharId;
   List<double>? micronaire;
   List<double>? moisture;
   List<double>? rd;
@@ -39,6 +42,7 @@ class GetSpecificationRequestModel {
       this.categoryId,
       this.isOffering,
       this.productionYear,
+      this.ys_dying_method_idfk,
       this.locality,
       this.gradeId,
       this.apperanceYarnId,
@@ -52,6 +56,7 @@ class GetSpecificationRequestModel {
       this.rd,
       this.gpt,
       this.ysBlendIdFk,
+      this.patternCharId,
       this.ys_color_code,
       this.yarnYypeId,
       this.yuId,
@@ -61,6 +66,7 @@ class GetSpecificationRequestModel {
       this.twistDirectionId,
       this.spunTechId,
       this.qualityId,
+      this.doublingMethodId,
       this.patternId,
       this.ysFamilyIdFk});
 
@@ -80,9 +86,11 @@ class GetSpecificationRequestModel {
       'micronaire': micronaire,
       'moisture': moisture,
       'rd': rd,
+      'ys_dying_method_idfk': ys_dying_method_idfk,
       'gpt': gpt,
       'ys_family_idfk': ysFamilyIdFk,
       'ys_apperance_idfk': apperanceYarnId,
+      'ys_pattern_charectristic_idfk': patternCharId,
       'ys_color': ys_color_code,
       'ys_usage_idfk': yuId,
       'ys_yarn_type_idfk': yarnYypeId,
@@ -94,6 +102,7 @@ class GetSpecificationRequestModel {
       'ys_quality_idfk': qualityId,
       'ys_pattern_idfk': patternId,
       'ys_blend_idfk': ysBlendIdFk,
+      'ys_doubling_method_idFk': doublingMethodId,
     };
 
     return map;

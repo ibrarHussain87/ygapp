@@ -6,8 +6,9 @@ class FamilyTileWidget extends StatefulWidget {
 
   final List<dynamic>? listItems;
   final Function? callback;
+  final int? selectedIndex;
 
-  const FamilyTileWidget({Key? key, required this.listItems,required this.callback}) : super(key: key);
+  const FamilyTileWidget({Key? key, required this.listItems,required this.callback,this.selectedIndex}) : super(key: key);
 
   @override
   _FamilyTileWidgetState createState() => _FamilyTileWidgetState();
@@ -15,7 +16,14 @@ class FamilyTileWidget extends StatefulWidget {
 
 class _FamilyTileWidgetState extends State<FamilyTileWidget> {
 
-  int checkedFamily = 0;
+  int? checkedFamily;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkedFamily = widget.selectedIndex ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

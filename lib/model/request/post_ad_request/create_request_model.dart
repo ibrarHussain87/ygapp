@@ -33,11 +33,13 @@ class CreateRequestModel {
   String? fbp_available_for_market_idfk;
   String? fbp_price_terms_idfk;
   String? fbp_min_quantity;
+  String? fbp_available_quantity;
   String? fbp_description;
 
   String? fpb_packing;
   String? fpb_payment_type_idfk;
   String? fpb_lc_type_idfk;
+  String? cone_type_id;
 
   //Yarn keys
 
@@ -103,6 +105,7 @@ class CreateRequestModel {
       this.spc_trash_idfk,
       this.spc_rd_idfk,
       this.spc_gpt_idfk,
+      this.cone_type_id,
       this.spc_no_of_days,
       this.spc_production_year,
       this.spc_lot_number,
@@ -123,6 +126,7 @@ class CreateRequestModel {
       this.fbp_available_for_market_idfk,
       this.fbp_price_terms_idfk,
       this.fbp_min_quantity,
+      this.fbp_available_quantity,
       this.fbp_description,
       this.fpb_packing,
       this.ys_yarn_type_idfk,
@@ -182,6 +186,7 @@ class CreateRequestModel {
       'spc_micronaire': spc_micronaire_idfk ?? "",
       'spc_moisture': spc_moisture_idfk ?? "",
       'spc_trash_idfk': spc_trash_idfk ?? "",
+      'spc_yct_id': cone_type_id ?? "",
       'spc_rd_idfk': spc_rd_idfk ?? "",
       'spc_gpt_idfk': spc_gpt_idfk ?? "",
       'spc_no_of_days': spc_no_of_days ?? "",
@@ -203,6 +208,7 @@ class CreateRequestModel {
       'fbp_price_terms_idfk': fbp_price_terms_idfk ?? "",
       'spc_lot_number': spc_lot_number ?? "",
       'fbp_min_quantity': fbp_min_quantity ?? "",
+      'fbp_available_quantity': fbp_available_quantity ?? "",
       'fbp_description': fbp_description ?? "",
       'fpb_packing': fpb_packing ?? "",
       'fpb_payment_type_idfk': fpb_payment_type_idfk ?? "",

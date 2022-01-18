@@ -6,6 +6,7 @@ class FPriceTerms {
     required this.ptrId,
     required this.ptrCategoryIdfk,
     this.ptrCountryIdfk,
+    this.ptr_locality,
     required this.ptrName,
     required this.ptrIsActive,
     this.ptrSortid,
@@ -16,6 +17,7 @@ class FPriceTerms {
   @PrimaryKey(autoGenerate: false)
   late final int ptrId;
   String? ptrCategoryIdfk;
+  String? ptr_locality;
   @ignore
   Null ptrCountryIdfk;
   String? ptrName;
@@ -34,6 +36,7 @@ class FPriceTerms {
     ptrCategoryIdfk = json['ptr_category_idfk'];
     ptrCountryIdfk = null;
     ptrName = json['ptr_name'];
+    ptr_locality = json['ptr_locality'];
     ptrIsActive = json['ptr_is_active'];
     ptrSortid = null;
     createdAt = null;
@@ -46,6 +49,7 @@ class FPriceTerms {
     _data['ptr_id'] = ptrId;
     _data['ptr_category_idfk'] = ptrCategoryIdfk;
     _data['ptr_country_idfk'] = ptrCountryIdfk;
+    _data['ptr_locality'] = ptr_locality;
     _data['ptr_name'] = ptrName;
     _data['ptr_is_active'] = ptrIsActive;
     _data['ptr_sortid'] = ptrSortid;

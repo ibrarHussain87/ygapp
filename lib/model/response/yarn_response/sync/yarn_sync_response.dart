@@ -1166,6 +1166,12 @@ class ConeType {
     data['yct_sortid'] = this.yctSortid;
     return data;
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return yctName?? "";
+  }
 }
 
 // class Grades {

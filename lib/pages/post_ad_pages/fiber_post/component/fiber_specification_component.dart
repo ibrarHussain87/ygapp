@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -139,7 +139,7 @@ class FiberSpecificationComponentState
                                                   EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
                                                   title: grades)),
-                                          GridTileWidget(
+                                          SingleSelectTileWidget(
                                             spanCount: 3,
                                             listOfItems: widget
                                                 .syncFiberResponse
@@ -606,7 +606,7 @@ class FiberSpecificationComponentState
                                             padding: EdgeInsets.only(left: 8.w),
                                             child: const TitleSmallTextWidget(
                                                 title: 'Appearance')),
-                                        GridTileWidget(
+                                        SingleSelectTileWidget(
                                           spanCount: 2,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.apperance,
@@ -967,7 +967,7 @@ class FiberSpecificationComponentState
                                             padding: EdgeInsets.only(left: 8.w),
                                             child: const TitleSmallTextWidget(
                                                 title: 'Certification')),
-                                        GridTileWidget(
+                                        SingleSelectTileWidget(
                                           spanCount: 3,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.certification,

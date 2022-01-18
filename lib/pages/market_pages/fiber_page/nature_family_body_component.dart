@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/list_widgets/grid_tile_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -54,7 +54,7 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
                   height: 0.055 * MediaQuery.of(context).size.height,
                   child: Padding(
                     padding: const EdgeInsets.only(top:2.0),
-                    child: GridTileWidget(
+                    child: SingleSelectTileWidget(
                       spanCount: 2,
                       listOfItems: widget.fiberNaturesList,
                       callback: (value) {

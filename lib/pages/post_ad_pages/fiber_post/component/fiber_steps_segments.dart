@@ -74,6 +74,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         paymentType: widget.syncFiberResponse.data.fiber.paymentType,
         ports: widget.syncFiberResponse.data.fiber.ports,
         priceTerms: widget.syncFiberResponse.data.fiber.priceTerms,
+        coneType: [],
         deliveryPeriod: widget.syncFiberResponse.data.fiber.deliveryPeriod,
         units: widget.syncFiberResponse.data.fiber.units,
       ),

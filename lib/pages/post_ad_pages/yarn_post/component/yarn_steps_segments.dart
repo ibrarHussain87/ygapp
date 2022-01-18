@@ -87,6 +87,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         packing: widget.yarnSyncResponse.data.yarn.packing,
         paymentType: widget.yarnSyncResponse.data.yarn.paymentTypes,
         ports: widget.yarnSyncResponse.data.yarn.ports!,
+        coneType: widget.yarnSyncResponse.data.yarn.coneType,
         priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
         deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
         units: widget.yarnSyncResponse.data.yarn.units,

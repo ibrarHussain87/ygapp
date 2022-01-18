@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_cat_with_image_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/string_util.dart';
@@ -54,22 +56,22 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   bool isListClear = false;
 
-    bool? showLength;
-    bool? showGrade;
-    bool? showMicronaire;
-    bool? showMoisture;
-    bool? showTrash;
-    bool? showRd;
-    bool? showGpt;
-    bool? showAppearance;
-    bool? showBrand;
-    bool? showOrigin;
-    bool? showCertification;
-    bool? showCountUnit;
-    bool? showDeliveryPeriod;
-    bool? showAvailableForMarket;
-    bool? showPriceTerms;
-    bool? showLotNumber;
+  bool? showLength;
+  bool? showGrade;
+  bool? showMicronaire;
+  bool? showMoisture;
+  bool? showTrash;
+  bool? showRd;
+  bool? showGpt;
+  bool? showAppearance;
+  bool? showBrand;
+  bool? showOrigin;
+  bool? showCertification;
+  bool? showCountUnit;
+  bool? showDeliveryPeriod;
+  bool? showAvailableForMarket;
+  bool? showPriceTerms;
+  bool? showLotNumber;
 
   double minMois = 0.0;
   double minRd = 0.0;
@@ -85,6 +87,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   @override
   void initState() {
     _getSpecificationRequestModel = GetSpecificationRequestModel();
+    _querySetting(widget.syncFiberResponse.data.fiber.material.first.fbmId);
     setState(() {
       _minMaxConfiguration();
     });
@@ -118,11 +121,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                       ),
                       SizedBox(
                         height: 58.w,
-                        child: FilterCatWithImageWidget(
+                        child: CatWithImageListWidget(
                           listItem:
                               widget.syncFiberResponse.data.fiber.material,
+                          selectedItem: 0,
                           onClickCallback: (value) {
-                            _querySetting((value as FiberMaterial).fbmId);
+                            _querySetting(widget.syncFiberResponse.data.fiber.material[value].fbmId);
                             _getSpecificationRequestModel!.fiberMaterialId =
                                 filterList(listOfMaterials, (value).fbmId);
                           },
@@ -140,7 +144,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 padding:
                                     EdgeInsets.only(left: 8.w, bottom: 8.w),
                                 child: TitleSmallTextWidget(title: grades)),
-                            FilterGridTileWidget(
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
                               spanCount: 3,
                               listOfItems:
                                   widget.syncFiberResponse.data.fiber.grades,
@@ -171,9 +176,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               minValue: minMic,
                               maxValue: maxMic,
                               hintTxt: "Micronaire (Mic)",
-                              valueCallback: (value){
-
-                              },
+                              valueCallback: (value) {},
                               // minCallback: (value) {
                               //   minValueMicParam = value;
                               // },
@@ -205,7 +208,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 // maxCallback: (value) {
                                 //   maxValueMosParam = value;
                                 // },
-                                valueCallback: (value){},
+                                valueCallback: (value) {},
                               ),
                               SizedBox(
                                 height: 4.w,
@@ -224,9 +227,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               hintTxt: "RD",
                               // minCallback: (value) {},
                               // maxCallback: (value) {},
-                              valueCallback: (value){
-
-                              },
+                              valueCallback: (value) {},
                             ),
                             SizedBox(
                               height: 4.w,
@@ -248,7 +249,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                           left: 8.w, top: 4.0.w, bottom: 8.w),
                                       child: const TitleSmallTextWidget(
                                           title: 'Appearance')),
-                                  FilterGridTileWidget(
+                                  SingleSelectTileWidget(
+                                    selectedIndex: -1,
                                     spanCount: 2,
                                     listOfItems: widget
                                         .syncFiberResponse.data.fiber.apperance,
@@ -403,7 +405,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                         left: 8.w, top: 4.2, bottom: 8.w),
                                     child: const TitleSmallTextWidget(
                                         title: 'Certification')),
-                                FilterGridTileWidget(
+                                SingleSelectTileWidget(
+                                  selectedIndex: -1,
                                   spanCount: 4,
                                   listOfItems: widget.syncFiberResponse.data
                                       .fiber.certification,
@@ -434,7 +437,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   left: 8.w, top: 4.2, bottom: 8.w),
                               child:
                                   const TitleSmallTextWidget(title: 'Packing')),
-                          FilterGridTileWidget(
+                          SingleSelectTileWidget(
+                            selectedIndex: -1,
                             spanCount: 3,
                             listOfItems:
                                 widget.syncFiberResponse.data.fiber.packing,
@@ -484,44 +488,51 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          if (micValue != null /*&&
-                              maxValueMicParam != null*/) {
+                          if (micValue !=
+                                  null /*&&
+                              maxValueMicParam != null*/
+                              ) {
                             listOfMic = [
-                              micValue!.toDouble()/*,
+                              micValue!
+                                  .toDouble() /*,
                               maxValueMicParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.micronaire =
                                 listOfMic;
                           }
 
-                          if (moisValue != null/* &&
-                              maxValueMosParam != null*/) {
+                          if (moisValue !=
+                                  null /* &&
+                              maxValueMosParam != null*/
+                              ) {
                             listOfMos = [
-                              moisValue!/*,
+                              moisValue! /*,
                               maxValueMosParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.moisture = listOfMos;
                           }
 
-                          if (rdValue != null/* &&
-                              maxValueMosParam != null*/) {
+                          if (rdValue !=
+                                  null /* &&
+                              maxValueMosParam != null*/
+                              ) {
                             listOfRd = [
-                              rdValue!/*,
+                              rdValue! /*,
                               maxValueMosParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.rd = listOfMos;
                           }
 
-
-                          if (gptValue != null/* &&
-                              maxValueMosParam != null*/) {
+                          if (gptValue !=
+                                  null /* &&
+                              maxValueMosParam != null*/
+                              ) {
                             listOfGpt = [
-                              gptValue!/*,
+                              gptValue! /*,
                               maxValueMosParam!.toInt()*/
                             ];
                             _getSpecificationRequestModel!.gpt = listOfGpt;
                           }
-
 
                           Navigator.pop(context, _getSpecificationRequestModel);
                         },
@@ -538,14 +549,14 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   }
 
   _querySetting(int id) {
-    AppDbInstance.getDbInstance().then(
-        (db) => db.fiberSettingDao.findFiberSettings(id).then((value) {
+    AppDbInstance.getDbInstance()
+        .then((db) => db.fiberSettingDao.findFiberSettings(id).then((value) {
               late bool isSettingInList;
               late FiberSettings _fiberSettings;
 
               if (!isListClear) {
                 listOfSettings.clear();
-                isListClear = true;
+                isListClear = false;
               }
               if (listOfSettings.isNotEmpty) {
                 for (var element in listOfSettings) {
@@ -717,27 +728,28 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          child: YearPicker(
-            selectedDate: DateTime(DateTime.now().year),
-            firstDate: DateTime(DateTime.now().year - 4),
-            lastDate: DateTime.now(),
-            onChanged: (val) {
-              _textEditingController.text = val.year.toString();
-              Navigator.pop(context);
-            },
-          ),
-        ));
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: YearPicker(
+                selectedDate: DateTime(DateTime.now().year),
+                firstDate: DateTime(DateTime.now().year - 4),
+                lastDate: DateTime.now(),
+                onChanged: (val) {
+                  _textEditingController.text = val.year.toString();
+                  Navigator.pop(context);
+                },
+              ),
+            ));
   }
 
   List<int> filterList(List<int> list, int value) {
-    if (list.contains(value)) {
-      list.remove(value);
-    } else {
-      list.add(value);
-    }
+    // if (list.contains(value)) {
+    //   list.remove(value);
+    // } else {
+    list.clear();
+    list.add(value);
+    // }
 
-    return list;
+    return list.toSet().toList();
   }
 }

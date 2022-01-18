@@ -57,6 +57,7 @@ String priceTerms = 'Price Terms';
 String paymentType = 'Payment Type';
 String lcType = 'LC Type';
 String unitCount = 'Unit Of Count';
+String unitCounting = 'Units of Counting';
 String priceUnits = 'Price/Unit';
 String minQty = 'Minimum Qty';
 String packing = 'Packing';
@@ -88,7 +89,7 @@ String apperance = 'Appearence';
 String actualYarnCount = 'Actual Yarn Count';
 String CLSP = 'CLSP';
 String weightCones = 'Weight/Cones';
-String weightBags = 'Weight/Bags';
+String weightBags = 'Weight/Bags (KG)';
 String coneBags = 'Cone/Bags';
 String yarn = "Yarn";
 

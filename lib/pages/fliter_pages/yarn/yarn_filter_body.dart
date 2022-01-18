@@ -7,6 +7,7 @@ import 'package:yg_app/elements/filter_widget/filter_category_single_select_widg
 import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -77,10 +78,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   List<int> listOfSpunTechId = [];
   List<int> listOfQualityId = [];
   List<int> listApperanceId = [];
+  List<int> listOfDyingMethod = [];
+  List<int> listOfPatternChar = [];
+  List<int> listOfDoublingMethod = [];
 
   YarnSetting? _yarnSetting;
   String? selectedFamilyId;
   String? selectedBlendId;
+  String? selectedAppearenceId;
+  String? selectedPlyId;
   bool? showTexturized;
   bool? showBlend;
   bool? showDannier;
@@ -92,14 +98,13 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   bool? showRatio;
   bool? showCount;
   bool? showPly;
-  bool? showDoublingMethod;
   bool? showColorTreatmentMethod;
   bool? showOrientation;
   bool? showTwistDirection;
   bool? showSpunTechnique;
   bool? showQuality;
   bool? showPattern;
-  bool? showPatternCharc;
+
   bool? showGrade;
   bool? showCertification;
 
@@ -122,6 +127,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   double? maxValueRatioParam;
 
   bool isListClear = false;
+
+  //Show Hide on dependency
+  bool? showDyingMethod;
+  bool? showPatternCharc;
+  bool? showDoublingMethod;
 
   @override
   void initState() {
@@ -168,9 +178,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             _querySetting((value as Family).famId!);
                             _getSpecificationRequestModel!.ysFamilyIdFk =
                                 (value).famId!.toString();
-
-                            // _querySetting(widget
-                            //     .syncResponse!.data.yarn.family![value].famId!);
                           },
                         ),
                       ),
@@ -179,6 +186,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ),
                     ],
                   ),
+
                   //Show Blends
                   Visibility(
                     visible: showBlend ?? false,
@@ -239,7 +247,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child:
                                 TitleSmallTextWidget(title: yarnTexturedType)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems: widget.syncResponse!.data.yarn.yarnTypes!
                               .where((element) =>
@@ -316,50 +325,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                     ),
                   ),
 
-                  //Show Count
-                  Visibility(
-                    visible: showCount ?? false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FilterRangeSlider(
-                          // minMaxRange: widget.syncFiberResponse.data.fiber
-                          //     .settings[0].micMinMax,
-                          minValue: minCount,
-                          maxValue: maxCount,
-                          hintTxt: "Count",
-                          valueCallback: (value) {},
-                        ),
-                        SizedBox(
-                          height: 8.w,
-                        ),
-                        Divider(),
-                      ],
-                    ),
-                  ),
-
-                  //Show Ratio
-                  Visibility(
-                    visible: showRatio ?? false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FilterRangeSlider(
-                          // minMaxRange: widget.syncFiberResponse.data.fiber
-                          //     .settings[0].micMinMax,
-                          minValue: minRatio,
-                          maxValue: maxRatio,
-                          hintTxt: "Ratio",
-                          valueCallback: (value) {},
-                        ),
-                        SizedBox(
-                          height: 8.w,
-                        ),
-                        Divider(),
-                      ],
-                    ),
-                  ),
-
                   //Show Usage
                   Visibility(
                     visible: showUsage ?? false,
@@ -404,7 +369,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: apperance)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems: widget.syncResponse!.data.yarn.apperance!
                               .where((element) =>
@@ -414,13 +380,35 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             _getSpecificationRequestModel!.apperanceYarnId =
                                 filterList(
                                     listApperanceId,
-                                    widget
-                                        .syncResponse!.data.yarn.apperance!
+                                    widget.syncResponse!.data.yarn.apperance!
                                         .where((element) =>
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList()[index]
                                         .yaId!);
+
+                            selectedAppearenceId =  widget.syncResponse!.data.yarn.apperance!
+                                .where((element) =>
+                            element.familyId ==
+                                selectedFamilyId)
+                                .toList()[index]
+                                .yaId.toString();
+
+                            if (widget.syncResponse!.data.yarn.apperance![index]
+                                    .yaId ==
+                                3) {
+                              setState(() {
+                                showDyingMethod = true;
+                              });
+                            } else {
+                              setState(() {
+                                showDyingMethod = false;
+                                _getSpecificationRequestModel!
+                                    .ys_dying_method_idfk = null;
+                                _getSpecificationRequestModel!.ys_color_code =
+                                    null;
+                              });
+                            }
                           },
                         ),
                         SizedBox(
@@ -433,7 +421,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                   //Show color dying method
                   Visibility(
-                    visible: /*showColorDyingMethod ??*/ false,
+                    visible: showDyingMethod ?? false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -441,16 +429,22 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: "Dying Method")),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
-                          listOfItems:
-                              widget.syncResponse!.data.yarn.dyingMethod!,
+                          listOfItems: widget
+                              .syncResponse!.data.yarn.dyingMethod!
+                              .where((element) =>
+                                  element.apperanceId == selectedAppearenceId)
+                              .toList(),
                           callback: (index) {
-                            // _getSpecificationRequestModel!.gradeId =
-                            //     filterList(
-                            //         listOfGrades,
-                            //         widget.syncFiberResponse.data.fiber
-                            //             .grades[index].grdId!);
+                            _getSpecificationRequestModel!.gradeId = filterList(
+                                listOfDyingMethod,
+                                widget.syncResponse!.data.yarn.dyingMethod!
+                                    .where((element) =>
+                                        element.apperanceId == selectedAppearenceId)
+                                    .toList()[index]
+                                    .ydmId!);
                           },
                         ),
                         SizedBox(
@@ -516,6 +510,50 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                       )),
 
+                  //Show Count
+                  Visibility(
+                    visible: showCount ?? false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FilterRangeSlider(
+                          // minMaxRange: widget.syncFiberResponse.data.fiber
+                          //     .settings[0].micMinMax,
+                          minValue: minCount,
+                          maxValue: maxCount,
+                          hintTxt: "Count",
+                          valueCallback: (value) {},
+                        ),
+                        SizedBox(
+                          height: 8.w,
+                        ),
+                        Divider(),
+                      ],
+                    ),
+                  ),
+
+                  //Show Ratio
+                  Visibility(
+                    visible: showRatio ?? false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FilterRangeSlider(
+                          // minMaxRange: widget.syncFiberResponse.data.fiber
+                          //     .settings[0].micMinMax,
+                          minValue: minRatio,
+                          maxValue: maxRatio,
+                          hintTxt: "Ratio",
+                          valueCallback: (value) {},
+                        ),
+                        SizedBox(
+                          height: 8.w,
+                        ),
+                        Divider(),
+                      ],
+                    ),
+                  ),
+
                   //Show Ply
                   Visibility(
                     visible: showPly ?? false,
@@ -526,7 +564,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: ply)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 4,
                           listOfItems: widget.syncResponse!.data.yarn.ply!
                               .where((element) =>
@@ -540,6 +579,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                         element.familyId == selectedFamilyId)
                                     .toList()[index]
                                     .plyId!);
+
+                            _showDoublingMethod(widget.syncResponse!.data.yarn.ply!
+                                .where((element) =>
+                            element.familyId == selectedFamilyId)
+                                .toList()[index]);
                           },
                         ),
                         SizedBox(
@@ -552,7 +596,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                   //Show Doubling Method
                   Visibility(
-                    visible: /*showDoublingMethod ?? */ false,
+                    visible: showDoublingMethod ?? false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -561,16 +605,17 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child:
                                 TitleSmallTextWidget(title: "Doubling Method")),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems:
                               widget.syncResponse!.data.yarn.doublingMethod!,
                           callback: (index) {
-                            // _getSpecificationRequestModel!.gradeId =
-                            //     filterList(
-                            //         listOfGrades,
-                            //         widget.syncFiberResponse.data.fiber
-                            //             .grades[index].grdId!);
+                            _getSpecificationRequestModel!.doublingMethodId =
+                                filterList(
+                                    listOfDoublingMethod,
+                                    widget.syncResponse!.data.yarn
+                                        .doublingMethod![index].dmId!);
                           },
                         ),
                         SizedBox(
@@ -592,7 +637,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(
                                 title: colorTreatmentMethod)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems: widget
                               .syncResponse!.data.yarn.colorTreatmentMethod!
@@ -630,7 +676,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: 'Orientation')),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 2,
                           listOfItems: widget
                               .syncResponse!.data.yarn.orientation!
@@ -667,7 +714,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: twistDirection)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 2,
                           listOfItems: widget
                               .syncResponse!.data.yarn.twistDirection!
@@ -705,7 +753,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: spunTech)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 4,
                           listOfItems: widget
                               .syncResponse!.data.yarn.spunTechnique!
@@ -713,14 +762,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                   element.familyId == selectedFamilyId)
                               .toList(),
                           callback: (index) {
-                            _getSpecificationRequestModel!.spunTechId =  filterList(
-                                listOfSpunTechId,
-                                widget
-                                    .syncResponse!.data.yarn.spunTechnique!
-                                    .where((element) =>
-                                element.familyId == selectedFamilyId)
-                                    .toList()[index]
-                                    .ystId!) ;
+                            _getSpecificationRequestModel!.spunTechId =
+                                filterList(
+                                    listOfSpunTechId,
+                                    widget
+                                        .syncResponse!.data.yarn.spunTechnique!
+                                        .where((element) =>
+                                            element.familyId ==
+                                            selectedFamilyId)
+                                        .toList()[index]
+                                        .ystId!);
                           },
                         ),
                         SizedBox(
@@ -741,19 +792,23 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: quality)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 2,
                           listOfItems: widget.syncResponse!.data.yarn.quality!
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
                           callback: (index) {
-                            _getSpecificationRequestModel!.qualityId = filterList(listOfQualityId,  widget
-                                .syncResponse!.data.yarn.quality!
-                                .where((element) =>
-                            element.familyId == selectedFamilyId)
-                                .toList()[index]
-                                .yqId!);
+                            _getSpecificationRequestModel!.qualityId =
+                                filterList(
+                                    listOfQualityId,
+                                    widget.syncResponse!.data.yarn.quality!
+                                        .where((element) =>
+                                            element.familyId ==
+                                            selectedFamilyId)
+                                        .toList()[index]
+                                        .yqId!);
                           },
                         ),
                         SizedBox(
@@ -774,19 +829,29 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: pattern)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems: widget.syncResponse!.data.yarn.pattern!
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
                           callback: (index) {
-                            _getSpecificationRequestModel!.patternId = filterList(listOfPattern,  widget
-                                .syncResponse!.data.yarn.pattern!
+                            _getSpecificationRequestModel!.patternId =
+                                filterList(
+                                    listOfPattern,
+                                    widget.syncResponse!.data.yarn.pattern!
+                                        .where((element) =>
+                                            element.familyId ==
+                                            selectedFamilyId)
+                                        .toList()[index]
+                                        .ypId!);
+
+                            _showPatternChar(widget.syncResponse!.data.yarn.pattern!
                                 .where((element) =>
-                            element.familyId == selectedFamilyId)
-                                .toList()[index]
-                                .ypId!) ;
+                            element.familyId ==
+                                selectedFamilyId)
+                                .toList()[index]);
                           },
                         ),
                         SizedBox(
@@ -799,7 +864,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                   //Show Pattern characteristics
                   Visibility(
-                    visible: /*showPatternCharc ??*/ false,
+                    visible: showPatternCharc ?? false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -807,16 +872,29 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child: TitleSmallTextWidget(title: patternChar)),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 2,
                           listOfItems: widget
-                              .syncResponse!.data.yarn.patternCharectristic!,
+                              .syncResponse!.data.yarn.patternCharectristic!
+                              .where((element) =>
+                                  element.ypcPatternIdfk ==
+                                  selectedAppearenceId
+                                      .toString())
+                              .toList(),
                           callback: (index) {
-                            // _getSpecificationRequestModel!.gradeId =
-                            //     filterList(
-                            //         listOfGrades,
-                            //         widget.syncFiberResponse.data.fiber
-                            //             .grades[index].grdId!);
+                            _getSpecificationRequestModel!.patternCharId =
+                                filterList(
+                                    listOfPatternChar,
+                                    widget.syncResponse!.data.yarn
+                                        .patternCharectristic!
+                                        .where((element) =>
+                                            element.ypcPatternIdfk ==
+                                            _getSpecificationRequestModel!
+                                                .patternId![0]
+                                                .toString())
+                                        .toList()[index]
+                                        .ypcId!);
                           },
                         ),
                         SizedBox(
@@ -824,6 +902,38 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                         const Divider(),
                       ],
+                    ),
+                  ),
+
+                  //Show Grade
+                  Visibility(
+                    visible: showGrade ?? false,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: TitleSmallTextWidget(title: grades)),
+                          SingleSelectTileWidget(
+                            spanCount: 3,
+                            listOfItems: widget.syncResponse!.data.yarn.grades!
+                                .where((element) =>
+                                    element.familyId == selectedFamilyId)
+                                .toList(),
+                            callback: (value) {
+                              _getSpecificationRequestModel!.gradeId = [
+                                widget.syncResponse!.data.yarn.grades!
+                                    .where((element) =>
+                                        element.familyId == selectedFamilyId)
+                                    .toList()[value]
+                                    .grdId!
+                              ];
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
@@ -838,7 +948,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child:
                                 TitleSmallTextWidget(title: "Certifications")),
-                        FilterGridTileWidget(
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
                           spanCount: 3,
                           listOfItems:
                               widget.syncResponse!.data.yarn.certification!,
@@ -856,88 +967,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ],
                     ),
                   ),
-
-                  // Visibility(
-                  //   visible: showRatio ?? false,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       FilterRangeSlider(
-                  //         // minMaxRange: widget.syncFiberResponse.data.fiber
-                  //         //     .settings[0].micMinMax,
-                  //         minValue: minDannier,
-                  //         maxValue: maxDannier,
-                  //         hintTxt: "Ratio",
-                  //         // minCallback: (value) {
-                  //         //   minValueRatioParam = value;
-                  //         // },
-                  //         // maxCallback: (value) {
-                  //         //   maxValueRatioParam = value;
-                  //         // },
-                  //         valueCallback: (value){},
-                  //
-                  //       ),
-                  //       SizedBox(
-                  //         height: 8.w,
-                  //       ),
-                  //       Divider(),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Visibility(
-                  //   visible: showRatio ?? false,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       FilterRangeSlider(
-                  //         // minMaxRange: widget.syncFiberResponse.data.fiber
-                  //         //     .settings[0].micMinMax,
-                  //         minValue: minDannier,
-                  //         maxValue: maxDannier,
-                  //         hintTxt: "Ratio",
-                  //         // minCallback: (value) {
-                  //         //   minValueRatioParam = value;
-                  //         // },
-                  //         // maxCallback: (value) {
-                  //         //   maxValueRatioParam = value;
-                  //         // },
-                  //         valueCallback: (value){},
-                  //
-                  //       ),
-                  //       SizedBox(
-                  //         height: 8.w,
-                  //       ),
-                  //       Divider(),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Visibility(
-                  //   visible: showRatio ?? false,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       FilterRangeSlider(
-                  //         // minMaxRange: widget.syncFiberResponse.data.fiber
-                  //         //     .settings[0].micMinMax,
-                  //         minValue: minDannier,
-                  //         maxValue: maxDannier,
-                  //         hintTxt: "Ratio",
-                  //         valueCallback: (value){},
-                  //
-                  //         // minCallback: (value) {
-                  //         //   minValueRatioParam = value;
-                  //         // },
-                  //         // maxCallback: (value) {
-                  //         //   maxValueRatioParam = value;
-                  //         // },
-                  //       ),
-                  //       SizedBox(
-                  //         height: 8.w,
-                  //       ),
-                  //       Divider(),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -949,6 +978,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               Expanded(
                 child: ElevatedButtonWithoutIcon(
                   callback: () {
+                    _resetData();
+                    setState(() {
+                      selectedFamilyId = "1";
+                    });
+                    _querySetting(1);
                   },
                   color: Colors.grey.shade300,
                   btnText: 'Reset',
@@ -1202,13 +1236,13 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 ? true
                 : false;
 
-        tempShowPatternCharc = tempShowPatternCharc == null
-            ? Ui.showHide(element.showPatternCharectristic)
-            : (showPatternCharc! &&
-                    Ui.showHide(element.showPatternCharectristic) &&
-                    tempShowPatternCharc)
-                ? true
-                : false;
+        // tempShowPatternCharc = tempShowPatternCharc == null
+        //     ? Ui.showHide(element.showPatternCharectristic)
+        //     : (showPatternCharc! &&
+        //             Ui.showHide(element.showPatternCharectristic) &&
+        //             tempShowPatternCharc)
+        //         ? true
+        //         : false;
 
         tempShowOrientation = tempShowOrientation == null
             ? Ui.showHide(element.showOrientation)
@@ -1242,13 +1276,13 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 ? true
                 : false;
 
-        tempShowDoublingMethod = tempShowDoublingMethod == null
-            ? Ui.showHide(element.showDoublingMethod)
-            : (showDoublingMethod! &&
-                    Ui.showHide(element.showDoublingMethod) &&
-                    tempShowDoublingMethod)
-                ? true
-                : false;
+        // tempShowDoublingMethod = tempShowDoublingMethod == null
+        //     ? Ui.showHide(element.showDoublingMethod)
+        //     : (showDoublingMethod! &&
+        //             Ui.showHide(element.showDoublingMethod) &&
+        //             tempShowDoublingMethod)
+        //         ? true
+        //         : false;
 
         tempShowQuality = tempShowQuality == null
             ? Ui.showHide(element.showQuality)
@@ -1288,33 +1322,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         showGrade = tempShowGrade;
       });
     } else {
-      setState(() {
-        showGrade = null;
-        showBlend = null;
-        showTexturized = null;
-        showCount = null;
-        showRatio = null;
-        showDannier = null;
-        showFilament = null;
-        showUsage = null;
-        showAppearance = null;
-        showUsage = null;
-        showCertification = null;
-
-        showUsage = null;
-        showColorDyingMethod = null;
-        showColorCode = null;
-        showPly = null;
-        showDoublingMethod = null;
-        showColorTreatmentMethod = null;
-        showOrientation = null;
-        showTwistDirection = null;
-        showSpunTechnique = null;
-        showQuality = null;
-        showPattern = null;
-        showPatternCharc = null;
-        showGrade = null;
-      });
+      _resetData();
     }
   }
 
@@ -1337,12 +1345,71 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   }
 
   List<int> filterList(List<int> list, int value) {
-    if (list.contains(value)) {
-      list.remove(value);
-    } else {
-      list.add(value);
-    }
+    // if (list.contains(value)) {
+    //   list.remove(value);
+    // } else {
+    list.clear();
+    list.add(value);
+    // }
 
-    return list;
+    return list.toSet().toList();
   }
+
+  void _showPatternChar(PatternModel pattern) {
+    if (pattern.ypId == 1 ||
+        pattern.ypId == 2 ||
+        pattern.ypId == 3 ||
+        pattern.ypId == 4) {
+      setState(() {
+        showPatternCharc = true;
+      });
+    } else {
+      setState(() {
+        showPatternCharc = false;
+        _getSpecificationRequestModel!.patternCharId = null;
+      });
+    }
+  }
+  void _showDoublingMethod(Ply ply) {
+    if (ply.plyId != 1) {
+      setState(() {
+        showDoublingMethod = true;
+        selectedPlyId = ply.plyId
+            .toString();
+      });
+    } else {
+      setState(() {
+        showDoublingMethod = false;
+        _getSpecificationRequestModel!.doublingMethodId = null;
+      });
+    }
+  }
+
+  void _resetData() {
+    setState(() {
+      showBlend = null;
+      showTexturized = null;
+      showCount = null;
+      showRatio = null;
+      showDannier = null;
+      showFilament = null;
+      showUsage = null;
+      showAppearance = null;
+      showCertification = null;
+      showColorDyingMethod = null;
+      showColorCode = null;
+      showPly = null;
+      showDoublingMethod = null;
+      showColorTreatmentMethod = null;
+      showOrientation = null;
+      showTwistDirection = null;
+      showSpunTechnique = null;
+      showQuality = null;
+      showPattern = null;
+      showPatternCharc = null;
+      showGrade = null;
+    });
+  }
+
 }
+

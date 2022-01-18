@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
-class GridTileWidget extends StatefulWidget {
+class SingleSelectTileWidget extends StatefulWidget {
   final Function? callback;
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
 
-  const GridTileWidget(
+  const SingleSelectTileWidget(
       {Key? key,
       required this.spanCount,
       required this.callback,
@@ -18,10 +18,10 @@ class GridTileWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _GridTileWidgetState createState() => _GridTileWidgetState();
+  _SingleSelectTileWidgetState createState() => _SingleSelectTileWidgetState();
 }
 
-class _GridTileWidgetState extends State<GridTileWidget> {
+class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
 
@@ -60,7 +60,7 @@ class _GridTileWidgetState extends State<GridTileWidget> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          checkedTile = widget.selectedIndex ?? index;
+          checkedTile = index;
         });
         widget.callback!(index);
       },

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/grey_text_detail_widget_.dart';
+import 'package:yg_app/elements/text_detail_widget_.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -91,7 +91,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       physics: NeverScrollableScrollPhysics(),
                       children:
                           List.generate(detailSpecification.length, (index) {
-                        return GreyTextDetailWidget(
+                        return TextDetailWidget(
                             title: detailSpecification[index]._title,
                             detail: detailSpecification[index]._detail);
                       }),
@@ -120,7 +120,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       children: List.generate(labParameters.length, (index) {
-                        return GreyTextDetailWidget(
+                        return TextDetailWidget(
                             title: labParameters[index]._title,
                             detail: labParameters[index]._detail);
                       }),
@@ -141,7 +141,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       children: List.generate(detailPackaging.length, (index) {
-                        return GreyTextDetailWidget(
+                        return TextDetailWidget(
                             title: detailPackaging[index]._title,
                             detail: detailPackaging[index]._detail);
                       }),

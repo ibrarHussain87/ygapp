@@ -72,7 +72,7 @@ class YarnPageState extends State<YarnPage> {
           floatingActionButton: FloatingActionButton(
             onPressed: (){
               showBottomSheetOR(context,(value){
-                openFiberPostPage(context,widget.locality,yarn,value);
+                openYarnPostPage(context,widget.locality,yarn,value);
               });
             },
             child: Icon(Icons.add),

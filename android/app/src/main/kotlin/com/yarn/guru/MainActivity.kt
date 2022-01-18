@@ -1,4 +1,4 @@
-package com.example.ygapp.yg_app
+package com.yarn.guru
 
 import io.flutter.embedding.android.FlutterActivity
 
