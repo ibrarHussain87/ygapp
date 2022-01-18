@@ -109,7 +109,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
                                           title:
-                                          '${specification.actualYarnCount}${specification.yarnTwistDirection != null ? "/${specification.yarnTwistDirection}"  :  ""} ${specification.yarnFamily}',
+                                          setFamilyData(specification),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -121,7 +121,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      title: specification.yarnBlend,
+                                      title: setTitleData(specification),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 12,
@@ -344,4 +344,70 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
         ],
       )
   );
+}
+
+String setFamilyData(YarnSpecification specification){
+  String familyData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+      case '2':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+      case '3':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+      case '4':
+      familyData = '${specification.fdyFilament != null ? "/${specification.dtyFilament}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+      case '5':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+  }
+  return familyData;
+}
+
+String setTitleData(YarnSpecification specification){
+  String titleData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      titleData = '${specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      break;
+      case '2':
+      titleData = specification.yarnBlend??'N/A';
+      break;
+      case '3':
+      titleData = specification.yarnOrientation??'N/A';
+      break;
+      case '4':
+      titleData = specification.yarnType??'N/A';
+      break;
+      case '5':
+      titleData = specification.yarnBlend??'N/A';
+      break;
+  }
+  return titleData;
+}
+
+String setDetailsData(YarnSpecification specification){
+  String detailsData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+      case '2':
+      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+      case '3':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+      case '4':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
+      break;
+      case '5':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+  }
+  return detailsData;
 }
