@@ -146,12 +146,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems:
-                                          widget.units as List<dynamic>,
-                                      callback: (value) {
+                                          widget.units!.where((element) => element.untCategoryIdfk == _createRequestModel!.spc_category_idfk).toList(),
+                                      callback: (Units value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              widget.units![value].untId
+                                              value.untId
                                                   .toString();
                                         }
                                       }),
@@ -197,6 +197,16 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     _createRequestModel!
                                                             .fpb_weight_bag =
                                                         input!;
+                                                  }
+                                                },
+                                                onChanged: (value){
+                                                  if (_conePerBagController
+                                                      .text.isNotEmpty) {
+                                                    _coneWithController.text = (int.parse(_conePerBagController.text) /
+                                                        int.parse(value))
+                                                        .toStringAsFixed(2);
+                                                  } else {
+                                                    _coneWithController.text = "";
                                                   }
                                                 },
                                                 validator: (input) {
@@ -326,9 +336,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       selectedIndex: -1,
                                       listOfItems:
                                           widget.coneType as List<dynamic>,
-                                      callback: (value) {
-                                        _createRequestModel!.cone_type_id =
-                                            widget.coneType![value].yctId
+                                      callback: (ConeType value) {
+                                        _createRequestModel!.cone_type_id = value.yctId
                                                 .toString();
                                       }),
                                 ],
@@ -685,13 +694,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         selectedIndex: -1,
                                         listOfItems:
                                             widget.paymentType as List<dynamic>,
-                                        callback: (value) {
+                                        callback: (PaymentType value) {
                                           _createRequestModel!
                                                   .payment_type_idfk =
-                                              widget.paymentType![value].payId;
+                                              value.payId;
 
                                           setState(() {
-                                            if (widget.paymentType![value]
+                                            if (value
                                                     .payId ==
                                                 "1") {
                                               _showLcType = true;
@@ -721,10 +730,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       selectedIndex: -1,
                                       listOfItems:
                                           widget.lcType as List<dynamic>,
-                                      callback: (value) {
+                                      callback: (LcType value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.lc_type_idfk =
-                                              widget.lcType![value].lcId
+                                          _createRequestModel!.lc_type_idfk = value.lcId
                                                   .toString();
                                         }
                                       }),
@@ -857,10 +865,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       listOfItems: packingList,
-                                      callback: (value) {
+                                      callback: (Packing value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.packing_idfk =
-                                              widget.packing![value].pacId
+                                          _createRequestModel!.packing_idfk = value.pacId
                                                   .toString();
                                         }
                                       }),
@@ -881,14 +888,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     spanCount: 3,
                                     listOfItems:
                                         widget.deliveryPeriod as List<dynamic>,
-                                    callback: (value) {
+                                    callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
                                                 .fbp_delivery_period_idfk =
-                                            widget.deliveryPeriod![value].dprId
+                                            value.dprId
                                                 .toString();
-                                        if (widget
-                                                .deliveryPeriod![value].dprId ==
+                                        if (value.dprId ==
                                             3) {
                                           setState(() {
                                             noOfDays = true;

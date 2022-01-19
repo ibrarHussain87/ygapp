@@ -13,7 +13,9 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/request/filter_request/filter_request.dart';
+import 'package:yg_app/model/response/common_response_models/certification_response.dart';
+import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class YarnFilterBody extends StatefulWidget {
@@ -254,17 +256,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.ytBlendIdfk == selectedBlendId)
                               .toList(),
-                          callback: (index) {
+                          callback: (YarnTypes yarnType) {
                             _getSpecificationRequestModel!.yarnYypeId =
-                                filterList(
-                                    listOfYarnType,
-                                    widget.syncResponse!.data.yarn.yarnTypes!
-                                        .where(
-                                            (element) =>
-                                                element.ytBlendIdfk ==
-                                                selectedBlendId)
-                                        .toList()[index]
-                                        .ytId!);
+                                filterList(listOfYarnType, yarnType.ytId!);
                           },
                         ),
                         SizedBox(
@@ -341,14 +335,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.ysFamilyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
-                            _getSpecificationRequestModel!.yuId = filterList(
-                                listOfUsageId,
-                                widget.syncResponse!.data.yarn.usage!
-                                    .where((element) =>
-                                        element.ysFamilyId == selectedFamilyId)
-                                    .toList()[index]
-                                    .yuId!);
+                          callback: (Usage usage) {
+                            _getSpecificationRequestModel!.yuId =
+                                filterList(listOfUsageId, usage.yuId!);
                           },
                         ),
                         SizedBox(
@@ -376,27 +365,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (YarnAppearance yarnAppearance) {
                             _getSpecificationRequestModel!.apperanceYarnId =
                                 filterList(
-                                    listApperanceId,
-                                    widget.syncResponse!.data.yarn.apperance!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .yaId!);
+                                    listApperanceId, yarnAppearance.yaId!);
 
-                            selectedAppearenceId =  widget.syncResponse!.data.yarn.apperance!
-                                .where((element) =>
-                            element.familyId ==
-                                selectedFamilyId)
-                                .toList()[index]
-                                .yaId.toString();
+                            selectedAppearenceId =
+                                yarnAppearance.yaId.toString();
 
-                            if (widget.syncResponse!.data.yarn.apperance![index]
-                                    .yaId ==
-                                3) {
+                            if (yarnAppearance.yaId == 3) {
                               setState(() {
                                 showDyingMethod = true;
                               });
@@ -428,7 +405,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child: TitleSmallTextWidget(title: "Dying Method")),
+                            child: const TitleSmallTextWidget(
+                                title: "Dying Method")),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
@@ -437,14 +415,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.apperanceId == selectedAppearenceId)
                               .toList(),
-                          callback: (index) {
-                            _getSpecificationRequestModel!.gradeId = filterList(
-                                listOfDyingMethod,
-                                widget.syncResponse!.data.yarn.dyingMethod!
-                                    .where((element) =>
-                                        element.apperanceId == selectedAppearenceId)
-                                    .toList()[index]
-                                    .ydmId!);
+                          callback: (DyingMethod dyingMethod) {
+                            _getSpecificationRequestModel!
+                                    .ys_dying_method_idfk =
+                                filterList(
+                                    listOfDyingMethod, dyingMethod.ydmId!);
                           },
                         ),
                         SizedBox(
@@ -571,19 +546,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
-                            _getSpecificationRequestModel!.plyId = filterList(
-                                listOfPlyId,
-                                widget.syncResponse!.data.yarn.ply!
-                                    .where((element) =>
-                                        element.familyId == selectedFamilyId)
-                                    .toList()[index]
-                                    .plyId!);
-
-                            _showDoublingMethod(widget.syncResponse!.data.yarn.ply!
-                                .where((element) =>
-                            element.familyId == selectedFamilyId)
-                                .toList()[index]);
+                          callback: (Ply ply) {
+                            _getSpecificationRequestModel!.plyId =
+                                filterList(listOfPlyId, ply.plyId!);
+                            _showDoublingMethod(ply);
                           },
                         ),
                         SizedBox(
@@ -603,19 +569,17 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child:
-                                TitleSmallTextWidget(title: "Doubling Method")),
+                            child: const TitleSmallTextWidget(
+                                title: "Doubling Method")),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
                           listOfItems:
                               widget.syncResponse!.data.yarn.doublingMethod!,
-                          callback: (index) {
+                          callback: (DoublingMethod doublingMethod) {
                             _getSpecificationRequestModel!.doublingMethodId =
                                 filterList(
-                                    listOfDoublingMethod,
-                                    widget.syncResponse!.data.yarn
-                                        .doublingMethod![index].dmId!);
+                                    listOfDoublingMethod, doublingMethod.dmId!);
                           },
                         ),
                         SizedBox(
@@ -645,17 +609,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback:
+                              (ColorTreatmentMethod colorTreatmentMethod) {
                             _getSpecificationRequestModel!.colorTreatmentId =
-                                filterList(
-                                    listOfColorTreatmentId,
-                                    widget.syncResponse!.data.yarn
-                                        .colorTreatmentMethod!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .yctmId!);
+                                filterList(listOfColorTreatmentId,
+                                    colorTreatmentMethod.yctmId!);
                           },
                         ),
                         SizedBox(
@@ -675,7 +633,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child: TitleSmallTextWidget(title: 'Orientation')),
+                            child: const TitleSmallTextWidget(
+                                title: 'Orientation')),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 2,
@@ -684,16 +643,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (OrientationTable orientation) {
                             _getSpecificationRequestModel!.orientationId =
                                 filterList(
-                                    listOfOrientation,
-                                    widget.syncResponse!.data.yarn.orientation!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .yoId!);
+                                    listOfOrientation, orientation.yoId!);
                           },
                         ),
                         SizedBox(
@@ -722,17 +675,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (TwistDirection twistDirection) {
                             _getSpecificationRequestModel!.twistDirectionId =
-                                filterList(
-                                    listOfTwistDirectionId,
-                                    widget
-                                        .syncResponse!.data.yarn.twistDirection!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .ytdId!);
+                                filterList(listOfTwistDirectionId,
+                                    twistDirection.ytdId!);
                           },
                         ),
                         SizedBox(
@@ -761,17 +707,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (SpunTechnique spunTech) {
                             _getSpecificationRequestModel!.spunTechId =
-                                filterList(
-                                    listOfSpunTechId,
-                                    widget
-                                        .syncResponse!.data.yarn.spunTechnique!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .ystId!);
+                                filterList(listOfSpunTechId, spunTech.ystId!);
                           },
                         ),
                         SizedBox(
@@ -799,16 +737,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (Quality quality) {
                             _getSpecificationRequestModel!.qualityId =
-                                filterList(
-                                    listOfQualityId,
-                                    widget.syncResponse!.data.yarn.quality!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .yqId!);
+                                filterList(listOfQualityId, quality.yqId!);
                           },
                         ),
                         SizedBox(
@@ -836,22 +767,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .where((element) =>
                                   element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (index) {
+                          callback: (PatternModel pattern) {
                             _getSpecificationRequestModel!.patternId =
-                                filterList(
-                                    listOfPattern,
-                                    widget.syncResponse!.data.yarn.pattern!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            selectedFamilyId)
-                                        .toList()[index]
-                                        .ypId!);
-
-                            _showPatternChar(widget.syncResponse!.data.yarn.pattern!
-                                .where((element) =>
-                            element.familyId ==
-                                selectedFamilyId)
-                                .toList()[index]);
+                                filterList(listOfPattern, pattern.ypId!);
+                            _showPatternChar(pattern);
                           },
                         ),
                         SizedBox(
@@ -879,22 +798,12 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .syncResponse!.data.yarn.patternCharectristic!
                               .where((element) =>
                                   element.ypcPatternIdfk ==
-                                  selectedAppearenceId
-                                      .toString())
+                                  selectedAppearenceId.toString())
                               .toList(),
-                          callback: (index) {
+                          callback: (PatternCharectristic patterChar) {
                             _getSpecificationRequestModel!.patternCharId =
                                 filterList(
-                                    listOfPatternChar,
-                                    widget.syncResponse!.data.yarn
-                                        .patternCharectristic!
-                                        .where((element) =>
-                                            element.ypcPatternIdfk ==
-                                            _getSpecificationRequestModel!
-                                                .patternId![0]
-                                                .toString())
-                                        .toList()[index]
-                                        .ypcId!);
+                                    listOfPatternChar, patterChar.ypcId!);
                           },
                         ),
                         SizedBox(
@@ -922,13 +831,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 .where((element) =>
                                     element.familyId == selectedFamilyId)
                                 .toList(),
-                            callback: (value) {
+                            callback: (Grades grades) {
                               _getSpecificationRequestModel!.gradeId = [
-                                widget.syncResponse!.data.yarn.grades!
-                                    .where((element) =>
-                                        element.familyId == selectedFamilyId)
-                                    .toList()[value]
-                                    .grdId!
+                                grades.grdId!
                               ];
                             },
                           ),
@@ -947,16 +852,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                             child:
-                                TitleSmallTextWidget(title: "Certifications")),
+                                const TitleSmallTextWidget(title: "Certifications")),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
                           listOfItems:
                               widget.syncResponse!.data.yarn.certification!,
-                          callback: (index) {
+                          callback: (Certification certification) {
                             _getSpecificationRequestModel!.certificationId = [
-                              widget.syncResponse!.data.yarn
-                                  .certification![index].cerId
+                              certification.cerId
                             ];
                           },
                         ),
@@ -1370,12 +1274,12 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
       });
     }
   }
+
   void _showDoublingMethod(Ply ply) {
     if (ply.plyId != 1) {
       setState(() {
         showDoublingMethod = true;
-        selectedPlyId = ply.plyId
-            .toString();
+        selectedPlyId = ply.plyId.toString();
       });
     } else {
       setState(() {
@@ -1410,6 +1314,4 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
       showGrade = null;
     });
   }
-
 }
-

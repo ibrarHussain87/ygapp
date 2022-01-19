@@ -62,7 +62,7 @@ class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
         setState(() {
           checkedTile = index;
         });
-        widget.callback!(index);
+        widget.callback!(widget.listOfItems[index]);
       },
       child: Container(
         width: double.maxFinite,

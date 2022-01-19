@@ -61,7 +61,7 @@ part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,
-ColorTreatmentMethod,ConeType,DyingMethod,FiberAppearance,YarnAppearance,Orientation,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
+ColorTreatmentMethod,ConeType,DyingMethod,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 

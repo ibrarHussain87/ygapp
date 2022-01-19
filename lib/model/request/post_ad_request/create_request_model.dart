@@ -30,7 +30,7 @@ class CreateRequestModel {
   String? lc_type_idfk;
   String? fbp_count_unit_idfk;
   String? fbp_delivery_period_idfk;
-  String? fbp_available_for_market_idfk;
+  // String? fbp_available_for_market_idfk;
   String? fbp_price_terms_idfk;
   String? fbp_min_quantity;
   String? fbp_available_quantity;
@@ -122,7 +122,7 @@ class CreateRequestModel {
       this.ys_color_code,
       this.fbp_count_unit_idfk,
       this.fbp_delivery_period_idfk,
-      this.fbp_available_for_market_idfk,
+      // this.fbp_available_for_market_idfk,
       this.fbp_price_terms_idfk,
       this.fbp_min_quantity,
       this.fbp_available_quantity,
@@ -202,7 +202,7 @@ class CreateRequestModel {
       'lc_type_idfk': lc_type_idfk ?? "",
       'fbp_count_unit_idfk': fbp_count_unit_idfk ?? "",
       'fbp_delivery_period_idfk': fbp_delivery_period_idfk ?? "",
-      'fbp_available_for_market_idfk': fbp_available_for_market_idfk ?? "",
+      // 'fbp_available_for_market_idfk': fbp_available_for_market_idfk ?? "",
       'fbp_price_terms_idfk': fbp_price_terms_idfk ?? "",
       'spc_lot_number': spc_lot_number ?? "",
       'fbp_min_quantity': fbp_min_quantity ?? "",
@@ -231,7 +231,7 @@ class CreateRequestModel {
       'ys_yarn_type_idfk': ys_yarn_type_idfk ?? "",
       'ys_ply_idfk': ys_ply_idfk ?? "",
       'ys_grade_idfk': ys_grade_idfk ?? "",
-      'ys_certification_idfk': ys_certification_idfk ?? "",
+      'certification_id': ys_certification_idfk ?? "",
       'ys_color_treatment_method_idfk': ys_color_treatment_method_idfk ?? "",
       'ys_dying_method_idfk': ys_dying_method_idfk ?? "",
       // 'ys_color_idfk': ys_color_idfk ?? "",

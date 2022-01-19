@@ -69,14 +69,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  // late final Animation<Offset> _offsetAnimation = Tween<Offset>(
-  //   begin: Offset.zero,
-  //   end: const Offset(1.5, 0.0),
-  // ).animate(CurvedAnimation(
-  //   parent: _controller,
-  //   curve: Curves.elasticIn,
-  // ));
-
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {
       setState(() {
