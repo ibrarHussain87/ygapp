@@ -6,9 +6,10 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 class ShortDetailWidget extends StatefulWidget {
   final String? title;
   final String? imageIcon;
+  final double? size;
 
   const ShortDetailWidget(
-      {Key? key, required this.title, required this.imageIcon})
+      {Key? key, required this.title, required this.imageIcon,this.size})
       : super(key: key);
 
   @override
@@ -27,11 +28,11 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
         children: [
           Image.asset(
             widget.imageIcon ?? 'images/ic_weight.png',
-            width: 9.w,
-            height: 9.h,
+            width: 12.w,
+            height: 12.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 4.w),
+            padding: EdgeInsets.only(left: 2.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +54,7 @@ class _ShortDetailWidgetState extends State<ShortDetailWidget> {
                     widget.title ?? "N/A",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: widget.size??10.sp,
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Metropolis',
                         color: Colors.black),

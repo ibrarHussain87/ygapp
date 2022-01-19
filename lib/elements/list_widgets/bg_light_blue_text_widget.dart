@@ -25,7 +25,7 @@ class BgLightBlueTextWidget extends StatelessWidget {
               TextSpan(
                 text: title.split(' ')[0],
                 style: TextStyle(
-                    fontSize: 9.sp, color: color??Colors.black,
+                    fontSize: 8.sp, color: color??Colors.black,
                   fontWeight: FontWeight.bold
                 ),
               ),
@@ -33,7 +33,7 @@ class BgLightBlueTextWidget extends StatelessWidget {
               TextSpan(
                 text:" "+title.split(' ')[1],
                 style: TextStyle(
-                    fontSize: 9.sp, color: color??Colors.black),
+                    fontSize: 8.sp, color: color??Colors.black),
               ),
             ]
           )),

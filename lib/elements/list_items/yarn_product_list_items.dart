@@ -119,7 +119,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                                 child: Center(
                                   child: TitleBoldSmallTextWidget(
                                     title:
-                                    '${specification.actualYarnCount}${specification.yarnTwistDirection != null ? "/${specification.yarnTwistDirection}"  :  ""} ${specification.yarnFamily}',
+                                    setFamilyData(specification),
                                     color: Colors.white,
                                   ),
                                 ),
@@ -130,7 +130,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 4),
                               child: TitleMediumTextWidget(
-                                title: specification.yarnBlend,
+                                title: setTitleData(specification),
                                 color: Colors.black87,
                               ),
                             ),
@@ -153,38 +153,41 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                       Padding(
                         padding: EdgeInsets.only(bottom: 6.0.w, top: 6.w),
                         child: TitleSmallNormalTextWidget(
-                          title:
-                              '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
-                        color: lightGreyColor,
+                          title: setDetailsData(specification),
+                          color: lightGreyColor,
+                          size: 8.sp,
                         ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: BgLightBlueTextWidget(
-                              title: 'AC ${specification.actualYarnCount}',
-                              color: lightBlueLabel,
+                      Padding(
+                        padding: EdgeInsets.only(right: 40.w),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: BgLightBlueTextWidget(
+                                title: 'AC ${specification.actualYarnCount}',
+                                color: lightBlueLabel,
+                              ),
+                              flex: 1,
                             ),
-                            flex: 1,
-                          ),
-                          SizedBox(width: 8.w),
-                          Expanded(
-                            child: BgLightBlueTextWidget(
-                              title: 'CLSP ${specification.clsp}',
-                              color: lightBlueLabel,
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: BgLightBlueTextWidget(
+                                title: 'CLSP ${specification.clsp}',
+                                color: lightBlueLabel,
+                              ),
+                              flex: 1,
                             ),
-                            flex: 1,
-                          ),
-                          SizedBox(width: 8.w),
-                          Expanded(
-                            child: BgLightBlueTextWidget(
-                              title: 'IPI ${specification.actualYarnCount}',
-                              color: lightBlueLabel,
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: BgLightBlueTextWidget(
+                                title: 'IPI ${specification.actualYarnCount}',
+                                color: lightBlueLabel,
+                              ),
+                              flex: 1,
                             ),
-                            flex: 1,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 4.w,
@@ -198,19 +201,23 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                               children: [
                                 ShortDetailWidget(
                                   title: specification.weightBag ?? "N/A",
-                                  imageIcon: IC_BAG,
+                                  imageIcon: 'images/img_bag.png',
+                                  size: 8.sp,
                                 ),
                                 ShortDetailWidget(
                                   title: specification.weightCone ?? "N/A",
-                                  imageIcon: IC_BAG,
+                                  imageIcon: 'images/img_cone.png',
+                                  size: 8.sp,
                                 ),
                                 ShortDetailWidget(
                                   title: specification.deliveryPeriod ?? "N/A",
-                                  imageIcon: DELIVERY_PERIOD_IMAGE,
+                                  imageIcon: 'images/img_van.png',
+                                  size: 8.sp,
                                 ),
                                 ShortDetailWidget(
                                   title: specification.locality ?? "N/A",
-                                  imageIcon: LOCATION_IMAGE,
+                                  imageIcon: 'images/img_location.png',
+                                  size: 8.sp,
                                 ),
                               ],
                             ),
@@ -223,54 +230,85 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                 flex: 4,
               ),
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(left: 6.w, right: 6.w,top: 4),
-                  child: Column(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          TitleMediumTextWidget(
-                            title: "PKR." +
-                                specification.priceUnit.toString() +
-                                "/KG",
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 18.0,bottom: 4),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 6.w, right: 0.w,top: 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        /*TitleMediumTextWidget(
+                          title: "PKR." +
+                              specification.priceUnit.toString() +
+                              "/KG",
+                        ),*/
+                        Text.rich( TextSpan(
+                            children: [
+                              TextSpan(
+                                /*text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',*/
+                                text: '${'Pkr'.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    fontFamily: 'Metropolis',
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              TextSpan(
+                                text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'),''),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17.sp,
+                                    fontFamily: 'Metropolis',
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              TextSpan(
+                                text: "/kg",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    fontFamily: 'Metropolis',
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ]
+                        )),
+                        const TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
+                        SizedBox(height: 8.w,),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "Updated",
+                            style: TextStyle(
+                                fontSize: 7.sp, color: Colors.black),
                           ),
-                          TitleSmallNormalTextWidget(title: "Ex- Factory",color: lightGreyColor,),
-                          SizedBox(height: 3.w,),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: "Updated",
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: Colors.black),
-                            ),
-                          ])),
-                          SizedBox(height: 3.w,),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: "Nov 23, 4:33 PM",
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: lightBlueLabel),
-                            )
-                          ])),
-                          SizedBox(height: 8.w,),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: "Avail. Quantity",
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: Colors.black),
-                            ),
-                          ])),
-                          SizedBox(height: 3.w,),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text: "325",
-                              style: TextStyle(
-                                  fontSize: 9.sp, color: lightBlueLabel),
-                            )
-                          ])),
-                        ],
-                      ),
-                    ],
+                        ])),
+                        SizedBox(height: 3.w,),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "Nov 23, 4:33 PM",
+                            style: TextStyle(
+                                fontSize: 8.sp, color: lightBlueLabel,fontWeight: FontWeight.w600),
+                          )
+                        ])),
+                        SizedBox(height: 8.w,),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "Avail. Quantity",
+                            style: TextStyle(
+                                fontSize: 7.sp, color: Colors.black),
+                          ),
+                        ])),
+                        SizedBox(height: 3.w,),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "325",
+                            style: TextStyle(
+                                fontSize: 8.sp, color: lightBlueLabel,fontWeight: FontWeight.w600),
+                          )
+                        ])),
+                      ],
+                    ),
                   ),
                 ),
                 flex: 2,
@@ -345,9 +383,9 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                 Expanded(
                     child: Container(
                         decoration: BoxDecoration(
-                          color: lightYellowContainer,
+                          /*color: lightYellowContainer,*/
                             border: Border.all(
-                              color: lightYellowContainer,
+                              color: greenButton,
                               width:
                               1, //                   <--- border width here
                             ),
@@ -364,12 +402,12 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                                     Text(
                                       'Matches',
                                       style: TextStyle(
-                                          fontSize: 9.sp, color: lightYellowLabel,fontWeight: FontWeight.w400),
+                                          fontSize: 9.sp, color: Colors.black87,fontWeight: FontWeight.w400),
                                     ),
                                     Text(
                                       '5',
                                       style: TextStyle(
-                                          fontSize: 9.sp, color: lightYellowLabel,fontWeight: FontWeight.w700),
+                                          fontSize: 9.sp, color: greenButton,fontWeight: FontWeight.w700),
                                     ),
                                     SizedBox(width: 3.w,)
                                   ],
@@ -411,4 +449,79 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
           )
         ],
       ));
+}
+
+String setFamilyData(YarnSpecification specification){
+  String familyData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+    case '2':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+    case '3':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+    case '4':
+      familyData = '${specification.fdyFilament != null ? "/${specification.dtyFilament}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+    case '5':
+      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      break;
+  }
+  if(familyData.isEmpty){
+    familyData = "20/S Cotton";
+  }
+  return familyData;
+}
+
+String setTitleData(YarnSpecification specification){
+  String titleData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      titleData = '${specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      break;
+    case '2':
+      titleData = specification.yarnBlend??'N/A';
+      break;
+    case '3':
+      titleData = specification.yarnOrientation??'N/A';
+      break;
+    case '4':
+      titleData = specification.yarnType??'N/A';
+      break;
+    case '5':
+      titleData = specification.yarnBlend??'N/A';
+      break;
+  }
+  if(titleData.isEmpty){
+    titleData = "Combed Weaving";
+  }
+  return titleData;
+}
+
+String setDetailsData(YarnSpecification specification){
+  String detailsData = "";
+  switch (specification.yarnFamilyId) {
+    case '1':
+      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+    case '2':
+      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+    case '3':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+    case '4':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
+      break;
+    case '5':
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
+      break;
+  }
+  if(detailsData.isEmpty){
+    detailsData = "Weaving,Ring Frame,Warp,Regular";
+  }
+  return detailsData;
 }

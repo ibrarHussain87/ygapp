@@ -114,8 +114,10 @@ class TitleSmallNormalTextWidget extends StatelessWidget {
   final Color? color;
   final double? padding;
   final double? size;
+  final FontWeight? weight;
 
-  const TitleSmallNormalTextWidget({Key? key, required this.title,this.color,this.padding,this.size}) : super(key: key);
+  const TitleSmallNormalTextWidget({Key? key, required this.title,this.color,
+    this.padding,this.size,this.weight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +129,7 @@ class TitleSmallNormalTextWidget extends StatelessWidget {
             color: color?? Colors.black87,
             fontSize: size??10.sp,
             fontFamily: 'Metropolis',
-            fontWeight: FontWeight.w500),
+            fontWeight: weight??FontWeight.w500),
       ),
     );
   }
@@ -150,6 +152,9 @@ class TitleMediumTextWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: padding??0.w,),
       child: Text(
         title??"N/A",
+        overflow: TextOverflow.fade,
+        maxLines: 1,
+        softWrap: false,
         style: TextStyle(
             color: color??Colors.black,
             fontSize: size??12.sp,

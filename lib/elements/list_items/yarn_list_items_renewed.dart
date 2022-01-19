@@ -52,13 +52,14 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                   )),
             ),*/
               Padding(
-                  padding: EdgeInsets.only(left: 10.w,top: 8),
+                  padding: EdgeInsets.only(left: 10.w,top: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const TitleSmallNormalTextWidget(title: "Koh-e-Noor Textile Mills LTD.",color: Colors.black,size: 9,),
+                      const TitleSmallNormalTextWidget(title: "Koh-e-Noor Textile Mills LTD.",
+                        color: Colors.black,size: 10,weight: FontWeight.w600,),
                       SizedBox(
-                        width: 6.w,
+                        width: 4.w,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,6 +100,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 2.w,),
                             Row(
                               children: [
                                 Container(
@@ -124,7 +126,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                       title: setTitleData(specification),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
-                                      size: 12,
+                                      size: 13,
                                     ),
                                   ),
                                     flex: 1,
@@ -217,7 +219,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                               Text.rich( TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "PKR.",
+                                      text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 12.sp,
@@ -226,7 +228,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: specification.priceUnit.toString() ,
+                                      text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'),''),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 17.sp,
@@ -246,12 +248,38 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                   ]
                               )),
                               const Center(
-                                child: TitleSmallNormalTextWidget(title: "Ex- Factory",size: 8,),
+                                child: TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
                               )
                             ],
                           ),
                           SizedBox(
-                            height: 4.w,
+                            height: 2.w,
+                          ),
+                          /*Padding(
+                            padding: EdgeInsets.only(right: 8.w,bottom: 4.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: "Last Updated",
+                                    style: TextStyle(
+                                        fontSize: 9.sp, color: Colors.black),
+                                  ),
+                                ])),
+                                SizedBox(height: 3.w,),
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: "Nov 23, 4:33 PM",
+                                    style: TextStyle(
+                                        fontSize: 9.sp, color: lightBlueLabel),
+                                  )
+                                ])),
+                              ],
+                            ),
+                          ),*/
+                          SizedBox(
+                            height: 2.w,
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -298,12 +326,12 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                       TextSpan(
                         text: "Last updated ",
                         style: TextStyle(
-                            fontSize: 8.sp, color: Colors.black),
+                            fontSize: 7.sp, color: Colors.black),
                       ),
                       TextSpan(
                         text: "Nov 23, 4:33 PM",
                         style: TextStyle(
-                            fontSize: 8.sp, color: Colors.black),
+                            fontSize: 7.sp, color: Colors.black),
                       )
                     ])),
 
