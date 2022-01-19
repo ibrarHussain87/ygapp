@@ -2422,7 +2422,7 @@ class _$OrientationDao extends OrientationDao {
         _orientationInsertionAdapter = InsertionAdapter(
             database,
             'orientation_table',
-            (Orientation item) => <String, Object?>{
+            (OrientationTable item) => <String, Object?>{
                   'yoId': item.yoId,
                   'familyId': item.familyId,
                   'yoName': item.yoName,
@@ -2437,12 +2437,12 @@ class _$OrientationDao extends OrientationDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Orientation> _orientationInsertionAdapter;
+  final InsertionAdapter<OrientationTable> _orientationInsertionAdapter;
 
   @override
-  Future<List<Orientation>> findAllOrientation() async {
+  Future<List<OrientationTable>> findAllOrientation() async {
     return _queryAdapter.queryList('SELECT * FROM orientation_table',
-        mapper: (Map<String, Object?> row) => Orientation(
+        mapper: (Map<String, Object?> row) => OrientationTable(
             yoId: row['yoId'] as int?,
             familyId: row['familyId'] as String?,
             yoName: row['yoName'] as String?,
@@ -2452,10 +2452,10 @@ class _$OrientationDao extends OrientationDao {
   }
 
   @override
-  Future<Orientation?> findYarnOrientationWithId(int id) async {
+  Future<OrientationTable?> findYarnOrientationWithId(int id) async {
     return _queryAdapter.query(
         'SELECT * FROM orientation_table where yoId = ?1',
-        mapper: (Map<String, Object?> row) => Orientation(
+        mapper: (Map<String, Object?> row) => OrientationTable(
             yoId: row['yoId'] as int?,
             familyId: row['familyId'] as String?,
             yoName: row['yoName'] as String?,
@@ -2478,13 +2478,13 @@ class _$OrientationDao extends OrientationDao {
   }
 
   @override
-  Future<void> insertOrientation(Orientation orientation) async {
+  Future<void> insertOrientation(OrientationTable orientation) async {
     await _orientationInsertionAdapter.insert(
         orientation, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertAllOrientation(List<Orientation> orientation) {
+  Future<List<int>> insertAllOrientation(List<OrientationTable> orientation) {
     return _orientationInsertionAdapter.insertListAndReturnIds(
         orientation, OnConflictStrategy.replace);
   }

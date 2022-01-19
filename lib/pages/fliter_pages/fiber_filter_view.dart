@@ -13,7 +13,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 

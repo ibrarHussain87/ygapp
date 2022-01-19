@@ -1,4 +1,4 @@
-import 'package:yg_app/helper_utils/app_constants.dart';
+
 
 class GetYarnSpecificationResponse {
   GetYarnSpecificationResponse({
@@ -19,7 +19,6 @@ class GetYarnSpecificationResponse {
     // if(List.from(json['data']).isNotEmpty) {
     // data = YarnSpecificationData.fromJson(json['data']);
     // data = json['data'] != null ? YarnSpecificationData.fromJson(json['data']) : null;
-
 
     var dataList = json['data'];
     if (dataList is List<dynamic>) {
@@ -54,7 +53,6 @@ class YarnSpecificationData {
   List<YarnSpecification>? specification;
 
   YarnSpecificationData.fromJson(Map<String, dynamic> json) {
-
     if (json['specification'] != null) {
       specification = [];
       json['specification'].forEach((v) {
@@ -187,14 +185,19 @@ class YarnSpecification {
   String? priceTerms;
   String? minQuantity;
   String? description;
+  String? ys_doubling_method_idFk;
+  String? ys_yarn_type_idfk;
+  String? ys_yarn_type;
+  String? yarn_country;
   List<dynamic>? pictures;
   List<dynamic>? certifications;
 
   YarnSpecification.fromJson(Map<String, dynamic> json) {
-    yarnTitle = null;
-    yarnDetails = null;
+    yarnTitle = json['yarn_details'];
+    yarnDetails = json['yarn_title'];
     doublingMethod = json['ys_doubling_method'];
-    yarnType = null;
+    ys_doubling_method_idFk = json['ys_doubling_method_idFk'];
+    yarnType = json['yarn_type'];
     specId = json['ys_id'];
     ys_user_id = json['ys_user_id'];
     locality = json['locality'];
@@ -208,6 +211,8 @@ class YarnSpecification {
     yarnOrientation = json['yarn_orientation'];
     yarnTwistDirection = json['yarn_twist_direction'];
     count = json['count'];
+    ys_yarn_type_idfk = json['ys_yarn_type_idfk'];
+    ys_yarn_type = json['ys_yarn_type'];
     dtyFilament = json['dty_filament'];
     fdyFilament = json['fdy_filament'];
     yarnPly = json['yarn_ply'];
@@ -215,34 +220,36 @@ class YarnSpecification {
     yarnQuality = json['yarn_quality'];
     yarnGrade = json['yarn_grade'];
     yarnCertification = json['yarn_certification'];
-    yarnColorTreatmentMethod = null;
+    yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     yarnDyingMethod = json['yarn_dying_method'];
-    color = null;
+    color = json['color'];
     yarnApperance = json['yarn_apperance'];
     actualYarnCount = json['actual_yarn_count'];
     qlt = json['qlt'];
     clsp = json['clsp'];
-    uniformity = null;
+    uniformity = json['uniformity'];
     cv = json['cv'];
     thinPlaces = json['thin_places'];
     thickPlaces = json['thick_places'];
     naps = json['naps'];
     priceUnit = json['price_unit'];
-    unitCount = null;
+    unitCount = json['unit_count'];
     weightCone = json['weight_cone'];
     weightBag = json['weight_bag'];
     conesBag = json['cones_bag'];
     is_offering = json['is_offering'];
     is_featured = json['is_featured'];
     is_verified = json['is_verified'];
-    packing = null;
-    paymentType = null;
-    lcType = null;
+    packing = json['packing'];
+    paymentType = json['payment_type'];
+    lcType = json['lc_type'];
     deliveryPeriod = json['delivery_period'];
-    available = null;
+    available = json['available'];
     priceTerms = json['price_terms'];
     minQuantity = json['min_quantity'];
     description = json['description'];
+    yarn_country = json['yarn_country'];
+    unitCount = json['unit_count'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
     certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
@@ -253,6 +260,7 @@ class YarnSpecification {
     _data['ys_id'] = specId;
     _data['ys_user_id'] = ys_user_id;
     _data['ys_doubling_method'] = doublingMethod;
+    _data['ys_doubling_method_idFk'] = ys_doubling_method_idFk;
     _data['yarn_type'] = yarnType;
     _data['yarn_title'] = yarnTitle;
     _data['yarn_details'] = yarnDetails;
@@ -267,6 +275,8 @@ class YarnSpecification {
     _data['yarn_orientation'] = yarnOrientation;
     _data['yarn_twist_direction'] = yarnTwistDirection;
     _data['count'] = count;
+    _data['ys_yarn_type_idfk'] = ys_yarn_type_idfk;
+    _data['ys_yarn_type'] = ys_yarn_type;
     _data['dty_filament'] = dtyFilament;
     _data['fdy_filament'] = fdyFilament;
     _data['yarn_ply'] = yarnPly;
@@ -288,7 +298,7 @@ class YarnSpecification {
     _data['thin_places'] = thinPlaces;
     _data['thick_places'] = thickPlaces;
     _data['naps'] = naps;
-    _data['price_unit'] = priceUnit;
+      _data['price_unit'] = priceUnit;
     _data['unit_count'] = unitCount;
     _data['weight_cone'] = weightCone;
     _data['weight_bag'] = weightBag;
@@ -303,6 +313,7 @@ class YarnSpecification {
     _data['min_quantity'] = minQuantity;
     _data['description'] = description;
     _data['pictures'] = pictures;
+    _data['yarn_country'] = yarn_country;
     _data['certifications'] = certifications;
     return _data;
   }

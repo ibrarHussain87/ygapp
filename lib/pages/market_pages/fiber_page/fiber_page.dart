@@ -5,7 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';

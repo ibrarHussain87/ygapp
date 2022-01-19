@@ -40,21 +40,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
       if (widget.specification != null) {
         bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
       } else {
-        bidPrice = int.parse(widget.yarnSpecification!.priceUnit!);
+        bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
+            .replaceAll(RegExp(r'[^0-9]'), ''));
       }
       bidQuantity = 1;
     });
 
     widget.specification != null ? _fiberDetails() : _yarnDetails();
 
-    _getUserId().then((value) => userId==value);
+    _getUserId().then((value) => userId == value);
 
-    if(widget.specification!=null){
-      if(userId == widget.specification!.spc_user_id) {
+    if (widget.specification != null) {
+      if (userId == widget.specification!.spc_user_id) {
         showBidContainer = true;
       }
-    } else{
-      if(userId == widget.yarnSpecification!.ys_user_id) {
+    } else {
+      if (userId == widget.yarnSpecification!.ys_user_id) {
         showBidContainer = true;
       }
     }
@@ -226,16 +227,19 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
-                                                            if (bidPrice! >= 1) {
+                                                            if (bidPrice! >=
+                                                                1) {
                                                               bidPrice =
                                                                   bidPrice! - 1;
                                                             }
                                                           });
                                                         },
                                                         child: Center(
-                                                          child: TitleTextWidget(
+                                                          child:
+                                                              TitleTextWidget(
                                                             title: '-1',
-                                                            color: lightBlueTabs,
+                                                            color:
+                                                                lightBlueTabs,
                                                           ),
                                                         ),
                                                       ),
@@ -245,10 +249,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             ),
                                             Expanded(
                                                 child: Padding(
-                                                    padding: EdgeInsets.all(8.w),
+                                                    padding:
+                                                        EdgeInsets.all(8.w),
                                                     child: Center(
-                                                      child: LargeTitleTextWidget(
-                                                          title: '$bidPrice'),
+                                                      child:
+                                                          LargeTitleTextWidget(
+                                                              title:
+                                                                  '$bidPrice'),
                                                     ))),
                                             const SizedBox(
                                               width: 5,
@@ -276,9 +283,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                           });
                                                         },
                                                         child: Center(
-                                                          child: TitleTextWidget(
+                                                          child:
+                                                              TitleTextWidget(
                                                             title: '+1',
-                                                            color: lightBlueTabs,
+                                                            color:
+                                                                lightBlueTabs,
                                                           ),
                                                         ),
                                                       ),
@@ -377,13 +386,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                         onTap: () {
                                                           setState(() {
                                                             bidQuantity =
-                                                                bidQuantity! + 1;
+                                                                bidQuantity! +
+                                                                    1;
                                                           });
                                                         },
                                                         child: Center(
-                                                          child: TitleTextWidget(
+                                                          child:
+                                                              TitleTextWidget(
                                                             title: '+1',
-                                                            color: lightBlueTabs,
+                                                            color:
+                                                                lightBlueTabs,
                                                           ),
                                                         ),
                                                       ),
@@ -586,15 +598,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? widget.yarnSpecification!.dtyFilament! + " %"
               : 'N/A'),
       GridTileModel(
-          'Appearance',
-          widget.yarnSpecification!.yarnApperance == null
+          'Quality',
+          widget.yarnSpecification!.yarnQuality == null
               ? "N/A"
-              : widget.yarnSpecification!.yarnApperance!),
-      GridTileModel(
-          'Orientation',
-          widget.yarnSpecification!.yarnOrientation == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnOrientation!),
+              : widget.yarnSpecification!.yarnQuality!),
       GridTileModel(
           'Ply',
           widget.yarnSpecification!.yarnPly == null
@@ -605,11 +612,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.yarnSpunTechnique == null
               ? "N/A"
               : widget.yarnSpecification!.yarnSpunTechnique!),
-      GridTileModel(
-          'Quality',
-          widget.yarnSpecification!.qlt == null
-              ? "N/A"
-              : widget.yarnSpecification!.qlt!),
       GridTileModel(
           'Pattern',
           widget.yarnSpecification!.yarnPattern == null
@@ -625,11 +627,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.yarnColorTreatmentMethod == null
               ? "N/A"
               : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-      GridTileModel(
-          'Quality',
-          widget.yarnSpecification!.qlt == null
-              ? "N/A"
-              : widget.yarnSpecification!.qlt!),
       GridTileModel(
           'Certification',
           widget.yarnSpecification!.yarnCertification == null
@@ -647,7 +644,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
           'CLSP',
           widget.yarnSpecification!.clsp == null
               ? "N/A"
-              : widget.yarnSpecification!.actualYarnCount!),
+              : widget.yarnSpecification!.clsp!),
       // GridTileModel(
       //     'IPM/KM',
       //     widget.yarnSpecification!.yarnIpkm == null
@@ -706,7 +703,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     ];
   }
 
-  Future<String?> _getUserId() async{
+  Future<String?> _getUserId() async {
     return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
   }
 }

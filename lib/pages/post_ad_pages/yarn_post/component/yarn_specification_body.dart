@@ -15,6 +15,8 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/response/common_response_models/certification_response.dart';
+import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
@@ -38,7 +40,8 @@ class YarnSpecificationComponent extends StatefulWidget {
       YarnSpecificationComponentState();
 }
 
-class YarnSpecificationComponentState extends State<YarnSpecificationComponent> {
+class YarnSpecificationComponentState
+    extends State<YarnSpecificationComponent> {
   // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() {
@@ -106,7 +109,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
   String? selectedAppearenceId;
   bool isInit = false;
 
-
   @override
   void initState() {
     _yarnData = widget.yarnSyncResponse.data.yarn;
@@ -127,7 +129,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
 
   @override
   Widget build(BuildContext context) {
-    if(!isInit) {
+    if (!isInit) {
       _createRequestModel = Provider.of<CreateRequestModel>(context);
       _yarnSetting ??= Provider.of<YarnSetting>(context);
       _yarnSetting ??= Provider.of<YarnSetting>(context);
@@ -178,7 +180,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-
                           //Show Texturized
                           Visibility(
                             visible: Ui.showHide(_yarnSetting!.showTexturized),
@@ -194,10 +195,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                   SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems: _yarnData!.yarnTypes!,
-                                    callback: (value) {
+                                    callback: (YarnTypes value) {
                                       _createRequestModel.ys_yarn_type_idfk =
-                                          _yarnData!.yarnTypes![value].ytId
-                                              .toString();
+                                          value.ytId.toString();
                                     },
                                   ),
                                 ],
@@ -282,10 +282,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.ysFamilyId.toString() ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (Usage value) {
                                       _createRequestModel.ys_usage_idfk =
-                                          _yarnData!.usage![value].yuId
-                                              .toString();
+                                          value.yuId.toString();
                                     },
                                   ),
                                 ],
@@ -312,24 +311,23 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (YarnAppearance value) {
                                       _createRequestModel.ys_apperance_idfk =
-                                          _yarnData!.apperance![value].yaId
-                                              .toString();
+                                          value.yaId.toString();
 
-                                      if (_yarnData!.apperance![value].yaId ==
-                                          3) {
+                                      if (value.yaId == 3) {
                                         setState(() {
                                           showDyingMethod = true;
-                                          selectedAppearenceId = _yarnData!
-                                              .apperance![value].yaId
-                                              .toString();
+                                          selectedAppearenceId =
+                                              value.yaId.toString();
                                         });
                                       } else {
                                         setState(() {
                                           showDyingMethod = false;
-                                          _createRequestModel.ys_dying_method_idfk = null;
-                                          _createRequestModel.ys_color_code = null;
+                                          _createRequestModel
+                                              .ys_dying_method_idfk = null;
+                                          _createRequestModel.ys_color_code =
+                                              null;
                                         });
                                       }
                                     },
@@ -369,15 +367,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             selectedAppearenceId.toString();
                                       }
                                     }).toList(),
-                                    callback: (value) {
+                                    callback: (DyingMethod value) {
                                       _createRequestModel.ys_dying_method_idfk =
-                                          widget
-                                              .yarnSyncResponse
-                                              .data
-                                              .yarn
-                                              .colorTreatmentMethod![value]
-                                              .yctmId
-                                              .toString();
+                                          value.ydmId.toString();
                                     },
                                   ),
                                 ],
@@ -391,7 +383,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                   ? Ui.showHide(_yarnSetting!.showColor)
                                   : false,
                               child: Padding(
-                                padding: const EdgeInsets.only(top:8.0),
+                                padding: const EdgeInsets.only(top: 8.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -402,7 +394,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                     ),
                                     Card(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                       child: SizedBox(
                                         width: 120.w,
@@ -414,10 +407,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                           readOnly: true,
                                           style: TextStyle(fontSize: 11.sp),
                                           textAlign: TextAlign.center,
-                                          onSaved: (input) => _createRequestModel
-                                              .ys_color_code = input!,
+                                          onSaved: (input) =>
+                                              _createRequestModel
+                                                  .ys_color_code = input!,
                                           validator: (input) {
-                                            if (input == null || input.isEmpty) {
+                                            if (input == null ||
+                                                input.isEmpty) {
                                               return "Select Color Code";
                                             }
                                             return null;
@@ -425,9 +420,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                           decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(10.0),
+                                                      BorderRadius.circular(
+                                                          10.0),
                                                   borderSide: BorderSide.none),
-                                              contentPadding: const EdgeInsets.all(2.0),
+                                              contentPadding:
+                                                  const EdgeInsets.all(2.0),
                                               hintText: "Select Color",
                                               filled: true,
                                               fillColor: pickerColor),
@@ -484,14 +481,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                               left: 4.w, top: 8.w),
                                           child: TitleSmallTextWidget(
                                               title: count)),
-                                      YgTextFormFieldWithRange(
+                                      YgTextFormFieldWithRangeNonDecimal(
                                           errorText: count,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting!.countMinMax!,
                                           onSaved: (input) {
-                                            _createRequestModel
-                                                .ys_count = input;
-
+                                            _createRequestModel.ys_count =
+                                                input;
                                           })
                                     ],
                                   ),
@@ -518,30 +514,21 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
-                                      _createRequestModel.ys_ply_idfk = widget
-                                          .yarnSyncResponse
-                                          .data
-                                          .yarn
-                                          .ply![value]
-                                          .plyId
-                                          .toString();
+                                    callback: (Ply value) {
+                                      _createRequestModel.ys_ply_idfk =
+                                          value.plyId.toString();
 
-                                      if (_yarnData!.ply![value].plyId != 1) {
+                                      if (value.plyId != 1) {
                                         setState(() {
                                           showDoublingMethod = true;
-                                          selectedPlyId = widget
-                                              .yarnSyncResponse
-                                              .data
-                                              .yarn
-                                              .ply![value]
-                                              .plyId
-                                              .toString();
+                                          selectedPlyId =
+                                              value.plyId.toString();
                                         });
                                       } else {
                                         setState(() {
                                           showDoublingMethod = false;
-                                          _createRequestModel.ys_doubling_method_idFk = "";
+                                          _createRequestModel
+                                              .ys_doubling_method_idFk = null;
                                         });
                                       }
                                     },
@@ -572,11 +559,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                         .where((element) =>
                                             element.plyId == selectedPlyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (DoublingMethod value) {
                                       _createRequestModel
                                               .ys_doubling_method_idFk =
-                                          _yarnData!.doublingMethod![value].dmId
-                                              .toString();
+                                          value.dmId.toString();
                                     },
                                   ),
                                 ],
@@ -605,15 +591,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
-                                      _createRequestModel.spc_grade_idfk =
-                                          widget
-                                              .yarnSyncResponse
-                                              .data
-                                              .yarn
-                                              .colorTreatmentMethod![value]
-                                              .yctmId
-                                              .toString();
+                                    callback: (ColorTreatmentMethod value) {
+                                      _createRequestModel
+                                              .ys_color_treatment_method_idfk =
+                                          value.yctmId.toString();
                                     },
                                   ),
                                 ],
@@ -640,10 +621,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (OrientationTable value) {
                                       _createRequestModel.ys_orientation_idfk =
-                                          _yarnData!.orientation![value].yoId
-                                              .toString();
+                                          value.yoId.toString();
                                     },
                                   ),
                                 ],
@@ -672,12 +652,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (TwistDirection value) {
                                       _createRequestModel
                                               .ys_twist_direction_idfk =
-                                          _yarnData!
-                                              .twistDirection![value].ytdId
-                                              .toString();
+                                          value.ytdId.toString();
                                     },
                                   ),
                                 ],
@@ -706,11 +684,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (SpunTechnique value) {
                                       _createRequestModel
                                               .ys_spun_technique_idfk =
-                                          _yarnData!.spunTechnique![value].ystId
-                                              .toString();
+                                          value.ystId.toString();
                                     },
                                   ),
                                 ],
@@ -737,14 +714,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
-                                      _createRequestModel.ys_quality_idfk = widget
-                                          .yarnSyncResponse
-                                          .data
-                                          .yarn
-                                          .quality![value]
-                                          .yqId
-                                          .toString();
+                                    callback: (Quality value) {
+                                      _createRequestModel.ys_quality_idfk =
+                                          value.yqId.toString();
                                     },
                                   ),
                                 ],
@@ -771,22 +743,15 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
-                                      if (_yarnData!
-                                                  .pattern![value].ypId ==
-                                              1 ||
-                                          _yarnData!
-                                                  .pattern![value].ypId ==
-                                              2 ||
-                                          _yarnData!.pattern![value].ypId ==
-                                              3 ||
-                                          _yarnData!.pattern![value].ypId ==
-                                              4) {
+                                    callback: (PatternModel value) {
+                                      if (value.ypId == 1 ||
+                                          value.ypId == 2 ||
+                                          value.ypId == 3 ||
+                                          value.ypId == 4) {
                                         setState(() {
                                           showPatternCharc = true;
-                                          selectedPatternId = _yarnData!
-                                              .pattern![value].ypId
-                                              .toString();
+                                          selectedPatternId =
+                                              value.ypId.toString();
 
                                           _patternCharactristicList = widget
                                               .yarnSyncResponse
@@ -795,9 +760,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                               .patternCharectristic!
                                               .where((element) =>
                                                   element.ypcPatternIdfk ==
-                                                  widget.yarnSyncResponse.data
-                                                      .yarn.pattern![value].ypId
-                                                      .toString())
+                                                  value.ypId.toString())
                                               .toList();
                                         });
                                       } else {
@@ -809,8 +772,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                         });
                                       }
                                       _createRequestModel.ys_pattern_idfk =
-                                          _yarnData!.pattern![value].ypId
-                                              .toString();
+                                          value.ypId.toString();
                                     },
                                   ),
                                 ],
@@ -910,17 +872,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                           spanCount: 4,
                                           listOfItems:
                                               _patternCharactristicList ?? [],
-                                          callback: (value) {
+                                          callback:
+                                              (PatternCharectristic value) {
                                             _createRequestModel
                                                     .ys_pattern_charectristic_idfk =
-                                                widget
-                                                    .yarnSyncResponse
-                                                    .data
-                                                    .yarn
-                                                    .patternCharectristic![
-                                                        value]
-                                                    .ypcId
-                                                    .toString();
+                                                value.ypcId.toString();
                                           },
                                         ),
                                       ],
@@ -947,10 +903,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                             element.familyId ==
                                             selectedFamilyId)
                                         .toList(),
-                                    callback: (value) {
+                                    callback: (Grades value) {
                                       _createRequestModel.spc_grade_idfk =
-                                          _yarnData!.grades![value].grdId
-                                              .toString();
+                                          value.grdId.toString();
                                     },
                                   ),
                                 ],
@@ -975,10 +930,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
                                     spanCount: 4,
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.certification!,
-                                    callback: (value) {
-                                      _createRequestModel.ys_certification_idfk =
-                                          _yarnData!.certification![value].cerId
-                                              .toString();
+                                    callback: (Certification value) {
+                                      _createRequestModel
+                                              .ys_certification_idfk =
+                                          value.cerId.toString();
                                     },
                                   ),
                                 ],
@@ -1068,51 +1023,89 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
 
     //Grade ID
     if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
-      _createRequestModel.ys_grade_idfk =
-          _yarnData!.grades!.first.grdId.toString();
+      _createRequestModel.ys_grade_idfk = _yarnData!.grades!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .grdId
+          .toString();
     }
 
     //Certification ID
     if (Ui.showHide(_yarnSetting!.showCertification)) {
-      _createRequestModel.ys_certification_idfk = _yarnData!.certification!.first.cerId.toString();
+      _createRequestModel.ys_certification_idfk =
+          _yarnData!.certification!.first.cerId.toString();
     }
 
     //PLY ID
     if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
-      _createRequestModel.ys_ply_idfk = _yarnData!.ply!.first.plyId.toString();
+      _createRequestModel.ys_ply_idfk = _yarnData!.ply!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .plyId
+          .toString();
     }
 
     //PLY ID
     if (Ui.showHide(_yarnSetting!.showQuality)) {
-      _createRequestModel.ys_quality_idfk = _yarnData!.quality!.first.yqId.toString();
+      _createRequestModel.ys_quality_idfk = _yarnData!.quality!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .yqId
+          .toString();
     }
 
     //ORIENTATION ID
     if (Ui.showHide(_yarnSetting!.showOrientation) &&
         _yarnData!.orientation!.isNotEmpty) {
-      _createRequestModel.ys_orientation_idfk =
-          _yarnData!.orientation!.first.yoId.toString();
+      _createRequestModel.ys_orientation_idfk = _yarnData!.orientation!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .yoId
+          .toString();
     }
 
     //USAGE ID
     if (Ui.showHide(_yarnSetting!.showUsage) && _yarnData!.usage!.isNotEmpty) {
-      _createRequestModel.ys_usage_idfk =
-          _yarnData!.usage!.first.yuId.toString();
+      _createRequestModel.ys_usage_idfk = _yarnData!.usage!
+          .where((element) => element.ysFamilyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .yuId
+          .toString();
     }
 
     //PATTERN ID
     if (Ui.showHide(_yarnSetting!.showPattern) &&
         _yarnData!.pattern!.isNotEmpty) {
-      _createRequestModel.ys_pattern_idfk =
-          _yarnData!.pattern!.first.ypId.toString();
+      _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .ypId
+          .toString();
     }
 
     //PATTERN CHAR ID
     if (showPatternCharc) {
       if (_yarnData!.patternCharectristic!.isNotEmpty) {
-        _createRequestModel.ys_pattern_charectristic_idfk = widget
-            .yarnSyncResponse.data.yarn.patternCharectristic!.first.ypcId
-            .toString();
+        if (widget.yarnSyncResponse.data.yarn.patternCharectristic!
+            .where((element) =>
+                element.ypcPatternIdfk.toString() == selectedPatternId)
+            .toList()
+            .isNotEmpty) {
+          _createRequestModel.ys_pattern_charectristic_idfk = widget
+              .yarnSyncResponse.data.yarn.patternCharectristic!
+              .where((element) =>
+                  element.ypcPatternIdfk.toString() == selectedPatternId)
+              .toList()
+              .first
+              .ypcId
+              .toString();
+        }
       }
     }
 
@@ -1120,7 +1113,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
     if (Ui.showHide(_yarnSetting!.showTwistDirection) &&
         _yarnData!.twistDirection!.isNotEmpty) {
       _createRequestModel.ys_twist_direction_idfk = widget
-          .yarnSyncResponse.data.yarn.twistDirection!.first.ytdId
+          .yarnSyncResponse.data.yarn.twistDirection!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .ytdId
           .toString();
     }
 
@@ -1128,7 +1125,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
     if (Ui.showHide(_yarnSetting!.showSpunTechnique) &&
         _yarnData!.spunTechnique!.isNotEmpty) {
       _createRequestModel.ys_spun_technique_idfk = widget
-          .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
+          .yarnSyncResponse.data.yarn.spunTechnique!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .ystId
           .toString();
     }
 
@@ -1136,7 +1137,22 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
     if (Ui.showHide(_yarnSetting!.showColorTreatmentMethod) &&
         _yarnData!.colorTreatmentMethod!.isNotEmpty) {
       _createRequestModel.ys_color_treatment_method_idfk = widget
-          .yarnSyncResponse.data.yarn.colorTreatmentMethod!.first.yctmId
+          .yarnSyncResponse.data.yarn.colorTreatmentMethod!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .yctmId
+          .toString();
+    }
+
+    //APPEARANCE ID
+    if (Ui.showHide(_yarnSetting!.showAppearance) &&
+        _yarnData!.apperance!.isNotEmpty) {
+      _createRequestModel.ys_apperance_idfk = _yarnData!.apperance!
+          .where((element) => element.familyId.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .yaId
           .toString();
     }
 
@@ -1144,15 +1160,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent> 
     if (Ui.showHide(_yarnSetting!.showDyingMethod) &&
         showDyingMethod &&
         _yarnData!.dyingMethod!.isNotEmpty) {
-      _createRequestModel.ys_dying_method_idfk =
-          _yarnData!.dyingMethod!.first.ydmId.toString();
-    }
-
-    //APPEARANCE ID
-    if (Ui.showHide(_yarnSetting!.showAppearance) &&
-        _yarnData!.apperance!.isNotEmpty) {
-      _createRequestModel.ys_apperance_idfk =
-          _yarnData!.apperance!.first.yaId.toString();
+      _createRequestModel.ys_dying_method_idfk = _yarnData!.dyingMethod!
+          .where((element) =>
+              element.apperanceId.toString() == selectedAppearenceId)
+          .toList()
+          .first
+          .ydmId
+          .toString();
     }
 
     //Doubling method id

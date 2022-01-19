@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/model/request/filter_request/fiber_filter_request.dart';
+import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 

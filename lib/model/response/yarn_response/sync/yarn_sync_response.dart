@@ -100,7 +100,7 @@ class Yarn {
   List<ColorTreatmentMethod>? colorTreatmentMethod;
   List<DyingMethod>? dyingMethod;
   List<Family>? family;
-  List<Orientation>? orientation;
+  List<OrientationTable>? orientation;
   List<PatternModel>? pattern;
   List<PatternCharectristic>? patternCharectristic;
   List<Ply>? ply;
@@ -137,7 +137,7 @@ class Yarn {
         .toList();
     family = List.from(json['family']).map((e) => Family.fromJson(e)).toList();
     orientation = List.from(json['orientation'])
-        .map((e) => Orientation.fromJson(e))
+        .map((e) => OrientationTable.fromJson(e))
         .toList();
     pattern =
         List.from(json['pattern']).map((e) => PatternModel.fromJson(e)).toList();
@@ -394,8 +394,8 @@ class Family {
 }
 
 @Entity(tableName: "orientation_table")
-class Orientation {
-  Orientation({
+class OrientationTable {
+  OrientationTable({
     required this.yoId,
     required this.familyId,
     required this.yoName,
@@ -412,7 +412,7 @@ class Orientation {
   String? yoIsActive;
   String? catSortid;
 
-  Orientation.fromJson(Map<String, dynamic> json) {
+  OrientationTable.fromJson(Map<String, dynamic> json) {
     yoId = json['yo_id'];
     familyId = json['family_id'];
     yoName = json['yo_name'];
