@@ -146,7 +146,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems:
-                                          widget.units as List<dynamic>,
+                                          widget.units!.where((element) => element.untCategoryIdfk == _createRequestModel!.spc_category_idfk).toList(),
                                       callback: (Units value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
@@ -197,6 +197,16 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                     _createRequestModel!
                                                             .fpb_weight_bag =
                                                         input!;
+                                                  }
+                                                },
+                                                onChanged: (value){
+                                                  if (_conePerBagController
+                                                      .text.isNotEmpty) {
+                                                    _coneWithController.text = (int.parse(_conePerBagController.text) /
+                                                        int.parse(value))
+                                                        .toStringAsFixed(2);
+                                                  } else {
+                                                    _coneWithController.text = "";
                                                   }
                                                 },
                                                 validator: (input) {

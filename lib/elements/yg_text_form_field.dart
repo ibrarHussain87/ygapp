@@ -78,8 +78,9 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         onSaved: (input) => onSaved(input),
         // onChanged: (input) => onChanged(input),
         inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly
           // DecimalTextInputFormatter(decimalRange: 2),
-          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+          // FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
         ],
         validator: MultiValidator([
           RangeValidator(

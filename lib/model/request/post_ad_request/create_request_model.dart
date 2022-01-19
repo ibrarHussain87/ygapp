@@ -231,7 +231,7 @@ class CreateRequestModel {
       'ys_yarn_type_idfk': ys_yarn_type_idfk ?? "",
       'ys_ply_idfk': ys_ply_idfk ?? "",
       'ys_grade_idfk': ys_grade_idfk ?? "",
-      'ys_certification_idfk': ys_certification_idfk ?? "",
+      'certification_id': ys_certification_idfk ?? "",
       'ys_color_treatment_method_idfk': ys_color_treatment_method_idfk ?? "",
       'ys_dying_method_idfk': ys_dying_method_idfk ?? "",
       // 'ys_color_idfk': ys_color_idfk ?? "",

@@ -580,7 +580,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel(
           'Count',
           widget.yarnSpecification!.count != null
-              ? '${widget.yarnSpecification!.count} %'
+              ? '${widget.yarnSpecification!.count}'
               : "N/A"),
       GridTileModel(
           'Ratio',
@@ -679,7 +679,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
     detailPackaging = [
       GridTileModel(
-          'Unit Of Count',
+          'Unit Of Counting',
           widget.yarnSpecification!.unitCount == null
               ? "N/A"
               : widget.yarnSpecification!.unitCount!),
