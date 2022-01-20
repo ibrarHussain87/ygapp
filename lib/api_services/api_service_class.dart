@@ -164,7 +164,7 @@ class ApiService {
       getRequestModel.userId = userID;
       getRequestModel.locality = locality;
 
-      logger.e(getRequestModel.toJson());
+      logger.e(json.encode(getRequestModel.toJson()));
 
       final response = await Dio().post(url,
           options: Options(headers: headerMap),

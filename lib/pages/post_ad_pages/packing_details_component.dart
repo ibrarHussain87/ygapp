@@ -10,8 +10,10 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
@@ -87,11 +89,19 @@ class _PackagingDetailsState extends State<PackagingDetails>
   @override
   void initState() {
     //INITIAL VALUES
+    FamilyTileWidgetState.disableClick = true;
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
     packingList =
         widget.packing!.where((element) => element.pacIsActive == "1").toList();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    FamilyTileWidgetState.disableClick = false;
+    super.dispose();
   }
 
   @override
@@ -145,14 +155,17 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               : unitCount)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
-                                      listOfItems:
-                                          widget.units!.where((element) => element.untCategoryIdfk == _createRequestModel!.spc_category_idfk).toList(),
+                                      listOfItems: widget.units!
+                                          .where((element) =>
+                                              element.untCategoryIdfk ==
+                                              _createRequestModel!
+                                                  .spc_category_idfk)
+                                          .toList(),
                                       callback: (Units value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              value.untId
-                                                  .toString();
+                                              value.untId.toString();
                                         }
                                       }),
                                 ],
@@ -199,14 +212,20 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         input!;
                                                   }
                                                 },
-                                                onChanged: (value){
+                                                onChanged: (value) {
                                                   if (_conePerBagController
                                                       .text.isNotEmpty) {
-                                                    _coneWithController.text = (int.parse(_conePerBagController.text) /
-                                                        int.parse(value))
+                                                    _coneWithController
+                                                        .text = (double.parse(
+                                                                _weigthPerBagController
+                                                                    .text) /
+                                                            double.parse(
+                                                                _conePerBagController
+                                                                    .text))
                                                         .toStringAsFixed(2);
                                                   } else {
-                                                    _coneWithController.text = "";
+                                                    _coneWithController.text =
+                                                        "";
                                                   }
                                                 },
                                                 validator: (input) {
@@ -254,10 +273,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   if (_weigthPerBagController
                                                       .text.isNotEmpty) {
                                                     _coneWithController
-                                                        .text = (int.parse(
+                                                        .text = (double.parse(
                                                                 _weigthPerBagController
                                                                     .text) /
-                                                            int.parse(value))
+                                                            double.parse(value))
                                                         .toStringAsFixed(2);
                                                   } else {
                                                     _coneWithController.text =
@@ -337,8 +356,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       listOfItems:
                                           widget.coneType as List<dynamic>,
                                       callback: (ConeType value) {
-                                        _createRequestModel!.cone_type_id = value.yctId
-                                                .toString();
+                                        _createRequestModel!.cone_type_id =
+                                            value.yctId.toString();
                                       }),
                                 ],
                               ),
@@ -346,13 +365,13 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Selling Region
                             Padding(
-                              padding: const EdgeInsets.only(top:8.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 8.w, bottom: 2.w),
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 2.w),
                                       child: TitleSmallTextWidget(
                                           title: sellingRegionStr)),
                                   SingleSelectTileWidget(
@@ -696,13 +715,10 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             widget.paymentType as List<dynamic>,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
-                                                  .payment_type_idfk =
-                                              value.payId;
+                                              .payment_type_idfk = value.payId;
 
                                           setState(() {
-                                            if (value
-                                                    .payId ==
-                                                "1") {
+                                            if (value.payId == "1") {
                                               _showLcType = true;
                                             } else {
                                               _showLcType = false;
@@ -732,8 +748,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           widget.lcType as List<dynamic>,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.lc_type_idfk = value.lcId
-                                                  .toString();
+                                          _createRequestModel!.lc_type_idfk =
+                                              value.lcId.toString();
                                         }
                                       }),
                                 ],
@@ -766,7 +782,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           }
                                         },
                                         validator: (input) {
-                                          if (input == null || input.isEmpty) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
                                             return priceUnits;
                                           }
                                           return null;
@@ -804,7 +822,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           },
                                           validator: (input) {
                                             if (input == null ||
-                                                input.isEmpty) {
+                                                input.isEmpty ||
+                                                int.parse(input) < 1) {
                                               return "Available Quantity";
                                             }
                                             return null;
@@ -840,7 +859,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       }
                                     },
                                     validator: (input) {
-                                      if (input == null || input.isEmpty) {
+                                      if (input == null || input.isEmpty || int.parse(input) < 1) {
                                         return minQty;
                                       }
                                       return null;
@@ -867,8 +886,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       listOfItems: packingList,
                                       callback: (Packing value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.packing_idfk = value.pacId
-                                                  .toString();
+                                          _createRequestModel!.packing_idfk =
+                                              value.pacId.toString();
                                         }
                                       }),
                                 ],
@@ -892,10 +911,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
                                                 .fbp_delivery_period_idfk =
-                                            value.dprId
-                                                .toString();
-                                        if (value.dprId ==
-                                            3) {
+                                            value.dprId.toString();
+                                        if (value.dprId == 3) {
                                           setState(() {
                                             noOfDays = true;
                                           });
@@ -1004,11 +1021,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       descriptionStr)),
                             ),
 
-                            AddPictureWidget(
-                              imageCount: 1,
-                              callbackImages: (value) {
-                                imageFiles = value;
-                              },
+                            Visibility(
+                              visible:
+                                  widget.businessArea != yarn ? true : false,
+                              child: AddPictureWidget(
+                                imageCount: 1,
+                                callbackImages: (value) {
+                                  imageFiles = value;
+                                },
+                              ),
                             )
                           ],
                         ),
@@ -1020,44 +1041,49 @@ class _PackagingDetailsState extends State<PackagingDetails>
             ),
             flex: 9,
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.w),
-              child: SizedBox(
-                width: double.maxFinite,
-                child: ElevatedButtonWithIcon(
-                  callback: () {
-                    if (validateAndSave()) {
-                      if (_createRequestModel != null) {
+          Padding(
+            padding: EdgeInsets.all(8.w),
+            child: SizedBox(
+              width: double.maxFinite,
+              child: ElevatedButtonWithIcon(
+                callback: () {
+                  if (validateAndSave()) {
+                    if (_createRequestModel != null) {
+                      if (widget.businessArea == yarn) {
+                        _createRequestModel!.ys_local_international =
+                            widget.locality!.toUpperCase();
+                      } else {
                         _createRequestModel!.spc_local_international =
                             widget.locality!.toUpperCase();
-
-                        ProgressDialogUtil.showDialog(
-                            context, 'Please wait...');
-
-                        ApiService.createSpecification(_createRequestModel!,
-                                imageFiles.isNotEmpty ? imageFiles[0].path : "")
-                            .then((value) {
-                          ProgressDialogUtil.hideDialog();
-                          if (value.status) {
-                            Fluttertoast.showToast(msg: value.message);
-                            Navigator.pop(context);
-                          } else {
-                            Ui.showSnackBar(context, value.message);
-                          }
-                        }).onError((error, stackTrace) {
-                          ProgressDialogUtil.hideDialog();
-                          Ui.showSnackBar(context, error.toString());
-                        });
                       }
+
+                      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+                      ApiService.createSpecification(_createRequestModel!,
+                              imageFiles.isNotEmpty ? imageFiles[0].path : "")
+                          .then((value) {
+                        ProgressDialogUtil.hideDialog();
+                        if (value.status) {
+                          Fluttertoast.showToast(msg: value.message);
+                          if (value.responseCode == 205) {
+                            openMyAdsScreen(context);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        } else {
+                          Ui.showSnackBar(context, value.message);
+                        }
+                      }).onError((error, stackTrace) {
+                        ProgressDialogUtil.hideDialog();
+                        Ui.showSnackBar(context, error.toString());
+                      });
                     }
-                  },
-                  color: btnColorLogin,
-                  btnText: submit,
-                ),
+                  }
+                },
+                color: btnColorLogin,
+                btnText: submit,
               ),
             ),
-            flex: 1,
           ),
         ],
       ),
@@ -1070,9 +1096,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
       _createRequestModel!.fbp_count_unit_idfk =
           widget.units!.first.untId.toString();
     }
-
     _createRequestModel!.is_offering = widget.selectedTab;
-
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
     _createRequestModel!.packing_idfk = widget.packing!.first.pacId.toString();

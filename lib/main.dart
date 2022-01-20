@@ -9,14 +9,15 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/pages/auth_pages/login_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
+import 'pages/auth_pages/login_page.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   await init();
@@ -79,10 +80,10 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
   void _incrementCounter() {
     setState(() {
-      heightC1 = MediaQuery.of(context).size.width * 0.6;
-      heightC2 = MediaQuery.of(context).size.width * 1;
-      widthC1 = MediaQuery.of(context).size.width * 0.6;
-      widthC2 = MediaQuery.of(context).size.width * 1;
+      heightC1 = MediaQuery.of(context).size.width * 0.5;
+      heightC2 = MediaQuery.of(context).size.width * 0.8;
+      widthC1 = MediaQuery.of(context).size.width * 0.5;
+      widthC2 = MediaQuery.of(context).size.width * 0.8;
     });
   }
 
@@ -140,19 +141,19 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   }
 
   _changeData(String msg) {
-    if(mounted){
+    if (mounted) {
       setState(() => notificationData = msg);
     }
   }
 
   _changeBody(String msg) {
-    if(mounted){
+    if (mounted) {
       setState(() => notificationBody = msg);
     }
   }
 
   _changeTitle(String msg) {
-    if(mounted){
+    if (mounted) {
       setState(() => notificationTitle = msg);
     }
   }
@@ -187,8 +188,15 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
                     end: FractionalOffset(1.0, 0.0),
                     stops: [0.0, 1.0],
                     tileMode: TileMode.clamp),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(MediaQuery.of(context).size.width * 0.4),
+                borderRadius: BorderRadius.only(
+                  topRight:
+                      Radius.circular(MediaQuery.of(context).size.width * 0.25),
+                  topLeft:
+                      Radius.circular(MediaQuery.of(context).size.width * 0.4),
+                  bottomRight:
+                      Radius.circular(MediaQuery.of(context).size.width * 0.4),
+                  bottomLeft:
+                      Radius.circular(MediaQuery.of(context).size.width * 0.3),
                 ),
               ),
             ),
@@ -213,13 +221,13 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
                     tileMode: TileMode.clamp),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(
-                        MediaQuery.of(context).size.width * 0.6),
+                        MediaQuery.of(context).size.width * 0.7),
                     topRight: Radius.circular(
-                        MediaQuery.of(context).size.width * 0.59),
+                        MediaQuery.of(context).size.width * 0.3),
                     bottomLeft: Radius.circular(
-                        MediaQuery.of(context).size.width * 0.6),
+                        MediaQuery.of(context).size.width * 0.1),
                     bottomRight: Radius.circular(
-                        MediaQuery.of(context).size.width * 0.5)),
+                        MediaQuery.of(context).size.width * 0.3)),
               ),
             ),
           ),
@@ -229,7 +237,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             opacity: _animation,
             child: Align(
                 alignment: Alignment.center,
-                child: Image.asset(logoImage, height: 64.w, width: 64.w)),
+                child: Image.asset(logoImage, height: 84.w, width: 84.w)),
           ))
         ],
       ),

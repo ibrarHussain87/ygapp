@@ -1,7 +1,9 @@
+
 class CreateRequestModel {
   String? spc_category_idfk;
   String? spc_user_idfk;
   String? spc_local_international;
+  String? ys_local_international;
 
   //Fiber Keys
   String? spc_fiber_material_idfk;
@@ -96,6 +98,7 @@ class CreateRequestModel {
       {this.spc_category_idfk,
       this.spc_user_idfk,
       this.spc_local_international,
+      this.ys_local_international,
       this.spc_fiber_material_idfk,
       this.spc_fiber_length_idfk,
       this.spc_grade_idfk,
@@ -178,8 +181,9 @@ class CreateRequestModel {
       'spc_category_idfk': spc_category_idfk ?? "",
       'spc_user_idfk': spc_user_idfk ?? "",
       'spc_local_international': spc_local_international ?? "",
+      'ys_local_international': ys_local_international ?? "",
       'spc_fiber_material_idfk': spc_fiber_material_idfk ?? "",
-      'spc_fiber_length_idfk': spc_fiber_length_idfk ?? "",
+      'spc_fiber_length': spc_fiber_length_idfk ?? "",
       'spc_grade_idfk': spc_grade_idfk ?? "",
       'spc_micronaire': spc_micronaire_idfk ?? "",
       'spc_moisture': spc_moisture_idfk ?? "",

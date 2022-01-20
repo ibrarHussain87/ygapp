@@ -68,14 +68,14 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                 height: 0.055*MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
                   listItems: widget.yarnSyncResponse.data.yarn.family,
-                  callback: (value) {
+                  callback: (Family value) {
                     //Family Id
                     setState(() {
-                      selectedFamilyId = widget.yarnSyncResponse.data.yarn.family![value].famId.toString();
+                      selectedFamilyId = value.famId.toString();
                     });
-                    _createRequestModel.ys_family_idfk = widget.yarnSyncResponse.data.yarn.family![value].famId.toString();
-                    queryFamilySettings(widget.yarnSyncResponse.data.yarn.family![value].famId!);
-                    yarnStepStateKey.currentState!.onClickFamily(widget.yarnSyncResponse.data.yarn.family![value].famId);
+                    _createRequestModel.ys_family_idfk = selectedFamilyId;
+                    queryFamilySettings(value.famId!);
+                    yarnStepStateKey.currentState!.onClickFamily(value.famId);
                   },
                 ),
               ),
@@ -127,9 +127,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         setState(() {
           if (value.isNotEmpty) {
             _yarnSetting = value[0];
-          } else {
-            Ui.showSnackBar(context, 'No Settings Found');
           }
+          // } else {
+          //   Ui.showSnackBar(context, 'No Settings Found');
+          // }
         });
       });
     });

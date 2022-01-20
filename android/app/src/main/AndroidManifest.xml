@@ -27,8 +27,8 @@
     </queries>
 
     <application
-        android:label="yg_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Yurn Guru"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
