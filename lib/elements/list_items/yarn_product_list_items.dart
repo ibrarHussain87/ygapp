@@ -245,8 +245,8 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                         Text.rich( TextSpan(
                             children: [
                               TextSpan(
-                                /*text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',*/
-                                text: '${'Pkr'.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
+                                text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
+                                /*text: '${'Pkr'.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',*/
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 12.sp,
@@ -470,9 +470,9 @@ String setFamilyData(YarnSpecification specification){
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
   }
-  if(familyData.isEmpty){
+  /*if(familyData.isEmpty){
     familyData = "20/S Cotton";
-  }
+  }*/
   return familyData;
 }
 
@@ -495,9 +495,9 @@ String setTitleData(YarnSpecification specification){
       titleData = specification.yarnBlend??'N/A';
       break;
   }
-  if(titleData.isEmpty){
+  /*if(titleData.isEmpty){
     titleData = "Combed Weaving";
-  }
+  }*/
   return titleData;
 }
 
@@ -520,8 +520,8 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
       break;
   }
-  if(detailsData.isEmpty){
+  /*if(detailsData.isEmpty){
     detailsData = "Weaving,Ring Frame,Warp,Regular";
-  }
+  }*/
   return detailsData;
 }

@@ -124,8 +124,8 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      /*title: setTitleData(specification),*/
-                                      title: 'Greige,wrap'.toUpperCase(),
+                                      title: setTitleData(specification),
+                                      /*title: 'Greige,wrap'.toUpperCase(),*/
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -138,9 +138,9 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
-                              child: const TitleSmallBoldTextWidget(
-                                /*title:setDetailsData(specification),*/
-                                title:'Weaving,Ring Frame,Carded,Regular',
+                              child: TitleSmallBoldTextWidget(
+                                title:setDetailsData(specification),
+                                /*title:'Weaving,Ring Frame,Carded,Regular',*/
                                 color: Colors.black87,
                                 size: 10,
                                 weight: FontWeight.w500,

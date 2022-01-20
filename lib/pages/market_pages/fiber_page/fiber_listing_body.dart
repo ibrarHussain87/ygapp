@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
+import 'package:yg_app/elements/list_items/fiber_market_list_item_renewed.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
@@ -43,7 +44,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberWidget(specificationFiltered![index])),
+          child: buildFiberRenewedWidget(specificationFiltered![index])),
       // separatorBuilder: (context, index) {
       //   return Divider(
       //     height: 1,
