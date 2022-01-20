@@ -5,6 +5,7 @@ import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/list_widgets/rating_widget.dart';
+import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -18,7 +19,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
       color: Colors.white,
       elevation: 18.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14.w),
+        borderRadius: BorderRadius.circular(0.w),
       ),
       child: Stack(
         children: [
@@ -52,7 +53,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                   )),
             ),*/
               Padding(
-                  padding: EdgeInsets.only(left: 10.w,top: 10),
+                  padding: EdgeInsets.only(left: 10.w,top: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -100,7 +101,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 2.w,),
+                            SizedBox(height: 5.w,),
                             Row(
                               children: [
                                 Container(
@@ -123,7 +124,8 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      title: setTitleData(specification),
+                                      /*title: setTitleData(specification),*/
+                                      title: 'Greige,wrap'.toUpperCase(),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -136,13 +138,16 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
-                              child: TitleSmallBoldTextWidget(
-                                title:setDetailsData(specification),
-                                color: Colors.black,
+                              child: const TitleSmallBoldTextWidget(
+                                /*title:setDetailsData(specification),*/
+                                title:'Weaving,Ring Frame,Carded,Regular',
+                                color: Colors.black87,
+                                size: 10,
+                                weight: FontWeight.w500,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 1.w,right: 40.w),
+                              padding: EdgeInsets.only(top: 0.w,right: 35.w),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -179,33 +184,42 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                     spacing: 4.0,
                                     runSpacing: 3.0,
                                     children: [
-                                      ShortDetailWidget(
+                                      ShortDetailRenewedWidget(
                                         title: specification.weightBag ?? "N/A",
-                                        imageIcon: IC_BAG,
+                                        imageIcon: 'images/img_bag.png',
+                                        size: 9.sp,
+                                        iconSize: 14,
                                       ),
-                                      ShortDetailWidget(
+                                      ShortDetailRenewedWidget(
                                         title: specification.weightCone ?? "N/A",
-                                        imageIcon: IC_BAG,
+                                        imageIcon: 'images/img_cone.png',
+                                        size: 9.sp,
+                                        iconSize: 14,
                                       ),
-                                      ShortDetailWidget(
+                                      ShortDetailRenewedWidget(
                                         title: specification.deliveryPeriod ?? "N/A",
-                                        imageIcon: DELIVERY_PERIOD_IMAGE,
+                                        imageIcon: 'images/img_van.png',
+                                        size: 9.sp,
+                                        iconSize: 14,
                                       ),
-                                      ShortDetailWidget(
+                                      ShortDetailRenewedWidget(
                                         title: specification.locality ?? "N/A",
-                                        imageIcon: LOCATION_IMAGE,
+                                        imageIcon: 'images/img_location.png',
+                                        size: 9.sp,
+                                        iconSize: 14,
                                       ),
                                     ],
                                   ),
                                 )
                               ],
                             ),
+                            SizedBox(height: 5.h,)
                           ],
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                      padding: EdgeInsets.only(left: 6.w, right: 6.w,top: 5.h),
                       child: Column(
                         children: [
                           Column(
@@ -247,6 +261,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                     ),
                                   ]
                               )),
+                              SizedBox(height: 1.h,),
                               const Center(
                                 child: TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
                               )
@@ -279,7 +294,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                             ),
                           ),*/
                           SizedBox(
-                            height: 2.w,
+                            height: 4.w,
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -317,7 +332,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                   ],
                 ),
               ),
-              Padding(
+              /*Padding(
                 padding: EdgeInsets.only(right: 8.w,bottom: 4.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -337,35 +352,64 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
 
                   ],
                 ),
-              )
+              )*/
             ],
           ),
           Positioned(
             top: 0,
-            right: 0,
-            child: Visibility(
-              visible: true,
-              maintainSize: true,
-              maintainState: true,
-              maintainAnimation: true,
-              child: Container(
-                  width: 48.w,
-                  padding: EdgeInsets.all(3.w),
-                  decoration: BoxDecoration(
-                      color: pintFeatureClr,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(14.w),
+            right: 18,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Visibility(
+                  visible: true,
+                  maintainSize: true,
+                  maintainState: true,
+                  maintainAnimation: true,
+                  child: Container(
+                      width: 58.w,
+                      padding: EdgeInsets.all(3.w),
+                      decoration: BoxDecoration(
+                          color: pintFeatureClr,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(0.w),
+                            bottomLeft: Radius.circular(3.w),
+                            bottomRight: Radius.circular(3.w),
+                          )),
+                      child: Text(
+                        'Featured'.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 6.sp,
+                          fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.bold,
+                        ),
                       )),
-                  child: Text(
-                    'Featured'.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 6.sp,
-                      fontFamily: 'Metropolis',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
+                ),
+                SizedBox(height: 5.h,),
+                Padding(
+                  padding: EdgeInsets.only(right: 0.w,bottom: 4.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                          text: "Updated ",
+                          style: TextStyle(
+                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                        ),
+                        TextSpan(
+                          text: "Nov 23, 2021",
+                          style: TextStyle(
+                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                        )
+                      ])),
+
+                    ],
+                  ),
+                )
+              ],
             ),
           )
         ],

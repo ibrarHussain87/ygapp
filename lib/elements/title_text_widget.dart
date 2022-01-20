@@ -88,8 +88,11 @@ class TitleSmallBoldTextWidget extends StatelessWidget {
   final String? title;
   final Color? color;
   final double? padding;
+  final double? size;
+  final FontWeight? weight;
 
-  const TitleSmallBoldTextWidget({Key? key, required this.title,this.color,this.padding}) : super(key: key);
+  const TitleSmallBoldTextWidget({Key? key, required this.title,
+    this.color,this.padding,this.weight,this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +102,9 @@ class TitleSmallBoldTextWidget extends StatelessWidget {
         title??"N/A",
         style: TextStyle(
             color: color?? Colors.black87,
-            fontSize: 11.sp,
+            fontSize: size??11.sp,
             fontFamily: 'Metropolis',
-            fontWeight: FontWeight.w600),
+            fontWeight: weight??FontWeight.w600),
       ),
     );
   }

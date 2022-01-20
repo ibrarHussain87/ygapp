@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
-class ShortDetailWidget extends StatefulWidget {
+class ShortDetailRenewedWidget extends StatefulWidget {
   final String? title;
   final String? imageIcon;
   final double? size;
   final double? iconSize;
 
-  const ShortDetailWidget(
+  const ShortDetailRenewedWidget(
       {Key? key, required this.title, required this.imageIcon,this.size,this.iconSize})
       : super(key: key);
 
@@ -17,11 +17,11 @@ class ShortDetailWidget extends StatefulWidget {
   _ShortDetailWidgetState createState() => _ShortDetailWidgetState();
 }
 
-class _ShortDetailWidgetState extends State<ShortDetailWidget> {
+class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 4.w, right: 8.w, bottom: 4.w),
+      padding: EdgeInsets.only(top: 4.w, right: 4.w, bottom: 4.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
