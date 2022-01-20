@@ -387,6 +387,32 @@ class _SignUpPageState extends State<SignUpPage> {
                                               ],
                                             ),
                                           ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 8.w,
+                                                bottom: 8.w, left: 8.w, right: 8.w),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(company,
+                                                    style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color: Colors.black)),
+                                                TextFormField(
+                                                  keyboardType: TextInputType.text,
+                                                  cursorColor: Colors.black,
+                                                  onSaved: (input) =>
+                                                  _signupRequestModel.company =
+                                                  input!,
+                                                  validator: (input) {
+                                                    if (input == null || input.isEmpty) {
+                                                      return "Please enter company name";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  decoration: textFormFieldDecSignup(
+                                                      company,'assets/ic_business_area.svg'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                           Row(
                                             children: [
                                               Checkbox(

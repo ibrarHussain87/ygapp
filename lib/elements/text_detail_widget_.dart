@@ -32,37 +32,41 @@ class TextDetailWidget extends StatelessWidget {
               ),
               visible: false,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Visibility(
-                    child: Expanded(
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Visibility(
+                      child: Expanded(
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: TextStyle(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
+                        ),
+                      ),
+                      visible: true,
+                    ),
+                    Expanded(
                       child: Text(
-                        title,
+                        detail ?? "N/A",
                         maxLines: 1,
                         style: TextStyle(
-                            fontSize: 6.sp,
+                            fontSize: 9.sp,
                             fontWeight: FontWeight.w500,
                             color: textColorGreyLight),
                       ),
                     ),
-                    visible: true,
-                  ),
-                  Expanded(
-                    child: Text(
-                      detail ?? "N/A",
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

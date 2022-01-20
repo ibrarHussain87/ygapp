@@ -26,6 +26,7 @@ String forgetPassword = "Forget Password?";
 String signUpStr = "Sign Up";
 String operator = "Operator";
 String businessArea = "Business Area";
+String company = "Company";
 String email = "Email";
 String emailLabel = "Email";
 String family = "Family";

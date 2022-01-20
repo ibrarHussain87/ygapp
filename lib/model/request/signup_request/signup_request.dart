@@ -4,6 +4,7 @@ class SignUpRequestModel {
   String? email;
   String? password;
   String? countryId;
+  String? company;
   String? cityStateId;
   String? operator;
   String? telephoneNumber;
@@ -16,6 +17,7 @@ class SignUpRequestModel {
       'email': email!.trim(),
       'password': password!.trim(),
       'country_id': countryId!.trim(),
+      'company': company!.trim(),
       'city_state_id': cityStateId!.trim(),
       'operator': operator!.trim(),
       'telephone_number': telephoneNumber!.trim()
