@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -46,6 +47,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
   @override
   void initState() {
+    FamilyTileWidgetState.disableClick = true;
     super.initState();
   }
 
@@ -65,7 +67,6 @@ class LabParameterPageState extends State<LabParameterPage>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            flex: 9,
             child: Padding(
               padding: EdgeInsets.only(top: 16.w, left: 24.w, right: 24.w),
               child: SingleChildScrollView(
@@ -494,21 +495,18 @@ class LabParameterPageState extends State<LabParameterPage>
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.all(8.w),
-              child: SizedBox(
-                width: double.maxFinite,
-                child: ElevatedButtonWithIcon(
-                  callback: () {
-                    if (validateAndSave()) {
-                      widget.callback!(1);
-                    }
-                  },
-                  color: btnColorLogin,
-                  btnText: "Next",
-                ),
+          Padding(
+            padding: EdgeInsets.all(8.w),
+            child: SizedBox(
+              width: double.maxFinite,
+              child: ElevatedButtonWithIcon(
+                callback: () {
+                  if (validateAndSave()) {
+                    widget.callback!(1);
+                  }
+                },
+                color: btnColorLogin,
+                btnText: "Next",
               ),
             ),
           ),

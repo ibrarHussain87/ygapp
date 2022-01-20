@@ -11,12 +11,13 @@ class FamilyTileWidget extends StatefulWidget {
   const FamilyTileWidget({Key? key, required this.listItems,required this.callback,this.selectedIndex}) : super(key: key);
 
   @override
-  _FamilyTileWidgetState createState() => _FamilyTileWidgetState();
+  FamilyTileWidgetState createState() => FamilyTileWidgetState();
 }
 
-class _FamilyTileWidgetState extends State<FamilyTileWidget> {
+class FamilyTileWidgetState extends State<FamilyTileWidget> {
 
   int? checkedFamily;
+  static bool disableClick = false;
 
   @override
   void initState() {
@@ -40,10 +41,12 @@ class _FamilyTileWidgetState extends State<FamilyTileWidget> {
     bool checked = index == checkedFamily;
     return GestureDetector(
       onTap: () {
-        setState(() {
-          checkedFamily = index;
-        });
-        widget.callback!(index);
+        if(!disableClick){
+          setState(() {
+            checkedFamily = index;
+          });
+          widget.callback!(widget.listItems![index]);
+        }
       },
       child: Container(
         width: 0.2*MediaQuery.of(context).size.width,

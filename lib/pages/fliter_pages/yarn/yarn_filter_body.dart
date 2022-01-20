@@ -178,8 +178,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                   (value as Family).famId!.toString();
                             });
                             _querySetting((value as Family).famId!);
-                            _getSpecificationRequestModel!.ysFamilyIdFk =
-                                (value).famId!.toString();
+                            _getSpecificationRequestModel!.ysFamilyIdFk = [
+                              (value).famId!
+                            ];
                           },
                         ),
                       ),
@@ -215,8 +216,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     .blnId
                                     .toString();
                               });
-                              _getSpecificationRequestModel!.ysBlendIdFk =
-                                  selectedBlendId;
+                              _getSpecificationRequestModel!.ysBlendIdFk = [int.parse(selectedBlendId!)];
                               _querySettingWithBlend(
                                   int.parse(selectedBlendId!),
                                   int.parse(selectedFamilyId!));
@@ -851,8 +851,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child:
-                                const TitleSmallTextWidget(title: "Certifications")),
+                            child: const TitleSmallTextWidget(
+                                title: "Certifications")),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,

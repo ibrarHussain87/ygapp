@@ -41,7 +41,7 @@ class _YarnFamilyBlendListingBodyState
 
           return BlendFamily(
             yarnSyncResponse: snapshot.data!,
-            yarnFamilyCallback: (value) {
+            yarnFamilyCallback: (Family value) {
               widget.yarnFamilyCallback(value);
             },
             blendCallback: (value) {

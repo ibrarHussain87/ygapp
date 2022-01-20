@@ -99,8 +99,11 @@ class YarnSpecification {
     required this.yarnPly,
     required this.yarnSpunTechnique,
     this.yarnQuality,
+    this.bln_abrv,
+    this.yq_abrv,
     required this.yarnGrade,
     required this.yarnCertification,
+    required this.yarnCertificationStr,
     this.yarnColorTreatmentMethod,
     required this.yarnDyingMethod,
     this.color,
@@ -113,6 +116,11 @@ class YarnSpecification {
     required this.thinPlaces,
     required this.thickPlaces,
     required this.naps,
+    required this.ys_hairness,
+    required this.ys_ipm_km,
+    required this.ys_elongation,
+    required this.ys_tpi,
+    required this.ys_tm,
     required this.priceUnit,
     this.unitCount,
     required this.weightCone,
@@ -129,6 +137,7 @@ class YarnSpecification {
     required this.priceTerms,
     required this.minQuantity,
     required this.description,
+    required this.ys_rkm,
     required this.pictures,
     required this.certifications,
   });
@@ -153,10 +162,13 @@ class YarnSpecification {
   String? dtyFilament;
   String? fdyFilament;
   String? yarnPly;
+  String? yq_abrv;
+  String? bln_abrv;
   String? yarnSpunTechnique;
   String? yarnQuality;
   String? yarnGrade;
   String? yarnCertification;
+  String? yarnCertificationStr;
   String? yarnColorTreatmentMethod;
   String? yarnDyingMethod;
   String? color;
@@ -172,6 +184,11 @@ class YarnSpecification {
   String? is_verified;
   String? thickPlaces;
   String? naps;
+  String? ys_hairness;
+  String? ys_tm;
+  String? ys_tpi;
+  String? ys_elongation;
+  String? ys_ipm_km;
   String? priceUnit;
   String? unitCount;
   String? weightCone;
@@ -188,6 +205,7 @@ class YarnSpecification {
   String? ys_doubling_method_idFk;
   String? ys_yarn_type_idfk;
   String? ys_yarn_type;
+  String? ys_rkm;
   String? yarn_country;
   List<dynamic>? pictures;
   List<dynamic>? certifications;
@@ -205,6 +223,8 @@ class YarnSpecification {
     yarnFamily = json['yarn_family'];
     yarnBlend = json['yarn_blend'];
     yarnRtio = json['yarn_rtio'];
+    bln_abrv = json['bln_abrv'];
+    yq_abrv = json['yq_abrv'];
     yarnUsage = json['yarn_usage'];
     yarnPattern = json['yarn_pattern'];
     yarnPatternCharectristic = json['yarn_pattern_charectristic'];
@@ -220,6 +240,7 @@ class YarnSpecification {
     yarnQuality = json['yarn_quality'];
     yarnGrade = json['yarn_grade'];
     yarnCertification = json['yarn_certification'];
+    yarnCertificationStr = json['certification_str'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     yarnDyingMethod = json['yarn_dying_method'];
     color = json['color'];
@@ -231,6 +252,12 @@ class YarnSpecification {
     cv = json['cv'];
     thinPlaces = json['thin_places'];
     thickPlaces = json['thick_places'];
+    naps = json['naps'];
+    ys_hairness = json['ys_hairness'];
+    ys_ipm_km = json['ys_ipm_km'];
+    ys_tpi = json['ys_tpi'];
+    ys_tm = json['ys_tm'];
+    ys_elongation = json['ys_elongation'];
     naps = json['naps'];
     priceUnit = json['price_unit'];
     unitCount = json['unit_count'];
@@ -250,6 +277,7 @@ class YarnSpecification {
     description = json['description'];
     yarn_country = json['yarn_country'];
     unitCount = json['unit_count'];
+    ys_rkm = json['ys_rkm'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
     certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
@@ -271,6 +299,8 @@ class YarnSpecification {
     _data['yarn_rtio'] = yarnRtio;
     _data['yarn_usage'] = yarnUsage;
     _data['yarn_pattern'] = yarnPattern;
+    _data['yq_abrv'] = yq_abrv;
+    _data['bln_abrv'] = bln_abrv;
     _data['yarn_pattern_charectristic'] = yarnPatternCharectristic;
     _data['yarn_orientation'] = yarnOrientation;
     _data['yarn_twist_direction'] = yarnTwistDirection;
@@ -284,6 +314,7 @@ class YarnSpecification {
     _data['yarn_quality'] = yarnQuality;
     _data['yarn_grade'] = yarnGrade;
     _data['yarn_certification'] = yarnCertification;
+    _data['certification_str'] = yarnCertificationStr;
     _data['yarn_color_treatment_method'] = yarnColorTreatmentMethod;
     _data['yarn_dying_method'] = yarnDyingMethod;
     _data['color'] = color;
@@ -314,7 +345,12 @@ class YarnSpecification {
     _data['description'] = description;
     _data['pictures'] = pictures;
     _data['yarn_country'] = yarn_country;
-    _data['certifications'] = certifications;
+    _data['ys_elongation'] = ys_elongation;
+    _data['ys_tm'] = ys_tm;
+    _data['ys_tpi'] = ys_tpi;
+    _data['ys_ipm_km'] = ys_ipm_km;
+    _data['ys_hairness'] = ys_hairness;
+    _data['ys_rkm'] = ys_rkm;
     return _data;
   }
 }

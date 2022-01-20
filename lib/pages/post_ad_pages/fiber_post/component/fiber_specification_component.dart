@@ -96,7 +96,6 @@ class FiberSpecificationComponentState
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 9,
                   child: Padding(
                     padding:
                         EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
@@ -1001,39 +1000,36 @@ class FiberSpecificationComponentState
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.w),
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: ElevatedButtonWithIcon(
-                        callback: () async {
-                          if (validationAllPage()) {
-                            _createRequestModel!.spc_category_idfk = widget
-                                .syncFiberResponse
-                                .data
-                                .fiber
-                                .material[_selectedMaterialIndex]
-                                .fbmCategoryIdfk;
+                Padding(
+                  padding: EdgeInsets.all(8.w),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: ElevatedButtonWithIcon(
+                      callback: () async {
+                        if (validationAllPage()) {
+                          _createRequestModel!.spc_category_idfk = widget
+                              .syncFiberResponse
+                              .data
+                              .fiber
+                              .material[_selectedMaterialIndex]
+                              .fbmCategoryIdfk;
 
-                            _createRequestModel!.spc_fiber_material_idfk =
-                                widget.syncFiberResponse.data.fiber
-                                    .material[_selectedMaterialIndex].fbmId
-                                    .toString();
+                          _createRequestModel!.spc_fiber_material_idfk =
+                              widget.syncFiberResponse.data.fiber
+                                  .material[_selectedMaterialIndex].fbmId
+                                  .toString();
 
-                            var userID =
-                                await SharedPreferenceUtil.getStringValuesSF(
-                                    USER_ID_KEY);
-                            _createRequestModel!.spc_user_idfk =
-                                userID.toString();
+                          var userID =
+                              await SharedPreferenceUtil.getStringValuesSF(
+                                  USER_ID_KEY);
+                          _createRequestModel!.spc_user_idfk =
+                              userID.toString();
 
-                            widget.callback!(1);
-                          }
-                        },
-                        color: btnColorLogin,
-                        btnText: "Next",
-                      ),
+                          widget.callback!(1);
+                        }
+                      },
+                      color: btnColorLogin,
+                      btnText: "Next",
                     ),
                   ),
                 ),

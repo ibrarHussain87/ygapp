@@ -54,11 +54,9 @@ class _BlendFamilyState extends State<BlendFamily> {
                 height: 0.055 * MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
                   listItems: widget.yarnSyncResponse.data.yarn.family,
-                  callback: (value) {
-                    queryFamilySettings(widget
-                        .yarnSyncResponse.data.yarn.family![value].famId!);
-                    widget.yarnFamilyCallback(
-                        widget.yarnSyncResponse.data.yarn.family![value]);
+                  callback: (Family value) {
+                    queryFamilySettings(value.famId!);
+                    widget.yarnFamilyCallback(value);
                   },
                 ),
               ),

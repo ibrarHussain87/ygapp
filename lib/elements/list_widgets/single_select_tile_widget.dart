@@ -8,13 +8,16 @@ class SingleSelectTileWidget extends StatefulWidget {
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
+  final bool? resetIndex;
 
   const SingleSelectTileWidget(
       {Key? key,
       required this.spanCount,
       required this.callback,
       required this.listOfItems,
-      this.selectedIndex})
+      this.selectedIndex,
+      this.resetIndex,
+      })
       : super(key: key);
 
   @override

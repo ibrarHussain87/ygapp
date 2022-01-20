@@ -34,8 +34,8 @@ class GetSpecificationRequestModel {
   List<double>? gpt;
 
   //Yarn Keys
-  String? ysBlendIdFk;
-  String? ysFamilyIdFk;
+  List<int>? ysBlendIdFk;
+  List<int>? ysFamilyIdFk;
 
   GetSpecificationRequestModel(
       {this.userId,

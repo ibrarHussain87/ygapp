@@ -114,6 +114,7 @@ class YgTextFormFieldWithoutRange extends StatelessWidget {
         inputFormatters: [
           DecimalTextInputFormatter(decimalRange: 2),
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+
         ],
         validator: MultiValidator([
           RequiredValidator(errorText: errorText),
@@ -149,6 +150,10 @@ class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
           DecimalTextInputFormatter(decimalRange: 2),
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
         ],
+        validator: RangeValidator(
+            min: StringUtils.splitMin(minMax),
+            max: StringUtils.splitMax(minMax),
+            errorText: "Range $minMax"),
         decoration: roundedTextFieldDecoration(minMax));
   }
 }

@@ -45,7 +45,7 @@ class TextDetailWidget extends StatelessWidget {
                         title,
                         maxLines: 1,
                         style: TextStyle(
-                            fontSize: 6.sp,
+                            fontSize: 7.sp,
                             fontWeight: FontWeight.w500,
                             color: textColorGreyLight),
                       ),

@@ -125,8 +125,8 @@ class YarnProductPageState extends State<YarnProductPage> {
                           listItems: yarnFamilyList,
                           callback: (value) {
                             setState(() {
-                              famId = yarnFamilyList[value].famId;
-                              _filterFamily(yarnFamilyList[value].famName);
+                              famId = value.famId;
+                              _filterFamily(value.famName);
                             });
                             queryFamilySettings(famId!);
                           },
