@@ -19,6 +19,6 @@ abstract class PriceTermsDao{
   @Query("delete from price_terms_table where ptrId = :id")
   Future<void> deleteFPriceTerms(int id);
 
-  @Query("delete * from price_terms_table")
+  @Query("delete from price_terms_table")
   Future<void> deleteAll();
 }

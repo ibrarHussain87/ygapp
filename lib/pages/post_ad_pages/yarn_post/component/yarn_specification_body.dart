@@ -990,15 +990,15 @@ class YarnSpecificationComponentState
         setState(() {
           selectedBlendIndex = id;
           //Selected Blend Id
-          _createRequestModel.ys_blend_idfk = selectedBlendIndex != null
-              ? widget
-                  .yarnSyncResponse.data.yarn.blends![selectedBlendIndex!].blnId
-                  .toString()
-              : "";
           if (value.isNotEmpty) {
             _resetData();
             _yarnSetting = value[0];
             _initGridValues();
+            _createRequestModel.ys_blend_idfk = selectedBlendIndex != null
+                ? widget
+                .yarnSyncResponse.data.yarn.blends![selectedBlendIndex!].blnId
+                .toString()
+                : "";
           } /*else {
             Ui.showSnackBar(context, 'No Settings Found');
           }*/
@@ -1016,9 +1016,8 @@ class YarnSpecificationComponentState
             _resetData();
             _yarnSetting = value[0];
             _initGridValues();
-          } /*else {
-            Ui.showSnackBar(context, 'No Settings Found');
-          }*/
+            _createRequestModel.ys_family_idfk = selectedFamilyId;
+          }
         });
       });
     });
@@ -1191,11 +1190,24 @@ class YarnSpecificationComponentState
           .dmId
           .toString();
     }
+
+    //Yarn Type
+    if (Ui.showHide(_yarnSetting!.showTexturized) &&
+        _yarnData!.yarnTypes!.isNotEmpty) {
+      _createRequestModel.ys_yarn_type_idfk = widget
+          .yarnSyncResponse.data.yarn.yarnTypes!/*
+          .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
+          .toList()*/
+          .first
+          .ytId
+          .toString();
+    }
   }
 
 
   _resetData() {
     setState(() {
+      _createRequestModel.ys_family_idfk = null;
       _createRequestModel.ys_usage_idfk = null;
       _createRequestModel.ys_blend_idfk = null;
       _createRequestModel.ys_ratio = null;
@@ -1215,6 +1227,7 @@ class YarnSpecificationComponentState
       _createRequestModel.ys_pattern_idfk = null;
       _createRequestModel.ys_pattern_charectristic_idfk = null;
       _createRequestModel.ys_certification_idfk = null;
+      _createRequestModel.ys_yarn_type_idfk = null;
     });
   }
 

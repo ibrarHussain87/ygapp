@@ -20,6 +20,6 @@ abstract class DyingMethodDao{
   @Query("delete from dying_method where ydmId = :id")
   Future<void> deleteDyingMethod(int id);
 
-  @Query("delete * from dying_method")
+  @Query("delete from dying_method")
   Future<void> deleteAll();
 }

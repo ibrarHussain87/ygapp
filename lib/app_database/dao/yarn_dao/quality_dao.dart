@@ -18,6 +18,6 @@ abstract class QualityDao{
   @Query("delete from quality_table where yqId = :id")
   Future<void> deleteQuality(int id);
 
-  @Query("delete * from quality_table")
+  @Query("delete from quality_table")
   Future<void> deleteAll();
 }

@@ -18,6 +18,6 @@ abstract class BrandsDao{
   @Query("delete from brands where id = :id")
   Future<void> deleteBrand(int id);
 
-  @Query("delete * from brands")
+  @Query("delete from brands")
   Future<void> deleteAll();
 }

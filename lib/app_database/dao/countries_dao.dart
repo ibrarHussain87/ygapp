@@ -18,6 +18,6 @@ abstract class CountryDao{
   @Query("delete from countries where conId = :id")
   Future<void> deleteCountries(int id);
 
-  @Query("delete * from countries")
+  @Query("delete from countries")
   Future<void> deleteAll();
 }

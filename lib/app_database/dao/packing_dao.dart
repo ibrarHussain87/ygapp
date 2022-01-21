@@ -19,6 +19,6 @@ abstract class PackingDao{
   @Query("delete from packing where pacId = :id")
   Future<void> deletePacking(int id);
 
-  @Query("delete * from packing")
+  @Query("delete from packing")
   Future<void> deleteAll();
 }

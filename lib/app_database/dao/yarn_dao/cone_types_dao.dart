@@ -18,6 +18,6 @@ abstract class ConeTypeDao{
   @Query("delete from corn_type where yctId = :id")
   Future<void> deleteConeType(int id);
 
-  @Query("delete * from corn_type")
+  @Query("delete from corn_type")
   Future<void> deleteAll();
 }

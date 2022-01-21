@@ -18,6 +18,6 @@ abstract class CityStateDao{
   @Query("delete from city_state where id = :id")
   Future<void> deleteCityState(int id);
 
-  @Query("delete * from city_state")
+  @Query("delete from city_state")
   Future<void> deleteAll();
 }

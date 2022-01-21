@@ -215,7 +215,7 @@ class YarnSpecification {
     yarnDetails = json['yarn_title'];
     doublingMethod = json['ys_doubling_method'];
     ys_doubling_method_idFk = json['ys_doubling_method_idFk'];
-    yarnType = json['yarn_type'];
+    yarnType = json['ys_yarn_type'];
     specId = json['ys_id'];
     ys_user_id = json['ys_user_id'];
     locality = json['locality'];
@@ -289,7 +289,7 @@ class YarnSpecification {
     _data['ys_user_id'] = ys_user_id;
     _data['ys_doubling_method'] = doublingMethod;
     _data['ys_doubling_method_idFk'] = ys_doubling_method_idFk;
-    _data['yarn_type'] = yarnType;
+    _data['ys_yarn_type'] = yarnType;
     _data['yarn_title'] = yarnTitle;
     _data['yarn_details'] = yarnDetails;
     _data['locality'] = locality;

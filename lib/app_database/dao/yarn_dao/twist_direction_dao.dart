@@ -18,6 +18,6 @@ abstract class TwistDirectionDao{
   @Query("delete from twist_direction where ytdId = :id")
   Future<void> deleteTwistDirection(int id);
 
-  @Query("delete * from twist_direction")
+  @Query("delete from twist_direction")
   Future<void> deleteAll();
 }

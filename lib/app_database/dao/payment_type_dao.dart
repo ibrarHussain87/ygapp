@@ -18,6 +18,6 @@ abstract class PaymentTypeDao{
   @Query("delete from payment_type where payId = :id")
   Future<void> deletePaymentType(int id);
 
-  @Query("delete * from payment_type")
+  @Query("delete from payment_type")
   Future<void> deleteAll();
 }

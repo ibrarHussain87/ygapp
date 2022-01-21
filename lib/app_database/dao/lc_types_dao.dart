@@ -18,6 +18,6 @@ abstract class LcTypesDao{
   @Query("delete from lc_type where lcId = :id")
   Future<void> deleteLcType(int id);
 
-  @Query("delete * from lc_type")
+  @Query("delete from lc_type")
   Future<void> deleteAll();
 }

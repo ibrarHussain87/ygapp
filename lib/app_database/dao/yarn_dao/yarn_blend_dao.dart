@@ -13,6 +13,6 @@ abstract class YarnBlendDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertAllYarnBlend(List<Blends> yarnBlend);
 
-  @Query("delete * from yarn_blend")
+  @Query("delete from yarn_blend")
   Future<void> deleteAll();
 }

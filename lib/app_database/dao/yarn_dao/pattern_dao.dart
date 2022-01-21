@@ -18,6 +18,6 @@ abstract class PatternDao{
   @Query("delete from pattern_table where ypId = :id")
   Future<void> deletePattern(int id);
 
-  @Query("delete * from pattern_table")
+  @Query("delete from pattern_table")
   Future<void> deleteAll();
 }
