@@ -9,7 +9,6 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -94,6 +93,7 @@ class YarnSpecificationComponentState
 
   //pattern charactristics List
   List<PatternCharectristic>? _patternCharactristicList;
+
   //Id's of selection
   String? selectedFamilyId;
   int? selectedBlendIndex;
@@ -274,10 +274,10 @@ class YarnSpecificationComponentState
                                             TitleSmallTextWidget(title: usage)),
                                     SingleSelectTileWidget(
                                       spanCount: 2,
-                                      listOfItems:_yarnData!.usage!
+                                      listOfItems: _yarnData!.usage!
                                           .where((element) =>
-                                      element.ysFamilyId.toString() ==
-                                          selectedFamilyId)
+                                              element.ysFamilyId.toString() ==
+                                              selectedFamilyId)
                                           .toList(),
                                       callback: (Usage value) {
                                         _createRequestModel.ys_usage_idfk =
@@ -328,6 +328,38 @@ class YarnSpecificationComponentState
                                                 null;
                                           });
                                         }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            //Show Color Treatment Method
+                            Visibility(
+                              visible: Ui.showHide(
+                                  _yarnSetting!.showColorTreatmentMethod),
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: colorTreatmentMethod)),
+                                    SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: widget.yarnSyncResponse.data
+                                          .yarn.colorTreatmentMethod!
+                                          .where((element) =>
+                                              element.familyId ==
+                                              selectedFamilyId)
+                                          .toList(),
+                                      callback: (ColorTreatmentMethod value) {
+                                        _createRequestModel
+                                                .ys_color_treatment_method_idfk =
+                                            value.yctmId.toString();
                                       },
                                     ),
                                   ],
@@ -542,7 +574,7 @@ class YarnSpecificationComponentState
                               ),
                             ),
 
-                            //Here Doubling Method is Missing
+                            //Here Doubling Method
                             Visibility(
                               visible: showDoublingMethod
                                   ? Ui.showHide(
@@ -555,8 +587,8 @@ class YarnSpecificationComponentState
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.only(left: 8.w),
-                                        child: TitleSmallTextWidget(
-                                            title: colorTreatmentMethod)),
+                                        child: const TitleSmallTextWidget(
+                                            title: "Doubling Method")),
                                     SingleSelectTileWidget(
                                       spanCount: 3,
                                       listOfItems: widget.yarnSyncResponse.data
@@ -568,38 +600,6 @@ class YarnSpecificationComponentState
                                         _createRequestModel
                                                 .ys_doubling_method_idFk =
                                             value.dmId.toString();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            //Show Color Treatment Method
-                            Visibility(
-                              visible: Ui.showHide(
-                                  _yarnSetting!.showColorTreatmentMethod),
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 8.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 8.w),
-                                        child: TitleSmallTextWidget(
-                                            title: colorTreatmentMethod)),
-                                    SingleSelectTileWidget(
-                                      spanCount: 3,
-                                      listOfItems: widget.yarnSyncResponse.data
-                                          .yarn.colorTreatmentMethod!
-                                          .where((element) =>
-                                              element.familyId ==
-                                              selectedFamilyId)
-                                          .toList(),
-                                      callback: (ColorTreatmentMethod value) {
-                                        _createRequestModel
-                                                .ys_color_treatment_method_idfk =
-                                            value.yctmId.toString();
                                       },
                                     ),
                                   ],
@@ -754,7 +754,8 @@ class YarnSpecificationComponentState
                                         if (value.ypId == 1 ||
                                             value.ypId == 2 ||
                                             value.ypId == 3 ||
-                                            value.ypId == 4) {
+                                            value.ypId == 4 ||
+                                            value.ypId == 12) {
                                           setState(() {
                                             showPatternCharc = true;
                                             selectedPatternId =
@@ -790,8 +791,8 @@ class YarnSpecificationComponentState
                             //Show Pattern characteristics
                             Visibility(
                               visible: showPatternCharc,
-                              child: selectedPatternId ==
-                                      PATTERN_CHARACTERISTCS_SLUB_ID.toString()
+                              child: (selectedPatternId ==
+                                      PATTERN_CHARACTERISTCS_SLUB_ID.toString() || selectedPatternId == 12.toString())
                                   ? Row(
                                       children: [
                                         Expanded(
@@ -995,11 +996,15 @@ class YarnSpecificationComponentState
             _yarnSetting = value[0];
             _initGridValues();
             _createRequestModel.ys_blend_idfk = selectedBlendIndex != null
-                ? widget
-                .yarnSyncResponse.data.yarn.blends![selectedBlendIndex!].blnId
-                .toString()
+                ? widget.yarnSyncResponse.data.yarn.blends![selectedBlendIndex!]
+                    .blnId
+                    .toString()
                 : "";
-          } /*else {
+          }
+          _createRequestModel.ys_blend_idfk =
+              widget.yarnSyncResponse.data.yarn.blends![id].blnId.toString();
+
+          /*else {
             Ui.showSnackBar(context, 'No Settings Found');
           }*/
         });
@@ -1029,6 +1034,16 @@ class YarnSpecificationComponentState
 
     //Category Id
     _createRequestModel.spc_category_idfk = YARN_CATEGORY_ID.toString();
+
+    //Blend Id
+    if (Ui.showHide(_yarnSetting!.showBlend)) {
+      _createRequestModel.ys_blend_idfk = _yarnData!.blends!
+          .where((element) => element.familyIdfk.toString() == selectedFamilyId)
+          .toList()
+          .first
+          .blnId
+          .toString();
+    }
 
     //Grade ID
     if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
@@ -1195,7 +1210,10 @@ class YarnSpecificationComponentState
     if (Ui.showHide(_yarnSetting!.showTexturized) &&
         _yarnData!.yarnTypes!.isNotEmpty) {
       _createRequestModel.ys_yarn_type_idfk = widget
-          .yarnSyncResponse.data.yarn.yarnTypes!/*
+          .yarnSyncResponse
+          .data
+          .yarn
+          .yarnTypes! /*
           .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
           .toList()*/
           .first
@@ -1203,7 +1221,6 @@ class YarnSpecificationComponentState
           .toString();
     }
   }
-
 
   _resetData() {
     setState(() {

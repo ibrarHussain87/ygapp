@@ -98,8 +98,7 @@ class FiberPageState extends State<FiberPage> {
                     key: familySateFiber,
                     callback: (FiberMaterial value) {
                       fiberListingState.currentState!.refreshListing(
-                          GetSpecificationRequestModel(
-                              fiberMaterialId: [value.fbmId]));
+                          GetSpecificationRequestModel(fiberMaterialId: [value.fbmId]));
                     },
                   ),
                   Row(

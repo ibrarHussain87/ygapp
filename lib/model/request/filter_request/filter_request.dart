@@ -78,7 +78,7 @@ class GetSpecificationRequestModel {
       'locality': locality,
       'is_offering': isOffering,
       'fiber_material_id': fiberMaterialId,
-      'origin_id[]': originId ?? "",
+      'origin_id': originId ?? "",
       'apperance_id': apperanceId,
       'production_year': productionYear,
       'certification_id': certificationId,

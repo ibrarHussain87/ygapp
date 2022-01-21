@@ -45,7 +45,7 @@ class FiberSpecificationComponentState
     with AutomaticKeepAliveClientMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectedMaterialIndex = 0;
+  int? _selectedMaterial;
   DateTime selectedDate = DateTime.now();
   final TextEditingController _textEditingController = TextEditingController();
   FiberSettings? _fiberSettings;
@@ -56,10 +56,16 @@ class FiberSpecificationComponentState
 
   @override
   void initState() {
+    _selectedMaterial = widget.syncFiberResponse.data.fiber.material
+        .where((element) => element.nature_id == "1")
+        .toList()
+        .first
+        .fbmId;
+
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
         (materialIndexBroadcast, (index) {
       setState(() {
-        _selectedMaterialIndex = index;
+        _selectedMaterial = index;
       });
     });
 
@@ -77,8 +83,7 @@ class FiberSpecificationComponentState
 
     return FutureBuilder<List<FiberSettings>>(
       future: AppDbInstance.getDbInstance().then((value) async {
-        return value.fiberSettingDao.findFiberSettings(widget.syncFiberResponse
-            .data.fiber.material[_selectedMaterialIndex].fbmId);
+        return value.fiberSettingDao.findFiberSettings(_selectedMaterial!);
       }),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
@@ -1007,17 +1012,12 @@ class FiberSpecificationComponentState
                     child: ElevatedButtonWithIcon(
                       callback: () async {
                         if (validationAllPage()) {
-                          _createRequestModel!.spc_category_idfk = widget
-                              .syncFiberResponse
-                              .data
-                              .fiber
-                              .material[_selectedMaterialIndex]
-                              .fbmCategoryIdfk;
+                          _createRequestModel!.spc_category_idfk =
+                              _selectedMaterial.toString();
 
                           _createRequestModel!.spc_fiber_material_idfk =
-                              widget.syncFiberResponse.data.fiber
-                                  .material[_selectedMaterialIndex].fbmId
-                                  .toString();
+                              _selectedMaterial.toString();
+
 
                           var userID =
                               await SharedPreferenceUtil.getStringValuesSF(
@@ -1042,9 +1042,9 @@ class FiberSpecificationComponentState
         } else {
           return const Center(
             child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+              color: Colors.green,
+              size: 24.0,
+            ),
           );
         }
       },

@@ -5,23 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_nature_material_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 
 class FiberPostPage extends StatefulWidget {
-
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const FiberPostPage({Key? key,required this.locality, this.businessArea, this.selectedTab})
+  const FiberPostPage(
+      {Key? key, required this.locality, this.businessArea, this.selectedTab})
       : super(key: key);
 
   @override
@@ -29,7 +27,6 @@ class FiberPostPage extends StatefulWidget {
 }
 
 class _FiberPostPageState extends State<FiberPostPage> {
-
   CreateRequestModel? _fiberRequestModel;
 
   @override
@@ -41,7 +38,6 @@ class _FiberPostPageState extends State<FiberPostPage> {
   @override
   void dispose() {
     //Dispose broadcast
-    BroadcastReceiver().unsubscribe(materialIndexBroadcast);
     BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
     BroadcastReceiver().unsubscribe(requestModelBroadCast);
     super.dispose();
@@ -60,13 +56,14 @@ class _FiberPostPageState extends State<FiberPostPage> {
               return insertIntoDB(snapshot.data);
             } else if (snapshot.hasError) {
               return Center(
-                  child: TitleSmallTextWidget(title: snapshot.error.toString()));
+                  child:
+                      TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
                 child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+                  color: Colors.green,
+                  size: 24.0,
+                ),
               );
             }
           },
@@ -78,11 +75,11 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
       future: AppDbInstance.getDbInstance().then((value) async {
-        await value.gradesDao
-            .insertAllGrades(data!.data.fiber.grades);
+        await value.gradesDao.insertAllGrades(data!.data.fiber.grades);
         await value.fiberMaterialDao
             .insertAllFiberMaterials(data.data.fiber.material);
-        await value.fiberNatureDao.insertAllFiberNatures(data.data.fiber.natures);
+        await value.fiberNatureDao
+            .insertAllFiberNatures(data.data.fiber.natures);
         return value.fiberSettingDao
             .insertAllFiberSettings(data.data.fiber.settings);
       }),
@@ -90,17 +87,16 @@ class _FiberPostPageState extends State<FiberPostPage> {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return Provider(
-            create: (_) => _fiberRequestModel,
-              child: getView(data!));
+              create: (_) => _fiberRequestModel, child: getView(data!));
         } else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+              color: Colors.green,
+              size: 24.0,
+            ),
           );
         }
       },
@@ -117,24 +113,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-              padding: EdgeInsets.only(
-                  top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
-              child: const TitleTextWidget(
-                title: 'Fiber Material',
-              )),
-          CatWithImageListWidget(
-            listItem: data.data.fiber.material,
-            onClickCallback: (index) {
-              _fiberRequestModel!.spc_fiber_material_idfk =
-                  data.data.fiber.material[index].fbmId.toString();
-
-              /// Publishing Event
-              BroadcastReceiver().publish<int>(
-                  materialIndexBroadcast,
-                  arguments: index);
-            },
-          ),
+          FiberNatureMaterialComponent(
+              natureList: data.data.fiber.natures,
+              materialList: data.data.fiber.material),
           Expanded(
             child: FiberStepsSegments(
               syncFiberResponse: data,
@@ -142,11 +123,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
               businessArea: widget.businessArea,
               selectedTab: widget.selectedTab,
               stepsCallback: (value) {
-               /* if (value is FiberRequestModel) {
-                } else*/ if (value is int) {
+                if (value is int) {
                   selectedSegment = value;
-                  BroadcastReceiver().publish<int>(
-                      segmentIndexBroadcast,
+                  BroadcastReceiver().publish<int>(segmentIndexBroadcast,
                       arguments: selectedSegment);
                 }
               },
@@ -157,4 +136,3 @@ class _FiberPostPageState extends State<FiberPostPage> {
     );
   }
 }
-

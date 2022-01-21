@@ -113,6 +113,7 @@ class ApiService {
       headerMap['Authorization'] = 'Bearer $userToken';
       getRequestModel.userId = userID;
       getRequestModel.locality = locality;
+      logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
           data: json.encode(getRequestModel.toJson()));

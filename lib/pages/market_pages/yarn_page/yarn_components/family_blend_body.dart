@@ -53,6 +53,7 @@ class _BlendFamilyState extends State<BlendFamily> {
               SizedBox(
                 height: 0.055 * MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
+                  selectedIndex: -1,
                   listItems: widget.yarnSyncResponse.data.yarn.family,
                   callback: (Family value) {
                     queryFamilySettings(value.famId!);
@@ -75,6 +76,7 @@ class _BlendFamilyState extends State<BlendFamily> {
         Visibility(
           visible: Ui.showHide(_yarnSetting.showBlend),
           child: CatWithImageListWidget(
+            selectedItem: -1,
             listItem: widget.yarnSyncResponse.data.yarn.blends!
                 .where((element) =>
                     element.familyIdfk == selectedFamilyId.toString())
