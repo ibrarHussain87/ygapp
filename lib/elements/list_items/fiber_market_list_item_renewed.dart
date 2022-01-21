@@ -15,6 +15,7 @@ import 'package:yg_app/elements/loading_widgets/loading_image_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
 Widget buildFiberRenewedWidget(Specification specification) {
@@ -79,7 +80,7 @@ Widget buildFiberRenewedWidget(Specification specification) {
                       Padding(
                         padding: EdgeInsets.only(bottom: 2.w),
                         child: Visibility(
-                            visible: true,
+                            visible: Ui.showHide(specification.isVerified),
                             maintainSize: true,
                             maintainState: true,
                             maintainAnimation: true,
@@ -364,7 +365,7 @@ Widget buildFiberRenewedWidget(Specification specification) {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Visibility(
-                  visible: true,
+                  visible: Ui.showHide(specification.isFeatured),
                   maintainSize: true,
                   maintainState: true,
                   maintainAnimation: true,

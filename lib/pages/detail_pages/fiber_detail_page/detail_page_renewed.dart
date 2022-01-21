@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
@@ -121,7 +123,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                       Padding(
                         padding: EdgeInsets.only(bottom: 2.w),
                         child: Visibility(
-                            visible: true,
+                            visible: Ui.showHide(widget.specification != null ? widget.specification!.isVerified : widget.yarnSpecification!.is_verified),
                             maintainSize: true,
                             maintainState: true,
                             maintainAnimation: true,
@@ -487,7 +489,7 @@ String setFamilyData(YarnSpecification specification){
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
     case '4':
-      familyData = '${specification.fdyFilament != null ? "/${specification.dtyFilament}"  :  ""} ${specification.yarnFamily??''}';
+      familyData = '${specification.dtyFilament ?? ""} ${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
       break;
     case '5':
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
