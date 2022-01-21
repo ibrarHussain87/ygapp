@@ -40,21 +40,27 @@ showBottomSheetOR(BuildContext context,Function callback) {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                      child: Align(
-                    alignment: Alignment.center,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: actionsList.length,
-                        itemBuilder: (context, index) {
-                          return ItemBottomSheet(
-                              myActions: actionsList[index],
-                              myClickCallback: (value) {
-                                Navigator.pop(context);
-                                callback(actionsList[index].value);
-                              });
-                        }),
-                  )),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListView.separated(
+                              separatorBuilder: (BuildContext context, int index) => const VerticalDivider(width: 1,indent: 15,
+                                endIndent: 8,),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: actionsList.length,
+                              itemBuilder: (context, index) {
+                                return ItemBottomSheet(
+                                    myActions: actionsList[index],
+                                    myClickCallback: (value) {
+                                      Navigator.pop(context);
+                                      callback(actionsList[index].value);
+                                    });
+                              }),
+                        ),
+                      )),
                   const SizedBox(height: 20),
                 ],
               )),
@@ -88,6 +94,7 @@ class ItemBottomSheet extends StatelessWidget {
           },
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Card(
                   shape: RoundedRectangleBorder(
@@ -105,7 +112,7 @@ class ItemBottomSheet extends StatelessWidget {
                     ),
                   )),
               const SizedBox(
-                height: 10,
+                height: 3,
               ),
               Text(
                 myActions.title,

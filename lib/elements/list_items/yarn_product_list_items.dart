@@ -464,7 +464,7 @@ String setFamilyData(YarnSpecification specification){
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
     case '4':
-      familyData = '${specification.fdyFilament != null ? "/${specification.dtyFilament}"  :  ""} ${specification.yarnFamily??''}';
+      familyData = '${specification.dtyFilament ?? ""} ${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
       break;
     case '5':
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
@@ -517,7 +517,7 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
       break;
     case '5':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/
       break;
   }
   /*if(detailsData.isEmpty){

@@ -76,7 +76,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                       Padding(
                         padding: EdgeInsets.only(bottom: 2.w),
                         child: Visibility(
-                            visible: true,
+                            visible: Ui.showHide(specification.is_verified),
                             maintainSize: true,
                             maintainState: true,
                             maintainAnimation: true,
@@ -357,7 +357,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Visibility(
-                  visible: true,
+                  visible: Ui.showHide(specification.is_featured),
                   maintainSize: true,
                   maintainState: true,
                   maintainAnimation: true,
@@ -425,7 +425,7 @@ String setFamilyData(YarnSpecification specification){
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
       case '4':
-      familyData = '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
+        familyData = '${specification.dtyFilament ?? ""} ${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
       break;
       case '5':
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
@@ -472,7 +472,7 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
       break;
       case '5':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/
       break;
   }
   return detailsData;
