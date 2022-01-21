@@ -59,7 +59,7 @@ class _NatureFamilyBodyComponentState extends State<NatureFamilyBodyComponent> {
                       listOfItems: widget.fiberNaturesList,
                       callback: (value) {
                         setState(() {
-                         natureId = widget.fiberNaturesList[value].id.toString();
+                         natureId = value.id.toString();
                         });
                       },
                     ),

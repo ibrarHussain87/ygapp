@@ -5,6 +5,7 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/network_icon_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
@@ -64,7 +65,7 @@ class _CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     }
     return GestureDetector(
       onTap: () {
-        if(!FamilyTileWidgetState.disableClick){
+        if(!StringUtils.disableClick){
           setState(() {
             if (_selectedSegmentIndex == 1) {
               checkedIndex = index;

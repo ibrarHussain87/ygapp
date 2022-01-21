@@ -14,6 +14,7 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
@@ -111,7 +112,7 @@ class YarnSpecificationComponentState
 
   @override
   void initState() {
-    FamilyTileWidgetState.disableClick = false;
+    StringUtils.disableClick = false;
     _yarnData = widget.yarnSyncResponse.data.yarn;
     selectedFamilyId = _yarnData!.family!.first.famId.toString();
     queryFamilySettings(int.parse(selectedFamilyId!));
@@ -995,8 +996,9 @@ class YarnSpecificationComponentState
                   .toString()
               : "";
           if (value.isNotEmpty) {
-            _yarnSetting = value[0];
             _resetData();
+            _yarnSetting = value[0];
+            _initGridValues();
           } /*else {
             Ui.showSnackBar(context, 'No Settings Found');
           }*/
@@ -1011,8 +1013,9 @@ class YarnSpecificationComponentState
         setState(() {
           selectedFamilyId = id.toString();
           if (value.isNotEmpty) {
-            _yarnSetting = value[0];
             _resetData();
+            _yarnSetting = value[0];
+            _initGridValues();
           } /*else {
             Ui.showSnackBar(context, 'No Settings Found');
           }*/
@@ -1193,7 +1196,6 @@ class YarnSpecificationComponentState
 
   _resetData() {
     setState(() {
-
       _createRequestModel.ys_usage_idfk = null;
       _createRequestModel.ys_blend_idfk = null;
       _createRequestModel.ys_ratio = null;

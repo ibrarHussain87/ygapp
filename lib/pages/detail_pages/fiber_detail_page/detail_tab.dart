@@ -630,9 +630,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.yarnSpecification!.yarnColorTreatmentMethod!),
       GridTileModel(
           'Certification',
-          (widget.yarnSpecification!.yarnCertificationStr != null && widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
+          (widget.yarnSpecification!.yarnCertificationStr == null || widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
               ? "N/A"
-              : widget.yarnSpecification!.yarnCertificationStr!.replaceAll(",", "")!),
+              : widget.yarnSpecification!.yarnCertificationStr!.replaceAll(",", "")),
     ];
 
     labParameters = [

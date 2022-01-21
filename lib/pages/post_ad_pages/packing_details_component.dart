@@ -15,6 +15,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+import 'package:yg_app/helper_utils/string_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -89,7 +90,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   @override
   void initState() {
     //INITIAL VALUES
-    FamilyTileWidgetState.disableClick = true;
+    StringUtils.disableClick = true;
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
     packingList =
@@ -100,7 +101,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   @override
   void dispose() {
     // TODO: implement dispose
-    FamilyTileWidgetState.disableClick = false;
+    StringUtils.disableClick = false;
     super.dispose();
   }
 
