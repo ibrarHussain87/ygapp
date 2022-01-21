@@ -472,7 +472,7 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
       break;
       case '5':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/
       break;
   }
   return detailsData;
