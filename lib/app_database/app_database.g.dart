@@ -477,7 +477,7 @@ class _$UserDao extends UserDao {
 
   @override
   Future<void> deleteUserData() async {
-    await _queryAdapter.queryNoReturn('delete * from user_table');
+    await _queryAdapter.queryNoReturn('delete from user_table');
   }
 
   @override
@@ -609,7 +609,7 @@ class _$FiberSettingDao extends FiberSettingDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from fiber_setting');
+    await _queryAdapter.queryNoReturn('delete from fiber_setting');
   }
 
   @override
@@ -659,7 +659,7 @@ class _$FiberNatureDao extends FiberNatureDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from fiber_natures');
+    await _queryAdapter.queryNoReturn('delete from fiber_natures');
   }
 
   @override
@@ -736,7 +736,7 @@ class _$FiberMaterialDao extends FiberMaterialDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from fiber_entity');
+    await _queryAdapter.queryNoReturn('delete from fiber_entity');
   }
 
   @override
@@ -792,7 +792,7 @@ class _$FiberAppearanceDao extends FiberAppearanceDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from fiber_appearance');
+    await _queryAdapter.queryNoReturn('delete from fiber_appearance');
   }
 
   @override
@@ -867,7 +867,7 @@ class _$GradesDao extends GradesDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from fiber_grade');
+    await _queryAdapter.queryNoReturn('delete from fiber_grade');
   }
 
   @override
@@ -932,7 +932,7 @@ class _$BrandsDao extends BrandsDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from brands');
+    await _queryAdapter.queryNoReturn('delete from brands');
   }
 
   @override
@@ -998,7 +998,7 @@ class _$CertificationsDao extends CertificationsDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from certifications');
+    await _queryAdapter.queryNoReturn('delete from certifications');
   }
 
   @override
@@ -1064,7 +1064,7 @@ class _$CityStateDao extends CityStateDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from city_state');
+    await _queryAdapter.queryNoReturn('delete from city_state');
   }
 
   @override
@@ -1172,7 +1172,7 @@ class _$CompaniesDao extends CompaniesDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from companies');
+    await _queryAdapter.queryNoReturn('delete from companies');
   }
 
   @override
@@ -1250,7 +1250,7 @@ class _$CountryDao extends CountryDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from countries');
+    await _queryAdapter.queryNoReturn('delete from countries');
   }
 
   @override
@@ -1317,7 +1317,7 @@ class _$DeliveryPeriodDao extends DeliveryPeriodDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from delivery_period');
+    await _queryAdapter.queryNoReturn('delete from delivery_period');
   }
 
   @override
@@ -1381,7 +1381,7 @@ class _$LcTypesDao extends LcTypesDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from lc_type');
+    await _queryAdapter.queryNoReturn('delete from lc_type');
   }
 
   @override
@@ -1443,7 +1443,7 @@ class _$PackingDao extends PackingDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from packing');
+    await _queryAdapter.queryNoReturn('delete from packing');
   }
 
   @override
@@ -1509,7 +1509,7 @@ class _$PaymentTypeDao extends PaymentTypeDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from payment_type');
+    await _queryAdapter.queryNoReturn('delete from payment_type');
   }
 
   @override
@@ -1575,7 +1575,7 @@ class _$PortsDao extends PortsDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from ports');
+    await _queryAdapter.queryNoReturn('delete from ports');
   }
 
   @override
@@ -1642,7 +1642,7 @@ class _$PriceTermsDao extends PriceTermsDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from price_terms_table');
+    await _queryAdapter.queryNoReturn('delete from price_terms_table');
   }
 
   @override
@@ -1709,7 +1709,7 @@ class _$UnitDao extends UnitDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from units_table');
+    await _queryAdapter.queryNoReturn('delete from units_table');
   }
 
   @override
@@ -2033,7 +2033,7 @@ class _$YarnSettingDao extends YarnSettingDao {
 
   @override
   Future<void> deleteYarnSettings() async {
-    await _queryAdapter.queryNoReturn('delete * from yarn_settings');
+    await _queryAdapter.queryNoReturn('delete from yarn_settings');
   }
 
   @override
@@ -2107,7 +2107,7 @@ class _$YarnFamilyDao extends YarnFamilyDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from yarn_family');
+    await _queryAdapter.queryNoReturn('delete from yarn_family');
   }
 
   @override
@@ -2173,7 +2173,7 @@ class _$YarnBlendDao extends YarnBlendDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from yarn_blend');
+    await _queryAdapter.queryNoReturn('delete from yarn_blend');
   }
 
   @override
@@ -2246,7 +2246,7 @@ class _$ColorTreatmentMethodDao extends ColorTreatmentMethodDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from color_treatment_method');
+    await _queryAdapter.queryNoReturn('delete from color_treatment_method');
   }
 
   @override
@@ -2319,7 +2319,7 @@ class _$ConeTypeDao extends ConeTypeDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from corn_type');
+    await _queryAdapter.queryNoReturn('delete from corn_type');
   }
 
   @override
@@ -2400,7 +2400,7 @@ class _$DyingMethodDao extends DyingMethodDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from dying_method');
+    await _queryAdapter.queryNoReturn('delete from dying_method');
   }
 
   @override
@@ -2474,7 +2474,7 @@ class _$OrientationDao extends OrientationDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from orientation_table');
+    await _queryAdapter.queryNoReturn('delete from orientation_table');
   }
 
   @override
@@ -2549,7 +2549,7 @@ class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from pattern_table');
+    await _queryAdapter.queryNoReturn('delete from pattern_table');
   }
 
   @override
@@ -2624,7 +2624,7 @@ class _$PatternDao extends PatternDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from pattern_table');
+    await _queryAdapter.queryNoReturn('delete from pattern_table');
   }
 
   @override
@@ -2696,7 +2696,7 @@ class _$PlyDao extends PlyDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from ply_table');
+    await _queryAdapter.queryNoReturn('delete from ply_table');
   }
 
   @override
@@ -2771,7 +2771,7 @@ class _$QualityDao extends QualityDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from quality_table');
+    await _queryAdapter.queryNoReturn('delete from quality_table');
   }
 
   @override
@@ -2849,7 +2849,7 @@ class _$SpunTechniqueDao extends SpunTechniqueDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from spun_technique');
+    await _queryAdapter.queryNoReturn('delete from spun_technique');
   }
 
   @override
@@ -2922,7 +2922,7 @@ class _$TwistDirectionDao extends TwistDirectionDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from twist_direction');
+    await _queryAdapter.queryNoReturn('delete from twist_direction');
   }
 
   @override
@@ -2994,7 +2994,7 @@ class _$UsageDao extends UsageDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from usage_table');
+    await _queryAdapter.queryNoReturn('delete from usage_table');
   }
 
   @override
@@ -3069,7 +3069,7 @@ class _$YarnTypesDao extends YarnTypesDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from yarn_types_table');
+    await _queryAdapter.queryNoReturn('delete from yarn_types_table');
   }
 
   @override
@@ -3136,7 +3136,7 @@ class _$YarnAppearanceDao extends YarnAppearanceDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete * from yarn_appearance');
+    await _queryAdapter.queryNoReturn('delete from yarn_appearance');
   }
 
   @override

@@ -20,6 +20,6 @@ abstract class OrientationDao{
   @Query("delete from orientation_table where yoId = :id")
   Future<void> deleteOrientation(int id);
 
-  @Query("delete * from orientation_table")
+  @Query("delete from orientation_table")
   Future<void> deleteAll();
 }

@@ -14,7 +14,7 @@ abstract class YarnAppearanceDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllYarnAppearance(List<YarnAppearance> yarnAppearance);
 
-  @Query("delete * from yarn_appearance")
+  @Query("delete from yarn_appearance")
   Future<void> deleteAll();
 
 }

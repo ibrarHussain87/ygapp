@@ -20,6 +20,6 @@ abstract class ColorTreatmentMethodDao{
   @Query("delete from color_treatment_method where yctmId = :id")
   Future<void> deleteColorTreatmentMethod(int id);
 
-  @Query("delete * from color_treatment_method")
+  @Query("delete from color_treatment_method")
   Future<void> deleteAll();
 }

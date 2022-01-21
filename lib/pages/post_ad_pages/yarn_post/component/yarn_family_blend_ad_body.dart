@@ -50,8 +50,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel>(context);
-    _createRequestModel.ys_family_idfk = widget.yarnSyncResponse.data.yarn.family![0].famId.toString();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

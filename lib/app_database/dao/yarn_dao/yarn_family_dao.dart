@@ -13,6 +13,6 @@ abstract class YarnFamilyDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertAllYarnFamily(List<Family> yarnFamily);
 
-  @Query("delete * from yarn_family")
+  @Query("delete from yarn_family")
   Future<void> deleteAll();
 }

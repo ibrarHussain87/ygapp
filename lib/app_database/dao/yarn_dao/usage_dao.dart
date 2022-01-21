@@ -18,6 +18,6 @@ abstract class UsageDao{
   @Query("delete from usage_table where yuId = :id")
   Future<void> deleteUsage(int id);
 
-  @Query("delete * from usage_table")
+  @Query("delete from usage_table")
   Future<void> deleteAll();
 }

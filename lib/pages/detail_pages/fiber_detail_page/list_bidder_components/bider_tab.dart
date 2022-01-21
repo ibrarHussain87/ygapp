@@ -43,7 +43,7 @@ class _BidderListPageState extends State<BidderListPage> {
         future: ApiService.getListBidders(
             widget.materialId, widget.specId.toString()),
         builder: (BuildContext context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && snapshot.data!.data.where((element) => element.userId != userId).toList().isNotEmpty) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data.where((element) => element.userId != userId).toList().isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: ListView.builder(

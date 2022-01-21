@@ -19,6 +19,6 @@ abstract class PortsDao{
   @Query("delete from ports where prtId = :id")
   Future<void> deletePorts(int id);
 
-  @Query("delete * from ports")
+  @Query("delete from ports")
   Future<void> deleteAll();
 }

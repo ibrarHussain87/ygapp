@@ -19,6 +19,6 @@ abstract class UnitDao{
   @Query("delete from units_table where untId = :id")
   Future<void> deleteUnit(int id);
 
-  @Query("delete * from units_table")
+  @Query("delete from units_table")
   Future<void> deleteAll();
 }

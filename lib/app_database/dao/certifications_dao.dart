@@ -18,6 +18,6 @@ abstract class CertificationsDao{
   @Query("delete from certifications where cerId = :id")
   Future<void> deleteCertification(int id);
 
-  @Query("delete * from certifications")
+  @Query("delete from certifications")
   Future<void> deleteAll();
 }

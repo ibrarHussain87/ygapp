@@ -13,7 +13,7 @@ abstract class FiberAppearanceDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllFiberAppearance(List<FiberAppearance> fiberAppearance);
 
-  @Query("delete * from fiber_appearance")
+  @Query("delete from fiber_appearance")
   Future<void> deleteAll();
 
 }

@@ -21,7 +21,7 @@ abstract class YarnSettingDao {
   @Query("delete from yarn_settings where id = :id")
   Future<void> deleteYarnSetting(int id);
 
-  @Query("delete * from yarn_settings")
+  @Query("delete from yarn_settings")
   Future<void> deleteYarnSettings();
 
   @delete

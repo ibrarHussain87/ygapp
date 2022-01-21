@@ -19,6 +19,6 @@ abstract class CompaniesDao{
   @Query("delete from companies where id = :id")
   Future<void> deleteCompanies(int id);
 
-  @Query("delete * from companies")
+  @Query("delete from companies")
   Future<void> deleteAll();
 }

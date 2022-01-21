@@ -18,6 +18,6 @@ abstract class PlyDao{
   @Query("delete from ply_table where plyId = :id")
   Future<void> deletePly(int id);
 
-  @Query("delete * from ply_table")
+  @Query("delete from ply_table")
   Future<void> deleteAll();
 }

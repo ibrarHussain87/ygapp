@@ -50,7 +50,7 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
         }
 
         if(_yarnFamilyList.isNotEmpty && _yarnFamilyList.length >= 4){
-          _yarnFamilyList = _yarnFamilyList.take(4).toList();
+          _yarnFamilyList = _yarnFamilyList.take(4).toList()..shuffle();
           for (var element in _yarnFamilyList) {
             familyList!.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
           }
@@ -65,7 +65,7 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
     return Container(
       color: Colors.white30,
       padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.w),
-      child:  familyList != null ?GridMoreWidget(
+      child:  familyList!.isNotEmpty ? GridMoreWidget(
         spanCount: 4,
         callback: (value){
           widget.callback(1);
@@ -74,21 +74,6 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
       ):Container(
         color: Colors.white,
       )
-      // child: Column(
-      //   children: [
-      //     MaterialListviewWidget(
-      //       listItem:_fiberMaterialList,
-      //       onClickCallback: (value) {
-      //       },
-      //     ),
-      //
-      //     MaterialListviewWidget(
-      //       listItem:familyList,
-      //       onClickCallback: (value) {
-      //       },
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

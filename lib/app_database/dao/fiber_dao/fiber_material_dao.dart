@@ -16,7 +16,7 @@ abstract class FiberMaterialDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllFiberMaterials(List<FiberMaterial> fiberMaterials);
 
-  @Query("delete * from fiber_entity")
+  @Query("delete from fiber_entity")
   Future<void> deleteAll();
 
 }

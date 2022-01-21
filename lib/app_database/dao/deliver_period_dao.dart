@@ -19,6 +19,6 @@ abstract class DeliveryPeriodDao{
   @Query("delete from delivery_period where dprId = :id")
   Future<void> deleteDeliveryPeriod(int id);
 
-  @Query("delete * from delivery_period")
+  @Query("delete from delivery_period")
   Future<void> deleteAll();
 }

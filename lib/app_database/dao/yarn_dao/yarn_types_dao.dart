@@ -18,6 +18,6 @@ abstract class YarnTypesDao{
   @Query("delete from yarn_types_table where ytId = :id")
   Future<void> deleteYarnTypes(int id);
 
-  @Query("delete * from yarn_types_table")
+  @Query("delete from yarn_types_table")
   Future<void> deleteAll();
 }
