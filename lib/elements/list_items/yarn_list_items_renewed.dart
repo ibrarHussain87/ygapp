@@ -167,7 +167,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'IPI ${specification.actualYarnCount}',
+                                      title: 'IPI ${specification.ys_ipm_km}',
                                     ),
                                     flex: 1,
                                   ),
@@ -225,11 +225,6 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              /*TitleMediumTextWidget(
-                              title: "PKR." +
-                                  specification.priceUnit.toString() +
-                                  "/KG",
-                            ),*/
                               Text.rich( TextSpan(
                                   children: [
                                     TextSpan(
@@ -443,7 +438,7 @@ String setTitleData(YarnSpecification specification){
   String titleData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      titleData = '${specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      titleData = '${specification.yq_abrv??specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
       break;
       case '2':
       titleData = specification.yarnBlend??'N/A';
@@ -455,7 +450,7 @@ String setTitleData(YarnSpecification specification){
       titleData = specification.yarnType??'N/A';
       break;
       case '5':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.bln_abrv??specification.yarnBlend??'N/A';
       break;
   }
   return titleData;

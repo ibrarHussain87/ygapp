@@ -123,3 +123,4 @@ int YARN_CATEGORY_ID = 2;
 int PATTERN_CHARACTERISTCS_SLUB_ID = 2;
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";
+

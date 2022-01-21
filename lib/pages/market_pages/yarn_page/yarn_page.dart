@@ -54,13 +54,13 @@ class YarnPageState extends State<YarnPage> {
                   YarnFamilyBlendListingBody(
                     blendCallback: (Blends? blend) {
                       var model = GetSpecificationRequestModel();
-                      model.ysBlendIdFk = blend!.blnId.toString();
+                      model.ysBlendIdFk = [blend!.blnId!];
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },
                     yarnFamilyCallback: (Family? yarnFamily) {
                       var model = GetSpecificationRequestModel();
-                      model.ysFamilyIdFk = yarnFamily!.famId.toString();
+                      model.ysFamilyIdFk = [yarnFamily!.famId!];
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },

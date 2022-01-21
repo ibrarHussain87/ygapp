@@ -1,20 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class SingleSelectTileWidget extends StatefulWidget {
   final Function? callback;
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
+  final bool? resetIndex;
 
   const SingleSelectTileWidget(
       {Key? key,
       required this.spanCount,
       required this.callback,
       required this.listOfItems,
-      this.selectedIndex})
+      this.selectedIndex,
+      this.resetIndex,
+      })
       : super(key: key);
 
   @override
@@ -24,6 +29,7 @@ class SingleSelectTileWidget extends StatefulWidget {
 class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
+  var looger = Logger();
 
   @override
   void initState() {
@@ -35,6 +41,7 @@ class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
     } else {
       aspectRatio = 2.2;
     }
+
     super.initState();
   }
 
@@ -63,6 +70,7 @@ class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           checkedTile = index;
         });
         widget.callback!(widget.listOfItems[index]);
+        looger.e(widget.listOfItems[index].toString());
       },
       child: Container(
         width: double.maxFinite,

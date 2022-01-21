@@ -412,29 +412,30 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           SizedBox(
                             height: 16.w,
                           ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: const TitleSmallTextWidget(title: 'Remarks')),
+                          SizedBox(
+                            height: 5 * 22.w,
+                            child: TextFormField(
+                                keyboardType: TextInputType.text,
+                                maxLines: 5,
+                                cursorColor: lightBlueTabs,
+                                style: TextStyle(fontSize: 11.sp),
+                                textAlign: TextAlign.start,
+                                cursorHeight: 16.w,
+                                showCursor: false,
+                                readOnly: false,
+                                onSaved: (value) {},
+                                onChanged: (value) {
+                                  bidRemarks = value;
+                                },
+                                decoration: roundedDescriptionDecoration("Remarks")),
+                          ),
                         ],
                       ),
                     ),
-                    Padding(
-                        padding: EdgeInsets.only(left: 8.w),
-                        child: const TitleSmallTextWidget(title: 'Remarks')),
-                    SizedBox(
-                      height: 5 * 22.w,
-                      child: TextFormField(
-                          keyboardType: TextInputType.text,
-                          maxLines: 5,
-                          cursorColor: lightBlueTabs,
-                          style: TextStyle(fontSize: 11.sp),
-                          textAlign: TextAlign.start,
-                          cursorHeight: 16.w,
-                          showCursor: false,
-                          readOnly: false,
-                          onSaved: (value) {},
-                          onChanged: (value) {
-                            bidRemarks = value;
-                          },
-                          decoration: roundedDescriptionDecoration("Remarks")),
-                    ),
+
                   ],
                 ),
               ),
@@ -629,9 +630,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.yarnSpecification!.yarnColorTreatmentMethod!),
       GridTileModel(
           'Certification',
-          widget.yarnSpecification!.yarnCertification == null
+          (widget.yarnSpecification!.yarnCertificationStr == null || widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
               ? "N/A"
-              : widget.yarnSpecification!.yarnCertification!),
+              : widget.yarnSpecification!.yarnCertificationStr!.replaceAll(",", "")),
     ];
 
     labParameters = [
@@ -645,11 +646,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.clsp == null
               ? "N/A"
               : widget.yarnSpecification!.clsp!),
-      // GridTileModel(
-      //     'IPM/KM',
-      //     widget.yarnSpecification!.yarnIpkm == null
-      //         ? "N/A"
-      //         : widget.yarnSpecification!.yarnIpkm!),
+      GridTileModel(
+          'IPM/KM',
+          widget.yarnSpecification!.ys_ipm_km == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_ipm_km!),
       GridTileModel(
           'Thin Places',
           widget.yarnSpecification!.thinPlaces == null
@@ -675,29 +676,77 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.cv == null
               ? "N/A"
               : widget.yarnSpecification!.cv!),
+
+
+      GridTileModel(
+          'Hairness',
+          widget.yarnSpecification!.ys_hairness == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_hairness!),
+
+      GridTileModel(
+          'RKM',
+          widget.yarnSpecification!.ys_rkm == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_rkm!),
+
+      GridTileModel(
+          'Elongation',
+          widget.yarnSpecification!.ys_elongation == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_elongation!),
+
+      GridTileModel(
+          'TPI',
+          widget.yarnSpecification!.ys_tpi == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_tpi!),
+
+      GridTileModel(
+          'TM',
+          widget.yarnSpecification!.ys_tm == null
+              ? "N/A"
+              : widget.yarnSpecification!.ys_tm!),
+
     ];
 
     detailPackaging = [
-      GridTileModel(
-          'Unit Of Counting',
-          widget.yarnSpecification!.unitCount == null
-              ? "N/A"
-              : widget.yarnSpecification!.unitCount!),
-      GridTileModel(
-          'Price',
-          widget.yarnSpecification!.priceUnit == null
-              ? "N/A"
-              : widget.yarnSpecification!.priceUnit!),
-      GridTileModel(
-          'Packing',
-          widget.yarnSpecification!.priceTerms == null
-              ? "N/A"
-              : widget.yarnSpecification!.priceTerms!),
+      // GridTileModel(
+      //     'Unit Of Counting',
+      //       widget.yarnSpecification!.unitCount == null
+      //         ? "N/A"
+      //         : widget.yarnSpecification!.unitCount!),
+
+      // GridTileModel(
+      //     'Available Quantity',
+      //     widget.yarnSpecification!.ava == null
+      //         ? "N/A"
+      //         : widget.yarnSpecification!.av!),
+
       GridTileModel(
           'Minimum Quantity',
           widget.yarnSpecification!.minQuantity == null
               ? "N/A"
               : widget.yarnSpecification!.minQuantity!),
+      GridTileModel(
+          'Delivery Period',
+          widget.yarnSpecification!.deliveryPeriod == null
+              ? "N/A"
+              : widget.yarnSpecification!.deliveryPeriod!),
+
+      GridTileModel(
+          'Price',
+          widget.yarnSpecification!.priceUnit == null
+              ? "N/A"
+              : widget.yarnSpecification!.priceUnit!),
+
+
+      GridTileModel(
+          'Price Terms',
+          widget.yarnSpecification!.priceTerms == null
+              ? "N/A"
+              : widget.yarnSpecification!.priceTerms!),
+
       GridTileModel(
           'Seller Location', widget.yarnSpecification!.locality ?? "N/A")
     ];
