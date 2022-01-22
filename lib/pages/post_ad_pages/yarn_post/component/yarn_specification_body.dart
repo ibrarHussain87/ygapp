@@ -995,6 +995,7 @@ class YarnSpecificationComponentState
             _resetData();
             _yarnSetting = value[0];
             _initGridValues();
+            _createRequestModel.ys_family_idfk ??= selectedFamilyId;
             _createRequestModel.ys_blend_idfk = selectedBlendIndex != null
                 ? widget.yarnSyncResponse.data.yarn.blends![selectedBlendIndex!]
                     .blnId
