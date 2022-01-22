@@ -24,7 +24,7 @@ class FiberNatureMaterialComponent extends StatefulWidget {
 
 class _FiberNatureMaterialComponentState
     extends State<FiberNatureMaterialComponent> {
-  late CreateRequestModel _createRequestModel;
+  // CreateRequestModel? _createRequestModel;
   String? _selectedNature;
   int? _materialIndex;
 
@@ -32,7 +32,6 @@ class _FiberNatureMaterialComponentState
   void initState() {
     // TODO: implement initState
     _selectedNature = "1";
-    _createRequestModel.spc_nature_idfk = _selectedNature;
     super.initState();
   }
 
@@ -44,7 +43,7 @@ class _FiberNatureMaterialComponentState
 
   @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel?>(context)!;
+    // _createRequestModel = Provider.of<CreateRequestModel?>(context)!;
     return Column(
       children: [
         Column(
@@ -63,7 +62,7 @@ class _FiberNatureMaterialComponentState
                     _selectedNature = value.id.toString();
                   });
 
-                  _createRequestModel.spc_nature_idfk = _selectedNature;
+                  // _createRequestModel!.spc_nature_idfk = _selectedNature;
                   /// Publishing Event
                   BroadcastReceiver().publish<int>(materialIndexBroadcast,
                       arguments: widget.materialList
@@ -89,8 +88,8 @@ class _FiberNatureMaterialComponentState
                   .where((element) => element.nature_id == _selectedNature)
                   .toList(),
               onClickCallback: (index) {
-                _createRequestModel.spc_fiber_material_idfk =
-                    widget.materialList[index].fbmId.toString();
+                // _createRequestModel!.spc_fiber_material_idfk =
+                //     widget.materialList[index].fbmId.toString();
                 _materialIndex = index;
                 /// Publishing Event
                 BroadcastReceiver().publish<int>(materialIndexBroadcast,

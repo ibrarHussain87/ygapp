@@ -77,6 +77,8 @@ class FiberSpecificationComponentState
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
     _createRequestModel!.spc_grade_idfk =
         widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
+    _createRequestModel!.spc_appearance_idfk =
+        widget.syncFiberResponse.data.fiber.apperance.first.aprId.toString();
     _createRequestModel!.spc_certificate_idfk = widget
         .syncFiberResponse.data.fiber.certification.first.cerId
         .toString();
@@ -153,9 +155,7 @@ class FiberSpecificationComponentState
                                             callback: (value) {
                                               _createRequestModel!
                                                       .spc_grade_idfk =
-                                                  widget.syncFiberResponse.data
-                                                      .fiber.grades[value].grdId
-                                                      .toString();
+                                                  value.grdId.toString();
                                             },
                                           ),
                                         ],
@@ -617,13 +617,7 @@ class FiberSpecificationComponentState
                                           callback: (value) {
                                             _createRequestModel!
                                                     .spc_appearance_idfk =
-                                                widget
-                                                    .syncFiberResponse
-                                                    .data
-                                                    .fiber
-                                                    .apperance[value]
-                                                    .aprId
-                                                    .toString();
+                                                value.aprId.toString();
                                           },
                                         ),
                                       ],
@@ -978,13 +972,7 @@ class FiberSpecificationComponentState
                                           callback: (value) {
                                             _createRequestModel!
                                                     .spc_certificate_idfk =
-                                                widget
-                                                    .syncFiberResponse
-                                                    .data
-                                                    .fiber
-                                                    .certification[value]
-                                                    .cerId
-                                                    .toString();
+                                                value.cerId.toString();
                                           },
                                         ),
                                         SizedBox(
@@ -1018,6 +1006,14 @@ class FiberSpecificationComponentState
                           _createRequestModel!.spc_fiber_material_idfk =
                               _selectedMaterial.toString();
 
+                          _createRequestModel!.spc_nature_idfk = widget
+                              .syncFiberResponse.data.fiber.material
+                              .where((element) =>
+                                  element.fbmId == _selectedMaterial)
+                              .toList()
+                              .first
+                              .nature_id
+                              .toString();
 
                           var userID =
                               await SharedPreferenceUtil.getStringValuesSF(
