@@ -1002,6 +1002,7 @@ class YarnSpecificationComponentState
                     .toString()
                 : "";
           }
+          _createRequestModel.ys_family_idfk ??= selectedFamilyId;
           _createRequestModel.ys_blend_idfk =
               widget.yarnSyncResponse.data.yarn.blends![id].blnId.toString();
 

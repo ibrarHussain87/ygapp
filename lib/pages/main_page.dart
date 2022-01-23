@@ -279,20 +279,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<bool> _synData() async {
-    late SyncFiberResponse syncFiberResponse;
-    late YarnSyncResponse syncYarnResponse;
 
     await Future.wait([
-      ApiService.syncFiber().then((value) {
-        if (value.status) {
-          syncFiberResponse = value;
+      ApiService.syncFiber().then((syncFiberResponse) {
+        if (syncFiberResponse.status) {
           AppDbInstance.getDbInstance().then((value) async {
             Future.wait([
               value.fiberMaterialDao
                   .insertAllFiberMaterials(syncFiberResponse.data.fiber.material),
-
-              value.yarnFamilyDao
-                  .insertAllYarnFamily(syncYarnResponse.data.yarn.family!),
 
               value.fiberSettingDao
                   .insertAllFiberSettings(syncFiberResponse.data.fiber.settings),
@@ -327,17 +321,18 @@ class _MainPageState extends State<MainPage> {
 
         }
       }),
-      ApiService.syncYarn().then((value) {
-        if (value.status!) {
-          syncYarnResponse = value;
+      ApiService.syncYarn().then((syncYarnResponse) {
+        if (syncYarnResponse.status!) {
           AppDbInstance.getDbInstance().then((value) async {
             Future.wait([
-
               //Yarn
               value.yarnSettingsDao
                   .insertAllYarnSettings(syncYarnResponse.data.yarn.setting!),
               value.yarnBlendDao
                   .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!),
+
+              value.yarnFamilyDao
+                  .insertAllYarnFamily(syncYarnResponse.data.yarn.family!),
 
               value.gradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!),
 
@@ -476,6 +471,5 @@ class _MainPageState extends State<MainPage> {
     });
 */
     return true;
-    // await AppDbInstance.getDbInstance().then((value) async {});
   }
 }
