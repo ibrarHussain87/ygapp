@@ -72,7 +72,8 @@ class _HomeFilterWidgetState extends State<HomeFilterWidget> {
         },
         listOfItems: familyList!,
       ):Container(
-        color: Colors.white,
+        color: Colors.transparent,
+        height: 100,
       )
     );
   }
