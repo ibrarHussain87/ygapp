@@ -414,7 +414,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           ),
                           Padding(
                               padding: EdgeInsets.only(left: 8.w),
-                              child: const TitleSmallTextWidget(title: 'Remarks')),
+                              child:
+                                  const TitleSmallTextWidget(title: 'Remarks')),
                           SizedBox(
                             height: 5 * 22.w,
                             child: TextFormField(
@@ -430,12 +431,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                 onChanged: (value) {
                                   bidRemarks = value;
                                 },
-                                decoration: roundedDescriptionDecoration("Remarks")),
+                                decoration:
+                                    roundedDescriptionDecoration("Remarks")),
                           ),
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -572,68 +573,265 @@ class _DetailTabPageState extends State<DetailTabPage> {
   }
 
   _yarnDetails() {
-    detailSpecification = [
-      GridTileModel(
-          'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
-      GridTileModel('Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
-      GridTileModel(
-          'Yarn Appearance', widget.yarnSpecification!.yarnApperance ?? "N/A"),
-      GridTileModel(
-          'Count',
-          widget.yarnSpecification!.count != null
-              ? '${widget.yarnSpecification!.count}'
-              : "N/A"),
-      GridTileModel(
-          'Ratio',
-          widget.yarnSpecification!.yarnRtio != null
-              ? widget.yarnSpecification!.yarnRtio! + " %"
-              : "N/A"),
-      GridTileModel(
-          'Filament',
-          widget.yarnSpecification!.fdyFilament != null
-              ? widget.yarnSpecification!.fdyFilament! + " %"
-              : 'N/A'),
-      GridTileModel(
-          'Dianner',
-          widget.yarnSpecification!.dtyFilament != null
-              ? widget.yarnSpecification!.dtyFilament! + " %"
-              : 'N/A'),
-      GridTileModel(
-          'Quality',
-          widget.yarnSpecification!.yarnQuality == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnQuality!),
-      GridTileModel(
-          'Ply',
-          widget.yarnSpecification!.yarnPly == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnPly!),
-      GridTileModel(
-          'Spun Technique',
-          widget.yarnSpecification!.yarnSpunTechnique == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnSpunTechnique!),
-      GridTileModel(
-          'Pattern',
-          widget.yarnSpecification!.yarnPattern == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnPattern!),
-      GridTileModel(
-          'Pattern Characteristics',
-          widget.yarnSpecification!.yarnPatternCharectristic == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnPatternCharectristic!),
-      GridTileModel(
-          'Color Treatment Method',
-          widget.yarnSpecification!.yarnColorTreatmentMethod == null
-              ? "N/A"
-              : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-      GridTileModel(
-          'Certification',
-          (widget.yarnSpecification!.yarnCertificationStr == null || widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
-              ? "N/A"
-              : widget.yarnSpecification!.yarnCertificationStr!.replaceAll(",", "")),
-    ];
+    String? familyId = widget.yarnSpecification!.yarnFamilyId;
+    switch (familyId) {
+      case '1':
+        detailSpecification = [
+          GridTileModel(
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+          GridTileModel(
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
+          /*GridTileModel('Yarn Appearance',
+              widget.yarnSpecification!.yarnApperance ?? "N/A"),*/
+          GridTileModel(
+              'Count',
+              widget.yarnSpecification!.count != null
+                  ? '${widget.yarnSpecification!.count}'
+                  : "N/A"),
+          /*GridTileModel(
+              'Ratio',
+              widget.yarnSpecification!.yarnRtio != null
+                  ? widget.yarnSpecification!.yarnRtio! + " %"
+                  : "N/A"),*/
+          /*GridTileModel(
+              'Filament',
+              widget.yarnSpecification!.fdyFilament != null
+                  ? widget.yarnSpecification!.fdyFilament! + " %"
+                  : 'N/A'),*/
+          /*GridTileModel(
+              'Dianner',
+              widget.yarnSpecification!.dtyFilament != null
+                  ? widget.yarnSpecification!.dtyFilament! + " %"
+                  : 'N/A'),*/
+          GridTileModel(
+              'Quality',
+              widget.yarnSpecification!.yarnQuality == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnQuality!),
+          GridTileModel(
+              'Ply',
+              widget.yarnSpecification!.yarnPly == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPly!),
+          GridTileModel(
+              'Doubling Method',
+              widget.yarnSpecification!.doublingMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.doublingMethod!),
+          GridTileModel(
+              'Orientation',
+              widget.yarnSpecification!.yarnOrientation == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnOrientation!),
+          GridTileModel(
+              'Spun Technique',
+              widget.yarnSpecification!.yarnSpunTechnique == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnSpunTechnique!),
+          GridTileModel(
+              'Pattern',
+              widget.yarnSpecification!.yarnPattern == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPattern!),
+          GridTileModel(
+              'Pattern Characteristics',
+              widget.yarnSpecification!.yarnPatternCharectristic == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPatternCharectristic!),
+          GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+          /*GridTileModel(
+              'Certification',
+              (widget.yarnSpecification!.yarnCertificationStr == null ||
+                      widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnCertificationStr!
+                      .replaceAll(",", "")),*/
+        ];
+        break;
+      case '2':
+        detailSpecification = [
+          GridTileModel(
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+          GridTileModel(
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
+          GridTileModel(
+              'Blend', widget.yarnSpecification!.yarnBlend ?? "N/A"),
+          GridTileModel(
+              'Count',
+              widget.yarnSpecification!.count != null
+                  ? '${widget.yarnSpecification!.count}'
+                  : "N/A"),
+          GridTileModel(
+              'Ratio',
+              widget.yarnSpecification!.yarnRtio != null
+                  ? widget.yarnSpecification!.yarnRtio! + " %"
+                  : "N/A"),
+          GridTileModel(
+              'Ply',
+              widget.yarnSpecification!.yarnPly == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPly!),
+          GridTileModel(
+              'Orientation',
+              widget.yarnSpecification!.yarnOrientation == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnOrientation!),
+          GridTileModel(
+              'Pattern',
+              widget.yarnSpecification!.yarnPattern == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPattern!),
+          GridTileModel(
+              'Pattern Characteristics',
+              widget.yarnSpecification!.yarnPatternCharectristic == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPatternCharectristic!),
+          GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+        ];
+        break;
+      case '3':
+        detailSpecification = [
+          GridTileModel(
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+          GridTileModel(
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
+          GridTileModel(
+              'Count',
+              widget.yarnSpecification!.count != null
+                  ? '${widget.yarnSpecification!.count}'
+                  : "N/A"),
+          GridTileModel(
+              'Ply',
+              widget.yarnSpecification!.yarnPly == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPly!),
+          GridTileModel(
+              'Orientation',
+              widget.yarnSpecification!.yarnOrientation == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnOrientation!),
+          GridTileModel(
+              'Doubling Method',
+              widget.yarnSpecification!.doublingMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.doublingMethod!),
+          GridTileModel(
+              'Spun Technique',
+              widget.yarnSpecification!.yarnSpunTechnique == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnSpunTechnique!),
+          GridTileModel(
+              'Pattern',
+              widget.yarnSpecification!.yarnPattern == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPattern!),
+          GridTileModel(
+              'Pattern Characteristics',
+              widget.yarnSpecification!.yarnPatternCharectristic == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPatternCharectristic!),
+          GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+        ];
+        break;
+      case '4':
+        detailSpecification = [
+          GridTileModel(
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+          GridTileModel(
+              'Dianner',
+              widget.yarnSpecification!.dtyFilament != null
+                  ? widget.yarnSpecification!.dtyFilament! + " %"
+                  : 'N/A'),
+          GridTileModel(
+              'Filament',
+              widget.yarnSpecification!.fdyFilament != null
+                  ? widget.yarnSpecification!.fdyFilament! + " %"
+                  : 'N/A'),
+          GridTileModel(
+              'Ply',
+              widget.yarnSpecification!.yarnPly == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPly!),
+          GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+          GridTileModel(
+              'Dying Method',
+              widget.yarnSpecification!.yarnDyingMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnDyingMethod!),
+          GridTileModel(
+              'Color',
+              widget.yarnSpecification!.color == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.color!),
+          GridTileModel('Yarn Appearance',
+              widget.yarnSpecification!.yarnApperance ?? "N/A"),
+
+        ];
+        break;
+      case '5':
+        detailSpecification = [
+          GridTileModel(
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+          GridTileModel(
+              'Blend',
+              widget.yarnSpecification!.yarnBlend != null
+                  ? '${widget.yarnSpecification!.yarnBlend}'
+                  : "N/A"),
+          GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+          GridTileModel(
+              'Dying Method',
+              widget.yarnSpecification!.yarnDyingMethod == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnDyingMethod!),
+          GridTileModel(
+              'Color',
+              widget.yarnSpecification!.color == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.color!),
+          GridTileModel(
+              'Count',
+              widget.yarnSpecification!.count != null
+                  ? '${widget.yarnSpecification!.count}'
+                  : "N/A"),
+          GridTileModel(
+              'Ply',
+              widget.yarnSpecification!.yarnPly == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPly!),
+          GridTileModel(
+              'Pattern',
+              widget.yarnSpecification!.yarnPattern == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPattern!),
+          GridTileModel(
+              'Pattern Characteristics',
+              widget.yarnSpecification!.yarnPatternCharectristic == null
+                  ? "N/A"
+                  : widget.yarnSpecification!.yarnPatternCharectristic!),
+
+        ];
+        break;
+    }
 
     labParameters = [
       GridTileModel(
@@ -676,38 +874,31 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.cv == null
               ? "N/A"
               : widget.yarnSpecification!.cv!),
-
-
       GridTileModel(
           'Hairness',
           widget.yarnSpecification!.ys_hairness == null
               ? "N/A"
               : widget.yarnSpecification!.ys_hairness!),
-
       GridTileModel(
           'RKM',
           widget.yarnSpecification!.ys_rkm == null
               ? "N/A"
               : widget.yarnSpecification!.ys_rkm!),
-
       GridTileModel(
           'Elongation',
           widget.yarnSpecification!.ys_elongation == null
               ? "N/A"
               : widget.yarnSpecification!.ys_elongation!),
-
       GridTileModel(
           'TPI',
           widget.yarnSpecification!.ys_tpi == null
               ? "N/A"
               : widget.yarnSpecification!.ys_tpi!),
-
       GridTileModel(
           'TM',
           widget.yarnSpecification!.ys_tm == null
               ? "N/A"
               : widget.yarnSpecification!.ys_tm!),
-
     ];
 
     detailPackaging = [
@@ -739,7 +930,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.priceUnit == null
               ? "N/A"
               : widget.yarnSpecification!.priceUnit!),
-
 
       GridTileModel(
           'Price Terms',
