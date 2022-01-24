@@ -225,6 +225,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
+                                                        behavior: HitTestBehavior.opaque,
+
                                                         onTap: () {
                                                           setState(() {
                                                             if (bidPrice! >=
@@ -276,6 +278,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
+                                                        behavior: HitTestBehavior.opaque,
+
                                                         onTap: () {
                                                           setState(() {
                                                             bidPrice =
@@ -335,6 +339,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.w),
                                                   child: GestureDetector(
+                                                    behavior: HitTestBehavior.opaque,
                                                     onTap: () {
                                                       setState(() {
                                                         if (bidQuantity! >= 1) {
@@ -383,6 +388,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
+                                                        behavior: HitTestBehavior.opaque,
                                                         onTap: () {
                                                           setState(() {
                                                             bidQuantity =

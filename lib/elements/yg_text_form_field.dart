@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/util.dart';
 
 import 'decoration_widgets.dart';
 
@@ -41,8 +41,8 @@ class YgTextFormFieldWithRange extends StatelessWidget {
         ],
         validator: MultiValidator([
           RangeValidator(
-              min: StringUtils.splitMin(minMax),
-              max: StringUtils.splitMax(minMax),
+              min: Utils.splitMin(minMax),
+              max: Utils.splitMax(minMax),
               errorText: "Range $minMax"),
           RequiredValidator(errorText: errorText),
         ]),
@@ -84,8 +84,8 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         ],
         validator: MultiValidator([
           RangeValidator(
-              min: StringUtils.splitMin(minMax),
-              max: StringUtils.splitMax(minMax),
+              min: Utils.splitMin(minMax),
+              max: Utils.splitMax(minMax),
               errorText: "Range $minMax"),
           RequiredValidator(errorText: errorText),
         ]),
@@ -151,8 +151,8 @@ class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
         ],
         validator: RangeValidator(
-            min: StringUtils.splitMin(minMax),
-            max: StringUtils.splitMax(minMax),
+            min: Utils.splitMin(minMax),
+            max: Utils.splitMax(minMax),
             errorText: "Range $minMax"),
         decoration: roundedTextFieldDecoration(minMax));
   }

@@ -10,7 +10,7 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/nature_family_body_component.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
 
 class FiberProductPage extends StatefulWidget {
   final List<Specification?>? specification;
@@ -114,14 +114,19 @@ class FiberProductPageState extends State<FiberProductPage> {
                     ],
                   ),
                 ),
-                NatureFamilyBodyComponent(
+
+                FiberFamilyComponent(callback: (FiberMaterial? value){
+                  _filterMaterial(value!.fbmName.toString());
+
+                })
+                /*NatureFamilyBodyComponent(
                   natureId: fiberNatureList.first.id.toString(),
                   fiberNaturesList: fiberNatureList,
                   fiberMaterialList: fiberMaterialList,
                   callback: (FiberMaterial? value) {
                     _filterMaterial(value!.fbmName.toString());
                   },
-                ),
+                )*/,
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.all(8.0),
@@ -142,6 +147,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 openDetailsScreen(
                                     context,specification: widget.specification![index]!);

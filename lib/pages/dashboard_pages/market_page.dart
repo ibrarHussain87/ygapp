@@ -153,6 +153,7 @@ class MarketPageState extends State<MarketPage>
                                           size: 16.w,
                                         ))),
                                 GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
                                   onTap: () async {
                                     if(stateFiberPage.currentState!= null) {
                                       _openFiberFilterView();
@@ -263,23 +264,17 @@ class MarketPageState extends State<MarketPage>
   }
 
   _openFiberFilterView(){
-    if (stateFiberPage
-        .currentState!
-        .familySateFiber
-        .currentState!
-        .fiberSyncResponse !=
-        null) {
+    // if (stateFiberPage
+    //     .currentState!
+    //     .familySateFiber
+    //     .currentState!
+    //     .fiberSyncResponse !=
+    //     null) {
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                FiberFilterView(
-                  syncFiberResponse:
-                  stateFiberPage
-                      .currentState!
-                      .familySateFiber
-                      .currentState!
-                      .fiberSyncResponse!,
+                const FiberFilterView(
                 )),
       ).then((value) {
         //Getting result from filter
@@ -291,10 +286,10 @@ class MarketPageState extends State<MarketPage>
           }
         }
       });
-    } else {
-      Fluttertoast.showToast(
-          msg: "Please wait...");
-    }
+    // } else {
+    //   Fluttertoast.showToast(
+    //       msg: "Please wait...");
+    // }
   }
 
   _openYarnFilterPage(){
@@ -302,7 +297,7 @@ class MarketPageState extends State<MarketPage>
       context,
       MaterialPageRoute(
           builder: (context) =>
-              YarnFilterPage()),
+              const YarnFilterPage()),
     ).then((value) {
       //Getting result from filter
       if (tabController!.index == 1) {

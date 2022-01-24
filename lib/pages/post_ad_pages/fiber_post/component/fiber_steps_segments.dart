@@ -18,12 +18,12 @@ class FiberStepsSegments extends StatefulWidget {
 
   const FiberStepsSegments(
       {Key? key,
-      required this.syncFiberResponse,
-      required this.stepsCallback,
-      required this.locality,
-      required this.businessArea,
-      required this.selectedTab,
-      this.stepsMapping})
+        required this.syncFiberResponse,
+        required this.stepsCallback,
+        required this.locality,
+        required this.businessArea,
+        required this.selectedTab,
+        this.stepsMapping})
       : super(key: key);
 
   @override

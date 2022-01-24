@@ -102,6 +102,7 @@ class _AddPictureWidgetState extends State<AddPictureWidget> {
         Visibility(
           visible: setButtonVisibility,
           child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () {
               _showChoiceDialog(context);
             },

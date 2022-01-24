@@ -34,6 +34,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () {
               Navigator.pop(context);
             },

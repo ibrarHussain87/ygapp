@@ -8,6 +8,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -39,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 backgroundColor: Colors.white,
                 centerTitle: true,
                 leading: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     Navigator.pop(context);
                   },
@@ -138,6 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     ),
                                     GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: (){
                                         openMyAdsScreen(context);
                                       },
@@ -157,6 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     ),
                                     GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: (){},
                                       child: Column(
                                         children: [
@@ -167,6 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: (){
                                         openMyBidsScreen(context);
                                       },
@@ -240,23 +245,49 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.all(16.w),
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
+                          showLogoutDialog("Alert", "Are you sure you want to logout?", context, (){
+                            AppDbInstance.getDbInstance().then((value) {
+                              value.userDao.deleteUserData();
+                              value.yarnSettingsDao.deleteYarnSettings();
+                              value.fiberSettingDao.deleteAll();
+                              value.fiberMaterialDao.deleteAll();
+                              value.fiberSettingDao.deleteAll();
+                              value.gradesDao.deleteAll();
+                              value.fiberNatureDao.deleteAll();
+                              value.packingDao.deleteAll();
+                              value.patternDao.deleteAll();
+                              value.patternCharDao.deleteAll();
+                              value.paymentTypeDao.deleteAll();
+                              value.deliveryPeriodDao.deleteAll();
+                              value.lcTypeDao.deleteAll();
+                              value.yarnGradesDao.deleteAll();
+                              value.fiberAppearanceDoa.deleteAll();
+                              value.yarnAppearanceDao.deleteAll();
+                              value.certificationDao.deleteAll();
+                              value.yarnBlendDao.deleteAll();
+                              value.coneTypeDao.deleteAll();
+                              value.yarnTypesDao.deleteAll();
+                              value.colorTreatmentMethodDao.deleteAll();
+                              value.colorMethodDao.deleteAll();
+                              value.usageDao.deleteAll();
+                              value.unitDao.deleteAll();
+                              value.orientationDao.deleteAll();
+                              value.plyDao.deleteAll();
+                              value.qualityDao.deleteAll();
+                              value.brandsDao.deleteAll();
+                              value.cityStateDao.deleteAll();
+                              value.companiesDao.deleteAll();
+                              value.countriesDao.deleteAll();
+                              value.portsDao.deleteAll();
+                            });
+                            SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, false);
+                            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
+                            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
+                            SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
 
-                          AppDbInstance.getDbInstance().then((value) {
-                            value.userDao.deleteUserData();
-                            value.yarnSettingsDao.deleteYarnSettings();
-                            value.fiberSettingDao.deleteAll();
-                            value.fiberMaterialDao.deleteAll();
-                            value.fiberSettingDao.deleteAll();
-                            value.gradesDao.deleteAll();
-                          });
-
-                          SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
-                          SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
-                          SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
-
-                          Navigator.pushAndRemoveUntil(context,
+                            Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) => const LoginPage()),(route) => false,);
-
+                          });
                         }, color: Colors.green, btnText: "Logout"),
                   ))
                 ],

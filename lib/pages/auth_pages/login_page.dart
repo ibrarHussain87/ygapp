@@ -132,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderSide: BorderSide(color: textColorGrey),
                                 ),
                                 suffixIcon: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     _togglevisibility();
                                   },
@@ -205,6 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 30.h,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   child: Text(
                     signUpStr,
                     textAlign: TextAlign.center,

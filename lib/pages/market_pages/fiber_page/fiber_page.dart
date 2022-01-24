@@ -119,6 +119,7 @@ class FiberPageState extends State<FiberPage> {
                         child: Center(
 
                           child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
                             onTap: () async {
                               // if (familySateFiber
                               //         .currentState!.fiberSyncResponse !=
@@ -126,11 +127,7 @@ class FiberPageState extends State<FiberPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => FiberFilterView(
-                                            syncFiberResponse: familySateFiber
-                                                .currentState!
-                                                .fiberSyncResponse!,
-                                          )),
+                                      builder: (context) => FiberFilterView()),
                                 ).then((value) {
                                   //Getting result from filter
                                   if (value != null) {

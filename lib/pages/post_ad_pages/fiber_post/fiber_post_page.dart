@@ -57,7 +57,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
             } else if (snapshot.hasError) {
               return Center(
                   child:
-                      TitleSmallTextWidget(title: snapshot.error.toString()));
+                  TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
                 child: SpinKitWave(

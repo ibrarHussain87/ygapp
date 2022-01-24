@@ -51,17 +51,20 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import 'dao/grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
 import 'package:build_daemon/constants.dart';
 
+import 'dao/yarn_grades_dao.dart';
+
 part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,
-ColorTreatmentMethod,ConeType,DyingMethod,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
+ColorTreatmentMethod,ConeType,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -87,6 +90,7 @@ abstract class AppDatabase extends FloorDatabase {
   YarnSettingDao get yarnSettingsDao;
   YarnFamilyDao get yarnFamilyDao;
   YarnBlendDao get yarnBlendDao;
+  YarnGradesDao get yarnGradesDao;
 
   ColorTreatmentMethodDao get colorTreatmentMethodDao;
   ConeTypeDao get coneTypeDao;

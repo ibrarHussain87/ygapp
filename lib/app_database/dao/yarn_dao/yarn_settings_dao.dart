@@ -24,6 +24,4 @@ abstract class YarnSettingDao {
   @Query("delete from yarn_settings")
   Future<void> deleteYarnSettings();
 
-  @delete
-  Future<void> deleteAll(List<YarnSetting> list);
 }

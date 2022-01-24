@@ -44,6 +44,7 @@ class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
       castedList = widget.listItem!.cast<FiberMaterial>();
     }
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           selectedIndex.contains(index)? selectedIndex.remove(index):selectedIndex.add(index);

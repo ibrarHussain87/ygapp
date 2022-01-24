@@ -50,6 +50,7 @@ class HomePageState extends State<HomePage> {
                   child: Row(
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: (){
                           openProfileScreen(context);
                         },

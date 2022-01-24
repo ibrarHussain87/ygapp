@@ -1,10 +1,10 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
-const int APP_DATABASE_VERSION = 6;
+const int APP_DATABASE_VERSION = 7;
 List<String> plyStringList = [
   "Single",
   "Double",
   "Triple",
-  "Quardruple"
+  "Quardruple"q
 ];
 
 //Shared preference Key
@@ -12,6 +12,7 @@ String USER_TOKEN_KEY = "USER_TOKEN";
 String USER_DEVICE_TOKEN_KEY = "USER_DEVICE_TOKEN_KEY";
 String USER_ID_KEY = "USER_ID";
 String IS_LOGIN = "USER_LOGIN";
+String SYNCED_KEY = "DATA SYNCED";
 
 //APPLICATION STRINGS
 String letsGetStarted = "Let's get started";
@@ -120,7 +121,6 @@ var offering = 'Offering';
 var requirement = 'Requiremnet';
 
 int YARN_CATEGORY_ID = 2;
-int PATTERN_CHARACTERISTCS_SLUB_ID = 2;
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";
 

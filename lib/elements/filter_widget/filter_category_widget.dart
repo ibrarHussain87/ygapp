@@ -32,6 +32,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   Widget buildWidget(int index) {
     bool checked = selectedIndex.contains(index);
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           selectedIndex.contains(index)? selectedIndex.remove(index):selectedIndex.add(index);

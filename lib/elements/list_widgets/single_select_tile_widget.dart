@@ -10,7 +10,6 @@ class SingleSelectTileWidget extends StatefulWidget {
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
-  final bool? resetIndex;
 
   const SingleSelectTileWidget(
       {Key? key,
@@ -18,15 +17,14 @@ class SingleSelectTileWidget extends StatefulWidget {
       required this.callback,
       required this.listOfItems,
       this.selectedIndex,
-      this.resetIndex,
       })
       : super(key: key);
 
   @override
-  _SingleSelectTileWidgetState createState() => _SingleSelectTileWidgetState();
+  SingleSelectTileWidgetState createState() => SingleSelectTileWidgetState();
 }
 
-class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
+class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
@@ -65,6 +63,7 @@ class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   Widget buildGrid(int index) {
     bool checked = index == checkedTile;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           checkedTile = index;
@@ -93,5 +92,11 @@ class _SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
         ),
       ),
     );
+  }
+
+  resetWidget(){
+    setState(() {
+      checkedTile = 0;
+    });
   }
 }

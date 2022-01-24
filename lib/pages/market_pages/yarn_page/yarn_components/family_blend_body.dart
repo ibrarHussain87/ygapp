@@ -9,13 +9,13 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class BlendFamily extends StatefulWidget {
-  final YarnSyncResponse yarnSyncResponse;
+  // final YarnSyncResponse yarnSyncResponse;
   final Function yarnFamilyCallback;
   final Function blendCallback;
 
   const BlendFamily(
       {Key? key,
-      required this.yarnSyncResponse,
+      // required this.yarnSyncResponse,
       required this.yarnFamilyCallback,
       required this.blendCallback})
       : super(key: key);
@@ -26,20 +26,38 @@ class BlendFamily extends StatefulWidget {
 
 class _BlendFamilyState extends State<BlendFamily> {
 
-  late YarnSetting _yarnSetting;
-
+  YarnSetting? _yarnSetting;
   int? selectedFamilyId;
+  List<Family>? _yarnFamily;
+  List<Blends>? _yarnBlends;
+  _getYarnDataFromDb() {
+    AppDbInstance.getDbInstance().then((value) async {
+      await value.yarnFamilyDao.findAllYarnFamily().then((value) {
+        setState(() {
+          _yarnFamily = value;
+        });
+      });
+      await value.yarnBlendDao.findAllYarnBlends().then((value) {
+        setState(() {
+          _yarnBlends = value;
+        });
+      });
+      await value.yarnSettingsDao.findFamilyYarnSettings(_yarnFamily!.first.famId!).then((value) => setState(() => _yarnSetting = value[0]));
+    });
+  }
 
   @override
   void initState() {
-    _yarnSetting = widget.yarnSyncResponse.data.yarn.setting!.first;
-    selectedFamilyId = widget.yarnSyncResponse.data.yarn.family!.first.famId;
+
+    _getYarnDataFromDb();
+    // _yarnSetting = widget.yarnSyncResponse.data.yarn.setting!.first;
+    // selectedFamilyId = widget.yarnSyncResponse.data.yarn.family!.first.famId;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return (_yarnSetting!= null && _yarnFamily != null && _yarnBlends != null) ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
@@ -54,7 +72,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                 height: 0.055 * MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
                   selectedIndex: -1,
-                  listItems: widget.yarnSyncResponse.data.yarn.family,
+                  listItems: _yarnFamily,
                   callback: (Family value) {
                     queryFamilySettings(value.famId!);
                     widget.yarnFamilyCallback(value);
@@ -74,20 +92,20 @@ class _BlendFamilyState extends State<BlendFamily> {
               child: TitleTextWidget(title: blend)),
         ),
         Visibility(
-          visible: Ui.showHide(_yarnSetting.showBlend),
+          visible: Ui.showHide(_yarnSetting!.showBlend),
           child: CatWithImageListWidget(
             selectedItem: -1,
-            listItem: widget.yarnSyncResponse.data.yarn.blends!
+            listItem: _yarnBlends!
                 .where((element) =>
                     element.familyIdfk == selectedFamilyId.toString())
                 .toList(),
             onClickCallback: (value) {
-              widget.blendCallback(widget.yarnSyncResponse.data.yarn.blends![value]);
+              widget.blendCallback(_yarnBlends![value]);
             },
           ),
         ),
       ],
-    );
+    ) : Container();
   }
 
   queryFamilySettings(int id) {

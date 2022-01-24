@@ -207,6 +207,7 @@ class YarnSpecification {
   String? ys_yarn_type;
   String? ys_rkm;
   String? yarn_country;
+  String? date;
   List<dynamic>? pictures;
   List<dynamic>? certifications;
 
@@ -278,6 +279,7 @@ class YarnSpecification {
     yarn_country = json['yarn_country'];
     unitCount = json['unit_count'];
     ys_rkm = json['ys_rkm'];
+    date = json['date'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
     certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
@@ -351,6 +353,7 @@ class YarnSpecification {
     _data['ys_ipm_km'] = ys_ipm_km;
     _data['ys_hairness'] = ys_hairness;
     _data['ys_rkm'] = ys_rkm;
+    _data['date'] = date;
     return _data;
   }
 }

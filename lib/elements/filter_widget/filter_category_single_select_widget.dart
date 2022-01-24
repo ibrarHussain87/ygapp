@@ -32,6 +32,7 @@ class _CategorySingleSelectWidgetState extends State<CategorySingleSelectWidget>
   Widget buildWidget(int index) {
       bool checked = index == checkedFamily;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           checkedFamily = index;

@@ -84,6 +84,8 @@ class CreateRequestModel {
   String? ys_pattern_charectristic_thickness;
   String? ys_length_pattern_charactristics;
   String? ys_pause_patteren_charactristics;
+  String? ys_grain_patteren_charactristics;
+  String? ys_rice_patteren_charactristics;
 
   String? ys_quality_idfk;
   String? ys_spun_technique_idfk;
@@ -143,6 +145,8 @@ class CreateRequestModel {
       this.ys_pattern_charectristic_thickness,
       this.ys_length_pattern_charactristics,
       this.ys_pause_patteren_charactristics,
+      this.ys_grain_patteren_charactristics,
+      this.ys_rice_patteren_charactristics,
       this.ys_orientation_idfk,
       this.ys_twist_direction_idfk,
       this.ys_count,
@@ -230,6 +234,8 @@ class CreateRequestModel {
       'ys_pattern_charectristic_thickness': ys_pattern_charectristic_thickness ?? "",
       'ys_pattern_charactristics_length': ys_length_pattern_charactristics ?? "",
       'ys_patteren_charactristics_pause': ys_pause_patteren_charactristics ?? "",
+      'ys_patteren_charactristics_grain': ys_grain_patteren_charactristics ?? "",
+      'ys_patteren_charactristics_rice': ys_rice_patteren_charactristics ?? "",
       'ys_orientation_idfk': ys_orientation_idfk ?? "",
       'ys_twist_direction_idfk': ys_twist_direction_idfk ?? "",
       'ys_count': ys_count ?? "",

@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -14,6 +14,7 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 
 class YarnSyncResponse {
   YarnSyncResponse({
@@ -117,7 +118,7 @@ class Yarn {
   List<TwistDirection>? twistDirection;
   List<Usage>? usage;
   List<Blends>? blends;
-  List<Grades>? grades;
+  List<YarnGrades>? grades;
   List<ConeType>? coneType;
   List<Certification>? certification;
   List<YarnAppearance>? apperance;
@@ -173,7 +174,7 @@ class Yarn {
         .toList();
     usage = List.from(json['usage']).map((e) => Usage.fromJson(e)).toList();
     blends = List.from(json['blends']).map((e) => Blends.fromJson(e)).toList();
-    grades = List.from(json['grades']).map((e) => Grades.fromJson(e)).toList();
+    grades = List.from(json['grades']).map((e) => YarnGrades.fromJson(e)).toList();
     coneType =
         List.from(json['cone_type']).map((e) => ConeType.fromJson(e)).toList();
     certification = List.from(json['certification'])

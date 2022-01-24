@@ -11,7 +11,7 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -48,7 +48,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
   @override
   void initState() {
-    StringUtils.disableClick = true;
+    Utils.disableClick = true;
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class LabParameterPageState extends State<LabParameterPage>
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel>(context);
     _yarnSetting = Provider.of<YarnSetting>(context);
-    _initGridValues();
+    // _initGridValues();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -517,11 +517,11 @@ class LabParameterPageState extends State<LabParameterPage>
   }
 
   _initGridValues() {
-    if (widget.yarnSyncResponse.data.yarn.spunTechnique!.isNotEmpty) {
-      _createRequestModel.ys_spun_technique_idfk = widget
-          .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
-          .toString();
-    }
+    // if (widget.yarnSyncResponse.data.yarn.spunTechnique!.isNotEmpty) {
+    //   _createRequestModel.ys_spun_technique_idfk = widget
+    //       .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
+    //       .toString();
+    // }
   }
 
   bool validateAndSave() {

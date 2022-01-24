@@ -55,6 +55,8 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
   Widget buildGrid(int index) {
     bool checked = index == checkedTile;
     return GestureDetector(
+
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // if (index != 7) {
           setState(() {
@@ -83,14 +85,10 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
           SizedBox(
             height: 5.h,
           ),
-          Text(
-
-            /*index != 7 ? */widget.listOfItems[index].familyName /*: 'Load More'*/,
-            maxLines: 1,
-            style: TextStyle(
-                fontSize: 8.sp,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Metropolis'),
+          FittedBox(
+            child: TitleExtraSmallBoldTextWidget(
+              /*index != 7 ? */title:widget.listOfItems[index].familyName /*: 'Load More'*/,
+            ),
           ),
         ],
       )),

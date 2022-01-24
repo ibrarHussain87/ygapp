@@ -34,6 +34,7 @@ class _ListViewWidgetColoredState extends State<ListViewWidgetColored> {
   Widget buildCardTile(int index) {
     bool checkedCard = index == checkCardIndex;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           checkCardIndex = index;

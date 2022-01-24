@@ -57,6 +57,7 @@ class _FilterGridTileWidgetState extends State<FilterGridTileWidget> {
     bool isSelected = selectedIndex.contains(index);
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           selectedIndex.contains(index)

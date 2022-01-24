@@ -9,6 +9,9 @@ abstract class CertificationsDao{
   @Query('SELECT * FROM certifications where brdId = :id')
   Future<Certification?> findCertificationWithId(int id);
 
+  @Query('SELECT * FROM certifications where cerCategoryIdfk = :id')
+  Future<List<Certification>> findCertificationWithCatId(int id);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertCertification(Certification certifications);
 

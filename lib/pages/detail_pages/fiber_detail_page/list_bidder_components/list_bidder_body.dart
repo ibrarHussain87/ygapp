@@ -77,6 +77,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (_changeColor == "0") {
                             _changeBidApi(widget.listBiddersData.bidId, 2);
@@ -108,6 +109,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                         width: 6.w,
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (_changeColor == '0') {
                             _changeBidApi(widget.listBiddersData.bidId, 1);

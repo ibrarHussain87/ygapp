@@ -76,6 +76,7 @@ class _MatchedPageBodyState extends State<MatchedPageBody> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (_changeColor == "0") {
                             _changeBidApi(widget.listBiddersData.bidId, 2);
@@ -107,6 +108,7 @@ class _MatchedPageBodyState extends State<MatchedPageBody> {
                         width: 6.w,
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (_changeColor == '0') {
                             _changeBidApi(widget.listBiddersData.bidId, 1);

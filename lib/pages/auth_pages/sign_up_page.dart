@@ -285,6 +285,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           color: textColorGrey),
                                                     ),
                                                     suffixIcon: GestureDetector(
+                                                      behavior: HitTestBehavior.opaque,
                                                       onTap: () {
                                                         _togglevisibility();
                                                       },
@@ -345,6 +346,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           color: textColorGrey),
                                                     ),
                                                     suffixIcon: GestureDetector(
+                                                      behavior: HitTestBehavior.opaque,
                                                       onTap: () {
                                                         _togglevisibility();
                                                       },

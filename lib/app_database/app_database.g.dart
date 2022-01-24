@@ -103,6 +103,8 @@ class _$AppDatabase extends AppDatabase {
 
   YarnBlendDao? _yarnBlendDaoInstance;
 
+  YarnGradesDao? _yarnGradesDaoInstance;
+
   ColorTreatmentMethodDao? _colorTreatmentMethodDaoInstance;
 
   ConeTypeDao? _coneTypeDaoInstance;
@@ -176,7 +178,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `grade` (`grdId` INTEGER, `familyId` TEXT, `grdCategoryIdfk` TEXT, `grdName` TEXT, `grdIsActive` TEXT, PRIMARY KEY (`grdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT, `ptrName` TEXT, `ptrIsActive` TEXT, PRIMARY KEY (`ptrId`))');
+            'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT, `ptr_locality` TEXT, `ptrName` TEXT, `ptrIsActive` TEXT, PRIMARY KEY (`ptrId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT, `lcIsActive` TEXT, PRIMARY KEY (`lcId`))');
         await database.execute(
@@ -199,6 +201,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `corn_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `dying_method` (`ydmId` INTEGER, `apperanceId` TEXT, `ydmName` TEXT, `ydmType` TEXT, `ydmColorTreatmentMethodIdfk` TEXT, `ydmDescription` TEXT, `ydmIsActive` TEXT, `ydmSortid` TEXT, PRIMARY KEY (`ydmId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `yarn_grades` (`grdId` INTEGER, `familyId` TEXT, `blendId` TEXT, `grdCategoryIdfk` TEXT, `grdName` TEXT, `grdIsActive` TEXT, `grdSortid` TEXT, PRIMARY KEY (`grdId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_appearance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
         await database.execute(
@@ -342,6 +346,11 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
+  YarnGradesDao get yarnGradesDao {
+    return _yarnGradesDaoInstance ??= _$YarnGradesDao(database, changeListener);
+  }
+
+  @override
   ColorTreatmentMethodDao get colorTreatmentMethodDao {
     return _colorTreatmentMethodDaoInstance ??=
         _$ColorTreatmentMethodDao(database, changeListener);
@@ -477,7 +486,7 @@ class _$UserDao extends UserDao {
 
   @override
   Future<void> deleteUserData() async {
-    await _queryAdapter.queryNoReturn('delete from user_table');
+    await _queryAdapter.queryNoReturn('delete FROM user_table');
   }
 
   @override
@@ -707,8 +716,9 @@ class _$FiberMaterialDao extends FiberMaterialDao {
   }
 
   @override
-  Future<List<FiberMaterial>> findFFiberMaterials() async {
-    return _queryAdapter.queryList('SELECT * FROM fiber_entity limit = 4',
+  Future<List<FiberMaterial>> findFiberMaterials(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_entity where fbm_id = ?1',
         mapper: (Map<String, Object?> row) => FiberMaterial(
             fbmId: row['fbmId'] as int,
             fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
@@ -716,13 +726,14 @@ class _$FiberMaterialDao extends FiberMaterialDao {
             fbmName: row['fbmName'] as String?,
             icon_selected: row['icon_selected'] as String?,
             icon_unselected: row['icon_unselected'] as String?,
-            fbmIsActive: row['fbmIsActive'] as String?));
+            fbmIsActive: row['fbmIsActive'] as String?),
+        arguments: [id]);
   }
 
   @override
-  Future<List<FiberMaterial>> findFiberMaterials(int id) async {
+  Future<List<FiberMaterial>> findFiberMaterialsWithNature(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fiber_entity where fbm_id = ?1',
+        'SELECT * FROM fiber_entity where nature_id = ?1',
         mapper: (Map<String, Object?> row) => FiberMaterial(
             fbmId: row['fbmId'] as int,
             fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
@@ -827,7 +838,7 @@ class _$GradesDao extends GradesDao {
 
   @override
   Future<List<Grades>> findAllGrades() async {
-    return _queryAdapter.queryList('SELECT * FROM fiber_grade',
+    return _queryAdapter.queryList('SELECT * FROM grade',
         mapper: (Map<String, Object?> row) => Grades(
             grdId: row['grdId'] as int?,
             grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
@@ -836,21 +847,9 @@ class _$GradesDao extends GradesDao {
   }
 
   @override
-  Future<List<Grades>> findFiberGradeWithId(int id) async {
+  Future<List<Grades>> findGradeWithCatId(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fiber_setting where grd_category_idfk = ?1',
-        mapper: (Map<String, Object?> row) => Grades(
-            grdId: row['grdId'] as int?,
-            grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
-            grdName: row['grdName'] as String?,
-            grdIsActive: row['grdIsActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<List<Grades>> findYarnGradeWithId(int id) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM yarn_settings where grd_category_idfk = ?1',
+        'SELECT * FROM grade where grdCategoryIdfk = ?1',
         mapper: (Map<String, Object?> row) => Grades(
             grdId: row['grdId'] as int?,
             grdCategoryIdfk: row['grdCategoryIdfk'] as String?,
@@ -861,13 +860,13 @@ class _$GradesDao extends GradesDao {
 
   @override
   Future<void> deleteGrade(int id) async {
-    await _queryAdapter.queryNoReturn('delete from fiber_grade where id = ?1',
-        arguments: [id]);
+    await _queryAdapter
+        .queryNoReturn('delete from grade where id = ?1', arguments: [id]);
   }
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from fiber_grade');
+    await _queryAdapter.queryNoReturn('delete from grade');
   }
 
   @override
@@ -981,6 +980,18 @@ class _$CertificationsDao extends CertificationsDao {
   @override
   Future<Certification?> findCertificationWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM certifications where brdId = ?1',
+        mapper: (Map<String, Object?> row) => Certification(
+            cerId: row['cerId'] as int,
+            cerCategoryIdfk: row['cerCategoryIdfk'] as String?,
+            cerName: row['cerName'] as String?,
+            cerIsActive: row['cerIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Certification>> findCertificationWithCatId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM certifications where cerCategoryIdfk = ?1',
         mapper: (Map<String, Object?> row) => Certification(
             cerId: row['cerId'] as int,
             cerCategoryIdfk: row['cerCategoryIdfk'] as String?,
@@ -1599,6 +1610,7 @@ class _$PriceTermsDao extends PriceTermsDao {
             (FPriceTerms item) => <String, Object?>{
                   'ptrId': item.ptrId,
                   'ptrCategoryIdfk': item.ptrCategoryIdfk,
+                  'ptr_locality': item.ptr_locality,
                   'ptrName': item.ptrName,
                   'ptrIsActive': item.ptrIsActive
                 });
@@ -1617,6 +1629,7 @@ class _$PriceTermsDao extends PriceTermsDao {
         mapper: (Map<String, Object?> row) => FPriceTerms(
             ptrId: row['ptrId'] as int,
             ptrCategoryIdfk: row['ptrCategoryIdfk'] as String?,
+            ptr_locality: row['ptr_locality'] as String?,
             ptrName: row['ptrName'] as String?,
             ptrIsActive: row['ptrIsActive'] as String?));
   }
@@ -1628,6 +1641,7 @@ class _$PriceTermsDao extends PriceTermsDao {
         mapper: (Map<String, Object?> row) => FPriceTerms(
             ptrId: row['ptrId'] as int,
             ptrCategoryIdfk: row['ptrCategoryIdfk'] as String?,
+            ptr_locality: row['ptr_locality'] as String?,
             ptrName: row['ptrName'] as String?,
             ptrIsActive: row['ptrIsActive'] as String?),
         arguments: [id]);
@@ -1794,74 +1808,6 @@ class _$YarnSettingDao extends YarnSettingDao {
                   'ysSortid': item.ysSortid,
                   'show_actual_count': item.show_actual_count,
                   'actual_count_min_max': item.actual_count_min_max
-                }),
-        _yarnSettingDeletionAdapter = DeletionAdapter(
-            database,
-            'yarn_settings',
-            ['ysId'],
-            (YarnSetting item) => <String, Object?>{
-                  'ysId': item.ysId,
-                  'ysBlendIdfk': item.ysBlendIdfk,
-                  'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
-                  'showCount': item.showCount,
-                  'countMinMax': item.countMinMax,
-                  'showOrigin': item.showOrigin,
-                  'showDannier': item.showDannier,
-                  'dannierMinMax': item.dannierMinMax,
-                  'showFilament': item.showFilament,
-                  'filamentMinMax': item.filamentMinMax,
-                  'showBlend': item.showBlend,
-                  'showPly': item.showPly,
-                  'showSpunTechnique': item.showSpunTechnique,
-                  'showQuality': item.showQuality,
-                  'showGrade': item.showGrade,
-                  'showDoublingMethod': item.showDoublingMethod,
-                  'showCertification': item.showCertification,
-                  'showColorTreatmentMethod': item.showColorTreatmentMethod,
-                  'showDyingMethod': item.showDyingMethod,
-                  'showColor': item.showColor,
-                  'showAppearance': item.showAppearance,
-                  'showQlt': item.showQlt,
-                  'qltMinMax': item.qltMinMax,
-                  'showClsp': item.showClsp,
-                  'clspMinMax': item.clspMinMax,
-                  'showUniformity': item.showUniformity,
-                  'uniformityMinMax': item.uniformityMinMax,
-                  'showCv': item.showCv,
-                  'cvMinMax': item.cvMinMax,
-                  'showThinPlaces': item.showThinPlaces,
-                  'thinPlacesMinMax': item.thinPlacesMinMax,
-                  'showtThickPlaces': item.showtThickPlaces,
-                  'thickPlacesMinMax': item.thickPlacesMinMax,
-                  'showNaps': item.showNaps,
-                  'napsMinMax': item.napsMinMax,
-                  'showIpmKm': item.showIpmKm,
-                  'ipmKmMinMax': item.ipmKmMinMax,
-                  'showHairness': item.showHairness,
-                  'hairnessMinMax': item.hairnessMinMax,
-                  'showRkm': item.showRkm,
-                  'rkmMinMax': item.rkmMinMax,
-                  'showElongation': item.showElongation,
-                  'elongationMinMax': item.elongationMinMax,
-                  'showTpi': item.showTpi,
-                  'tpiMinMax': item.tpiMinMax,
-                  'showTm': item.showTm,
-                  'tmMinMax': item.tmMinMax,
-                  'showDty': item.showDty,
-                  'dtyMinMax': item.dtyMinMax,
-                  'showFdy': item.showFdy,
-                  'fdyMinMax': item.fdyMinMax,
-                  'showRatio': item.showRatio,
-                  'showTexturized': item.showTexturized,
-                  'showUsage': item.showUsage,
-                  'showPattern': item.showPattern,
-                  'showPatternCharectristic': item.showPatternCharectristic,
-                  'showOrientation': item.showOrientation,
-                  'showTwistDirection': item.showTwistDirection,
-                  'ysIsActive': item.ysIsActive,
-                  'ysSortid': item.ysSortid,
-                  'show_actual_count': item.show_actual_count,
-                  'actual_count_min_max': item.actual_count_min_max
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -1871,8 +1817,6 @@ class _$YarnSettingDao extends YarnSettingDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<YarnSetting> _yarnSettingInsertionAdapter;
-
-  final DeletionAdapter<YarnSetting> _yarnSettingDeletionAdapter;
 
   @override
   Future<List<YarnSetting>> findAllYarnSettings() async {
@@ -2047,11 +1991,6 @@ class _$YarnSettingDao extends YarnSettingDao {
     return _yarnSettingInsertionAdapter.insertListAndReturnIds(
         fiberSettings, OnConflictStrategy.replace);
   }
-
-  @override
-  Future<void> deleteAll(List<YarnSetting> list) async {
-    await _yarnSettingDeletionAdapter.deleteList(list);
-  }
 }
 
 class _$YarnFamilyDao extends YarnFamilyDao {
@@ -2180,6 +2119,80 @@ class _$YarnBlendDao extends YarnBlendDao {
   Future<void> insertAllYarnBlend(List<Blends> yarnBlend) async {
     await _blendsInsertionAdapter.insertList(
         yarnBlend, OnConflictStrategy.replace);
+  }
+}
+
+class _$YarnGradesDao extends YarnGradesDao {
+  _$YarnGradesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _yarnGradesInsertionAdapter = InsertionAdapter(
+            database,
+            'yarn_grades',
+            (YarnGrades item) => <String, Object?>{
+                  'grdId': item.grdId,
+                  'familyId': item.familyId,
+                  'blendId': item.blendId,
+                  'grdCategoryIdfk': item.grdCategoryIdfk,
+                  'grdName': item.grdName,
+                  'grdIsActive': item.grdIsActive,
+                  'grdSortid': item.grdSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<YarnGrades> _yarnGradesInsertionAdapter;
+
+  @override
+  Future<List<YarnGrades>> findAllGrades() async {
+    return _queryAdapter.queryList('SELECT * FROM yarn_grades',
+        mapper: (Map<String, Object?> row) => YarnGrades(
+            grdId: row['grdId'] as int?,
+            familyId: row['familyId'] as String?,
+            blendId: row['blendId'] as String?,
+            grdName: row['grdName'] as String?,
+            grdIsActive: row['grdIsActive'] as String?,
+            grdSortid: row['grdSortid'] as String?));
+  }
+
+  @override
+  Future<List<YarnGrades>> findGradeWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_grades where familyId = ?1',
+        mapper: (Map<String, Object?> row) => YarnGrades(
+            grdId: row['grdId'] as int?,
+            familyId: row['familyId'] as String?,
+            blendId: row['blendId'] as String?,
+            grdName: row['grdName'] as String?,
+            grdIsActive: row['grdIsActive'] as String?,
+            grdSortid: row['grdSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteGrade(int id) async {
+    await _queryAdapter.queryNoReturn('delete from yarn_grades where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from yarn_grades');
+  }
+
+  @override
+  Future<void> insertGrades(YarnGrades grades) async {
+    await _yarnGradesInsertionAdapter.insert(
+        grades, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllGrades(List<YarnGrades> grades) {
+    return _yarnGradesInsertionAdapter.insertListAndReturnIds(
+        grades, OnConflictStrategy.replace);
   }
 }
 
@@ -2419,7 +2432,7 @@ class _$DyingMethodDao extends DyingMethodDao {
 class _$OrientationDao extends OrientationDao {
   _$OrientationDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _orientationInsertionAdapter = InsertionAdapter(
+        _orientationTableInsertionAdapter = InsertionAdapter(
             database,
             'orientation_table',
             (OrientationTable item) => <String, Object?>{
@@ -2437,7 +2450,7 @@ class _$OrientationDao extends OrientationDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<OrientationTable> _orientationInsertionAdapter;
+  final InsertionAdapter<OrientationTable> _orientationTableInsertionAdapter;
 
   @override
   Future<List<OrientationTable>> findAllOrientation() async {
@@ -2479,13 +2492,13 @@ class _$OrientationDao extends OrientationDao {
 
   @override
   Future<void> insertOrientation(OrientationTable orientation) async {
-    await _orientationInsertionAdapter.insert(
+    await _orientationTableInsertionAdapter.insert(
         orientation, OnConflictStrategy.replace);
   }
 
   @override
   Future<List<int>> insertAllOrientation(List<OrientationTable> orientation) {
-    return _orientationInsertionAdapter.insertListAndReturnIds(
+    return _orientationTableInsertionAdapter.insertListAndReturnIds(
         orientation, OnConflictStrategy.replace);
   }
 }

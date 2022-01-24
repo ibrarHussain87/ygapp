@@ -29,6 +29,7 @@ class _BidsListPageState extends State<BidsListPage> {
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: (){
               Navigator.pop(context);
             },

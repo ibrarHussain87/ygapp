@@ -13,6 +13,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:intl/intl.dart';
 
 Widget buildYarnRenewedWidget(YarnSpecification specification) {
   return Card(
@@ -395,7 +396,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                               fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: "Nov 23, 2021",
+                          text: DateFormat("MMM dd, yyyy").format(DateTime.parse(specification.date??"")),
                           style: TextStyle(
                               fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
                         )

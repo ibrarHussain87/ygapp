@@ -57,6 +57,7 @@ class _BannerBodyState extends State<BannerBody> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0.w),
                           child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
                             onTap: (){
                               _launchURL(i.url);
                             },

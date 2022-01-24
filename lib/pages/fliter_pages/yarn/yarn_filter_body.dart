@@ -11,7 +11,7 @@ import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/string_util.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
@@ -998,23 +998,23 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
   void _setMinMaxConfiguration(YarnSetting element) {
     setState(() {
-      if (StringUtils.splitMin(element.countMinMax) > minCount) {
-        minCount = StringUtils.splitMin(element.countMinMax);
+      if (Utils.splitMin(element.countMinMax) > minCount) {
+        minCount = Utils.splitMin(element.countMinMax);
       }
-      if (StringUtils.splitMax(element.countMinMax) > maxCount) {
-        maxCount = StringUtils.splitMax(element.countMinMax);
+      if (Utils.splitMax(element.countMinMax) > maxCount) {
+        maxCount = Utils.splitMax(element.countMinMax);
       }
-      if (StringUtils.splitMin(element.filamentMinMax) > minFilament) {
-        minFilament = StringUtils.splitMin(element.filamentMinMax);
+      if (Utils.splitMin(element.filamentMinMax) > minFilament) {
+        minFilament = Utils.splitMin(element.filamentMinMax);
       }
-      if (StringUtils.splitMax(element.filamentMinMax) > maxFilament) {
-        maxFilament = StringUtils.splitMax(element.filamentMinMax);
+      if (Utils.splitMax(element.filamentMinMax) > maxFilament) {
+        maxFilament = Utils.splitMax(element.filamentMinMax);
       }
-      if (StringUtils.splitMin(element.dannierMinMax) > minDannier) {
-        minDannier = StringUtils.splitMin(element.dannierMinMax);
+      if (Utils.splitMin(element.dannierMinMax) > minDannier) {
+        minDannier = Utils.splitMin(element.dannierMinMax);
       }
-      if (StringUtils.splitMax(element.dannierMinMax) > maxDannier) {
-        maxDannier = StringUtils.splitMax(element.dannierMinMax);
+      if (Utils.splitMax(element.dannierMinMax) > maxDannier) {
+        maxDannier = Utils.splitMax(element.dannierMinMax);
       }
     });
   }

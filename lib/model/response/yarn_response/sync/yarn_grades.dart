@@ -1,55 +1,47 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'grade')
-class Grades {
-  Grades({
+/// grd_id : 1
+/// family_id : "4"
+/// blend_id : "0"
+/// grd_name : "AA"
+/// grd_is_active : "1"
+/// grd_sortid : null
+
+@Entity(tableName: 'yarn_grades')
+class YarnGrades {
+  YarnGrades({
     required this.grdId,
-    required this.grdCategoryIdfk,
+    required this.familyId,
+    required this.blendId,
     required this.grdName,
     required this.grdIsActive,
-    this.grdSortid,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
+    required this.grdSortid,
   });
   @PrimaryKey(autoGenerate: false)
   int? grdId;
   String? familyId;
+  String? blendId;
   String? grdCategoryIdfk;
   String? grdName;
   String? grdIsActive;
-  @ignore
-  late final Null grdSortid;
-  @ignore
-  late final Null createdAt;
-  @ignore
-  late final Null updatedAt;
-  @ignore
-  late final Null deletedAt;
+  String? grdSortid;
 
-  Grades.fromJson(Map<String, dynamic> json){
+  YarnGrades.fromJson(Map<String, dynamic> json){
     grdId = json['grd_id'];
     familyId = json['family_id'];
-    grdCategoryIdfk = json['grd_category_idfk'];
+    blendId = json['blend_id'];
     grdName = json['grd_name'];
     grdIsActive = json['grd_is_active'];
-    grdSortid = null;
-    createdAt = null;
-    updatedAt = null;
-    deletedAt = null;
+    grdSortid = json['grd_sortid'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['grd_id'] = grdId;
     _data['family_id'] = familyId;
-    _data['grd_category_idfk'] = grdCategoryIdfk;
     _data['grd_name'] = grdName;
     _data['grd_is_active'] = grdIsActive;
     _data['grd_sortid'] = grdSortid;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
     return _data;
   }
 

@@ -7,8 +7,9 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_family_blend_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_future_widget.dart';
+
+import 'yarn_components/family_blend_body.dart';
 
 class YarnPage extends StatefulWidget {
   final String? locality;
@@ -51,16 +52,31 @@ class YarnPageState extends State<YarnPage> {
               ], color: Colors.white),
               child: Column(
                 children: [
-                  YarnFamilyBlendListingBody(
-                    blendCallback: (Blends? blend) {
+                  // YarnFamilyBlendListingBody(
+                  //   blendCallback: (Blends? blend) {
+                  //     var model = GetSpecificationRequestModel();
+                  //     model.ysBlendIdFk = [blend!.blnId!];
+                  //     yarnSpecificationListState.currentState!
+                  //         .searchData(model);
+                  //   },
+                  //   yarnFamilyCallback: (Family? yarnFamily) {
+                  //     var model = GetSpecificationRequestModel();
+                  //     model.ysFamilyIdFk = [yarnFamily!.famId!];
+                  //     yarnSpecificationListState.currentState!
+                  //         .searchData(model);
+                  //   },
+                  // ),
+                  BlendFamily(
+                    // yarnSyncResponse: snapshot.data!,
+                    yarnFamilyCallback: (Family yarnFamily) {
                       var model = GetSpecificationRequestModel();
-                      model.ysBlendIdFk = [blend!.blnId!];
+                      model.ysFamilyIdFk = [yarnFamily.famId!];
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },
-                    yarnFamilyCallback: (Family? yarnFamily) {
+                    blendCallback: (Blends blend) {
                       var model = GetSpecificationRequestModel();
-                      model.ysFamilyIdFk = [yarnFamily!.famId!];
+                      model.ysBlendIdFk = [blend.blnId!];
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },

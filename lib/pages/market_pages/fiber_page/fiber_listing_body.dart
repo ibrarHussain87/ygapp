@@ -40,6 +40,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
     return ListView.builder(
       itemCount: specificationFiltered!.length,
       itemBuilder: (context, index) => GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);

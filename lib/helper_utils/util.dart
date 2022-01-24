@@ -1,4 +1,4 @@
-class StringUtils{
+class Utils{
 
   static bool disableClick = false;
 

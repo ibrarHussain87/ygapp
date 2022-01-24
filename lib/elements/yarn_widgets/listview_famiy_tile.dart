@@ -40,6 +40,7 @@ class FamilyTileWidgetState extends State<FamilyTileWidget> {
   Widget buildWidget(int index) {
     bool checked = index == checkedFamily;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         if(!disableClick){
           setState(() {

@@ -42,6 +42,7 @@ class YarnListBodyState extends State<YarnListBody> {
             itemCount: _yarnFilteredSpecification!.length,
             itemBuilder: (context, index) {
               return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     openDetailsScreen(context,
                         yarnSpecification: _yarnFilteredSpecification![index]);

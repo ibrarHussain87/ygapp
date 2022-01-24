@@ -9,6 +9,6 @@ abstract class UserDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertUser(User user);
 
-  @delete
+  @Query('delete FROM user_table')
   Future<void> deleteUserData();
 }

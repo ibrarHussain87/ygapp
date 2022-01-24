@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/title_text_widget.dart';
 
 class ConnectionStatusSingleton {
   //This creates the single instance by calling the `_internal` constructor specified below
@@ -95,6 +96,34 @@ void showInternetDialog(
       callback: (){
         SystemNavigator.pop();
       },
+    ),
+  ).show();
+}
+
+
+void showLogoutDialog(
+    String title, String content, BuildContext context, Function callback) {
+  StylishDialog(
+    context: context,
+    alertType: StylishDialogType.NORMAL,
+    titleText: title,
+    contentText: content,
+    dismissOnTouchOutside: false,
+    confirmButton: ElevatedButtonWithoutIcon(
+      btnText: "Logout",
+      color: Colors.green,
+      callback: (){
+        callback();
+      },
+    ),
+    cancelButton: GestureDetector(
+      onTap: (){
+        Navigator.pop(context);
+      },
+      child: const TitleExtraSmallTextWidget(
+        title: "Close",
+        color: Colors.green,
+      ),
     ),
   ).show();
 }

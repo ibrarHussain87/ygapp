@@ -24,6 +24,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5, top: 8),
                         child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                           onTap: () {
                             Navigator.pop(context);
                           },
@@ -89,6 +90,7 @@ class ItemBottomSheet extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             myClickCallback('You clicked ${myActions.title}');
           },

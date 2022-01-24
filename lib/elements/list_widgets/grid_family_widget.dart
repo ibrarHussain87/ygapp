@@ -34,6 +34,7 @@ class _GridFamilyWidgetState extends State<GridFamilyWidget> {
   Widget buildGrid(int index) {
     bool checked = index == checkedFamily;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           checkedFamily = index;

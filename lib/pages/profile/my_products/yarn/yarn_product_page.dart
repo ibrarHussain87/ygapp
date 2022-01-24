@@ -174,6 +174,7 @@ class YarnProductPageState extends State<YarnProductPage> {
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 openDetailsScreen(
                                     context, yarnSpecification: widget.specification![index]!);
