@@ -4,7 +4,7 @@ List<String> plyStringList = [
   "Single",
   "Double",
   "Triple",
-  "Quardruple"q
+  "Quardruple"
 ];
 
 //Shared preference Key
