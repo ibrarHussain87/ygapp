@@ -34,10 +34,10 @@ class CreateSpecificationData {
     required this.bidUserIdfk,
     required this.bidPrice,
   });
-  late final String bidCategoryIdfk;
-  late final String bidSpecificationIdfk;
-  late final String bidUserIdfk;
-  late final String bidPrice;
+  String? bidCategoryIdfk;
+  String? bidSpecificationIdfk;
+  String? bidUserIdfk;
+  String? bidPrice;
 
   CreateSpecificationData.fromJson(Map<String, dynamic> json){
     bidCategoryIdfk = json['bid_category_idfk'];
