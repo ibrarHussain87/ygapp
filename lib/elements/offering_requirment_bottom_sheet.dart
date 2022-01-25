@@ -39,7 +39,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Expanded(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -61,7 +61,8 @@ showBottomSheetOR(BuildContext context,Function callback) {
                                     });
                               }),
                         ),
-                      )),
+                      )
+                  ),
                   const SizedBox(height: 20),
                 ],
               )),
@@ -87,42 +88,45 @@ class ItemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            myClickCallback('You clicked ${myActions.title}');
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  elevation: 0,
-                  color: Colors.white,
-                  child: SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(7),
-                      child: Icon(
-                        myActions.icon,
+    return Container(
+      width: MediaQuery.of(context).size.width/2,
+      child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              myClickCallback('You clicked ${myActions.title}');
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    elevation: 0,
+                    color: Colors.white,
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(7),
+                        child: Icon(
+                          myActions.icon,
+                        ),
                       ),
-                    ),
-                  )),
-              const SizedBox(
-                height: 3,
-              ),
-              Text(
-                myActions.title,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ));
+                    )),
+                const SizedBox(
+                  height: 0,
+                ),
+                Text(
+                  myActions.title,
+                  style:
+                      const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }
