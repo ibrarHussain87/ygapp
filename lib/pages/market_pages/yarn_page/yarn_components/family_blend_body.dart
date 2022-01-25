@@ -25,11 +25,11 @@ class BlendFamily extends StatefulWidget {
 }
 
 class _BlendFamilyState extends State<BlendFamily> {
-
   YarnSetting? _yarnSetting;
   int? selectedFamilyId;
   List<Family>? _yarnFamily;
   List<Blends>? _yarnBlends;
+
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {
       await value.yarnFamilyDao.findAllYarnFamily().then((value) {
@@ -42,13 +42,14 @@ class _BlendFamilyState extends State<BlendFamily> {
           _yarnBlends = value;
         });
       });
-      await value.yarnSettingsDao.findFamilyYarnSettings(_yarnFamily!.first.famId!).then((value) => setState(() => _yarnSetting = value[0]));
+      await value.yarnSettingsDao
+          .findFamilyYarnSettings(_yarnFamily!.first.famId!)
+          .then((value) => setState(() => _yarnSetting = value[0]));
     });
   }
 
   @override
   void initState() {
-
     _getYarnDataFromDb();
     // _yarnSetting = widget.yarnSyncResponse.data.yarn.setting!.first;
     // selectedFamilyId = widget.yarnSyncResponse.data.yarn.family!.first.famId;
@@ -57,55 +58,63 @@ class _BlendFamilyState extends State<BlendFamily> {
 
   @override
   Widget build(BuildContext context) {
-    return (_yarnSetting!= null && _yarnFamily != null && _yarnBlends != null) ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 8.w, right: 8.w),
-          child: Column(
+    return (_yarnSetting != null && _yarnFamily != null && _yarnBlends != null)
+        ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Visibility(
+                        visible: false,
+                        child: TitleTextWidget(title: yarnCategory)),
+                    SizedBox(
+                      height: 0.055 * MediaQuery.of(context).size.height,
+                      child: FamilyTileWidget(
+                        selectedIndex: -1,
+                        listItems: _yarnFamily,
+                        callback: (Family value) {
+                          queryFamilySettings(value.famId!);
+                          widget.yarnFamilyCallback(value);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8.w,
+                    ),
+                  ],
+                ),
+              ),
               Visibility(
-                  visible: false,
-                  child: TitleTextWidget(title: yarnCategory)),
-              SizedBox(
-                height: 0.055 * MediaQuery.of(context).size.height,
-                child: FamilyTileWidget(
-                  selectedIndex: -1,
-                  listItems: _yarnFamily,
-                  callback: (Family value) {
-                    queryFamilySettings(value.famId!);
-                    widget.yarnFamilyCallback(value);
+                visible: false,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
+                    child: TitleTextWidget(title: blend)),
+              ),
+              Visibility(
+                visible: Ui.showHide(_yarnSetting!.showBlend),
+                child: CatWithImageListWidget(
+                  selectedItem: -1,
+                  listItem: _yarnBlends!
+                      .where((element) =>
+                          element.familyIdfk == selectedFamilyId.toString())
+                      .toList(),
+                  onClickCallback: (value) {
+                    widget.blendCallback(
+                        _yarnBlends!
+                            .where((element) =>
+                                element.familyIdfk ==
+                                selectedFamilyId.toString())
+                            .toList()[value],
+                        selectedFamilyId);
                   },
                 ),
               ),
-              SizedBox(
-                height: 8.w,
-              ),
             ],
-          ),
-        ),
-        Visibility(
-          visible: false,
-          child: Padding(
-              padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-              child: TitleTextWidget(title: blend)),
-        ),
-        Visibility(
-          visible: Ui.showHide(_yarnSetting!.showBlend),
-          child: CatWithImageListWidget(
-            selectedItem: -1,
-            listItem: _yarnBlends!
-                .where((element) =>
-                    element.familyIdfk == selectedFamilyId.toString())
-                .toList(),
-            onClickCallback: (value) {
-              widget.blendCallback(_yarnBlends![value]);
-            },
-          ),
-        ),
-      ],
-    ) : Container();
+          )
+        : Container();
   }
 
   queryFamilySettings(int id) {
@@ -115,7 +124,7 @@ class _BlendFamilyState extends State<BlendFamily> {
           selectedFamilyId = id;
           if (value.isNotEmpty) {
             _yarnSetting = value[0];
-          }/*else {
+          } /*else {
             Ui.showSnackBar(context, 'No Settings Found');
           }*/
         });

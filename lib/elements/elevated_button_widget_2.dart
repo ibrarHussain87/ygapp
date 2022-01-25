@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElevatedButtonWithoutIcon extends StatefulWidget {
-  final Function? callback;
+  final Function callback;
   final Color? color;
   final String? btnText;
   final String? textColor;
@@ -40,7 +40,7 @@ class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
                     borderRadius: BorderRadius.all(Radius.circular(6)),
                     side: BorderSide(color: Colors.transparent)))),
         onPressed: () {
-          widget.callback!();
+          widget.callback();
         });
   }
 }

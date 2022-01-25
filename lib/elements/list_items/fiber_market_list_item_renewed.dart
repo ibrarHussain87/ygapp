@@ -61,7 +61,7 @@ Widget buildFiberRenewedWidget(Specification specification) {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const TitleSmallNormalTextWidget(title: "Koh-e-Noor Textile Mills LTD.",
+                      TitleSmallNormalTextWidget(title:specification.company??"",
                         color: Colors.black,size: 10,weight: FontWeight.w600,),
                       SizedBox(
                         width: 4.w,

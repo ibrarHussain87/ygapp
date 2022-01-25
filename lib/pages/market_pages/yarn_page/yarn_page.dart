@@ -38,6 +38,7 @@ class YarnPageState extends State<YarnPage> {
           },
           child: const Icon(Icons.add),
           backgroundColor: Colors.blueAccent,
+          heroTag: null,
         ),
         body: Column(
           children: [
@@ -74,9 +75,10 @@ class YarnPageState extends State<YarnPage> {
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },
-                    blendCallback: (Blends blend) {
+                    blendCallback: (Blends blend,int familyId) {
                       var model = GetSpecificationRequestModel();
                       model.ysBlendIdFk = [blend.blnId!];
+                      model.ysFamilyIdFk = [familyId];
                       yarnSpecificationListState.currentState!
                           .searchData(model);
                     },

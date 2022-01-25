@@ -139,23 +139,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const Divider()
                                       ],
                                     ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){
-                                        openMyAdsScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "My Product",
-                                              image: PROFILE_DETAILS_IMAGE),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
+
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "My Offerings",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_tag),
                                         const Divider()
                                       ],
                                     ),
@@ -165,7 +153,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           ProfileTileWidget(title: "My Requirements",
-                                              image: PROFILE_DETAILS_IMAGE),
+                                              image: ic_requirments),
+                                          const Divider()
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: (){
+                                        openMyAdsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "My Product",
+                                              image: ic_products),
                                           const Divider()
                                         ],
                                       ),
@@ -178,50 +179,61 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           ProfileTileWidget(title: "My Bids",
-                                              image: PROFILE_DETAILS_IMAGE),
+                                              image: ic_universe),
                                           const Divider()
                                         ],
                                       ),
                                     ),
+
+                                    Column(
+                                      children: [
+                                        ProfileTileWidget(title: "Auctions",
+                                            image: AUCTION_IMAGE),
+                                        const Divider()
+                                      ],
+                                    ),
+
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "Inquiries",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_inquiries),
                                         const Divider()
                                       ],
                                     ),
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "Membership",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_membership),
                                         const Divider()
                                       ],
                                     ),
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "Customer & Supplier",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_suppliers),
                                         const Divider()
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Customer Support",
-                                            image: PROFILE_DETAILS_IMAGE),
-                                        const Divider()
-                                      ],
-                                    ),
+
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "FAQs",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_faq),
                                         const Divider()
                                       ],
                                     ),
                                     Column(
                                       children: [
                                         ProfileTileWidget(title: "Activity Log",
-                                            image: PROFILE_DETAILS_IMAGE),
+                                            image: ic_log),
+                                        const Divider()
+                                      ],
+                                    ),
+
+                                    Column(
+                                      children: [
+                                        ProfileTileWidget(title: "Customer Support",
+                                            image: ic_support),
                                         const Divider()
                                       ],
                                     ),

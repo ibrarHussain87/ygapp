@@ -13,11 +13,12 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
@@ -27,12 +28,13 @@ class YarnSpecificationComponent extends StatefulWidget {
   final String? selectedTab;
   final Function? callback;
 
-  const YarnSpecificationComponent({Key? key,
-    this.callback,
-    required this.yarnSyncResponse,
-    required this.locality,
-    required this.businessArea,
-    required this.selectedTab})
+  const YarnSpecificationComponent(
+      {Key? key,
+      this.callback,
+      required this.yarnSyncResponse,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
@@ -85,21 +87,15 @@ class YarnSpecificationComponentState
             child: Column(
               children: [
                 Padding(
-                    padding: EdgeInsets.only(
-                        left: 4.w, top: 8.w),
-                    child:
-                    const TitleSmallTextWidget(
-                        title: "Thickness")),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: const TitleSmallTextWidget(title: "Thickness")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
-                      .ys_pattern_charectristic_thickness =
-                  input!,
+                  onSaved: (input) => _createRequestModel
+                      .ys_pattern_charectristic_thickness = input!,
                   errorText: "Thickness",
                 ),
               ],
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
             ),
           ),
           SizedBox(
@@ -107,20 +103,14 @@ class YarnSpecificationComponentState
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(
-                        left: 4.w, top: 8.w),
-                    child:
-                    const TitleSmallTextWidget(
-                        title: "Length")),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: const TitleSmallTextWidget(title: "Length")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
-                      .ys_length_pattern_charactristics =
-                  input!,
+                  onSaved: (input) => _createRequestModel
+                      .ys_length_pattern_charactristics = input!,
                   errorText: "Length",
                 ),
               ],
@@ -131,50 +121,38 @@ class YarnSpecificationComponentState
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(
-                        left: 4.w, top: 8.w),
-                    child:
-                    const TitleSmallTextWidget(
-                        title: "Pause")),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: const TitleSmallTextWidget(title: "Pause")),
                 YgTextFormFieldWithoutRange(
                   errorText: "Pause",
-                  onSaved: (input) =>
-                  _createRequestModel
-                      .ys_pause_patteren_charactristics =
-                  input!,
+                  onSaved: (input) => _createRequestModel
+                      .ys_pause_patteren_charactristics = input!,
                 ),
               ],
             ),
           ),
         ],
       );
-    }
-    else if (_patternGRIdList.contains(int.parse(_selectedPatternId ?? "-1"))) {
+    } else if (_patternGRIdList
+        .contains(int.parse(_selectedPatternId ?? "-1"))) {
       return Row(
         children: [
           Expanded(
             child: Column(
               children: [
                 Padding(
-                    padding: EdgeInsets.only(
-                        left: 4.w, top: 8.w),
-                    child:
-                    const TitleSmallTextWidget(
-                        title: "Grain")),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: const TitleSmallTextWidget(title: "Grain")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
-                      .ys_grain_patteren_charactristics =
-                  input!,
+                  onSaved: (input) => _createRequestModel
+                      .ys_grain_patteren_charactristics = input!,
                   errorText: "Grain",
                 ),
               ],
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
             ),
           ),
           SizedBox(
@@ -182,20 +160,14 @@ class YarnSpecificationComponentState
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(
-                        left: 4.w, top: 8.w),
-                    child:
-                    const TitleSmallTextWidget(
-                        title: "Rice")),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: const TitleSmallTextWidget(title: "Rice")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
-                      .ys_rice_patteren_charactristics =
-                  input!,
+                  onSaved: (input) => _createRequestModel
+                      .ys_rice_patteren_charactristics = input!,
                   errorText: "Rice",
                 ),
               ],
@@ -203,29 +175,21 @@ class YarnSpecificationComponentState
           ),
         ],
       );
-    }
-    else {
+    } else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(
-                    left: 8.w),
-                child: TitleSmallTextWidget(
-                    title: patternChar)),
+                padding: EdgeInsets.only(left: 8.w),
+                child: TitleSmallTextWidget(title: patternChar)),
             SingleSelectTileWidget(
               key: _patternCharKey,
               spanCount: 4,
-              listOfItems:
-              _patternCharactristicList ??
-                  [],
-              callback: (PatternCharectristic
-              value) {
-                _createRequestModel
-                    .ys_pattern_charectristic_idfk =
+              listOfItems: _patternCharactristicList ?? [],
+              callback: (PatternCharectristic value) {
+                _createRequestModel.ys_pattern_charectristic_idfk =
                     value.ypcId.toString();
               },
             ),
@@ -240,8 +204,8 @@ class YarnSpecificationComponentState
         Ui.showHide(_yarnSetting!.showColorTreatmentMethod)) {
       return _yarnData!.dyingMethod!
           .where((element) =>
-      element.ydmColorTreatmentMethodIdfk ==
-          _selectedColorTreatMethodId)
+              element.ydmColorTreatmentMethodIdfk ==
+              _selectedColorTreatMethodId)
           .toList();
     } else {
       return _yarnData!.dyingMethod!
@@ -254,7 +218,7 @@ class YarnSpecificationComponentState
     AppDbInstance.getDbInstance().then((value) async {
       value.yarnSettingsDao
           .findFamilyAndBlendYarnSettings(
-          _yarnData!.blends![id].blnId!, int.parse(_selectedFamilyId!))
+              _yarnData!.blends![id].blnId!, int.parse(_selectedFamilyId!))
           .then((value) {
         setState(() {
           _selectedBlendIndex = id;
@@ -266,8 +230,8 @@ class YarnSpecificationComponentState
             _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
             _createRequestModel.ys_blend_idfk = _selectedBlendIndex != null
                 ? widget.yarnSyncResponse.data.yarn
-                .blends![_selectedBlendIndex!].blnId
-                .toString()
+                    .blends![_selectedBlendIndex!].blnId
+                    .toString()
                 : "";
           }
           _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
@@ -307,8 +271,7 @@ class YarnSpecificationComponentState
 
     //Blend Id
     if (Ui.showHide(_yarnSetting!.showBlend)) {
-      _createRequestModel.ys_blend_idfk = _yarnData!
-          .blends!
+      _createRequestModel.ys_blend_idfk = _yarnData!.blends!
           .where(
               (element) => element.familyIdfk.toString() == _selectedFamilyId)
           .toList()
@@ -319,8 +282,7 @@ class YarnSpecificationComponentState
 
     //Grade ID
     if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
-      _createRequestModel.ys_grade_idfk = _yarnData!
-          .grades!
+      _createRequestModel.ys_grade_idfk = _yarnData!.grades!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -336,8 +298,7 @@ class YarnSpecificationComponentState
 
     //PLY ID
     if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
-      _createRequestModel.ys_ply_idfk = _yarnData!
-          .ply!
+      _createRequestModel.ys_ply_idfk = _yarnData!.ply!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -347,20 +308,32 @@ class YarnSpecificationComponentState
 
     //Quality ID
     if (Ui.showHide(_yarnSetting!.showQuality)) {
-      _createRequestModel.ys_quality_idfk = _yarnData!
-          .quality!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yqId
-          .toString();
+      if (_selectedSpunTechId == "1") {
+        _createRequestModel.ys_quality_idfk = _yarnData!.quality!
+            .where(
+                (element) => element.familyId.toString() == _selectedFamilyId)
+            .toList()
+            .where(
+                (element) => element.spun_technique_id == _selectedSpunTechId)
+            .toList()
+            .first
+            .yqId
+            .toString();
+      } else {
+        _createRequestModel.ys_quality_idfk = _yarnData!.quality!
+            .where(
+                (element) => element.familyId.toString() == _selectedFamilyId)
+            .toList()
+            .first
+            .yqId
+            .toString();
+      }
     }
 
     //ORIENTATION ID
     if (Ui.showHide(_yarnSetting!.showOrientation) &&
         _yarnData!.orientation!.isNotEmpty) {
-      _createRequestModel.ys_orientation_idfk = _yarnData!
-          .orientation!
+      _createRequestModel.ys_orientation_idfk = _yarnData!.orientation!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -370,8 +343,7 @@ class YarnSpecificationComponentState
 
     //USAGE ID
     if (Ui.showHide(_yarnSetting!.showUsage) && _yarnData!.usage!.isNotEmpty) {
-      _createRequestModel.ys_usage_idfk = _yarnData!
-          .usage!
+      _createRequestModel.ys_usage_idfk = _yarnData!.usage!
           .where(
               (element) => element.ysFamilyId.toString() == _selectedFamilyId)
           .toList()
@@ -383,13 +355,33 @@ class YarnSpecificationComponentState
     //PATTERN ID
     if (Ui.showHide(_yarnSetting!.showPattern) &&
         _yarnData!.pattern!.isNotEmpty) {
-      _createRequestModel.ys_pattern_idfk = _yarnData!
-          .pattern!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .ypId
-          .toString();
+
+      if (_selectedSpunTechId == "1") {
+        _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+            .where(
+                (element) => element.familyId.toString() == _selectedFamilyId)
+            .toList()
+            .where(
+                (element) => element.spun_technique_id == _selectedSpunTechId)
+            .toList()
+            .first
+            .ypId
+            .toString();
+      } else {
+        _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+            .where(
+                (element) => element.familyId.toString() == _selectedFamilyId)
+            .toList()
+            .first
+            .ypId
+            .toString();
+      }
+      // _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+      //     .where((element) => element.familyId.toString() == _selectedFamilyId)
+      //     .toList()
+      //     .first
+      //     .ypId
+      //     .toString();
     }
 
     //PATTERN CHAR ID
@@ -397,13 +389,13 @@ class YarnSpecificationComponentState
       if (_yarnData!.patternCharectristic!.isNotEmpty) {
         if (widget.yarnSyncResponse.data.yarn.patternCharectristic!
             .where((element) =>
-        element.ypcPatternIdfk.toString() == _selectedPatternId)
+                element.ypcPatternIdfk.toString() == _selectedPatternId)
             .toList()
             .isNotEmpty) {
           _createRequestModel.ys_pattern_charectristic_idfk = widget
               .yarnSyncResponse.data.yarn.patternCharectristic!
               .where((element) =>
-          element.ypcPatternIdfk.toString() == _selectedPatternId)
+                  element.ypcPatternIdfk.toString() == _selectedPatternId)
               .toList()
               .first
               .ypcId
@@ -427,6 +419,16 @@ class YarnSpecificationComponentState
     //SPUN TECH ID
     if (Ui.showHide(_yarnSetting!.showSpunTechnique) &&
         _yarnData!.spunTechnique!.isNotEmpty) {
+      setState(() {
+        _selectedSpunTechId = widget.yarnSyncResponse.data.yarn.spunTechnique!
+            .where(
+                (element) => element.familyId.toString() == _selectedFamilyId)
+            .toList()
+            .first
+            .ystId
+            .toString();
+      });
+
       _createRequestModel.ys_spun_technique_idfk = widget
           .yarnSyncResponse.data.yarn.spunTechnique!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
@@ -451,8 +453,7 @@ class YarnSpecificationComponentState
     //APPEARANCE ID
     if (Ui.showHide(_yarnSetting!.showAppearance) &&
         _yarnData!.apperance!.isNotEmpty) {
-      _createRequestModel.ys_apperance_idfk = _yarnData!
-          .apperance!
+      _createRequestModel.ys_apperance_idfk = _yarnData!.apperance!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -466,7 +467,7 @@ class YarnSpecificationComponentState
         _yarnData!.dyingMethod!.isNotEmpty) {
       _createRequestModel.ys_dying_method_idfk = _yarnData!.dyingMethod!
           .where((element) =>
-      element.apperanceId.toString() == _selectedAppearenceId)
+              element.apperanceId.toString() == _selectedAppearenceId)
           .toList()
           .first
           .ydmId
@@ -504,28 +505,55 @@ class YarnSpecificationComponentState
 
   //RESET ALL DATA
   _resetData() {
-
-    if(_yarnTypeKey.currentState != null) _yarnTypeKey.currentState!.checkedTile = 0;
-    if(_usageKey.currentState != null) _usageKey.currentState!.checkedTile = 0;
-    if(_appearanceKey.currentState != null) _appearanceKey.currentState!.checkedTile = 0;
-    if(_plyKey.currentState != null) _plyKey.currentState!.checkedTile = 0;
-    if(_patternKey.currentState != null) _patternKey.currentState!.checkedTile = 0;
-    if(_patternCharKey.currentState != null) _patternCharKey.currentState!.checkedTile = 0;
-    if(_orientationKey.currentState != null) _orientationKey.currentState!.checkedTile = 0;
-    if(_spunTechKey.currentState != null) _spunTechKey.currentState!.checkedTile = 0;
-    if(_qualityKey.currentState != null) _qualityKey.currentState!.checkedTile = 0;
-    if(_certificateKey.currentState != null) _certificateKey.currentState!.checkedTile = 0;
-    if(_gradeKey.currentState != null) _gradeKey.currentState!.checkedTile = 0;
-    if(_twistDirectionKey.currentState != null) _twistDirectionKey.currentState!.checkedTile = 0;
-    if(_doublingMethodKey.currentState != null) _doublingMethodKey.currentState!.checkedTile = 0;
-    if(_dyingMethodKey.currentState != null) _dyingMethodKey.currentState!.checkedTile = 0;
-    if(_colorTreatmentMethodKey.currentState != null) _colorTreatmentMethodKey.currentState!.checkedTile = 0;
+    if (_yarnTypeKey.currentState != null) {
+      _yarnTypeKey.currentState!.checkedTile = 0;
+    }
+    if (_usageKey.currentState != null) _usageKey.currentState!.checkedTile = 0;
+    if (_appearanceKey.currentState != null) {
+      _appearanceKey.currentState!.checkedTile = 0;
+    }
+    if (_plyKey.currentState != null) _plyKey.currentState!.checkedTile = 0;
+    if (_patternKey.currentState != null) {
+      _patternKey.currentState!.checkedTile = 0;
+    }
+    if (_patternCharKey.currentState != null) {
+      _patternCharKey.currentState!.checkedTile = 0;
+    }
+    if (_orientationKey.currentState != null) {
+      _orientationKey.currentState!.checkedTile = 0;
+    }
+    if (_spunTechKey.currentState != null) {
+      _spunTechKey.currentState!.checkedTile = 0;
+    }
+    if (_qualityKey.currentState != null) {
+      _qualityKey.currentState!.checkedTile = 0;
+    }
+    if (_certificateKey.currentState != null) {
+      _certificateKey.currentState!.checkedTile = 0;
+    }
+    if (_gradeKey.currentState != null) _gradeKey.currentState!.checkedTile = 0;
+    if (_twistDirectionKey.currentState != null) {
+      _twistDirectionKey.currentState!.checkedTile = 0;
+    }
+    if (_doublingMethodKey.currentState != null) {
+      _doublingMethodKey.currentState!.checkedTile = 0;
+    }
+    if (_dyingMethodKey.currentState != null) {
+      _dyingMethodKey.currentState!.checkedTile = 0;
+    }
+    if (_colorTreatmentMethodKey.currentState != null) {
+      _colorTreatmentMethodKey.currentState!.checkedTile = 0;
+    }
 
     setState(() {
-
       _showDyingMethod = false;
       _showDoublingMethod = false;
       _showPatternChar = false;
+      _selectedSpunTechId = null;
+      _selectedPatternId = null;
+      _selectedColorTreatMethodId = null;
+      _selectedAppearenceId = null;
+      _selectedPlyId = null;
 
       _createRequestModel.ys_family_idfk = null;
       _createRequestModel.ys_usage_idfk = null;
@@ -548,7 +576,6 @@ class YarnSpecificationComponentState
       _createRequestModel.ys_pattern_charectristic_idfk = null;
       _createRequestModel.ys_certification_idfk = null;
       _createRequestModel.ys_yarn_type_idfk = null;
-
     });
   }
 
@@ -561,29 +588,67 @@ class YarnSpecificationComponentState
     return false;
   }
 
-  _getPattern(){}
-  _getQuality(){}
+  _getPattern() {
+    if (_selectedSpunTechId != null) {
+      if (_selectedSpunTechId == "1") {
+        return _yarnData!.pattern!
+            .where((element) => element.spun_technique_id == "1")
+            .toList();
+      }
+      return _yarnData!.pattern;
+    }
 
-   //Keys
+    return _yarnData!.pattern;
+  }
+
+  _getQuality() {
+    if (_selectedSpunTechId != null) {
+      if (_selectedSpunTechId == "1") {
+        return _yarnData!.quality!
+            .where((element) => element.spun_technique_id == "1")
+            .toList();
+      }
+      return _yarnData!.quality;
+    }
+
+    return _yarnData!.quality;
+  }
+
+  //Keys
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<SingleSelectTileWidgetState> _usageKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _certificateKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _plyKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _orientationKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _qualityKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _patternKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _patternCharKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _spunTechKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _twistDirectionKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _gradeKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _usageKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _certificateKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _plyKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _orientationKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _patternKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _patternCharKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _spunTechKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _twistDirectionKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
+      GlobalKey<SingleSelectTileWidgetState>();
 
-  final List<int> _colorTreatmentIdList = [3, 5,8,11,13];
+  final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
   final List<int> _plyIdList = [1, 5, 9, 13];
   final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
   final List<int> _patternTLPIdList = [2, 9, 12];
@@ -601,12 +666,13 @@ class YarnSpecificationComponentState
   final TextEditingController _textEditingController = TextEditingController();
   var logger = Logger();
 
-   //Provider Models
+  //Provider Models
   YarnSetting? _yarnSetting;
   late CreateRequestModel _createRequestModel;
 
 //pattern charactristics List
   List<PatternCharectristic>? _patternCharactristicList;
+
 //Id's of selection
   String? _selectedFamilyId;
   int? _selectedBlendIndex;
@@ -615,7 +681,7 @@ class YarnSpecificationComponentState
   String? _selectedPatternId;
   String? _selectedAppearenceId;
   String? _selectedColorTreatMethodId;
-
+  String? _selectedSpunTechId;
 
   @override
   void initState() {
@@ -644,7 +710,7 @@ class YarnSpecificationComponentState
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child:  Padding(
+            child: Padding(
               padding: EdgeInsets.only(top: 16.w, left: 24.w, right: 24.w),
               child: SingleChildScrollView(
                 child: Column(
@@ -663,8 +729,7 @@ class YarnSpecificationComponentState
                             child: Text(
                               selectSpecifications,
                               style: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Colors.grey.shade600),
+                                  fontSize: 11.sp, color: Colors.grey.shade600),
                             ),
                           ),
                         ],
@@ -679,8 +744,7 @@ class YarnSpecificationComponentState
                         children: [
                           //Show Texturized
                           Visibility(
-                            visible:
-                            Ui.showHide(_yarnSetting!.showTexturized),
+                            visible: Ui.showHide(_yarnSetting!.showTexturized),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
                               child: Column(
@@ -708,8 +772,7 @@ class YarnSpecificationComponentState
                           Row(
                             children: [
                               Visibility(
-                                visible:
-                                Ui.showHide(_yarnSetting!.showDannier),
+                                visible: Ui.showHide(_yarnSetting!.showDannier),
                                 child: Expanded(
                                   child: Column(
                                     children: [
@@ -719,33 +782,31 @@ class YarnSpecificationComponentState
                                               title: dannier)),
                                       YgTextFormFieldWithRange(
                                           onSaved: (input) =>
-                                          _createRequestModel
-                                              .ys_dty_filament = input!,
+                                              _createRequestModel
+                                                  .ys_dty_filament = input!,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax:
-                                          _yarnSetting!.dannierMinMax!,
+                                          minMax: _yarnSetting!.dannierMinMax!,
                                           errorText: dannier),
                                     ],
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                   ),
                                 ),
                               ),
                               SizedBox(
-                                width:
-                                (Ui.showHide(_yarnSetting!.showDannier) &&
-                                    Ui.showHide(
-                                        _yarnSetting!.showFilament))
+                                width: (Ui.showHide(
+                                            _yarnSetting!.showDannier) &&
+                                        Ui.showHide(_yarnSetting!.showFilament))
                                     ? 16.w
                                     : 0,
                               ),
                               Visibility(
                                 visible:
-                                Ui.showHide(_yarnSetting!.showFilament),
+                                    Ui.showHide(_yarnSetting!.showFilament),
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(left: 4.w),
@@ -753,8 +814,7 @@ class YarnSpecificationComponentState
                                               title: filament)),
                                       YgTextFormFieldWithRange(
                                         minMax: _yarnSetting!.filamentMinMax!,
-                                        onSaved: (input) =>
-                                        _createRequestModel
+                                        onSaved: (input) => _createRequestModel
                                             .ys_fdy_filament = input!,
                                         // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         errorText: filament,
@@ -777,11 +837,15 @@ class YarnSpecificationComponentState
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
                                       child:
-                                      TitleSmallTextWidget(title: usage)),
+                                          TitleSmallTextWidget(title: usage)),
                                   SingleSelectTileWidget(
                                     key: _usageKey,
                                     spanCount: 2,
-                                    listOfItems: _yarnData!.usage!.where((element) => element.ysFamilyId == _selectedFamilyId).toList(),
+                                    listOfItems: _yarnData!.usage!
+                                        .where((element) =>
+                                            element.ysFamilyId ==
+                                            _selectedFamilyId)
+                                        .toList(),
                                     callback: (Usage value) {
                                       _createRequestModel.ys_usage_idfk =
                                           value.yuId.toString();
@@ -794,8 +858,7 @@ class YarnSpecificationComponentState
 
                           //Show Appearance
                           Visibility(
-                            visible:
-                            Ui.showHide(_yarnSetting!.showAppearance),
+                            visible: Ui.showHide(_yarnSetting!.showAppearance),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
                               child: Column(
@@ -810,8 +873,8 @@ class YarnSpecificationComponentState
                                     spanCount: 3,
                                     listOfItems: _yarnData!.apperance!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (YarnAppearance value) {
                                       _createRequestModel.ys_apperance_idfk =
@@ -829,7 +892,7 @@ class YarnSpecificationComponentState
                                           _createRequestModel
                                               .ys_dying_method_idfk = null;
                                           _createRequestModel.ys_color_code =
-                                          null;
+                                              null;
                                         });
                                       }
                                     },
@@ -858,12 +921,12 @@ class YarnSpecificationComponentState
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.colorTreatmentMethod!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (ColorTreatmentMethod value) {
                                       _createRequestModel
-                                          .ys_color_treatment_method_idfk =
+                                              .ys_color_treatment_method_idfk =
                                           value.yctmId.toString();
 
                                       if (_colorTreatmentIdList
@@ -879,7 +942,7 @@ class YarnSpecificationComponentState
                                           _createRequestModel
                                               .ys_dying_method_idfk = null;
                                           _createRequestModel.ys_color_code =
-                                          null;
+                                              null;
                                         });
                                       }
                                     },
@@ -907,7 +970,7 @@ class YarnSpecificationComponentState
                                     key: _dyingMethodKey,
                                     spanCount: 3,
                                     listOfItems:
-                                    _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
+                                        _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
                                       if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                         return element
                                                 .ydmColorTreatmentMethodIdfk ==
@@ -921,8 +984,7 @@ class YarnSpecificationComponentState
                                     }).toList()*/
                                     ,
                                     callback: (DyingMethod value) {
-                                      _createRequestModel
-                                          .ys_dying_method_idfk =
+                                      _createRequestModel.ys_dying_method_idfk =
                                           value.ydmId.toString();
                                     },
                                   ),
@@ -939,8 +1001,7 @@ class YarnSpecificationComponentState
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Padding(
                                       padding: EdgeInsets.only(left: 8.0),
@@ -950,7 +1011,7 @@ class YarnSpecificationComponentState
                                     Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                       child: SizedBox(
                                         width: 120.w,
@@ -963,8 +1024,8 @@ class YarnSpecificationComponentState
                                           style: TextStyle(fontSize: 11.sp),
                                           textAlign: TextAlign.center,
                                           onSaved: (input) =>
-                                          _createRequestModel
-                                              .ys_color_code = input!,
+                                              _createRequestModel
+                                                  .ys_color_code = input!,
                                           validator: (input) {
                                             if (input == null ||
                                                 input.isEmpty) {
@@ -975,12 +1036,11 @@ class YarnSpecificationComponentState
                                           decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      10.0),
-                                                  borderSide:
-                                                  BorderSide.none),
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  borderSide: BorderSide.none),
                                               contentPadding:
-                                              const EdgeInsets.all(2.0),
+                                                  const EdgeInsets.all(2.0),
                                               hintText: "Select Color",
                                               filled: true,
                                               fillColor: pickerColor),
@@ -1015,14 +1075,13 @@ class YarnSpecificationComponentState
                                           })
                                     ],
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                   ),
                                 ),
                               ),
                               SizedBox(
-                                width: (Ui.showHide(
-                                    _yarnSetting!.showRatio) &&
-                                    Ui.showHide(_yarnSetting!.showCount))
+                                width: (Ui.showHide(_yarnSetting!.showRatio) &&
+                                        Ui.showHide(_yarnSetting!.showCount))
                                     ? 16.w
                                     : 0,
                               ),
@@ -1031,7 +1090,7 @@ class YarnSpecificationComponentState
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
@@ -1063,15 +1122,14 @@ class YarnSpecificationComponentState
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
-                                      child:
-                                      TitleSmallTextWidget(title: ply)),
+                                      child: TitleSmallTextWidget(title: ply)),
                                   SingleSelectTileWidget(
                                     key: _plyKey,
                                     spanCount: 4,
                                     listOfItems: _yarnData!.ply!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (Ply value) {
                                       _createRequestModel.ys_ply_idfk =
@@ -1100,8 +1158,7 @@ class YarnSpecificationComponentState
                           //Here Doubling Method
                           Visibility(
                             visible: _showDoublingMethod
-                                ? Ui.showHide(
-                                _yarnSetting!.showDoublingMethod)
+                                ? Ui.showHide(_yarnSetting!.showDoublingMethod)
                                 : false,
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
@@ -1118,11 +1175,11 @@ class YarnSpecificationComponentState
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.doublingMethod!
                                         .where((element) =>
-                                    element.plyId == _selectedPlyId)
+                                            element.plyId == _selectedPlyId)
                                         .toList(),
                                     callback: (DoublingMethod value) {
                                       _createRequestModel
-                                          .ys_doubling_method_idFk =
+                                              .ys_doubling_method_idFk =
                                           value.dmId.toString();
                                     },
                                   ),
@@ -1133,8 +1190,7 @@ class YarnSpecificationComponentState
 
                           //Show Orientation
                           Visibility(
-                            visible:
-                            Ui.showHide(_yarnSetting!.showOrientation),
+                            visible: Ui.showHide(_yarnSetting!.showOrientation),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
                               child: Column(
@@ -1149,12 +1205,11 @@ class YarnSpecificationComponentState
                                     spanCount: 2,
                                     listOfItems: _yarnData!.orientation!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (OrientationTable value) {
-                                      _createRequestModel
-                                          .ys_orientation_idfk =
+                                      _createRequestModel.ys_orientation_idfk =
                                           value.yoId.toString();
                                     },
                                   ),
@@ -1166,7 +1221,7 @@ class YarnSpecificationComponentState
                           //Show Twist Direction
                           Visibility(
                             visible:
-                            Ui.showHide(_yarnSetting!.showTwistDirection),
+                                Ui.showHide(_yarnSetting!.showTwistDirection),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
                               child: Column(
@@ -1182,12 +1237,12 @@ class YarnSpecificationComponentState
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.twistDirection!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (TwistDirection value) {
                                       _createRequestModel
-                                          .ys_twist_direction_idfk =
+                                              .ys_twist_direction_idfk =
                                           value.ytdId.toString();
                                     },
                                   ),
@@ -1199,7 +1254,7 @@ class YarnSpecificationComponentState
                           //Show Spun Technique
                           Visibility(
                             visible:
-                            Ui.showHide(_yarnSetting!.showSpunTechnique),
+                                Ui.showHide(_yarnSetting!.showSpunTechnique),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
                               child: Column(
@@ -1215,12 +1270,16 @@ class YarnSpecificationComponentState
                                     listOfItems: widget.yarnSyncResponse.data
                                         .yarn.spunTechnique!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (SpunTechnique value) {
+                                      setState(() {
+                                        _selectedSpunTechId =
+                                            value.ystId.toString();
+                                      });
                                       _createRequestModel
-                                          .ys_spun_technique_idfk =
+                                              .ys_spun_technique_idfk =
                                           value.ystId.toString();
                                     },
                                   ),
@@ -1239,15 +1298,15 @@ class YarnSpecificationComponentState
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: quality)),
+                                      child:
+                                          TitleSmallTextWidget(title: quality)),
                                   SingleSelectTileWidget(
                                     key: _qualityKey,
                                     spanCount: 2,
-                                    listOfItems: _yarnData!.quality!
+                                    listOfItems: _getQuality()
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (Quality value) {
                                       _createRequestModel.ys_quality_idfk =
@@ -1269,19 +1328,18 @@ class YarnSpecificationComponentState
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: pattern)),
+                                      child:
+                                          TitleSmallTextWidget(title: pattern)),
                                   SingleSelectTileWidget(
                                     key: _patternKey,
                                     spanCount: 3,
-                                    listOfItems: _yarnData!.pattern!
+                                    listOfItems: _getPattern()
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
                                     callback: (PatternModel value) {
-                                      if (_patternIdList.contains(
-                                          value.ypId)) {
+                                      if (_patternIdList.contains(value.ypId)) {
                                         setState(() {
                                           _showPatternChar = true;
                                           _selectedPatternId =
@@ -1293,16 +1351,16 @@ class YarnSpecificationComponentState
                                               .yarn
                                               .patternCharectristic!
                                               .where((element) =>
-                                          element.ypcPatternIdfk ==
-                                              value.ypId.toString())
+                                                  element.ypcPatternIdfk ==
+                                                  value.ypId.toString())
                                               .toList();
                                         });
                                       } else {
                                         setState(() {
                                           _showPatternChar = false;
                                           _createRequestModel
-                                              .ys_pattern_charectristic_idfk =
-                                          null;
+                                                  .ys_pattern_charectristic_idfk =
+                                              null;
                                         });
                                       }
                                       _createRequestModel.ys_pattern_idfk =
@@ -1317,8 +1375,7 @@ class YarnSpecificationComponentState
                           //Show Pattern characteristics
                           Visibility(
                               visible: _showPatternChar,
-                              child: _showPatternCharWidget()
-                          ),
+                              child: _showPatternCharWidget()),
 
                           //Show Grade
                           Visibility(
@@ -1330,18 +1387,18 @@ class YarnSpecificationComponentState
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: grades)),
+                                      child:
+                                          TitleSmallTextWidget(title: grades)),
                                   SingleSelectTileWidget(
                                     key: _gradeKey,
                                     spanCount: 3,
                                     listOfItems: _yarnData!.grades!
                                         .where((element) =>
-                                    element.familyId ==
-                                        _selectedFamilyId)
+                                            element.familyId ==
+                                            _selectedFamilyId)
                                         .toList(),
-                                    callback: (Grades value) {
-                                      _createRequestModel.spc_grade_idfk =
+                                    callback: (YarnGrades value) {
+                                      _createRequestModel.ys_grade_idfk =
                                           value.grdId.toString();
                                     },
                                   ),
@@ -1353,7 +1410,7 @@ class YarnSpecificationComponentState
                           //Show Certification
                           Visibility(
                             visible:
-                            Ui.showHide(_yarnSetting!.showCertification),
+                                Ui.showHide(_yarnSetting!.showCertification),
                             child: Padding(
                               padding: EdgeInsets.only(top: 8.w),
                               child: Column(
@@ -1370,7 +1427,7 @@ class YarnSpecificationComponentState
                                         .yarn.certification!,
                                     callback: (Certification value) {
                                       _createRequestModel
-                                          .ys_certification_idfk =
+                                              .ys_certification_idfk =
                                           value.cerId.toString();
                                     },
                                   ),
@@ -1409,8 +1466,4 @@ class YarnSpecificationComponentState
       ),
     );
   }
-
-
-
-
 }

@@ -294,6 +294,10 @@ class ApiService {
         "bid_remarks": remarks
       };
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['user_id'] = '$userID';
+      headerMap['device_token'] = '$userDeviceToken';
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 

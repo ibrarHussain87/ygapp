@@ -58,7 +58,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const TitleSmallNormalTextWidget(title: "Koh-e-Noor Textile Mills LTD.",
+                      TitleSmallNormalTextWidget(title: specification.company??"",
                         color: Colors.black,size: 10,weight: FontWeight.w600,),
                       SizedBox(
                         width: 4.w,
@@ -470,7 +470,7 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
       break;
       case '4':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
+      detailsData = '${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
       break;
       case '5':
       detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/

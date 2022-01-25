@@ -92,8 +92,8 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const TitleSmallNormalTextWidget(
-                        title: "Koh-e-Noor Textile Mills LTD.",
+                       TitleSmallNormalTextWidget(
+                        title: widget.specification == null ? widget.yarnSpecification!.company??"" : widget.specification!.company??"",
                         color: Colors.black,
                         size: 10,
                         weight: FontWeight.w600,

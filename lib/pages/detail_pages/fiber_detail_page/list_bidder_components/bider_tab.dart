@@ -32,7 +32,7 @@ class _BidderListPageState extends State<BidderListPage> {
   @override
   void initState() {
     super.initState();
-    _getUserId().then((value) => userId = value);
+    _getUserId().then((value) => setState(() => userId = value));
   }
 
   @override

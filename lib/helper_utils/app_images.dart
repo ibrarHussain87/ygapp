@@ -35,4 +35,15 @@ String YARN_ROLL_IMAGE = "images/ic_yarn_roll.png";
 String YARN_LIST_IMAGE = "images/yarn_image_list.png";
 String USER_IMAGE = "images/user.png";
 String PROFILE_DETAILS_IMAGE = "images/profile_details.png";
+String AUCTION_IMAGE = "images/ic_auction.png";
+String ic_faq = "images/ic_faq.png";
+String ic_inquiries = "images/ic_inquiries.png";
+String ic_log = "images/ic_log.png";
+String ic_membership = "images/ic_membership.png";
+String ic_requirments = "images/ic_requirments.png";
+String ic_support = "images/ic_support.png";
+String ic_tag = "images/tag.png";
+String ic_suppliers = "images/ic_suppliers.png";
+String ic_universe = "images/ic_universe.png";
+String ic_products = "images/ic_products.png";
 

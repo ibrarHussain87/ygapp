@@ -80,6 +80,7 @@ class FiberPageState extends State<FiberPage> {
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.blueAccent,
+          heroTag: null,
         ),
         body: Column(
           children: [

@@ -82,6 +82,7 @@ class YarnSpecification {
     this.specId,
     this.ys_user_id,
     this.yarnTitle,
+    this.company,
     this.yarnDetails,
     required this.locality,
     required this.yarnFamilyId,
@@ -146,6 +147,7 @@ class YarnSpecification {
   String? ys_user_id;
   String? yarnTitle;
   String? yarnDetails;
+  String? company;
   String? locality;
   String? yarnFamilyId;
   String? yarnFamily;
@@ -213,6 +215,7 @@ class YarnSpecification {
 
   YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = json['yarn_details'];
+    company = json['company'];
     yarnDetails = json['yarn_title'];
     doublingMethod = json['ys_doubling_method'];
     ys_doubling_method_idFk = json['ys_doubling_method_idFk'];
@@ -288,6 +291,7 @@ class YarnSpecification {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['ys_id'] = specId;
+    _data['company'] = company;
     _data['ys_user_id'] = ys_user_id;
     _data['ys_doubling_method'] = doublingMethod;
     _data['ys_doubling_method_idFk'] = ys_doubling_method_idFk;
