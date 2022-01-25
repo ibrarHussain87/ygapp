@@ -120,7 +120,7 @@ void showLogoutDialog(
       onTap: (){
         Navigator.pop(context);
       },
-      child: const TitleExtraSmallTextWidget(
+      child: const TitleMediumBoldSmallTextWidget(
         title: "Close",
         color: Colors.green,
       ),

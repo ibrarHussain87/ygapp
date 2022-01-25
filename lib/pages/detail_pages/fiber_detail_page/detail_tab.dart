@@ -48,17 +48,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
     widget.specification != null ? _fiberDetails() : _yarnDetails();
 
-    _getUserId().then((value) => userId == value);
-
-    if (widget.specification != null) {
-      if (userId == widget.specification!.spc_user_id) {
-        showBidContainer = true;
+    _getUserId().then((value) {
+      userId = value;
+      if (widget.specification != null) {
+        if (value != widget.specification!.spc_user_id) {
+          setState(() {
+            showBidContainer = true;
+          });
+        }
+      } else {
+        if (value != widget.yarnSpecification!.ys_user_id) {
+          setState(() {
+            showBidContainer = true;
+          });
+        }
       }
-    } else {
-      if (userId == widget.yarnSpecification!.ys_user_id) {
-        showBidContainer = true;
-      }
-    }
+    });
 
     super.initState();
   }
@@ -225,8 +230,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
-                                                        behavior: HitTestBehavior.opaque,
-
+                                                        behavior:
+                                                            HitTestBehavior
+                                                                .opaque,
                                                         onTap: () {
                                                           setState(() {
                                                             if (bidPrice! >=
@@ -278,8 +284,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
-                                                        behavior: HitTestBehavior.opaque,
-
+                                                        behavior:
+                                                            HitTestBehavior
+                                                                .opaque,
                                                         onTap: () {
                                                           setState(() {
                                                             bidPrice =
@@ -339,7 +346,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.w),
                                                   child: GestureDetector(
-                                                    behavior: HitTestBehavior.opaque,
+                                                    behavior:
+                                                        HitTestBehavior.opaque,
                                                     onTap: () {
                                                       setState(() {
                                                         if (bidQuantity! >= 1) {
@@ -388,7 +396,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       padding:
                                                           EdgeInsets.all(8.w),
                                                       child: GestureDetector(
-                                                        behavior: HitTestBehavior.opaque,
+                                                        behavior:
+                                                            HitTestBehavior
+                                                                .opaque,
                                                         onTap: () {
                                                           setState(() {
                                                             bidQuantity =
@@ -491,22 +501,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel(
           'Moisture',
           widget.specification!.moisture != null
-              ? '${widget.specification!.moisture!} %'
+              ? '${widget.specification!.moisture!} '
               : "N/A"),
       GridTileModel(
           'Trash',
           widget.specification!.trash != null
-              ? widget.specification!.trash! + " %"
+              ? widget.specification!.trash!
               : "N/A"),
       GridTileModel(
           'RD',
           widget.specification!.rd != null
-              ? widget.specification!.rd! + " %"
+              ? widget.specification!.rd!
               : 'N/A'),
       GridTileModel(
           'GPT',
           widget.specification!.gpt != null
-              ? widget.specification!.gpt! + " %"
+              ? widget.specification!.gpt!
               : 'N/A'),
       GridTileModel(
           'Apperrence',
@@ -535,30 +545,30 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.certification!),
     ];
 
-    labParameters = [
-      GridTileModel(
-          'Unit Of Count',
-          widget.specification!.unitCount == null
-              ? "N/A"
-              : widget.specification!.unitCount!),
-      GridTileModel(
-          'Price',
-          widget.specification!.priceUnit == null
-              ? "N/A"
-              : widget.specification!.priceUnit!),
-      GridTileModel(
-          'Packing',
-          widget.specification!.priceTerms == null
-              ? "N/A"
-              : widget.specification!.priceTerms!)
-    ];
+    // labParameters = [
+    //   GridTileModel(
+    //       'Unit Of Count',
+    //       widget.specification!.unitCount == null
+    //           ? "N/A"
+    //           : widget.specification!.unitCount!),
+    //   GridTileModel(
+    //       'Price',
+    //       widget.specification!.priceUnit == null
+    //           ? "N/A"
+    //           : widget.specification!.priceUnit!),
+    //   GridTileModel(
+    //       'Packing',
+    //       widget.specification!.priceTerms == null
+    //           ? "N/A"
+    //           : widget.specification!.priceTerms!)
+    // ];
 
     detailPackaging = [
-      GridTileModel(
-          'Unit Of Count',
-          widget.specification!.unitCount == null
-              ? "N/A"
-              : widget.specification!.unitCount!),
+      // GridTileModel(
+      //     'Unit Of Count',
+      //     widget.specification!.unitCount == null
+      //         ? "N/A"
+      //         : widget.specification!.unitCount!),
       GridTileModel(
           'Price',
           widget.specification!.priceUnit == null
@@ -597,17 +607,17 @@ class _DetailTabPageState extends State<DetailTabPage> {
           /*GridTileModel(
               'Ratio',
               widget.yarnSpecification!.yarnRtio != null
-                  ? widget.yarnSpecification!.yarnRtio! + " %"
+                  ? widget.yarnSpecification!.yarnRtio!
                   : "N/A"),*/
           /*GridTileModel(
               'Filament',
               widget.yarnSpecification!.fdyFilament != null
-                  ? widget.yarnSpecification!.fdyFilament! + " %"
+                  ? widget.yarnSpecification!.fdyFilament!
                   : 'N/A'),*/
           /*GridTileModel(
               'Dianner',
               widget.yarnSpecification!.dtyFilament != null
-                  ? widget.yarnSpecification!.dtyFilament! + " %"
+                  ? widget.yarnSpecification!.dtyFilament!
                   : 'N/A'),*/
           GridTileModel(
               'Quality',
@@ -664,8 +674,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
               'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
-          GridTileModel(
-              'Blend', widget.yarnSpecification!.yarnBlend ?? "N/A"),
+          GridTileModel('Blend', widget.yarnSpecification!.yarnBlend ?? "N/A"),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
@@ -674,7 +683,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
           GridTileModel(
               'Ratio',
               widget.yarnSpecification!.yarnRtio != null
-                  ? widget.yarnSpecification!.yarnRtio! + " %"
+                  ? widget.yarnSpecification!.yarnRtio!
                   : "N/A"),
           GridTileModel(
               'Ply',
@@ -758,12 +767,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
           GridTileModel(
               'Dianner',
               widget.yarnSpecification!.dtyFilament != null
-                  ? widget.yarnSpecification!.dtyFilament! + " %"
+                  ? widget.yarnSpecification!.dtyFilament!
                   : 'N/A'),
           GridTileModel(
               'Filament',
               widget.yarnSpecification!.fdyFilament != null
-                  ? widget.yarnSpecification!.fdyFilament! + " %"
+                  ? widget.yarnSpecification!.fdyFilament!
                   : 'N/A'),
           GridTileModel(
               'Ply',
@@ -787,7 +796,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.color!),
           GridTileModel('Yarn Appearance',
               widget.yarnSpecification!.yarnApperance ?? "N/A"),
-
         ];
         break;
       case '5':
@@ -834,7 +842,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnPatternCharectristic == null
                   ? "N/A"
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
-
         ];
         break;
     }
