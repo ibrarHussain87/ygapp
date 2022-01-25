@@ -134,7 +134,7 @@ class _$AppDatabase extends AppDatabase {
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 6,
+      version: 8,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -212,11 +212,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `pattern_characteristics_table` (`ypcId` INTEGER, `ypcName` TEXT, `ypcPatternIdfk` TEXT, `ypcDescription` TEXT, `ypcIsActive` TEXT, `ypcSortid` TEXT, PRIMARY KEY (`ypcId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `pattern_table` (`ypId` INTEGER, `familyId` TEXT, `ypName` TEXT, `ypDescription` TEXT, `ypIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ypId`))');
+            'CREATE TABLE IF NOT EXISTS `pattern_table` (`ypId` INTEGER, `familyId` TEXT, `ypName` TEXT, `spun_technique_id` TEXT, `ypDescription` TEXT, `ypIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ypId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ply_table` (`plyId` INTEGER, `familyId` TEXT, `plyName` TEXT, `plyDescription` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`plyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
+            'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `spun_technique_id` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `spun_technique` (`ystId` INTEGER, `familyId` TEXT, `orientationId` TEXT, `ystName` TEXT, `ystBlendIdfd` TEXT, `ystDescription` TEXT, `ystIsActive` TEXT, `ystSortid` TEXT, PRIMARY KEY (`ystId`))');
         await database.execute(
@@ -2590,6 +2590,7 @@ class _$PatternDao extends PatternDao {
                   'ypId': item.ypId,
                   'familyId': item.familyId,
                   'ypName': item.ypName,
+                  'spun_technique_id': item.spun_technique_id,
                   'ypDescription': item.ypDescription,
                   'ypIsActive': item.ypIsActive,
                   'catSortid': item.catSortid
@@ -2609,6 +2610,7 @@ class _$PatternDao extends PatternDao {
         mapper: (Map<String, Object?> row) => PatternModel(
             ypId: row['ypId'] as int?,
             familyId: row['familyId'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
             ypName: row['ypName'] as String?,
             ypDescription: row['ypDescription'] as String?,
             ypIsActive: row['ypIsActive'] as String?,
@@ -2621,6 +2623,7 @@ class _$PatternDao extends PatternDao {
         mapper: (Map<String, Object?> row) => PatternModel(
             ypId: row['ypId'] as int?,
             familyId: row['familyId'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
             ypName: row['ypName'] as String?,
             ypDescription: row['ypDescription'] as String?,
             ypIsActive: row['ypIsActive'] as String?,
@@ -2734,6 +2737,7 @@ class _$QualityDao extends QualityDao {
                   'yqId': item.yqId,
                   'familyId': item.familyId,
                   'yqName': item.yqName,
+                  'spun_technique_id': item.spun_technique_id,
                   'yqBlendIdfk': item.yqBlendIdfk,
                   'yqDescription': item.yqDescription,
                   'yqIsActive': item.yqIsActive,
@@ -2755,6 +2759,7 @@ class _$QualityDao extends QualityDao {
             yqId: row['yqId'] as int?,
             familyId: row['familyId'] as String?,
             yqName: row['yqName'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
             yqBlendIdfk: row['yqBlendIdfk'] as String?,
             yqDescription: row['yqDescription'] as String?,
             yqIsActive: row['yqIsActive'] as String?,
@@ -2768,6 +2773,7 @@ class _$QualityDao extends QualityDao {
             yqId: row['yqId'] as int?,
             familyId: row['familyId'] as String?,
             yqName: row['yqName'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
             yqBlendIdfk: row['yqBlendIdfk'] as String?,
             yqDescription: row['yqDescription'] as String?,
             yqIsActive: row['yqIsActive'] as String?,

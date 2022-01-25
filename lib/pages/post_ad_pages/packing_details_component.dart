@@ -676,9 +676,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             .fbp_price_terms_idfk =
                                             value!.ptrId.toString();
                                       },
-                                      validator: (value) => value == null
-                                          ? 'field required'
-                                          : null,
+                                      // validator: (value) => value == null
+                                      //     ? 'field required'
+                                      //     : null,
                                       // value: widget.syncFiberResponse.data.fiber.brands.first,
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.only(
@@ -1107,6 +1107,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
   bool validateAndSave() {
     final form = globalFormKey.currentState;
+
+    if(_createRequestModel!.fbp_price_terms_idfk == null){
+      Ui.showSnackBar(context, "Please select price terms");
+      return false;
+    }
+
     if (form!.validate()) {
       // if (imageFiles.isNotEmpty) {
       form.save();

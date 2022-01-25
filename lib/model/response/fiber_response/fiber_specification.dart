@@ -92,6 +92,7 @@ class Specification {
   });
 
   late final int spcId;
+  String? nature_id;
   String? spc_user_id;
   String? categoryId;
   String? businessArea;
@@ -126,6 +127,7 @@ class Specification {
 
   Specification.fromJson(Map<String, dynamic> json) {
     spcId = json['spc_id'];
+    nature_id = json['nature_id'];
     spc_user_id = json['spc_user_id'];
     categoryId = json['category_id'];
     businessArea = json['business_area'];
@@ -165,6 +167,7 @@ class Specification {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['spc_id'] = spcId;
+    _data['nature_id'] = nature_id;
     _data['spc_user_id'] = spc_user_id;
     _data['category_id'] = categoryId;
     _data['business_area'] = businessArea;

@@ -444,6 +444,7 @@ class PatternModel {
   PatternModel({
     required this.ypId,
     required this.familyId,
+    required this.spun_technique_id,
     required this.ypName,
     this.ypDescription,
     required this.ypIsActive,
@@ -454,6 +455,7 @@ class PatternModel {
   int? ypId;
   String? familyId;
   String? ypName;
+  String? spun_technique_id;
   String? ypDescription;
   String? ypIsActive;
   String? catSortid;
@@ -461,6 +463,7 @@ class PatternModel {
   PatternModel.fromJson(Map<String, dynamic> json) {
     ypId = json['yp_id'];
     familyId = json['family_id'];
+    spun_technique_id = json['spun_technique_id'];
     ypName = json['yp_name'];
     ypDescription = null;
     ypIsActive = json['yp_is_active'];
@@ -471,6 +474,7 @@ class PatternModel {
     final _data = <String, dynamic>{};
     _data['yp_id'] = ypId;
     _data['family_id'] = familyId;
+    _data['spun_technique_id'] = spun_technique_id;
     _data['yp_name'] = ypName;
     _data['yp_description'] = ypDescription;
     _data['yp_is_active'] = ypIsActive;
@@ -582,6 +586,7 @@ class Quality {
     required this.yqId,
     required this.familyId,
     required this.yqName,
+    required this.spun_technique_id,
     required this.yqBlendIdfk,
     this.yqDescription,
     required this.yqIsActive,
@@ -592,6 +597,7 @@ class Quality {
   int? yqId;
   String? familyId;
   String? yqName;
+  String? spun_technique_id;
   String? yqBlendIdfk;
   String? yqDescription;
   String? yqIsActive;
@@ -600,6 +606,7 @@ class Quality {
   Quality.fromJson(Map<String, dynamic> json) {
     yqId = json['yq_id'];
     familyId = json['family_id'];
+    spun_technique_id = json['spun_technique_id'];
     yqName = json['yq_name'];
     yqBlendIdfk = json['yq_blend_idfk'];
     yqDescription = null;
@@ -612,6 +619,7 @@ class Quality {
     _data['yq_id'] = yqId;
     _data['family_id'] = familyId;
     _data['yq_name'] = yqName;
+    _data['spun_technique_id'] = spun_technique_id;
     _data['yq_blend_idfk'] = yqBlendIdfk;
     _data['yq_description'] = yqDescription;
     _data['yq_is_active'] = yqIsActive;

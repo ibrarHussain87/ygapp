@@ -50,6 +50,7 @@ class FiberSpecificationComponentState
   final TextEditingController _textEditingController = TextEditingController();
   FiberSettings? _fiberSettings;
   CreateRequestModel? _createRequestModel;
+  bool isInit = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -74,15 +75,17 @@ class FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    _createRequestModel!.spc_grade_idfk =
-        widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
-    _createRequestModel!.spc_appearance_idfk =
-        widget.syncFiberResponse.data.fiber.apperance.first.aprId.toString();
-    _createRequestModel!.spc_certificate_idfk = widget
-        .syncFiberResponse.data.fiber.certification.first.cerId
-        .toString();
-
+    // if(!isInit) {
+      _createRequestModel = Provider.of<CreateRequestModel?>(context);
+      // _createRequestModel!.spc_grade_idfk =
+      //     widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
+      // _createRequestModel!.spc_appearance_idfk =
+      //     widget.syncFiberResponse.data.fiber.apperance.first.aprId.toString();
+      // _createRequestModel!.spc_certificate_idfk = widget
+      //     .syncFiberResponse.data.fiber.certification.first.cerId
+      //     .toString();
+    //   isInit = true;
+    // }
     return FutureBuilder<List<FiberSettings>>(
       future: AppDbInstance.getDbInstance().then((value) async {
         return value.fiberSettingDao.findFiberSettings(_selectedMaterial!);
@@ -147,6 +150,7 @@ class FiberSpecificationComponentState
                                                   title: grades)),
                                           SingleSelectTileWidget(
                                             spanCount: 3,
+                                            selectedIndex: -1,
                                             listOfItems: widget
                                                 .syncFiberResponse
                                                 .data
@@ -612,6 +616,7 @@ class FiberSpecificationComponentState
                                                 title: 'Appearance')),
                                         SingleSelectTileWidget(
                                           spanCount: 2,
+                                          selectedIndex: -1,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.apperance,
                                           callback: (value) {
@@ -967,6 +972,7 @@ class FiberSpecificationComponentState
                                                 title: 'Certification')),
                                         SingleSelectTileWidget(
                                           spanCount: 3,
+                                          selectedIndex: -1,
                                           listOfItems: widget.syncFiberResponse
                                               .data.fiber.certification,
                                           callback: (value) {

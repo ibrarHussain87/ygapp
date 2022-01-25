@@ -250,6 +250,320 @@ class YarnSpecificationComponentState
     }
   }
 
+  queryBlendSettings(int id) {
+    AppDbInstance.getDbInstance().then((value) async {
+      value.yarnSettingsDao
+          .findFamilyAndBlendYarnSettings(
+          _yarnData!.blends![id].blnId!, int.parse(_selectedFamilyId!))
+          .then((value) {
+        setState(() {
+          _selectedBlendIndex = id;
+          //Selected Blend Id
+          if (value.isNotEmpty) {
+            _resetData();
+            _yarnSetting = value[0];
+            _initGridValues();
+            _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
+            _createRequestModel.ys_blend_idfk = _selectedBlendIndex != null
+                ? widget.yarnSyncResponse.data.yarn
+                .blends![_selectedBlendIndex!].blnId
+                .toString()
+                : "";
+          }
+          _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
+          _createRequestModel.ys_blend_idfk =
+              widget.yarnSyncResponse.data.yarn.blends![id].blnId.toString();
+
+          /*else {
+            Ui.showSnackBar(context, 'No Settings Found');
+          }*/
+        });
+      });
+    });
+  }
+
+  queryFamilySettings(int id) {
+    AppDbInstance.getDbInstance().then((value) async {
+      value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
+        setState(() {
+          _selectedFamilyId = id.toString();
+          if (value.isNotEmpty) {
+            _resetData();
+            _yarnSetting = value[0];
+            _initGridValues();
+          }
+          _createRequestModel.ys_family_idfk = _selectedFamilyId;
+        });
+      });
+    });
+  }
+
+  _initGridValues() async {
+    var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    _createRequestModel.ys_user_idfk = userID.toString();
+
+    //Category Id
+    _createRequestModel.spc_category_idfk = YARN_CATEGORY_ID.toString();
+
+    //Blend Id
+    if (Ui.showHide(_yarnSetting!.showBlend)) {
+      _createRequestModel.ys_blend_idfk = _yarnData!
+          .blends!
+          .where(
+              (element) => element.familyIdfk.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .blnId
+          .toString();
+    }
+
+    //Grade ID
+    if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
+      _createRequestModel.ys_grade_idfk = _yarnData!
+          .grades!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .grdId
+          .toString();
+    }
+
+    //Certification ID
+    if (Ui.showHide(_yarnSetting!.showCertification)) {
+      _createRequestModel.ys_certification_idfk =
+          _yarnData!.certification!.first.cerId.toString();
+    }
+
+    //PLY ID
+    if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
+      _createRequestModel.ys_ply_idfk = _yarnData!
+          .ply!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .plyId
+          .toString();
+    }
+
+    //Quality ID
+    if (Ui.showHide(_yarnSetting!.showQuality)) {
+      _createRequestModel.ys_quality_idfk = _yarnData!
+          .quality!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .yqId
+          .toString();
+    }
+
+    //ORIENTATION ID
+    if (Ui.showHide(_yarnSetting!.showOrientation) &&
+        _yarnData!.orientation!.isNotEmpty) {
+      _createRequestModel.ys_orientation_idfk = _yarnData!
+          .orientation!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .yoId
+          .toString();
+    }
+
+    //USAGE ID
+    if (Ui.showHide(_yarnSetting!.showUsage) && _yarnData!.usage!.isNotEmpty) {
+      _createRequestModel.ys_usage_idfk = _yarnData!
+          .usage!
+          .where(
+              (element) => element.ysFamilyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .yuId
+          .toString();
+    }
+
+    //PATTERN ID
+    if (Ui.showHide(_yarnSetting!.showPattern) &&
+        _yarnData!.pattern!.isNotEmpty) {
+      _createRequestModel.ys_pattern_idfk = _yarnData!
+          .pattern!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .ypId
+          .toString();
+    }
+
+    //PATTERN CHAR ID
+    if (_showPatternChar) {
+      if (_yarnData!.patternCharectristic!.isNotEmpty) {
+        if (widget.yarnSyncResponse.data.yarn.patternCharectristic!
+            .where((element) =>
+        element.ypcPatternIdfk.toString() == _selectedPatternId)
+            .toList()
+            .isNotEmpty) {
+          _createRequestModel.ys_pattern_charectristic_idfk = widget
+              .yarnSyncResponse.data.yarn.patternCharectristic!
+              .where((element) =>
+          element.ypcPatternIdfk.toString() == _selectedPatternId)
+              .toList()
+              .first
+              .ypcId
+              .toString();
+        }
+      }
+    }
+
+    //TWIST DIRECTION ID
+    if (Ui.showHide(_yarnSetting!.showTwistDirection) &&
+        _yarnData!.twistDirection!.isNotEmpty) {
+      _createRequestModel.ys_twist_direction_idfk = widget
+          .yarnSyncResponse.data.yarn.twistDirection!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .ytdId
+          .toString();
+    }
+
+    //SPUN TECH ID
+    if (Ui.showHide(_yarnSetting!.showSpunTechnique) &&
+        _yarnData!.spunTechnique!.isNotEmpty) {
+      _createRequestModel.ys_spun_technique_idfk = widget
+          .yarnSyncResponse.data.yarn.spunTechnique!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .ystId
+          .toString();
+    }
+
+    //COLOR TREATMENT METHOD ID
+    if (Ui.showHide(_yarnSetting!.showColorTreatmentMethod) &&
+        _yarnData!.colorTreatmentMethod!.isNotEmpty) {
+      _createRequestModel.ys_color_treatment_method_idfk = widget
+          .yarnSyncResponse.data.yarn.colorTreatmentMethod!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .yctmId
+          .toString();
+    }
+
+    //APPEARANCE ID
+    if (Ui.showHide(_yarnSetting!.showAppearance) &&
+        _yarnData!.apperance!.isNotEmpty) {
+      _createRequestModel.ys_apperance_idfk = _yarnData!
+          .apperance!
+          .where((element) => element.familyId.toString() == _selectedFamilyId)
+          .toList()
+          .first
+          .yaId
+          .toString();
+    }
+
+    //DYING METHOD ID
+    if (Ui.showHide(_yarnSetting!.showDyingMethod) &&
+        _showDyingMethod &&
+        _yarnData!.dyingMethod!.isNotEmpty) {
+      _createRequestModel.ys_dying_method_idfk = _yarnData!.dyingMethod!
+          .where((element) =>
+      element.apperanceId.toString() == _selectedAppearenceId)
+          .toList()
+          .first
+          .ydmId
+          .toString();
+    }
+
+    //Doubling method id
+    if (_showDoublingMethod &&
+        Ui.showHide(_yarnSetting!.showDoublingMethod) &&
+        _yarnData!.doublingMethod!.isNotEmpty) {
+      _createRequestModel.ys_doubling_method_idFk = widget
+          .yarnSyncResponse.data.yarn.doublingMethod!
+          .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
+          .toList()
+          .first
+          .dmId
+          .toString();
+    }
+
+    //Yarn Type
+    if (Ui.showHide(_yarnSetting!.showTexturized) &&
+        _yarnData!.yarnTypes!.isNotEmpty) {
+      _createRequestModel.ys_yarn_type_idfk = widget
+          .yarnSyncResponse
+          .data
+          .yarn
+          .yarnTypes! /*
+          .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
+          .toList()*/
+          .first
+          .ytId
+          .toString();
+    }
+  }
+
+  //RESET ALL DATA
+  _resetData() {
+
+    if(_yarnTypeKey.currentState != null) _yarnTypeKey.currentState!.checkedTile = 0;
+    if(_usageKey.currentState != null) _usageKey.currentState!.checkedTile = 0;
+    if(_appearanceKey.currentState != null) _appearanceKey.currentState!.checkedTile = 0;
+    if(_plyKey.currentState != null) _plyKey.currentState!.checkedTile = 0;
+    if(_patternKey.currentState != null) _patternKey.currentState!.checkedTile = 0;
+    if(_patternCharKey.currentState != null) _patternCharKey.currentState!.checkedTile = 0;
+    if(_orientationKey.currentState != null) _orientationKey.currentState!.checkedTile = 0;
+    if(_spunTechKey.currentState != null) _spunTechKey.currentState!.checkedTile = 0;
+    if(_qualityKey.currentState != null) _qualityKey.currentState!.checkedTile = 0;
+    if(_certificateKey.currentState != null) _certificateKey.currentState!.checkedTile = 0;
+    if(_gradeKey.currentState != null) _gradeKey.currentState!.checkedTile = 0;
+    if(_twistDirectionKey.currentState != null) _twistDirectionKey.currentState!.checkedTile = 0;
+    if(_doublingMethodKey.currentState != null) _doublingMethodKey.currentState!.checkedTile = 0;
+    if(_dyingMethodKey.currentState != null) _dyingMethodKey.currentState!.checkedTile = 0;
+    if(_colorTreatmentMethodKey.currentState != null) _colorTreatmentMethodKey.currentState!.checkedTile = 0;
+
+    setState(() {
+
+      _showDyingMethod = false;
+      _showDoublingMethod = false;
+      _showPatternChar = false;
+
+      _createRequestModel.ys_family_idfk = null;
+      _createRequestModel.ys_usage_idfk = null;
+      _createRequestModel.ys_blend_idfk = null;
+      _createRequestModel.ys_ratio = null;
+      _createRequestModel.ys_twist_direction_idfk = null;
+      _createRequestModel.ys_grade_idfk = null;
+      _createRequestModel.ys_fdy_filament = null;
+      _createRequestModel.ys_dty_filament = null;
+      _createRequestModel.ys_apperance_idfk = null;
+      _createRequestModel.ys_color_treatment_method_idfk = null;
+      _createRequestModel.ys_dying_method_idfk = null;
+      _createRequestModel.ys_color_code = null;
+      _createRequestModel.ys_count = null;
+      _createRequestModel.ys_ply_idfk = null;
+      _createRequestModel.ys_doubling_method_idFk = null;
+      _createRequestModel.ys_orientation_idfk = null;
+      _createRequestModel.ys_quality_idfk = null;
+      _createRequestModel.ys_pattern_idfk = null;
+      _createRequestModel.ys_pattern_charectristic_idfk = null;
+      _createRequestModel.ys_certification_idfk = null;
+      _createRequestModel.ys_yarn_type_idfk = null;
+
+    });
+  }
+
+  bool validateAndSave() {
+    final form = _globalFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  _getPattern(){}
+  _getQuality(){}
+
    //Keys
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -1096,317 +1410,7 @@ class YarnSpecificationComponentState
     );
   }
 
-  queryBlendSettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
-      value.yarnSettingsDao
-          .findFamilyAndBlendYarnSettings(
-          _yarnData!.blends![id].blnId!, int.parse(_selectedFamilyId!))
-          .then((value) {
-        setState(() {
-          _selectedBlendIndex = id;
-          //Selected Blend Id
-          if (value.isNotEmpty) {
-            _resetData();
-            _yarnSetting = value[0];
-            _initGridValues();
-            _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
-            _createRequestModel.ys_blend_idfk = _selectedBlendIndex != null
-                ? widget.yarnSyncResponse.data.yarn
-                .blends![_selectedBlendIndex!].blnId
-                .toString()
-                : "";
-          }
-          _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
-          _createRequestModel.ys_blend_idfk =
-              widget.yarnSyncResponse.data.yarn.blends![id].blnId.toString();
 
-          /*else {
-            Ui.showSnackBar(context, 'No Settings Found');
-          }*/
-        });
-      });
-    });
-  }
-
-  queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
-      value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
-        setState(() {
-          _selectedFamilyId = id.toString();
-          if (value.isNotEmpty) {
-            _resetData();
-            _yarnSetting = value[0];
-            _initGridValues();
-          }
-          _createRequestModel.ys_family_idfk = _selectedFamilyId;
-        });
-      });
-    });
-  }
-
-  _initGridValues() async {
-    var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-    _createRequestModel.ys_user_idfk = userID.toString();
-
-    //Category Id
-    _createRequestModel.spc_category_idfk = YARN_CATEGORY_ID.toString();
-
-    //Blend Id
-    if (Ui.showHide(_yarnSetting!.showBlend)) {
-      _createRequestModel.ys_blend_idfk = _yarnData!
-          .blends!
-          .where(
-              (element) => element.familyIdfk.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .blnId
-          .toString();
-    }
-
-    //Grade ID
-    if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
-      _createRequestModel.ys_grade_idfk = _yarnData!
-          .grades!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .grdId
-          .toString();
-    }
-
-    //Certification ID
-    if (Ui.showHide(_yarnSetting!.showCertification)) {
-      _createRequestModel.ys_certification_idfk =
-          _yarnData!.certification!.first.cerId.toString();
-    }
-
-    //PLY ID
-    if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
-      _createRequestModel.ys_ply_idfk = _yarnData!
-          .ply!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .plyId
-          .toString();
-    }
-
-    //Quality ID
-    if (Ui.showHide(_yarnSetting!.showQuality)) {
-      _createRequestModel.ys_quality_idfk = _yarnData!
-          .quality!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yqId
-          .toString();
-    }
-
-    //ORIENTATION ID
-    if (Ui.showHide(_yarnSetting!.showOrientation) &&
-        _yarnData!.orientation!.isNotEmpty) {
-      _createRequestModel.ys_orientation_idfk = _yarnData!
-          .orientation!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yoId
-          .toString();
-    }
-
-    //USAGE ID
-    if (Ui.showHide(_yarnSetting!.showUsage) && _yarnData!.usage!.isNotEmpty) {
-      _createRequestModel.ys_usage_idfk = _yarnData!
-          .usage!
-          .where(
-              (element) => element.ysFamilyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yuId
-          .toString();
-    }
-
-    //PATTERN ID
-    if (Ui.showHide(_yarnSetting!.showPattern) &&
-        _yarnData!.pattern!.isNotEmpty) {
-      _createRequestModel.ys_pattern_idfk = _yarnData!
-          .pattern!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .ypId
-          .toString();
-    }
-
-    //PATTERN CHAR ID
-    if (_showPatternChar) {
-      if (_yarnData!.patternCharectristic!.isNotEmpty) {
-        if (widget.yarnSyncResponse.data.yarn.patternCharectristic!
-            .where((element) =>
-        element.ypcPatternIdfk.toString() == _selectedPatternId)
-            .toList()
-            .isNotEmpty) {
-          _createRequestModel.ys_pattern_charectristic_idfk = widget
-              .yarnSyncResponse.data.yarn.patternCharectristic!
-              .where((element) =>
-          element.ypcPatternIdfk.toString() == _selectedPatternId)
-              .toList()
-              .first
-              .ypcId
-              .toString();
-        }
-      }
-    }
-
-    //TWIST DIRECTION ID
-    if (Ui.showHide(_yarnSetting!.showTwistDirection) &&
-        _yarnData!.twistDirection!.isNotEmpty) {
-      _createRequestModel.ys_twist_direction_idfk = widget
-          .yarnSyncResponse.data.yarn.twistDirection!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .ytdId
-          .toString();
-    }
-
-    //SPUN TECH ID
-    if (Ui.showHide(_yarnSetting!.showSpunTechnique) &&
-        _yarnData!.spunTechnique!.isNotEmpty) {
-      _createRequestModel.ys_spun_technique_idfk = widget
-          .yarnSyncResponse.data.yarn.spunTechnique!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .ystId
-          .toString();
-    }
-
-    //COLOR TREATMENT METHOD ID
-    if (Ui.showHide(_yarnSetting!.showColorTreatmentMethod) &&
-        _yarnData!.colorTreatmentMethod!.isNotEmpty) {
-      _createRequestModel.ys_color_treatment_method_idfk = widget
-          .yarnSyncResponse.data.yarn.colorTreatmentMethod!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yctmId
-          .toString();
-    }
-
-    //APPEARANCE ID
-    if (Ui.showHide(_yarnSetting!.showAppearance) &&
-        _yarnData!.apperance!.isNotEmpty) {
-      _createRequestModel.ys_apperance_idfk = _yarnData!
-          .apperance!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yaId
-          .toString();
-    }
-
-    //DYING METHOD ID
-    if (Ui.showHide(_yarnSetting!.showDyingMethod) &&
-        _showDyingMethod &&
-        _yarnData!.dyingMethod!.isNotEmpty) {
-      _createRequestModel.ys_dying_method_idfk = _yarnData!.dyingMethod!
-          .where((element) =>
-      element.apperanceId.toString() == _selectedAppearenceId)
-          .toList()
-          .first
-          .ydmId
-          .toString();
-    }
-
-    //Doubling method id
-    if (_showDoublingMethod &&
-        Ui.showHide(_yarnSetting!.showDoublingMethod) &&
-        _yarnData!.doublingMethod!.isNotEmpty) {
-      _createRequestModel.ys_doubling_method_idFk = widget
-          .yarnSyncResponse.data.yarn.doublingMethod!
-          .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
-          .toList()
-          .first
-          .dmId
-          .toString();
-    }
-
-    //Yarn Type
-    if (Ui.showHide(_yarnSetting!.showTexturized) &&
-        _yarnData!.yarnTypes!.isNotEmpty) {
-      _createRequestModel.ys_yarn_type_idfk = widget
-          .yarnSyncResponse
-          .data
-          .yarn
-          .yarnTypes! /*
-          .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
-          .toList()*/
-          .first
-          .ytId
-          .toString();
-    }
-  }
-
-
-  //RESET ALL DATA
-  _resetData() {
-
-    if(_yarnTypeKey.currentState != null) _yarnTypeKey.currentState!.checkedTile = 0;
-    if(_usageKey.currentState != null) _usageKey.currentState!.checkedTile = 0;
-    if(_appearanceKey.currentState != null) _appearanceKey.currentState!.checkedTile = 0;
-    if(_plyKey.currentState != null) _plyKey.currentState!.checkedTile = 0;
-    if(_patternKey.currentState != null) _patternKey.currentState!.checkedTile = 0;
-    if(_patternCharKey.currentState != null) _patternCharKey.currentState!.checkedTile = 0;
-    if(_orientationKey.currentState != null) _orientationKey.currentState!.checkedTile = 0;
-    if(_spunTechKey.currentState != null) _spunTechKey.currentState!.checkedTile = 0;
-    if(_qualityKey.currentState != null) _qualityKey.currentState!.checkedTile = 0;
-    if(_certificateKey.currentState != null) _certificateKey.currentState!.checkedTile = 0;
-    if(_gradeKey.currentState != null) _gradeKey.currentState!.checkedTile = 0;
-    if(_twistDirectionKey.currentState != null) _twistDirectionKey.currentState!.checkedTile = 0;
-    if(_doublingMethodKey.currentState != null) _doublingMethodKey.currentState!.checkedTile = 0;
-    if(_dyingMethodKey.currentState != null) _dyingMethodKey.currentState!.checkedTile = 0;
-    if(_colorTreatmentMethodKey.currentState != null) _colorTreatmentMethodKey.currentState!.checkedTile = 0;
-
-    setState(() {
-
-      _showDyingMethod = false;
-      _showDoublingMethod = false;
-      _showPatternChar = false;
-
-      _createRequestModel.ys_family_idfk = null;
-      _createRequestModel.ys_usage_idfk = null;
-      _createRequestModel.ys_blend_idfk = null;
-      _createRequestModel.ys_ratio = null;
-      _createRequestModel.ys_twist_direction_idfk = null;
-      _createRequestModel.ys_grade_idfk = null;
-      _createRequestModel.ys_fdy_filament = null;
-      _createRequestModel.ys_dty_filament = null;
-      _createRequestModel.ys_apperance_idfk = null;
-      _createRequestModel.ys_color_treatment_method_idfk = null;
-      _createRequestModel.ys_dying_method_idfk = null;
-      _createRequestModel.ys_color_code = null;
-      _createRequestModel.ys_count = null;
-      _createRequestModel.ys_ply_idfk = null;
-      _createRequestModel.ys_doubling_method_idFk = null;
-      _createRequestModel.ys_orientation_idfk = null;
-      _createRequestModel.ys_quality_idfk = null;
-      _createRequestModel.ys_pattern_idfk = null;
-      _createRequestModel.ys_pattern_charectristic_idfk = null;
-      _createRequestModel.ys_certification_idfk = null;
-      _createRequestModel.ys_yarn_type_idfk = null;
-
-    });
-  }
-
-  bool validateAndSave() {
-    final form = _globalFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
 
 
 }
