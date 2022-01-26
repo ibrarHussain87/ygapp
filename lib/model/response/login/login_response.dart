@@ -5,21 +5,28 @@ class LoginResponse {
     required this.code,
     required this.success,
     required this.message,
+    required this.errors,
     required this.statusCode,
     required this.data,
   });
-  late final int code;
-  late final bool success;
-  late final String message;
-  late final int statusCode;
-  late final Data data;
+  int? code;
+  bool? success;
+  String? message;
+  Map<String,dynamic>? errors;
+  int? statusCode;
+  Data? data;
 
   LoginResponse.fromJson(Map<String, dynamic> json){
     code = json['code'];
     success = json['success'];
     message = json['message'];
+    if(json['errors'] != null) {
+      errors = json['errors'];
+    }
     statusCode = json['status_code'];
-    data = Data.fromJson(json['data']);
+    if (json['data'] != null) {
+      data = Data.fromJson(json['data']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -27,8 +34,13 @@ class LoginResponse {
     _data['code'] = code;
     _data['success'] = success;
     _data['message'] = message;
+    if(errors != null) {
+      _data['errors'] = errors;
+    }
     _data['status_code'] = statusCode;
-    _data['data'] = data.toJson();
+    if(data!= null){
+      _data['data'] = data!.toJson();
+    }
     return _data;
   }
 }
@@ -38,8 +50,8 @@ class Data {
     required this.user,
     required this.token,
   });
-  late final User user;
-  late final String token;
+  User? user;
+  String? token;
 
   Data.fromJson(Map<String, dynamic> json){
     user = User.fromJson(json['user']);
@@ -48,7 +60,9 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['user'] = user.toJson();
+    if(user!= null){
+      _data['user'] = user!.toJson();
+    }
     _data['token'] = token;
     return _data;
   }
@@ -79,7 +93,7 @@ class User {
     // required this.certifications,
   });
   @PrimaryKey(autoGenerate: false)
-  late final int id;
+  int? id;
   String? name;
   String? telephoneNumber;
   String? operatorId;

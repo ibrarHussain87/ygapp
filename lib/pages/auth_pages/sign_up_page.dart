@@ -524,19 +524,23 @@ class _SignUpPageState extends State<SignUpPage> {
         _signupRequestModel.countryId = '1';
         ApiService.signup(_signupRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
-          if (value.success) {
-            AppDbInstance.getDbInstance().then((db) async {
-              await db.userDao.insertUser(value.data.user);
+          if(value.errors != null){
+            value.errors!.forEach((key, error) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(error.toString())));
             });
-
+          }else if (value.success!) {
+            AppDbInstance.getDbInstance().then((db) async {
+              await db.userDao.insertUser(value.data!.user!);
+            });
             SharedPreferenceUtil.addStringToSF(
-                USER_ID_KEY, value.data.user.id.toString());
+                USER_ID_KEY, value.data!.user!.id.toString());
             SharedPreferenceUtil.addStringToSF(
-                USER_TOKEN_KEY, value.data.token);
+                USER_TOKEN_KEY, value.data!.token!);
             SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
             Fluttertoast.showToast(
-                msg: value.message,
+                msg: value.message ?? "",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1);
@@ -545,7 +549,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     (Route<dynamic> route) => false);
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(value.message)));
+                .showSnackBar(SnackBar(content: Text(value.message ??"")));
           }
         }).onError((error, stackTrace) {
           ProgressDialogUtil.hideDialog();

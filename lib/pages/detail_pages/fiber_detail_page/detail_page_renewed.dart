@@ -6,10 +6,13 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
+import 'package:intl/intl.dart';
+
 
 import 'detail_tab.dart';
 import 'list_bidder_components/bider_tab.dart';
@@ -27,8 +30,34 @@ class FiberDetailRenewedPage extends StatefulWidget {
 }
 
 class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> tabsList = ['Details', "Matched", 'Bidder List'];
+  final List<String> _tabsListCreator = ['Details', "Matched", 'Bidder List'];
+  final List<String> _tabsListBidder = ['Details', "Matched"];
+  List<String>? _tabsList;
+  List<Widget>? _tabWidgetList;
+
+  @override
+  void initState() {
+    _getUserId().then((userId) {
+      if(widget.specification!= null){
+        if(userId != widget.specification!.spc_user_id){
+          _creatorOrBidder(false);
+        }else{
+          _creatorOrBidder(true);
+        }
+      }else{
+        if(userId != widget.yarnSpecification!.ys_user_id){
+          _creatorOrBidder(false);
+        }else{
+          _creatorOrBidder(true);
+        }
+      }
+    });
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +254,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                 ),
                                 Text.rich(TextSpan(children: [
                                   TextSpan(
-                                    text: "Nov 23, 4:33 PM",
+                                    text: widget.specification!= null ? "Nov 23, 4:33 PM" : DateFormat("MMM dd, yyyy").format(DateTime.parse(widget.yarnSpecification!.date??"")),
                                     style: TextStyle(
                                         fontSize: 9.sp,
                                         color: lightBlueLabel),
@@ -407,7 +436,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
             ),
             Expanded(
               child: DefaultTabController(
-                  length: tabsList.length,
+                  length: _tabsList!.length,
                   child: Scaffold(
                     backgroundColor: Colors.white,
                     appBar: PreferredSize(
@@ -430,26 +459,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                         ),
                       ),
                     ),
-                    body: TabBarView(children: [
-                      DetailTabPage(
-                        specification: widget.specification,
-                        yarnSpecification: widget.yarnSpecification,
-                      ),
-                      MatchedPage(
-                          catId: widget.specification != null
-                              ? widget.specification!.categoryId!
-                              : "2",
-                          specId: widget.specification != null
-                              ? widget.specification!.spcId
-                              : widget.yarnSpecification!.specId ?? 1),
-                      BidderListPage(
-                          materialId: widget.specification != null
-                              ? widget.specification!.categoryId!
-                              : "2",
-                          specId: widget.specification != null
-                              ? widget.specification!.spcId
-                              : widget.yarnSpecification!.specId ?? 1)
-                    ]),
+                    body: TabBarView(children: _tabWidgetList!),
                   )),
             ),
           ],
@@ -458,16 +468,17 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
     );
   }
 
-  List<Tab> tabMaker() {
+  List<Tab> tabMaker(){
+
     List<Tab> tabs = []; //create an empty list of Tab
-    for (var i = 0; i < tabsList.length; i++) {
+    for (var i = 0; i < _tabsList!.length; i++) {
       tabs.add(Tab(
         child: Align(
           alignment: Alignment.center,
           child: Padding(
               padding: const EdgeInsets.all(0),
               child: Text(
-                tabsList[i],
+                _tabsList![i],
                 style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w400),
               )),
         ),
@@ -475,6 +486,56 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
     }
     return tabs;
   }
+
+  _creatorOrBidder(bool isCreator){
+
+    if(isCreator){
+      setState(() {
+        _tabsList = _tabsListCreator;
+        _tabWidgetList = [
+          DetailTabPage(
+            specification: widget.specification,
+            yarnSpecification: widget.yarnSpecification,
+          ),
+          MatchedPage(
+              catId: widget.specification != null
+                  ? widget.specification!.categoryId!
+                  : "2",
+              specId: widget.specification != null
+                  ? widget.specification!.spcId
+                  : widget.yarnSpecification!.specId ?? 1),
+          BidderListPage(
+              materialId: widget.specification != null
+                  ? widget.specification!.categoryId!
+                  : "2",
+              specId: widget.specification != null
+                  ? widget.specification!.spcId
+                  : widget.yarnSpecification!.specId ?? 1)
+        ];
+      });
+    }else{
+      setState(() {
+        _tabsList = _tabsListBidder;
+        _tabWidgetList = [
+          DetailTabPage(
+            specification: widget.specification,
+            yarnSpecification: widget.yarnSpecification,
+          ),
+          MatchedPage(
+              catId: widget.specification != null
+                  ? widget.specification!.categoryId!
+                  : "2",
+              specId: widget.specification != null
+                  ? widget.specification!.spcId
+                  : widget.yarnSpecification!.specId ?? 1),
+        ];
+      });
+    }
+  }
+}
+
+Future<String?> _getUserId() async {
+  return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
 }
 
 String setFamilyData(YarnSpecification specification){

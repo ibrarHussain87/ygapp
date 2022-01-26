@@ -31,9 +31,12 @@ class FamilyBlendAdsBody extends StatefulWidget {
 
 class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
-  //Steps Segment State
+  //Globel Keys
   GlobalKey<YarnStepsSegmentsState> yarnStepStateKey =
       GlobalKey<YarnStepsSegmentsState>();
+
+  final GlobalKey<FamilyTileWidgetState> _familyTileKey = GlobalKey<FamilyTileWidgetState>();
+  final GlobalKey<CatWithImageListWidgetState> _blendTileKey = GlobalKey<CatWithImageListWidgetState>();
 
   late CreateRequestModel _createRequestModel;
   late YarnSetting _yarnSetting;
@@ -65,6 +68,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               SizedBox(
                 height: 0.055*MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
+                  key: _familyTileKey,
                   listItems: widget.yarnSyncResponse.data.yarn.family,
                   callback: (Family value) {
                     //Family Id
@@ -94,6 +98,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CatWithImageListWidget(
+                  key: _blendTileKey,
                   listItem: widget.yarnSyncResponse.data.yarn.blends!.where((element) => element.familyIdfk == selectedFamilyId).toList(),
                   onClickCallback: (value) {
                     yarnStepStateKey.currentState!.onClickBlend(value);
@@ -112,6 +117,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               selectedTab: widget.selectedTab,
               businessArea: widget.businessArea,
               locality: widget.locality,
+              callback: (int step){
+                if(step > 1){
+                  if(_familyTileKey.currentState != null) _familyTileKey.currentState!.disableClick = true;
+                  if(_blendTileKey.currentState != null) _blendTileKey.currentState!.disableClick = true;
+                }
+              },
             ),
           ),
         )

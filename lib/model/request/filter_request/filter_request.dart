@@ -1,10 +1,9 @@
 class GetSpecificationRequestModel {
-  String? userId;
+  // String? userId;
   String? categoryId;
   String? isOffering;
   String? productionYear;
   String? locality;
-
 
   String? ys_color_code;
   List<int>? ys_dying_method_idfk;
@@ -18,7 +17,6 @@ class GetSpecificationRequestModel {
   List<int>? qualityId;
   List<int>? patternId;
   List<int>? doublingMethodId;
-
 
   List<int>? gradeId;
   List<int>? fiberMaterialId;
@@ -38,8 +36,8 @@ class GetSpecificationRequestModel {
   List<int>? ysFamilyIdFk;
 
   GetSpecificationRequestModel(
-      {this.userId,
-      this.categoryId,
+      {
+//      this.categoryId,
       this.isOffering,
       this.productionYear,
       this.ys_dying_method_idfk,
@@ -72,7 +70,7 @@ class GetSpecificationRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'user_id': userId!.trim(),
+      // 'user_id': userId!.trim(),
       'category_id': categoryId!.trim(),
       'grade_id': gradeId,
       'locality': locality,

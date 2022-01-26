@@ -227,8 +227,8 @@ class YarnSpecification {
     yarnFamily = json['yarn_family'];
     yarnBlend = json['yarn_blend'];
     yarnRtio = json['yarn_rtio'];
-    bln_abrv = json['bln_abrv'];
-    yq_abrv = json['yq_abrv'];
+    bln_abrv = json['yarn_blend_abrv'];
+    yq_abrv = json['yarn_quality_abrv'];
     yarnUsage = json['yarn_usage'];
     yarnPattern = json['yarn_pattern'];
     yarnPatternCharectristic = json['yarn_pattern_charectristic'];
@@ -305,8 +305,8 @@ class YarnSpecification {
     _data['yarn_rtio'] = yarnRtio;
     _data['yarn_usage'] = yarnUsage;
     _data['yarn_pattern'] = yarnPattern;
-    _data['yq_abrv'] = yq_abrv;
-    _data['bln_abrv'] = bln_abrv;
+    _data['yarn_quality_abrv'] = yq_abrv;
+    _data['yarn_blend_abrv'] = bln_abrv;
     _data['yarn_pattern_charectristic'] = yarnPatternCharectristic;
     _data['yarn_orientation'] = yarnOrientation;
     _data['yarn_twist_direction'] = yarnTwistDirection;

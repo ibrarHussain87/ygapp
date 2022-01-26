@@ -48,7 +48,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
   @override
   void initState() {
-    Utils.disableClick = true;
+    // Utils.disableClick = true;
     super.initState();
   }
 

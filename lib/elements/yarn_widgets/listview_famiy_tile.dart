@@ -17,7 +17,7 @@ class FamilyTileWidget extends StatefulWidget {
 class FamilyTileWidgetState extends State<FamilyTileWidget> {
 
   int? checkedFamily;
-  static bool disableClick = false;
+  bool disableClick = false;
 
   @override
   void initState() {

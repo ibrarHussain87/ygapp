@@ -58,14 +58,17 @@ class _BidsListPageState extends State<BidsListPage> {
             future: ApiService.getListBids(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.data != null) {
+                  snapshot.data != null && snapshot.data!.data.isNotEmpty) {
                 return ListView.builder(
                     itemCount: snapshot.data!.data.length,
                     itemBuilder: (context, index) {
                       return ListBidsBody(
                           listBiddersData: snapshot.data!.data[index]);
                     });
-              } else if (snapshot.hasError) {
+              } else if(snapshot.data != null && snapshot.data!.data.isEmpty){
+                return const Center(
+                    child: TitleSmallTextWidget(title: 'No data found!!'));
+              }else if (snapshot.hasError) {
                 return Center(
                     child: TitleSmallTextWidget(title: snapshot.error.toString()));
               } else {

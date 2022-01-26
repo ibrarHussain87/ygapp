@@ -6,6 +6,7 @@ import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/fiber_porduct_list_item.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -105,7 +106,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                           child: ElevatedButtonWithoutIcon(
                             callback: () {
                               showBottomSheetOR(context, (value){
-                                openFiberPostPage(context,"Local",'Fiber',value);
+                                openFiberPostPage(context,local,'Fiber',value);
                               });
                             },
                             btnText: "Post Offer",

@@ -250,18 +250,18 @@ class _LoginPageState extends State<LoginPage> {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         ApiService.login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
-          if (value.success) {
+          if (value.success!) {
             AppDbInstance.getDbInstance().then((db) async {
-              await db.userDao.insertUser(value.data.user);
+              await db.userDao.insertUser(value.data!.user!);
             });
 
             SharedPreferenceUtil.addStringToSF(
-                USER_ID_KEY, value.data.user.id.toString());
-            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data.token);
+                USER_ID_KEY, value.data!.user!.id.toString());
+            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data!.token!);
             SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
             Fluttertoast.showToast(
-                msg: value.message,
+                msg: value.message!,
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1);
@@ -270,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                     (Route<dynamic> route) => false);
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(value.message)));
+                .showSnackBar(SnackBar(content: Text(value.message!)));
           }
         }).onError((error, stackTrace) {
           ProgressDialogUtil.hideDialog();
