@@ -41,12 +41,12 @@ class _MatchedPageState extends State<MatchedPage> {
             widget.catId, widget.specId.toString()),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done && snapshot.data!=null) {
-            if(widget.catId == "1" && snapshot.data!.data!.fiber!=null){
+            if(widget.catId == "1" && snapshot.data!.data!= null && snapshot.data!.data!.fiber!= null){
               return Padding(
                 padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
                 child: FiberListingBody(specification: snapshot.data!.data!.fiber!),
               );
-            }else if(widget.catId == "2" && snapshot.data!.data!.yarnSpecification!=null){
+            }else if(widget.catId == "2" && snapshot.data!.data!=null && snapshot.data!.data!.yarnSpecification!=null){
               return Padding(
                 padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
                 child: YarnListBody(specification: snapshot.data!.data!.yarnSpecification!),
@@ -61,9 +61,9 @@ class _MatchedPageState extends State<MatchedPage> {
           } else {
             return const Center(
               child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+                color: Colors.green,
+                size: 24.0,
+              ),
             );
           }
         },

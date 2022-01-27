@@ -89,6 +89,7 @@ class Specification {
   required this.isVerified,
     required this.isFeatured,
     required this.description,
+    required this.date,
     required this.pictures,
   });
 
@@ -125,6 +126,7 @@ class Specification {
   String? isVerified;
   String? isFeatured;
   String? description;
+  String? date;
   List<Pictures>? pictures;
 
   Specification.fromJson(Map<String, dynamic> json) {
@@ -161,6 +163,7 @@ class Specification {
     isFeatured = json['is_featured'];
     isVerified = json['is_verified'];
     description = json['description'];
+    date = json['date'];
     if (json['pictures'] != null) {
       pictures =
           List.from(json['pictures']).map((e) => Pictures.fromJson(e)).toList();
@@ -202,6 +205,7 @@ class Specification {
     _data['is_offering'] = is_offering;
     _data['is_verified'] = isVerified;
     _data['description'] = description;
+    _data['date'] = date;
     if (pictures != null) {
       _data['pictures'] = pictures!.map((e) => e.toJson()).toList();
     }

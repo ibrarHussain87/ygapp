@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -11,8 +10,6 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
-import 'package:intl/intl.dart';
-
 
 import 'detail_tab.dart';
 import 'list_bidder_components/bider_tab.dart';
@@ -30,7 +27,6 @@ class FiberDetailRenewedPage extends StatefulWidget {
 }
 
 class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> _tabsListCreator = ['Details', "Matched", 'Bidder List'];
   final List<String> _tabsListBidder = ['Details', "Matched"];
@@ -40,16 +36,16 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
   @override
   void initState() {
     _getUserId().then((userId) {
-      if(widget.specification!= null){
-        if(userId != widget.specification!.spc_user_id){
+      if (widget.specification != null) {
+        if (userId != widget.specification!.spc_user_id) {
           _creatorOrBidder(false);
-        }else{
+        } else {
           _creatorOrBidder(true);
         }
-      }else{
-        if(userId != widget.yarnSpecification!.ys_user_id){
+      } else {
+        if (userId != widget.yarnSpecification!.ys_user_id) {
           _creatorOrBidder(false);
-        }else{
+        } else {
           _creatorOrBidder(true);
         }
       }
@@ -57,7 +53,6 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +116,10 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                       TitleSmallNormalTextWidget(
-                        title: widget.specification == null ? widget.yarnSpecification!.company??"" : widget.specification!.company??"",
+                      TitleSmallNormalTextWidget(
+                        title: widget.specification == null
+                            ? widget.yarnSpecification!.company ?? ""
+                            : widget.specification!.company ?? "",
                         color: Colors.black,
                         size: 10,
                         weight: FontWeight.w600,
@@ -153,7 +150,9 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                       Padding(
                         padding: EdgeInsets.only(bottom: 2.w),
                         child: Visibility(
-                            visible: Ui.showHide(widget.specification != null ? widget.specification!.isVerified : widget.yarnSpecification!.is_verified),
+                            visible: Ui.showHide(widget.specification != null
+                                ? widget.specification!.isVerified
+                                : widget.yarnSpecification!.is_verified),
                             maintainSize: true,
                             maintainState: true,
                             maintainAnimation: true,
@@ -192,7 +191,8 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                         child: TitleMediumBoldSmallTextWidget(
                                           title: widget.specification != null
                                               ? '${widget.specification!.material}'
-                                              : setFamilyData(widget.yarnSpecification!),
+                                              : setFamilyData(
+                                                  widget.yarnSpecification!),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -201,14 +201,15 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                 SizedBox(
                                   width: 2.w,
                                 ),
-                                 Expanded(
+                                Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
                                       /*title: '${specification.origin??'N/A'},${specification.productYear??'N/A'}',*/
                                       title: widget.specification != null
-                                          ? '${widget.specification!.origin??'N/A'},${widget.specification!.productYear??'N/A'}'
-                                          : setTitleData(widget.yarnSpecification!),
+                                          ? '${widget.specification!.origin ?? 'N/A'},${widget.specification!.productYear ?? 'N/A'}'
+                                          : setTitleData(
+                                              widget.yarnSpecification!),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -245,8 +246,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                   TextSpan(
                                     text: "Last Updated",
                                     style: TextStyle(
-                                        fontSize: 9.sp,
-                                        color: Colors.black),
+                                        fontSize: 9.sp, color: Colors.black),
                                   ),
                                 ])),
                                 SizedBox(
@@ -255,10 +255,15 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                 Text.rich(TextSpan(children: [
                                   TextSpan(
                                     /*fixed null exception date*/
-                                    text: widget.specification == null ? "N/A" : DateFormat("MMM dd, yyyy").format(DateTime.parse(widget.yarnSpecification!.date??"")),
+                                    text: widget.specification != null
+                                        ? widget.specification!.date == null ? "N/A" :DateFormat("MMM dd, yyyy").format(
+                                            DateTime.parse(
+                                                widget.specification!.date!))
+                                        :  widget.yarnSpecification!.date == null ? "N/A"  : DateFormat("MMM dd, yyyy").format(
+                                            DateTime.parse(widget
+                                                    .yarnSpecification!.date!)),
                                     style: TextStyle(
-                                        fontSize: 9.sp,
-                                        color: lightBlueLabel),
+                                        fontSize: 9.sp, color: lightBlueLabel),
                                   )
                                 ])),
                               ],
@@ -469,8 +474,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
     );
   }
 
-  List<Tab> tabMaker(){
-
+  List<Tab> tabMaker() {
     List<Tab> tabs = []; //create an empty list of Tab
     for (var i = 0; i < _tabsList!.length; i++) {
       tabs.add(Tab(
@@ -488,9 +492,8 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
     return tabs;
   }
 
-  _creatorOrBidder(bool isCreator){
-
-    if(isCreator){
+  _creatorOrBidder(bool isCreator) {
+    if (isCreator) {
       setState(() {
         _tabsList = _tabsListCreator;
         _tabWidgetList = [
@@ -514,7 +517,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                   : widget.yarnSpecification!.specId ?? 1)
         ];
       });
-    }else{
+    } else {
       setState(() {
         _tabsList = _tabsListBidder;
         _tabWidgetList = [
@@ -539,45 +542,51 @@ Future<String?> _getUserId() async {
   return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
 }
 
-String setFamilyData(YarnSpecification specification){
+String setFamilyData(YarnSpecification specification) {
   String familyData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '2':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '3':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '4':
-      familyData = '${specification.dtyFilament ?? ""} ${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.dtyFilament ?? ""} ${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '5':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
   }
   return familyData;
 }
 
-String setTitleData(YarnSpecification specification){
+String setTitleData(YarnSpecification specification) {
   String titleData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      titleData = '${specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      titleData =
+          '${specification.yarnQuality ?? 'N/A'} for ${specification.yarnUsage ?? 'N/A'}';
       break;
     case '2':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.yarnBlend ?? 'N/A';
       break;
     case '3':
-      titleData = specification.yarnOrientation??'N/A';
+      titleData = specification.yarnOrientation ?? 'N/A';
       break;
     case '4':
-      titleData = specification.yarnType??'N/A';
+      titleData = specification.yarnType ?? 'N/A';
       break;
     case '5':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.yarnBlend ?? 'N/A';
       break;
   }
   return titleData;

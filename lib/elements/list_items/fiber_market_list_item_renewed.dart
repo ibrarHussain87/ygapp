@@ -168,21 +168,21 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '1' ? 'RD ${specification.rd}' : 'FL ${specification.length}',
+                                      title: specification.nature_id == '2' ? 'RD ${specification.rd}' : 'FL ${specification.length}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '1' ? 'M ${specification.moisture}' : 'Mic ${specification.micronaire}',
+                                      title: specification.nature_id == '2' ? 'M ${specification.moisture}' : 'Mic ${specification.micronaire ?? "N/A"}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '1' ? 'T ${specification.trash}' : 'GD ${specification.grade}',
+                                      title: specification.nature_id == '2' ? 'T ${specification.trash}' : 'GD ${specification.grade}',
                                     ),
                                     flex: 1,
                                   ),
@@ -435,11 +435,11 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
 getFiberSubtitle(Specification specification) {
   String subtitle = "";
   switch(specification.nature_id){
-    case '1':
+    case '2':
       subtitle = '${specification.length??'N/A'},${specification.micronaire??'N/A'},'
           '${specification.apperance??'N/A'},${specification.certification??'N/A'}';
       break;
-    case '2':
+    case '1':
       /*add color in specification at 2nd*/
       subtitle = '${specification.apperance??'N/A'},'
           '${specification.origin??'N/A'}';
@@ -454,10 +454,10 @@ getFiberSubtitle(Specification specification) {
 getFiberTitle(Specification specification) {
   String title = "";
   switch(specification.nature_id){
-    case '1':
+    case '2':
       title = '${specification.origin??'N/A'},${specification.productYear??'N/A'}';
       break;
-      case '2':
+      case '1':
       title = '${specification.brand??'N/A'},${specification.lotNumber??'N/A'}';
       break;
     default:
