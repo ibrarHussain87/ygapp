@@ -47,7 +47,7 @@ class YarnListBodyState extends State<YarnListBody> {
                     openDetailsScreen(context,
                         yarnSpecification: _yarnFilteredSpecification![index]);
                   },
-                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index]));
+                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index],context));
             })
         : const Center(
             child: TitleSmallTextWidget(

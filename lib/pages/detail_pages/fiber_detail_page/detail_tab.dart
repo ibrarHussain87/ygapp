@@ -253,21 +253,33 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       ),
                                                   ),
                                                 )),
+                                            /*fixed price 3 4 digit issue*/
                                             const SizedBox(
-                                              width: 5,
+                                              width: 2,
                                             ),
                                             Expanded(
                                                 child: Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.w),
+                                                        EdgeInsets.symmetric(vertical: 8.w,horizontal: 1.w),
                                                     child: Center(
                                                       child:
-                                                          LargeTitleTextWidget(
-                                                              title:
-                                                                  '$bidPrice'),
-                                                    ))),
+                                                      Text(
+                                                        bidPrice != null ? bidPrice.toString() : "N/A",
+                                                        overflow: TextOverflow.fade,
+                                                        maxLines: 1,
+                                                        softWrap: false,
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16.sp,
+                                                            fontFamily: 'Metropolis',
+                                                            fontWeight: FontWeight.w400),
+                                                      ),
+                                                    )
+                                                )
+                                            ),
                                             const SizedBox(
-                                              width: 5,
+                                              width: 2,
                                             ),
                                             Expanded(
                                                 child: GestureDetector(
