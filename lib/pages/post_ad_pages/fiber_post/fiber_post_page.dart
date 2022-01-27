@@ -53,7 +53,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
-              return insertIntoDB(snapshot.data);
+              return getView(snapshot.data!);
             } else if (snapshot.hasError) {
               return Center(
                   child:
