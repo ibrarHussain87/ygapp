@@ -254,7 +254,8 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                 ),
                                 Text.rich(TextSpan(children: [
                                   TextSpan(
-                                    text: widget.specification!= null ? "Nov 23, 4:33 PM" : DateFormat("MMM dd, yyyy").format(DateTime.parse(widget.yarnSpecification!.date??"")),
+                                    /*fixed null exception date*/
+                                    text: widget.specification == null ? "N/A" : DateFormat("MMM dd, yyyy").format(DateTime.parse(widget.yarnSpecification!.date??"")),
                                     style: TextStyle(
                                         fontSize: 9.sp,
                                         color: lightBlueLabel),

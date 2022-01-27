@@ -103,36 +103,44 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       }),
                     ),
                     const Divider(),
-                    widget.yarnSpecification != null
-                        ? Column(
-                            children: [
-                              SizedBox(
-                                height: 4.w,
-                              ),
-                              const TitleTextWidget(title: 'Lab Parameters'),
-                              SizedBox(
-                                height: 8.w,
-                              ),
-                            ],
-                          )
-                        : SizedBox(
-                            height: 4.w,
-                          ),
-                    GridView.count(
-                      crossAxisCount: 3,
-                      childAspectRatio: 2.77,
-                      mainAxisSpacing: 3.w,
-                      crossAxisSpacing: 6.w,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: List.generate(labParameters.length, (index) {
-                        return TextDetailWidget(
-                            title: labParameters[index]._title,
-                            detail: labParameters[index]._detail);
-                      }),
-                    ),
-                    const Divider(),
-                    SizedBox(
+                    /*fixed lab parameters issue in fiber*/
+                    widget.yarnSpecification != null ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.yarnSpecification != null
+                            ? Column(
+                          children: [
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const TitleTextWidget(title: 'Lab Parameters'),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                          ],
+                        )
+                            : SizedBox(
+                          height: 4.w,
+                        ),
+                        GridView.count(
+                          crossAxisCount: 3,
+                          childAspectRatio: 2.77,
+                          mainAxisSpacing: 3.w,
+                          crossAxisSpacing: 6.w,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: List.generate(labParameters.length, (index) {
+                            return TextDetailWidget(
+                                title: labParameters[index]._title,
+                                detail: labParameters[index]._detail);
+                          }),
+                        ),
+                        const Divider(),
+                        SizedBox(
+                          height: 4.w,
+                        ),
+                      ],
+                    ) : SizedBox(
                       height: 4.w,
                     ),
                     const TitleTextWidget(title: 'Packing Details'),
@@ -260,22 +268,14 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             Expanded(
                                                 child: Padding(
                                                     padding:
-                                                        EdgeInsets.symmetric(vertical: 8.w,horizontal: 1.w),
-                                                    child: Center(
-                                                      child:
-                                                      Text(
-                                                        bidPrice != null ? bidPrice.toString() : "N/A",
-                                                        overflow: TextOverflow.fade,
-                                                        maxLines: 1,
-                                                        softWrap: false,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 16.sp,
-                                                            fontFamily: 'Metropolis',
-                                                            fontWeight: FontWeight.w400),
-                                                      ),
-                                                    )
+                                                    EdgeInsets.all(8.w),
+                                                  child: Center(
+                                                      child: FittedBox(
+                                                        fit: BoxFit.contain,
+                                                        child: LargeTitleTextWidget(
+                                                            title: '$bidPrice'),
+                                                      )
+                                                  ),
                                                 )
                                             ),
                                             const SizedBox(
@@ -387,8 +387,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 child: Padding(
                                               padding: EdgeInsets.all(8.w),
                                               child: Center(
-                                                child: LargeTitleTextWidget(
-                                                    title: '$bidQuantity'),
+                                                child: FittedBox(
+                                                  fit: BoxFit.contain,
+                                                  child: LargeTitleTextWidget(
+                                                      title: '$bidQuantity'),
+                                                )
                                               ),
                                             )),
                                             const SizedBox(

@@ -141,7 +141,7 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      title: '${specification.origin??'N/A'},${specification.productYear??'N/A'}',
+                                      title: getFiberTitle(specification),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -155,8 +155,7 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title:'${specification.length??'N/A'},${specification.micronaire??'N/A'},'
-                                    '${specification.apperance??'N/A'},${specification.certification??'N/A'}',
+                                title:getFiberSubtitle(specification),
                                 color: Colors.black87,
                                 size: 10,
                                 weight: FontWeight.w500,
@@ -169,21 +168,21 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'RD ${specification.rd}',
+                                      title: specification.nature_id == '1' ? 'RD ${specification.rd}' : 'FL ${specification.length}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'M ${specification.moisture}',
+                                      title: specification.nature_id == '1' ? 'M ${specification.moisture}' : 'Mic ${specification.micronaire}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'T ${specification.trash}',
+                                      title: specification.nature_id == '1' ? 'T ${specification.trash}' : 'GD ${specification.grade}',
                                     ),
                                     flex: 1,
                                   ),
@@ -431,4 +430,39 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
         ],
       )
   );
+}
+
+getFiberSubtitle(Specification specification) {
+  String subtitle = "";
+  switch(specification.nature_id){
+    case '1':
+      subtitle = '${specification.length??'N/A'},${specification.micronaire??'N/A'},'
+          '${specification.apperance??'N/A'},${specification.certification??'N/A'}';
+      break;
+    case '2':
+      /*add color in specification at 2nd*/
+      subtitle = '${specification.apperance??'N/A'},'
+          '${specification.origin??'N/A'}';
+      break;
+    default:
+      subtitle = 'N/A';
+      break;
+  }
+  return subtitle;
+}
+
+getFiberTitle(Specification specification) {
+  String title = "";
+  switch(specification.nature_id){
+    case '1':
+      title = '${specification.origin??'N/A'},${specification.productYear??'N/A'}';
+      break;
+      case '2':
+      title = '${specification.brand??'N/A'},${specification.lotNumber??'N/A'}';
+      break;
+    default:
+      title = 'N/A';
+      break;
+  }
+  return title;
 }
