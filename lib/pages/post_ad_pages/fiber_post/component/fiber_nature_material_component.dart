@@ -26,7 +26,8 @@ class _FiberNatureMaterialComponentState
     extends State<FiberNatureMaterialComponent> {
   // CreateRequestModel? _createRequestModel;
   String? _selectedNature;
-  int? _materialIndex;
+  // int? _materialIndex;
+  final GlobalKey<CatWithImageListWidgetState> _catWithImageListState = GlobalKey<CatWithImageListWidgetState>();
 
   @override
   void initState() {
@@ -64,12 +65,14 @@ class _FiberNatureMaterialComponentState
 
                   // _createRequestModel!.spc_nature_idfk = _selectedNature;
                   /// Publishing Event
+                  ///
                   BroadcastReceiver().publish<int>(materialIndexBroadcast,
                       arguments: widget.materialList
                           .where((element) =>
                               element.nature_id == value.id.toString())
-                          .toList()[_materialIndex ?? 0]
+                          .toList().first
                           .fbmId);
+                  _catWithImageListState.currentState!.checkedIndex = 0;
                 },
                 listOfItems: widget.natureList)
           ],
@@ -84,16 +87,17 @@ class _FiberNatureMaterialComponentState
                   title: 'Fiber Material',
                 )),
             CatWithImageListWidget(
+              key: _catWithImageListState,
               listItem: widget.materialList
                   .where((element) => element.nature_id == _selectedNature)
                   .toList(),
               onClickCallback: (index) {
                 // _createRequestModel!.spc_fiber_material_idfk =
                 //     widget.materialList[index].fbmId.toString();
-                _materialIndex = index;
+                // _materialIndex = index;
                 /// Publishing Event
                 BroadcastReceiver().publish<int>(materialIndexBroadcast,
-                    arguments: widget.materialList[index].fbmId);
+                    arguments: widget.materialList.where((element) => element.nature_id == _selectedNature).toList()[index].fbmId);
               },
             ),
           ],
