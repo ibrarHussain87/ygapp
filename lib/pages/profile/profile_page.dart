@@ -129,15 +129,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 child: ListView(
                                   children: [
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top:5.0),
-                                          child: ProfileTileWidget(title: "Personal Details",
-                                              image: PROFILE_DETAILS_IMAGE),
-                                        ),
-                                        const Divider()
-                                      ],
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: (){
+                                        openPersonalDetailsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:5.0),
+                                            child: ProfileTileWidget(title: "Personal Details",
+                                                image: PROFILE_DETAILS_IMAGE),
+                                          ),
+                                          const Divider()
+                                        ],
+                                      ),
                                     ),
 
                                     Column(
@@ -312,4 +318,5 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
 }

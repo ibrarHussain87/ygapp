@@ -107,6 +107,7 @@ class User {
   String? profileStatus;
   String? email;
   String? emailVerifiedAt;
+  String? company;
   String? roleId;
   String? apiToken;
   String? deletedAt;
@@ -130,6 +131,7 @@ class User {
     profileStatus = null;
     email = json['email'];
     emailVerifiedAt = null;
+    company = json['company'];
     roleId = json['role_id'];
     apiToken = null;
     deletedAt = null;
@@ -154,6 +156,7 @@ class User {
     _data['profile_status'] = profileStatus;
     _data['email'] = email;
     _data['email_verified_at'] = emailVerifiedAt;
+    _data['company'] = company;
     _data['role_id'] = roleId;
     _data['api_token'] = apiToken;
     _data['deleted_at'] = deletedAt;
