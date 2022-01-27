@@ -15,7 +15,7 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 
-Widget buildYarnRenewedWidget(YarnSpecification specification) {
+Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context) {
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -58,8 +58,21 @@ Widget buildYarnRenewedWidget(YarnSpecification specification) {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TitleSmallNormalTextWidget(title: specification.company??"",
-                        color: Colors.black,size: 10,weight: FontWeight.w600,),
+                      Container(
+                        child: Text(
+                          specification.company??"N/A",
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Metropolis',
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width*0.30,
+                      ),
                       SizedBox(
                         width: 4.w,
                       ),

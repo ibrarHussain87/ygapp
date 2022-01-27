@@ -45,7 +45,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberRenewedWidget(specificationFiltered![index])),
+          child: buildFiberRenewedWidget(specificationFiltered![index],context)),
       // separatorBuilder: (context, index) {
       //   return Divider(
       //     height: 1,

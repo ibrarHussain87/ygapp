@@ -180,6 +180,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
     // selectedBlendId = "1";
     _getSpecificationRequestModel = GetSpecificationRequestModel();
     _querySetting(int.parse(selectedFamilyId!));
+    /*added this to fix bug*/
     _getSpecificationRequestModel!.ysFamilyIdFk = [1];
     setState(() {
       _minMaxConfiguration();

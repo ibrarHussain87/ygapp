@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -163,7 +164,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               ],
                                             )
                                           ),
-                                          Padding(
+                                          /*Padding(
                                             padding: EdgeInsets.only(
                                                 bottom: 8.w, left: 8.w, right: 8.w),
                                             child: Column(
@@ -189,7 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               ],
                                             ),
 
-                                          ),
+                                          ),*/
                                           Padding(
                                             padding: EdgeInsets.only(top: 8.w,
                                                 bottom: 8.w, left: 8.w, right: 8.w),
@@ -521,8 +522,12 @@ class _SignUpPageState extends State<SignUpPage> {
     check().then((value) {
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
+        /*remove operator and added static data for parameter*/
+        _signupRequestModel.operator = '1';
         _signupRequestModel.countryId = '1';
+        Logger().e(_signupRequestModel.toJson());
         ApiService.signup(_signupRequestModel).then((value) {
+          Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if(value.errors != null){
             value.errors!.forEach((key, error) {
