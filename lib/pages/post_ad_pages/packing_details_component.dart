@@ -84,8 +84,16 @@ class _PackagingDetailsState extends State<PackagingDetails>
   TextEditingController _conePerBagController = TextEditingController();
   bool? _showPaymentType;
   bool? _showLcType;
-
   int? selectedCountryId;
+
+
+  List<FPriceTerms> _getPriceTerms(){
+    if(widget.businessArea == yarn){
+      return widget.priceTerms!.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "2")).toList();
+    }else{
+      return widget.priceTerms!.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "1")).toList();
+    }
+  }
 
   @override
   void initState() {
@@ -643,11 +651,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             Radius.circular(24.w))),
                                     child: DropdownButtonFormField(
                                       hint: const Text('Select Price Terms'),
-                                      items: widget.priceTerms!
-                                          .where((element) =>
-                                              element.ptr_locality ==
-                                              widget.locality)
-                                          .toList()
+                                      items: _getPriceTerms()
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
                                                     value.ptrName ?? "N/A",

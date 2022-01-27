@@ -4,6 +4,7 @@ import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
@@ -12,7 +13,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -28,11 +29,11 @@ class FiberSpecificationComponent extends StatefulWidget {
 
   const FiberSpecificationComponent(
       {Key? key,
-        required this.syncFiberResponse,
-        required this.callback,
-        required this.locality,
-        required this.businessArea,
-        required this.selectedTab})
+      required this.syncFiberResponse,
+      required this.callback,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
@@ -43,6 +44,7 @@ class FiberSpecificationComponent extends StatefulWidget {
 class FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
@@ -50,7 +52,6 @@ class FiberSpecificationComponentState
   final TextEditingController _textEditingController = TextEditingController();
   FiberSettings? _fiberSettings;
   CreateRequestModel? _createRequestModel;
-  bool isInit = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -64,7 +65,7 @@ class FiberSpecificationComponentState
         .fbmId;
 
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
-      (materialIndexBroadcast, (index) {
+        (materialIndexBroadcast, (index) {
       setState(() {
         _selectedMaterial = index;
       });
@@ -75,17 +76,7 @@ class FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
-    // if(!isInit) {
-      _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      // _createRequestModel!.spc_grade_idfk =
-      //     widget.syncFiberResponse.data.fiber.grades.first.grdId.toString();
-      // _createRequestModel!.spc_appearance_idfk =
-      //     widget.syncFiberResponse.data.fiber.apperance.first.aprId.toString();
-      // _createRequestModel!.spc_certificate_idfk = widget
-      //     .syncFiberResponse.data.fiber.certification.first.cerId
-      //     .toString();
-    //   isInit = true;
-    // }
+    _createRequestModel = Provider.of<CreateRequestModel?>(context);
     return FutureBuilder<List<FiberSettings>>(
       future: AppDbInstance.getDbInstance().then((value) async {
         return value.fiberSettingDao.findFiberSettings(_selectedMaterial!);
@@ -94,6 +85,8 @@ class FiberSpecificationComponentState
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
+            _resetData();
+            ApiService.logger.e(_createRequestModel!.toJson());
             _fiberSettings = snapshot.data![0];
           }
           return Scaffold(
@@ -108,7 +101,7 @@ class FiberSpecificationComponentState
                 Expanded(
                   child: Padding(
                     padding:
-                    EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                        EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,19 +126,19 @@ class FiberSpecificationComponentState
                               children: [
                                 Visibility(
                                     visible: int.parse(
-                                        snapshot.data![0].showGrade) ==
-                                        1
+                                                snapshot.data![0].showGrade) ==
+                                            1
                                         ? true
                                         : false,
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 8.w),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                               padding:
-                                              EdgeInsets.only(left: 8.w),
+                                                  EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
                                                   title: grades)),
                                           SingleSelectTileWidget(
@@ -158,7 +151,7 @@ class FiberSpecificationComponentState
                                                 .grades,
                                             callback: (value) {
                                               _createRequestModel!
-                                                  .spc_grade_idfk =
+                                                      .spc_grade_idfk =
                                                   value.grdId.toString();
                                             },
                                           ),
@@ -171,8 +164,8 @@ class FiberSpecificationComponentState
                                   children: [
                                     Visibility(
                                       visible: int.parse(snapshot
-                                          .data![0].showLength) ==
-                                          1
+                                                  .data![0].showLength) ==
+                                              1
                                           ? true
                                           : false,
                                       child: Expanded(
@@ -180,7 +173,7 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
@@ -227,7 +220,7 @@ class FiberSpecificationComponentState
                                                       .data![0].lengthMinMax,
                                                   onSaved: (input) {
                                                     _createRequestModel!
-                                                        .spc_fiber_length_idfk =
+                                                            .spc_fiber_length_idfk =
                                                         input;
                                                   }),
                                               SizedBox(
@@ -240,17 +233,17 @@ class FiberSpecificationComponentState
                                     ),
                                     SizedBox(
                                       width: (snapshot.data![0].showLength ==
-                                          "1" &&
-                                          snapshot.data![0]
-                                              .showMicronaire ==
-                                              "1")
+                                                  "1" &&
+                                              snapshot.data![0]
+                                                      .showMicronaire ==
+                                                  "1")
                                           ? 16.w
                                           : 0,
                                     ),
                                     Visibility(
                                       visible: int.parse(snapshot
-                                          .data![0].showMicronaire) ==
-                                          1
+                                                  .data![0].showMicronaire) ==
+                                              1
                                           ? true
                                           : false,
                                       child: Expanded(
@@ -258,7 +251,7 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
@@ -271,7 +264,7 @@ class FiberSpecificationComponentState
                                                       .data![0].micMinMax,
                                                   onSaved: (input) {
                                                     _createRequestModel!
-                                                        .spc_micronaire_idfk =
+                                                            .spc_micronaire_idfk =
                                                         input;
                                                   }),
                                               /* TextFormField(
@@ -324,7 +317,7 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
@@ -337,7 +330,7 @@ class FiberSpecificationComponentState
                                                       .data![0].moiMinMax,
                                                   onSaved: (input) {
                                                     _createRequestModel!
-                                                        .spc_moisture_idfk =
+                                                            .spc_moisture_idfk =
                                                         input;
                                                   }),
                                               // TextFormField(
@@ -378,16 +371,16 @@ class FiberSpecificationComponentState
                                         ),
                                       ),
                                       visible: int.parse(snapshot
-                                          .data![0].showMoisture) ==
-                                          1
+                                                  .data![0].showMoisture) ==
+                                              1
                                           ? true
                                           : false,
                                     ),
                                     SizedBox(
                                       width: (snapshot.data![0].showMoisture ==
-                                          "1" &&
-                                          snapshot.data![0].showTrash ==
-                                              "1")
+                                                  "1" &&
+                                              snapshot.data![0].showTrash ==
+                                                  "1")
                                           ? 16.w
                                           : 0,
                                     ),
@@ -397,7 +390,7 @@ class FiberSpecificationComponentState
                                             padding: EdgeInsets.only(top: 8.w),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Padding(
                                                     padding: EdgeInsets.only(
@@ -410,7 +403,7 @@ class FiberSpecificationComponentState
                                                         .data![0].trashMinMax,
                                                     onSaved: (input) {
                                                       _createRequestModel!
-                                                          .spc_trash_idfk =
+                                                              .spc_trash_idfk =
                                                           input;
                                                     }),
                                                 /* TextFormField(
@@ -451,8 +444,8 @@ class FiberSpecificationComponentState
                                           ),
                                         ),
                                         visible: int.parse(snapshot
-                                            .data![0].showTrash) ==
-                                            1
+                                                    .data![0].showTrash) ==
+                                                1
                                             ? true
                                             : false),
                                   ],
@@ -467,14 +460,14 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child:
-                                                  const TitleSmallTextWidget(
-                                                      title: 'RD')),
+                                                      const TitleSmallTextWidget(
+                                                          title: 'RD')),
                                               YgTextFormFieldWithRange(
                                                   errorText: 'RD',
                                                   minMax: snapshot
@@ -520,14 +513,14 @@ class FiberSpecificationComponentState
                                         ),
                                       ),
                                       visible:
-                                      int.parse(snapshot.data![0].showRd) ==
-                                          1
-                                          ? true
-                                          : false,
+                                          int.parse(snapshot.data![0].showRd) ==
+                                                  1
+                                              ? true
+                                              : false,
                                     ),
                                     SizedBox(
                                       width: (snapshot.data![0].showRd == "1" &&
-                                          snapshot.data![0].showGpt == "1")
+                                              snapshot.data![0].showGpt == "1")
                                           ? 16.w
                                           : 0,
                                     ),
@@ -537,14 +530,14 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child:
-                                                  const TitleSmallTextWidget(
-                                                      title: 'GPT')),
+                                                      const TitleSmallTextWidget(
+                                                          title: 'GPT')),
                                               YgTextFormFieldWithRange(
                                                   errorText: "GPT",
                                                   minMax: snapshot
@@ -553,46 +546,13 @@ class FiberSpecificationComponentState
                                                     _createRequestModel!
                                                         .spc_gpt_idfk = input;
                                                   }),
-                                              /* TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  cursorColor: lightBlueTabs,
-                                                  style: TextStyle(
-                                                      fontSize: 11.sp),
-                                                  textAlign: TextAlign.center,
-                                                  cursorHeight: 16.w,
-                                                  inputFormatters: [
-                                                    NumericalRangeFormatter(
-                                                        min: StringUtils
-                                                            .splitMin(snapshot
-                                                                .data![0]
-                                                                .gptMinMax),
-                                                        max: StringUtils
-                                                            .splitMax(snapshot
-                                                                .data![0]
-                                                                .gptMinMax))
-                                                  ],
-                                                  onSaved: (input) =>
-                                                      _createRequestModel!
-                                                              .spc_gpt_idfk =
-                                                          input!,
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty) {
-                                                      return "Enter GPT";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      roundedTextFieldDecoration(
-                                                          '${snapshot.data![0].gptMinMax} %')),*/
                                             ],
                                           ),
                                         ),
                                       ),
                                       visible: int.parse(
-                                          snapshot.data![0].showGpt) ==
-                                          1
+                                                  snapshot.data![0].showGpt) ==
+                                              1
                                           ? true
                                           : false,
                                     ),
@@ -600,15 +560,15 @@ class FiberSpecificationComponentState
                                 ),
                                 Visibility(
                                   visible: int.parse(snapshot
-                                      .data![0].showAppearance) ==
-                                      1
+                                              .data![0].showAppearance) ==
+                                          1
                                       ? true
                                       : false,
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
@@ -621,7 +581,7 @@ class FiberSpecificationComponentState
                                               .data.fiber.apperance,
                                           callback: (value) {
                                             _createRequestModel!
-                                                .spc_appearance_idfk =
+                                                    .spc_appearance_idfk =
                                                 value.aprId.toString();
                                           },
                                         ),
@@ -639,7 +599,7 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
@@ -654,14 +614,14 @@ class FiberSpecificationComponentState
                                                         color: Colors
                                                             .grey.shade300,
                                                         width:
-                                                        1, //                   <--- border width here
+                                                            1, //                   <--- border width here
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              24.w))),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  24.w))),
                                                   child:
-                                                  DropdownButtonFormField(
+                                                      DropdownButtonFormField(
                                                     hint: Text('Select $brand'),
                                                     items: widget
                                                         .syncFiberResponse
@@ -669,19 +629,19 @@ class FiberSpecificationComponentState
                                                         .fiber
                                                         .brands
                                                         .map((value) =>
-                                                        DropdownMenuItem(
-                                                          child: Text(
-                                                              value.brdName ??
-                                                                  "N/A",
-                                                              textAlign:
-                                                              TextAlign
-                                                                  .center),
-                                                          value: value,
-                                                        ))
+                                                            DropdownMenuItem(
+                                                              child: Text(
+                                                                  value.brdName ??
+                                                                      "N/A",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center),
+                                                              value: value,
+                                                            ))
                                                         .toList(),
                                                     onChanged: (Brands? value) {
                                                       _createRequestModel!
-                                                          .spc_brand_idfk =
+                                                              .spc_brand_idfk =
                                                           value!.brdId
                                                               .toString();
                                                     },
@@ -689,16 +649,16 @@ class FiberSpecificationComponentState
                                                     // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                     decoration: InputDecoration(
                                                       contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 16.w,
-                                                          right: 6.w,
-                                                          top: 0,
-                                                          bottom: 0),
+                                                          EdgeInsets.only(
+                                                              left: 16.w,
+                                                              right: 6.w,
+                                                              top: 0,
+                                                              bottom: 0),
                                                       border:
-                                                      const OutlineInputBorder(
-                                                          borderSide:
-                                                          BorderSide
-                                                              .none),
+                                                          const OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
                                                     ),
                                                     style: TextStyle(
                                                         fontSize: 11.sp,
@@ -711,16 +671,16 @@ class FiberSpecificationComponentState
                                         ),
                                       ),
                                       visible: int.parse(snapshot
-                                          .data![0].showBrand) ==
-                                          1
+                                                  .data![0].showBrand) ==
+                                              1
                                           ? true
                                           : false,
                                     ),
                                     SizedBox(
                                       width:
-                                      (snapshot.data![0].showBrand == "1")
-                                          ? 16.w
-                                          : 0,
+                                          (snapshot.data![0].showBrand == "1")
+                                              ? 16.w
+                                              : 0,
                                     ),
                                     Visibility(
                                       visible: true,
@@ -729,31 +689,31 @@ class FiberSpecificationComponentState
                                           padding: EdgeInsets.only(top: 8.w),
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 8.w),
                                                   child:
-                                                  const TitleSmallTextWidget(
-                                                      title:
-                                                      'Production Year')),
+                                                      const TitleSmallTextWidget(
+                                                          title:
+                                                              'Production Year')),
                                               TextFormField(
                                                 keyboardType:
-                                                TextInputType.none,
+                                                    TextInputType.none,
                                                 controller:
-                                                _textEditingController,
+                                                    _textEditingController,
                                                 cursorColor: lightBlueTabs,
                                                 autofocus: false,
                                                 style:
-                                                TextStyle(fontSize: 11.sp),
+                                                    TextStyle(fontSize: 11.sp),
                                                 textAlign: TextAlign.center,
                                                 showCursor: false,
                                                 readOnly: true,
                                                 onSaved: (input) =>
-                                                _createRequestModel!
-                                                    .spc_production_year =
-                                                    input!.toString(),
+                                                    _createRequestModel!
+                                                            .spc_production_year =
+                                                        input!.toString(),
                                                 validator: (input) {
                                                   if (input == null ||
                                                       input.isEmpty) {
@@ -762,8 +722,8 @@ class FiberSpecificationComponentState
                                                   return null;
                                                 },
                                                 decoration:
-                                                roundedTextFieldDecoration(
-                                                    'Production year'),
+                                                    roundedTextFieldDecoration(
+                                                        'Production year'),
                                                 onTap: () {
                                                   handleReadOnlyInputClick(
                                                       context);
@@ -777,44 +737,46 @@ class FiberSpecificationComponentState
                                   ],
                                 ),
                                 Visibility(
-                                  visible:
-                                  /*int.parse(snapshot.data![0].showOrigin) ==
-                                              1
-                                          ? true
-                                          :*/
-                                  false,
+                                  visible: Ui.showHide(_fiberSettings!.showOrigin),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
                                             child: const TitleSmallTextWidget(
-                                                title: 'Country')),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: lightBlueTabs,
-                                                width:
-                                                1, //                   <--- border width here
-                                              ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(24.w))),
-                                          child: SizedBox(
-                                            height: 36.w,
-                                            child: DropdownButtonFormField(
-                                              hint:
-                                              const Text('Select country'),
-                                              items: widget.syncFiberResponse
-                                                  .data.fiber.countries
+                                                title: 'Origin')),
+                                        SizedBox(
+                                          height: 36.w,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300,
+                                                  width:
+                                                  1, //                   <--- border width here
+                                                ),
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius.circular(
+                                                        24.w))),
+                                            child:
+                                            DropdownButtonFormField(
+                                              hint: const Text('Select Origin'),
+                                              items: widget
+                                                  .syncFiberResponse
+                                                  .data
+                                                  .fiber
+                                                  .countries
                                                   .map((value) =>
                                                   DropdownMenuItem(
                                                     child: Text(
                                                         value.conName ??
                                                             "N/A",
-                                                        textAlign: TextAlign
+                                                        textAlign:
+                                                        TextAlign
                                                             .center),
                                                     value: value,
                                                   ))
@@ -822,24 +784,23 @@ class FiberSpecificationComponentState
                                               onChanged: (Countries? value) {
                                                 _createRequestModel!
                                                     .spc_origin_idfk =
-                                                    value!.conId.toString();
+                                                    value!.conId
+                                                        .toString();
                                               },
-                                              // value: widget.syncFiberResponse.data.fiber.countries.first,
+
+                                              // value: widget.syncFiberResponse.data.fiber.brands.first,
                                               decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.only(
+                                                contentPadding:
+                                                EdgeInsets.only(
                                                     left: 16.w,
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
-                                                border: const OutlineInputBorder(
-                                                    borderSide: BorderSide
-                                                        .none) /*OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: lightBlueTabs),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(24.w),
-                                          ))*/
-                                                ,
+                                                border:
+                                                const OutlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide
+                                                        .none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
@@ -857,7 +818,7 @@ class FiberSpecificationComponentState
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
@@ -868,7 +829,7 @@ class FiberSpecificationComponentState
                                               border: Border.all(
                                                 color: lightBlueTabs,
                                                 width:
-                                                1, //                   <--- border width here
+                                                    1, //                   <--- border width here
                                               ),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(24.w))),
@@ -880,17 +841,17 @@ class FiberSpecificationComponentState
                                               items: widget.syncFiberResponse
                                                   .data.fiber.cityState
                                                   .map((value) =>
-                                                  DropdownMenuItem(
-                                                    child: Text(
-                                                        value.name ?? "N/A",
-                                                        textAlign: TextAlign
-                                                            .center),
-                                                    value: value,
-                                                  ))
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                            value.name ?? "N/A",
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                        value: value,
+                                                      ))
                                                   .toList(),
                                               onChanged: (CityState? value) {
                                                 _createRequestModel!
-                                                    .spc_city_state_idfk =
+                                                        .spc_city_state_idfk =
                                                     value!.id.toString();
                                               },
                                               decoration: InputDecoration(
@@ -900,9 +861,9 @@ class FiberSpecificationComponentState
                                                     top: 0,
                                                     bottom: 0),
                                                 border:
-                                                const OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide.none),
+                                                    const OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
@@ -914,17 +875,11 @@ class FiberSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                // Visibility(
-                                //   visible: int.parse(snapshot
-                                //       .data![0].showLotNumber) ==
-                                //       1
-                                //       ? true
-                                //       : false,
-                                /*child:*/ Padding(
+                                Padding(
                                   padding: EdgeInsets.only(top: 8.w),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(left: 8.w),
@@ -937,8 +892,8 @@ class FiberSpecificationComponentState
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
                                           onSaved: (input) =>
-                                          _createRequestModel!
-                                              .spc_lot_number = input!,
+                                              _createRequestModel!
+                                                  .spc_lot_number = input!,
                                           validator: (input) {
                                             if (input == null ||
                                                 input.isEmpty) {
@@ -947,24 +902,23 @@ class FiberSpecificationComponentState
                                             return null;
                                           },
                                           decoration:
-                                          roundedTextFieldDecoration(
-                                              'Lot Number')),
+                                              roundedTextFieldDecoration(
+                                                  'Lot Number')),
                                     ],
                                   ),
                                 ),
-                                // ),
                                 Visibility(
                                   visible: int.parse(snapshot
-                                      .data![0].showCertification) ==
-                                      1
+                                              .data![0].showCertification) ==
+                                          1
                                       ? true
                                       : false,
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.only(top: 8.w, bottom: 8.w),
+                                        EdgeInsets.only(top: 8.w, bottom: 8.w),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
@@ -977,7 +931,7 @@ class FiberSpecificationComponentState
                                               .data.fiber.certification,
                                           callback: (value) {
                                             _createRequestModel!
-                                                .spc_certificate_idfk =
+                                                    .spc_certificate_idfk =
                                                 value.cerId.toString();
                                           },
                                         ),
@@ -1006,8 +960,7 @@ class FiberSpecificationComponentState
                     child: ElevatedButtonWithIcon(
                       callback: () async {
                         if (validationAllPage()) {
-                          _createRequestModel!.spc_category_idfk =
-                              _selectedMaterial.toString();
+                          _createRequestModel!.spc_category_idfk = "1";
 
                           _createRequestModel!.spc_fiber_material_idfk =
                               _selectedMaterial.toString();
@@ -1015,17 +968,11 @@ class FiberSpecificationComponentState
                           _createRequestModel!.spc_nature_idfk = widget
                               .syncFiberResponse.data.fiber.material
                               .where((element) =>
-                          element.fbmId == _selectedMaterial)
+                                  element.fbmId == _selectedMaterial)
                               .toList()
                               .first
                               .nature_id
                               .toString();
-
-                          var userID =
-                          await SharedPreferenceUtil.getStringValuesSF(
-                              USER_ID_KEY);
-                          _createRequestModel!.spc_user_idfk =
-                              userID.toString();
 
                           widget.callback!(1);
                         }
@@ -1053,6 +1000,24 @@ class FiberSpecificationComponentState
     );
   }
 
+  _resetData() {
+    _createRequestModel!.spc_grade_idfk = null;
+    _createRequestModel!.spc_appearance_idfk = null;
+    _createRequestModel!.spc_certificate_idfk = null;
+    _createRequestModel!.spc_lot_number = null;
+    _createRequestModel!.spc_brand_idfk = null;
+    _createRequestModel!.spc_gpt_idfk = null;
+    _createRequestModel!.spc_rd_idfk = null;
+    _createRequestModel!.spc_trash_idfk = null;
+    _createRequestModel!.spc_micronaire_idfk = null;
+    _createRequestModel!.spc_moisture_idfk = null;
+    _createRequestModel!.spc_production_year = null;
+    _createRequestModel!.spc_nature_idfk = null;
+    _createRequestModel!.spc_fiber_material_idfk = null;
+    _createRequestModel!.spc_origin_idfk = null;
+    _textEditingController.text = "";
+  }
+
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate()) {
@@ -1065,27 +1030,25 @@ class FiberSpecificationComponentState
   bool validationAllPage() {
     if (validateAndSave()) {
       if (_createRequestModel!.spc_grade_idfk == null &&
-          _fiberSettings!.showGrade == "1") {
-        Scaffold.of(context)
-            .showSnackBar(const SnackBar(content: Text('Please select Grade')));
+          Ui.showHide(_fiberSettings!.showGrade)) {
+        Ui.showSnackBar(context, 'Please Select Grade');
+        return false;
       } else if (_createRequestModel!.spc_appearance_idfk == null &&
-          _fiberSettings!.showAppearance == "1") {
-        Scaffold.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select Appearance')));
+          Ui.showHide(_fiberSettings!.showAppearance)) {
+        Ui.showSnackBar(context, 'Please Select Appearance');
+        return false;
       } else if (_createRequestModel!.spc_brand_idfk == null &&
-          _fiberSettings!.showBrand == "1") {
-        Scaffold.of(context)
-            .showSnackBar(const SnackBar(content: Text('Please select Brand')));
-      }
-      /* else if (_fiberRequestModel!.spc_origin_idfk == null &&
+          Ui.showHide(_fiberSettings!.showBrand)) {
+        Ui.showSnackBar(context, 'Please Select Brand');
+        return false;
+      } else if (_createRequestModel!.spc_origin_idfk == null &&
           _fiberSettings!.showOrigin == "1") {
-        Scaffold.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select Country')));
-      }*/
-      else if (_createRequestModel!.spc_certificate_idfk == null &&
-          _fiberSettings!.showCertification == "1") {
-        Scaffold.of(context).showSnackBar(
-            const SnackBar(content: Text('Please select Certification')));
+        Ui.showSnackBar(context, 'Please Select Origin');
+        return false;
+      } else if (_createRequestModel!.spc_certificate_idfk == null &&
+          Ui.showHide(_fiberSettings!.showCertification)) {
+        Ui.showSnackBar(context, 'Please Select Certification');
+        return false;
       } else {
         return true;
       }
@@ -1097,17 +1060,17 @@ class FiberSpecificationComponentState
     showBottomSheet(
         context: context,
         builder: (BuildContext context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          child: YearPicker(
-            selectedDate: DateTime(DateTime.now().year),
-            firstDate: DateTime(DateTime.now().year - 4),
-            lastDate: DateTime.now(),
-            onChanged: (val) {
-              _textEditingController.text = val.year.toString();
-              Navigator.pop(context);
-            },
-          ),
-        ));
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: YearPicker(
+                selectedDate: DateTime(DateTime.now().year),
+                firstDate: DateTime(DateTime.now().year - 4),
+                lastDate: DateTime.now(),
+                onChanged: (val) {
+                  _textEditingController.text = val.year.toString();
+                  Navigator.pop(context);
+                },
+              ),
+            ));
   }
 }

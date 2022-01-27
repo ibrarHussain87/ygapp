@@ -94,7 +94,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       mainAxisSpacing: 3.w,
                       crossAxisSpacing: 6.w,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children:
                           List.generate(detailSpecification.length, (index) {
                         return TextDetailWidget(
@@ -124,7 +124,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       mainAxisSpacing: 3.w,
                       crossAxisSpacing: 6.w,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(labParameters.length, (index) {
                         return TextDetailWidget(
                             title: labParameters[index]._title,
@@ -145,7 +145,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       mainAxisSpacing: 3.w,
                       crossAxisSpacing: 6.w,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(detailPackaging.length, (index) {
                         return TextDetailWidget(
                             title: detailPackaging[index]._title,

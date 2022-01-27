@@ -27,11 +27,11 @@ class FiberPostPage extends StatefulWidget {
 }
 
 class _FiberPostPageState extends State<FiberPostPage> {
-  CreateRequestModel? _fiberRequestModel;
+  CreateRequestModel? _createRequestModel;
 
   @override
   void initState() {
-    _fiberRequestModel = CreateRequestModel();
+    _createRequestModel = CreateRequestModel();
     super.initState();
   }
 
@@ -53,11 +53,12 @@ class _FiberPostPageState extends State<FiberPostPage> {
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
-              return getView(snapshot.data!);
+              return Provider(
+                  create: (_) => _createRequestModel, child: getView(snapshot.data!));
             } else if (snapshot.hasError) {
               return Center(
                   child:
-                  TitleSmallTextWidget(title: snapshot.error.toString()));
+                      TitleSmallTextWidget(title: snapshot.error.toString()));
             } else {
               return const Center(
                 child: SpinKitWave(
@@ -87,7 +88,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return Provider(
-              create: (_) => _fiberRequestModel, child: getView(data!));
+              create: (_) => _createRequestModel, child: getView(data!));
         } else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
