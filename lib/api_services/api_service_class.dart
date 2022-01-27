@@ -111,7 +111,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      getRequestModel.userId = userID;
+      // getRequestModel.userId = userID;
       getRequestModel.locality = locality;
       logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
@@ -162,7 +162,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      getRequestModel.userId = userID;
+      // getRequestModel.userId = userID;
       getRequestModel.locality = locality;
 
       logger.e(json.encode(getRequestModel.toJson()));
@@ -322,10 +322,10 @@ class ApiService {
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
       var userDeviceToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
-
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      headerMap['user_id'] = '$userID';
       headerMap['device_token'] = '$userDeviceToken';
 
       Map<String, dynamic> data = {

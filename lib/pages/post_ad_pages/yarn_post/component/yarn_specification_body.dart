@@ -685,7 +685,7 @@ class YarnSpecificationComponentState
 
   @override
   void initState() {
-    Utils.disableClick = false;
+    // Utils.disableClick = false;
     _yarnData = widget.yarnSyncResponse.data.yarn;
     _selectedFamilyId = _yarnData!.family!.first.famId.toString();
     queryFamilySettings(int.parse(_selectedFamilyId!));

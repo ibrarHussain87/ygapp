@@ -1126,10 +1126,10 @@ class Blends {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bln_id'] = this.blnId;
-    data['family_idfk'] = this.familyIdfk;
-    data['bln_name'] = this.blnName;
-    data['min_max'] = this.minMax;
+    data['bln_id'] = blnId;
+    data['family_idfk'] = familyIdfk;
+    data['bln_name'] = blnName;
+    data['min_max'] = minMax;
     data['icon_selected'] = this.iconSelected;
     data['icon_unselected'] = this.iconUnselected;
     data['bln_is_active'] = this.blnIsActive;
@@ -1167,12 +1167,12 @@ class ConeType {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['yct_id'] = this.yctId;
-    data['family_id'] = this.familyId;
-    data['yct_name'] = this.yctName;
-    data['yct_description'] = this.yctDescription;
-    data['yct_is_active'] = this.yctIsActive;
-    data['yct_sortid'] = this.yctSortid;
+    data['yct_id'] = yctId;
+    data['family_id'] = familyId;
+    data['yct_name'] = yctName;
+    data['yct_description'] = yctDescription;
+    data['yct_is_active'] = yctIsActive;
+    data['yct_sortid'] = yctSortid;
     return data;
   }
 

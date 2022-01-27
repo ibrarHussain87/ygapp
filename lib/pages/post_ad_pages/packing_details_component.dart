@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,13 +11,12 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -49,21 +49,21 @@ class PackagingDetails extends StatefulWidget {
 
   const PackagingDetails(
       {Key? key,
-        // required this.requestModel,
-        // required this.syncFiberResponse,
-        required this.locality,
-        required this.businessArea,
-        required this.selectedTab,
-        required this.priceTerms,
-        required this.packing,
-        required this.deliveryPeriod,
-        required this.paymentType,
-        required this.lcType,
-        required this.units,
-        required this.coneType,
-        required this.countries,
-        required this.ports,
-        required this.cityState})
+      // required this.requestModel,
+      // required this.syncFiberResponse,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab,
+      required this.priceTerms,
+      required this.packing,
+      required this.deliveryPeriod,
+      required this.paymentType,
+      required this.lcType,
+      required this.units,
+      required this.coneType,
+      required this.countries,
+      required this.ports,
+      required this.cityState})
       : super(key: key);
 
   @override
@@ -90,7 +90,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   @override
   void initState() {
     //INITIAL VALUES
-    Utils.disableClick = true;
+    // Utils.disableClick = true;
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
     packingList =
@@ -101,7 +101,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   @override
   void dispose() {
     // TODO: implement dispose
-    Utils.disableClick = false;
+    // Utils.disableClick = false;
     super.dispose();
   }
 
@@ -149,7 +149,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: TitleSmallTextWidget(
                                           title: widget.businessArea == yarn
                                               ? unitCounting
@@ -158,14 +158,14 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 4,
                                       listOfItems: widget.units!
                                           .where((element) =>
-                                      element.untCategoryIdfk ==
-                                          _createRequestModel!
-                                              .spc_category_idfk)
+                                              element.untCategoryIdfk ==
+                                              _createRequestModel!
+                                                  .spc_category_idfk)
                                           .toList(),
                                       callback: (Units value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
-                                              .fbp_count_unit_idfk =
+                                                  .fbp_count_unit_idfk =
                                               value.untId.toString();
                                         }
                                       }),
@@ -176,7 +176,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             //Weight of count calculation
                             Visibility(
                               visible:
-                              widget.businessArea == yarn ? true : false,
+                                  widget.businessArea == yarn ? true : false,
                               child: Container(
                                 margin: EdgeInsets.only(top: 8.w),
                                 child: Column(
@@ -186,121 +186,121 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       children: [
                                         Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
+                                          crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 8.w, left: 8.w),
-                                                    child: TitleSmallTextWidget(
-                                                        title: weightBags)),
-                                                TextFormField(
-                                                    controller:
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 8.w, left: 8.w),
+                                                child: TitleSmallTextWidget(
+                                                    title: weightBags)),
+                                            TextFormField(
+                                                controller:
                                                     _weigthPerBagController,
-                                                    keyboardType:
+                                                keyboardType:
                                                     TextInputType.number,
-                                                    cursorColor: lightBlueTabs,
-                                                    style:
+                                                cursorColor: lightBlueTabs,
+                                                style:
                                                     TextStyle(fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    maxLines: 1,
-                                                    onSaved: (input) {
-                                                      if (_createRequestModel !=
-                                                          null) {
-                                                        _createRequestModel!
+                                                textAlign: TextAlign.center,
+                                                cursorHeight: 16.w,
+                                                maxLines: 1,
+                                                onSaved: (input) {
+                                                  if (_createRequestModel !=
+                                                      null) {
+                                                    _createRequestModel!
                                                             .fpb_weight_bag =
                                                         input!;
-                                                      }
-                                                    },
-                                                    onChanged: (value) {
-                                                      if (_conePerBagController
-                                                          .text.isNotEmpty) {
-                                                        _coneWithController
-                                                            .text = (double.parse(
-                                                            _weigthPerBagController
-                                                                .text) /
+                                                  }
+                                                },
+                                                onChanged: (value) {
+                                                  if (_conePerBagController
+                                                      .text.isNotEmpty) {
+                                                    _coneWithController
+                                                        .text = (double.parse(
+                                                                _weigthPerBagController
+                                                                    .text) /
                                                             double.parse(
                                                                 _conePerBagController
                                                                     .text))
-                                                            .toStringAsFixed(2);
-                                                      } else {
-                                                        _coneWithController.text =
+                                                        .toStringAsFixed(2);
+                                                  } else {
+                                                    _coneWithController.text =
                                                         "";
-                                                      }
-                                                    },
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return weightBags;
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
+                                                  }
+                                                },
+                                                validator: (input) {
+                                                  if (input == null ||
+                                                      input.isEmpty) {
+                                                    return weightBags;
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration:
                                                     roundedTextFieldDecoration(
                                                         weightBags)),
-                                              ],
-                                            )),
+                                          ],
+                                        )),
                                         SizedBox(width: 16.w),
                                         Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
+                                          crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 8.w, left: 8.w),
-                                                    child: TitleSmallTextWidget(
-                                                        title: coneBags)),
-                                                TextFormField(
-                                                    controller:
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 8.w, left: 8.w),
+                                                child: TitleSmallTextWidget(
+                                                    title: coneBags)),
+                                            TextFormField(
+                                                controller:
                                                     _conePerBagController,
-                                                    keyboardType:
+                                                keyboardType:
                                                     TextInputType.number,
-                                                    cursorColor: lightBlueTabs,
-                                                    style:
+                                                cursorColor: lightBlueTabs,
+                                                style:
                                                     TextStyle(fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    cursorHeight: 16.w,
-                                                    maxLines: 1,
-                                                    onSaved: (input) {
-                                                      if (_createRequestModel !=
-                                                          null) {
-                                                        _createRequestModel!
-                                                            .fpb_cones_bag = input!;
-                                                      }
-                                                    },
-                                                    onChanged: (value) {
-                                                      if (_weigthPerBagController
-                                                          .text.isNotEmpty) {
-                                                        _coneWithController
-                                                            .text = (double.parse(
-                                                            _weigthPerBagController
-                                                                .text) /
+                                                textAlign: TextAlign.center,
+                                                cursorHeight: 16.w,
+                                                maxLines: 1,
+                                                onSaved: (input) {
+                                                  if (_createRequestModel !=
+                                                      null) {
+                                                    _createRequestModel!
+                                                        .fpb_cones_bag = input!;
+                                                  }
+                                                },
+                                                onChanged: (value) {
+                                                  if (_weigthPerBagController
+                                                      .text.isNotEmpty) {
+                                                    _coneWithController
+                                                        .text = (double.parse(
+                                                                _weigthPerBagController
+                                                                    .text) /
                                                             double.parse(value))
-                                                            .toStringAsFixed(2);
-                                                      } else {
-                                                        _coneWithController.text =
+                                                        .toStringAsFixed(2);
+                                                  } else {
+                                                    _coneWithController.text =
                                                         "";
-                                                      }
-                                                    },
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return coneBags;
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
+                                                  }
+                                                },
+                                                validator: (input) {
+                                                  if (input == null ||
+                                                      input.isEmpty) {
+                                                    return coneBags;
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration:
                                                     roundedTextFieldDecoration(
                                                         coneBags)),
-                                              ],
-                                            )),
+                                          ],
+                                        )),
                                       ],
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -331,8 +331,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               return null;
                                             },
                                             decoration:
-                                            roundedTextFieldDecoration(
-                                                weightCones)),
+                                                roundedTextFieldDecoration(
+                                                    weightCones)),
                                       ],
                                     ),
                                   ],
@@ -348,14 +348,14 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: const TitleSmallTextWidget(
                                           title: "Cone Type")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
                                       listOfItems:
-                                      widget.coneType as List<dynamic>,
+                                          widget.coneType as List<dynamic>,
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -398,11 +398,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       padding: EdgeInsets.only(top: 8.w),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                               padding:
-                                              EdgeInsets.only(left: 8.w),
+                                                  EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
                                                   title: country)),
                                           SizedBox(
@@ -412,51 +412,51 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   border: Border.all(
                                                     color: Colors.grey.shade300,
                                                     width:
-                                                    1, //                   <--- border width here
+                                                        1, //                   <--- border width here
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(
-                                                          24.w))),
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              24.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text(
                                                     'Select Country'),
                                                 items: widget.countries
                                                     .map((value) =>
-                                                    DropdownMenuItem(
-                                                      child: Text(
-                                                          value.conName ??
-                                                              "N/A",
-                                                          textAlign:
-                                                          TextAlign
-                                                              .center),
-                                                      value: value,
-                                                    ))
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              value.conName ??
+                                                                  "N/A",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                          value: value,
+                                                        ))
                                                     .toList(),
                                                 isExpanded: true,
                                                 onChanged: (Countries? value) {
                                                   FocusScope.of(context)
                                                       .requestFocus(
-                                                      FocusNode());
+                                                          FocusNode());
                                                   selectedCountryId =
                                                       value!.conId;
                                                   _createRequestModel!
-                                                      .spc_origin_idfk =
+                                                          .spc_origin_idfk =
                                                       value.conId.toString();
                                                 },
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
                                                   contentPadding:
-                                                  EdgeInsets.only(
-                                                      left: 16.w,
-                                                      right: 6.w,
-                                                      top: 0,
-                                                      bottom: 0),
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
                                                   border:
-                                                  const OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide.none),
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -474,11 +474,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       padding: EdgeInsets.only(top: 8.w),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                               padding:
-                                              EdgeInsets.only(left: 8.w),
+                                                  EdgeInsets.only(left: 8.w),
                                               child: TitleSmallTextWidget(
                                                   title: port)),
                                           SizedBox(
@@ -488,53 +488,53 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   border: Border.all(
                                                     color: Colors.grey.shade300,
                                                     width:
-                                                    1, //                   <--- border width here
+                                                        1, //                   <--- border width here
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(
-                                                          24.w))),
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              24.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text('Select Port'),
                                                 items: widget.ports
                                                     .where((element) =>
-                                                element
-                                                    .prtCountryIdfk ==
-                                                    selectedCountryId)
+                                                        element
+                                                            .prtCountryIdfk ==
+                                                        selectedCountryId)
                                                     .toList()
                                                     .map((value) =>
-                                                    DropdownMenuItem(
-                                                      child: Text(
-                                                          value.prtName ??
-                                                              "N/A",
-                                                          textAlign:
-                                                          TextAlign
-                                                              .center),
-                                                      value: value,
-                                                    ))
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              value.prtName ??
+                                                                  "N/A",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                          value: value,
+                                                        ))
                                                     .toList(),
                                                 isExpanded: true,
                                                 onChanged: (Ports? value) {
                                                   FocusScope.of(context)
                                                       .requestFocus(
-                                                      FocusNode());
+                                                          FocusNode());
                                                   _createRequestModel!
-                                                      .spc_port_idfk =
+                                                          .spc_port_idfk =
                                                       value!.prtId.toString();
                                                 },
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
                                                   contentPadding:
-                                                  EdgeInsets.only(
-                                                      left: 16.w,
-                                                      right: 6.w,
-                                                      top: 0,
-                                                      bottom: 0),
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
                                                   border:
-                                                  const OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide.none),
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -558,7 +558,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   padding: EdgeInsets.only(top: 8.w),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(left: 8.w),
@@ -571,7 +571,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               border: Border.all(
                                                 color: Colors.grey.shade300,
                                                 width:
-                                                1, //                   <--- border width here
+                                                    1, //                   <--- border width here
                                               ),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(24.w))),
@@ -579,25 +579,25 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             hint: Text('Select $cityState'),
                                             items: widget.cityState
                                                 .where((element) =>
-                                            element.countryId ==
-                                                selectedCountryId
-                                                    .toString())
+                                                    element.countryId ==
+                                                    selectedCountryId
+                                                        .toString())
                                                 .toList()
                                                 .map((value) =>
-                                                DropdownMenuItem(
-                                                  child: Text(
-                                                      value.name ?? "N/A",
-                                                      textAlign:
-                                                      TextAlign.center),
-                                                  value: value,
-                                                ))
+                                                    DropdownMenuItem(
+                                                      child: Text(
+                                                          value.name ?? "N/A",
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                      value: value,
+                                                    ))
                                                 .toList(),
                                             isExpanded: true,
                                             onChanged: (CityState? value) {
                                               FocusScope.of(context)
                                                   .requestFocus(FocusNode());
                                               _createRequestModel!
-                                                  .spc_city_state_idfk =
+                                                      .spc_city_state_idfk =
                                                   value!.countryId.toString();
                                             },
 
@@ -627,7 +627,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               children: [
                                 Padding(
                                     padding:
-                                    EdgeInsets.only(top: 8.w, left: 8.w),
+                                        EdgeInsets.only(top: 8.w, left: 8.w),
                                     child: TitleSmallTextWidget(
                                         title: priceTerms)),
                                 SizedBox(
@@ -637,7 +637,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         border: Border.all(
                                           color: Colors.grey.shade300,
                                           width:
-                                          1, //                   <--- border width here
+                                              1, //                   <--- border width here
                                         ),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(24.w))),
@@ -645,16 +645,16 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       hint: const Text('Select Price Terms'),
                                       items: widget.priceTerms!
                                           .where((element) =>
-                                      element.ptr_locality ==
-                                          widget.locality)
+                                              element.ptr_locality ==
+                                              widget.locality)
                                           .toList()
                                           .map((value) => DropdownMenuItem(
-                                        child: Text(
-                                            value.ptrName ?? "N/A",
-                                            textAlign:
-                                            TextAlign.center),
-                                        value: value,
-                                      ))
+                                                child: Text(
+                                                    value.ptrName ?? "N/A",
+                                                    textAlign:
+                                                        TextAlign.center),
+                                                value: value,
+                                              ))
                                           .toList(),
                                       isExpanded: true,
                                       onChanged: (FPriceTerms? value) {
@@ -669,11 +669,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             _createRequestModel!
                                                 .payment_type_idfk = null;
                                             _createRequestModel!.lc_type_idfk =
-                                            null;
+                                                null;
                                           }
                                         });
                                         _createRequestModel!
-                                            .fbp_price_terms_idfk =
+                                                .fbp_price_terms_idfk =
                                             value!.ptrId.toString();
                                       },
                                       // validator: (value) => value == null
@@ -713,7 +713,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         spanCount: 3,
                                         selectedIndex: -1,
                                         listOfItems:
-                                        widget.paymentType as List<dynamic>,
+                                            widget.paymentType as List<dynamic>,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
                                               .payment_type_idfk = value.payId;
@@ -739,14 +739,14 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
                                       child:
-                                      TitleSmallTextWidget(title: lcType)),
+                                          TitleSmallTextWidget(title: lcType)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       selectedIndex: -1,
                                       listOfItems:
-                                      widget.lcType as List<dynamic>,
+                                          widget.lcType as List<dynamic>,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.lc_type_idfk =
@@ -762,45 +762,49 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               children: [
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: TitleSmallTextWidget(
-                                                title: priceUnits)),
-                                        TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!.fbp_price =
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 8.w, left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: priceUnits)),
+                                    TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        maxLines: 1,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]")),
+                                        ],
+                                        onSaved: (input) {
+                                          if (_createRequestModel != null) {
+                                            _createRequestModel!.fbp_price =
                                                 input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty ||
-                                                  int.parse(input) < 1) {
-                                                return priceUnits;
-                                              }
-                                              return null;
-                                            },
-                                            decoration: roundedTextFieldDecoration(
-                                                priceUnits)),
-                                      ],
-                                    )),
+                                          }
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
+                                            return priceUnits;
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            priceUnits)),
+                                  ],
+                                )),
                                 SizedBox(width: 16.w),
                                 Expanded(
                                   child:
-                                  //Available Quantity
-                                  Column(
+                                      //Available Quantity
+                                      Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
@@ -814,11 +818,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
                                           maxLines: 1,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp("[0-9]")),
+                                          ],
                                           onSaved: (input) {
                                             if (_createRequestModel != null) {
                                               _createRequestModel!
-                                                  .fbp_available_quantity =
-                                              input!;
+                                                      .fbp_available_quantity =
+                                                  input!;
                                             }
                                           },
                                           validator: (input) {
@@ -830,8 +838,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             return null;
                                           },
                                           decoration:
-                                          roundedTextFieldDecoration(
-                                              "Available Quantity")),
+                                              roundedTextFieldDecoration(
+                                                  "Available Quantity")),
                                     ],
                                   ),
                                 ),
@@ -844,7 +852,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               children: [
                                 Padding(
                                     padding:
-                                    EdgeInsets.only(top: 8.w, left: 8.w),
+                                        EdgeInsets.only(top: 8.w, left: 8.w),
                                     child: TitleSmallTextWidget(title: minQty)),
                                 TextFormField(
                                     keyboardType: TextInputType.number,
@@ -853,35 +861,41 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     textAlign: TextAlign.center,
                                     cursorHeight: 16.w,
                                     maxLines: 1,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]")),
+                                    ],
                                     onSaved: (input) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!.fbp_min_quantity =
-                                        input!;
+                                            input!;
                                       }
                                     },
                                     validator: (input) {
-                                      if (input == null || input.isEmpty || int.parse(input) < 1) {
+                                      if (input == null ||
+                                          input.isEmpty ||
+                                          int.parse(input) < 1) {
                                         return minQty;
                                       }
                                       return null;
                                     },
                                     decoration:
-                                    roundedTextFieldDecoration(minQty)),
+                                        roundedTextFieldDecoration(minQty)),
                               ],
                             ),
 
                             //Packing
                             Visibility(
                               visible:
-                              widget.businessArea == "Fiber" ? true : false,
+                                  widget.businessArea == "Fiber" ? true : false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
                                       child:
-                                      TitleSmallTextWidget(title: packing)),
+                                          TitleSmallTextWidget(title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       listOfItems: packingList,
@@ -901,17 +915,17 @@ class _PackagingDetailsState extends State<PackagingDetails>
                               children: [
                                 Padding(
                                     padding:
-                                    EdgeInsets.only(top: 8.w, left: 8.w),
+                                        EdgeInsets.only(top: 8.w, left: 8.w),
                                     child: TitleSmallTextWidget(
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems:
-                                    widget.deliveryPeriod as List<dynamic>,
+                                        widget.deliveryPeriod as List<dynamic>,
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
-                                            .fbp_delivery_period_idfk =
+                                                .fbp_delivery_period_idfk =
                                             value.dprId.toString();
                                         if (value.dprId == 3) {
                                           setState(() {
@@ -935,7 +949,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: const TitleSmallTextWidget(
                                           title: "No of Days")),
                                   SizedBox(
@@ -945,7 +959,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           border: Border.all(
                                             color: Colors.grey.shade300,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(24.w))),
@@ -954,11 +968,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         items: Iterable<int>.generate(101)
                                             .toList()
                                             .map((value) => DropdownMenuItem(
-                                          child: Text(value.toString(),
-                                              textAlign:
-                                              TextAlign.center),
-                                          value: value,
-                                        ))
+                                                  child: Text(value.toString(),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
                                             .toList(),
                                         isExpanded: true,
                                         validator: (value) => value == null
@@ -1009,7 +1023,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   onSaved: (input) {
                                     if (_createRequestModel != null) {
                                       _createRequestModel!.fbp_description =
-                                      input!;
+                                          input!;
                                     }
                                   },
                                   validator: (input) {
@@ -1024,7 +1038,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             Visibility(
                               visible:
-                              widget.businessArea != yarn ? true : false,
+                                  widget.businessArea != yarn ? true : false,
                               child: AddPictureWidget(
                                 imageCount: 1,
                                 callbackImages: (value) {
@@ -1061,7 +1075,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
                       ApiService.createSpecification(_createRequestModel!,
-                          imageFiles.isNotEmpty ? imageFiles[0].path : "")
+                              imageFiles.isNotEmpty ? imageFiles[0].path : "")
                           .then((value) {
                         ProgressDialogUtil.hideDialog();
                         if (value.status) {
@@ -1108,7 +1122,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   bool validateAndSave() {
     final form = globalFormKey.currentState;
 
-    if(_createRequestModel!.fbp_price_terms_idfk == null){
+    if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
       return false;
     }

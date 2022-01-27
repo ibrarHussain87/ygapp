@@ -105,7 +105,7 @@ class YarnProductPageState extends State<YarnProductPage> {
                           child: ElevatedButtonWithoutIcon(
                             callback: () {
                               showBottomSheetOR(context, (value){
-                                openYarnPostPage(context,"Local",yarn,value);
+                                openYarnPostPage(context,local,yarn,value);
                               });
                             },
                             btnText: "Post Offer",

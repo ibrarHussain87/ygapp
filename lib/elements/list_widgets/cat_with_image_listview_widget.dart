@@ -19,12 +19,13 @@ class CatWithImageListWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CatWithImageListWidgetState createState() => _CatWithImageListWidgetState();
+  CatWithImageListWidgetState createState() => CatWithImageListWidgetState();
 }
 
-class _CatWithImageListWidgetState extends State<CatWithImageListWidget> {
+class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
   late int checkedIndex;
   int _selectedSegmentIndex = 1;
+  bool disableClick = false;
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        if(!Utils.disableClick){
+        if(!disableClick){
           setState(() {
             if (_selectedSegmentIndex == 1) {
               checkedIndex = index;

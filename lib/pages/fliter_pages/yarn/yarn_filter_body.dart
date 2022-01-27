@@ -63,6 +63,32 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
     );
   }
 
+  _getPattern() {
+    if (_selectedSpunTechId != null) {
+      if (_selectedSpunTechId == "1") {
+        return widget.syncResponse!.data.yarn.pattern!
+            .where((element) => element.spun_technique_id == "1")
+            .toList();
+      }
+      return widget.syncResponse!.data.yarn.pattern!.where((element) => element.familyId == selectedFamilyId).toList();
+    }
+
+    return widget.syncResponse!.data.yarn.pattern!.where((element) => element.familyId == selectedFamilyId).toList();
+  }
+
+  _getQuality() {
+    if (_selectedSpunTechId != null) {
+      if (_selectedSpunTechId == "1") {
+        return widget.syncResponse!.data.yarn.quality!
+            .where((element) => element.spun_technique_id == "1")
+            .toList();
+      }
+      return widget.syncResponse!.data.yarn.quality!.where((element) => element.familyId == selectedFamilyId).toList();
+    }
+
+    return widget.syncResponse!.data.yarn.quality!.where((element) => element.familyId == selectedFamilyId).toList();
+  }
+
   final TextEditingController _textEditingController = TextEditingController();
 
   Color pickerColor = const Color(0xffffffff);
@@ -79,7 +105,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   List<int> listOfTwistDirectionId = [];
   List<int> listOfSpunTechId = [];
   List<int> listOfQualityId = [];
-  List<int> listApperanceId = [];
+  List<int> listAppearanceId = [];
   List<int> listOfDyingMethod = [];
   List<int> listOfPatternChar = [];
   List<int> listOfDoublingMethod = [];
@@ -87,8 +113,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   YarnSetting? _yarnSetting;
   String? selectedFamilyId;
   String? selectedBlendId;
-  String? selectedAppearenceId;
-  String? selectedPlyId;
+
+
   bool? showTexturized;
   bool? showBlend;
   bool? showDannier;
@@ -135,6 +161,19 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   bool? showPatternCharc;
   bool? showDoublingMethod;
 
+
+  final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
+  final List<int> _plyIdList = [1, 5, 9, 13];
+  final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
+  final List<int> _patternTLPIdList = [2, 9, 12];
+  final List<int> _patternGRIdList = [10];
+
+  String? _selectedPlyId;
+  String? _selectedPatternId;
+  String? _selectedAppearenceId;
+  String? _selectedColorTreatMethodId;
+  String? _selectedSpunTechId;
+
   @override
   void initState() {
     selectedFamilyId = "1";
@@ -161,6 +200,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -226,23 +266,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             selectedItem: -1,
                           ),
                         ),
+                        SizedBox(
+                          height: 8.w,
+                        ),
                       ],
                     ),
                   ),
 
-                  SizedBox(
-                    height: 8.w,
-                  ),
-
                   //Show Texturzed
                   Visibility(
-                    visible: widget.syncResponse!.data.yarn.yarnTypes!
-                            .where((element) =>
-                                element.ytBlendIdfk == selectedBlendId)
-                            .toList()
-                            .isNotEmpty
-                        ? showTexturized ?? false
-                        : false,
+                    visible: showTexturized ?? true,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,10 +287,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
-                          listOfItems: widget.syncResponse!.data.yarn.yarnTypes!
-                              .where((element) =>
-                                  element.ytBlendIdfk == selectedBlendId)
-                              .toList(),
+                          listOfItems: widget.syncResponse!.data.yarn.yarnTypes!,
                           callback: (YarnTypes yarnType) {
                             _getSpecificationRequestModel!.yarnYypeId =
                                 filterList(listOfYarnType, yarnType.ytId!);
@@ -350,44 +380,31 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                     ),
                   ),
 
-                  //Show Appearance
+                  //Show Color Treatment Method
                   Visibility(
-                    visible: showAppearance ?? false,
+                    visible: showColorTreatmentMethod ?? false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child: TitleSmallTextWidget(title: apperance)),
+                            child: TitleSmallTextWidget(
+                                title: colorTreatmentMethod)),
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
-                          listOfItems: widget.syncResponse!.data.yarn.apperance!
+                          listOfItems: widget
+                              .syncResponse!.data.yarn.colorTreatmentMethod!
                               .where((element) =>
-                                  element.familyId == selectedFamilyId)
+                          element.familyId == selectedFamilyId)
                               .toList(),
-                          callback: (YarnAppearance yarnAppearance) {
-                            _getSpecificationRequestModel!.apperanceYarnId =
-                                filterList(
-                                    listApperanceId, yarnAppearance.yaId!);
-
-                            selectedAppearenceId =
-                                yarnAppearance.yaId.toString();
-
-                            if (yarnAppearance.yaId == 3) {
-                              setState(() {
-                                showDyingMethod = true;
-                              });
-                            } else {
-                              setState(() {
-                                showDyingMethod = false;
-                                _getSpecificationRequestModel!
-                                    .ys_dying_method_idfk = null;
-                                _getSpecificationRequestModel!.ys_color_code =
-                                    null;
-                              });
-                            }
+                          callback:
+                              (ColorTreatmentMethod colorTreatmentMethod) {
+                            _getSpecificationRequestModel!.colorTreatmentId =
+                                filterList(listOfColorTreatmentId,
+                                    colorTreatmentMethod.yctmId!);
+                            _showDyingMethod(colorTreatmentMethod);
                           },
                         ),
                         SizedBox(
@@ -415,11 +432,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           listOfItems: widget
                               .syncResponse!.data.yarn.dyingMethod!
                               .where((element) =>
-                                  element.apperanceId == selectedAppearenceId)
+                          element.ydmColorTreatmentMethodIdfk == _selectedColorTreatMethodId)
                               .toList(),
                           callback: (DyingMethod dyingMethod) {
                             _getSpecificationRequestModel!
-                                    .ys_dying_method_idfk =
+                                .ys_dying_method_idfk =
                                 filterList(
                                     listOfDyingMethod, dyingMethod.ydmId!);
                           },
@@ -434,7 +451,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                   //Show Color Code
                   Visibility(
-                      visible: showColorCode ?? false,
+                      visible: showDyingMethod ?? false,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
@@ -443,7 +460,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Padding(
                               padding: EdgeInsets.only(left: 8.0),
                               child:
-                                  TitleSmallTextWidget(title: "Select Color"),
+                              TitleSmallTextWidget(title: "Select Color"),
                             ),
                             Card(
                               shape: RoundedRectangleBorder(
@@ -460,8 +477,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                   style: TextStyle(fontSize: 11.sp),
                                   textAlign: TextAlign.center,
                                   onSaved: (input) =>
-                                      _getSpecificationRequestModel!
-                                          .ys_color_code = input,
+                                  _getSpecificationRequestModel!
+                                      .ys_color_code = input,
                                   validator: (input) {
                                     if (input == null || input.isEmpty) {
                                       return "Select Color Code";
@@ -471,7 +488,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                   decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10.0),
+                                          BorderRadius.circular(10.0),
                                           borderSide: BorderSide.none),
                                       contentPadding: const EdgeInsets.all(2.0),
                                       hintText: "Select Color",
@@ -486,6 +503,37 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           ],
                         ),
                       )),
+
+                  //Show Appearance
+                  Visibility(
+                    visible: showAppearance ?? false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                            child: TitleSmallTextWidget(title: apperance)),
+                        SingleSelectTileWidget(
+                          selectedIndex: -1,
+                          spanCount: 3,
+                          listOfItems: widget.syncResponse!.data.yarn.apperance!
+                              .where((element) =>
+                          element.familyId == selectedFamilyId)
+                              .toList(),
+                          callback: (YarnAppearance yarnAppearance) {
+                            _getSpecificationRequestModel!.apperanceYarnId =
+                                filterList(
+                                    listAppearanceId, yarnAppearance.yaId!);
+                            }
+                        ),
+                        SizedBox(
+                          height: 4.w,
+                        ),
+                        const Divider(),
+                      ],
+                    ),
+                  ),
 
                   //Show Count
                   Visibility(
@@ -546,7 +594,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           spanCount: 4,
                           listOfItems: widget.syncResponse!.data.yarn.ply!
                               .where((element) =>
-                                  element.familyId == selectedFamilyId)
+                          element.familyId == selectedFamilyId)
                               .toList(),
                           callback: (Ply ply) {
                             _getSpecificationRequestModel!.plyId =
@@ -577,7 +625,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           selectedIndex: -1,
                           spanCount: 3,
                           listOfItems:
-                              widget.syncResponse!.data.yarn.doublingMethod!,
+                          widget.syncResponse!.data.yarn.doublingMethod!.where((element) => element.plyId == _selectedPlyId).toList(),
                           callback: (DoublingMethod doublingMethod) {
                             _getSpecificationRequestModel!.doublingMethodId =
                                 filterList(
@@ -592,39 +640,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                     ),
                   ),
 
-                  //Show Color Treatment Method
-                  Visibility(
-                    visible: showColorTreatmentMethod ?? false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                            child: TitleSmallTextWidget(
-                                title: colorTreatmentMethod)),
-                        SingleSelectTileWidget(
-                          selectedIndex: -1,
-                          spanCount: 3,
-                          listOfItems: widget
-                              .syncResponse!.data.yarn.colorTreatmentMethod!
-                              .where((element) =>
-                                  element.familyId == selectedFamilyId)
-                              .toList(),
-                          callback:
-                              (ColorTreatmentMethod colorTreatmentMethod) {
-                            _getSpecificationRequestModel!.colorTreatmentId =
-                                filterList(listOfColorTreatmentId,
-                                    colorTreatmentMethod.yctmId!);
-                          },
-                        ),
-                        SizedBox(
-                          height: 4.w,
-                        ),
-                        const Divider(),
-                      ],
-                    ),
-                  ),
 
                   //Show Orientation
                   Visibility(
@@ -710,6 +725,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                   element.familyId == selectedFamilyId)
                               .toList(),
                           callback: (SpunTechnique spunTech) {
+                            setState(() {
+                              _selectedSpunTechId =
+                                  spunTech.ystId.toString();
+                            });
                             _getSpecificationRequestModel!.spunTechId =
                                 filterList(listOfSpunTechId, spunTech.ystId!);
                           },
@@ -735,10 +754,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 2,
-                          listOfItems: widget.syncResponse!.data.yarn.quality!
-                              .where((element) =>
-                                  element.familyId == selectedFamilyId)
-                              .toList(),
+                          listOfItems: _getQuality(),
                           callback: (Quality quality) {
                             _getSpecificationRequestModel!.qualityId =
                                 filterList(listOfQualityId, quality.yqId!);
@@ -765,10 +781,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         SingleSelectTileWidget(
                           selectedIndex: -1,
                           spanCount: 3,
-                          listOfItems: widget.syncResponse!.data.yarn.pattern!
-                              .where((element) =>
-                                  element.familyId == selectedFamilyId)
-                              .toList(),
+                          listOfItems: _getPattern(),
                           callback: (PatternModel pattern) {
                             _getSpecificationRequestModel!.patternId =
                                 filterList(listOfPattern, pattern.ypId!);
@@ -800,7 +813,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               .syncResponse!.data.yarn.patternCharectristic!
                               .where((element) =>
                                   element.ypcPatternIdfk ==
-                                  selectedAppearenceId.toString())
+                                  _selectedPatternId.toString())
                               .toList(),
                           callback: (PatternCharectristic patterChar) {
                             _getSpecificationRequestModel!.patternCharId =
@@ -846,7 +859,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                   //Show Certifications
                   Visibility(
-                    visible: showPattern ?? false,
+                    visible: showCertification ?? false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -884,11 +897,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               Expanded(
                 child: ElevatedButtonWithoutIcon(
                   callback: () {
-                    _resetData();
+                    // _resetData();
                     setState(() {
                       selectedFamilyId = "1";
                     });
-                    _querySetting(1);
+                    _querySetting(widget.syncResponse!.data.yarn.family!.first.famId!);
                   },
                   color: Colors.grey.shade300,
                   btnText: 'Reset',
@@ -1054,6 +1067,12 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 ? true
                 : false;
 
+        tempShowUsage = tempShowUsage == null
+            ? Ui.showHide(element.showUsage)
+            : (showUsage! && Ui.showHide(element.showUsage) && tempShowUsage)
+            ? true
+            : false;
+
         tempShowGrade = tempShowGrade == null
             ? Ui.showHide(element.showGrade)
             : (showGrade! && Ui.showHide(element.showGrade) && tempShowGrade)
@@ -1174,13 +1193,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 ? true
                 : false;
 
-        tempShowColorCode = tempShowColorCode == null
-            ? Ui.showHide(element.showColor)
-            : (showColorCode! &&
-                    Ui.showHide(element.showColor) &&
-                    tempShowColorCode)
-                ? true
-                : false;
 
         // tempShowDoublingMethod = tempShowDoublingMethod == null
         //     ? Ui.showHide(element.showDoublingMethod)
@@ -1213,7 +1225,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         showUsage = tempShowUsage;
         showTexturized = tempShowTexturized;
 
-        showUsage = tempShowUsage;
         showColorDyingMethod = tempShowColorDyingMethod;
         showColorCode = tempShowColorCode;
         showPly = tempShowPly;
@@ -1228,7 +1239,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         showGrade = tempShowGrade;
       });
     } else {
-      _resetData();
+      // _resetData();
     }
   }
 
@@ -1268,24 +1279,40 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         pattern.ypId == 4) {
       setState(() {
         showPatternCharc = true;
+        _selectedPatternId = pattern.ypId.toString();
       });
     } else {
       setState(() {
         showPatternCharc = false;
+        _selectedPatternId = null;
         _getSpecificationRequestModel!.patternCharId = null;
       });
     }
   }
-
   void _showDoublingMethod(Ply ply) {
     if (ply.plyId != 1) {
       setState(() {
         showDoublingMethod = true;
-        selectedPlyId = ply.plyId.toString();
+        _selectedPlyId = ply.plyId.toString();
       });
     } else {
       setState(() {
         showDoublingMethod = false;
+        _selectedPlyId = null;
+        _getSpecificationRequestModel!.doublingMethodId = null;
+      });
+    }
+  }
+  void _showDyingMethod(ColorTreatmentMethod colorTreatmentMethod) {
+    if (_colorTreatmentIdList.contains(colorTreatmentMethod.yctmId)) {
+      setState(() {
+        showDyingMethod = true;
+        _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
+      });
+    } else {
+      setState(() {
+        showDyingMethod = false;
+        _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
         _getSpecificationRequestModel!.doublingMethodId = null;
       });
     }
@@ -1293,27 +1320,19 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
   void _resetData() {
     setState(() {
-      showBlend = null;
-      showTexturized = null;
-      showCount = null;
-      showRatio = null;
-      showDannier = null;
-      showFilament = null;
-      showUsage = null;
-      showAppearance = null;
-      showCertification = null;
-      showColorDyingMethod = null;
-      showColorCode = null;
-      showPly = null;
-      showDoublingMethod = null;
-      showColorTreatmentMethod = null;
-      showOrientation = null;
-      showTwistDirection = null;
-      showSpunTechnique = null;
-      showQuality = null;
-      showPattern = null;
-      showPatternCharc = null;
-      showGrade = null;
+      _getSpecificationRequestModel!.ysBlendIdFk = null;
+      _getSpecificationRequestModel!.yuId = null;
+      _getSpecificationRequestModel!.ys_color_code = null;
+      _getSpecificationRequestModel!.patternCharId = null;
+      _getSpecificationRequestModel!.patternId = null;
+      _getSpecificationRequestModel!.spunTechId = null;
+      _getSpecificationRequestModel!.orientationId = null;
+      _getSpecificationRequestModel!.ys_dying_method_idfk = null;
+      _getSpecificationRequestModel!.qualityId = null;
+      _getSpecificationRequestModel!.twistDirectionId = null;
+      _getSpecificationRequestModel!.colorTreatmentId = null;
+      _getSpecificationRequestModel!.yarnYypeId = null;
+      _getSpecificationRequestModel!.apperanceYarnId = null;
     });
   }
 }
