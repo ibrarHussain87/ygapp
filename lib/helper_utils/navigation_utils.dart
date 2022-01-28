@@ -8,6 +8,7 @@ import 'package:yg_app/pages/post_ad_pages/yarn_post/yarn_post_ad.dart';
 import 'package:yg_app/pages/profile/my_products/list_bids_page/bids_page.dart';
 import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
+import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
 void openDetailsScreen(BuildContext context, {Specification? specification,YarnSpecification? yarnSpecification}) {
   if(specification!= null){
@@ -74,6 +75,16 @@ void openMyAdsScreen(BuildContext context) {
     ),
   );
 }
+
+void openPersonalDetailsScreen(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const UpdateProfilePage(),
+    ),
+  );
+}
+
 void openMyBidsScreen(BuildContext context) {
   Navigator.push(
     context,

@@ -194,19 +194,14 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             //Unit of count and Counting
                             Visibility(
-                              visible: widget.locality == international
-                                  ? true
-                                  : false,
+                              visible: /*widget.locality == international*/true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: widget.businessArea == yarn
-                                              ? unitCounting
-                                              : unitCount)),
+                                      child: TitleSmallTextWidget(title: unitCounting)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: _unitsList

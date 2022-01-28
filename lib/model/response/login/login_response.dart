@@ -85,6 +85,10 @@ class User {
     this.profileStatus,
     required this.email,
     this.emailVerifiedAt,
+    this.company,
+    this.ntn_number,
+    this.user_country,
+    this.city_state_name,
     required this.roleId,
     this.apiToken,
     this.deletedAt,
@@ -107,6 +111,10 @@ class User {
   String? profileStatus;
   String? email;
   String? emailVerifiedAt;
+  String? company;
+  String? ntn_number;
+  String? user_country;
+  String? city_state_name;
   String? roleId;
   String? apiToken;
   String? deletedAt;
@@ -130,6 +138,10 @@ class User {
     profileStatus = null;
     email = json['email'];
     emailVerifiedAt = null;
+    company = json['company'];
+    ntn_number = json['ntn_number'];
+    user_country = json['user_country'];
+    city_state_name = json['city_state_name'];
     roleId = json['role_id'];
     apiToken = null;
     deletedAt = null;
@@ -154,6 +166,10 @@ class User {
     _data['profile_status'] = profileStatus;
     _data['email'] = email;
     _data['email_verified_at'] = emailVerifiedAt;
+    _data['company'] = company;
+    _data['ntn_number'] = ntn_number;
+    _data['user_country'] = user_country;
+    _data['city_state_name'] = city_state_name;
     _data['role_id'] = roleId;
     _data['api_token'] = apiToken;
     _data['deleted_at'] = deletedAt;

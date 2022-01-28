@@ -1,4 +1,6 @@
+import 'package:fitted_text_field_container/fitted_text_field_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -268,12 +270,35 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             Expanded(
                                                 child: Padding(
                                                     padding:
-                                                    EdgeInsets.all(8.w),
+                                                    EdgeInsets.symmetric(vertical: 8.w,horizontal: 3.w),
                                                   child: Center(
-                                                      child: FittedBox(
-                                                        fit: BoxFit.contain,
-                                                        child: LargeTitleTextWidget(
-                                                            title: '$bidPrice'),
+                                                      child: SizedBox(
+                                                        width: 50.w,
+                                                        child: FittedTextFieldContainer(
+                                                          child: TextField(
+                                                            showCursor: false,
+                                                            keyboardType: TextInputType.number,
+                                                            textInputAction: TextInputAction.done,
+                                                            textAlign: TextAlign.center,
+                                                            inputFormatters: <TextInputFormatter>[
+                                                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                            ],
+                                                            controller: TextEditingController()..text = bidPrice.toString(),
+                                                            /*onChanged: (value){
+                                                              setState(() {
+                                                                value != '' ? bidPrice = int.parse(value) : 0 ;
+                                                              });
+                                                            },*/
+                                                            onSubmitted: (value){
+                                                              setState(() {
+                                                                value != '' ? bidPrice = int.parse(value) : 0 ;
+                                                              });
+                                                            },
+                                                            decoration: const InputDecoration(
+                                                                border: InputBorder.none
+                                                            ),
+                                                          ),
+                                                        ),
                                                       )
                                                   ),
                                                 )
@@ -385,13 +410,41 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             ),
                                             Expanded(
                                                 child: Padding(
-                                              padding: EdgeInsets.all(8.w),
+                                              padding: EdgeInsets.symmetric(vertical: 8.w,horizontal: 3.w),
                                               child: Center(
-                                                child: FittedBox(
+                                                /*child: FittedBox(
                                                   fit: BoxFit.contain,
                                                   child: LargeTitleTextWidget(
                                                       title: '$bidQuantity'),
-                                                )
+                                                )*/
+                                                child: SizedBox(
+                                                  width: 50.w,
+                                                  child: FittedTextFieldContainer(
+                                                    child: TextField(
+                                                      showCursor: false,
+                                                      keyboardType: TextInputType.number,
+                                                      textInputAction: TextInputAction.done,
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: <TextInputFormatter>[
+                                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                      ],
+                                                      controller: TextEditingController()..text = bidQuantity.toString(),
+                                                      /*onChanged: (value){
+                                                              setState(() {
+                                                                value != '' ? bidQuantity = int.parse(value) : 0 ;
+                                                              });
+                                                            },*/
+                                                      onSubmitted: (value){
+                                                        setState(() {
+                                                          value != '' ? bidQuantity = int.parse(value) : 0 ;
+                                                        });
+                                                      },
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             )),
                                             const SizedBox(

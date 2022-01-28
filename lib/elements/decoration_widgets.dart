@@ -33,6 +33,27 @@ InputDecoration textFormFieldDecSignup(String hintLabel,String assetName) {
           borderSide: BorderSide(color: textColorGrey)));
 }
 
+InputDecoration textFormFieldDecProfile(String hintLabel,String assetName) {
+  return InputDecoration(
+      hintText: hintLabel,
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),
+      prefixIcon: IconButton(
+        padding: EdgeInsets.all(0.w),
+        onPressed: (){
+
+        },
+        icon: SvgPicture.asset(
+          assetName,
+          color: iconColor,
+          fit: BoxFit.cover,
+          height: 16,
+          width: 16,
+        ),
+      ),
+      border: UnderlineInputBorder(
+          borderSide: BorderSide(color: textColorGrey)));
+}
+
 BoxDecoration getOfferingDec(Color lightBlueTabs) {
   return BoxDecoration(
       color: lightBlueTabs,
