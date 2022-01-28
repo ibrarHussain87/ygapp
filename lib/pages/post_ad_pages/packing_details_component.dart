@@ -149,9 +149,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             //Unit of count and Counting
                             Visibility(
-                              visible: widget.locality == international
-                                  ? true
-                                  : false,
+                              visible: /*widget.locality == international*/true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

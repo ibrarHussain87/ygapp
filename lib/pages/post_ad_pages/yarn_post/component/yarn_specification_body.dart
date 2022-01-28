@@ -1449,7 +1449,7 @@ class YarnSpecificationComponentState
                     Padding(
                         padding: EdgeInsets.only(left: 8.w),
                         child: TitleSmallTextWidget(
-                            title: certification)),
+                            title: certification+"*")),
                     SingleSelectTileWidget(
                       key: _certificateKey,
                       spanCount: 4,
