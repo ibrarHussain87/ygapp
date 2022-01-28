@@ -114,7 +114,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                     children: [
                                       Container(
                                         child: TitleSmallTextWidget(
-                                            title: actualYarnCount),
+                                            title: '$actualYarnCount*'),
                                         margin: EdgeInsets.only(
                                             left: 8.w, top: 8.w),
                                       ),
@@ -151,7 +151,7 @@ class LabParameterPageState extends State<LabParameterPage>
                               children: [
                                 Container(
                                   child:
-                                  TitleSmallTextWidget(title: CLSP),
+                                  TitleSmallTextWidget(title: '$CLSP*'),
                                   margin: EdgeInsets.only(
                                       left: 8.w, top: 8.w),
                                 ),
@@ -179,7 +179,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                     children: [
                                       Container(
                                         child:
-                                            TitleSmallTextWidget(title: IpmKm),
+                                            TitleSmallTextWidget(title: '$IpmKm*'),
                                         margin: EdgeInsets.only(
                                             left: 8.w, top: 8.w),
                                       ),

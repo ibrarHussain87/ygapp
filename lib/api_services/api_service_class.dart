@@ -12,6 +12,7 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
+import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
@@ -61,6 +62,25 @@ class ApiService {
   }
 
   static Future<LoginResponse> signup(SignUpRequestModel requestModel) async {
+    try {
+      String url = BASE_API_URL + SIGN_UP_END_POINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return LoginResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<LoginResponse> updateProfile(UpdateProfileRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
       final response = await http.post(Uri.parse(url),

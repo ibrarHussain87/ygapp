@@ -1,10 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/connection_status_singleton.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
+
+import '../../main_page.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({Key? key}) : super(key: key);
@@ -17,12 +27,12 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
-  /*late SignUpRequestModel _signupRequestModel;*/
+  late UpdateProfileRequestModel _updateProfileRequestModel;
   String userName = "";
 
   @override
   void initState() {
-    /*_signupRequestModel = SignUpRequestModel();*/
+    _updateProfileRequestModel = UpdateProfileRequestModel();
     super.initState();
   }
 
@@ -89,18 +99,18 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       TextFormField(
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
-                                          initialValue: snapshot.data!.name??'N/A',
-                                          /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+                                          initialValue: snapshot.data!.ntn_number??'',
+                                          onSaved: (input) =>
+                                          _updateProfileRequestModel.ntn_number = input!,
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
-                                              return "Enter Here";
-                                            }
+                                              return "Please enter";
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
-                                              'Your Username',"assets/ic_profile.svg")
+                                              'Enter Here',"assets/ic_profile.svg")
                                       ),
                                     ],
                                   ),
@@ -117,8 +127,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
                                           initialValue: snapshot.data!.company??'',
-                                          /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+                                          onSaved: (input) =>
+                                          _updateProfileRequestModel.company = input!,
                                           validator: (input) {
                                             if (input == null ||
                                                 input.isEmpty) {
@@ -147,10 +157,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter trade mark";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -174,10 +184,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter employment role";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -201,10 +211,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter designation";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -228,10 +238,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           _signupRequestModel.name = input!,*/
                                           initialValue: '',
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter address";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -251,14 +261,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       TextFormField(
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
-                                          initialValue: '',
+                                          initialValue: snapshot.data!.user_country??'',
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter country";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -278,14 +288,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       TextFormField(
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
-                                          initialValue: '',
+                                          initialValue: snapshot.data!.city_state_name??'',
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter state/district";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -305,14 +315,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       TextFormField(
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
-                                          initialValue: '',
+                                          initialValue: snapshot.data!.city_state_name??'',
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter city";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -334,12 +344,12 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           cursorColor: Colors.black,
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
-                                          initialValue: '',
+                                          initialValue: snapshot.data!.postalCode??'',
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter zip code";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -363,10 +373,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter web url";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -390,10 +400,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter whatsapp number";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -417,10 +427,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           /*onSaved: (input) =>
                                           _signupRequestModel.name = input!,*/
                                           validator: (input) {
-                                            if (input == null ||
+                                            /*if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter wechat";
-                                            }
+                                            }*/
                                             return null;
                                           },
                                           decoration: textFormFieldDecProfile(
@@ -441,15 +451,15 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                           keyboardType: TextInputType.text,
                                           cursorColor: Colors.black,
                                           initialValue: snapshot.data!.telephoneNumber??'',
-                                          /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
-                                          /*validator: (input) {
+                                          onSaved: (input) =>
+                                          _updateProfileRequestModel.telephoneNumber = input!,
+                                          validator: (input) {
                                             if (input == null ||
                                                 input.isEmpty) {
-                                              return "Please enter web url";
+                                              return "Please enter number";
                                             }
                                             return null;
-                                          },*/
+                                          },
                                           decoration: textFormFieldDecProfile(
                                               'Enter Here',"assets/ic_profile.svg")
                                       ),
@@ -465,6 +475,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                       Text('Email',
                                           style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color: Colors.black)),
                                       TextFormField(
+                                        readOnly: true,
                                           keyboardType: TextInputType
                                               .emailAddress,
                                           cursorColor: Colors.black,
@@ -508,7 +519,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                           color: Colors.transparent)))),
                                           onPressed: () {
                                             if (validateAndSave()) {
-                                              /*_UpdateProfileCall();*/
+                                              _UpdateProfileCall(snapshot.data);
                                             }
                                           })),
                                 ),
@@ -539,56 +550,61 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return false;
   }
 
-/*void _UpdateProfileCall() {
-    check().then((value) {
-      if (value) {
-        ProgressDialogUtil.showDialog(context, 'Please wait...');
-        */ /*remove operator and added static data for parameter*/ /*
-        _signupRequestModel.operator = '1';
-        _signupRequestModel.countryId = '1';
-        Logger().e(_signupRequestModel.toJson());
-        ApiService.signup(_signupRequestModel).then((value) {
-          Logger().e(value.toJson());
-          ProgressDialogUtil.hideDialog();
-          if(value.errors != null){
-            value.errors!.forEach((key, error) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(error.toString())));
-            });
-          }else if (value.success!) {
-            AppDbInstance.getDbInstance().then((db) async {
-              await db.userDao.insertUser(value.data!.user!);
-            });
-            SharedPreferenceUtil.addStringToSF(
-                USER_ID_KEY, value.data!.user!.id.toString());
-            SharedPreferenceUtil.addStringToSF(
-                USER_TOKEN_KEY, value.data!.token!);
-            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+void _UpdateProfileCall(User? user) {
+    if(user != null){
+      check().then((value) {
+        if (value) {
+          ProgressDialogUtil.showDialog(context, 'Please wait...');
+          /*remove operator and added static data for parameter*/
+          _updateProfileRequestModel.operator = '1';
+          _updateProfileRequestModel.countryId = '1';
+          _updateProfileRequestModel.cityStateId = '1';
+          _updateProfileRequestModel.id = user.id.toString();
+          _updateProfileRequestModel.name = user.name.toString();
+          Logger().e(_updateProfileRequestModel.toJson());
+          ApiService.updateProfile(_updateProfileRequestModel).then((value) {
+            Logger().e(value.toJson());
+            ProgressDialogUtil.hideDialog();
+            if(value.errors != null){
+              value.errors!.forEach((key, error) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(error.toString())));
+              });
+            }else if (value.success!) {
+              AppDbInstance.getDbInstance().then((db) async {
+                await db.userDao.insertUser(value.data!.user!);
+              });
+              SharedPreferenceUtil.addStringToSF(
+                  USER_ID_KEY, value.data!.user!.id.toString());
+              SharedPreferenceUtil.addStringToSF(
+                  USER_TOKEN_KEY, value.data!.token!);
+              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
-            Fluttertoast.showToast(
-                msg: value.message ?? "",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const MainPage()),
-                    (Route<dynamic> route) => false);
-          } else {
+              Fluttertoast.showToast(
+                  msg: value.message ?? "",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1);
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const MainPage()),
+                      (Route<dynamic> route) => false);
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(value.message ??"")));
+            }
+          }).onError((error, stackTrace) {
+            ProgressDialogUtil.hideDialog();
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(value.message ??"")));
-          }
-        }).onError((error, stackTrace) {
-          ProgressDialogUtil.hideDialog();
+                .showSnackBar(SnackBar(content: Text(error.toString())));
+          });
+        } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(error.toString())));
-        });
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(
-            SnackBar(content: Text("No internet available.".toString())));
-      }
-    });
-  }*/
+              .showSnackBar(
+              SnackBar(content: Text("No internet available.".toString())));
+        }
+      });
+    }
+  }
 }
 
 extension EmailValidator on String {

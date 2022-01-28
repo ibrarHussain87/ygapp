@@ -158,10 +158,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: widget.businessArea == yarn
-                                              ? unitCounting
-                                              : unitCount)),
+                                      child: TitleSmallTextWidget(title: unitCounting)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: widget.units!
@@ -363,7 +360,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       selectedIndex: -1,
                                       listOfItems:
-                                          widget.coneType as List<dynamic>,
+                                          buildConeType(),
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -1107,6 +1104,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
         ],
       ),
     );
+  }
+
+  List<dynamic> buildConeType(){
+    List list = widget.coneType as List<dynamic>;
+    Map<String, ConeType> mp = {};
+    for (var item in list) {
+      mp[item.toString()] = item;
+    }
+    return mp.values.toList();
   }
 
   _initialValuesRequestModel() {
