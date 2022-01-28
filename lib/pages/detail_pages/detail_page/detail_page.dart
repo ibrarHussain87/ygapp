@@ -6,10 +6,9 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
-
 import 'detail_tab.dart';
 import 'list_bidder_components/bider_tab.dart';
+import 'matched_components/matched_tab_page.dart';
 
 class FiberDetailPage extends StatefulWidget {
   final Specification? specification;
@@ -24,7 +23,7 @@ class FiberDetailPage extends StatefulWidget {
 
 class _FiberDetailPageState extends State<FiberDetailPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> tabsList = ['Details', "Matched", 'Bidder List'];
+  List<String> tabsList = ['Details', 'Matched', 'Bidder List'];
 
   @override
   Widget build(BuildContext context) {

@@ -9,24 +9,24 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/pages/detail_pages/fiber_detail_page/matched_components/matched_tab_page.dart';
 
 import 'detail_tab.dart';
 import 'list_bidder_components/bider_tab.dart';
+import 'matched_components/matched_tab_page.dart';
 
-class FiberDetailRenewedPage extends StatefulWidget {
+class DetailRenewedPage extends StatefulWidget {
   final Specification? specification;
   final YarnSpecification? yarnSpecification;
 
-  const FiberDetailRenewedPage(
+  const DetailRenewedPage(
       {Key? key, this.specification, this.yarnSpecification})
       : super(key: key);
 
   @override
-  _FiberDetailPageState createState() => _FiberDetailPageState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
+class _DetailPageState extends State<DetailRenewedPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> _tabsListCreator = ['Details', "Matched", 'Bidder List'];
   final List<String> _tabsListBidder = ['Details', "Matched"];
@@ -268,26 +268,34 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                                 ])),
                               ],
                             ),
-                            SizedBox(height: 4.w),
-                            Text.rich(
-                              TextSpan(
+                            Visibility(
+                              visible: false,
+                              child: Column(
                                 children: [
-                                  TextSpan(
-                                      text: 'Time Left',
-                                      style: TextStyle(
-                                          color: textColorGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 11.sp)),
-                                  TextSpan(
-                                    text: '      0 DAYS. 8 HOURS,29 MINS',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: appBarTextColor,
-                                        fontSize: 11.sp),
+                                  SizedBox(height: 4.w),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                            text: 'Time Left',
+                                            style: TextStyle(
+                                                color: textColorGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 11.sp)),
+                                        TextSpan(
+                                          text: '      0 DAYS. 8 HOURS,29 MINS',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              color: appBarTextColor,
+                                              fontSize: 11.sp),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+
                             /*SizedBox(height: 6.w),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,7 +448,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                 ],
               ),
             ),
-            Expanded(
+            _tabsList!=null ?Expanded(
               child: DefaultTabController(
                   length: _tabsList!.length,
                   child: Scaffold(
@@ -467,7 +475,7 @@ class _FiberDetailPageState extends State<FiberDetailRenewedPage> {
                     ),
                     body: TabBarView(children: _tabWidgetList!),
                   )),
-            ),
+            ) : Container(),
           ],
         ),
       ),

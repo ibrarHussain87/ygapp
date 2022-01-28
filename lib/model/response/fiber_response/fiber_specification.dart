@@ -85,6 +85,7 @@ class Specification {
     required this.available,
     required this.priceTerms,
     this.minQuantity,
+    this.origin_fiber_spc,
     required this.is_offering,
   required this.isVerified,
     required this.isFeatured,
@@ -108,6 +109,7 @@ class Specification {
   String? trash;
   String? rd;
   String? gpt;
+  String? origin_fiber_spc;
   String? apperance;
   String? brand;
   String? productYear;
@@ -155,6 +157,7 @@ class Specification {
     port = json['port'];
     lotNumber = json['lot_number'];
     unitCount = json['unit_count'];
+    origin_fiber_spc = json['origin_fiber_spc'];
     deliveryPeriod = json['delivery_period'];
     available = json['available'];
     priceTerms = json['price_terms'];
@@ -187,6 +190,7 @@ class Specification {
     _data['trash'] = trash;
     _data['rd'] = rd;
     _data['gpt'] = gpt;
+    _data['origin_fiber_spc'] = origin_fiber_spc;
     _data['apperance'] = apperance;
     _data['brand'] = brand;
     _data['product_year'] = productYear;

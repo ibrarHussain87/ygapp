@@ -875,36 +875,39 @@ class FiberSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 8.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 8.w),
-                                          child: const TitleSmallTextWidget(
-                                              title: 'Lot Number')),
-                                      TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
-                                          onSaved: (input) =>
-                                              _createRequestModel!
-                                                  .spc_lot_number = input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Enter Lot Number";
-                                            }
-                                            return null;
-                                          },
-                                          decoration:
-                                              roundedTextFieldDecoration(
-                                                  'Lot Number')),
-                                    ],
+                                Visibility(
+                                  visible:Ui.showHide(_fiberSettings!.showLotNumber),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'Lot Number')),
+                                        TextFormField(
+                                            keyboardType: TextInputType.text,
+                                            cursorColor: lightBlueTabs,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            cursorHeight: 16.w,
+                                            onSaved: (input) =>
+                                                _createRequestModel!
+                                                    .spc_lot_number = input!,
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty) {
+                                                return "Enter Lot Number";
+                                              }
+                                              return null;
+                                            },
+                                            decoration:
+                                                roundedTextFieldDecoration(
+                                                    'Lot Number')),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Visibility(

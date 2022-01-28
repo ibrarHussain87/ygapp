@@ -1,24 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/error_image_widget.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_normal_text_widget.dart';
-import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/list_widgets/rating_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
-import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
-import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
-import 'package:yg_app/elements/loading_widgets/loading_image_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
-Widget buildFiberRenewedWidget(Specification specification, BuildContext context) {
+Widget buildFiberRenewedWidget(
+    Specification specification, BuildContext context) {
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -57,13 +50,13 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                   )),
             ),*/
               Padding(
-                  padding: EdgeInsets.only(left: 10.w,top: 8),
+                  padding: EdgeInsets.only(left: 10.w, top: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         child: Text(
-                          specification.company??"N/A",
+                          specification.company ?? "N/A",
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
@@ -74,7 +67,7 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                             fontFamily: 'Metropolis',
                           ),
                         ),
-                        width: MediaQuery.of(context).size.width*0.30,
+                        width: MediaQuery.of(context).size.width * 0.30,
                       ),
                       SizedBox(
                         width: 4.w,
@@ -82,9 +75,18 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TitleSmallNormalTextWidget(title: "4.5",color: Colors.black,),
-                          SizedBox(width: 2.w,),
-                          Image.asset(ratingIcon,width: 8.w,height: 8.w,)
+                          const TitleSmallNormalTextWidget(
+                            title: "4.5",
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Image.asset(
+                            ratingIcon,
+                            width: 8.w,
+                            height: 8.w,
+                          )
                         ],
                       ),
                       SizedBox(
@@ -105,8 +107,7 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                             )),
                       )
                     ],
-                  )
-              ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(top: 3.w),
                 child: Row(
@@ -118,25 +119,29 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 5.w,),
+                            SizedBox(
+                              height: 5.w,
+                            ),
                             Row(
                               children: [
                                 Container(
                                     color: blueBackgroundColor,
-                                    constraints: const BoxConstraints(maxHeight: 14),
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 14),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 1),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title:
-                                          '${specification.material}',
+                                          title: '${specification.material}',
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
                                       ),
-                                    )
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
                                 ),
-                                SizedBox(width: 2.w,),
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
@@ -149,40 +154,45 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                   ),
                                   flex: 1,
                                 ),
-
                               ],
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title:getFiberSubtitle(specification),
+                                title: getFiberSubtitle(specification),
                                 color: Colors.black87,
                                 size: 10,
                                 weight: FontWeight.w500,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 0.w,right: 35.w),
+                              padding: EdgeInsets.only(top: 0.w, right: 35.w),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '2' ? 'RD ${specification.rd}' : 'FL ${specification.length}',
+                                      title: specification.nature_id == '2'
+                                          ? 'FL ${specification.length ?? ""}'
+                                          : 'FL ${specification.length ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '2' ? 'M ${specification.moisture}' : 'Mic ${specification.micronaire ?? "N/A"}',
+                                      title: specification.nature_id == '2'
+                                          ? 'M ${specification.micronaire ?? ""}'
+                                          : 'Mic ${specification.micronaire ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.nature_id == '2' ? 'T ${specification.trash}' : 'GD ${specification.grade}',
+                                      title: specification.nature_id == '2'
+                                          ? 'T ${specification.trash ?? ""}'
+                                          : 'GD ${specification.grade ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
@@ -212,7 +222,8 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ?? "N/A",
+                                        title: specification.deliveryPeriod ??
+                                            "N/A",
                                         imageIcon: 'images/img_van.png',
                                         size: 9.sp,
                                         iconSize: 14,
@@ -228,13 +239,15 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                 )
                               ],
                             ),
-                            SizedBox(height: 5.h,)
+                            SizedBox(
+                              height: 5.h,
+                            )
                           ],
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 6.w, right: 6.w,top: 5.h),
+                      padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
                       child: Column(
                         children: [
                           Column(
@@ -245,40 +258,43 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                   specification.priceUnit.toString() +
                                   "/KG",
                             ),*/
-                              Text.rich( TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'),''),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "/kg",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                  ]
-                              )),
-                              SizedBox(height: 1.h,),
+                              Text.rich(TextSpan(children: [
+                                TextSpan(
+                                  text:
+                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                TextSpan(
+                                  text: specification.priceUnit
+                                      .toString()
+                                      .replaceAll(RegExp(r'[^0-9]'), ''),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(
+                                  text: "/kg",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ])),
+                              SizedBox(
+                                height: 1.h,
+                              ),
                               const Center(
-                                child: TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
+                                child: TitleSmallNormalTextWidget(
+                                  title: "Ex- Factory",
+                                  size: 7,
+                                ),
                               )
                             ],
                           ),
@@ -320,13 +336,17 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                                 height: 24.w,
                                 width: 24.h,
                               ),
-                              SizedBox(width: 4.w,),
+                              SizedBox(
+                                width: 4.w,
+                              ),
                               Image.asset(
                                 'images/ic_list.png',
                                 height: 24.h,
                                 width: 24.w,
                               ),
-                              SizedBox(width: 4.w,),
+                              SizedBox(
+                                width: 4.w,
+                              ),
                               Image.asset(
                                 'images/ic_list.png',
                                 height: 24.h,
@@ -339,8 +359,11 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                           ),
                           Padding(
                               padding: EdgeInsets.only(left: 4.w, right: 4.w),
-                              child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,)),
-
+                              child: BidNowWidget(
+                                title: 'Send Proposal',
+                                size: 10.sp,
+                                padding: 5,
+                              )),
                         ],
                       ),
                     ),
@@ -402,9 +425,11 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                         ),
                       )),
                 ),
-                SizedBox(height: 5.h,),
+                SizedBox(
+                  height: 5.h,
+                ),
                 Padding(
-                  padding: EdgeInsets.only(right: 0.w,bottom: 4.w),
+                  padding: EdgeInsets.only(right: 0.w, bottom: 4.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -412,15 +437,18 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
                         TextSpan(
                           text: "Updated ",
                           style: TextStyle(
-                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                              fontSize: 5.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
                           text: "Nov 23, 2021",
                           style: TextStyle(
-                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                              fontSize: 5.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500),
                         )
                       ])),
-
                     ],
                   ),
                 )
@@ -428,21 +456,21 @@ Widget buildFiberRenewedWidget(Specification specification, BuildContext context
             ),
           )
         ],
-      )
-  );
+      ));
 }
 
 getFiberSubtitle(Specification specification) {
   String subtitle = "";
-  switch(specification.nature_id){
+  switch (specification.nature_id) {
     case '2':
-      subtitle = '${specification.length??'N/A'},${specification.micronaire??'N/A'},'
-          '${specification.apperance??'N/A'},${specification.certification??'N/A'}';
+      subtitle =
+          '${specification.length ?? 'N/A'},${specification.micronaire ?? 'N/A'},'
+          '${specification.apperance ?? 'N/A'},${specification.certification ?? 'N/A'}';
       break;
     case '1':
       /*add color in specification at 2nd*/
-      subtitle = '${specification.apperance??'N/A'},'
-          '${specification.origin??'N/A'}';
+      subtitle = '${specification.apperance ?? 'N/A'},'
+          '${specification.origin_fiber_spc ?? 'N/A'}';
       break;
     default:
       subtitle = 'N/A';
@@ -453,12 +481,14 @@ getFiberSubtitle(Specification specification) {
 
 getFiberTitle(Specification specification) {
   String title = "";
-  switch(specification.nature_id){
+  switch (specification.nature_id) {
     case '2':
-      title = '${specification.origin??'N/A'},${specification.productYear??'N/A'}';
+      title =
+          '${specification.origin_fiber_spc ?? 'N/A'},${specification.productYear ?? 'N/A'}';
       break;
-      case '1':
-      title = '${specification.brand??'N/A'},${specification.lotNumber??'N/A'}';
+    case '1':
+      title =
+          '${specification.brand ?? 'N/A'},${specification.lotNumber ?? 'N/A'}';
       break;
     default:
       title = 'N/A';

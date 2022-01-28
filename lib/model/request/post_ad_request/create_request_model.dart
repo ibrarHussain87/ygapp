@@ -206,7 +206,7 @@ class CreateRequestModel {
       'spc_origin_idfk': spc_origin_idfk ?? "",
       'spc_port_idfk': spc_port_idfk ?? "",
       'spc_city_state_idfk': spc_city_state_idfk ?? "",
-      'spc_certificate_idfk': spc_certificate_idfk ?? "",
+      'certification_id ': spc_certificate_idfk ?? "",
       'fbp_price': fbp_price ?? "",
       'packing_idfk': packing_idfk ?? "",
       'payment_type_idfk': payment_type_idfk ?? "",
