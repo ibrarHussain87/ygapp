@@ -42,7 +42,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: FutureBuilder<YarnSyncResponse>(
+        body: /*FutureBuilder<YarnSyncResponse>(
           future: _syncFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
@@ -60,7 +60,14 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
               );
             }
           },
-        ),
+        )*/ Provider(
+            create: (_) => _fiberRequestModel,
+            child: FamilyBlendAdsBody(
+              // yarnSyncResponse: data!,
+              locality: widget.locality,
+              businessArea: widget.businessArea,
+              selectedTab: widget.selectedTab,
+            )),
       ),
     );
   }
@@ -80,7 +87,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           return Provider(
               create: (_) => _fiberRequestModel,
               child: FamilyBlendAdsBody(
-                yarnSyncResponse: data!,
+                // yarnSyncResponse: data!,
                 locality: widget.locality,
                 businessArea: widget.businessArea,
                 selectedTab: widget.selectedTab,

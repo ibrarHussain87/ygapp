@@ -5,9 +5,8 @@ import 'package:yg_app/elements/list_widgets/brand_text.dart';
 
 class ListRatingWidget extends StatefulWidget {
 
-  String rating;
-
-  ListRatingWidget({Key? key,required this.rating}) : super(key: key);
+  final String rating;
+  const ListRatingWidget({Key? key,required this.rating}) : super(key: key);
 
   @override
   _ListRatingWidgetState createState() => _ListRatingWidgetState();

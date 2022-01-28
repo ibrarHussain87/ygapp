@@ -9,7 +9,7 @@ import '../../packing_details_component.dart';
 import 'lab_parameter_body.dart';
 
 class YarnStepsSegments extends StatefulWidget {
-  final YarnSyncResponse yarnSyncResponse;
+  // final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
@@ -17,7 +17,7 @@ class YarnStepsSegments extends StatefulWidget {
 
   const YarnStepsSegments(
       {Key? key,
-      required this.yarnSyncResponse,
+      // required this.yarnSyncResponse,
       required this.locality,
       this.selectedTab,
       required this.businessArea,
@@ -50,7 +50,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
     _samplePages = [
       YarnSpecificationComponent(
         key: yarnSpecificationComponentStateKey,
-        yarnSyncResponse: widget.yarnSyncResponse,
+        // yarnSyncResponse: widget.yarnSyncResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -75,7 +75,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                 curve: Curves.easeInOut);
           },
           key: _labParameterPage,
-          yarnSyncResponse: widget.yarnSyncResponse,
+          // yarnSyncResponse: widget.yarnSyncResponse,
           locality: widget.locality,
           businessArea: widget.businessArea,
           selectedTab: widget.selectedTab),
@@ -83,7 +83,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
-        lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+        /*lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
         cityState: widget.yarnSyncResponse.data.yarn.cityState!,
         countries: widget.yarnSyncResponse.data.yarn.countries!,
         packing: widget.yarnSyncResponse.data.yarn.packing,
@@ -92,7 +92,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         coneType: widget.yarnSyncResponse.data.yarn.coneType,
         priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
         deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
-        units: widget.yarnSyncResponse.data.yarn.units,
+        units: widget.yarnSyncResponse.data.yarn.units,*/
       ),
     ];
 
@@ -143,7 +143,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                         if (yarnSpecificationComponentStateKey.currentState !=
                                 null &&
                             yarnSpecificationComponentStateKey.currentState!
-                                .validateAndSave()) {
+                                .validationAllPage()) {
                           _moveToNext(value);
                         }
                       },
@@ -195,14 +195,14 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                         if (yarnSpecificationComponentStateKey.currentState !=
                                 null &&
                             yarnSpecificationComponentStateKey.currentState!
-                                .validateAndSave() &&
+                                .validationAllPage() &&
                             (_labParameterPage.currentContext != null &&
                                 _labParameterPage.currentState!
                                     .validateAndSave())) {
                           _moveToNext(value);
                         } else if (yarnSpecificationComponentStateKey
                                 .currentState!
-                                .validateAndSave() &&
+                                .validationAllPage() &&
                             (_labParameterPage.currentContext == null)) {
                           _moveToNext(value);
                         }
@@ -236,7 +236,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         _samplePages = [
           YarnSpecificationComponent(
             key: yarnSpecificationComponentStateKey,
-            yarnSyncResponse: widget.yarnSyncResponse,
+            // yarnSyncResponse: widget.yarnSyncResponse,
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
@@ -254,7 +254,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
-            lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+           /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
             cityState: widget.yarnSyncResponse.data.yarn.cityState!,
             countries: widget.yarnSyncResponse.data.yarn.countries!,
             packing: widget.yarnSyncResponse.data.yarn.packing,
@@ -263,14 +263,14 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             coneType: widget.yarnSyncResponse.data.yarn.coneType,
             priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
             deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
-            units: widget.yarnSyncResponse.data.yarn.units,
+            units: widget.yarnSyncResponse.data.yarn.units,*/
           ),
         ];
       }else {
         _samplePages = [
           YarnSpecificationComponent(
             key: yarnSpecificationComponentStateKey,
-            yarnSyncResponse: widget.yarnSyncResponse,
+            // yarnSyncResponse: widget.yarnSyncResponse,
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
@@ -295,7 +295,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                     curve: Curves.easeInOut);
               },
               key: _labParameterPage,
-              yarnSyncResponse: widget.yarnSyncResponse,
+              // yarnSyncResponse: widget.yarnSyncResponse,
               locality: widget.locality,
               businessArea: widget.businessArea,
               selectedTab: widget.selectedTab),
@@ -303,7 +303,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
-            lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+           /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
             cityState: widget.yarnSyncResponse.data.yarn.cityState!,
             countries: widget.yarnSyncResponse.data.yarn.countries!,
             packing: widget.yarnSyncResponse.data.yarn.packing,
@@ -312,7 +312,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             coneType: widget.yarnSyncResponse.data.yarn.coneType,
             priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
             deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
-            units: widget.yarnSyncResponse.data.yarn.units,
+            units: widget.yarnSyncResponse.data.yarn.units,*/
           ),
         ];
       }

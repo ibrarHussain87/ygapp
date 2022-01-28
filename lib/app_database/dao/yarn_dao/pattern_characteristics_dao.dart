@@ -3,10 +3,10 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 
 @dao
 abstract class PatternCharacteristicsDao{
-  @Query('SELECT * FROM pattern_table')
+  @Query('SELECT * FROM pattern_characteristics_table')
   Future<List<PatternCharectristic>> findAllPatternCharacteristics();
 
-  @Query('SELECT * FROM pattern_table where ypId = :id')
+  @Query('SELECT * FROM pattern_characteristics_table where ypcId = :id')
   Future<PatternCharectristic?> findYarnPatternCharacteristicsWithId(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -15,9 +15,9 @@ abstract class PatternCharacteristicsDao{
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllPatternCharacteristics(List<PatternCharectristic> colorTm);
 
-  @Query("delete from pattern_table where ypId = :id")
+  @Query("delete from pattern_characteristics_table where ypcId = :id")
   Future<void> deletePatternCharacteristics(int id);
 
-  @Query("delete from pattern_table")
+  @Query("delete from pattern_characteristics_table")
   Future<void> deleteAll();
 }

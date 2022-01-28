@@ -17,7 +17,7 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class LabParameterPage extends StatefulWidget {
-  final YarnSyncResponse yarnSyncResponse;
+  // final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
@@ -26,7 +26,7 @@ class LabParameterPage extends StatefulWidget {
   const LabParameterPage(
       {Key? key,
       required this.callback,
-      required this.yarnSyncResponse,
+      // required this.yarnSyncResponse,
       required this.locality,
       required this.businessArea,
       required this.selectedTab})

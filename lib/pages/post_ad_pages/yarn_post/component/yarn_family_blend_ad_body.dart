@@ -12,14 +12,14 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
 
 class FamilyBlendAdsBody extends StatefulWidget {
-  final YarnSyncResponse yarnSyncResponse;
+  // final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
   const FamilyBlendAdsBody(
       {Key? key,
-      required this.yarnSyncResponse,
+      // required this.yarnSyncResponse,
       required this.selectedTab,
       required this.locality,
       required this.businessArea})
@@ -30,23 +30,40 @@ class FamilyBlendAdsBody extends StatefulWidget {
 }
 
 class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
-
   //Globel Keys
   GlobalKey<YarnStepsSegmentsState> yarnStepStateKey =
       GlobalKey<YarnStepsSegmentsState>();
 
-  final GlobalKey<FamilyTileWidgetState> _familyTileKey = GlobalKey<FamilyTileWidgetState>();
-  final GlobalKey<CatWithImageListWidgetState> _blendTileKey = GlobalKey<CatWithImageListWidgetState>();
+  final GlobalKey<FamilyTileWidgetState> _familyTileKey =
+      GlobalKey<FamilyTileWidgetState>();
+  final GlobalKey<CatWithImageListWidgetState> _blendTileKey =
+      GlobalKey<CatWithImageListWidgetState>();
 
   late CreateRequestModel _createRequestModel;
   late YarnSetting _yarnSetting;
   late String? selectedFamilyId;
+  late List<Family> _familyList;
+  late List<Blends> _blendsList;
+
+  _getSyncedData() async {
+    await AppDbInstance.getYarnFamilyData().then((value) => setState(() {
+          _familyList = value;
+          selectedFamilyId =
+              value.first.famId.toString();
+        }));
+    await AppDbInstance.getYarnBlendData()
+        .then((value) => setState(() => _blendsList = value));
+    await AppDbInstance.getYarnSettings().then((value) {
+      setState(() {
+        _yarnSetting = value.first;
+      });
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
-    _yarnSetting = widget.yarnSyncResponse.data.yarn.setting!.first;
-    selectedFamilyId = widget.yarnSyncResponse.data.yarn.family!.first.famId.toString();
+    _getSyncedData();
     super.initState();
   }
 
@@ -66,10 +83,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                 height: 8.w,
               ),
               SizedBox(
-                height: 0.055*MediaQuery.of(context).size.height,
+                height: 0.055 * MediaQuery.of(context).size.height,
                 child: FamilyTileWidget(
                   key: _familyTileKey,
-                  listItems: widget.yarnSyncResponse.data.yarn.family,
+                  listItems: _familyList,
                   callback: (Family value) {
                     //Family Id
                     setState(() {
@@ -98,8 +115,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CatWithImageListWidget(
+                  selectedItem: -1,
                   key: _blendTileKey,
-                  listItem: widget.yarnSyncResponse.data.yarn.blends!.where((element) => element.familyIdfk == selectedFamilyId).toList(),
+                  listItem: _blendsList
+                      .where(
+                          (element) => element.familyIdfk == selectedFamilyId)
+                      .toList(),
                   onClickCallback: (value) {
                     yarnStepStateKey.currentState!.onClickBlend(value);
                   },
@@ -110,17 +131,21 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         ),
         Expanded(
           child: Provider(
-            create: (_) => widget.yarnSyncResponse.data.yarn.setting!.first,
+            create: (_) => _yarnSetting,
             child: YarnStepsSegments(
               key: yarnStepStateKey,
-              yarnSyncResponse: widget.yarnSyncResponse,
+              // yarnSyncResponse: widget.yarnSyncResponse,
               selectedTab: widget.selectedTab,
               businessArea: widget.businessArea,
               locality: widget.locality,
-              callback: (int step){
-                if(step > 1){
-                  if(_familyTileKey.currentState != null) _familyTileKey.currentState!.disableClick = true;
-                  if(_blendTileKey.currentState != null) _blendTileKey.currentState!.disableClick = true;
+              callback: (int step) {
+                if (step > 1) {
+                  if (_familyTileKey.currentState != null) {
+                    _familyTileKey.currentState!.disableClick = true;
+                  }
+                  if (_blendTileKey.currentState != null) {
+                    _blendTileKey.currentState!.disableClick = true;
+                  }
                 }
               },
             ),

@@ -11,14 +11,14 @@ import 'fiber_specification_component.dart';
 class FiberStepsSegments extends StatefulWidget {
   final Function? stepsCallback;
   final Map<int, String>? stepsMapping;
-  final SyncFiberResponse syncFiberResponse;
+  // final SyncFiberResponse syncFiberResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
   const FiberStepsSegments(
       {Key? key,
-        required this.syncFiberResponse,
+        // required this.syncFiberResponse,
         required this.stepsCallback,
         required this.locality,
         required this.businessArea,
@@ -48,7 +48,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
     _samplePages = [
       FiberSpecificationComponent(
         key: _fiberSpecificationState,
-        syncFiberResponse: widget.syncFiberResponse,
+        // syncFiberResponse: widget.syncFiberResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -67,7 +67,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
-        lcType: widget.syncFiberResponse.data.fiber.lcType,
+        /*lcType: widget.syncFiberResponse.data.fiber.lcType,
         cityState: widget.syncFiberResponse.data.fiber.cityState,
         countries: widget.syncFiberResponse.data.fiber.countries,
         packing: widget.syncFiberResponse.data.fiber.packing,
@@ -76,7 +76,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         priceTerms: widget.syncFiberResponse.data.fiber.priceTerms,
         coneType: [],
         deliveryPeriod: widget.syncFiberResponse.data.fiber.deliveryPeriod,
-        units: widget.syncFiberResponse.data.fiber.units,
+        units: widget.syncFiberResponse.data.fiber.units,*/
       ),
     ];
 

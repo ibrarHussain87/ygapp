@@ -20,6 +20,7 @@ import 'package:yg_app/app_database/dao/unit_dao.dart';
 import 'package:yg_app/app_database/dao/user_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/color_treatment_method_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/cone_types_dao.dart';
+import 'package:yg_app/app_database/dao/yarn_dao/doubling_method_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/dying_method_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/orientation_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/pattern_characteristics_dao.dart';
@@ -64,7 +65,7 @@ part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,
-ColorTreatmentMethod,ConeType,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
+ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -91,6 +92,7 @@ abstract class AppDatabase extends FloorDatabase {
   YarnFamilyDao get yarnFamilyDao;
   YarnBlendDao get yarnBlendDao;
   YarnGradesDao get yarnGradesDao;
+  DoublingMethodDao get doublingMethodDao;
 
   ColorTreatmentMethodDao get colorTreatmentMethodDao;
   ConeTypeDao get coneTypeDao;

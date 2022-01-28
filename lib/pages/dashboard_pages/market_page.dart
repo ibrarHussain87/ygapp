@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
-import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_page.dart';
+import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 
@@ -297,7 +297,7 @@ class MarketPageState extends State<MarketPage>
       context,
       MaterialPageRoute(
           builder: (context) =>
-              const YarnFilterPage()),
+              const YarnFilterBody()),
     ).then((value) {
       //Getting result from filter
       if (tabController!.index == 1) {

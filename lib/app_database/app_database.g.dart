@@ -105,6 +105,8 @@ class _$AppDatabase extends AppDatabase {
 
   YarnGradesDao? _yarnGradesDaoInstance;
 
+  DoublingMethodDao? _doublingMethodDaoInstance;
+
   ColorTreatmentMethodDao? _colorTreatmentMethodDaoInstance;
 
   ConeTypeDao? _coneTypeDaoInstance;
@@ -150,7 +152,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER NOT NULL, `name` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_natures` (`id` INTEGER NOT NULL, `nature` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -199,6 +201,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `corn_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `doubling_method` (`dmId` INTEGER, `plyId` TEXT, `dmName` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`dmId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `dying_method` (`ydmId` INTEGER, `apperanceId` TEXT, `ydmName` TEXT, `ydmType` TEXT, `ydmColorTreatmentMethodIdfk` TEXT, `ydmDescription` TEXT, `ydmIsActive` TEXT, `ydmSortid` TEXT, PRIMARY KEY (`ydmId`))');
         await database.execute(
@@ -351,6 +355,12 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
+  DoublingMethodDao get doublingMethodDao {
+    return _doublingMethodDaoInstance ??=
+        _$DoublingMethodDao(database, changeListener);
+  }
+
+  @override
   ColorTreatmentMethodDao get colorTreatmentMethodDao {
     return _colorTreatmentMethodDaoInstance ??=
         _$ColorTreatmentMethodDao(database, changeListener);
@@ -463,7 +473,7 @@ class _$UserDao extends UserDao {
   Future<User?> getUser() async {
     return _queryAdapter.query('SELECT * FROM user_table',
         mapper: (Map<String, Object?> row) => User(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String?,
             telephoneNumber: row['telephoneNumber'] as String?,
             operatorId: row['operatorId'] as String?,
@@ -2196,6 +2206,77 @@ class _$YarnGradesDao extends YarnGradesDao {
   }
 }
 
+class _$DoublingMethodDao extends DoublingMethodDao {
+  _$DoublingMethodDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _doublingMethodInsertionAdapter = InsertionAdapter(
+            database,
+            'doubling_method',
+            (DoublingMethod item) => <String, Object?>{
+                  'dmId': item.dmId,
+                  'plyId': item.plyId,
+                  'dmName': item.dmName,
+                  'catIsActive': item.catIsActive,
+                  'catSortid': item.catSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<DoublingMethod> _doublingMethodInsertionAdapter;
+
+  @override
+  Future<List<DoublingMethod>> findAllDoublingMethod() async {
+    return _queryAdapter.queryList('SELECT * FROM doubling_method',
+        mapper: (Map<String, Object?> row) => DoublingMethod(
+            dmId: row['dmId'] as int?,
+            plyId: row['plyId'] as String?,
+            dmName: row['dmName'] as String?,
+            catIsActive: row['catIsActive'] as String?,
+            catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<DoublingMethod?> findYarnDoublingMethodWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM doubling_method where yctmId = ?1',
+        mapper: (Map<String, Object?> row) => DoublingMethod(
+            dmId: row['dmId'] as int?,
+            plyId: row['plyId'] as String?,
+            dmName: row['dmName'] as String?,
+            catIsActive: row['catIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteDoublingMethod(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from doubling_method where yctmId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from doubling_method');
+  }
+
+  @override
+  Future<void> insertDoublingMethod(DoublingMethod colorTm) async {
+    await _doublingMethodInsertionAdapter.insert(
+        colorTm, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllDoublingMethod(List<DoublingMethod> colorTm) {
+    return _doublingMethodInsertionAdapter.insertListAndReturnIds(
+        colorTm, OnConflictStrategy.replace);
+  }
+}
+
 class _$ColorTreatmentMethodDao extends ColorTreatmentMethodDao {
   _$ColorTreatmentMethodDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
@@ -2529,7 +2610,8 @@ class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
 
   @override
   Future<List<PatternCharectristic>> findAllPatternCharacteristics() async {
-    return _queryAdapter.queryList('SELECT * FROM pattern_table',
+    return _queryAdapter.queryList(
+        'SELECT * FROM pattern_characteristics_table',
         mapper: (Map<String, Object?> row) => PatternCharectristic(
             ypcId: row['ypcId'] as int?,
             ypcName: row['ypcName'] as String?,
@@ -2542,7 +2624,8 @@ class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
   @override
   Future<PatternCharectristic?> findYarnPatternCharacteristicsWithId(
       int id) async {
-    return _queryAdapter.query('SELECT * FROM pattern_table where ypId = ?1',
+    return _queryAdapter.query(
+        'SELECT * FROM pattern_characteristics_table where ypcId = ?1',
         mapper: (Map<String, Object?> row) => PatternCharectristic(
             ypcId: row['ypcId'] as int?,
             ypcName: row['ypcName'] as String?,
@@ -2556,13 +2639,14 @@ class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
   @override
   Future<void> deletePatternCharacteristics(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from pattern_table where ypId = ?1',
+        'delete from pattern_characteristics_table where ypcId = ?1',
         arguments: [id]);
   }
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from pattern_table');
+    await _queryAdapter
+        .queryNoReturn('delete from pattern_characteristics_table');
   }
 
   @override

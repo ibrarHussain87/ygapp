@@ -29,9 +29,18 @@ class FiberPostPage extends StatefulWidget {
 class _FiberPostPageState extends State<FiberPostPage> {
   CreateRequestModel? _createRequestModel;
 
+  late List<FiberMaterial> _fiberMaterialList;
+  late List<FiberNature> _fiberNatureList;
+
+  _getFiberSyncedData(){
+    AppDbInstance.getFiberMaterialData().then((value) => setState(() => _fiberMaterialList = value));
+    AppDbInstance.getFiberNatureData().then((value) => setState(() => _fiberNatureList = value));
+  }
+
   @override
   void initState() {
     _createRequestModel = CreateRequestModel();
+    _getFiberSyncedData();
     super.initState();
   }
 
@@ -48,14 +57,14 @@ class _FiberPostPageState extends State<FiberPostPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: FutureBuilder<SyncFiberResponse>(
+        body: /*FutureBuilder<SyncFiberResponse>(
           future: ApiService.syncFiber(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null) {
-              return Provider(
-                  create: (_) => _createRequestModel, child: getView(snapshot.data!));
-            } else if (snapshot.hasError) {
+              return */Provider(
+                  create: (_) => _createRequestModel, child: getView())
+            /*} else if (snapshot.hasError) {
               return Center(
                   child:
                       TitleSmallTextWidget(title: snapshot.error.toString()));
@@ -66,14 +75,13 @@ class _FiberPostPageState extends State<FiberPostPage> {
                   size: 24.0,
                 ),
               );
-            }
-          },
+            }*/
+          //},
         ),
-      ),
-    );
+      );
   }
 
-  Widget insertIntoDB(SyncFiberResponse? data) {
+ /* Widget insertIntoDB(SyncFiberResponse? data) {
     return FutureBuilder<List<int>>(
       future: AppDbInstance.getDbInstance().then((value) async {
         await value.gradesDao.insertAllGrades(data!.data.fiber.grades);
@@ -102,9 +110,9 @@ class _FiberPostPageState extends State<FiberPostPage> {
         }
       },
     );
-  }
+  }*/
 
-  Widget getView(SyncFiberResponse data) {
+  Widget getView() {
     int selectedSegment = 1;
 
     return Padding(
@@ -115,11 +123,11 @@ class _FiberPostPageState extends State<FiberPostPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FiberNatureMaterialComponent(
-              natureList: data.data.fiber.natures,
-              materialList: data.data.fiber.material),
+              natureList: _fiberNatureList,
+              materialList: _fiberMaterialList),
           Expanded(
             child: FiberStepsSegments(
-              syncFiberResponse: data,
+              // syncFiberResponse: data,
               locality: widget.locality,
               businessArea: widget.businessArea,
               selectedTab: widget.selectedTab,

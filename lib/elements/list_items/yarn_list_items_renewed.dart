@@ -76,14 +76,14 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                       SizedBox(
                         width: 4.w,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TitleSmallNormalTextWidget(title: "4.5",color: Colors.black,),
-                          SizedBox(width: 2.w,),
-                          Image.asset(ratingIcon,width: 8.w,height: 8.w,)
-                        ],
-                      ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     const TitleSmallNormalTextWidget(title: "4.5",color: Colors.black,),
+                      //     SizedBox(width: 2.w,),
+                      //     Image.asset(ratingIcon,width: 8.w,height: 8.w,)
+                      //   ],
+                      // ),
                       SizedBox(
                         width: 8.w,
                       ),
@@ -167,21 +167,21 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'AC ${specification.actualYarnCount}',
+                                      title: 'AC ${specification.actualYarnCount??""}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'CLSP ${specification.clsp}',
+                                      title: 'CLSP ${specification.clsp??""}',
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'IPI ${specification.ys_ipm_km}',
+                                      title: 'IPI ${specification.ys_ipm_km??""}',
                                     ),
                                     flex: 1,
                                   ),

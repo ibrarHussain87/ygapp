@@ -144,9 +144,9 @@ Widget buildYarnWidget(YarnSpecification specification) {
                           SizedBox(
                             width: 8.w,
                           ),
-                          ListRatingWidget(
-                            rating: "4.5",
-                          ),
+                          // ListRatingWidget(
+                          //   rating: "4.5",
+                          // ),
                         ],
                       ),
                       Padding(

@@ -198,7 +198,11 @@ class ApiService {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
       }
-      createRequestModel.spc_user_idfk = userId.toString();
+      if(createRequestModel.spc_category_idfk == "1"){
+        createRequestModel.spc_user_idfk = userId.toString();
+      }else{
+        createRequestModel.ys_user_idfk = userId.toString();
+      }
       request.fields.addAll(createRequestModel.toJson());
       logger.e(createRequestModel.toJson());
       var response = await request.send();

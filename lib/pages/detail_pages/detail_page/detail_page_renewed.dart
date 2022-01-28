@@ -222,23 +222,23 @@ class _DetailPageState extends State<DetailRenewedPage> {
                             SizedBox(height: 4.w),
                             Row(
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const TitleSmallNormalTextWidget(
-                                      title: "4.5",
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Image.asset(
-                                      ratingIcon,
-                                      width: 8.w,
-                                      height: 8.w,
-                                    )
-                                  ],
-                                ),
+                                // Row(
+                                //   crossAxisAlignment: CrossAxisAlignment.start,
+                                //   children: [
+                                //     const TitleSmallNormalTextWidget(
+                                //       title: "4.5",
+                                //       color: Colors.black,
+                                //     ),
+                                //     SizedBox(
+                                //       width: 2.w,
+                                //     ),
+                                //     Image.asset(
+                                //       ratingIcon,
+                                //       width: 8.w,
+                                //       height: 8.w,
+                                //     )
+                                //   ],
+                                // ),
                                 SizedBox(
                                   width: 4.w,
                                 ),

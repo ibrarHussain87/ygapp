@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/add_picture_widget.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
@@ -32,7 +33,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
 
-  final List<FPriceTerms>? priceTerms;
+  /* final List<FPriceTerms>? priceTerms;
   final List<Packing>? packing;
   final List<DeliveryPeriod>? deliveryPeriod;
   final List<PaymentType>? paymentType;
@@ -41,20 +42,20 @@ class PackagingDetails extends StatefulWidget {
   final List<ConeType>? coneType;
   final List<Countries> countries;
   final List<Ports> ports;
-  final List<CityState> cityState;
+  final List<CityState> cityState;*/
 
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const PackagingDetails(
-      {Key? key,
-      // required this.requestModel,
-      // required this.syncFiberResponse,
-      required this.locality,
-      required this.businessArea,
-      required this.selectedTab,
-      required this.priceTerms,
+  const PackagingDetails({
+    Key? key,
+    // required this.requestModel,
+    // required this.syncFiberResponse,
+    required this.locality,
+    required this.businessArea,
+    required this.selectedTab,
+    /*required this.priceTerms,
       required this.packing,
       required this.deliveryPeriod,
       required this.paymentType,
@@ -63,8 +64,8 @@ class PackagingDetails extends StatefulWidget {
       required this.coneType,
       required this.countries,
       required this.ports,
-      required this.cityState})
-      : super(key: key);
+      required this.cityState*/
+  }) : super(key: key);
 
   @override
   _PackagingDetailsState createState() => _PackagingDetailsState();
@@ -75,34 +76,78 @@ class _PackagingDetailsState extends State<PackagingDetails>
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> sellingRegion = [];
-  List<Packing> packingList = [];
+
+  // List<Packing> packingList = [];
   List<PickedFile> imageFiles = [];
   CreateRequestModel? _createRequestModel;
   bool noOfDays = false;
-  TextEditingController _coneWithController = TextEditingController();
-  TextEditingController _weigthPerBagController = TextEditingController();
-  TextEditingController _conePerBagController = TextEditingController();
+  final TextEditingController _coneWithController = TextEditingController();
+  final TextEditingController _weigthPerBagController = TextEditingController();
+  final TextEditingController _conePerBagController = TextEditingController();
   bool? _showPaymentType;
   bool? _showLcType;
   int? selectedCountryId;
 
+  late List<FPriceTerms> _priceTermList;
+  late List<Packing> _packingList;
+  late List<DeliveryPeriod> _deliverPeriodList;
+  late List<PaymentType> _paymentTypeList;
+  late List<LcType> _lcTypeList;
+  late List<Units> _unitsList;
+  late List<Countries> _countriesList;
+  late List<CityState> _cityStateList;
+  late List<Ports> _portsList;
+  late List<ConeType> _coneTypeList;
 
-  List<FPriceTerms> _getPriceTerms(){
-    if(widget.businessArea == yarn){
-      return widget.priceTerms!.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "2")).toList();
-    }else{
-      return widget.priceTerms!.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "1")).toList();
+  List<FPriceTerms> _getPriceTerms() {
+    if (widget.businessArea == yarn) {
+      return _priceTermList
+          .where((element) => (element.ptr_locality == widget.locality &&
+              element.ptrCategoryIdfk == "2"))
+          .toList();
+    } else {
+      return _priceTermList
+          .where((element) => (element.ptr_locality == widget.locality &&
+              element.ptrCategoryIdfk == "1"))
+          .toList();
     }
+  }
+
+  _getPackingDetailData() async {
+    await AppDbInstance.getPriceTerms()
+        .then((value) => setState(() => _priceTermList = value));
+    await AppDbInstance.getPacking().then((value) => setState(() {
+          _packingList = value;
+          _packingList = _packingList
+              .where((element) => element.pacIsActive == "1")
+              .toList();
+        }));
+    await AppDbInstance.getDeliveryPeriod()
+        .then((value) => setState(() => _deliverPeriodList = value));
+    await AppDbInstance.getPaymentType()
+        .then((value) => setState(() => _paymentTypeList = value));
+    await AppDbInstance.getLcType()
+        .then((value) => setState(() => _lcTypeList = value));
+    await AppDbInstance.getUnits()
+        .then((value) => setState(() => _unitsList = value));
+    await AppDbInstance.getOriginsData()
+        .then((value) => setState(() => _countriesList = value));
+    await AppDbInstance.getCityState()
+        .then((value) => setState(() => _cityStateList = value));
+    await AppDbInstance.getPorts()
+        .then((value) => setState(() => _portsList = value));
+    await AppDbInstance.getConeTypes()
+        .then((value) => setState(() => _coneTypeList = value));
   }
 
   @override
   void initState() {
     //INITIAL VALUES
     // Utils.disableClick = true;
+    _getPackingDetailData();
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
-    packingList =
-        widget.packing!.where((element) => element.pacIsActive == "1").toList();
+
     super.initState();
   }
 
@@ -164,7 +209,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               : unitCount)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
-                                      listOfItems: widget.units!
+                                      listOfItems: _unitsList
                                           .where((element) =>
                                               element.untCategoryIdfk ==
                                               _createRequestModel!
@@ -350,7 +395,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Show Cone type
                             Visibility(
-                              visible: widget.coneType!.isEmpty ? false : true,
+                              visible: widget.businessArea != yarn ? false : true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -363,7 +408,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       selectedIndex: -1,
                                       listOfItems:
-                                          widget.coneType as List<dynamic>,
+                                          _coneTypeList.where((element) => element.familyId == _createRequestModel!.ys_family_idfk).toList(),
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -429,7 +474,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                               child: DropdownButtonFormField(
                                                 hint: const Text(
                                                     'Select Country'),
-                                                items: widget.countries
+                                                items: _countriesList
                                                     .map((value) =>
                                                         DropdownMenuItem(
                                                           child: Text(
@@ -504,11 +549,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                               24.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text('Select Port'),
-                                                items: widget.ports
+                                                items: _portsList
                                                     .where((element) =>
                                                         element
                                                             .prtCountryIdfk ==
-                                                        selectedCountryId)
+                                                        selectedCountryId
+                                                            .toString())
                                                     .toList()
                                                     .map((value) =>
                                                         DropdownMenuItem(
@@ -585,7 +631,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   Radius.circular(24.w))),
                                           child: DropdownButtonFormField(
                                             hint: Text('Select $cityState'),
-                                            items: widget.cityState
+                                            items: _cityStateList
                                                 .where((element) =>
                                                     element.countryId ==
                                                     selectedCountryId
@@ -717,7 +763,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         spanCount: 3,
                                         selectedIndex: -1,
                                         listOfItems:
-                                            widget.paymentType as List<dynamic>,
+                                            _paymentTypeList,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
                                               .payment_type_idfk = value.payId;
@@ -750,7 +796,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 4,
                                       selectedIndex: -1,
                                       listOfItems:
-                                          widget.lcType as List<dynamic>,
+                                          _lcTypeList,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.lc_type_idfk =
@@ -902,7 +948,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           TitleSmallTextWidget(title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
-                                      listOfItems: packingList,
+                                      listOfItems: _packingList,
                                       callback: (Packing value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.packing_idfk =
@@ -925,7 +971,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 SingleSelectTileWidget(
                                     spanCount: 3,
                                     listOfItems:
-                                        widget.deliveryPeriod as List<dynamic>,
+                                        _deliverPeriodList,
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
@@ -1111,16 +1157,16 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
   _initialValuesRequestModel() {
     if (widget.locality == international) {
-      _createRequestModel!.lc_type_idfk = widget.lcType!.first.lcId.toString();
+      _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
       _createRequestModel!.fbp_count_unit_idfk =
-          widget.units!.first.untId.toString();
+          _unitsList.first.untId.toString();
     }
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
-    _createRequestModel!.packing_idfk = widget.packing!.first.pacId.toString();
+    _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
-        widget.deliveryPeriod!.first.dprId.toString();
+        _deliverPeriodList.first.dprId.toString();
   }
 
   bool validateAndSave() {
@@ -1128,6 +1174,11 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
     if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
+      return false;
+    }
+
+    if(_createRequestModel!.cone_type_id == null && widget.businessArea == yarn){
+      Ui.showSnackBar(context, "Please select Cone Type");
       return false;
     }
 

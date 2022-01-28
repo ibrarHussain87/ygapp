@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,15 +16,13 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
-  final YarnSyncResponse yarnSyncResponse;
+  // final YarnSyncResponse yarnSyncResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
@@ -31,7 +31,7 @@ class YarnSpecificationComponent extends StatefulWidget {
   const YarnSpecificationComponent(
       {Key? key,
       this.callback,
-      required this.yarnSyncResponse,
+      // required this.yarnSyncResponse,
       required this.locality,
       required this.businessArea,
       required this.selectedTab})
@@ -185,6 +185,7 @@ class YarnSpecificationComponentState
                 padding: EdgeInsets.only(left: 8.w),
                 child: TitleSmallTextWidget(title: patternChar)),
             SingleSelectTileWidget(
+              selectedIndex: -1,
               key: _patternCharKey,
               spanCount: 4,
               listOfItems: _patternCharactristicList ?? [],
@@ -202,13 +203,13 @@ class YarnSpecificationComponentState
   List<DyingMethod> _getDyingMethodList() {
     if (_showDyingMethod &&
         Ui.showHide(_yarnSetting!.showColorTreatmentMethod)) {
-      return _yarnData!.dyingMethod!
+      return _dyingMethodList!
           .where((element) =>
               element.ydmColorTreatmentMethodIdfk ==
               _selectedColorTreatMethodId)
           .toList();
     } else {
-      return _yarnData!.dyingMethod!
+      return _dyingMethodList!
           .where((element) => element.apperanceId == _selectedAppearenceId)
           .toList();
     }
@@ -218,7 +219,7 @@ class YarnSpecificationComponentState
     AppDbInstance.getDbInstance().then((value) async {
       value.yarnSettingsDao
           .findFamilyAndBlendYarnSettings(
-              _yarnData!.blends![id].blnId!, int.parse(_selectedFamilyId!))
+              _blendsList![id].blnId!, int.parse(_selectedFamilyId!))
           .then((value) {
         setState(() {
           _selectedBlendIndex = id;
@@ -226,17 +227,14 @@ class YarnSpecificationComponentState
           if (value.isNotEmpty) {
             _resetData();
             _yarnSetting = value[0];
-            _initGridValues();
-            _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
-            _createRequestModel.ys_blend_idfk = _selectedBlendIndex != null
-                ? widget.yarnSyncResponse.data.yarn
-                    .blends![_selectedBlendIndex!].blnId
-                    .toString()
-                : "";
+            // _initGridValues();
+            // _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
+            // _createRequestModel.ys_blend_idfk = _selectedBlendIndex != null
+            //     ? _blendsList![_selectedBlendIndex!].blnId.toString()
+            //     : "";
           }
           _createRequestModel.ys_family_idfk ??= _selectedFamilyId;
-          _createRequestModel.ys_blend_idfk =
-              widget.yarnSyncResponse.data.yarn.blends![id].blnId.toString();
+          _createRequestModel.ys_blend_idfk = _blendsList![id].blnId.toString();
 
           /*else {
             Ui.showSnackBar(context, 'No Settings Found');
@@ -254,15 +252,16 @@ class YarnSpecificationComponentState
           if (value.isNotEmpty) {
             _resetData();
             _yarnSetting = value[0];
-            _initGridValues();
+            // _initGridValues();
           }
+          _isGetSyncedData = true;
           _createRequestModel.ys_family_idfk = _selectedFamilyId;
         });
       });
     });
   }
 
-  _initGridValues() async {
+  /*_initGridValues() async {
     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     _createRequestModel.ys_user_idfk = userID.toString();
 
@@ -271,7 +270,7 @@ class YarnSpecificationComponentState
 
     //Blend Id
     if (Ui.showHide(_yarnSetting!.showBlend)) {
-      _createRequestModel.ys_blend_idfk = _yarnData!.blends!
+      _createRequestModel.ys_blend_idfk = _blendsList!
           .where(
               (element) => element.familyIdfk.toString() == _selectedFamilyId)
           .toList()
@@ -281,8 +280,8 @@ class YarnSpecificationComponentState
     }
 
     //Grade ID
-    if (Ui.showHide(_yarnSetting!.showGrade) && _yarnData!.grades!.isNotEmpty) {
-      _createRequestModel.ys_grade_idfk = _yarnData!.grades!
+    if (Ui.showHide(_yarnSetting!.showGrade) && _gradesList!.isNotEmpty) {
+      _createRequestModel.ys_grade_idfk = _gradesList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -293,12 +292,12 @@ class YarnSpecificationComponentState
     //Certification ID
     if (Ui.showHide(_yarnSetting!.showCertification)) {
       _createRequestModel.ys_certification_idfk =
-          _yarnData!.certification!.first.cerId.toString();
+          _certificationList!.first.cerId.toString();
     }
 
     //PLY ID
-    if (Ui.showHide(_yarnSetting!.showPly) && _yarnData!.ply!.isNotEmpty) {
-      _createRequestModel.ys_ply_idfk = _yarnData!.ply!
+    if (Ui.showHide(_yarnSetting!.showPly) && _plyList!.isNotEmpty) {
+      _createRequestModel.ys_ply_idfk = _plyList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -309,7 +308,7 @@ class YarnSpecificationComponentState
     //Quality ID
     if (Ui.showHide(_yarnSetting!.showQuality)) {
       if (_selectedSpunTechId == "1") {
-        _createRequestModel.ys_quality_idfk = _yarnData!.quality!
+        _createRequestModel.ys_quality_idfk = _qualityList!
             .where(
                 (element) => element.familyId.toString() == _selectedFamilyId)
             .toList()
@@ -320,7 +319,7 @@ class YarnSpecificationComponentState
             .yqId
             .toString();
       } else {
-        _createRequestModel.ys_quality_idfk = _yarnData!.quality!
+        _createRequestModel.ys_quality_idfk = _qualityList!
             .where(
                 (element) => element.familyId.toString() == _selectedFamilyId)
             .toList()
@@ -332,8 +331,8 @@ class YarnSpecificationComponentState
 
     //ORIENTATION ID
     if (Ui.showHide(_yarnSetting!.showOrientation) &&
-        _yarnData!.orientation!.isNotEmpty) {
-      _createRequestModel.ys_orientation_idfk = _yarnData!.orientation!
+        _orientationList!.isNotEmpty) {
+      _createRequestModel.ys_orientation_idfk = _orientationList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -342,8 +341,8 @@ class YarnSpecificationComponentState
     }
 
     //USAGE ID
-    if (Ui.showHide(_yarnSetting!.showUsage) && _yarnData!.usage!.isNotEmpty) {
-      _createRequestModel.ys_usage_idfk = _yarnData!.usage!
+    if (Ui.showHide(_yarnSetting!.showUsage) && _usageList!.isNotEmpty) {
+      _createRequestModel.ys_usage_idfk = _usageList!
           .where(
               (element) => element.ysFamilyId.toString() == _selectedFamilyId)
           .toList()
@@ -353,11 +352,9 @@ class YarnSpecificationComponentState
     }
 
     //PATTERN ID
-    if (Ui.showHide(_yarnSetting!.showPattern) &&
-        _yarnData!.pattern!.isNotEmpty) {
-
+    if (Ui.showHide(_yarnSetting!.showPattern) && _patternList!.isNotEmpty) {
       if (_selectedSpunTechId == "1") {
-        _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+        _createRequestModel.ys_pattern_idfk = _patternList!
             .where(
                 (element) => element.familyId.toString() == _selectedFamilyId)
             .toList()
@@ -368,7 +365,7 @@ class YarnSpecificationComponentState
             .ypId
             .toString();
       } else {
-        _createRequestModel.ys_pattern_idfk = _yarnData!.pattern!
+        _createRequestModel.ys_pattern_idfk = _patternList!
             .where(
                 (element) => element.familyId.toString() == _selectedFamilyId)
             .toList()
@@ -386,14 +383,13 @@ class YarnSpecificationComponentState
 
     //PATTERN CHAR ID
     if (_showPatternChar) {
-      if (_yarnData!.patternCharectristic!.isNotEmpty) {
-        if (widget.yarnSyncResponse.data.yarn.patternCharectristic!
+      if (_patternCharList!.isNotEmpty) {
+        if (_patternCharList!
             .where((element) =>
                 element.ypcPatternIdfk.toString() == _selectedPatternId)
             .toList()
             .isNotEmpty) {
-          _createRequestModel.ys_pattern_charectristic_idfk = widget
-              .yarnSyncResponse.data.yarn.patternCharectristic!
+          _createRequestModel.ys_pattern_charectristic_idfk = _patternCharList!
               .where((element) =>
                   element.ypcPatternIdfk.toString() == _selectedPatternId)
               .toList()
@@ -406,9 +402,8 @@ class YarnSpecificationComponentState
 
     //TWIST DIRECTION ID
     if (Ui.showHide(_yarnSetting!.showTwistDirection) &&
-        _yarnData!.twistDirection!.isNotEmpty) {
-      _createRequestModel.ys_twist_direction_idfk = widget
-          .yarnSyncResponse.data.yarn.twistDirection!
+        _twistDirectionList!.isNotEmpty) {
+      _createRequestModel.ys_twist_direction_idfk = _twistDirectionList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -418,9 +413,9 @@ class YarnSpecificationComponentState
 
     //SPUN TECH ID
     if (Ui.showHide(_yarnSetting!.showSpunTechnique) &&
-        _yarnData!.spunTechnique!.isNotEmpty) {
+        _spunTechList!.isNotEmpty) {
       setState(() {
-        _selectedSpunTechId = widget.yarnSyncResponse.data.yarn.spunTechnique!
+        _selectedSpunTechId = _spunTechList!
             .where(
                 (element) => element.familyId.toString() == _selectedFamilyId)
             .toList()
@@ -429,8 +424,7 @@ class YarnSpecificationComponentState
             .toString();
       });
 
-      _createRequestModel.ys_spun_technique_idfk = widget
-          .yarnSyncResponse.data.yarn.spunTechnique!
+      _createRequestModel.ys_spun_technique_idfk = _spunTechList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -440,20 +434,21 @@ class YarnSpecificationComponentState
 
     //COLOR TREATMENT METHOD ID
     if (Ui.showHide(_yarnSetting!.showColorTreatmentMethod) &&
-        _yarnData!.colorTreatmentMethod!.isNotEmpty) {
-      _createRequestModel.ys_color_treatment_method_idfk = widget
-          .yarnSyncResponse.data.yarn.colorTreatmentMethod!
-          .where((element) => element.familyId.toString() == _selectedFamilyId)
-          .toList()
-          .first
-          .yctmId
-          .toString();
+        _colorTreatmentMethodList!.isNotEmpty) {
+      _createRequestModel.ys_color_treatment_method_idfk =
+          _colorTreatmentMethodList!
+              .where(
+                  (element) => element.familyId.toString() == _selectedFamilyId)
+              .toList()
+              .first
+              .yctmId
+              .toString();
     }
 
     //APPEARANCE ID
     if (Ui.showHide(_yarnSetting!.showAppearance) &&
-        _yarnData!.apperance!.isNotEmpty) {
-      _createRequestModel.ys_apperance_idfk = _yarnData!.apperance!
+        _appearanceList!.isNotEmpty) {
+      _createRequestModel.ys_apperance_idfk = _appearanceList!
           .where((element) => element.familyId.toString() == _selectedFamilyId)
           .toList()
           .first
@@ -464,8 +459,8 @@ class YarnSpecificationComponentState
     //DYING METHOD ID
     if (Ui.showHide(_yarnSetting!.showDyingMethod) &&
         _showDyingMethod &&
-        _yarnData!.dyingMethod!.isNotEmpty) {
-      _createRequestModel.ys_dying_method_idfk = _yarnData!.dyingMethod!
+        _dyingMethodList!.isNotEmpty) {
+      _createRequestModel.ys_dying_method_idfk = _dyingMethodList!
           .where((element) =>
               element.apperanceId.toString() == _selectedAppearenceId)
           .toList()
@@ -477,9 +472,8 @@ class YarnSpecificationComponentState
     //Doubling method id
     if (_showDoublingMethod &&
         Ui.showHide(_yarnSetting!.showDoublingMethod) &&
-        _yarnData!.doublingMethod!.isNotEmpty) {
-      _createRequestModel.ys_doubling_method_idFk = widget
-          .yarnSyncResponse.data.yarn.doublingMethod!
+        _doublingMethodList!.isNotEmpty) {
+      _createRequestModel.ys_doubling_method_idFk = _doublingMethodList!
           .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
           .toList()
           .first
@@ -489,60 +483,59 @@ class YarnSpecificationComponentState
 
     //Yarn Type
     if (Ui.showHide(_yarnSetting!.showTexturized) &&
-        _yarnData!.yarnTypes!.isNotEmpty) {
-      _createRequestModel.ys_yarn_type_idfk = widget
-          .yarnSyncResponse
-          .data
-          .yarn
-          .yarnTypes! /*
+        _yarnTypesList!.isNotEmpty) {
+      _createRequestModel.ys_yarn_type_idfk =
+          _yarnTypesList! */ /*
           .where((element) => element.plyId == _createRequestModel.ys_ply_idfk)
-          .toList()*/
-          .first
-          .ytId
-          .toString();
+          .toList()*/ /*
+              .first
+              .ytId
+              .toString();
     }
-  }
+  }*/
 
   //RESET ALL DATA
   _resetData() {
     if (_yarnTypeKey.currentState != null) {
-      _yarnTypeKey.currentState!.checkedTile = 0;
+      _yarnTypeKey.currentState!.checkedTile = -1;
     }
-    if (_usageKey.currentState != null) _usageKey.currentState!.checkedTile = 0;
+    if (_usageKey.currentState != null)
+      _usageKey.currentState!.checkedTile = -1;
     if (_appearanceKey.currentState != null) {
-      _appearanceKey.currentState!.checkedTile = 0;
+      _appearanceKey.currentState!.checkedTile = -1;
     }
-    if (_plyKey.currentState != null) _plyKey.currentState!.checkedTile = 0;
+    if (_plyKey.currentState != null) _plyKey.currentState!.checkedTile = -1;
     if (_patternKey.currentState != null) {
-      _patternKey.currentState!.checkedTile = 0;
+      _patternKey.currentState!.checkedTile = -1;
     }
     if (_patternCharKey.currentState != null) {
-      _patternCharKey.currentState!.checkedTile = 0;
+      _patternCharKey.currentState!.checkedTile = -1;
     }
     if (_orientationKey.currentState != null) {
-      _orientationKey.currentState!.checkedTile = 0;
+      _orientationKey.currentState!.checkedTile = -1;
     }
     if (_spunTechKey.currentState != null) {
-      _spunTechKey.currentState!.checkedTile = 0;
+      _spunTechKey.currentState!.checkedTile = -1;
     }
     if (_qualityKey.currentState != null) {
-      _qualityKey.currentState!.checkedTile = 0;
+      _qualityKey.currentState!.checkedTile = -1;
     }
     if (_certificateKey.currentState != null) {
-      _certificateKey.currentState!.checkedTile = 0;
+      _certificateKey.currentState!.checkedTile = -1;
     }
-    if (_gradeKey.currentState != null) _gradeKey.currentState!.checkedTile = 0;
+    if (_gradeKey.currentState != null)
+      _gradeKey.currentState!.checkedTile = -1;
     if (_twistDirectionKey.currentState != null) {
-      _twistDirectionKey.currentState!.checkedTile = 0;
+      _twistDirectionKey.currentState!.checkedTile = -1;
     }
     if (_doublingMethodKey.currentState != null) {
-      _doublingMethodKey.currentState!.checkedTile = 0;
+      _doublingMethodKey.currentState!.checkedTile = -1;
     }
     if (_dyingMethodKey.currentState != null) {
-      _dyingMethodKey.currentState!.checkedTile = 0;
+      _dyingMethodKey.currentState!.checkedTile = -1;
     }
     if (_colorTreatmentMethodKey.currentState != null) {
-      _colorTreatmentMethodKey.currentState!.checkedTile = 0;
+      _colorTreatmentMethodKey.currentState!.checkedTile = -1;
     }
 
     setState(() {
@@ -588,31 +581,159 @@ class YarnSpecificationComponentState
     return false;
   }
 
+  bool validationAllPage() {
+    if (validateAndSave()) {
+      if (_createRequestModel.ys_blend_idfk == null &&
+          Ui.showHide(_yarnSetting!.showBlend)) {
+        Ui.showSnackBar(context, 'Please Select Blend');
+        return false;
+      } else if (_createRequestModel.ys_yarn_type_idfk == null &&
+          Ui.showHide(_yarnSetting!.showTexturized)) {
+        Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
+        return false;
+      } else if (_createRequestModel.ys_usage_idfk == null &&
+          Ui.showHide(_yarnSetting!.showUsage)) {
+        Ui.showSnackBar(context, 'Please Select Usage');
+        return false;
+      } else if (_createRequestModel.ys_color_treatment_method_idfk == null &&
+          Ui.showHide(_yarnSetting!.showColorTreatmentMethod)) {
+        Ui.showSnackBar(context, 'Please Select Color Treatment Method');
+        return false;
+      } else if (_createRequestModel.ys_dying_method_idfk == null &&
+          _showDyingMethod) {
+        Ui.showSnackBar(context, 'Please Select Dying Method');
+        return false;
+      } else if (_createRequestModel.ys_ply_idfk == null &&
+          Ui.showHide(_yarnSetting!.showPly)) {
+        Ui.showSnackBar(context, 'Please Select Ply');
+        return false;
+      } else if (_createRequestModel.ys_doubling_method_idFk == null &&
+          _showDoublingMethod) {
+        Ui.showSnackBar(context, 'Please Select Doubling Method');
+        return false;
+      } else if (_createRequestModel.ys_orientation_idfk == null &&
+          Ui.showHide(_yarnSetting!.showOrientation)) {
+        Ui.showSnackBar(context, 'Please Select Orientation');
+        return false;
+      } else if (_createRequestModel.ys_spun_technique_idfk == null &&
+          Ui.showHide(_yarnSetting!.showSpunTechnique)) {
+        Ui.showSnackBar(context, 'Please Select Spun Technique');
+        return false;
+      } else if (_createRequestModel.ys_quality_idfk == null &&
+          Ui.showHide(_yarnSetting!.showQuality)) {
+        Ui.showSnackBar(context, 'Please Select Quality');
+        return false;
+      } else if (_createRequestModel.ys_pattern_idfk == null &&
+          Ui.showHide(_yarnSetting!.showPattern)) {
+        Ui.showSnackBar(context, 'Please Select Pattern');
+        return false;
+      } else if (_createRequestModel.ys_pattern_charectristic_idfk == null &&
+          _showPatternChar &&
+          !_patternTLPIdList.contains(int.parse(_selectedPatternId ?? "-1")) &&
+          !_patternGRIdList.contains(int.parse(_selectedPatternId ?? "-1"))) {
+        Ui.showSnackBar(context, 'Please Select Pattern Characteristics');
+        return false;
+      } else if (_createRequestModel.ys_grade_idfk == null &&
+          Ui.showHide(_yarnSetting!.showGrade)) {
+        Ui.showSnackBar(context, 'Please Select Grade');
+        return false;
+      } else if (_createRequestModel.ys_apperance_idfk == null &&
+          Ui.showHide(_yarnSetting!.showAppearance)) {
+        Ui.showSnackBar(context, 'Please Select Appearance');
+        return false;
+      } else if (_createRequestModel.ys_certification_idfk == null &&
+          Ui.showHide(_yarnSetting!.showCertification)) {
+        Ui.showSnackBar(context, 'Please Select Certification');
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
   _getPattern() {
     if (_selectedSpunTechId != null) {
       if (_selectedSpunTechId == "1") {
-        return _yarnData!.pattern!
+        return _patternList!
             .where((element) => element.spun_technique_id == "1")
             .toList();
       }
-      return _yarnData!.pattern;
+      return _patternList;
     }
 
-    return _yarnData!.pattern;
+    return _patternList;
   }
 
   _getQuality() {
     if (_selectedSpunTechId != null) {
       if (_selectedSpunTechId == "1") {
-        return _yarnData!.quality!
+        return _qualityList!
             .where((element) => element.spun_technique_id == "1")
             .toList();
       }
-      return _yarnData!.quality;
+      return _qualityList;
     }
 
-    return _yarnData!.quality;
+    return _qualityList;
   }
+
+  _getSyncedData() async {
+    await AppDbInstance.getYarnFamilyData()
+        .then((value) => setState(() => _familyList = value));
+    await AppDbInstance.getYarnBlendData()
+        .then((value) => setState(() => _blendsList = value));
+    await AppDbInstance.getYarnAppearance()
+        .then((value) => _appearanceList = value);
+    await AppDbInstance.getYarnTypeData()
+        .then((value) => setState(() => _yarnTypesList = value));
+    await AppDbInstance.getYarnUsage()
+        .then((value) => setState(() => _usageList = value));
+    await AppDbInstance.getColorTreatmentMethodData()
+        .then((value) => setState(() => _colorTreatmentMethodList = value));
+    await AppDbInstance.getYarnDyingMethod()
+        .then((value) => setState(() => _dyingMethodList = value));
+    await AppDbInstance.getYarnPly()
+        .then((value) => setState(() => _plyList = value));
+    await AppDbInstance.getDoublingMethod()
+        .then((value) => _doublingMethodList = value);
+    await AppDbInstance.getOrientationData()
+        .then((value) => _orientationList = value);
+    await AppDbInstance.getSpunTech().then((value) => _spunTechList = value);
+    await AppDbInstance.getYarnQuality().then((value) => _qualityList = value);
+    await AppDbInstance.getPattern().then((value) => _patternList = value);
+    await AppDbInstance.getTwistDirections()
+        .then((value) => _twistDirectionList = value);
+    await AppDbInstance.getPatternCharacteristics()
+        .then((value) => _patternCharList = value);
+    await AppDbInstance.getCertificationsData()
+        .then((value) => _certificationList = value);
+    await AppDbInstance.getYarnGradesDao().then((value) => _gradesList = value);
+    await AppDbInstance.getYarnSettings().then((value) {
+      _yarnSettingsList = value;
+      _selectedFamilyId = _familyList!.first.famId.toString();
+      queryFamilySettings(int.parse(_selectedFamilyId!));
+    });
+  }
+
+  List<Family>? _familyList;
+  List<Blends>? _blendsList;
+  List<Usage>? _usageList;
+  List<ColorTreatmentMethod>? _colorTreatmentMethodList;
+  List<Ply>? _plyList;
+  List<DoublingMethod>? _doublingMethodList;
+  List<DyingMethod>? _dyingMethodList;
+  List<OrientationTable>? _orientationList;
+  List<TwistDirection>? _twistDirectionList;
+  List<SpunTechnique>? _spunTechList;
+  List<Quality>? _qualityList;
+  List<PatternModel>? _patternList;
+  List<PatternCharectristic>? _patternCharList;
+  List<YarnGrades>? _gradesList;
+  List<YarnAppearance>? _appearanceList;
+  List<Certification>? _certificationList;
+  List<YarnTypes>? _yarnTypesList;
+  List<YarnSetting>? _yarnSettingsList;
 
   //Keys
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
@@ -662,7 +783,7 @@ class YarnSpecificationComponentState
   Color pickerColor = const Color(0xffffffff);
   bool _isInit = false;
 
-  Yarn? _yarnData;
+  // Yarn? _yarnData;
   final TextEditingController _textEditingController = TextEditingController();
   var logger = Logger();
 
@@ -683,12 +804,13 @@ class YarnSpecificationComponentState
   String? _selectedColorTreatMethodId;
   String? _selectedSpunTechId;
 
+  bool _isGetSyncedData = false;
+
   @override
   void initState() {
     // Utils.disableClick = false;
-    _yarnData = widget.yarnSyncResponse.data.yarn;
-    _selectedFamilyId = _yarnData!.family!.first.famId.toString();
-    queryFamilySettings(int.parse(_selectedFamilyId!));
+    // _yarnData = widget.yarnSyncResponse.data.yarn;
+    _getSyncedData();
     super.initState();
   }
 
@@ -697,280 +819,328 @@ class YarnSpecificationComponentState
     if (!_isInit) {
       _createRequestModel = Provider.of<CreateRequestModel>(context);
       _yarnSetting ??= Provider.of<YarnSetting>(context);
-      _initGridValues();
+      // _initGridValues();
       _isInit = true;
     }
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      key: _scaffoldKey,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 16.w, left: 24.w, right: 24.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleTextWidget(
-                            title: specifications,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 2.w),
-                            child: Text(
-                              selectSpecifications,
-                              style: TextStyle(
-                                  fontSize: 11.sp, color: Colors.grey.shade600),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Form(
-                      key: _globalFormKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          //Show Texturized
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showTexturized),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: yarnTexturedType)),
-                                  SingleSelectTileWidget(
-                                    key: _yarnTypeKey,
-                                    spanCount: 3,
-                                    listOfItems: _yarnData!.yarnTypes!,
-                                    callback: (YarnTypes value) {
-                                      _createRequestModel.ys_yarn_type_idfk =
-                                          value.ytId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Dannier and Show Filament
-                          Row(
-                            children: [
-                              Visibility(
-                                visible: Ui.showHide(_yarnSetting!.showDannier),
-                                child: Expanded(
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 4.w),
-                                          child: TitleSmallTextWidget(
-                                              title: dannier)),
-                                      YgTextFormFieldWithRange(
-                                          onSaved: (input) =>
-                                              _createRequestModel
-                                                  .ys_dty_filament = input!,
-                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: _yarnSetting!.dannierMinMax!,
-                                          errorText: dannier),
-                                    ],
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: (Ui.showHide(
-                                            _yarnSetting!.showDannier) &&
-                                        Ui.showHide(_yarnSetting!.showFilament))
-                                    ? 16.w
-                                    : 0,
-                              ),
-                              Visibility(
-                                visible:
-                                    Ui.showHide(_yarnSetting!.showFilament),
-                                child: Expanded(
+    return _isGetSyncedData
+        ? Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            key: _scaffoldKey,
+            body: _isGetSyncedData
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.w, left: 24.w, right: 24.w),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.w),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      TitleTextWidget(
+                                        title: specifications,
+                                      ),
                                       Padding(
-                                          padding: EdgeInsets.only(left: 4.w),
-                                          child: TitleSmallTextWidget(
-                                              title: filament)),
-                                      YgTextFormFieldWithRange(
-                                        minMax: _yarnSetting!.filamentMinMax!,
-                                        onSaved: (input) => _createRequestModel
-                                            .ys_fdy_filament = input!,
-                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                        errorText: filament,
+                                        padding: EdgeInsets.only(top: 2.w),
+                                        child: Text(
+                                          selectSpecifications,
+                                          style: TextStyle(
+                                              fontSize: 11.sp,
+                                              color: Colors.grey.shade600),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                                Form(
+                                  key: _globalFormKey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      //Show Texturized
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showTexturized),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 8.w, bottom: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: yarnTexturedType)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _yarnTypeKey,
+                                                spanCount: 3,
+                                                listOfItems: _yarnTypesList!,
+                                                callback: (YarnTypes value) {
+                                                  _createRequestModel
+                                                          .ys_yarn_type_idfk =
+                                                      value.ytId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
 
-                          //Show Usage
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showUsage),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child:
-                                          TitleSmallTextWidget(title: usage)),
-                                  SingleSelectTileWidget(
-                                    key: _usageKey,
-                                    spanCount: 2,
-                                    listOfItems: _yarnData!.usage!
-                                        .where((element) =>
-                                            element.ysFamilyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (Usage value) {
-                                      _createRequestModel.ys_usage_idfk =
-                                          value.yuId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                      //Show Dannier and Show Filament
+                                      Row(
+                                        children: [
+                                          Visibility(
+                                            visible: Ui.showHide(
+                                                _yarnSetting!.showDannier),
+                                            child: Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 4.w),
+                                                      child:
+                                                          TitleSmallTextWidget(
+                                                              title: dannier)),
+                                                  YgTextFormFieldWithRange(
+                                                      onSaved: (input) =>
+                                                          _createRequestModel
+                                                                  .ys_dty_filament =
+                                                              input!,
+                                                      // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                      minMax: _yarnSetting!
+                                                          .dannierMinMax!,
+                                                      errorText: dannier),
+                                                ],
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: (Ui.showHide(_yarnSetting!
+                                                        .showDannier) &&
+                                                    Ui.showHide(_yarnSetting!
+                                                        .showFilament))
+                                                ? 16.w
+                                                : 0,
+                                          ),
+                                          Visibility(
+                                            visible: Ui.showHide(
+                                                _yarnSetting!.showFilament),
+                                            child: Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 4.w),
+                                                      child:
+                                                          TitleSmallTextWidget(
+                                                              title: filament)),
+                                                  YgTextFormFieldWithRange(
+                                                    minMax: _yarnSetting!
+                                                        .filamentMinMax!,
+                                                    onSaved: (input) =>
+                                                        _createRequestModel
+                                                                .ys_fdy_filament =
+                                                            input!,
+                                                    // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                    errorText: filament,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
 
-                          //Show Appearance
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showAppearance),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: apperance)),
-                                  SingleSelectTileWidget(
-                                    key: _appearanceKey,
-                                    spanCount: 3,
-                                    listOfItems: _yarnData!.apperance!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (YarnAppearance value) {
-                                      _createRequestModel.ys_apperance_idfk =
-                                          value.yaId.toString();
+                                      //Show Usage
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showUsage),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: usage)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _usageKey,
+                                                spanCount: 2,
+                                                listOfItems: _usageList!
+                                                    .where((element) =>
+                                                        element.ysFamilyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback: (Usage value) {
+                                                  _createRequestModel
+                                                          .ys_usage_idfk =
+                                                      value.yuId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
 
-                                      if (value.yaId == 3) {
-                                        setState(() {
-                                          _showDyingMethod = true;
-                                          _selectedAppearenceId =
-                                              value.yaId.toString();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _showDyingMethod = false;
-                                          _createRequestModel
-                                              .ys_dying_method_idfk = null;
-                                          _createRequestModel.ys_color_code =
-                                              null;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                      //Show Appearance
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showAppearance),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: apperance)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _appearanceKey,
+                                                spanCount: 3,
+                                                listOfItems: _appearanceList!
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback:
+                                                    (YarnAppearance value) {
+                                                  _createRequestModel
+                                                          .ys_apperance_idfk =
+                                                      value.yaId.toString();
 
-                          //Show Color Treatment Method
-                          Visibility(
-                            visible: Ui.showHide(
-                                _yarnSetting!.showColorTreatmentMethod),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: colorTreatmentMethod)),
-                                  SingleSelectTileWidget(
-                                    key: _colorTreatmentMethodKey,
-                                    spanCount: 3,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.colorTreatmentMethod!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (ColorTreatmentMethod value) {
-                                      _createRequestModel
-                                              .ys_color_treatment_method_idfk =
-                                          value.yctmId.toString();
+                                                  if (value.yaId == 3) {
+                                                    setState(() {
+                                                      _showDyingMethod = true;
+                                                      _selectedAppearenceId =
+                                                          value.yaId.toString();
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _showDyingMethod = false;
+                                                      _createRequestModel
+                                                              .ys_dying_method_idfk =
+                                                          null;
+                                                      _createRequestModel
+                                                          .ys_color_code = null;
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
 
-                                      if (_colorTreatmentIdList
-                                          .contains(value.yctmId)) {
-                                        setState(() {
-                                          _showDyingMethod = true;
-                                          _selectedColorTreatMethodId =
-                                              value.yctmId.toString();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _showDyingMethod = false;
-                                          _createRequestModel
-                                              .ys_dying_method_idfk = null;
-                                          _createRequestModel.ys_color_code =
-                                              null;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                      //Show Color Treatment Method
+                                      Visibility(
+                                        visible: Ui.showHide(_yarnSetting!
+                                            .showColorTreatmentMethod),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title:
+                                                          colorTreatmentMethod)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _colorTreatmentMethodKey,
+                                                spanCount: 3,
+                                                listOfItems:
+                                                    _colorTreatmentMethodList!
+                                                        .where((element) =>
+                                                            element.familyId ==
+                                                            _selectedFamilyId)
+                                                        .toList(),
+                                                callback: (ColorTreatmentMethod
+                                                    value) {
+                                                  _createRequestModel
+                                                          .ys_color_treatment_method_idfk =
+                                                      value.yctmId.toString();
 
-                          //Show Color dying Method
-                          Visibility(
-                            visible: _showDyingMethod
-                                ? Ui.showHide(_yarnSetting!.showColor)
-                                : false,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "Dying Method")),
-                                  SingleSelectTileWidget(
-                                    key: _dyingMethodKey,
-                                    spanCount: 3,
-                                    listOfItems:
-                                        _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
+                                                  if (_colorTreatmentIdList
+                                                      .contains(value.yctmId)) {
+                                                    setState(() {
+                                                      _showDyingMethod = true;
+                                                      _selectedColorTreatMethodId =
+                                                          value.yctmId
+                                                              .toString();
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _showDyingMethod = false;
+                                                      _createRequestModel
+                                                              .ys_dying_method_idfk =
+                                                          null;
+                                                      _createRequestModel
+                                                          .ys_color_code = null;
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Color dying Method
+                                      Visibility(
+                                        visible: _showDyingMethod
+                                            ? Ui.showHide(
+                                                _yarnSetting!.showColor)
+                                            : false,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child:
+                                                      const TitleSmallTextWidget(
+                                                          title:
+                                                              "Dying Method")),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _dyingMethodKey,
+                                                spanCount: 3,
+                                                listOfItems:
+                                                    _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
                                       if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                         return element
                                                 .ydmColorTreatmentMethodIdfk ==
@@ -982,488 +1152,569 @@ class YarnSpecificationComponentState
                                             _selectedAppearenceId.toString();
                                       }
                                     }).toList()*/
-                                    ,
-                                    callback: (DyingMethod value) {
-                                      _createRequestModel.ys_dying_method_idfk =
-                                          value.ydmId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Here Color Code is missing
-                          Visibility(
-                              visible: _showDyingMethod
-                                  ? Ui.showHide(_yarnSetting!.showColor)
-                                  : false,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 8.0),
-                                      child: TitleSmallTextWidget(
-                                          title: "Select Color"),
-                                    ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      child: SizedBox(
-                                        width: 120.w,
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.none,
-                                          controller: _textEditingController,
-                                          autofocus: false,
-                                          showCursor: false,
-                                          readOnly: true,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          onSaved: (input) =>
-                                              _createRequestModel
-                                                  .ys_color_code = input!,
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty) {
-                                              return "Select Color Code";
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  borderSide: BorderSide.none),
-                                              contentPadding:
-                                                  const EdgeInsets.all(2.0),
-                                              hintText: "Select Color",
-                                              filled: true,
-                                              fillColor: pickerColor),
-                                          onTap: () {
-                                            _openDialogBox();
-                                          },
+                                                ,
+                                                callback: (DyingMethod value) {
+                                                  _createRequestModel
+                                                          .ys_dying_method_idfk =
+                                                      value.ydmId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )),
 
-                          //Show Ratio and Count
-                          Row(
-                            children: [
-                              Visibility(
-                                visible: Ui.showHide(_yarnSetting!.showRatio),
-                                child: Expanded(
-                                  child: Column(
-                                    children: [
-                                      Padding(
+                                      //Here Color Code is missing
+                                      Visibility(
+                                          visible: _showDyingMethod
+                                              ? Ui.showHide(
+                                                  _yarnSetting!.showColor)
+                                              : false,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0),
+                                                  child: TitleSmallTextWidget(
+                                                      title: "Select Color"),
+                                                ),
+                                                Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: SizedBox(
+                                                    width: 120.w,
+                                                    child: TextFormField(
+                                                      keyboardType:
+                                                          TextInputType.none,
+                                                      controller:
+                                                          _textEditingController,
+                                                      autofocus: false,
+                                                      showCursor: false,
+                                                      readOnly: true,
+                                                      style: TextStyle(
+                                                          fontSize: 11.sp),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      onSaved: (input) =>
+                                                          _createRequestModel
+                                                                  .ys_color_code =
+                                                              input!,
+                                                      validator: (input) {
+                                                        if (input == null ||
+                                                            input.isEmpty) {
+                                                          return "Select Color Code";
+                                                        }
+                                                        return null;
+                                                      },
+                                                      decoration: InputDecoration(
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          hintText:
+                                                              "Select Color",
+                                                          filled: true,
+                                                          fillColor:
+                                                              pickerColor),
+                                                      onTap: () {
+                                                        _openDialogBox();
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+
+                                      //Show Ratio and Count
+                                      Row(
+                                        children: [
+                                          Visibility(
+                                            visible: Ui.showHide(
+                                                _yarnSetting!.showRatio),
+                                            child: Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 4.w, top: 8.w),
+                                                      child:
+                                                          TitleSmallTextWidget(
+                                                              title: ratio)),
+                                                  YgTextFormFieldWithoutRange(
+                                                      errorText: ratio,
+                                                      onSaved: (input) {
+                                                        _createRequestModel
+                                                            .ys_ratio = input;
+                                                      })
+                                                ],
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: (Ui.showHide(_yarnSetting!
+                                                        .showRatio) &&
+                                                    Ui.showHide(_yarnSetting!
+                                                        .showCount))
+                                                ? 16.w
+                                                : 0,
+                                          ),
+                                          Visibility(
+                                            visible: Ui.showHide(
+                                                _yarnSetting!.showCount),
+                                            child: Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 4.w, top: 8.w),
+                                                      child:
+                                                          TitleSmallTextWidget(
+                                                              title: count)),
+                                                  YgTextFormFieldWithRangeNonDecimal(
+                                                      errorText: count,
+                                                      // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                      minMax: _yarnSetting!
+                                                          .countMinMax!,
+                                                      onSaved: (input) {
+                                                        _createRequestModel
+                                                            .ys_count = input;
+                                                      })
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
+                                      //Show Ply
+                                      Visibility(
+                                        visible:
+                                            Ui.showHide(_yarnSetting!.showPly),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: ply)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _plyKey,
+                                                spanCount: 4,
+                                                listOfItems: _plyList!
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback: (Ply value) {
+                                                  _createRequestModel
+                                                          .ys_ply_idfk =
+                                                      value.plyId.toString();
+
+                                                  if (!_plyIdList
+                                                      .contains(value.plyId)) {
+                                                    setState(() {
+                                                      _showDoublingMethod =
+                                                          true;
+                                                      _selectedPlyId = value
+                                                          .plyId
+                                                          .toString();
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _showDoublingMethod =
+                                                          false;
+                                                      _createRequestModel
+                                                              .ys_doubling_method_idFk =
+                                                          null;
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Here Doubling Method
+                                      Visibility(
+                                        visible: _showDoublingMethod
+                                            ? Ui.showHide(_yarnSetting!
+                                                .showDoublingMethod)
+                                            : false,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child:
+                                                      const TitleSmallTextWidget(
+                                                          title:
+                                                              "Doubling Method")),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _doublingMethodKey,
+                                                spanCount: 3,
+                                                listOfItems:
+                                                    _doublingMethodList!
+                                                        .where((element) =>
+                                                            element.plyId ==
+                                                            _selectedPlyId)
+                                                        .toList(),
+                                                callback:
+                                                    (DoublingMethod value) {
+                                                  _createRequestModel
+                                                          .ys_doubling_method_idFk =
+                                                      value.dmId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Orientation
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showOrientation),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: orientation)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _orientationKey,
+                                                spanCount: 2,
+                                                listOfItems: _orientationList!
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback:
+                                                    (OrientationTable value) {
+                                                  _createRequestModel
+                                                          .ys_orientation_idfk =
+                                                      value.yoId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Twist Direction
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showTwistDirection),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: twistDirection)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _twistDirectionKey,
+                                                spanCount: 2,
+                                                listOfItems:
+                                                    _twistDirectionList!
+                                                        .where((element) =>
+                                                            element.familyId ==
+                                                            _selectedFamilyId)
+                                                        .toList(),
+                                                callback:
+                                                    (TwistDirection value) {
+                                                  _createRequestModel
+                                                          .ys_twist_direction_idfk =
+                                                      value.ytdId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Spun Technique
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showSpunTechnique),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: spunTech)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _spunTechKey,
+                                                spanCount: 4,
+                                                listOfItems: _spunTechList!
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback:
+                                                    (SpunTechnique value) {
+                                                  setState(() {
+                                                    _selectedSpunTechId =
+                                                        value.ystId.toString();
+                                                  });
+                                                  _createRequestModel
+                                                          .ys_spun_technique_idfk =
+                                                      value.ystId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Quality
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showQuality),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: quality)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _qualityKey,
+                                                spanCount: 2,
+                                                listOfItems: _getQuality()
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback: (Quality value) {
+                                                  _createRequestModel
+                                                          .ys_quality_idfk =
+                                                      value.yqId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Pattern
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showPattern),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: pattern)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _patternKey,
+                                                spanCount: 3,
+                                                listOfItems: _getPattern()
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback: (PatternModel value) {
+                                                  if (_patternIdList
+                                                      .contains(value.ypId)) {
+                                                    setState(() {
+                                                      _showPatternChar = true;
+                                                      _selectedPatternId =
+                                                          value.ypId.toString();
+
+                                                      _patternCharactristicList =
+                                                          _patternCharList!
+                                                              .where((element) =>
+                                                                  element
+                                                                      .ypcPatternIdfk ==
+                                                                  value.ypId
+                                                                      .toString())
+                                                              .toList();
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _showPatternChar = false;
+                                                      _createRequestModel
+                                                              .ys_pattern_charectristic_idfk =
+                                                          null;
+                                                    });
+                                                  }
+                                                  _createRequestModel
+                                                          .ys_pattern_idfk =
+                                                      value.ypId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Pattern characteristics
+                                      Visibility(
+                                          visible: _showPatternChar,
+                                          child: _showPatternCharWidget()),
+
+                                      //Show Grade
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showGrade),
+                                        child: Padding(
                                           padding: EdgeInsets.only(
-                                              left: 4.w, top: 8.w),
-                                          child: TitleSmallTextWidget(
-                                              title: ratio)),
-                                      YgTextFormFieldWithoutRange(
-                                          errorText: ratio,
-                                          onSaved: (input) {
-                                            _createRequestModel.ys_ratio =
-                                                input;
-                                          })
+                                              top: 8.w, bottom: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: grades)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _gradeKey,
+                                                spanCount: 3,
+                                                listOfItems: _gradesList!
+                                                    .where((element) =>
+                                                        element.familyId ==
+                                                        _selectedFamilyId)
+                                                    .toList(),
+                                                callback: (YarnGrades value) {
+                                                  _createRequestModel
+                                                          .ys_grade_idfk =
+                                                      value.grdId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      //Show Certification
+                                      Visibility(
+                                        visible: Ui.showHide(
+                                            _yarnSetting!.showCertification),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 8.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.w),
+                                                  child: TitleSmallTextWidget(
+                                                      title: certification)),
+                                              SingleSelectTileWidget(
+                                                selectedIndex: -1,
+                                                key: _certificateKey,
+                                                spanCount: 4,
+                                                listOfItems:
+                                                    _certificationList!,
+                                                callback:
+                                                    (Certification value) {
+                                                  _createRequestModel
+                                                          .ys_certification_idfk =
+                                                      value.cerId.toString();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 8.w,
+                                      ),
                                     ],
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                   ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: (Ui.showHide(_yarnSetting!.showRatio) &&
-                                        Ui.showHide(_yarnSetting!.showCount))
-                                    ? 16.w
-                                    : 0,
-                              ),
-                              Visibility(
-                                visible: Ui.showHide(_yarnSetting!.showCount),
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 4.w, top: 8.w),
-                                          child: TitleSmallTextWidget(
-                                              title: count)),
-                                      YgTextFormFieldWithRangeNonDecimal(
-                                          errorText: count,
-                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: _yarnSetting!.countMinMax!,
-                                          onSaved: (input) {
-                                            _createRequestModel.ys_count =
-                                                input;
-                                          })
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          //Show Ply
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showPly),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(title: ply)),
-                                  SingleSelectTileWidget(
-                                    key: _plyKey,
-                                    spanCount: 4,
-                                    listOfItems: _yarnData!.ply!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (Ply value) {
-                                      _createRequestModel.ys_ply_idfk =
-                                          value.plyId.toString();
-
-                                      if (!_plyIdList.contains(value.plyId)) {
-                                        setState(() {
-                                          _showDoublingMethod = true;
-                                          _selectedPlyId =
-                                              value.plyId.toString();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _showDoublingMethod = false;
-                                          _createRequestModel
-                                              .ys_doubling_method_idFk = null;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
+                                )
+                              ],
                             ),
                           ),
-
-                          //Here Doubling Method
-                          Visibility(
-                            visible: _showDoublingMethod
-                                ? Ui.showHide(_yarnSetting!.showDoublingMethod)
-                                : false,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "Doubling Method")),
-                                  SingleSelectTileWidget(
-                                    key: _doublingMethodKey,
-                                    spanCount: 3,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.doublingMethod!
-                                        .where((element) =>
-                                            element.plyId == _selectedPlyId)
-                                        .toList(),
-                                    callback: (DoublingMethod value) {
-                                      _createRequestModel
-                                              .ys_doubling_method_idFk =
-                                          value.dmId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Orientation
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showOrientation),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: orientation)),
-                                  SingleSelectTileWidget(
-                                    key: _orientationKey,
-                                    spanCount: 2,
-                                    listOfItems: _yarnData!.orientation!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (OrientationTable value) {
-                                      _createRequestModel.ys_orientation_idfk =
-                                          value.yoId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Twist Direction
-                          Visibility(
-                            visible:
-                                Ui.showHide(_yarnSetting!.showTwistDirection),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: twistDirection)),
-                                  SingleSelectTileWidget(
-                                    key: _twistDirectionKey,
-                                    spanCount: 2,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.twistDirection!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (TwistDirection value) {
-                                      _createRequestModel
-                                              .ys_twist_direction_idfk =
-                                          value.ytdId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Spun Technique
-                          Visibility(
-                            visible:
-                                Ui.showHide(_yarnSetting!.showSpunTechnique),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: spunTech)),
-                                  SingleSelectTileWidget(
-                                    key: _spunTechKey,
-                                    spanCount: 4,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.spunTechnique!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (SpunTechnique value) {
-                                      setState(() {
-                                        _selectedSpunTechId =
-                                            value.ystId.toString();
-                                      });
-                                      _createRequestModel
-                                              .ys_spun_technique_idfk =
-                                          value.ystId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Quality
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showQuality),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child:
-                                          TitleSmallTextWidget(title: quality)),
-                                  SingleSelectTileWidget(
-                                    key: _qualityKey,
-                                    spanCount: 2,
-                                    listOfItems: _getQuality()
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (Quality value) {
-                                      _createRequestModel.ys_quality_idfk =
-                                          value.yqId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Pattern
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showPattern),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child:
-                                          TitleSmallTextWidget(title: pattern)),
-                                  SingleSelectTileWidget(
-                                    key: _patternKey,
-                                    spanCount: 3,
-                                    listOfItems: _getPattern()
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (PatternModel value) {
-                                      if (_patternIdList.contains(value.ypId)) {
-                                        setState(() {
-                                          _showPatternChar = true;
-                                          _selectedPatternId =
-                                              value.ypId.toString();
-
-                                          _patternCharactristicList = widget
-                                              .yarnSyncResponse
-                                              .data
-                                              .yarn
-                                              .patternCharectristic!
-                                              .where((element) =>
-                                                  element.ypcPatternIdfk ==
-                                                  value.ypId.toString())
-                                              .toList();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _showPatternChar = false;
-                                          _createRequestModel
-                                                  .ys_pattern_charectristic_idfk =
-                                              null;
-                                        });
-                                      }
-                                      _createRequestModel.ys_pattern_idfk =
-                                          value.ypId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Pattern characteristics
-                          Visibility(
-                              visible: _showPatternChar,
-                              child: _showPatternCharWidget()),
-
-                          //Show Grade
-                          Visibility(
-                            visible: Ui.showHide(_yarnSetting!.showGrade),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child:
-                                          TitleSmallTextWidget(title: grades)),
-                                  SingleSelectTileWidget(
-                                    key: _gradeKey,
-                                    spanCount: 3,
-                                    listOfItems: _yarnData!.grades!
-                                        .where((element) =>
-                                            element.familyId ==
-                                            _selectedFamilyId)
-                                        .toList(),
-                                    callback: (YarnGrades value) {
-                                      _createRequestModel.ys_grade_idfk =
-                                          value.grdId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          //Show Certification
-                          Visibility(
-                            visible:
-                                Ui.showHide(_yarnSetting!.showCertification),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 8.w),
-                                      child: TitleSmallTextWidget(
-                                          title: certification)),
-                                  SingleSelectTileWidget(
-                                    key: _certificateKey,
-                                    spanCount: 4,
-                                    listOfItems: widget.yarnSyncResponse.data
-                                        .yarn.certification!,
-                                    callback: (Certification value) {
-                                      _createRequestModel
-                                              .ys_certification_idfk =
-                                          value.cerId.toString();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 8.w,
-                          ),
-                        ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.w),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: ElevatedButtonWithIcon(
-                callback: () async {
-                  if (validateAndSave()) {
-                    widget.callback!(1);
-                  }
-                },
-                color: btnColorLogin,
-                btnText: "Next",
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                      Padding(
+                        padding: EdgeInsets.all(8.w),
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: ElevatedButtonWithIcon(
+                            callback: () async {
+                              if (validationAllPage()) {
+                                _createRequestModel.spc_category_idfk = "2";
+                                // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+                                // _createRequestModel.ys_usage_idfk = userId;
+                                widget.callback!(1);
+                              }
+                            },
+                            color: btnColorLogin,
+                            btnText: "Next",
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
+          )
+        : Container();
   }
 }

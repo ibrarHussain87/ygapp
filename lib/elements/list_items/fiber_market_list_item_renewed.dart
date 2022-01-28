@@ -72,7 +72,7 @@ Widget buildFiberRenewedWidget(
                       SizedBox(
                         width: 4.w,
                       ),
-                      Row(
+                 /*     Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const TitleSmallNormalTextWidget(
@@ -88,7 +88,7 @@ Widget buildFiberRenewedWidget(
                             height: 8.w,
                           )
                         ],
-                      ),
+                      ),*/
                       SizedBox(
                         width: 8.w,
                       ),

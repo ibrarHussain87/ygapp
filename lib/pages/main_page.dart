@@ -336,9 +336,12 @@ class _MainPageState extends State<MainPage> {
                 value.yarnBlendDao
                     .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!),
 
+                value.spunTechDao
+                    .insertAllSpunTechnique(syncYarnResponse.data.yarn.spunTechnique!),
+                value.doublingMethodDao
+                    .insertAllDoublingMethod(syncYarnResponse.data.yarn.doublingMethod!),
                 value.yarnFamilyDao
                     .insertAllYarnFamily(syncYarnResponse.data.yarn.family!),
-
                 //Insert All Common Objects for yarn
                 value.yarnGradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!),
                 value.brandsDao.insertAllBrands(syncYarnResponse.data.yarn.brands!),

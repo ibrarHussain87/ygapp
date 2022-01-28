@@ -13,23 +13,28 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/grade.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
   final Function? callback;
-  final SyncFiberResponse syncFiberResponse;
+
+  // final SyncFiberResponse syncFiberResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
   const FiberSpecificationComponent(
       {Key? key,
-      required this.syncFiberResponse,
+      // required this.syncFiberResponse,
       required this.callback,
       required this.locality,
       required this.businessArea,
@@ -44,7 +49,6 @@ class FiberSpecificationComponent extends StatefulWidget {
 class FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
-
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
@@ -53,17 +57,46 @@ class FiberSpecificationComponentState
   FiberSettings? _fiberSettings;
   CreateRequestModel? _createRequestModel;
 
+  late List<FiberMaterial> _fiberMaterialList;
+  late List<FiberNature> _fiberNatureList;
+  late List<FiberAppearance> _fiberAppearanceList;
+  late List<Grades> _fiberGradesList;
+  late List<Brands> _brands;
+  late List<Countries> _countries;
+  late List<CityState> _citySateList;
+  late List<Certification> _certificationList;
+
+  _getFiberSyncedData() {
+    AppDbInstance.getFiberMaterialData().then((value) => setState(() {
+          _fiberMaterialList = value;
+          _selectedMaterial = value
+              .where((element) => element.nature_id == "1")
+              .toList()
+              .first
+              .fbmId;
+        }));
+    AppDbInstance.getFiberNatureData()
+        .then((value) => setState(() => _fiberNatureList = value));
+    AppDbInstance.getFiberAppearanceData()
+        .then((value) => setState(() => _fiberAppearanceList = value));
+    AppDbInstance.getFiberGradesData()
+        .then((value) => setState(() => _fiberGradesList = value));
+    AppDbInstance.getFiberBrandsData()
+        .then((value) => setState(() => _brands = value));
+    AppDbInstance.getOriginsData()
+        .then((value) => setState(() => _countries = value));
+    AppDbInstance.getCityState()
+        .then((value) => setState(() => _citySateList = value));
+    AppDbInstance.getCertificationsData()
+        .then((value) => setState(() => _certificationList = value));
+  }
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _selectedMaterial = widget.syncFiberResponse.data.fiber.material
-        .where((element) => element.nature_id == "1")
-        .toList()
-        .first
-        .fbmId;
-
+    _getFiberSyncedData();
     BroadcastReceiver().subscribe<int> // Data Type returned from publisher
         (materialIndexBroadcast, (index) {
       setState(() {
@@ -144,11 +177,7 @@ class FiberSpecificationComponentState
                                           SingleSelectTileWidget(
                                             spanCount: 3,
                                             selectedIndex: -1,
-                                            listOfItems: widget
-                                                .syncFiberResponse
-                                                .data
-                                                .fiber
-                                                .grades,
+                                            listOfItems: _fiberGradesList,
                                             callback: (value) {
                                               _createRequestModel!
                                                       .spc_grade_idfk =
@@ -577,8 +606,7 @@ class FiberSpecificationComponentState
                                         SingleSelectTileWidget(
                                           spanCount: 2,
                                           selectedIndex: -1,
-                                          listOfItems: widget.syncFiberResponse
-                                              .data.fiber.apperance,
+                                          listOfItems: _fiberAppearanceList,
                                           callback: (value) {
                                             _createRequestModel!
                                                     .spc_appearance_idfk =
@@ -623,11 +651,7 @@ class FiberSpecificationComponentState
                                                   child:
                                                       DropdownButtonFormField(
                                                     hint: Text('Select $brand'),
-                                                    items: widget
-                                                        .syncFiberResponse
-                                                        .data
-                                                        .fiber
-                                                        .brands
+                                                    items: _brands
                                                         .map((value) =>
                                                             DropdownMenuItem(
                                                               child: Text(
@@ -737,7 +761,8 @@ class FiberSpecificationComponentState
                                   ],
                                 ),
                                 Visibility(
-                                  visible: Ui.showHide(_fiberSettings!.showOrigin),
+                                  visible:
+                                      Ui.showHide(_fiberSettings!.showOrigin),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -753,54 +778,42 @@ class FiberSpecificationComponentState
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 border: Border.all(
-                                                  color: Colors
-                                                      .grey.shade300,
+                                                  color: Colors.grey.shade300,
                                                   width:
-                                                  1, //                   <--- border width here
+                                                      1, //                   <--- border width here
                                                 ),
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.circular(
-                                                        24.w))),
-                                            child:
-                                            DropdownButtonFormField(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(24.w))),
+                                            child: DropdownButtonFormField(
                                               hint: const Text('Select Origin'),
-                                              items: widget
-                                                  .syncFiberResponse
-                                                  .data
-                                                  .fiber
-                                                  .countries
+                                              items: _countries
                                                   .map((value) =>
-                                                  DropdownMenuItem(
-                                                    child: Text(
-                                                        value.conName ??
-                                                            "N/A",
-                                                        textAlign:
-                                                        TextAlign
-                                                            .center),
-                                                    value: value,
-                                                  ))
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                            value.conName ??
+                                                                "N/A",
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                        value: value,
+                                                      ))
                                                   .toList(),
                                               onChanged: (Countries? value) {
                                                 _createRequestModel!
-                                                    .spc_origin_idfk =
-                                                    value!.conId
-                                                        .toString();
+                                                        .spc_origin_idfk =
+                                                    value!.conId.toString();
                                               },
 
                                               // value: widget.syncFiberResponse.data.fiber.brands.first,
                                               decoration: InputDecoration(
-                                                contentPadding:
-                                                EdgeInsets.only(
+                                                contentPadding: EdgeInsets.only(
                                                     left: 16.w,
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
                                                 border:
-                                                const OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide
-                                                        .none),
+                                                    const OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
@@ -838,8 +851,7 @@ class FiberSpecificationComponentState
                                             child: DropdownButtonFormField(
                                               hint: const Text(
                                                   'Select City State'),
-                                              items: widget.syncFiberResponse
-                                                  .data.fiber.cityState
+                                              items: _citySateList
                                                   .map((value) =>
                                                       DropdownMenuItem(
                                                         child: Text(
@@ -876,7 +888,8 @@ class FiberSpecificationComponentState
                                   ),
                                 ),
                                 Visibility(
-                                  visible:Ui.showHide(_fiberSettings!.showLotNumber),
+                                  visible: Ui.showHide(
+                                      _fiberSettings!.showLotNumber),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -930,8 +943,7 @@ class FiberSpecificationComponentState
                                         SingleSelectTileWidget(
                                           spanCount: 3,
                                           selectedIndex: -1,
-                                          listOfItems: widget.syncFiberResponse
-                                              .data.fiber.certification,
+                                          listOfItems: _certificationList,
                                           callback: (value) {
                                             _createRequestModel!
                                                     .spc_certificate_idfk =
@@ -967,9 +979,11 @@ class FiberSpecificationComponentState
 
                           _createRequestModel!.spc_fiber_material_idfk =
                               _selectedMaterial.toString();
+                          // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+                          //
+                          // _createRequestModel!.spc_user_idfk = userId;
 
-                          _createRequestModel!.spc_nature_idfk = widget
-                              .syncFiberResponse.data.fiber.material
+                          _createRequestModel!.spc_nature_idfk = _fiberMaterialList
                               .where((element) =>
                                   element.fbmId == _selectedMaterial)
                               .toList()
@@ -988,10 +1002,10 @@ class FiberSpecificationComponentState
               ],
             ),
           );
-        } else if (snapshot.hasError) {
+        } /*else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
-        } else {
+        }*/ else {
           return const Center(
             child: SpinKitWave(
               color: Colors.green,
