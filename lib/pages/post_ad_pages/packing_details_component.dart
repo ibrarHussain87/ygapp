@@ -87,6 +87,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
   bool? _showPaymentType;
   bool? _showLcType;
   int? selectedCountryId;
+  String? unitCountSelected;
 
   late List<FPriceTerms> _priceTermList;
   late List<Packing> _packingList;
@@ -211,6 +212,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                   .spc_category_idfk)
                                           .toList(),
                                       callback: (Units value) {
+                                        setState(() {
+                                          unitCountSelected = value.untName;
+                                        });
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
                                                   .fbp_count_unit_idfk =
@@ -241,7 +245,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 padding: EdgeInsets.only(
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
-                                                    title: weightBags)),
+                                                    title: "$weightBags  ${unitCountSelected??""}")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -1155,6 +1159,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
       _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
       _createRequestModel!.fbp_count_unit_idfk =
           _unitsList.first.untId.toString();
+      unitCountSelected = _unitsList.first.untName;
     }
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =

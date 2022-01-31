@@ -58,7 +58,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         child: Text(
                           specification.company??"N/A",
                           overflow: TextOverflow.fade,
@@ -260,7 +260,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "/kg",
+                                      text: "/${specification.unitCount??"N/A"}",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 12.sp,
@@ -433,7 +433,7 @@ String setFamilyData(YarnSpecification specification){
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
       case '2':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+        familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.bln_abrv??''}';
       break;
       case '3':
       familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
@@ -455,7 +455,7 @@ String setTitleData(YarnSpecification specification){
       titleData = '${specification.yq_abrv??specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
       break;
       case '2':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.yarnFamily??'N/A';
       break;
       case '3':
       titleData = specification.yarnOrientation??'N/A';

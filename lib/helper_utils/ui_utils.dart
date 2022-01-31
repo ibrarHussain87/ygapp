@@ -13,7 +13,7 @@ class Ui {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1000),
       ),
     );
   }

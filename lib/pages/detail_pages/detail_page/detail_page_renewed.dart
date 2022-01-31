@@ -33,6 +33,15 @@ class _DetailPageState extends State<DetailRenewedPage> {
   List<String>? _tabsList;
   List<Widget>? _tabWidgetList;
 
+  bool _isYarn() {
+    if (widget.specification == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   @override
   void initState() {
     _getUserId().then((userId) {
@@ -364,7 +373,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
-                                    text: "/kg",
+                                    text: "/ ${_isYarn() ?  widget.yarnSpecification!.unitCount??"" : widget.specification!.unitCount??""}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,

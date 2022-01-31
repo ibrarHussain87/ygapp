@@ -27,41 +27,60 @@ class DetailTabPage extends StatefulWidget {
 }
 
 class _DetailTabPageState extends State<DetailTabPage> {
-  List<GridTileModel> detailSpecification = [];
-  List<GridTileModel> labParameters = [];
-  List<GridTileModel> detailPackaging = [];
-  int? bidPrice;
-  int? bidQuantity = 1;
-  String bidRemarks = "";
-  bool showBidContainer = false;
-  String? userId;
+  List<GridTileModel> _detailSpecification = [];
+  List<GridTileModel> _labParameters = [];
+  List<GridTileModel> _detailPackaging = [];
+  int? _bidPrice;
+  int? _bidQuantity;
+  int? _tempBidQuantity;
+  String _bidRemarks = "";
+  bool _showBidContainer = false;
+  bool _isChanged = false;
+  String? _userId;
+
+  bool _isYarn() {
+    if (widget.specification == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   void initState() {
     setState(() {
       if (widget.specification != null) {
-        bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
+        _bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
       } else {
-        bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
+        _bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
       }
-      bidQuantity = 1;
+      _bidQuantity = _isYarn()
+          ? int.parse(widget.yarnSpecification!.minQuantity!)
+          : int.parse(widget.specification!.minQuantity!);
+
+      if (!_isChanged) {
+        _tempBidQuantity = _isYarn()
+            ? int.parse(widget.yarnSpecification!.minQuantity!)
+            : int.parse(widget.specification!.minQuantity!);
+        _isChanged = true;
+      }
     });
 
     widget.specification != null ? _fiberDetails() : _yarnDetails();
 
     _getUserId().then((value) {
-      userId = value;
+      _userId = value;
       if (widget.specification != null) {
         if (value != widget.specification!.spc_user_id) {
           setState(() {
-            showBidContainer = true;
+            _showBidContainer = true;
           });
         }
       } else {
         if (value != widget.yarnSpecification!.ys_user_id) {
           setState(() {
-            showBidContainer = true;
+            _showBidContainer = true;
           });
         }
       }
@@ -75,7 +94,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Expanded(
@@ -96,55 +115,59 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       mainAxisSpacing: 3.w,
                       crossAxisSpacing: 6.w,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children:
-                          List.generate(detailSpecification.length, (index) {
+                          List.generate(_detailSpecification.length, (index) {
                         return TextDetailWidget(
-                            title: detailSpecification[index]._title,
-                            detail: detailSpecification[index]._detail);
+                            title: _detailSpecification[index]._title,
+                            detail: _detailSpecification[index]._detail);
                       }),
                     ),
                     const Divider(),
                     /*fixed lab parameters issue in fiber*/
-                    widget.yarnSpecification != null ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        widget.yarnSpecification != null
-                            ? Column(
-                          children: [
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const TitleTextWidget(title: 'Lab Parameters'),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                          ],
-                        )
-                            : SizedBox(
-                          height: 4.w,
-                        ),
-                        GridView.count(
-                          crossAxisCount: 3,
-                          childAspectRatio: 2.77,
-                          mainAxisSpacing: 3.w,
-                          crossAxisSpacing: 6.w,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: List.generate(labParameters.length, (index) {
-                            return TextDetailWidget(
-                                title: labParameters[index]._title,
-                                detail: labParameters[index]._detail);
-                          }),
-                        ),
-                        const Divider(),
-                        SizedBox(
-                          height: 4.w,
-                        ),
-                      ],
-                    ) : SizedBox(
-                      height: 4.w,
-                    ),
+                    widget.yarnSpecification != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              widget.yarnSpecification != null
+                                  ? Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 4.w,
+                                        ),
+                                        const TitleTextWidget(
+                                            title: 'Lab Parameters'),
+                                        SizedBox(
+                                          height: 8.w,
+                                        ),
+                                      ],
+                                    )
+                                  : SizedBox(
+                                      height: 4.w,
+                                    ),
+                              GridView.count(
+                                crossAxisCount: 3,
+                                childAspectRatio: 2.77,
+                                mainAxisSpacing: 3.w,
+                                crossAxisSpacing: 6.w,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: List.generate(_labParameters.length,
+                                    (index) {
+                                  return TextDetailWidget(
+                                      title: _labParameters[index]._title,
+                                      detail: _labParameters[index]._detail);
+                                }),
+                              ),
+                              const Divider(),
+                              SizedBox(
+                                height: 4.w,
+                              ),
+                            ],
+                          )
+                        : SizedBox(
+                            height: 4.w,
+                          ),
                     const TitleTextWidget(title: 'Packing Details'),
                     SizedBox(
                       height: 8.w,
@@ -155,11 +178,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       mainAxisSpacing: 3.w,
                       crossAxisSpacing: 6.w,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: List.generate(detailPackaging.length, (index) {
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: List.generate(_detailPackaging.length, (index) {
                         return TextDetailWidget(
-                            title: detailPackaging[index]._title,
-                            detail: detailPackaging[index]._detail);
+                            title: _detailPackaging[index]._title,
+                            detail: _detailPackaging[index]._detail);
                       }),
                     ),
                     Divider(),
@@ -198,7 +221,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       height: 5.w,
                     ),
                     Visibility(
-                      visible: showBidContainer,
+                      visible: _showBidContainer,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -216,7 +239,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           child: TitleSmallTextWidget(
                                               title: 'Price'),
                                         )),
-                                    Container(
+                                    SizedBox(
                                       width: 200.w,
                                       child: Padding(
                                         padding: EdgeInsets.all(1.w),
@@ -226,122 +249,120 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           children: [
                                             Expanded(
                                                 child: GestureDetector(
-                                                  behavior:
-                                                        HitTestBehavior
-                                                            .opaque,
-                                                  onTap: () {
-                                                      setState(() {
-                                                        if (bidPrice! >=
-                                                            1) {
-                                                          bidPrice =
-                                                              bidPrice! - 1;
-                                                        }
-                                                      });
-                                                    },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: lightBlueTabs,
-                                                            width:
-                                                                1, //                   <--- border width here
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      12.w))),
-                                                    child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.w),
-                                                        child: Center(
-                                                          child:
-                                                              TitleTextWidget(
-                                                            title: '-1',
-                                                            color:
-                                                                lightBlueTabs,
-                                                          ),
-                                                        ),
-                                                      ),
+                                              behavior: HitTestBehavior.opaque,
+                                              onTap: () {
+                                                setState(() {
+                                                  if (_bidPrice! >= 1) {
+                                                    _bidPrice = _bidPrice! - 1;
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: lightBlueTabs,
+                                                      width:
+                                                          1, //                   <--- border width here
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                12.w))),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.w),
+                                                  child: Center(
+                                                    child: TitleTextWidget(
+                                                      title: '-1',
+                                                      color: lightBlueTabs,
+                                                    ),
                                                   ),
-                                                )),
+                                                ),
+                                              ),
+                                            )),
                                             /*fixed price 3 4 digit issue*/
                                             const SizedBox(
                                               width: 2,
                                             ),
                                             Expanded(
                                                 child: Padding(
-                                                    padding:
-                                                    EdgeInsets.symmetric(vertical: 8.w,horizontal: 3.w),
-                                                  child: Center(
-                                                      child: SizedBox(
-                                                        width: 50.w,
-                                                        child: FittedTextFieldContainer(
-                                                          child: TextField(
-                                                            showCursor: false,
-                                                            keyboardType: TextInputType.number,
-                                                            textInputAction: TextInputAction.done,
-                                                            textAlign: TextAlign.center,
-                                                            inputFormatters: <TextInputFormatter>[
-                                                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                                            ],
-                                                            controller: TextEditingController()..text = bidPrice.toString(),
-                                                            /*onChanged: (value){
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8.w,
+                                                  horizontal: 3.w),
+                                              child: Center(
+                                                  child: SizedBox(
+                                                width: 50.w,
+                                                child: FittedTextFieldContainer(
+                                                  child: TextField(
+                                                    showCursor: false,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    textInputAction:
+                                                        TextInputAction.done,
+                                                    textAlign: TextAlign.center,
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      FilteringTextInputFormatter
+                                                          .allow(
+                                                              RegExp(r'[0-9]')),
+                                                    ],
+                                                    controller:
+                                                        TextEditingController()
+                                                          ..text = _bidPrice
+                                                              .toString(),
+                                                    /*onChanged: (value){
                                                               setState(() {
                                                                 value != '' ? bidPrice = int.parse(value) : 0 ;
                                                               });
                                                             },*/
-                                                            onSubmitted: (value){
-                                                              setState(() {
-                                                                value != '' ? bidPrice = int.parse(value) : 0 ;
-                                                              });
-                                                            },
-                                                            decoration: const InputDecoration(
-                                                                border: InputBorder.none
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
+                                                    onSubmitted: (value) {
+                                                      setState(() {
+                                                        value != ''
+                                                            ? _bidPrice =
+                                                                int.parse(value)
+                                                            :_bidPrice =  0;
+                                                      });
+                                                    },
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            border: InputBorder
+                                                                .none),
                                                   ),
-                                                )
-                                            ),
+                                                ),
+                                              )),
+                                            )),
                                             const SizedBox(
                                               width: 2,
                                             ),
                                             Expanded(
                                                 child: GestureDetector(
-                                                  behavior:
-                                                        HitTestBehavior
-                                                            .opaque,
-                                                  onTap: () {
-                                                      setState(() {
-                                                        bidPrice =
-                                                            bidPrice! + 1;
-                                                      });
-                                                    },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: lightBlueTabs,
-                                                            width:
-                                                                1, //                   <--- border width here
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      12.w))),
-                                                    child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.w),
-                                                        child: Center(
-                                                          child:
-                                                              TitleTextWidget(
-                                                            title: '+1',
-                                                            color:
-                                                                lightBlueTabs,
-                                                          ),
-                                                        ),
-                                                      ),
+                                              behavior: HitTestBehavior.opaque,
+                                              onTap: () {
+                                                setState(() {
+                                                  _bidPrice = _bidPrice! + 1;
+                                                });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: lightBlueTabs,
+                                                      width:
+                                                          1, //                   <--- border width here
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                12.w))),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.w),
+                                                  child: Center(
+                                                    child: TitleTextWidget(
+                                                      title: '+1',
+                                                      color: lightBlueTabs,
+                                                    ),
                                                   ),
-                                                ))
+                                                ),
+                                              ),
+                                            ))
                                           ],
                                         ),
                                       ),
@@ -376,9 +397,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                     HitTestBehavior.opaque,
                                                 onTap: () {
                                                   setState(() {
-                                                    if (bidQuantity! >= 1) {
-                                                      bidQuantity =
-                                                          bidQuantity! - 1;
+                                                    if (_bidQuantity! >
+                                                        _tempBidQuantity!) {
+                                                      _bidQuantity =
+                                                          _bidQuantity! - 1;
                                                     }
                                                   });
                                                 },
@@ -394,7 +416,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                               Radius.circular(
                                                                   12.w))),
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(8.w),
+                                                    padding:
+                                                        EdgeInsets.all(8.w),
                                                     child: Center(
                                                       child: TitleTextWidget(
                                                         title: '-1',
@@ -410,7 +433,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             ),
                                             Expanded(
                                                 child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 8.w,horizontal: 3.w),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8.w,
+                                                  horizontal: 3.w),
                                               child: Center(
                                                 /*child: FittedBox(
                                                   fit: BoxFit.contain,
@@ -419,29 +444,49 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 )*/
                                                 child: SizedBox(
                                                   width: 50.w,
-                                                  child: FittedTextFieldContainer(
+                                                  child:
+                                                      FittedTextFieldContainer(
                                                     child: TextField(
                                                       showCursor: false,
-                                                      keyboardType: TextInputType.number,
-                                                      textInputAction: TextInputAction.done,
-                                                      textAlign: TextAlign.center,
-                                                      inputFormatters: <TextInputFormatter>[
-                                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      textInputAction:
+                                                          TextInputAction.done,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      inputFormatters: <
+                                                          TextInputFormatter>[
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                r'[0-9]')),
                                                       ],
-                                                      controller: TextEditingController()..text = bidQuantity.toString(),
-                                                      /*onChanged: (value){
-                                                              setState(() {
-                                                                value != '' ? bidQuantity = int.parse(value) : 0 ;
-                                                              });
-                                                            },*/
-                                                      onSubmitted: (value){
+                                                      controller:
+                                                          TextEditingController()
+                                                            ..text = _bidQuantity
+                                                                .toString(),
+                                                      // onChanged: (value) {
+                                                      //   setState(() {
+                                                      //     value.isNotEmpty
+                                                      //         ? _bidQuantity =
+                                                      //             int.parse(
+                                                      //                 value)
+                                                      //         :_bidQuantity = 0;
+                                                      //   });
+                                                      // },
+                                                      onSubmitted: (value) {
                                                         setState(() {
-                                                          value != '' ? bidQuantity = int.parse(value) : 0 ;
+                                                          value != ''
+                                                              ? _bidQuantity =
+                                                                  int.parse(
+                                                                      value)
+                                                              : _bidQuantity =  0;
                                                         });
                                                       },
-                                                      decoration: const InputDecoration(
-                                                          border: InputBorder.none
-                                                      ),
+                                                      decoration:
+                                                          const InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none),
                                                     ),
                                                   ),
                                                 ),
@@ -455,8 +500,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                               behavior: HitTestBehavior.opaque,
                                               onTap: () {
                                                 setState(() {
-                                                  bidQuantity =
-                                                      bidQuantity! + 1;
+                                                  _bidQuantity =
+                                                      _bidQuantity! + 1;
                                                 });
                                               },
                                               child: Container(
@@ -510,7 +555,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                 readOnly: false,
                                 onSaved: (value) {},
                                 onChanged: (value) {
-                                  bidRemarks = value;
+                                  _bidRemarks = value;
                                 },
                                 decoration:
                                     roundedDescriptionDecoration("Remarks")),
@@ -524,27 +569,36 @@ class _DetailTabPageState extends State<DetailTabPage> {
               flex: 9,
             ),
             Visibility(
-              visible: showBidContainer,
+              visible: _showBidContainer,
               child: ElevatedButtonWithoutIcon(
                   callback: () {
-                    ProgressDialogUtil.showDialog(context, "Please wait....");
-                    ApiService.createBid(
-                            widget.specification == null
-                                ? 2.toString()
-                                : widget.specification!.categoryId.toString(),
-                            widget.specification == null
-                                ? widget.yarnSpecification!.specId.toString()
-                                : widget.specification!.spcId.toString(),
-                            bidPrice.toString(),
-                            bidQuantity.toString(),
-                            bidRemarks)
-                        .then((value) {
-                      ProgressDialogUtil.hideDialog();
-                      Ui.showSnackBar(context, value.message);
-                    }, onError: (stacktrace, error) {
-                      ProgressDialogUtil.hideDialog();
-                      Ui.showSnackBar(context, error.message.toString());
-                    });
+
+                    if(_bidPrice!.toInt() <= 0){
+                      Ui.showSnackBar(context, "Please enter price");
+                    }else if(_bidQuantity!.toInt() <= 0){
+                      Ui.showSnackBar(context, "Please enter quantity");
+                    }else{
+                      ProgressDialogUtil.showDialog(context, "Please wait....");
+                      ApiService.createBid(
+                          widget.specification == null
+                              ? 2.toString()
+                              : widget.specification!.categoryId.toString(),
+                          widget.specification == null
+                              ? widget.yarnSpecification!.specId.toString()
+                              : widget.specification!.spcId.toString(),
+                          _bidPrice.toString(),
+                          _bidQuantity.toString(),
+                          _bidRemarks)
+                          .then((value) {
+                        ProgressDialogUtil.hideDialog();
+                        Ui.showSnackBar(context, value.message);
+                      }, onError: (stacktrace, error) {
+                        ProgressDialogUtil.hideDialog();
+                        Ui.showSnackBar(context, error.message.toString());
+                      });
+                    }
+
+
                   },
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
@@ -556,7 +610,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
   }
 
   _fiberDetails() {
-    detailSpecification = [
+    _detailSpecification = [
       GridTileModel('Fiber Material', widget.specification!.material ?? "N/A"),
       GridTileModel(
           'Fiber Length',
@@ -586,7 +640,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? widget.specification!.gpt!
               : 'N/A'),
       GridTileModel(
-          'Apperrence',
+          'Appearance',
           widget.specification!.apperance == null
               ? "N/A"
               : widget.specification!.apperance!),
@@ -630,7 +684,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     //           : widget.specification!.priceTerms!)
     // ];
 
-    detailPackaging = [
+    _detailPackaging = [
       // GridTileModel(
       //     'Unit Of Count',
       //     widget.specification!.unitCount == null
@@ -659,7 +713,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     String? familyId = widget.yarnSpecification!.yarnFamilyId;
     switch (familyId) {
       case '1':
-        detailSpecification = [
+        _detailSpecification = [
           GridTileModel(
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
@@ -736,7 +790,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ];
         break;
       case '2':
-        detailSpecification = [
+        _detailSpecification = [
           GridTileModel(
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
@@ -780,7 +834,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ];
         break;
       case '3':
-        detailSpecification = [
+        _detailSpecification = [
           GridTileModel(
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
@@ -828,7 +882,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ];
         break;
       case '4':
-        detailSpecification = [
+        _detailSpecification = [
           GridTileModel(
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
@@ -866,7 +920,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ];
         break;
       case '5':
-        detailSpecification = [
+        _detailSpecification = [
           GridTileModel(
               'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
           GridTileModel(
@@ -913,7 +967,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
         break;
     }
 
-    labParameters = [
+    _labParameters = [
       GridTileModel(
           'Actual Yarn Count',
           widget.yarnSpecification!.actualYarnCount == null
@@ -981,7 +1035,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.yarnSpecification!.ys_tm!),
     ];
 
-    detailPackaging = [
+    _detailPackaging = [
       // GridTileModel(
       //     'Unit Of Counting',
       //       widget.yarnSpecification!.unitCount == null
