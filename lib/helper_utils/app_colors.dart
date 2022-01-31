@@ -10,6 +10,7 @@ var textFieldLabel = const Color(0xFF3BC458);
 var btnColorLogin = const Color(0xFF3BC458);
 var lightBlueTabs = const Color(0xFF3BC458);
 var pintFeatureClr = const Color(0xFFFC6A6D);
+var titleColor = const Color(0xFFA0463E);
 var tileSeaGreen = const Color(0xFFE6F2FE);
 var appBarTextColor = const Color(0xFF3BC458);
 var searchBarGreyStroke = const Color(0xFF939598);

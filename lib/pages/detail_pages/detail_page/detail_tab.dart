@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
 import 'package:yg_app/elements/text_detail_widget_.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -103,13 +104,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 16.w,
+                      height: 4.w,
                     ),
-                    TitleTextWidget(title: specifications),
+                    TitleTextWidget(
+                      title: specifications.toUpperCase(),
+                      color: titleColor,
+                    ),
                     SizedBox(
-                      height: 8.w,
+                      height: 12.w,
                     ),
-                    GridView.count(
+                    ListView.separated(
+                      itemCount: _detailSpecification.length,
+                      shrinkWrap: true,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => listDetailItemWidget(
+                          context, _detailSpecification[index]),
+                    ),
+                    /*GridView.count(
                       crossAxisCount: 3,
                       childAspectRatio: 2.77,
                       mainAxisSpacing: 3.w,
@@ -122,8 +135,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             title: _detailSpecification[index]._title,
                             detail: _detailSpecification[index]._detail);
                       }),
-                    ),
+                    ),*/
                     const Divider(),
+                    SizedBox(
+                      height: 8.w,
+                    ),
                     /*fixed lab parameters issue in fiber*/
                     widget.yarnSpecification != null
                         ? Column(
@@ -135,17 +151,28 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                         SizedBox(
                                           height: 4.w,
                                         ),
-                                        const TitleTextWidget(
-                                            title: 'Lab Parameters'),
+                                        TitleTextWidget(
+                                          title: 'Lab Parameters'.toUpperCase(),
+                                          color: titleColor,
+                                        ),
                                         SizedBox(
-                                          height: 8.w,
+                                          height: 12.w,
                                         ),
                                       ],
                                     )
                                   : SizedBox(
                                       height: 4.w,
                                     ),
-                              GridView.count(
+                              ListView.separated(
+                                itemCount: _labParameters.length,
+                                shrinkWrap: true,
+                                separatorBuilder: (BuildContext context, int index) =>
+                                const Divider(),
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => listDetailItemWidget(
+                                    context, _labParameters[index]),
+                              ),
+                              /*GridView.count(
                                 crossAxisCount: 3,
                                 childAspectRatio: 2.77,
                                 mainAxisSpacing: 3.w,
@@ -158,7 +185,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       title: _labParameters[index]._title,
                                       detail: _labParameters[index]._detail);
                                 }),
-                              ),
+                              ),*/
                               const Divider(),
                               SizedBox(
                                 height: 4.w,
@@ -168,11 +195,24 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         : SizedBox(
                             height: 4.w,
                           ),
-                    const TitleTextWidget(title: 'Packing Details'),
                     SizedBox(
                       height: 8.w,
                     ),
-                    GridView.count(
+                     TitleTextWidget(title: 'Packing Details'.toUpperCase(),
+                      color: titleColor,),
+                    SizedBox(
+                      height: 12.w,
+                    ),
+                    ListView.separated(
+                      itemCount: _detailPackaging.length,
+                      shrinkWrap: true,
+                      separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => listDetailItemWidget(
+                          context, _detailPackaging[index]),
+                    ),
+                    /*GridView.count(
                       crossAxisCount: 3,
                       childAspectRatio: 2.77,
                       mainAxisSpacing: 3.w,
@@ -184,9 +224,31 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             title: _detailPackaging[index]._title,
                             detail: _detailPackaging[index]._detail);
                       }),
-                    ),
+                    ),*/
                     Divider(),
+                   /* SizedBox(
+                      height: 8.w,
+                    ),*/
+                    Text(
+                      'Description',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600),
+                    ),
                     SizedBox(
+                      height: 6.w,
+                    ),
+                    Text(
+                      widget.specification == null
+                          ? widget.yarnSpecification!.description ?? "N/A"
+                          : widget.specification!.description ?? "N/A",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    /*SizedBox(
                       height: 8.w,
                     ),
                     const TitleSmallTextWidget(title: 'Description'),
@@ -212,13 +274,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
-                          /*decoration: roundedDescriptionDecoration(
-                                "Description")*/
+                          *//*decoration: roundedDescriptionDecoration(
+                                "Description")*//*
                         ),
                       ),
-                    ),
+                    ),*/
                     SizedBox(
-                      height: 5.w,
+                      height: 16.w,
                     ),
                     Visibility(
                       visible: _showBidContainer,
@@ -319,7 +381,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                         value != ''
                                                             ? _bidPrice =
                                                                 int.parse(value)
-                                                            :_bidPrice =  0;
+                                                            : _bidPrice = 0;
                                                       });
                                                     },
                                                     decoration:
@@ -462,8 +524,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       ],
                                                       controller:
                                                           TextEditingController()
-                                                            ..text = _bidQuantity
-                                                                .toString(),
+                                                            ..text =
+                                                                _bidQuantity
+                                                                    .toString(),
                                                       // onChanged: (value) {
                                                       //   setState(() {
                                                       //     value.isNotEmpty
@@ -479,7 +542,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                               ? _bidQuantity =
                                                                   int.parse(
                                                                       value)
-                                                              : _bidQuantity =  0;
+                                                              : _bidQuantity =
+                                                                  0;
                                                         });
                                                       },
                                                       decoration:
@@ -536,12 +600,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             ],
                           ),
                           SizedBox(
-                            height: 16.w,
+                            height: 12.w,
                           ),
                           Padding(
                               padding: EdgeInsets.only(left: 8.w),
                               child:
                                   const TitleSmallTextWidget(title: 'Remarks')),
+                          SizedBox(
+                            height: 2.w,
+                          ),
                           SizedBox(
                             height: 5 * 22.w,
                             child: TextFormField(
@@ -572,23 +639,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
               visible: _showBidContainer,
               child: ElevatedButtonWithoutIcon(
                   callback: () {
-
-                    if(_bidPrice!.toInt() <= 0){
+                    if (_bidPrice!.toInt() <= 0) {
                       Ui.showSnackBar(context, "Please enter price");
-                    }else if(_bidQuantity!.toInt() <= 0){
+                    } else if (_bidQuantity!.toInt() <= 0) {
                       Ui.showSnackBar(context, "Please enter quantity");
-                    }else{
+                    } else {
                       ProgressDialogUtil.showDialog(context, "Please wait....");
                       ApiService.createBid(
-                          widget.specification == null
-                              ? 2.toString()
-                              : widget.specification!.categoryId.toString(),
-                          widget.specification == null
-                              ? widget.yarnSpecification!.specId.toString()
-                              : widget.specification!.spcId.toString(),
-                          _bidPrice.toString(),
-                          _bidQuantity.toString(),
-                          _bidRemarks)
+                              widget.specification == null
+                                  ? 2.toString()
+                                  : widget.specification!.categoryId.toString(),
+                              widget.specification == null
+                                  ? widget.yarnSpecification!.specId.toString()
+                                  : widget.specification!.spcId.toString(),
+                              _bidPrice.toString(),
+                              _bidQuantity.toString(),
+                              _bidRemarks)
                           .then((value) {
                         ProgressDialogUtil.hideDialog();
                         Ui.showSnackBar(context, value.message);
@@ -597,8 +663,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         Ui.showSnackBar(context, error.message.toString());
                       });
                     }
-
-
                   },
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
