@@ -112,7 +112,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
               ),
               Expanded(
                 child: Text(
-                  name ?? "N/A",
+                  name ?? Utils.checkNullString(false),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

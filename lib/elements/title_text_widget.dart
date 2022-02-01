@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/helper_utils/util.dart';
 
 class TitleTextWidget extends StatelessWidget {
 
@@ -10,7 +11,7 @@ class TitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      title??"N/A",
+      title??Utils.checkNullString(false),
       style: TextStyle(
           color: color??Colors.black,
           fontSize: 14.sp,
@@ -29,7 +30,7 @@ class LargeTitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      title??"N/A",
+      title??Utils.checkNullString(false),
       style: TextStyle(
           color: color??Colors.black,
           fontSize: 16.sp,
@@ -48,7 +49,7 @@ class NormalTitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      title??"N/A",
+      title??Utils.checkNullString(false),
       style: TextStyle(
           color: color??Colors.black,
           fontSize: 13.sp,
@@ -71,7 +72,7 @@ class TitleSmallTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding??2.w),
       child: Text(
-        title??"N/A",
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: 11.sp,
@@ -99,7 +100,7 @@ class TitleSmallBoldTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding??2.w),
       child: Text(
-        title??"N/A",
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??11.sp,
@@ -127,7 +128,7 @@ class TitleSmallNormalTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding??2.w),
       child: Text(
-        title??"N/A",
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??10.sp,
@@ -154,7 +155,7 @@ class TitleMediumTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding??0.w,),
       child: Text(
-        title??"N/A",
+        title?? Utils.checkNullString(false),
         overflow: TextOverflow.fade,
         maxLines: 1,
         softWrap: false,
@@ -182,7 +183,7 @@ class TitleBoldSmallTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 0.w),
       child: Text(
-        title!,
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 10.sp,
@@ -207,7 +208,7 @@ class TitleMediumBoldSmallTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 0.w),
       child: Text(
-        title!,
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 10.sp,
@@ -232,7 +233,7 @@ class TitleExtraSmallTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 2.w),
       child: Text(
-        title!,
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 9.sp,
@@ -257,7 +258,7 @@ class TitleExtraSmallBoldTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 2.w),
       child: Text(
-        title!,
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 9.sp,
@@ -281,7 +282,7 @@ class TitleCustomSizeTextWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 2.w),
       child: Text(
-        title!,
+        title??Utils.checkNullString(false),
         style: TextStyle(
             color: Colors.black87,
             fontSize: sizeText!.sp,

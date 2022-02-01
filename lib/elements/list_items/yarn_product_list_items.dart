@@ -11,6 +11,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 Widget buildYarnProductWidget(YarnSpecification specification) {
@@ -34,7 +35,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
               maintainAnimation: true,
               child: Container(
                   width: 28.w,
-                  padding: EdgeInsets.symmetric(horizontal: 3.w,vertical: 3.w),
+                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
                   decoration: BoxDecoration(
                       color: lightGreenContainer,
                       borderRadius: BorderRadius.only(
@@ -52,13 +53,15 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                   )),
             ),
           ),
-          SizedBox(height: 1.w,),
+          SizedBox(
+            height: 1.w,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /*Expanded(
                   flex: 1,
-                  child: *//*specification.pictures.isNotEmpty
+                  child: */ /*specification.pictures.isNotEmpty
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: CachedNetworkImage(
@@ -71,7 +74,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                                 ErrorImageWidget(),
                           ),
                         )
-                      : ErrorImageWidget())*//*
+                      : ErrorImageWidget())*/ /*
                       Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
@@ -111,21 +114,23 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           Container(
-                            color: blueBackgroundColor,
+                          Container(
+                              color: blueBackgroundColor,
                               constraints: const BoxConstraints(maxHeight: 19),
                               child: Padding(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 1),
                                 child: Center(
+                                    child: FittedBox(
+                                  fit: BoxFit.contain,
                                   child: TitleBoldSmallTextWidget(
-                                    title:
-                                    setFamilyData(specification),
+                                    title: setFamilyData(specification),
                                     color: Colors.white,
                                   ),
-                                ),
-                              )
-                            ),
-                          SizedBox(width: 4.w,),
+                                )),
+                              )),
+                          SizedBox(
+                            width: 4.w,
+                          ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 4),
@@ -140,13 +145,13 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                             width: 2.w,
                           ),
                           Center(
-                                child: Visibility(
-                                    visible: Ui.showHide(specification.is_verified),
-                                    maintainSize: true,
-                                    maintainState: true,
-                                    maintainAnimation: true,
-                                    child: VerifiedSupplier()),
-                              ),
+                            child: Visibility(
+                                visible: Ui.showHide(specification.is_verified),
+                                maintainSize: true,
+                                maintainState: true,
+                                maintainAnimation: true,
+                                child: VerifiedSupplier()),
+                          ),
                           // SizedBox(width: 8.w),
                         ],
                       ),
@@ -155,7 +160,7 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                         child: TitleSmallNormalTextWidget(
                           title: setDetailsData(specification),
                           color: lightGreyColor,
-                          size: 8.sp,
+                          size: 10.sp,
                         ),
                       ),
                       Padding(
@@ -200,24 +205,28 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                               runSpacing: 3.0,
                               children: [
                                 ShortDetailWidget(
-                                  title: specification.weightBag ?? "N/A",
+                                  title: specification.weightBag ?? Utils.checkNullString(false),
                                   imageIcon: 'images/img_bag.png',
-                                  size: 8.sp,
+                                  size: 9.sp,
+                                  iconSize: 14,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.weightCone ?? "N/A",
+                                  title: specification.weightCone ?? Utils.checkNullString(false),
                                   imageIcon: 'images/img_cone.png',
-                                  size: 8.sp,
+                                  size: 9.sp,
+                                  iconSize: 14,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.deliveryPeriod ?? "N/A",
+                                  title: specification.deliveryPeriod ?? Utils.checkNullString(false),
                                   imageIcon: 'images/img_van.png',
-                                  size: 8.sp,
+                                  size: 9.sp,
+                                  iconSize: 14,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.locality ?? "N/A",
+                                  title: specification.locality ?? Utils.checkNullString(false),
                                   imageIcon: 'images/img_location.png',
-                                  size: 8.sp,
+                                  size: 9.sp,
+                                  iconSize: 14,
                                 ),
                               ],
                             ),
@@ -231,9 +240,9 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 18.0,bottom: 4),
+                  padding: const EdgeInsets.only(right: 15.0, bottom: 4),
                   child: Container(
-                    padding: EdgeInsets.only(left: 6.w, right: 0.w,top: 4),
+                    padding: EdgeInsets.only(left: 6.w, right: 0.w, top: 4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -242,69 +251,82 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                               specification.priceUnit.toString() +
                               "/KG",
                         ),*/
-                        Text.rich( TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
-                                /*text: '${'Pkr'.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',*/
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.sp,
-                                    fontFamily: 'Metropolis',
-                                    fontWeight: FontWeight.w400
-                                ),
-                              ),
-                              TextSpan(
-                                text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'),''),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17.sp,
-                                    fontFamily: 'Metropolis',
-                                    fontWeight: FontWeight.w600
-                                ),
-                              ),
-                              TextSpan(
-                                text: "/kg",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.sp,
-                                    fontFamily: 'Metropolis',
-                                    fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ]
-                        )),
-                        const TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
-                        SizedBox(height: 8.w,),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text:
+                                '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                            /*text: '${'Pkr'.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',*/
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.w400),
+                          ),
+                          TextSpan(
+                            text: specification.priceUnit
+                                .toString()
+                                .replaceAll(RegExp(r'[^0-9]'), ''),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17.sp,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.w600),
+                          ),
+                          TextSpan(
+                            text: "/kg",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ])),
+                        const TitleSmallNormalTextWidget(
+                          title: "Ex- Factory",
+                          size: 7,
+                        ),
+                        SizedBox(
+                          height: 8.w,
+                        ),
                         Text.rich(TextSpan(children: [
                           TextSpan(
                             text: "Updated",
-                            style: TextStyle(
-                                fontSize: 7.sp, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 7.sp, color: Colors.black),
                           ),
                         ])),
-                        SizedBox(height: 3.w,),
+                        SizedBox(
+                          height: 3.w,
+                        ),
                         Text.rich(TextSpan(children: [
                           TextSpan(
                             text: "Nov 23, 4:33 PM",
                             style: TextStyle(
-                                fontSize: 8.sp, color: lightBlueLabel,fontWeight: FontWeight.w600),
+                                fontSize: 8.sp,
+                                color: lightBlueLabel,
+                                fontWeight: FontWeight.w600),
                           )
                         ])),
-                        SizedBox(height: 8.w,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
                         Text.rich(TextSpan(children: [
                           TextSpan(
                             text: "Avail. Quantity",
-                            style: TextStyle(
-                                fontSize: 7.sp, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 7.sp, color: Colors.black),
                           ),
                         ])),
-                        SizedBox(height: 3.w,),
+                        SizedBox(
+                          height: 3.w,
+                        ),
                         Text.rich(TextSpan(children: [
                           TextSpan(
                             text: "325",
                             style: TextStyle(
-                                fontSize: 8.sp, color: lightBlueLabel,fontWeight: FontWeight.w600),
+                                fontSize: 8.sp,
+                                color: lightBlueLabel,
+                                fontWeight: FontWeight.w600),
                           )
                         ])),
                       ],
@@ -313,103 +335,49 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                 ),
                 flex: 2,
               ),
-
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(left: 18.w,right: 18.w,top: 3.w,bottom: 10.w),
+            padding: EdgeInsets.only(
+                left: 18.w, right: 18.w, top: 3.w, bottom: 10.w),
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: greenButton,
-                          width:
-                          1, //                   <--- border width here
-                        ),
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(4.w))),
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 6.w),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  'Proposals',
-                                  style: TextStyle(
-                                      fontSize: 9.sp, color: Colors.black87,fontWeight: FontWeight.w400),
-                                ),
-                                Text(
-                                  '4',
-                                  style: TextStyle(
-                                      fontSize: 9.sp, color: greenButton,fontWeight: FontWeight.w700),
-                                ),
-                                SizedBox(width: 3.w,)
-                              ],
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional.topEnd,
-                          child: Padding(
-                            padding: const EdgeInsets.all(2),
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                  color: redColor,
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10.w))),
-                              child: Center(
-                                child: Text(
-                                  '3',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 8.sp, color: Colors.white,fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ),
-                          )
-                        )
-                      ],
-                    )
-                  )
-                ),
-                SizedBox(width: 10.w,),
-                Expanded(
                     child: Container(
                         decoration: BoxDecoration(
-                          /*color: lightYellowContainer,*/
                             border: Border.all(
                               color: greenButton,
                               width:
-                              1, //                   <--- border width here
+                                  1, //                   <--- border width here
                             ),
                             borderRadius:
-                            BorderRadius.all(Radius.circular(4.w))),
+                                BorderRadius.all(Radius.circular(4.w))),
                         child: Stack(
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 6.w),
                               child: Center(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      'Matches',
+                                      'Proposals',
                                       style: TextStyle(
-                                          fontSize: 9.sp, color: Colors.black87,fontWeight: FontWeight.w400),
+                                          fontSize: 9.sp,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      '5',
+                                      '4',
                                       style: TextStyle(
-                                          fontSize: 9.sp, color: greenButton,fontWeight: FontWeight.w700),
+                                          fontSize: 9.sp,
+                                          color: greenButton,
+                                          fontWeight: FontWeight.w700),
                                     ),
-                                    SizedBox(width: 3.w,)
+                                    SizedBox(
+                                      width: 3.w,
+                                    )
                                   ],
                                 ),
                               ),
@@ -423,27 +391,95 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
                                     height: 10,
                                     decoration: BoxDecoration(
                                         color: redColor,
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(10.w))),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.w))),
                                     child: Center(
                                       child: Text(
                                         '3',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: 8.sp, color: Colors.white,fontWeight: FontWeight.w400),
+                                            fontSize: 8.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w400),
                                       ),
                                     ),
                                   ),
-                                )
-                            )
+                                ))
                           ],
-                        )
-                    )
+                        ))),
+                SizedBox(
+                  width: 10.w,
                 ),
-                SizedBox(width: 60.w,),
                 Expanded(
-                  child: BidNowWidgetModified(title: 'Update')
-                )
+                    child: Container(
+                        decoration: BoxDecoration(
+                            /*color: lightYellowContainer,*/
+                            border: Border.all(
+                              color: greenButton,
+                              width:
+                                  1, //                   <--- border width here
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.w))),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 6.w),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'Matches',
+                                      style: TextStyle(
+                                          fontSize: 9.sp,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      '5',
+                                      style: TextStyle(
+                                          fontSize: 9.sp,
+                                          color: greenButton,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(
+                                      width: 3.w,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                                alignment: AlignmentDirectional.topEnd,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                        color: redColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.w))),
+                                    child: Center(
+                                      child: Text(
+                                        '3',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 8.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                          ],
+                        ))),
+                SizedBox(
+                  width: 60.w,
+                ),
+                Expanded(child: BidNowWidgetModified(title: 'Update'))
               ],
             ),
           )
@@ -451,23 +487,28 @@ Widget buildYarnProductWidget(YarnSpecification specification) {
       ));
 }
 
-String setFamilyData(YarnSpecification specification){
+String setFamilyData(YarnSpecification specification) {
   String familyData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '2':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '3':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '4':
-      familyData = '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '5':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData =
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
   }
   /*if(familyData.isEmpty){
@@ -476,23 +517,24 @@ String setFamilyData(YarnSpecification specification){
   return familyData;
 }
 
-String setTitleData(YarnSpecification specification){
+String setTitleData(YarnSpecification specification) {
   String titleData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      titleData = '${specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      titleData =
+          '${specification.yarnQuality ?? Utils.checkNullString(false)} for ${specification.yarnUsage ?? Utils.checkNullString(false)}';
       break;
     case '2':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
     case '3':
-      titleData = specification.yarnOrientation??'N/A';
+      titleData = specification.yarnOrientation ?? Utils.checkNullString(false);
       break;
     case '4':
-      titleData = specification.yarnType??'N/A';
+      titleData = specification.yarnType ?? Utils.checkNullString(false);
       break;
     case '5':
-      titleData = specification.yarnBlend??'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
   }
   /*if(titleData.isEmpty){
@@ -501,23 +543,29 @@ String setTitleData(YarnSpecification specification){
   return titleData;
 }
 
-String setDetailsData(YarnSpecification specification){
+String setDetailsData(YarnSpecification specification) {
   String detailsData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData =
+          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ?  ',${specification.yarnSpunTechnique}': Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ?  ',${specification.yarnColorTreatmentMethod}': Utils.checkNullString(true)}${specification.doublingMethod != null ?  ',${specification.doublingMethod}': Utils.checkNullString(true)}';
       break;
     case '2':
-      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData =
+          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ?  ',${specification.yarnSpunTechnique}': Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ?  ',${specification.yarnColorTreatmentMethod}': Utils.checkNullString(true)}${specification.doublingMethod != null ?  ',${specification.doublingMethod}': Utils.checkNullString(true)}';
       break;
     case '3':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData =
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ?  ',${specification.yarnColorTreatmentMethod}': Utils.checkNullString(true)}${specification.doublingMethod != null ?  ',${specification.doublingMethod}': Utils.checkNullString(true)}';
       break;
     case '4':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
+      detailsData =
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ?  ',${specification.yarnColorTreatmentMethod}': Utils.checkNullString(true)}${specification.yarnApperance != null ?  ',${specification.yarnApperance}': Utils.checkNullString(true)}${specification.doublingMethod != null ?  ',${specification.doublingMethod}': Utils.checkNullString(true)}${specification.yarnGrade != null ?  ',${specification.yarnGrade}': Utils.checkNullString(true)}';
       break;
     case '5':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/
+      detailsData =
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ?  ',${specification.yarnColorTreatmentMethod}': Utils.checkNullString(true)}${specification.yarnPattern != null ?  ',${specification.yarnPattern}': Utils.checkNullString(true)}';
+      /*,${specification.doublingMethod??Utils.checkNullString(true)}*/
       break;
   }
   /*if(detailsData.isEmpty){

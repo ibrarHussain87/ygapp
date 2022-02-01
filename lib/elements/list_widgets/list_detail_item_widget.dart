@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 
 Widget listDetailItemWidget(BuildContext context, GridTileModel detailSpecification) {

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/add_picture_widget.dart';
@@ -12,6 +13,7 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -195,14 +197,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             //Unit of count and Counting
                             Visibility(
-                              visible: /*widget.locality == international*/true,
+                              visible: /*widget.locality == international*/ true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(title: unitCounting)),
+                                      child: TitleSmallTextWidget(
+                                          title: unitCounting)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: _unitsList
@@ -245,7 +248,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 padding: EdgeInsets.only(
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
-                                                    title: "$weightBags  ${unitCountSelected??""}")),
+                                                    title:
+                                                        "$weightBags  ${unitCountSelected ?? ""}")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -394,7 +398,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Show Cone type
                             Visibility(
-                              visible: widget.businessArea != yarn ? false : true,
+                              visible:
+                                  widget.businessArea != yarn ? false : true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -406,8 +411,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
-                                      listOfItems:
-                                          _coneTypeList.where((element) => element.familyId == _createRequestModel!.ys_family_idfk).toList(),
+                                      listOfItems: _coneTypeList
+                                          .where((element) =>
+                                              element.familyId ==
+                                              _createRequestModel!
+                                                  .ys_family_idfk)
+                                          .toList(),
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -478,7 +487,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.conName ??
-                                                                  "N/A",
+                                                                  Utils.checkNullString(false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -559,7 +568,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.prtName ??
-                                                                  "N/A",
+                                                                  Utils.checkNullString(false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -639,7 +648,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 .map((value) =>
                                                     DropdownMenuItem(
                                                       child: Text(
-                                                          value.name ?? "N/A",
+                                                          value.name ?? Utils.checkNullString(false),
                                                           textAlign:
                                                               TextAlign.center),
                                                       value: value,
@@ -699,7 +708,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       items: _getPriceTerms()
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
-                                                    value.ptrName ?? "N/A",
+                                                    value.ptrName ?? Utils.checkNullString(false),
                                                     textAlign:
                                                         TextAlign.center),
                                                 value: value,
@@ -761,8 +770,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     SingleSelectTileWidget(
                                         spanCount: 3,
                                         selectedIndex: -1,
-                                        listOfItems:
-                                            _paymentTypeList,
+                                        listOfItems: _paymentTypeList,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
                                               .payment_type_idfk = value.payId;
@@ -794,8 +802,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       selectedIndex: -1,
-                                      listOfItems:
-                                          _lcTypeList,
+                                      listOfItems: _lcTypeList,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.lc_type_idfk =
@@ -969,8 +976,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems:
-                                        _deliverPeriodList,
+                                    listOfItems: _deliverPeriodList,
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
@@ -1111,37 +1117,18 @@ class _PackagingDetailsState extends State<PackagingDetails>
               width: double.maxFinite,
               child: ElevatedButtonWithIcon(
                 callback: () {
+                  FocusScope.of(context).unfocus();
                   if (validateAndSave()) {
-                    if (_createRequestModel != null) {
-                      if (widget.businessArea == yarn) {
-                        _createRequestModel!.ys_local_international =
-                            widget.locality!.toUpperCase();
-                      } else {
-                        _createRequestModel!.spc_local_international =
-                            widget.locality!.toUpperCase();
-                      }
-
-                      ProgressDialogUtil.showDialog(context, 'Please wait...');
-
-                      ApiService.createSpecification(_createRequestModel!,
-                              imageFiles.isNotEmpty ? imageFiles[0].path : "")
-                          .then((value) {
-                        ProgressDialogUtil.hideDialog();
-                        if (value.status) {
-                          Fluttertoast.showToast(msg: value.message);
-                          if (value.responseCode == 205) {
-                            openMyAdsScreen(context);
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        } else {
-                          Ui.showSnackBar(context, value.message);
-                        }
-                      }).onError((error, stackTrace) {
-                        ProgressDialogUtil.hideDialog();
-                        Ui.showSnackBar(context, error.toString());
-                      });
-                    }
+                    showGenericDialog(
+                      '',
+                      "Are you sure, you want to submit?",
+                      context,
+                      StylishDialogType.WARNING,
+                      'Yes',
+                      () {
+                        submitData(context);
+                      },
+                    );
                   }
                 },
                 color: btnColorLogin,
@@ -1152,6 +1139,64 @@ class _PackagingDetailsState extends State<PackagingDetails>
         ],
       ),
     );
+  }
+
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      if (widget.businessArea == yarn) {
+        _createRequestModel!.ys_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.spc_local_international =
+            widget.locality!.toUpperCase();
+      }
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createSpecification(_createRequestModel!,
+              imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+              () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+            () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+          () {},
+        );
+      });
+    }
   }
 
   _initialValuesRequestModel() {
@@ -1177,7 +1222,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
       return false;
     }
 
-    if(_createRequestModel!.cone_type_id == null && widget.businessArea == yarn){
+    if (_createRequestModel!.cone_type_id == null &&
+        widget.businessArea == yarn) {
       Ui.showSnackBar(context, "Please select Cone Type");
       return false;
     }

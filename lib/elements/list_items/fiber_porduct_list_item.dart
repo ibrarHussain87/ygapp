@@ -13,6 +13,7 @@ import 'package:yg_app/elements/loading_widgets/loading_image_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
 Widget buildFiberProductWidget(Specification specification) {
@@ -174,19 +175,19 @@ Widget buildFiberProductWidget(Specification specification) {
                             runSpacing: 3.0,
                             children: [
                               ShortDetailWidget(
-                                title: specification.priceTerms ?? "N/A",
+                                title: specification.priceTerms ?? Utils.checkNullString(false),
                                 imageIcon: IC_BAG,
                               ),
                               ShortDetailWidget(
-                                title: specification.priceUnit ?? "N/A",
+                                title: specification.priceUnit ?? Utils.checkNullString(false),
                                 imageIcon: YARN_ROLL_IMAGE,
                               ),
                               ShortDetailWidget(
-                                title: specification.deliveryPeriod ?? "N/A",
+                                title: specification.deliveryPeriod ?? Utils.checkNullString(false),
                                 imageIcon: DELIVERY_PERIOD_IMAGE,
                               ),
                               ShortDetailWidget(
-                                title: specification.cityState ?? "N/A",
+                                title: specification.cityState ?? Utils.checkNullString(false),
                                 imageIcon: LOCATION_IMAGE,
                               ),
                             ],
@@ -210,7 +211,7 @@ Widget buildFiberProductWidget(Specification specification) {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TitleTextWidget(
-                          title: specification.priceUnit ?? "N/A",
+                          title: specification.priceUnit ?? Utils.checkNullString(false),
                         ),
                         const TitleSmallTextWidget(title: "Ex- Factory")
                       ],

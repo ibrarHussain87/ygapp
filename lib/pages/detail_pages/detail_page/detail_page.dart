@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'detail_tab.dart';
@@ -91,7 +92,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                     title:
                         widget.specification != null?
                         '${widget.specification!.material},${widget.specification!.apperance != null ? "${widget.specification!.apperance}/" : ""}${widget.specification!.productYear!.substring(0, 4)}':
-                        '${widget.yarnSpecification!.yarnBlend ?? "N/A"},${widget.yarnSpecification!.yarnApperance != null ? "${widget.yarnSpecification!.yarnApperance ??"N/A"}/" : ""}${widget.yarnSpecification!.yarnPattern??"N/A"}'
+                        '${widget.yarnSpecification!.yarnBlend ?? Utils.checkNullString(false)},${widget.yarnSpecification!.yarnApperance != null ? "${widget.yarnSpecification!.yarnApperance ??Utils.checkNullString(false)}/" : ""}${widget.yarnSpecification!.yarnPattern??Utils.checkNullString(false)}'
 
                   ),
                   SizedBox(height: 4.w),

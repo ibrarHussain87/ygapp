@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -59,7 +60,7 @@ class _ListBidsBodyState extends State<ListBidsBody> {
                   children: [
                     TitleTextWidget(
                         title: widget.listBiddersData.userName ?? ""),
-                    BrandWidget(title: widget.listBiddersData.date ?? "N/A")
+                    BrandWidget(title: widget.listBiddersData.date?? Utils.checkNullString(false))
                   ],
                 ),
                 flex: 8,
