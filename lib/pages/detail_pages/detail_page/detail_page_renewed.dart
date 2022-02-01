@@ -564,14 +564,14 @@ class _DetailPageState extends State<DetailRenewedPage> {
                   : "2",
               specId: widget.specification != null
                   ? widget.specification!.spcId
-                  : widget.yarnSpecification!.specId ?? 1),
+                  : widget.yarnSpecification!.ysId ?? 1),
           BidderListPage(
               materialId: widget.specification != null
                   ? widget.specification!.categoryId!
                   : "2",
               specId: widget.specification != null
                   ? widget.specification!.spcId
-                  : widget.yarnSpecification!.specId ?? 1)
+                  : widget.yarnSpecification!.ysId ?? 1)
         ];
       });
     } else {
@@ -588,7 +588,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
                   : "2",
               specId: widget.specification != null
                   ? widget.specification!.spcId
-                  : widget.yarnSpecification!.specId ?? 1),
+                  : widget.yarnSpecification!.ysId ?? 1),
         ];
       });
     }

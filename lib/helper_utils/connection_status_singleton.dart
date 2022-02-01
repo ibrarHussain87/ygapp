@@ -105,8 +105,7 @@ void showLogoutDialog(
     String title, String content, BuildContext context, Function callback) {
   StylishDialog(
     context: context,
-    alertType: StylishDialogType.NORMAL,
-    titleText: title,
+    alertType: StylishDialogType.WARNING,
     contentText: content,
     dismissOnTouchOutside: false,
     confirmButton: ElevatedButtonWithoutIcon(
@@ -120,7 +119,7 @@ void showLogoutDialog(
       onTap: (){
         Navigator.pop(context);
       },
-      child: const TitleMediumBoldSmallTextWidget(
+      child: const TitleTextWidget(
         title: "Close",
         color: Colors.green,
       ),

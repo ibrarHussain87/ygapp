@@ -175,10 +175,10 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                       ),
                       MatchedPage(
                           catId: widget.specification != null ? widget.specification!.categoryId! : "2",
-                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.specId??1),
+                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.ysId??1),
                       BidderListPage(
                           materialId: widget.specification != null ? widget.specification!.categoryId! : "2",
-                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.specId??1)
+                          specId: widget.specification != null ? widget.specification!.spcId : widget.yarnSpecification!.ysId??1)
                     ]),
                   )),
             ),

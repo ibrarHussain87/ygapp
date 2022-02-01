@@ -114,10 +114,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.grey.shade600,
                                 padding: 4,),
                             ),
-                            Container(
-                              child: TitleTextWidget(
-                                title: "Mills", color: Colors.grey.shade700,),
-                            ),
+                            TitleTextWidget(
+                              title: snapshot.data!.company, color: Colors.grey.shade700,),
                             Expanded(
                               child: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.w),
