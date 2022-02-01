@@ -455,7 +455,7 @@ String setTitleData(YarnSpecification specification){
       titleData = '${specification.yq_abrv??specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
       break;
       case '2':
-      titleData = specification.yarnFamily??'N/A';
+      titleData = /*specification.yarnFamily??'N/A'*/"";
       break;
       case '3':
       titleData = specification.yarnOrientation??'N/A';

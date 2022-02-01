@@ -46,4 +46,5 @@ String ic_tag = "images/tag.png";
 String ic_suppliers = "images/ic_suppliers.png";
 String ic_universe = "images/ic_universe.png";
 String ic_products = "images/ic_products.png";
+String ic_update_header = "images/update_header.png";
 

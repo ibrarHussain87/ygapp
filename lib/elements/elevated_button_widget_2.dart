@@ -7,13 +7,16 @@ class ElevatedButtonWithoutIcon extends StatefulWidget {
   final Color? color;
   final String? btnText;
   final String? textColor;
+  final double? textSize;
 
   const ElevatedButtonWithoutIcon(
       {Key? key,
       required this.callback,
       required this.color,
       required this.btnText,
-      this.textColor})
+      this.textColor,
+      this.textSize,
+      })
       : super(key: key);
 
   @override
@@ -28,7 +31,7 @@ class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
         child: Center(
             child: Text(widget.btnText!,
                 style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: widget.textSize ?? 12.sp,
                     color: widget.textColor == null
                         ? Colors.white
                         : Colors.black))),

@@ -179,8 +179,7 @@ class YarnProductPageState extends State<YarnProductPage> {
                                 openDetailsScreen(
                                     context, yarnSpecification: widget.specification![index]!);
                               },
-                              child: buildYarnProductWidget(
-                                  _filteredSpecification![index]!)),
+                              child: BuildYarnProductWidget(specification: _filteredSpecification![index]!,)),
                         )
                       : const Center(
                           child: TitleSmallTextWidget(

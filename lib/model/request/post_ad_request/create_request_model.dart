@@ -1,6 +1,7 @@
-
 class CreateRequestModel {
   String? spc_category_idfk;
+  String? spc_id;
+  String? ys_id;
   String? spc_user_idfk;
   String? spc_local_international;
   String? ys_local_international;
@@ -33,10 +34,12 @@ class CreateRequestModel {
   String? lc_type_idfk;
   String? fbp_count_unit_idfk;
   String? fbp_delivery_period_idfk;
+
   // String? fbp_available_for_market_idfk;
   String? fbp_price_terms_idfk;
   String? fbp_min_quantity;
   String? fbp_available_quantity;
+  String? fbp_required_quantity;
   String? fbp_description;
 
   String? fpb_packing;
@@ -65,6 +68,7 @@ class CreateRequestModel {
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
+
   // String? ys_color_idfk;
   String? ys_color_code;
   String? ys_apperance_idfk;
@@ -99,6 +103,8 @@ class CreateRequestModel {
 
   CreateRequestModel(
       {this.spc_category_idfk,
+      this.spc_id,
+      this.ys_id,
       this.spc_user_idfk,
       this.spc_local_international,
       this.ys_local_international,
@@ -129,6 +135,7 @@ class CreateRequestModel {
       this.ys_color_code,
       this.fbp_count_unit_idfk,
       this.fbp_delivery_period_idfk,
+      this.fbp_required_quantity,
       // this.fbp_available_for_market_idfk,
       this.fbp_price_terms_idfk,
       this.fbp_min_quantity,
@@ -185,6 +192,8 @@ class CreateRequestModel {
   Map<String, String> toJson() {
     Map<String, String> map = {
       'spc_category_idfk': spc_category_idfk ?? "",
+      'ys_id': ys_id ?? "",
+      'spc_id': spc_id ?? "",
       'spc_user_idfk': spc_user_idfk ?? "",
       'spc_local_international': spc_local_international ?? "",
       'ys_local_international': ys_local_international ?? "",
@@ -218,6 +227,7 @@ class CreateRequestModel {
       'spc_lot_number': spc_lot_number ?? "",
       'fbp_min_quantity': fbp_min_quantity ?? "",
       'fbp_available_quantity': fbp_available_quantity ?? "",
+      'fbp_required_quantity': fbp_required_quantity ?? "",
       'fbp_description': fbp_description ?? "",
       'fpb_packing': fpb_packing ?? "",
       'fpb_payment_type_idfk': fpb_payment_type_idfk ?? "",
@@ -231,10 +241,14 @@ class CreateRequestModel {
       'ys_usage_idfk': ys_usage_idfk ?? "",
       'ys_pattern_idfk': ys_pattern_idfk ?? "",
       'ys_pattern_charectristic_idfk': ys_pattern_charectristic_idfk ?? "",
-      'ys_pattern_charectristic_thickness': ys_pattern_charectristic_thickness ?? "",
-      'ys_pattern_charactristics_length': ys_length_pattern_charactristics ?? "",
-      'ys_patteren_charactristics_pause': ys_pause_patteren_charactristics ?? "",
-      'ys_patteren_charactristics_grain': ys_grain_patteren_charactristics ?? "",
+      'ys_pattern_charectristic_thickness':
+          ys_pattern_charectristic_thickness ?? "",
+      'ys_pattern_charactristics_length':
+          ys_length_pattern_charactristics ?? "",
+      'ys_patteren_charactristics_pause':
+          ys_pause_patteren_charactristics ?? "",
+      'ys_patteren_charactristics_grain':
+          ys_grain_patteren_charactristics ?? "",
       'ys_patteren_charactristics_rice': ys_rice_patteren_charactristics ?? "",
       'ys_orientation_idfk': ys_orientation_idfk ?? "",
       'ys_twist_direction_idfk': ys_twist_direction_idfk ?? "",

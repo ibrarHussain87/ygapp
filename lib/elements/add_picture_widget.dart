@@ -57,8 +57,8 @@ class _AddPictureWidgetState extends State<AddPictureWidget> {
                     onTap: () {
                       _openCamera(context);
                     },
-                    title: Text("Camera"),
-                    leading: Icon(
+                    title: const Text("Camera"),
+                    leading: const Icon(
                       Icons.camera,
                       color: Colors.blue,
                     ),

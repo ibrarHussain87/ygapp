@@ -584,7 +584,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               ? 2.toString()
                               : widget.specification!.categoryId.toString(),
                           widget.specification == null
-                              ? widget.yarnSpecification!.specId.toString()
+                              ? widget.yarnSpecification!.ysId.toString()
                               : widget.specification!.spcId.toString(),
                           _bidPrice.toString(),
                           _bidQuantity.toString(),
