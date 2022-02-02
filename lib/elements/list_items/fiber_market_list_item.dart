@@ -109,7 +109,7 @@ Widget buildFiberWidget(Specification specification) {
                       padding: EdgeInsets.only(bottom: 2.0.w),
                       child: TitleTextWidget(
                         title:
-                            '${specification.material},${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
+                            '${specification.material !=null ? '${specification.material},' : ''}${specification.apperance != null ? "${specification.apperance}/" : ""}${specification.productYear!.substring(0, 4)}',
                       ),
                     ),
                     Row(

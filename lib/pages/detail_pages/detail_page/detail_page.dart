@@ -91,7 +91,7 @@ class _FiberDetailPageState extends State<FiberDetailPage> {
                   TitleTextWidget(
                     title:
                         widget.specification != null?
-                        '${widget.specification!.material},${widget.specification!.apperance != null ? "${widget.specification!.apperance}/" : ""}${widget.specification!.productYear!.substring(0, 4)}':
+                        '${widget.specification!.material !=null ? '${widget.specification!.material},' : ''}${widget.specification!.apperance != null ? "${widget.specification!.apperance}/" : ""}${widget.specification!.productYear!.substring(0, 4)}':
                         '${widget.yarnSpecification!.yarnBlend ?? Utils.checkNullString(false)},${widget.yarnSpecification!.yarnApperance != null ? "${widget.yarnSpecification!.yarnApperance ??Utils.checkNullString(false)}/" : ""}${widget.yarnSpecification!.yarnPattern??Utils.checkNullString(false)}'
 
                   ),

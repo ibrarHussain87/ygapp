@@ -15,6 +15,7 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
+import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
 Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context) {
   return Card(
@@ -127,7 +128,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
                                           title:
-                                          setFamilyData(specification),
+                                          Utils.setFamilyData(specification),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -139,7 +140,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      title: setTitleData(specification),
+                                      title: Utils.setTitleData(specification),
                                       /*title: 'Greige,wrap'.toUpperCase(),*/
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
@@ -154,7 +155,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title:setDetailsData(specification),
+                                title:Utils.setDetailsData(specification),
                                 /*title:'Weaving,Ring Frame,Carded,Regular',*/
                                 color: Colors.black87,
                                 size: 10,
@@ -427,7 +428,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
   );
 }
 
-String setFamilyData(YarnSpecification specification){
+/*String setFamilyData(YarnSpecification specification){
   String familyData = "";
   switch (specification.yarnFamilyId) {
     case '1':
@@ -487,8 +488,8 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnColorTreatmentMethod??Utils.checkNullString(false)}${specification.yarnApperance!= null ?  ',${specification.yarnApperance}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}${specification.yarnGrade!= null ?  ',${specification.yarnGrade}':Utils.checkNullString(true)}';
       break;
       case '5':
-      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.yarnPattern!= null ?  ',${specification.yarnPattern}':Utils.checkNullString(true)}';/*,${specification.doublingMethod??Utils.checkNullString(false)}*/
+      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.yarnPattern!= null ?  ',${specification.yarnPattern}':Utils.checkNullString(true)}';*//*,${specification.doublingMethod??Utils.checkNullString(false)}*//*
       break;
   }
   return detailsData;
-}
+}*/

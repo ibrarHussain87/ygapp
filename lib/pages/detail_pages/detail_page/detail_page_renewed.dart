@@ -216,7 +216,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                     child: TitleMediumTextWidget(
                                       /*title: '${specification.origin??Utils.checkNullString(false)},${specification.productYear??Utils.checkNullString(false)}',*/
                                       title: widget.specification != null
-                                          ? '${widget.specification!.origin ?? Utils.checkNullString(false)},${widget.specification!.productYear ?? Utils.checkNullString(false)}'
+                                          ? Utils.createStringFromList([widget.specification!.origin_fiber_spc,widget.specification!.productYear])
                                           : setTitleData(
                                               widget.yarnSpecification!),
                                       color: Colors.black87,
