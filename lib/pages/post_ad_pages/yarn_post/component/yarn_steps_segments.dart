@@ -377,7 +377,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         ];
       }
     });
-    // yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
+    yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
   }
 
   _moveToNext(value) {
