@@ -173,7 +173,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                     fit: BoxFit.contain,
                                     child: TitleBoldSmallTextWidget(
                                       title:
-                                          setFamilyData(widget.specification),
+                                      Utils.setFamilyData(widget.specification),
                                       color: Colors.white,
                                     ),
                                   )),
@@ -185,7 +185,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: TitleMediumTextWidget(
-                                  title: setTitleData(widget.specification),
+                                  title: Utils.setTitleData(widget.specification),
                                   color: Colors.black87,
                                 ),
                               ),
@@ -209,7 +209,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 6.0.w, top: 6.w),
                           child: TitleSmallNormalTextWidget(
-                            title: setDetailsData(widget.specification),
+                            title: Utils.setDetailsData(widget.specification),
                             color: lightGreyColor,
                             size: 10.sp,
                           ),
@@ -803,89 +803,4 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
   }
 }
 
-String setFamilyData(YarnSpecification specification) {
-  String familyData = "";
-  switch (specification.yarnFamilyId) {
-    case '1':
-      familyData =
-          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
-      break;
-    case '2':
-      familyData =
-          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
-      break;
-    case '3':
-      familyData =
-          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
-      break;
-    case '4':
-      familyData =
-          '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily ?? ''}';
-      break;
-    case '5':
-      familyData =
-          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
-      break;
-  }
-  /*if(familyData.isEmpty){
-    familyData = "20/S Cotton";
-  }*/
-  return familyData;
-}
 
-String setTitleData(YarnSpecification specification) {
-  String titleData = "";
-  switch (specification.yarnFamilyId) {
-    case '1':
-      titleData =
-          '${specification.yarnQuality ?? Utils.checkNullString(false)} for ${specification.yarnUsage ?? Utils.checkNullString(false)}';
-      break;
-    case '2':
-      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
-      break;
-    case '3':
-      titleData = specification.yarnOrientation ?? Utils.checkNullString(false);
-      break;
-    case '4':
-      titleData = specification.yarnType ?? Utils.checkNullString(false);
-      break;
-    case '5':
-      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
-      break;
-  }
-  /*if(titleData.isEmpty){
-    titleData = "Combed Weaving";
-  }*/
-  return titleData;
-}
-
-String setDetailsData(YarnSpecification specification) {
-  String detailsData = "";
-  switch (specification.yarnFamilyId) {
-    case '1':
-      detailsData =
-          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ? ',${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
-      break;
-    case '2':
-      detailsData =
-          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ? ',${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
-      break;
-    case '3':
-      detailsData =
-          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
-      break;
-    case '4':
-      detailsData =
-          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.yarnApperance != null ? ',${specification.yarnApperance}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}${specification.yarnGrade != null ? ',${specification.yarnGrade}' : Utils.checkNullString(true)}';
-      break;
-    case '5':
-      detailsData =
-          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.yarnPattern != null ? ',${specification.yarnPattern}' : Utils.checkNullString(true)}';
-      /*,${specification.doublingMethod??Utils.checkNullString(true)}*/
-      break;
-  }
-  /*if(detailsData.isEmpty){
-    detailsData = "Weaving,Ring Frame,Warp,Regular";
-  }*/
-  return detailsData;
-}

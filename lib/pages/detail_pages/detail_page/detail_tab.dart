@@ -161,7 +161,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     ),
                     /*fixed lab parameters issue in fiber*/
                     widget.yarnSpecification != null
-                        ? Column(
+                        ? widget.yarnSpecification!.yarnFamilyId != '4' ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               widget.yarnSpecification != null
@@ -212,7 +212,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                 height: 4.w,
                               ),
                             ],
-                          )
+                          ) : Container()
                         : SizedBox(
                             height: 4.w,
                           ),
