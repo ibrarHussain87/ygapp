@@ -17,7 +17,6 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -195,14 +194,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
                           children: [
                             //Unit of count and Counting
                             Visibility(
-                              visible: /*widget.locality == international*/true,
+                              visible: /*widget.locality == international*/ true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(title: unitCounting)),
+                                      child: TitleSmallTextWidget(
+                                          title: unitCounting)),
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: _unitsList
@@ -245,7 +245,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 padding: EdgeInsets.only(
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
-                                                    title: "$weightBags  ${unitCountSelected??""}")),
+                                                    title:
+                                                        "$weightBags  ${unitCountSelected ?? ""}")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -394,7 +395,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Show Cone type
                             Visibility(
-                              visible: widget.businessArea != yarn ? false : true,
+                              visible:
+                                  widget.businessArea != yarn ? false : true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -406,8 +408,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
-                                      listOfItems:
-                                          _coneTypeList.where((element) => element.familyId == _createRequestModel!.ys_family_idfk).toList(),
+                                      listOfItems: _coneTypeList
+                                          .where((element) =>
+                                              element.familyId ==
+                                              _createRequestModel!
+                                                  .ys_family_idfk)
+                                          .toList(),
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -761,8 +767,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                     SingleSelectTileWidget(
                                         spanCount: 3,
                                         selectedIndex: -1,
-                                        listOfItems:
-                                            _paymentTypeList,
+                                        listOfItems: _paymentTypeList,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
                                               .payment_type_idfk = value.payId;
@@ -794,8 +799,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       selectedIndex: -1,
-                                      listOfItems:
-                                          _lcTypeList,
+                                      listOfItems: _lcTypeList,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.lc_type_idfk =
@@ -807,13 +811,12 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Price Unit and Available Quantity
-                            Visibility(
-                              visible: false,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
@@ -845,57 +848,58 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             }
                                             return null;
                                           },
-                                          decoration: roundedTextFieldDecoration(
-                                              priceUnits)),
+                                          decoration:
+                                              roundedTextFieldDecoration(
+                                                  priceUnits)),
                                     ],
-                                  )),
-                                  SizedBox(width: 16.w),
-                                  Expanded(
-                                    child:
-                                        //Available Quantity
-                                        Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: "Available Quantity")),
-                                        TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")),
-                                            ],
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!
-                                                        .fbp_available_quantity =
-                                                    input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty ||
-                                                  int.parse(input) < 1) {
-                                                return "Available Quantity";
-                                              }
-                                              return null;
-                                            },
-                                            decoration:
-                                                roundedTextFieldDecoration(
-                                                    "Available Quantity")),
-                                      ],
-                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                // SizedBox(width: 16.w),
+                                // Expanded(
+                                //   child:
+                                //       //Available Quantity
+                                //       Column(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Padding(
+                                //           padding: EdgeInsets.only(
+                                //               top: 8.w, left: 8.w),
+                                //           child: const TitleSmallTextWidget(
+                                //               title: "Available Quantity")),
+                                //       TextFormField(
+                                //           keyboardType: TextInputType.number,
+                                //           cursorColor: lightBlueTabs,
+                                //           style: TextStyle(fontSize: 11.sp),
+                                //           textAlign: TextAlign.center,
+                                //           cursorHeight: 16.w,
+                                //           maxLines: 1,
+                                //           inputFormatters: [
+                                //             FilteringTextInputFormatter.allow(
+                                //                 RegExp("[0-9]")),
+                                //           ],
+                                //           onSaved: (input) {
+                                //             if (_createRequestModel != null) {
+                                //               _createRequestModel!
+                                //                       .fbp_available_quantity =
+                                //                   input!;
+                                //             }
+                                //           },
+                                //           validator: (input) {
+                                //             if (input == null ||
+                                //                 input.isEmpty ||
+                                //                 int.parse(input) < 1) {
+                                //               return "Available Quantity";
+                                //             }
+                                //             return null;
+                                //           },
+                                //           decoration:
+                                //               roundedTextFieldDecoration(
+                                //                   "Available Quantity")),
+                                //     ],
+                                //   ),
+                                // ),
+                              ],
                             ),
 
                             //Minimum Quantity
@@ -907,7 +911,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(title: minQty)),
+                                      child:
+                                          TitleSmallTextWidget(title: minQty)),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -921,8 +926,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       ],
                                       onSaved: (input) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.fbp_min_quantity =
-                                              input!;
+                                          _createRequestModel!
+                                              .fbp_min_quantity = input!;
                                         }
                                       },
                                       validator: (input) {
@@ -947,8 +952,9 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: "Required Quantity")),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -962,8 +968,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       ],
                                       onSaved: (input) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.fbp_required_quantity =
-                                          input!;
+                                          _createRequestModel!
+                                              .fbp_required_quantity = input!;
                                         }
                                       },
                                       validator: (input) {
@@ -974,8 +980,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         }
                                         return null;
                                       },
-                                      decoration:
-                                      roundedTextFieldDecoration("Required Quantity")),
+                                      decoration: roundedTextFieldDecoration(
+                                          "Required Quantity")),
                                 ],
                               ),
                             ),
@@ -1016,8 +1022,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems:
-                                        _deliverPeriodList,
+                                    listOfItems: _deliverPeriodList,
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
@@ -1224,7 +1229,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
       return false;
     }
 
-    if(_createRequestModel!.cone_type_id == null && widget.businessArea == yarn){
+    if (_createRequestModel!.cone_type_id == null &&
+        widget.businessArea == yarn) {
       Ui.showSnackBar(context, "Please select Cone Type");
       return false;
     }
