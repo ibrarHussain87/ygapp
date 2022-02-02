@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/add_picture_widget.dart';
@@ -12,11 +13,13 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -67,10 +70,10 @@ class PackagingDetails extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PackagingDetailsState createState() => _PackagingDetailsState();
+  PackagingDetailsState createState() => PackagingDetailsState();
 }
 
-class _PackagingDetailsState extends State<PackagingDetails>
+class PackagingDetailsState extends State<PackagingDetails>
     with AutomaticKeepAliveClientMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -484,7 +487,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.conName ??
-                                                                  "N/A",
+                                                                  Utils.checkNullString(false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -565,7 +568,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.prtName ??
-                                                                  "N/A",
+                                                                  Utils.checkNullString(false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -645,7 +648,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                                 .map((value) =>
                                                     DropdownMenuItem(
                                                       child: Text(
-                                                          value.name ?? "N/A",
+                                                          value.name ?? Utils.checkNullString(false),
                                                           textAlign:
                                                               TextAlign.center),
                                                       value: value,
@@ -705,7 +708,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       items: _getPriceTerms()
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
-                                                    value.ptrName ?? "N/A",
+                                                    value.ptrName ?? Utils.checkNullString(false),
                                                     textAlign:
                                                         TextAlign.center),
                                                 value: value,
@@ -814,15 +817,56 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             Row(
                               children: [
                                 Expanded(
-                                  child: Column(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 8.w, left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: priceUnits)),
+                                    TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        maxLines: 1,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]")),
+                                        ],
+                                        onSaved: (input) {
+                                          if (_createRequestModel != null) {
+                                            _createRequestModel!.fbp_price =
+                                                input!;
+                                          }
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
+                                            return priceUnits;
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            priceUnits)),
+                                  ],
+                                )),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child:
+                                      //Available Quantity
+                                      Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
                                               top: 8.w, left: 8.w),
-                                          child: TitleSmallTextWidget(
-                                              title: priceUnits)),
+                                          child: const TitleSmallTextWidget(
+                                              title: "Available Quantity")),
                                       TextFormField(
                                           keyboardType: TextInputType.number,
                                           cursorColor: lightBlueTabs,
@@ -836,7 +880,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           ],
                                           onSaved: (input) {
                                             if (_createRequestModel != null) {
-                                              _createRequestModel!.fbp_price =
+                                              _createRequestModel!
+                                                      .fbp_available_quantity =
                                                   input!;
                                             }
                                           },
@@ -844,75 +889,29 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             if (input == null ||
                                                 input.isEmpty ||
                                                 int.parse(input) < 1) {
-                                              return priceUnits;
+                                              return "Available Quantity";
                                             }
                                             return null;
                                           },
                                           decoration:
                                               roundedTextFieldDecoration(
-                                                  priceUnits)),
+                                                  "Available Quantity")),
                                     ],
                                   ),
                                 ),
-                                // SizedBox(width: 16.w),
-                                // Expanded(
-                                //   child:
-                                //       //Available Quantity
-                                //       Column(
-                                //     crossAxisAlignment:
-                                //         CrossAxisAlignment.start,
-                                //     children: [
-                                //       Padding(
-                                //           padding: EdgeInsets.only(
-                                //               top: 8.w, left: 8.w),
-                                //           child: const TitleSmallTextWidget(
-                                //               title: "Available Quantity")),
-                                //       TextFormField(
-                                //           keyboardType: TextInputType.number,
-                                //           cursorColor: lightBlueTabs,
-                                //           style: TextStyle(fontSize: 11.sp),
-                                //           textAlign: TextAlign.center,
-                                //           cursorHeight: 16.w,
-                                //           maxLines: 1,
-                                //           inputFormatters: [
-                                //             FilteringTextInputFormatter.allow(
-                                //                 RegExp("[0-9]")),
-                                //           ],
-                                //           onSaved: (input) {
-                                //             if (_createRequestModel != null) {
-                                //               _createRequestModel!
-                                //                       .fbp_available_quantity =
-                                //                   input!;
-                                //             }
-                                //           },
-                                //           validator: (input) {
-                                //             if (input == null ||
-                                //                 input.isEmpty ||
-                                //                 int.parse(input) < 1) {
-                                //               return "Available Quantity";
-                                //             }
-                                //             return null;
-                                //           },
-                                //           decoration:
-                                //               roundedTextFieldDecoration(
-                                //                   "Available Quantity")),
-                                //     ],
-                                //   ),
-                                // ),
                               ],
                             ),
 
                             //Minimum Quantity
                             Visibility(
-                              visible: false,
+                              visible: true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child:
-                                          TitleSmallTextWidget(title: minQty)),
+                                      child: TitleSmallTextWidget(title: minQty)),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -926,8 +925,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       ],
                                       onSaved: (input) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!
-                                              .fbp_min_quantity = input!;
+                                          _createRequestModel!.fbp_min_quantity =
+                                              input!;
                                         }
                                       },
                                       validator: (input) {
@@ -946,15 +945,14 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Required Quantity
                             Visibility(
-                              visible: true,
+                              visible: false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "Required Quantity")),
+                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -968,8 +966,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                       ],
                                       onSaved: (input) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!
-                                              .fbp_required_quantity = input!;
+                                          _createRequestModel!.fbp_required_quantity =
+                                          input!;
                                         }
                                       },
                                       validator: (input) {
@@ -980,8 +978,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                         }
                                         return null;
                                       },
-                                      decoration: roundedTextFieldDecoration(
-                                          "Required Quantity")),
+                                      decoration:
+                                      roundedTextFieldDecoration("Required Quantity")),
                                 ],
                               ),
                             ),
@@ -1163,37 +1161,18 @@ class _PackagingDetailsState extends State<PackagingDetails>
               width: double.maxFinite,
               child: ElevatedButtonWithIcon(
                 callback: () {
+                  FocusScope.of(context).unfocus();
                   if (validateAndSave()) {
-                    if (_createRequestModel != null) {
-                      if (widget.businessArea == yarn) {
-                        _createRequestModel!.ys_local_international =
-                            widget.locality!.toUpperCase();
-                      } else {
-                        _createRequestModel!.spc_local_international =
-                            widget.locality!.toUpperCase();
-                      }
-
-                      ProgressDialogUtil.showDialog(context, 'Please wait...');
-
-                      ApiService.createSpecification(_createRequestModel!,
-                              imageFiles.isNotEmpty ? imageFiles[0].path : "")
-                          .then((value) {
-                        ProgressDialogUtil.hideDialog();
-                        if (value.status) {
-                          Fluttertoast.showToast(msg: value.message);
-                          if (value.responseCode == 205) {
-                            openMyAdsScreen(context);
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        } else {
-                          Ui.showSnackBar(context, value.message);
-                        }
-                      }).onError((error, stackTrace) {
-                        ProgressDialogUtil.hideDialog();
-                        Ui.showSnackBar(context, error.toString());
-                      });
-                    }
+                    showGenericDialog(
+                      '',
+                      "Are you sure, you want to submit?",
+                      context,
+                      StylishDialogType.WARNING,
+                      'Yes',
+                      () {
+                        submitData(context);
+                      },
+                    );
                   }
                 },
                 color: btnColorLogin,
@@ -1206,16 +1185,76 @@ class _PackagingDetailsState extends State<PackagingDetails>
     );
   }
 
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      if (widget.businessArea == yarn) {
+        _createRequestModel!.ys_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.spc_local_international =
+            widget.locality!.toUpperCase();
+      }
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createSpecification(_createRequestModel!,
+              imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+              () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+            () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+          () {},
+        );
+      });
+    }
+  }
+
   _initialValuesRequestModel() {
     if (widget.locality == international) {
       _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
-      _createRequestModel!.fbp_count_unit_idfk =
-          _unitsList.first.untId.toString();
-      unitCountSelected = _unitsList.first.untName;
     }
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
+    _createRequestModel!.fbp_count_unit_idfk =
+        _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+            .spc_category_idfk).toList().first.untId.toString();
+    unitCountSelected = _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+        .spc_category_idfk).toList().first.untName;
     _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
         _deliverPeriodList.first.dprId.toString();

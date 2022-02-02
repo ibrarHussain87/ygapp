@@ -42,6 +42,10 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   final GlobalKey<LabParameterPageState> _labParameterPage =
       GlobalKey<LabParameterPageState>();
 
+  //Packing page State
+  final GlobalKey<PackagingDetailsState> _packingStateKey =
+      GlobalKey<PackagingDetailsState>();
+
   String? selectedFamily;
 
   @override
@@ -80,6 +84,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
           businessArea: widget.businessArea,
           selectedTab: widget.selectedTab),
       PackagingDetails(
+        key: _packingStateKey,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -192,20 +197,75 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                         ),
                       },
                       onValueChanged: (value) {
-                        if (yarnSpecificationComponentStateKey.currentState !=
-                                null &&
-                            yarnSpecificationComponentStateKey.currentState!
-                                .validationAllPage() &&
-                            (_labParameterPage.currentContext != null &&
-                                _labParameterPage.currentState!
-                                    .validateAndSave())) {
-                          _moveToNext(value);
-                        } else if (yarnSpecificationComponentStateKey
-                                .currentState!
-                                .validationAllPage() &&
-                            (_labParameterPage.currentContext == null)) {
-                          _moveToNext(value);
+                        switch (value) {
+                          case 1:
+                            if (selectedValue == 2) {
+                              if (_labParameterPage.currentState != null &&
+                                  _labParameterPage.currentState!
+                                      .validateAndSave()) {
+                                _moveToNext(value);
+                              }
+                            } else if (selectedValue == 3) {
+                              if (_packingStateKey.currentState != null &&
+                                  _packingStateKey.currentState!
+                                      .validateAndSave()) {
+                                _moveToNext(value);
+                              }
+                            }
+                            break;
+                          case 2:
+                            if (selectedValue == 1) {
+                              if (yarnSpecificationComponentStateKey
+                                          .currentState !=
+                                      null &&
+                                  yarnSpecificationComponentStateKey
+                                      .currentState!
+                                      .validationAllPage()) {
+                                _moveToNext(value);
+                              }
+                            } else if (selectedValue == 3) {
+                              if (_packingStateKey.currentState != null &&
+                                  _packingStateKey.currentState!
+                                      .validateAndSave()) {
+                                _moveToNext(value);
+                              }
+                            }
+                            break;
+                          case 3:
+                            if (selectedValue == 2) {
+                              if (_labParameterPage.currentState != null &&
+                                  _labParameterPage.currentState!
+                                      .validateAndSave()) {
+                                _moveToNext(value);
+                              }
+                            } else if (selectedValue == 1) {
+                              if (yarnSpecificationComponentStateKey
+                                          .currentState !=
+                                      null &&
+                                  yarnSpecificationComponentStateKey
+                                      .currentState!
+                                      .validationAllPage()) {
+                                _moveToNext(value);
+                              }
+                            }
+                            break;
                         }
+                        /*if (yarnSpecificationComponentStateKey.currentState !=
+                            null &&
+                            yarnSpecificationComponentStateKey.currentState!
+                                .validationAllPage()) {
+                          _moveToNext(value);
+                        }else if(_labParameterPage.currentState !=
+                            null &&
+                            _labParameterPage.currentState!
+                                .validateAndSave()){
+                          _moveToNext(value);
+                        }else if(_packingStateKey.currentState !=
+                            null &&
+                            _packingStateKey.currentState!
+                                .validateAndSave()){
+                          _moveToNext(value);
+                        }*/
                       },
                     ),
             ),
@@ -232,7 +292,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   onClickFamily(value) {
     setState(() {
       selectedFamily = value.toString();
-      if(selectedFamily == "4"){
+      if (selectedFamily == "4") {
         _samplePages = [
           YarnSpecificationComponent(
             key: yarnSpecificationComponentStateKey,
@@ -254,7 +314,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
-           /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+            /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
             cityState: widget.yarnSyncResponse.data.yarn.cityState!,
             countries: widget.yarnSyncResponse.data.yarn.countries!,
             packing: widget.yarnSyncResponse.data.yarn.packing,
@@ -266,7 +326,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             units: widget.yarnSyncResponse.data.yarn.units,*/
           ),
         ];
-      }else {
+      } else {
         _samplePages = [
           YarnSpecificationComponent(
             key: yarnSpecificationComponentStateKey,
@@ -303,7 +363,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
             locality: widget.locality,
             businessArea: widget.businessArea,
             selectedTab: widget.selectedTab,
-           /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
+            /* lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
             cityState: widget.yarnSyncResponse.data.yarn.cityState!,
             countries: widget.yarnSyncResponse.data.yarn.countries!,
             packing: widget.yarnSyncResponse.data.yarn.packing,
@@ -317,7 +377,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         ];
       }
     });
-    yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
+    // yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
   }
 
   _moveToNext(value) {

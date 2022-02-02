@@ -7,6 +7,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -40,7 +41,6 @@ class _DetailPageState extends State<DetailRenewedPage> {
       return false;
     }
   }
-
 
   @override
   void initState() {
@@ -214,9 +214,9 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      /*title: '${specification.origin??'N/A'},${specification.productYear??'N/A'}',*/
+                                      /*title: '${specification.origin??Utils.checkNullString(false)},${specification.productYear??Utils.checkNullString(false)}',*/
                                       title: widget.specification != null
-                                          ? '${widget.specification!.origin ?? 'N/A'},${widget.specification!.productYear ?? 'N/A'}'
+                                          ? '${widget.specification!.origin ?? Utils.checkNullString(false)},${widget.specification!.productYear ?? Utils.checkNullString(false)}'
                                           : setTitleData(
                                               widget.yarnSpecification!),
                                       color: Colors.black87,
@@ -265,11 +265,15 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                   TextSpan(
                                     /*fixed null exception date*/
                                     text: widget.specification != null
-                                        ? widget.specification!.date == null ? "N/A" :DateFormat("MMM dd, yyyy").format(
-                                            DateTime.parse(
-                                                widget.specification!.date!))
-                                        :  widget.yarnSpecification!.date == null ? "N/A"  : DateFormat("MMM dd, yyyy").format(
-                                            DateTime.parse(widget
+                                        ? widget.specification!.date == null
+                                            ? Utils.checkNullString(false)
+                                            : DateFormat("MMM dd, yyyy").format(
+                                                DateTime.parse(widget
+                                                    .specification!.date!))
+                                        : widget.yarnSpecification!.date == null
+                                            ? Utils.checkNullString(false)
+                                            : DateFormat("MMM dd, yyyy").format(
+                                                DateTime.parse(widget
                                                     .yarnSpecification!.date!)),
                                     style: TextStyle(
                                         fontSize: 9.sp, color: lightBlueLabel),
@@ -373,7 +377,8 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
-                                    text: "/ ${_isYarn() ?  widget.yarnSpecification!.unitCount??"" : widget.specification!.unitCount??""}",
+                                    text:
+                                        "/ ${_isYarn() ? widget.yarnSpecification!.unitCount ?? "" : widget.specification!.unitCount ?? ""}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
@@ -457,34 +462,34 @@ class _DetailPageState extends State<DetailRenewedPage> {
                 ],
               ),
             ),
-            _tabsList!=null ?Expanded(
-              child: DefaultTabController(
-                  length: _tabsList!.length,
-                  child: Scaffold(
-                    backgroundColor: Colors.white,
-                    appBar: PreferredSize(
-                      preferredSize: Size(double.infinity, 28.w),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: TabBar(
-                          // padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                          isScrollable: false,
-                          unselectedLabelColor: textColorGrey,
-                          labelColor: Colors.white,
-                          indicatorColor: lightBlueTabs,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicator: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [lightBlueTabs, lightBlueTabs]),
-                            borderRadius: BorderRadius.circular(8.w),
+            _tabsList != null
+                ? Expanded(
+                    child: DefaultTabController(
+                        length: _tabsList!.length,
+                        child: Scaffold(
+                          backgroundColor: Colors.white,
+                          appBar: PreferredSize(
+                            preferredSize: Size(double.infinity, 28.w),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: TabBar(
+                                // padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                                isScrollable: false,
+                                unselectedLabelColor: lightBlueTabs,
+                                labelColor: Colors.white,
+                                indicatorColor: lightBlueTabs,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: lightBlueTabs),
+                                tabs: tabMakerUpdated(),
+                              ),
+                            ),
                           ),
-                          tabs: tabMaker(),
-                        ),
-                      ),
-                    ),
-                    body: TabBarView(children: _tabWidgetList!),
-                  )),
-            ) : Container(),
+                          body: TabBarView(children: _tabWidgetList!),
+                        )),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -505,6 +510,41 @@ class _DetailPageState extends State<DetailRenewedPage> {
               )),
         ),
       ));
+    }
+    return tabs;
+  }
+
+  List<Tab> tabMakerUpdated() {
+    List<Tab> tabs = []; //create an empty list of Tab
+    for (var i = 0; i < _tabsList!.length; i++) {
+      tabs.add(
+        /*Tab(
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: Text(
+                _tabsList![i],
+                style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w400),
+              )),
+        ),
+      )*/
+        Tab(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: lightBlueTabs, width: 1),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                _tabsList![i],
+                style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w400),
+              ),
+            ),
+          ),
+        ),
+      );
     }
     return tabs;
   }
@@ -564,15 +604,15 @@ String setFamilyData(YarnSpecification specification) {
   switch (specification.yarnFamilyId) {
     case '1':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '2':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '3':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '4':
       familyData =
@@ -580,7 +620,7 @@ String setFamilyData(YarnSpecification specification) {
       break;
     case '5':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
   }
   return familyData;
@@ -591,19 +631,19 @@ String setTitleData(YarnSpecification specification) {
   switch (specification.yarnFamilyId) {
     case '1':
       titleData =
-          '${specification.yarnQuality ?? 'N/A'} for ${specification.yarnUsage ?? 'N/A'}';
+          '${specification.yarnQuality ?? Utils.checkNullString(false)} for ${specification.yarnUsage ?? Utils.checkNullString(false)}';
       break;
     case '2':
-      titleData = specification.yarnBlend ?? 'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
     case '3':
-      titleData = specification.yarnOrientation ?? 'N/A';
+      titleData = specification.yarnOrientation ?? Utils.checkNullString(false);
       break;
     case '4':
-      titleData = specification.yarnType ?? 'N/A';
+      titleData = specification.yarnType ?? Utils.checkNullString(false);
       break;
     case '5':
-      titleData = specification.yarnBlend ?? 'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
   }
   return titleData;

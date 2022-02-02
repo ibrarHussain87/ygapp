@@ -9,4 +9,19 @@ class Utils{
     var splitValue = minMax!.split('-');
     return double.parse(splitValue[1]);
   }
+
+  static String checkNullString(bool prefix) {
+    var debug = false;
+    var value = '';
+    if(debug){
+      if(prefix){
+        value = ',N/A';
+      }else{
+        value = 'N/A';
+      }
+    }
+    return value;
+  }
+
+
 }

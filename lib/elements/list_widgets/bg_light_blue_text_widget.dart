@@ -20,23 +20,43 @@ class BgLightBlueTextWidget extends StatelessWidget {
         padding: EdgeInsets.only(
             left: 4.w, right: 4.w, top: 5.w, bottom: 4.w),
         child: Center(
-          child: Text.rich( TextSpan(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextSpan(
-                text: title.split(' ')[0],
-                style: TextStyle(
-                    fontSize: 8.sp, color: color??Colors.black,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
+              Expanded(
+                child: Text.rich( TextSpan(
+                    children: [
+                      TextSpan(
+                        text: title.split(' ')[0],
+                        style: TextStyle(
+                            fontSize: 8.sp, color: color??Colors.black,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
 
-              TextSpan(
-                text:" "+title.split(' ')[1],
-                style: TextStyle(
-                    fontSize: 8.sp, color: color??Colors.black),
+                    ]
+                )),
               ),
-            ]
-          )),
+              /*FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  " "+title.split(' ')[1],
+                  style: TextStyle(
+                      fontSize: 8.sp, color: color??Colors.black),
+                ),
+              )*/
+              Expanded(
+                child: Text(
+                  " "+title.split(' ')[1],
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: TextStyle(
+                      fontSize: 8.sp, color: color??Colors.black),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -2,16 +2,21 @@ import 'package:fitted_text_field_container/fitted_text_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
 import 'package:yg_app/elements/text_detail_widget_.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -32,11 +37,14 @@ class _DetailTabPageState extends State<DetailTabPage> {
   List<GridTileModel> _detailPackaging = [];
   int? _bidPrice;
   int? _bidQuantity;
+  int? _minBidQuantity;
   int? _tempBidQuantity;
   String _bidRemarks = "";
   bool _showBidContainer = false;
   bool _isChanged = false;
   String? _userId;
+  final priceController = TextEditingController();
+  final quantityController = TextEditingController();
 
   bool _isYarn() {
     if (widget.specification == null) {
@@ -52,10 +60,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
       if (widget.specification != null) {
         _bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
       } else {
+        Logger().e(widget.yarnSpecification!.priceUnit!);
         _bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
       }
       _bidQuantity = _isYarn()
+          ? int.parse(widget.yarnSpecification!.minQuantity!)
+          : int.parse(widget.specification!.minQuantity!);
+
+      _minBidQuantity = _isYarn()
           ? int.parse(widget.yarnSpecification!.minQuantity!)
           : int.parse(widget.specification!.minQuantity!);
 
@@ -90,6 +103,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
   }
 
   @override
+  void dispose() {
+    priceController.dispose();
+    quantityController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -103,13 +123,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 16.w,
+                      height: 4.w,
                     ),
-                    TitleTextWidget(title: specifications),
+                    TitleTextWidget(
+                      title: specifications.toUpperCase(),
+                      color: titleColor,
+                    ),
                     SizedBox(
-                      height: 8.w,
+                      height: 12.w,
                     ),
-                    GridView.count(
+                    ListView.separated(
+                      itemCount: _detailSpecification.length,
+                      shrinkWrap: true,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => listDetailItemWidget(
+                          context, _detailSpecification[index]),
+                    ),
+                    /*GridView.count(
                       crossAxisCount: 3,
                       childAspectRatio: 2.77,
                       mainAxisSpacing: 3.w,
@@ -122,8 +154,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             title: _detailSpecification[index]._title,
                             detail: _detailSpecification[index]._detail);
                       }),
-                    ),
+                    ),*/
                     const Divider(),
+                    SizedBox(
+                      height: 8.w,
+                    ),
                     /*fixed lab parameters issue in fiber*/
                     widget.yarnSpecification != null
                         ? Column(
@@ -135,17 +170,30 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                         SizedBox(
                                           height: 4.w,
                                         ),
-                                        const TitleTextWidget(
-                                            title: 'Lab Parameters'),
+                                        TitleTextWidget(
+                                          title: 'Lab Parameters'.toUpperCase(),
+                                          color: titleColor,
+                                        ),
                                         SizedBox(
-                                          height: 8.w,
+                                          height: 12.w,
                                         ),
                                       ],
                                     )
                                   : SizedBox(
                                       height: 4.w,
                                     ),
-                              GridView.count(
+                              ListView.separated(
+                                itemCount: _labParameters.length,
+                                shrinkWrap: true,
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) =>
+                                    listDetailItemWidget(
+                                        context, _labParameters[index]),
+                              ),
+                              /*GridView.count(
                                 crossAxisCount: 3,
                                 childAspectRatio: 2.77,
                                 mainAxisSpacing: 3.w,
@@ -158,7 +206,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       title: _labParameters[index]._title,
                                       detail: _labParameters[index]._detail);
                                 }),
-                              ),
+                              ),*/
                               const Divider(),
                               SizedBox(
                                 height: 4.w,
@@ -168,11 +216,26 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         : SizedBox(
                             height: 4.w,
                           ),
-                    const TitleTextWidget(title: 'Packing Details'),
                     SizedBox(
                       height: 8.w,
                     ),
-                    GridView.count(
+                    TitleTextWidget(
+                      title: 'Packing Details'.toUpperCase(),
+                      color: titleColor,
+                    ),
+                    SizedBox(
+                      height: 12.w,
+                    ),
+                    ListView.separated(
+                      itemCount: _detailPackaging.length,
+                      shrinkWrap: true,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => listDetailItemWidget(
+                          context, _detailPackaging[index]),
+                    ),
+                    /*GridView.count(
                       crossAxisCount: 3,
                       childAspectRatio: 2.77,
                       mainAxisSpacing: 3.w,
@@ -184,9 +247,31 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             title: _detailPackaging[index]._title,
                             detail: _detailPackaging[index]._detail);
                       }),
-                    ),
+                    ),*/
                     Divider(),
+                    /* SizedBox(
+                      height: 8.w,
+                    ),*/
+                    Text(
+                      'Description',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600),
+                    ),
                     SizedBox(
+                      height: 6.w,
+                    ),
+                    Text(
+                      widget.specification == null
+                          ? widget.yarnSpecification!.description ?? Utils.checkNullString(false)
+                          : widget.specification!.description ?? Utils.checkNullString(false),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    /*SizedBox(
                       height: 8.w,
                     ),
                     const TitleSmallTextWidget(title: 'Description'),
@@ -201,8 +286,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           keyboardType: TextInputType.text,
                           maxLines: 5,
                           initialValue: widget.specification == null
-                              ? widget.yarnSpecification!.description ?? "N/A"
-                              : widget.specification!.description ?? "N/A",
+                              ? widget.yarnSpecification!.description ?? Utils.checkNullString(false)
+                              : widget.specification!.description ?? Utils.checkNullString(false),
                           cursorColor: lightBlueTabs,
                           style: TextStyle(fontSize: 11.sp),
                           textAlign: TextAlign.start,
@@ -212,13 +297,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
-                          /*decoration: roundedDescriptionDecoration(
-                                "Description")*/
+                          */ /*decoration: roundedDescriptionDecoration(
+                                "Description")*/ /*
                         ),
                       ),
-                    ),
+                    ),*/
                     SizedBox(
-                      height: 5.w,
+                      height: 16.w,
                     ),
                     Visibility(
                       visible: _showBidContainer,
@@ -235,9 +320,17 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.all(4.w),
-                                        child: const Center(
-                                          child: TitleSmallTextWidget(
+                                        child: Center(
+                                          /*child: TitleSmallTextWidget(
                                               title: 'Price'),
+                                        )*/
+                                          child: Text(
+                                            'Price',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
                                         )),
                                     SizedBox(
                                       width: 200.w,
@@ -286,7 +379,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             Expanded(
                                                 child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  vertical: 8.w,
+                                                  vertical: 0.w,
                                                   horizontal: 3.w),
                                               child: Center(
                                                   child: SizedBox(
@@ -305,23 +398,65 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                           .allow(
                                                               RegExp(r'[0-9]')),
                                                     ],
-                                                    controller:
-                                                        TextEditingController()
-                                                          ..text = _bidPrice
-                                                              .toString(),
-                                                    /*onChanged: (value){
-                                                              setState(() {
+                                                    controller: priceController
+                                                      ..text = _bidPrice
+                                                              .toString()
+                                                              .trim()
+                                                              .isNotEmpty
+                                                          ? _bidPrice.toString()
+                                                          : '0',
+                                                    onChanged: (value) {
+                                                      /*setState(() {
                                                                 value != '' ? bidPrice = int.parse(value) : 0 ;
-                                                              });
-                                                            },*/
-                                                    onSubmitted: (value) {
+                                                              });*/
+                                                      /*if (value == '') {
+                                                        priceController.text =
+                                                            '0';
+                                                        priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+                                                      }
+                                                      //value == '' ? priceController.text = '0' : priceController.text = priceController.text;
+                                                      value != ''
+                                                          ? _bidPrice =
+                                                              int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''))
+                                                          : _bidPrice = 0;*/
+                                                      if (value != '') {
+                                                        _bidPrice = int.parse(
+                                                            value.replaceAll(
+                                                                RegExp(
+                                                                    r'^0+(?=.)'),
+                                                                ''));
+                                                        priceController.text =
+                                                            _bidPrice
+                                                                .toString()
+                                                                .trim();
+                                                        priceController
+                                                                .selection =
+                                                            TextSelection.fromPosition(
+                                                                TextPosition(
+                                                                    offset: priceController
+                                                                        .text
+                                                                        .length));
+                                                      } else {
+                                                        priceController.text =
+                                                            '0';
+                                                        priceController
+                                                                .selection =
+                                                            TextSelection.fromPosition(
+                                                                TextPosition(
+                                                                    offset: priceController
+                                                                        .text
+                                                                        .length));
+                                                        _bidPrice = 0;
+                                                      }
+                                                    },
+                                                    /*onSubmitted: (value) {
                                                       setState(() {
                                                         value != ''
                                                             ? _bidPrice =
                                                                 int.parse(value)
-                                                            :_bidPrice =  0;
+                                                            : _bidPrice = 0;
                                                       });
-                                                    },
+                                                    },*/
                                                     decoration:
                                                         const InputDecoration(
                                                             border: InputBorder
@@ -379,9 +514,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(4.w),
-                                      child: const Center(
-                                          child: TitleSmallTextWidget(
-                                              title: 'Quantity (Kg)')),
+                                      child: Center(
+                                          /*child: TitleSmallTextWidget(
+                                              title: 'Quantity (Kg)')*/
+                                          child: Text(
+                                        'Quantity (Kg)',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600),
+                                      )),
                                     ),
                                     Container(
                                       width: 200.w,
@@ -434,7 +576,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                             Expanded(
                                                 child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  vertical: 8.w,
+                                                  vertical: 0.w,
                                                   horizontal: 3.w),
                                               child: Center(
                                                 /*child: FittedBox(
@@ -461,27 +603,91 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                 r'[0-9]')),
                                                       ],
                                                       controller:
-                                                          TextEditingController()
-                                                            ..text = _bidQuantity
-                                                                .toString(),
-                                                      // onChanged: (value) {
-                                                      //   setState(() {
-                                                      //     value.isNotEmpty
-                                                      //         ? _bidQuantity =
-                                                      //             int.parse(
-                                                      //                 value)
-                                                      //         :_bidQuantity = 0;
-                                                      //   });
-                                                      // },
-                                                      onSubmitted: (value) {
+                                                          quantityController
+                                                            ..text =
+                                                                _bidQuantity
+                                                                    .toString(),
+                                                      onChanged: (value) {
+                                                        /*setState(() {
+                                                          value.isNotEmpty
+                                                              ? _bidQuantity =
+                                                                  int.parse(
+                                                                      value)
+                                                              :_bidQuantity = 0;
+                                                        });*/
+
+                                                        /* if (value == '') {
+                                                          quantityController.text =
+                                                          '0';
+                                                        }
+                                                        //value == '' ? priceController.text = '0' : priceController.text = priceController.text;
+                                                        value != ''
+                                                            ? _bidQuantity =
+                                                            int.parse(value)
+                                                            : _bidQuantity = 0;*/
+
+                                                        /*if(value != ''){
+                                                          if(int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), '')) < _minBidQuantity!){
+                                                            _bidQuantity = _minBidQuantity;
+                                                            quantityController.text = _minBidQuantity.toString().trim();
+                                                            quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                          }else{
+                                                            _bidQuantity =
+                                                                int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
+                                                            quantityController.text = _bidQuantity.toString().trim();
+                                                            quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                          }
+                                                        }else{
+                                                          quantityController.text = _minBidQuantity.toString().trim();
+                                                          quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                          _bidQuantity = _minBidQuantity;
+                                                        }*/
+                                                        if (value != '') {
+                                                          _bidQuantity = int.parse(
+                                                              value.replaceAll(
+                                                                  RegExp(
+                                                                      r'^0+(?=.)'),
+                                                                  ''));
+                                                          quantityController
+                                                                  .text =
+                                                              _bidQuantity
+                                                                  .toString()
+                                                                  .trim();
+                                                          quantityController
+                                                                  .selection =
+                                                              TextSelection.fromPosition(
+                                                                  TextPosition(
+                                                                      offset: quantityController
+                                                                          .text
+                                                                          .length));
+                                                        } else {
+                                                          quantityController
+                                                                  .text =
+                                                              _minBidQuantity
+                                                                  .toString()
+                                                                  .trim();
+                                                          quantityController
+                                                                  .selection =
+                                                              TextSelection.fromPosition(
+                                                                  TextPosition(
+                                                                      offset: quantityController
+                                                                          .text
+                                                                          .length));
+                                                          _bidQuantity =
+                                                              _minBidQuantity;
+                                                        }
+                                                      },
+                                                      /*onSubmitted: (value) {
                                                         setState(() {
                                                           value != ''
                                                               ? _bidQuantity =
                                                                   int.parse(
                                                                       value)
-                                                              : _bidQuantity =  0;
+                                                              : _bidQuantity =
+                                                                  0;
                                                         });
-                                                      },
+                                                        },*/
+
                                                       decoration:
                                                           const InputDecoration(
                                                               border:
@@ -536,12 +742,20 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             ],
                           ),
                           SizedBox(
-                            height: 16.w,
+                            height: 12.w,
                           ),
                           Padding(
-                              padding: EdgeInsets.only(left: 8.w),
-                              child:
-                                  const TitleSmallTextWidget(title: 'Remarks')),
+                              padding: EdgeInsets.only(left: 0.w),
+                              child: Text(
+                                'Remarks',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          SizedBox(
+                            height: 4.w,
+                          ),
                           SizedBox(
                             height: 5 * 22.w,
                             child: TextFormField(
@@ -557,8 +771,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                 onChanged: (value) {
                                   _bidRemarks = value;
                                 },
-                                decoration:
-                                    roundedDescriptionDecoration("Remarks")),
+                                decoration: roundedDescriptionDecorationUpdated(
+                                    "Remarks")),
                           ),
                         ],
                       ),
@@ -572,33 +786,29 @@ class _DetailTabPageState extends State<DetailTabPage> {
               visible: _showBidContainer,
               child: ElevatedButtonWithoutIcon(
                   callback: () {
-
-                    if(_bidPrice!.toInt() <= 0){
+                    FocusScope.of(context).unfocus();
+                    /*var logger = Logger();
+                      logger.e(_bidPrice);
+                      logger.e(_bidQuantity);*/
+                    if (_bidPrice!.toInt() <= 0) {
                       Ui.showSnackBar(context, "Please enter price");
-                    }else if(_bidQuantity!.toInt() <= 0){
+                    } else if (_bidQuantity!.toInt() <= 0) {
                       Ui.showSnackBar(context, "Please enter quantity");
-                    }else{
-                      ProgressDialogUtil.showDialog(context, "Please wait....");
-                      ApiService.createBid(
-                          widget.specification == null
-                              ? 2.toString()
-                              : widget.specification!.categoryId.toString(),
-                          widget.specification == null
-                              ? widget.yarnSpecification!.ysId.toString()
-                              : widget.specification!.spcId.toString(),
-                          _bidPrice.toString(),
-                          _bidQuantity.toString(),
-                          _bidRemarks)
-                          .then((value) {
-                        ProgressDialogUtil.hideDialog();
-                        Ui.showSnackBar(context, value.message);
-                      }, onError: (stacktrace, error) {
-                        ProgressDialogUtil.hideDialog();
-                        Ui.showSnackBar(context, error.message.toString());
-                      });
+                    } else if (_bidQuantity!.toInt() < _minBidQuantity!) {
+                      Ui.showSnackBar(context,
+                          "Please enter minimum quantity ${_minBidQuantity}");
+                    } else {
+                      showGenericDialog(
+                        'Place Bid',
+                        "Are you sure, you want to place bid?",
+                        context,
+                        StylishDialogType.WARNING,
+                        'Yes',
+                        () {
+                          placeBid(context);
+                        },
+                      );
                     }
-
-
                   },
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
@@ -609,60 +819,97 @@ class _DetailTabPageState extends State<DetailTabPage> {
     );
   }
 
+  void placeBid(BuildContext context) {
+    ProgressDialogUtil.showDialog(context, "Please wait....");
+    ApiService.createBid(
+            widget.specification == null
+                ? 2.toString()
+                : widget.specification!.categoryId.toString(),
+            widget.specification == null
+                ? widget.yarnSpecification!.ysId.toString()
+                : widget.specification!.spcId.toString(),
+            _bidPrice.toString(),
+            _bidQuantity.toString(),
+            _bidRemarks)
+        .then((value) {
+      ProgressDialogUtil.hideDialog();
+      // Ui.showSnackBar(context, value.message);
+      showGenericDialog(
+        'Place Bid',
+        value.message,
+        context,
+        StylishDialogType.SUCCESS,
+        'Yes',
+        () {},
+      );
+    }, onError: (stacktrace, error) {
+      ProgressDialogUtil.hideDialog();
+      // Ui.showSnackBar(context, error.message.toString());
+      showGenericDialog(
+        'Place Bid',
+        error.message.toString(),
+        context,
+        StylishDialogType.ERROR,
+        'Yes',
+        () {},
+      );
+    });
+  }
+
   _fiberDetails() {
     _detailSpecification = [
-      GridTileModel('Fiber Material', widget.specification!.material ?? "N/A"),
+      GridTileModel('Fiber Material', widget.specification!.material ?? Utils.checkNullString(false)),
       GridTileModel(
           'Fiber Length',
           widget.specification!.length != null
               ? '${widget.specification!.length} mm'
-              : 'N/A'),
+              : Utils.checkNullString(false)),
       GridTileModel(
           'Micronaire',
           widget.specification!.micronaire != null
               ? '${widget.specification!.micronaire!} mic'
-              : "N/A"),
+              : Utils.checkNullString(false)),
       GridTileModel(
           'Moisture',
           widget.specification!.moisture != null
               ? '${widget.specification!.moisture!} '
-              : "N/A"),
+              : Utils.checkNullString(false)),
       GridTileModel(
           'Trash',
           widget.specification!.trash != null
               ? widget.specification!.trash!
-              : "N/A"),
+              : Utils.checkNullString(false)),
       GridTileModel('RD',
-          widget.specification!.rd != null ? widget.specification!.rd! : 'N/A'),
+          widget.specification!.rd != null ? widget.specification!.rd! : Utils.checkNullString(false)),
       GridTileModel(
           'GPT',
           widget.specification!.gpt != null
               ? widget.specification!.gpt!
-              : 'N/A'),
+              : Utils.checkNullString(false)),
       GridTileModel(
           'Appearance',
           widget.specification!.apperance == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.apperance!),
       GridTileModel(
           'Brand',
           widget.specification!.brand == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.brand!),
       GridTileModel(
           'Production year',
           widget.specification!.productYear == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.productYear!),
       GridTileModel(
           'Origin',
           widget.specification!.origin == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.origin!),
       GridTileModel(
           'Certification',
           widget.specification!.certification == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.certification!),
     ];
 
@@ -670,17 +917,17 @@ class _DetailTabPageState extends State<DetailTabPage> {
     //   GridTileModel(
     //       'Unit Of Count',
     //       widget.specification!.unitCount == null
-    //           ? "N/A"
+    //           ? Utils.checkNullString(false)
     //           : widget.specification!.unitCount!),
     //   GridTileModel(
     //       'Price',
     //       widget.specification!.priceUnit == null
-    //           ? "N/A"
+    //           ? Utils.checkNullString(false)
     //           : widget.specification!.priceUnit!),
     //   GridTileModel(
     //       'Packing',
     //       widget.specification!.priceTerms == null
-    //           ? "N/A"
+    //           ? Utils.checkNullString(false)
     //           : widget.specification!.priceTerms!)
     // ];
 
@@ -688,24 +935,24 @@ class _DetailTabPageState extends State<DetailTabPage> {
       // GridTileModel(
       //     'Unit Of Count',
       //     widget.specification!.unitCount == null
-      //         ? "N/A"
+      //         ? Utils.checkNullString(false)
       //         : widget.specification!.unitCount!),
       GridTileModel(
           'Price',
           widget.specification!.priceUnit == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.priceUnit!),
       GridTileModel(
           'Packing',
           widget.specification!.priceTerms == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.priceTerms!),
       GridTileModel(
           'Minimum Quantity',
           widget.specification!.minQuantity == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.specification!.minQuantity!),
-      GridTileModel('Seller Location', widget.specification!.unitCount ?? "N/A")
+      GridTileModel('Seller Location', widget.specification!.unitCount ?? Utils.checkNullString(false))
     ];
   }
 
@@ -715,76 +962,76 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '1':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
           /*GridTileModel('Yarn Appearance',
-              widget.yarnSpecification!.yarnApperance ?? "N/A"),*/
+              widget.yarnSpecification!.yarnApperance ?? Utils.checkNullString(false)),*/
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
                   ? '${widget.yarnSpecification!.count}'
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           /*GridTileModel(
               'Ratio',
               widget.yarnSpecification!.yarnRtio != null
                   ? widget.yarnSpecification!.yarnRtio!
-                  : "N/A"),*/
+                  : Utils.checkNullString(false)),*/
           /*GridTileModel(
               'Filament',
               widget.yarnSpecification!.fdyFilament != null
                   ? widget.yarnSpecification!.fdyFilament!
-                  : 'N/A'),*/
+                  : Utils.checkNullString(false)),*/
           /*GridTileModel(
               'Dianner',
               widget.yarnSpecification!.dtyFilament != null
                   ? widget.yarnSpecification!.dtyFilament!
-                  : 'N/A'),*/
+                  : Utils.checkNullString(false)),*/
           GridTileModel(
               'Quality',
               widget.yarnSpecification!.yarnQuality == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnQuality!),
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPly!),
           GridTileModel(
               'Doubling Method',
               widget.yarnSpecification!.doublingMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.doublingMethod!),
           GridTileModel(
               'Orientation',
               widget.yarnSpecification!.yarnOrientation == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnOrientation!),
           GridTileModel(
               'Spun Technique',
               widget.yarnSpecification!.yarnSpunTechnique == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnSpunTechnique!),
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPattern!),
           GridTileModel(
               'Pattern Characteristics',
               widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
           GridTileModel(
               'Color Treatment Method',
               widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
           /*GridTileModel(
               'Certification',
               (widget.yarnSpecification!.yarnCertificationStr == null ||
                       widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnCertificationStr!
                       .replaceAll(",", "")),*/
         ];
@@ -792,176 +1039,176 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '2':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
-          GridTileModel('Blend', widget.yarnSpecification!.yarnBlend ?? "N/A"),
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
+          GridTileModel('Blend', widget.yarnSpecification!.yarnBlend ?? Utils.checkNullString(false)),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
                   ? '${widget.yarnSpecification!.count}'
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Ratio',
               widget.yarnSpecification!.yarnRtio != null
                   ? widget.yarnSpecification!.yarnRtio!
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPly!),
           GridTileModel(
               'Orientation',
               widget.yarnSpecification!.yarnOrientation == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnOrientation!),
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPattern!),
           GridTileModel(
               'Pattern Characteristics',
               widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
           GridTileModel(
               'Color Treatment Method',
               widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
         break;
       case '3':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? "N/A"),
+              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
                   ? '${widget.yarnSpecification!.count}'
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPly!),
           GridTileModel(
               'Orientation',
               widget.yarnSpecification!.yarnOrientation == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnOrientation!),
           GridTileModel(
               'Doubling Method',
               widget.yarnSpecification!.doublingMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.doublingMethod!),
           GridTileModel(
               'Spun Technique',
               widget.yarnSpecification!.yarnSpunTechnique == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnSpunTechnique!),
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPattern!),
           GridTileModel(
               'Pattern Characteristics',
               widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
           GridTileModel(
               'Color Treatment Method',
               widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
         break;
       case '4':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
           GridTileModel(
               'Dianner',
               widget.yarnSpecification!.dtyFilament != null
                   ? widget.yarnSpecification!.dtyFilament!
-                  : 'N/A'),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Filament',
               widget.yarnSpecification!.fdyFilament != null
                   ? widget.yarnSpecification!.fdyFilament!
-                  : 'N/A'),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPly!),
           GridTileModel(
               'Color Treatment Method',
               widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
           GridTileModel(
               'Dying Method',
               widget.yarnSpecification!.yarnDyingMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnDyingMethod!),
           GridTileModel(
               'Color',
               widget.yarnSpecification!.color == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.color!),
           GridTileModel('Yarn Appearance',
-              widget.yarnSpecification!.yarnApperance ?? "N/A"),
+              widget.yarnSpecification!.yarnApperance ?? Utils.checkNullString(false)),
         ];
         break;
       case '5':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? "N/A"),
+              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
           GridTileModel(
               'Blend',
               widget.yarnSpecification!.yarnBlend != null
                   ? '${widget.yarnSpecification!.yarnBlend}'
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Color Treatment Method',
               widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
           GridTileModel(
               'Dying Method',
               widget.yarnSpecification!.yarnDyingMethod == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnDyingMethod!),
           GridTileModel(
               'Color',
               widget.yarnSpecification!.color == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.color!),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
                   ? '${widget.yarnSpecification!.count}'
-                  : "N/A"),
+                  : Utils.checkNullString(false)),
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPly!),
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPattern!),
           GridTileModel(
               'Pattern Characteristics',
               widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? "N/A"
+                  ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
         ];
         break;
@@ -971,67 +1218,67 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel(
           'Actual Yarn Count',
           widget.yarnSpecification!.actualYarnCount == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.actualYarnCount!),
       GridTileModel(
           'CLSP',
           widget.yarnSpecification!.clsp == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.clsp!),
       GridTileModel(
           'IPM/KM',
           widget.yarnSpecification!.ys_ipm_km == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_ipm_km!),
       GridTileModel(
           'Thin Places',
           widget.yarnSpecification!.thinPlaces == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.thinPlaces!),
       GridTileModel(
           'Thick Places',
           widget.yarnSpecification!.thickPlaces == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.thickPlaces!),
       GridTileModel(
           'Naps',
           widget.yarnSpecification!.naps == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.naps!),
       GridTileModel(
           'Uniformity',
           widget.yarnSpecification!.uniformity == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.uniformity!),
       GridTileModel(
           'CV',
           widget.yarnSpecification!.cv == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.cv!),
       GridTileModel(
           'Hairness',
           widget.yarnSpecification!.ys_hairness == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_hairness!),
       GridTileModel(
           'RKM',
           widget.yarnSpecification!.ys_rkm == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_rkm!),
       GridTileModel(
           'Elongation',
           widget.yarnSpecification!.ys_elongation == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_elongation!),
       GridTileModel(
           'TPI',
           widget.yarnSpecification!.ys_tpi == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_tpi!),
       GridTileModel(
           'TM',
           widget.yarnSpecification!.ys_tm == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_tm!),
     ];
 
@@ -1039,40 +1286,40 @@ class _DetailTabPageState extends State<DetailTabPage> {
       // GridTileModel(
       //     'Unit Of Counting',
       //       widget.yarnSpecification!.unitCount == null
-      //         ? "N/A"
+      //         ? Utils.checkNullString(false)
       //         : widget.yarnSpecification!.unitCount!),
 
       // GridTileModel(
       //     'Available Quantity',
       //     widget.yarnSpecification!.ava == null
-      //         ? "N/A"
+      //         ? Utils.checkNullString(false)
       //         : widget.yarnSpecification!.av!),
 
       GridTileModel(
           'Minimum Quantity',
           widget.yarnSpecification!.minQuantity == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.minQuantity!),
       GridTileModel(
           'Delivery Period',
           widget.yarnSpecification!.deliveryPeriod == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.deliveryPeriod!),
 
       GridTileModel(
           'Price',
           widget.yarnSpecification!.priceUnit == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.priceUnit!),
 
       GridTileModel(
           'Price Terms',
           widget.yarnSpecification!.priceTerms == null
-              ? "N/A"
+              ? Utils.checkNullString(false)
               : widget.yarnSpecification!.priceTerms!),
 
       GridTileModel(
-          'Seller Location', widget.yarnSpecification!.locality ?? "N/A")
+          'Seller Location', widget.yarnSpecification!.locality ?? Utils.checkNullString(false))
     ];
   }
 

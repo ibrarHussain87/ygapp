@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/util.dart';
 
 class ShortDetailRenewedWidget extends StatefulWidget {
   final String? title;
@@ -52,7 +53,7 @@ class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
                 Padding(
                   padding: const EdgeInsets.only(top: 3.0),
                   child: Text(
-                    widget.title ?? "N/A",
+                    widget.title ?? Utils.checkNullString(false),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: widget.size??10.sp,

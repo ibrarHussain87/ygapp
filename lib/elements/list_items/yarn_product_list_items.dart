@@ -11,6 +11,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -165,14 +166,17 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                 constraints:
                                     const BoxConstraints(maxHeight: 19),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 1),
                                   child: Center(
+                                      child: FittedBox(
+                                    fit: BoxFit.contain,
                                     child: TitleBoldSmallTextWidget(
                                       title:
                                           setFamilyData(widget.specification),
                                       color: Colors.white,
                                     ),
-                                  ),
+                                  )),
                                 )),
                             SizedBox(
                               width: 4.w,
@@ -207,7 +211,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                           child: TitleSmallNormalTextWidget(
                             title: setDetailsData(widget.specification),
                             color: lightGreyColor,
-                            size: 8.sp,
+                            size: 10.sp,
                           ),
                         ),
                         Padding(
@@ -254,29 +258,33 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                 runSpacing: 3.0,
                                 children: [
                                   ShortDetailWidget(
-                                    title:
-                                        widget.specification.weightBag ?? "N/A",
+                                    title: widget.specification.weightBag ??
+                                        Utils.checkNullString(false),
                                     imageIcon: 'images/img_bag.png',
-                                    size: 8.sp,
+                                    size: 9.sp,
+                                    iconSize: 14,
                                   ),
                                   ShortDetailWidget(
                                     title: widget.specification.weightCone ??
-                                        "N/A",
+                                        Utils.checkNullString(false),
                                     imageIcon: 'images/img_cone.png',
-                                    size: 8.sp,
+                                    size: 9.sp,
+                                    iconSize: 14,
                                   ),
                                   ShortDetailWidget(
                                     title:
                                         widget.specification.deliveryPeriod ??
-                                            "N/A",
+                                            Utils.checkNullString(false),
                                     imageIcon: 'images/img_van.png',
-                                    size: 8.sp,
+                                    size: 9.sp,
+                                    iconSize: 14,
                                   ),
                                   ShortDetailWidget(
-                                    title:
-                                        widget.specification.locality ?? "N/A",
+                                    title: widget.specification.locality ??
+                                        Utils.checkNullString(false),
                                     imageIcon: 'images/img_location.png',
-                                    size: 8.sp,
+                                    size: 9.sp,
+                                    iconSize: 14,
                                   ),
                                 ],
                               ),
@@ -290,7 +298,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 18.0, bottom: 4),
+                    padding: const EdgeInsets.only(right: 15.0, bottom: 4),
                     child: Container(
                       padding: EdgeInsets.only(left: 6.w, right: 0.w, top: 4),
                       child: Column(
@@ -298,7 +306,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                         children: [
                           /*TitleMediumTextWidget(
                           title: "PKR." +
-                              specification.priceUnit.toString() +
+                              widget.specification.priceUnit.toString() +
                               "/KG",
                         ),*/
                           Text.rich(TextSpan(children: [
@@ -323,7 +331,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                   fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
-                              text: "/kg",
+                              text: "/ ${widget.specification.unitCount??''}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,
@@ -800,15 +808,15 @@ String setFamilyData(YarnSpecification specification) {
   switch (specification.yarnFamilyId) {
     case '1':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '2':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '3':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
     case '4':
       familyData =
@@ -816,7 +824,7 @@ String setFamilyData(YarnSpecification specification) {
       break;
     case '5':
       familyData =
-          '${specification.count ?? "N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+          '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
       break;
   }
   /*if(familyData.isEmpty){
@@ -830,19 +838,19 @@ String setTitleData(YarnSpecification specification) {
   switch (specification.yarnFamilyId) {
     case '1':
       titleData =
-          '${specification.yarnQuality ?? 'N/A'} for ${specification.yarnUsage ?? 'N/A'}';
+          '${specification.yarnQuality ?? Utils.checkNullString(false)} for ${specification.yarnUsage ?? Utils.checkNullString(false)}';
       break;
     case '2':
-      titleData = specification.yarnBlend ?? 'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
     case '3':
-      titleData = specification.yarnOrientation ?? 'N/A';
+      titleData = specification.yarnOrientation ?? Utils.checkNullString(false);
       break;
     case '4':
-      titleData = specification.yarnType ?? 'N/A';
+      titleData = specification.yarnType ?? Utils.checkNullString(false);
       break;
     case '5':
-      titleData = specification.yarnBlend ?? 'N/A';
+      titleData = specification.yarnBlend ?? Utils.checkNullString(false);
       break;
   }
   /*if(titleData.isEmpty){
@@ -856,24 +864,24 @@ String setDetailsData(YarnSpecification specification) {
   switch (specification.yarnFamilyId) {
     case '1':
       detailsData =
-          '${specification.yarnOrientation ?? 'N/A'},${specification.yarnSpunTechnique ?? "N/A"},${specification.yarnColorTreatmentMethod ?? "N/A"},${specification.doublingMethod ?? "N/A"}';
+          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ? ',${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
       break;
     case '2':
       detailsData =
-          '${specification.yarnOrientation ?? 'N/A'},${specification.yarnSpunTechnique ?? "N/A"},${specification.yarnColorTreatmentMethod ?? "N/A"},${specification.doublingMethod ?? "N/A"}';
+          '${specification.yarnOrientation ?? Utils.checkNullString(false)}${specification.yarnSpunTechnique != null ? ',${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
       break;
     case '3':
       detailsData =
-          '${specification.yarnSpunTechnique ?? "N/A"},${specification.yarnColorTreatmentMethod ?? "N/A"},${specification.doublingMethod ?? "N/A"}';
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}';
       break;
     case '4':
       detailsData =
-          '${specification.yarnSpunTechnique ?? "N/A"},${specification.yarnColorTreatmentMethod ?? "N/A"},${specification.yarnApperance ?? "N/A"},${specification.doublingMethod ?? "N/A"},${specification.yarnGrade ?? "N/A"}';
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.yarnApperance != null ? ',${specification.yarnApperance}' : Utils.checkNullString(true)}${specification.doublingMethod != null ? ',${specification.doublingMethod}' : Utils.checkNullString(true)}${specification.yarnGrade != null ? ',${specification.yarnGrade}' : Utils.checkNullString(true)}';
       break;
     case '5':
       detailsData =
-          '${specification.yarnSpunTechnique ?? "N/A"},${specification.yarnColorTreatmentMethod ?? "N/A"},${specification.yarnPattern ?? "N/A"}';
-      /*,${specification.doublingMethod??"N/A"}*/
+          '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod != null ? ',${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}${specification.yarnPattern != null ? ',${specification.yarnPattern}' : Utils.checkNullString(true)}';
+      /*,${specification.doublingMethod??Utils.checkNullString(true)}*/
       break;
   }
   /*if(detailsData.isEmpty){

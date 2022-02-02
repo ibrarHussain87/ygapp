@@ -679,7 +679,7 @@ class YarnTypes {
   @override
   String toString() {
     // TODO: implement toString
-    return ytName??"N/A";
+    return ytName??Utils.checkNullString(false);
   }
 }
 
@@ -1633,7 +1633,7 @@ class DoublingMethod {
   @override
   String toString() {
     // TODO: implement toString
-    return dmName??"N/A";
+    return dmName??Utils.checkNullString(false);
   }
 }
 
@@ -1678,6 +1678,6 @@ class YarnAppearance {
   @override
   String toString() {
     // TODO: implement toString
-    return yaName??"N/A";
+    return yaName??Utils.checkNullString(false);
   }
 }

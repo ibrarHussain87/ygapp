@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/util.dart';
 
 class TextDetailWidget extends StatelessWidget {
   final String title;
@@ -57,7 +58,7 @@ class TextDetailWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        detail ?? "N/A",
+                        detail??Utils.checkNullString(false),
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 9.sp,

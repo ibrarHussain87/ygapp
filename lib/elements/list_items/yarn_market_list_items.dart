@@ -9,6 +9,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 Widget buildYarnWidget(YarnSpecification specification) {
@@ -153,7 +154,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                         padding: EdgeInsets.only(bottom: 8.0.w, top: 8.w),
                         child: TitleSmallTextWidget(
                           title:
-                              '${specification.yarnBlend??"N/A"},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
+                              '${specification.yarnBlend??Utils.checkNullString(false)}${specification.yarnFamily != null ? "${specification.yarnDyingMethod != null ? ',${specification.yarnDyingMethod}' : Utils.checkNullString(true)}," : ""}${specification.yarnDetails != null ? ',${specification.yarnDetails}' : Utils.checkNullString(true)}',
                         ),
                       ),
                       Row(
@@ -168,14 +169,14 @@ Widget buildYarnWidget(YarnSpecification specification) {
                           SizedBox(width: 8.w),
                           Expanded(
                             child: BgLightBlueTextWidget(
-                              title: 'CLSP ${specification.clsp?? "N/A"}',
+                              title: 'CLSP ${specification.clsp?? Utils.checkNullString(false)}',
                             ),
                             flex: 1,
                           ),
                           SizedBox(width: 8.w),
                           Expanded(
                             child: BgLightBlueTextWidget(
-                              title: 'IPI ${specification.actualYarnCount ?? "N/A"}',
+                              title: 'IPI ${specification.actualYarnCount ?? Utils.checkNullString(false)}',
                             ),
                             flex: 1,
                           ),
@@ -192,19 +193,19 @@ Widget buildYarnWidget(YarnSpecification specification) {
                               runSpacing: 3.0,
                               children: [
                                 ShortDetailWidget(
-                                  title: specification.weightBag ?? "N/A",
+                                  title: specification.weightBag ?? Utils.checkNullString(false),
                                   imageIcon: IC_BAG,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.weightCone ?? "N/A",
+                                  title: specification.weightCone ?? Utils.checkNullString(false),
                                   imageIcon: IC_BAG,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.deliveryPeriod ?? "N/A",
+                                  title: specification.deliveryPeriod ?? Utils.checkNullString(false),
                                   imageIcon: DELIVERY_PERIOD_IMAGE,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.locality ?? "N/A",
+                                  title: specification.locality ?? Utils.checkNullString(false),
                                   imageIcon: LOCATION_IMAGE,
                                 ),
                               ],

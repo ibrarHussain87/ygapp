@@ -15,6 +15,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
@@ -656,7 +657,7 @@ class FiberSpecificationComponentState
                                                             DropdownMenuItem(
                                                               child: Text(
                                                                   value.brdName ??
-                                                                      "N/A",
+                                                                      Utils.checkNullString(false),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center),
@@ -791,7 +792,7 @@ class FiberSpecificationComponentState
                                                       DropdownMenuItem(
                                                         child: Text(
                                                             value.conName ??
-                                                                "N/A",
+                                                                Utils.checkNullString(false),
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,
@@ -855,7 +856,7 @@ class FiberSpecificationComponentState
                                                   .map((value) =>
                                                       DropdownMenuItem(
                                                         child: Text(
-                                                            value.name ?? "N/A",
+                                                            value.name ?? Utils.checkNullString(false),
                                                             textAlign: TextAlign
                                                                 .center),
                                                         value: value,

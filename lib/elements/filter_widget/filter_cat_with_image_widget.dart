@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/elements/network_icon_widget.dart';
 
@@ -68,7 +69,7 @@ class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
             ),
             Expanded(
               child: Text(
-                castedList[index].fbmName??"N/A",
+                castedList[index].fbmName??Utils.checkNullString(false),
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

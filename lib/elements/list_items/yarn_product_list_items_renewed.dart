@@ -9,6 +9,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
@@ -153,7 +154,7 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                         padding: EdgeInsets.only(bottom: 8.0.w, top: 8.w),
                         child: TitleSmallTextWidget(
                           title:
-                              '${specification.yarnBlend},${specification.yarnFamily != null ? "${specification.yarnDyingMethod ?? "N/A"}," : ""}${specification.yarnDetails ?? "N/A"}',
+                              '${specification.yarnBlend}${specification.yarnFamily != null ? specification.yarnDyingMethod != null ?  ',${specification.yarnDyingMethod}': Utils.checkNullString(false) : ""}${specification.yarnDetails != null ?  ',${specification.yarnDetails}': Utils.checkNullString(false)}',
                         ),
                       ),
                       Row(
@@ -192,19 +193,19 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                               runSpacing: 3.0,
                               children: [
                                 ShortDetailWidget(
-                                  title: specification.weightBag ?? "N/A",
+                                  title: specification.weightBag ?? Utils.checkNullString(false),
                                   imageIcon: IC_BAG,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.weightCone ?? "N/A",
+                                  title: specification.weightCone ?? Utils.checkNullString(false),
                                   imageIcon: IC_BAG,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.deliveryPeriod ?? "N/A",
+                                  title: specification.deliveryPeriod ?? Utils.checkNullString(false),
                                   imageIcon: DELIVERY_PERIOD_IMAGE,
                                 ),
                                 ShortDetailWidget(
-                                  title: specification.locality ?? "N/A",
+                                  title: specification.locality ?? Utils.checkNullString(false),
                                   imageIcon: LOCATION_IMAGE,
                                 ),
                               ],
@@ -225,11 +226,37 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TitleTextWidget(
+                          /*TitleTextWidget(
                             title: "PKR." +
-                                specification.priceUnit.toString() +
-                                "/KG",
-                          ),
+                                '${specification.priceUnit??""}/${specification.unitCount??""}',
+                          ),*/
+                          Text.rich(TextSpan(children: [
+                            TextSpan(
+                              text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            TextSpan(
+                              text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'), ''),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            TextSpan(
+                              text:
+                              "/ ${specification.unitCount ?? ""}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ])),
                           TitleSmallTextWidget(title: "Ex- Factory")
                         ],
                       ),

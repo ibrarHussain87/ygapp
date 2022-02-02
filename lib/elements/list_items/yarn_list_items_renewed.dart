@@ -12,6 +12,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 
@@ -60,7 +61,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                     children: [
                       SizedBox(
                         child: Text(
-                          specification.company??"N/A",
+                          specification.company??Utils.checkNullString(false),
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
@@ -199,25 +200,25 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                     runSpacing: 3.0,
                                     children: [
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightBag ?? "N/A",
+                                        title: specification.weightBag ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_bag.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightCone ?? "N/A",
+                                        title: specification.weightCone ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_cone.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ?? "N/A",
+                                        title: specification.deliveryPeriod ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_van.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality ?? "N/A",
+                                        title: specification.locality ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_location.png',
                                         size: 9.sp,
                                         iconSize: 14,
@@ -260,7 +261,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "/${specification.unitCount??"N/A"}",
+                                      text: "/${specification.unitCount??Utils.checkNullString(false)}",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 12.sp,
@@ -332,7 +333,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                             height: 8.w,
                           ),
                           Padding(
-                              padding: EdgeInsets.only(left: 4.w, right: 4.w),
+                              padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 4.w),
                               child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,)),
 
                         ],
@@ -430,19 +431,19 @@ String setFamilyData(YarnSpecification specification){
   String familyData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData = '${specification.count??Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
       case '2':
-        familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.bln_abrv??''}';
+        familyData = '${specification.count??Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.bln_abrv??''}';
       break;
       case '3':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData = '${specification.count??Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
       case '4':
         familyData = '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily??''}';
       break;
       case '5':
-      familyData = '${specification.count??"N/A"}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
+      familyData = '${specification.count??Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0,1)}"  :  ""} ${specification.yarnFamily??''}';
       break;
   }
   return familyData;
@@ -452,19 +453,19 @@ String setTitleData(YarnSpecification specification){
   String titleData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      titleData = '${specification.yq_abrv??specification.yarnQuality??'N/A'} for ${specification.yarnUsage??'N/A'}';
+      titleData = '${specification.yq_abrv??specification.yarnQuality??Utils.checkNullString(false)} for ${specification.yarnUsage??Utils.checkNullString(false)}';
       break;
       case '2':
-      titleData = /*specification.yarnFamily??'N/A'*/"";
+      titleData = specification.count??Utils.checkNullString(false);
       break;
       case '3':
-      titleData = specification.yarnOrientation??'N/A';
+      titleData = specification.yarnOrientation??Utils.checkNullString(false);
       break;
       case '4':
-      titleData = specification.yarnType??'N/A';
+      titleData = specification.yarnType??Utils.checkNullString(false);
       break;
       case '5':
-      titleData = specification.bln_abrv??specification.yarnBlend??'N/A';
+      titleData = specification.bln_abrv??specification.yarnBlend??Utils.checkNullString(false);
       break;
   }
   return titleData;
@@ -474,19 +475,19 @@ String setDetailsData(YarnSpecification specification){
   String detailsData = "";
   switch (specification.yarnFamilyId) {
     case '1':
-      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnQuality??Utils.checkNullString(false)}${specification.yarnSpunTechnique!= null ?  ',${specification.yarnSpunTechnique}':Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}';
       break;
       case '2':
-      detailsData = '${specification.yarnOrientation??'N/A'},${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnOrientation??Utils.checkNullString(false)}${specification.yarnSpunTechnique!= null ?  ',${specification.yarnSpunTechnique}':Utils.checkNullString(true)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}';
       break;
       case '3':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.doublingMethod??"N/A"}';
+      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}';
       break;
       case '4':
-      detailsData = '${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnApperance??"N/A"},${specification.doublingMethod??"N/A"},${specification.yarnGrade??"N/A"}';
+      detailsData = '${specification.yarnColorTreatmentMethod??Utils.checkNullString(false)}${specification.yarnApperance!= null ?  ',${specification.yarnApperance}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}${specification.yarnGrade!= null ?  ',${specification.yarnGrade}':Utils.checkNullString(true)}';
       break;
       case '5':
-      detailsData = '${specification.yarnSpunTechnique??"N/A"},${specification.yarnColorTreatmentMethod??"N/A"},${specification.yarnPattern??"N/A"}';/*,${specification.doublingMethod??"N/A"}*/
+      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.yarnPattern!= null ?  ',${specification.yarnPattern}':Utils.checkNullString(true)}';/*,${specification.doublingMethod??Utils.checkNullString(false)}*/
       break;
   }
   return detailsData;

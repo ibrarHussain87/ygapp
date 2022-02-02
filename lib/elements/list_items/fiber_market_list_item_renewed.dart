@@ -8,6 +8,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
 Widget buildFiberRenewedWidget(
@@ -56,7 +57,7 @@ Widget buildFiberRenewedWidget(
                     children: [
                       Container(
                         child: Text(
-                          specification.company ?? "N/A",
+                          specification.company ?? Utils.checkNullString(false),
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
@@ -210,26 +211,26 @@ Widget buildFiberRenewedWidget(
                                     runSpacing: 3.0,
                                     children: [
                                       ShortDetailRenewedWidget(
-                                        title: specification.unitCount ?? "N/A",
+                                        title: specification.unitCount ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_bag.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.available ?? "N/A",
+                                        title: specification.available ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_cone.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
                                         title: specification.deliveryPeriod ??
-                                            "N/A",
+                                            Utils.checkNullString(false),
                                         imageIcon: 'images/img_van.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality ?? "N/A",
+                                        title: specification.locality ?? Utils.checkNullString(false),
                                         imageIcon: 'images/img_location.png',
                                         size: 9.sp,
                                         iconSize: 14,
@@ -279,7 +280,7 @@ Widget buildFiberRenewedWidget(
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
-                                  text: "/kg",
+                                  text: "/ ${specification.unitCount??''}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
@@ -464,16 +465,16 @@ getFiberSubtitle(Specification specification) {
   switch (specification.nature_id) {
     case '2':
       subtitle =
-          '${specification.length ?? 'N/A'},${specification.micronaire ?? 'N/A'},'
-          '${specification.apperance ?? 'N/A'},${specification.certification ?? 'N/A'}';
+          '${specification.length ?? Utils.checkNullString(false)}${specification.micronaire != null ? ',${specification.micronaire}': Utils.checkNullString(true)}'
+          '${specification.apperance != null ? ',${specification.apperance}': Utils.checkNullString(true)}${specification.certification != null ? ',${specification.certification}' : Utils.checkNullString(true)}';
       break;
     case '1':
       /*add color in specification at 2nd*/
-      subtitle = '${specification.apperance ?? 'N/A'},'
-          '${specification.origin_fiber_spc ?? 'N/A'}';
+      subtitle = '${specification.apperance != null ? '${specification.apperance}' : Utils.checkNullString(false)}'
+          '${specification.origin_fiber_spc != null ? ',${specification.origin_fiber_spc}' : Utils.checkNullString(true)}';
       break;
     default:
-      subtitle = 'N/A';
+      subtitle = Utils.checkNullString(false);
       break;
   }
   return subtitle;
@@ -484,14 +485,14 @@ getFiberTitle(Specification specification) {
   switch (specification.nature_id) {
     case '2':
       title =
-          '${specification.origin_fiber_spc ?? 'N/A'},${specification.productYear ?? 'N/A'}';
+          '${specification.origin_fiber_spc ?? Utils.checkNullString(false)}${specification.productYear != null ? ',${specification.productYear}': Utils.checkNullString(true)}';
       break;
     case '1':
       title =
-          '${specification.brand ?? 'N/A'},${specification.lotNumber ?? 'N/A'}';
+          '${specification.brand ?? Utils.checkNullString(false)}${specification.lotNumber != null ? ',${specification.lotNumber}': Utils.checkNullString(true)}';
       break;
     default:
-      title = 'N/A';
+      title = Utils.checkNullString(false);
       break;
   }
   return title;

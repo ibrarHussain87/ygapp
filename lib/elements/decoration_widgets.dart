@@ -194,3 +194,30 @@ InputDecoration borderDecoration(String hint) {
       )
   );
 }
+
+InputDecoration roundedDescriptionDecorationUpdated(String hint) {
+  return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(fontSize: 11.sp,),
+      filled: true,
+      fillColor: Colors.white,
+      // contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
+      isDense: true,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.0.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.0.w),
+        borderSide: BorderSide(color: lightBlueTabs),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      )
+  );
+}
