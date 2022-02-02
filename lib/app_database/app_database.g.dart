@@ -136,7 +136,7 @@ class _$AppDatabase extends AppDatabase {
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 10,
+      version: 11,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -196,7 +196,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
@@ -2084,6 +2084,7 @@ class _$YarnBlendDao extends YarnBlendDao {
                   'blnId': item.blnId,
                   'familyIdfk': item.familyIdfk,
                   'blnName': item.blnName,
+                  'bln_abrv': item.bln_abrv,
                   'minMax': item.minMax,
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
@@ -2106,6 +2107,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnId: row['blnId'] as int?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
@@ -2120,6 +2122,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnId: row['blnId'] as int?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
