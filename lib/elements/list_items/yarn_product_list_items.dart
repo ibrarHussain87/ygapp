@@ -216,7 +216,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 40.w),
-                          child: Row(
+                          child: widget.specification.yarnFamilyId != "4"? Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Expanded(
@@ -240,6 +240,35 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                 child: BgLightBlueTextWidget(
                                   title:
                                       'IPI ${widget.specification.actualYarnCount}',
+                                  color: lightBlueLabel,
+                                ),
+                                flex: 1,
+                              ),
+                            ],
+                          ) : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: BgLightBlueTextWidget(
+                                  title:
+                                  'Q ${widget.specification.yarnQuality}',
+                                  color: lightBlueLabel,
+                                ),
+                                flex: 1,
+                              ),
+                              SizedBox(width: 8.w),
+                              Expanded(
+                                child: BgLightBlueTextWidget(
+                                  title: 'A ${widget.specification.yarnApperance ?? ""}',
+                                  color: lightBlueLabel,
+                                ),
+                                flex: 1,
+                              ),
+                              SizedBox(width: 8.w),
+                              Expanded(
+                                child: BgLightBlueTextWidget(
+                                  title:
+                                  'G ${widget.specification.yarnGrade ?? ""}',
                                   color: lightBlueLabel,
                                 ),
                                 flex: 1,
@@ -331,7 +360,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                   fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
-                              text: "/ ${widget.specification.unitCount??''}",
+                              text: "/${widget.specification.unitCount??''}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,

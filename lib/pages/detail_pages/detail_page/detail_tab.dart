@@ -1317,6 +1317,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.priceTerms == null
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.priceTerms!),
+      //
+      // GridTileModel(
+      //     'Cone Type',
+      //     widget.yarnSpecification!.ty == null
+      //         ? Utils.checkNullString(false)
+      //         : widget.yarnSpecification!.priceTerms!),
 
       GridTileModel(
           'Seller Location', widget.yarnSpecification!.locality ?? Utils.checkNullString(false))

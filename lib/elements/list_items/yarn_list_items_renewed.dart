@@ -164,7 +164,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 0.w,right: 35.w),
-                              child: Row(
+                              child: specification.yarnFamilyId != "4" ? Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
@@ -184,6 +184,30 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title: 'IPI ${specification.ys_ipm_km??""}',
+                                    ),
+                                    flex: 1,
+                                  ),
+                                ],
+                              ): Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: BgLightBlueNormalTextWidget(
+                                      title: 'Q ${specification.yarnQuality??""}',
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Expanded(
+                                    child: BgLightBlueNormalTextWidget(
+                                      title: 'A ${specification.yarnApperance??""}',
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                  Expanded(
+                                    child: BgLightBlueNormalTextWidget(
+                                      title: 'G ${specification.yarnGrade??""}',
                                     ),
                                     flex: 1,
                                   ),

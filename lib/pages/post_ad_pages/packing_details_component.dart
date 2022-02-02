@@ -249,7 +249,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
                                                     title:
-                                                        "$weightBags  ${unitCountSelected ?? ""}")),
+                                                        "$weightBags ($unitCountSelected)")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -1253,7 +1253,7 @@ class PackagingDetailsState extends State<PackagingDetails>
     _createRequestModel!.fbp_count_unit_idfk =
         _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
             .spc_category_idfk).toList().first.untId.toString();
-    unitCountSelected = _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+    unitCountSelected ??= _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
         .spc_category_idfk).toList().first.untName;
     _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =

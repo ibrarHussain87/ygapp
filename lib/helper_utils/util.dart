@@ -59,7 +59,7 @@ class Utils{
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.bln_abrv ?? ''}';
         break;
       case '3':
         familyData =
@@ -67,7 +67,7 @@ class Utils{
         break;
       case '4':
         familyData =
-        '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} ${specification.yarnFamily ?? ''}';
+        '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '5':
         familyData =
@@ -85,16 +85,16 @@ class Utils{
     switch (specification.yarnFamilyId) {
       case '1':
         titleData =
-        '${specification.yarnQuality ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
+          '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
         break;
       case '2':
-        titleData = specification.yarnBlend ?? Utils.checkNullString(false);
+        titleData = specification.yarnFamily ?? Utils.checkNullString(false);
         break;
       case '3':
         titleData = specification.yarnOrientation ?? Utils.checkNullString(false);
         break;
       case '4':
-        titleData = specification.yarnType ?? Utils.checkNullString(false);
+        titleData =""/* specification.yarnType ?? Utils.checkNullString(false)*/;
         break;
       case '5':
         titleData = specification.yarnBlend ?? Utils.checkNullString(false);

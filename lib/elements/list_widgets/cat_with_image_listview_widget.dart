@@ -61,7 +61,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       name = widget.listItem!.cast<FiberMaterial>()[index].fbmName;
       castingCheckPos = 0;
     } else if (widget.listItem is List<Blends>) {
-      name = widget.listItem!.cast<Blends>()[index].blnName;
+      name = widget.listItem!.cast<Blends>()[index].bln_abrv;
       castingCheckPos = 1;
     }
     return GestureDetector(
