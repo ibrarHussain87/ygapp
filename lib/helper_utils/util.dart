@@ -11,7 +11,7 @@ class Utils{
   }
 
   static String checkNullString(bool prefix) {
-    var debug = true;
+    var debug = false;
     var value = '';
     if(debug){
       if(prefix){

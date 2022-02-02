@@ -280,7 +280,7 @@ Widget buildFiberRenewedWidget(
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
-                                  text: "/kg",
+                                  text: "/ ${specification.unitCount??''}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,

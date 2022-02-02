@@ -70,10 +70,10 @@ class PackagingDetails extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PackagingDetailsState createState() => _PackagingDetailsState();
+  PackagingDetailsState createState() => PackagingDetailsState();
 }
 
-class _PackagingDetailsState extends State<PackagingDetails>
+class PackagingDetailsState extends State<PackagingDetails>
     with AutomaticKeepAliveClientMixin {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -814,19 +814,59 @@ class _PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Price Unit and Available Quantity
-                            Visibility(
-                              visible: false,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 8.w, left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: priceUnits)),
+                                    TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        maxLines: 1,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]")),
+                                        ],
+                                        onSaved: (input) {
+                                          if (_createRequestModel != null) {
+                                            _createRequestModel!.fbp_price =
+                                                input!;
+                                          }
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
+                                            return priceUnits;
+                                          }
+                                          return null;
+                                        },
+                                        decoration: roundedTextFieldDecoration(
+                                            priceUnits)),
+                                  ],
+                                )),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child:
+                                      //Available Quantity
+                                      Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                           padding: EdgeInsets.only(
                                               top: 8.w, left: 8.w),
-                                          child: TitleSmallTextWidget(
-                                              title: priceUnits)),
+                                          child: const TitleSmallTextWidget(
+                                              title: "Available Quantity")),
                                       TextFormField(
                                           keyboardType: TextInputType.number,
                                           cursorColor: lightBlueTabs,
@@ -840,7 +880,8 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                           ],
                                           onSaved: (input) {
                                             if (_createRequestModel != null) {
-                                              _createRequestModel!.fbp_price =
+                                              _createRequestModel!
+                                                      .fbp_available_quantity =
                                                   input!;
                                             }
                                           },
@@ -848,66 +889,22 @@ class _PackagingDetailsState extends State<PackagingDetails>
                                             if (input == null ||
                                                 input.isEmpty ||
                                                 int.parse(input) < 1) {
-                                              return priceUnits;
+                                              return "Available Quantity";
                                             }
                                             return null;
                                           },
-                                          decoration: roundedTextFieldDecoration(
-                                              priceUnits)),
+                                          decoration:
+                                              roundedTextFieldDecoration(
+                                                  "Available Quantity")),
                                     ],
-                                  )),
-                                  SizedBox(width: 16.w),
-                                  Expanded(
-                                    child:
-                                        //Available Quantity
-                                        Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: "Available Quantity")),
-                                        TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")),
-                                            ],
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!
-                                                        .fbp_available_quantity =
-                                                    input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty ||
-                                                  int.parse(input) < 1) {
-                                                return "Available Quantity";
-                                              }
-                                              return null;
-                                            },
-                                            decoration:
-                                                roundedTextFieldDecoration(
-                                                    "Available Quantity")),
-                                      ],
-                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
 
                             //Minimum Quantity
                             Visibility(
-                              visible: false,
+                              visible: true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -948,7 +945,7 @@ class _PackagingDetailsState extends State<PackagingDetails>
 
                             //Required Quantity
                             Visibility(
-                              visible: true,
+                              visible: false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1249,13 +1246,15 @@ class _PackagingDetailsState extends State<PackagingDetails>
   _initialValuesRequestModel() {
     if (widget.locality == international) {
       _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
-      _createRequestModel!.fbp_count_unit_idfk =
-          _unitsList.first.untId.toString();
-      unitCountSelected = _unitsList.first.untName;
     }
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
+    _createRequestModel!.fbp_count_unit_idfk =
+        _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+            .spc_category_idfk).toList().first.untId.toString();
+    unitCountSelected = _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+        .spc_category_idfk).toList().first.untName;
     _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
         _deliverPeriodList.first.dprId.toString();

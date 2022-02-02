@@ -331,7 +331,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                   fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
-                              text: "/kg",
+                              text: "/ ${widget.specification.unitCount??''}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,

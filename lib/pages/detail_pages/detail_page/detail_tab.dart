@@ -60,6 +60,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       if (widget.specification != null) {
         _bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
       } else {
+        Logger().e(widget.yarnSpecification!.priceUnit!);
         _bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
       }

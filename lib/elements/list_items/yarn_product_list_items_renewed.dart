@@ -226,11 +226,37 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TitleTextWidget(
+                          /*TitleTextWidget(
                             title: "PKR." +
-                                specification.priceUnit.toString() +
-                                "/KG",
-                          ),
+                                '${specification.priceUnit??""}/${specification.unitCount??""}',
+                          ),*/
+                          Text.rich(TextSpan(children: [
+                            TextSpan(
+                              text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            TextSpan(
+                              text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'), ''),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            TextSpan(
+                              text:
+                              "/ ${specification.unitCount ?? ""}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: 'Metropolis',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ])),
                           TitleSmallTextWidget(title: "Ex- Factory")
                         ],
                       ),

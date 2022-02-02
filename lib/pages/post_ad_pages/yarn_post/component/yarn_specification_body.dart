@@ -652,6 +652,7 @@ class YarnSpecificationComponentState
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
       } else {
+        _createRequestModel.spc_category_idfk = "2";
         return true;
       }
     }
@@ -884,7 +885,6 @@ class YarnSpecificationComponentState
               child: ElevatedButtonWithIcon(
                 callback: () async {
                   if (validationAllPage()) {
-                    _createRequestModel.spc_category_idfk = "2";
                     // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
                     // _createRequestModel.ys_usage_idfk = userId;
                     widget.callback!(1);
