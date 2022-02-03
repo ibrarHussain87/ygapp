@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 
-import '../../../../elements/list_widgets/brand_text.dart';
 import '../../../../elements/title_text_widget.dart';
-import '../../../../helper_utils/app_images.dart';
-import '../../../../helper_utils/util.dart';
 import 'package:intl/intl.dart';
 
 
@@ -47,7 +44,7 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                         SizedBox(height: 4.h,)
                       ],
                     ),
-                    TitleMediumBoldSmallTextWidget(title: DateFormat("MMM dd, yyyy").format(DateTime.parse(widget.bidData.date??"")))
+                    TitleMediumBoldSmallTextWidget(title: DateFormat("MMM dd, yyyy HH:MM:s").format(DateTime.parse(widget.bidData.date??"")))
                   ],
                 ),
                 flex: 8,

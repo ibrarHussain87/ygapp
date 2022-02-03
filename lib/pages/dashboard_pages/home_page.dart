@@ -52,7 +52,8 @@ class HomePageState extends State<HomePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: (){
-                          openProfileScreen(context);
+                          /*openProfileScreen(context);*/
+                          widget.callback(3);
                         },
                         child: const CircleAvatar(
                           radius: 24,

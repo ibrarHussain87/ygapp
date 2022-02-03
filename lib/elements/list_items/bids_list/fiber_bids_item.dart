@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
+
 import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../elevated_button_widget_2.dart';
 import '../../list_widgets/bg_light_blue_normal_text_widget.dart';
-import '../../list_widgets/bid_now_widget.dart';
 import '../../list_widgets/short_detail_renewed_widget.dart';
 import '../../title_text_widget.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FiberBidItem extends StatelessWidget {
-
   final BidData? bidData;
-  const FiberBidItem({Key? key,required this.bidData}) : super(key: key);
 
+  const FiberBidItem({Key? key, required this.bidData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     Specification _specification = bidData!.specification! as Specification;
 
     return Card(
@@ -70,12 +68,14 @@ class FiberBidItem extends StatelessWidget {
                     maintainAnimation: true,
                     child: Container(
                         width: 34.w,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 3.w, vertical: 3.w),
                         decoration: BoxDecoration(
-                            color: bidData!.status == "0" ? Colors.brown
-                                .shade100.withOpacity(0.4) : bidData!.status == "1" ? Colors.green
-                                .shade100 : Colors.red.shade100,
+                            color: bidData!.status == "0"
+                                ? Colors.brown.shade100.withOpacity(0.4)
+                                : bidData!.status == "1"
+                                    ? Colors.green.shade100
+                                    : Colors.red.shade100,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(0.w),
                             )),
@@ -83,8 +83,11 @@ class FiberBidItem extends StatelessWidget {
                           _showStatus(int.parse(bidData!.status!)),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: bidData!.status == "0" ? Colors.
-                            brown : bidData!.status == "1" ? Colors.green : Colors.red,
+                            color: bidData!.status == "0"
+                                ? Colors.brown
+                                : bidData!.status == "1"
+                                    ? Colors.green
+                                    : Colors.red,
                             fontSize: 6.sp,
                             fontFamily: 'Metropolis',
                             fontWeight: FontWeight.bold,
@@ -99,7 +102,8 @@ class FiberBidItem extends StatelessWidget {
                       children: [
                         SizedBox(
                           child: Text(
-                            _specification.company ?? Utils.checkNullString(false),
+                            _specification.company ??
+                                Utils.checkNullString(false),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
@@ -170,7 +174,7 @@ class FiberBidItem extends StatelessWidget {
                                   Container(
                                       color: blueBackgroundColor,
                                       constraints:
-                                      const BoxConstraints(maxHeight: 14),
+                                          const BoxConstraints(maxHeight: 14),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
@@ -189,7 +193,8 @@ class FiberBidItem extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 1),
                                       child: TitleMediumTextWidget(
-                                        title: Utils.getFiberTitle(bidData!.specification! as Specification),
+                                        title: Utils.getFiberTitle(bidData!
+                                            .specification! as Specification),
                                         color: Colors.black87,
                                         weight: FontWeight.w600,
                                         size: 13,
@@ -200,9 +205,11 @@ class FiberBidItem extends StatelessWidget {
                                 ],
                               ),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
+                                padding:
+                                    EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                                 child: TitleSmallBoldTextWidget(
-                                  title: Utils.getFiberSubtitle(bidData!.specification! as Specification),
+                                  title: Utils.getFiberSubtitle(
+                                      bidData!.specification! as Specification),
                                   color: Colors.black87,
                                   size: 10,
                                   weight: FontWeight.w500,
@@ -267,8 +274,9 @@ class FiberBidItem extends StatelessWidget {
                                           iconSize: 14,
                                         ),
                                         ShortDetailRenewedWidget(
-                                          title: _specification.deliveryPeriod ??
-                                              Utils.checkNullString(false),
+                                          title:
+                                              _specification.deliveryPeriod ??
+                                                  Utils.checkNullString(false),
                                           imageIcon: 'images/img_van.png',
                                           size: 9.sp,
                                           iconSize: 14,
@@ -295,27 +303,23 @@ class FiberBidItem extends StatelessWidget {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.17,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.17,
                                       decoration: BoxDecoration(
-                                        /*color: lightYellowContainer,*/
+                                          /*color: lightYellowContainer,*/
                                           border: Border.all(
                                             color: greenButton,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
-                                          borderRadius:
-                                          BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(4.w))),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 4.w, horizontal: 4.w),
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               // Text(
                                               //   'Price',
@@ -325,14 +329,33 @@ class FiberBidItem extends StatelessWidget {
                                               //       fontWeight: FontWeight.w400),
                                               // ),
                                               // SizedBox(width: 2.w,),
-                                              Text(
-                                                '${bidData!.price}',
-                                                style: TextStyle(
-                                                    fontSize: 9.sp,
-                                                    color: greenButton,
-                                                    fontWeight: FontWeight
-                                                        .w700),
-                                              ),
+
+                                              Text.rich(TextSpan(children: [
+                                                TextSpan(
+                                                  text:
+                                                      '${bidData!.price.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                TextSpan(
+                                                  text: bidData!.price
+                                                      .toString()
+                                                      .replaceAll(
+                                                          RegExp(r'[^0-9]'),
+                                                          ''),
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ])),
+
                                               SizedBox(
                                                 width: 3.w,
                                               )
@@ -341,44 +364,39 @@ class FiberBidItem extends StatelessWidget {
                                         ),
                                       )),
                                   Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.17,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.17,
                                       decoration: BoxDecoration(
-                                        /*color: lightYellowContainer,*/
+                                          /*color: lightYellowContainer,*/
                                           border: Border.all(
                                             color: greenButton,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
-                                          borderRadius:
-                                          BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(4.w))),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 4.w, horizontal: 4.w),
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                'QTY',
+                                                'QTY.',
                                                 style: TextStyle(
                                                     fontSize: 9.sp,
                                                     color: Colors.black87,
-                                                    fontWeight: FontWeight
-                                                        .w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
-                                              SizedBox(width: 2.w,),
+
                                               Text(
                                                 '${bidData!.quantity}',
                                                 style: TextStyle(
                                                     fontSize: 9.sp,
                                                     color: greenButton,
-                                                    fontWeight: FontWeight
-                                                        .w700),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 width: 3.w,
@@ -387,9 +405,9 @@ class FiberBidItem extends StatelessWidget {
                                           ),
                                         ),
                                       )),
-
-                                  TitleExtraSmallTextWidget(title: bidData!.date)
-
+                                  TitleExtraSmallTextWidget(
+                                      title: DateFormat("MMM dd, yyyy").format(
+                                          DateTime.parse(bidData!.date ?? "")))
                                 ],
                               ),
                               SizedBox(
@@ -400,7 +418,8 @@ class FiberBidItem extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
+                        padding:
+                            EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
                         child: Column(
                           children: [
                             Column(
@@ -414,7 +433,7 @@ class FiberBidItem extends StatelessWidget {
                                 Text.rich(TextSpan(children: [
                                   TextSpan(
                                     text:
-                                    '${_specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                        '${_specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
@@ -517,7 +536,10 @@ class FiberBidItem extends StatelessWidget {
                                 btnText: "Details",
                                 textSize: 8.sp,
                                 callback: () {
-                                  openDetailsScreen(context,specification: bidData!.specification as Specification,isFromBid: true);
+                                  openDetailsScreen(context,
+                                      specification: bidData!.specification
+                                          as Specification,
+                                      isFromBid: true);
                                 },
                                 color: Colors.green,
                               ),

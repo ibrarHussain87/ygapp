@@ -193,21 +193,21 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'Q ${specification.yarnQuality??""}',
+                                      title: specification.yarnType??"",
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'A ${specification.yarnApperance??""}',
+                                      title: specification.yarnQuality??"",
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: 'G ${specification.yarnGrade??""}',
+                                      title: specification.yarnGrade??"",
                                     ),
                                     flex: 1,
                                   ),

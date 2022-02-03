@@ -12,6 +12,8 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:intl/intl.dart';
+
 
 class ListBidderBody extends StatefulWidget {
   final BidData listBiddersData;
@@ -62,7 +64,8 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                   children: [
                     TitleTextWidget(
                         title: widget.listBiddersData.userName ?? ""),
-                    BrandWidget(title: widget.listBiddersData.date ?? Utils.checkNullString(false))
+                    SizedBox(height: 4.h,),
+                    BrandWidget(title: DateFormat("MMM dd, yyyy HH:MM:s").format(DateTime.parse(widget.listBiddersData.date??"")))
                   ],
                 ),
                 flex: 8,

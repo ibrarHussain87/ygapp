@@ -112,69 +112,26 @@ class Utils{
     String detailsData = "";
     switch (specification.yarnFamilyId) {
       case '1':
-        /*detailsData =
-        '${specification.yarnOrientation ?? Utils.checkNullString(false)}'
-            '${specification.yarnOrientation != null ? ',' : ''}'
-            '${specification.yarnSpunTechnique != null ? '${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}'
-            '${specification.yarnSpunTechnique != null ? ',' : ''}'
-            '${specification.yarnColorTreatmentMethod != null ? '${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}'
-            '${specification.yarnColorTreatmentMethod != null ? ',' : ''}'
-            '${specification.doublingMethod != null ? '${specification.doublingMethod}' : Utils.checkNullString(true)}';*/
         List<String?> list = [specification.yarnOrientation,specification.yarnSpunTechnique,specification.yarnColorTreatmentMethod,specification.doublingMethod,];
         detailsData = Utils.createStringFromList(list);
         break;
       case '2':
-        /*detailsData =
-        '${specification.yarnOrientation ?? Utils.checkNullString(false)}'
-            '${specification.yarnOrientation != null ? ',' : ''}'
-            '${specification.yarnSpunTechnique != null ? '${specification.yarnSpunTechnique}' : Utils.checkNullString(true)}'
-            '${specification.yarnSpunTechnique != null ? ',' : ''}'
-            '${specification.yarnColorTreatmentMethod != null ? '${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}'
-            '${specification.yarnColorTreatmentMethod != null ? ',' : ''}'
-            '${specification.doublingMethod != null ? '${specification.doublingMethod}' : Utils.checkNullString(true)}';*/
         List<String?> list = [specification.yarnOrientation,specification.yarnSpunTechnique,specification.yarnColorTreatmentMethod,specification.doublingMethod,];
         detailsData = Utils.createStringFromList(list);
         break;
       case '3':
-        /*detailsData =
-        '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}'
-            '${specification.yarnSpunTechnique != null ? ',' : ''}'
-            '${specification.yarnColorTreatmentMethod != null ? '${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}'
-            '${specification.yarnColorTreatmentMethod != null ? ',' : ''}'
-            '${specification.doublingMethod != null ? '${specification.doublingMethod}' : Utils.checkNullString(true)}';*/
         List<String?> list = [specification.yarnSpunTechnique,specification.yarnColorTreatmentMethod,specification.doublingMethod,];
         detailsData = Utils.createStringFromList(list);
         break;
       case '4':
-        /*detailsData =
-        '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}'
-            '${specification.yarnSpunTechnique != null ? ',' : ''}'
-            '${specification.yarnColorTreatmentMethod != null ? '${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}'
-            '${specification.yarnColorTreatmentMethod != null ? ',' : ''}'
-            '${specification.yarnApperance != null ? '${specification.yarnApperance}' : Utils.checkNullString(true)}'
-            '${specification.yarnApperance != null ? ',' : ''}'
-            '${specification.doublingMethod != null ? '${specification.doublingMethod}' : Utils.checkNullString(true)}'
-            '${specification.doublingMethod != null ? ',' : ''}'
-            '${specification.yarnGrade != null ? '${specification.yarnGrade}' : Utils.checkNullString(true)}';*/
-          Logger().e(specification.yarnSpunTechnique.toString()+'5');
-        List<String?> list = [specification.yarnSpunTechnique,specification.yarnColorTreatmentMethod,specification.yarnApperance,specification.doublingMethod,specification.yarnGrade,];
+        List<String?> list = [specification.yarnApperance,specification.yarnColorTreatmentMethod,specification.doublingMethod,];
         detailsData = Utils.createStringFromList(list);
         break;
       case '5':
-        /*detailsData =
-        '${specification.yarnSpunTechnique ?? Utils.checkNullString(false)}'
-            '${specification.yarnSpunTechnique != null ? ',' : ''}'
-            '${specification.yarnColorTreatmentMethod != null ? '${specification.yarnColorTreatmentMethod}' : Utils.checkNullString(true)}'
-            '${specification.yarnColorTreatmentMethod != null ? ',' : ''}'
-            '${specification.yarnPattern != null ? '${specification.yarnPattern}' : Utils.checkNullString(true)}';*/
-        /*,${specification.doublingMethod??Utils.checkNullString(true)}*/
         List<String?> list = [specification.yarnSpunTechnique,specification.yarnColorTreatmentMethod,specification.yarnPattern,];
         detailsData = Utils.createStringFromList(list);
         break;
     }
-    /*if(detailsData.isEmpty){
-    detailsData = "Weaving,Ring Frame,Warp,Regular";
-  }*/
     return detailsData;
   }
 

@@ -10,6 +10,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/pages/profile/profile_page.dart';
 
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
@@ -43,7 +44,7 @@ class _MainPageState extends State<MainPage> {
         key: homePageState,
         callback: (value) {
           setState(() {
-            _onItemTapped(1);
+            _onItemTapped(value);
           });
         },
       ),
@@ -53,6 +54,7 @@ class _MainPageState extends State<MainPage> {
       MarketPage(
         locality: international,
       ),
+      const ProfilePage(),
       const YGServices(),
       // const PastAdPage()
     ];
@@ -239,6 +241,17 @@ class _MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
             icon: _selectedIndex == 3
                 ? Padding(
+              padding: EdgeInsets.all(2.w),
+              child: const Icon(Icons.segment,size: 28,color: Colors.green,),
+            )
+                : Padding(
+              padding: EdgeInsets.all(2.0.w),
+              child: const Icon(Icons.segment,size: 28,color: Colors.grey,),
+            ),
+            label: "Menu"),
+        BottomNavigationBarItem(
+            icon: _selectedIndex == 4
+                ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
                       ygServicesIcon,
@@ -279,29 +292,31 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<bool> _synData() async {
-
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
 
-    if(!dataSynced){
+    if (!dataSynced) {
       await Future.wait([
         ApiService.syncFiber().then((syncFiberResponse) {
           if (syncFiberResponse.status) {
             AppDbInstance.getDbInstance().then((value) async {
               await Future.wait([
-                value.fiberMaterialDao
-                    .insertAllFiberMaterials(syncFiberResponse.data.fiber.material),
+                value.fiberMaterialDao.insertAllFiberMaterials(
+                    syncFiberResponse.data.fiber.material),
 
-                value.fiberSettingDao
-                    .insertAllFiberSettings(syncFiberResponse.data.fiber.settings),
-                value.gradesDao.insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.fiberNatureDao
-                    .insertAllFiberNatures(syncFiberResponse.data.fiber.natures),
+                value.fiberSettingDao.insertAllFiberSettings(
+                    syncFiberResponse.data.fiber.settings),
+                value.gradesDao
+                    .insertAllGrades(syncFiberResponse.data.fiber.grades),
+                value.fiberNatureDao.insertAllFiberNatures(
+                    syncFiberResponse.data.fiber.natures),
 
                 //insert Common objects for fiber
-                value.gradesDao.insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.brandsDao.insertAllBrands(syncFiberResponse.data.fiber.brands),
-                value.certificationDao
-                    .insertAllCertification(syncFiberResponse.data.fiber.certification),
+                value.gradesDao
+                    .insertAllGrades(syncFiberResponse.data.fiber.grades),
+                value.brandsDao
+                    .insertAllBrands(syncFiberResponse.data.fiber.brands),
+                value.certificationDao.insertAllCertification(
+                    syncFiberResponse.data.fiber.certification),
                 value.cityStateDao
                     .insertAllCityState(syncFiberResponse.data.fiber.cityState),
                 value.companiesDao
@@ -310,20 +325,21 @@ class _MainPageState extends State<MainPage> {
                     .insertAllCountry(syncFiberResponse.data.fiber.countries),
                 value.deliveryPeriodDao.insertAllDeliveryPeriods(
                     syncFiberResponse.data.fiber.deliveryPeriod),
-                value.lcTypeDao.insertAllLcType(syncFiberResponse.data.fiber.lcType),
-                value.paymentTypeDao
-                    .insertAllPaymentType(syncFiberResponse.data.fiber.paymentType),
-                value.portsDao.insertAllPorts(syncFiberResponse.data.fiber.ports),
-                value.priceTermsDao
-                    .insertAllFPriceTerms(syncFiberResponse.data.fiber.priceTerms),
+                value.lcTypeDao
+                    .insertAllLcType(syncFiberResponse.data.fiber.lcType),
+                value.paymentTypeDao.insertAllPaymentType(
+                    syncFiberResponse.data.fiber.paymentType),
+                value.portsDao
+                    .insertAllPorts(syncFiberResponse.data.fiber.ports),
+                value.priceTermsDao.insertAllFPriceTerms(
+                    syncFiberResponse.data.fiber.priceTerms),
                 value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
-                value.fiberAppearanceDoa
-                    .insertAllFiberAppearance(syncFiberResponse.data.fiber.apperance),
-                value.packingDao.insertAllPacking(syncFiberResponse.data.fiber.packing)
-
+                value.fiberAppearanceDoa.insertAllFiberAppearance(
+                    syncFiberResponse.data.fiber.apperance),
+                value.packingDao
+                    .insertAllPacking(syncFiberResponse.data.fiber.packing)
               ]);
             });
-
           }
         }),
         ApiService.syncYarn().then((syncYarnResponse) {
@@ -336,17 +352,19 @@ class _MainPageState extends State<MainPage> {
                 value.yarnBlendDao
                     .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!),
 
-                value.spunTechDao
-                    .insertAllSpunTechnique(syncYarnResponse.data.yarn.spunTechnique!),
-                value.doublingMethodDao
-                    .insertAllDoublingMethod(syncYarnResponse.data.yarn.doublingMethod!),
+                value.spunTechDao.insertAllSpunTechnique(
+                    syncYarnResponse.data.yarn.spunTechnique!),
+                value.doublingMethodDao.insertAllDoublingMethod(
+                    syncYarnResponse.data.yarn.doublingMethod!),
                 value.yarnFamilyDao
                     .insertAllYarnFamily(syncYarnResponse.data.yarn.family!),
                 //Insert All Common Objects for yarn
-                value.yarnGradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!),
-                value.brandsDao.insertAllBrands(syncYarnResponse.data.yarn.brands!),
-                value.certificationDao
-                    .insertAllCertification(syncYarnResponse.data.yarn.certification!),
+                value.yarnGradesDao
+                    .insertAllGrades(syncYarnResponse.data.yarn.grades!),
+                value.brandsDao
+                    .insertAllBrands(syncYarnResponse.data.yarn.brands!),
+                value.certificationDao.insertAllCertification(
+                    syncYarnResponse.data.yarn.certification!),
                 value.cityStateDao
                     .insertAllCityState(syncYarnResponse.data.yarn.cityState!),
                 value.companiesDao
@@ -355,35 +373,41 @@ class _MainPageState extends State<MainPage> {
                     .insertAllCountry(syncYarnResponse.data.yarn.countries!),
                 value.deliveryPeriodDao.insertAllDeliveryPeriods(
                     syncYarnResponse.data.yarn.deliveryPeriod!),
-                value.lcTypeDao.insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
-                value.paymentTypeDao
-                    .insertAllPaymentType(syncYarnResponse.data.yarn.paymentTypes!),
-                value.portsDao.insertAllPorts(syncYarnResponse.data.yarn.ports!),
-                value.priceTermsDao
-                    .insertAllFPriceTerms(syncYarnResponse.data.yarn.priceTerms!),
+                value.lcTypeDao
+                    .insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
+                value.paymentTypeDao.insertAllPaymentType(
+                    syncYarnResponse.data.yarn.paymentTypes!),
+                value.portsDao
+                    .insertAllPorts(syncYarnResponse.data.yarn.ports!),
+                value.priceTermsDao.insertAllFPriceTerms(
+                    syncYarnResponse.data.yarn.priceTerms!),
                 value.unitDao.insertAllUnit(syncYarnResponse.data.yarn.units!),
                 value.colorTreatmentMethodDao.insertAllColorTreatmentMethod(
                     syncYarnResponse.data.yarn.colorTreatmentMethod!),
                 value.coneTypeDao
                     .insertAllConeType(syncYarnResponse.data.yarn.coneType!),
-                value.colorMethodDao
-                    .insertAllDyingMethod(syncYarnResponse.data.yarn.dyingMethod!),
-                value.orientationDao
-                    .insertAllOrientation(syncYarnResponse.data.yarn.orientation!),
+                value.colorMethodDao.insertAllDyingMethod(
+                    syncYarnResponse.data.yarn.dyingMethod!),
+                value.orientationDao.insertAllOrientation(
+                    syncYarnResponse.data.yarn.orientation!),
                 value.patternCharDao.insertAllPatternCharacteristics(
                     syncYarnResponse.data.yarn.patternCharectristic!),
-                value.patternDao.insertAllPattern(syncYarnResponse.data.yarn.pattern!),
+                value.patternDao
+                    .insertAllPattern(syncYarnResponse.data.yarn.pattern!),
                 value.plyDao.insertAllPly(syncYarnResponse.data.yarn.ply!),
-                value.qualityDao.insertAllQuality(syncYarnResponse.data.yarn.quality!),
+                value.qualityDao
+                    .insertAllQuality(syncYarnResponse.data.yarn.quality!),
                 value.twistDirectionDao.insertAllTwistDirection(
                     syncYarnResponse.data.yarn.twistDirection!),
-                value.usageDao.insertAllUsage(syncYarnResponse.data.yarn.usage!),
+                value.usageDao
+                    .insertAllUsage(syncYarnResponse.data.yarn.usage!),
                 value.yarnTypesDao
                     .insertAllYarnTypes(syncYarnResponse.data.yarn.yarnTypes!),
 
-                value.yarnAppearanceDao
-                    .insertAllYarnAppearance(syncYarnResponse.data.yarn.apperance!),
-                value.packingDao.insertAllPacking(syncYarnResponse.data.yarn.packing!)
+                value.yarnAppearanceDao.insertAllYarnAppearance(
+                    syncYarnResponse.data.yarn.apperance!),
+                value.packingDao
+                    .insertAllPacking(syncYarnResponse.data.yarn.packing!)
               ]);
             });
           }
@@ -393,9 +417,7 @@ class _MainPageState extends State<MainPage> {
       SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, true);
     }
 
-
-
-  /*  AppDbInstance.getDbInstance().then((value) async {
+    /*  AppDbInstance.getDbInstance().then((value) async {
 
       await Future.wait([
         value.fiberMaterialDao

@@ -39,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 centerTitle: true,
-                leading: GestureDetector(
+                /*leading: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     Navigator.pop(context);
@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 12.w,
                             )),
                       )),
-                ),
+                ),*/
                 title: Text('Profile',
                     style: TextStyle(
                         fontSize: 16.0.w,

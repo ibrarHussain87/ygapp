@@ -334,14 +334,33 @@ class YarnBidsItem extends StatelessWidget {
                                               //       fontWeight: FontWeight.w400),
                                               // ),
                                               // SizedBox(width: 2.w,),
-                                              Text(
-                                                '${bidData.price}',
-                                                style: TextStyle(
-                                                    fontSize: 9.sp,
-                                                    color: greenButton,
-                                                    fontWeight: FontWeight
-                                                        .w700),
-                                              ),
+
+                                              Text.rich(TextSpan(children: [
+                                                TextSpan(
+                                                  text:
+                                                  '${bidData.price.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight:
+                                                      FontWeight.w400),
+                                                ),
+                                                TextSpan(
+                                                  text: bidData.price
+                                                      .toString()
+                                                      .replaceAll(
+                                                      RegExp(r'[^0-9]'),
+                                                      ''),
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight:
+                                                      FontWeight.w600),
+                                                ),
+                                              ])),
+
                                               SizedBox(
                                                 width: 3.w,
                                               )
@@ -350,10 +369,8 @@ class YarnBidsItem extends StatelessWidget {
                                         ),
                                       )),
                                   Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.17,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.17,
                                       decoration: BoxDecoration(
                                         /*color: lightYellowContainer,*/
                                           border: Border.all(
@@ -361,33 +378,30 @@ class YarnBidsItem extends StatelessWidget {
                                             width:
                                             1, //                   <--- border width here
                                           ),
-                                          borderRadius:
-                                          BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(4.w))),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 4.w, horizontal: 4.w),
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                'QTY',
+                                                'QTY.',
                                                 style: TextStyle(
                                                     fontSize: 9.sp,
                                                     color: Colors.black87,
-                                                    fontWeight: FontWeight
-                                                        .w400),
+                                                    fontWeight:
+                                                    FontWeight.w400),
                                               ),
-                                              SizedBox(width: 2.w,),
+
                                               Text(
                                                 '${bidData.quantity}',
                                                 style: TextStyle(
                                                     fontSize: 9.sp,
                                                     color: greenButton,
-                                                    fontWeight: FontWeight
-                                                        .w700),
+                                                    fontWeight:
+                                                    FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 width: 3.w,
@@ -397,7 +411,7 @@ class YarnBidsItem extends StatelessWidget {
                                         ),
                                       )),
 
-                                  TitleExtraSmallTextWidget(title: bidData.date)
+                                  TitleExtraSmallTextWidget(title: DateFormat("MMM dd, yyyy").format(DateTime.parse(bidData.date??"")) )
 
                                 ],
                               ),
