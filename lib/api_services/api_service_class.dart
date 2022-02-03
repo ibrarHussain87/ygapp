@@ -25,6 +25,8 @@ import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
+import '../model/response/list_bid_response.dart';
+
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
@@ -459,7 +461,7 @@ class ApiService {
     }
   }
 
-  static Future<ListBiddersResponse> getListBids() async {
+  static Future<ListBidResponse> getListBids() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
@@ -471,7 +473,7 @@ class ApiService {
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
-      return ListBiddersResponse.fromJson(
+      return ListBidResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {

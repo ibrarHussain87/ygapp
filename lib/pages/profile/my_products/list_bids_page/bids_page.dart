@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/list_items/bids_list/bids_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/model/response/list_bidder_response.dart';
-
-import 'bids_body.dart';
+import '../../../../model/response/list_bid_response.dart';
 
 class BidsListPage extends StatefulWidget {
   const BidsListPage({Key? key}) : super(key: key);
@@ -51,35 +50,32 @@ class _BidsListPageState extends State<BidsListPage> {
                   fontWeight: FontWeight.w400)),
         ),
         backgroundColor: Colors.white,
-        body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.w),
-          child: FutureBuilder<ListBiddersResponse>(
-            future: ApiService.getListBids(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.data != null && snapshot.data!.data.isNotEmpty) {
-                return ListView.builder(
-                    itemCount: snapshot.data!.data.length,
-                    itemBuilder: (context, index) {
-                      return ListBidsBody(
-                          listBiddersData: snapshot.data!.data[index]);
-                    });
-              } else if(snapshot.data != null && snapshot.data!.data.isEmpty){
-                return const Center(
-                    child: TitleSmallTextWidget(title: 'No data found!!'));
-              }else if (snapshot.hasError) {
-                return Center(
-                    child: TitleSmallTextWidget(title: snapshot.error.toString()));
-              } else {
-                return const Center(
-                  child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
-                );
-              }
-            },
-          ),
+        body: FutureBuilder<ListBidResponse>(
+          future: ApiService.getListBids(),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.data != null && snapshot.data!.data!= null && snapshot.data!.data!.isNotEmpty) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.data!.length,
+                  itemBuilder: (context, index) {
+                    return BidsListItem(
+                        bidData: snapshot.data!.data![index]);
+                  });
+            } else if(snapshot.data != null && snapshot.data!.data!.isEmpty){
+              return const Center(
+                  child: TitleSmallTextWidget(title: 'No data found!!'));
+            }else if (snapshot.hasError) {
+              return Center(
+                  child: TitleSmallTextWidget(title: snapshot.error.toString()));
+            } else {
+              return const Center(
+                child: SpinKitWave(
+                  color: Colors.green,
+                  size: 24.0,
+                ),
+              );
+            }
+          },
         ),
       ),
     );

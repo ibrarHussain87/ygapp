@@ -147,7 +147,7 @@ Widget buildFiberRenewedWidget(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
                                     child: TitleMediumTextWidget(
-                                      title: getFiberTitle(specification),
+                                      title: Utils.getFiberTitle(specification),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -160,7 +160,7 @@ Widget buildFiberRenewedWidget(
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title: getFiberSubtitle(specification),
+                                title: Utils.getFiberSubtitle(specification),
                                 color: Colors.black87,
                                 size: 10,
                                 weight: FontWeight.w500,
@@ -461,61 +461,4 @@ Widget buildFiberRenewedWidget(
           )
         ],
       ));
-}
-
-getFiberSubtitle(Specification specification) {
-  String subtitle = "";
-  switch (specification.nature_id) {
-    case '2':
-      /*subtitle =
-          '${specification.length ?? Utils.checkNullString(false)}'
-              '${specification.length != null ? ',' : ''}'
-              '${specification.micronaire != null ? '${specification.micronaire}' : Utils.checkNullString(true)}'
-              '${specification.micronaire != null ? ',' : ''}'
-          '${specification.apperance != null ? '${specification.apperance}' : Utils.checkNullString(true)}'
-              '${specification.apperance != null ? ',' : ''}'
-              '${specification.certification != null ? '${specification.certification}' : Utils.checkNullString(true)}';*/
-      List<String?> list = [specification.length,specification.micronaire,specification.apperance,specification.certification];
-      subtitle = Utils.createStringFromList(list);
-      break;
-    case '1':
-      /*add color in specification at 2nd*/
-      /*subtitle =
-          '${specification.apperance != null ? '${specification.apperance}':Utils.checkNullString(false)}'
-              '${specification.apperance != null ? ',' : ''}'
-          '${specification.origin_fiber_spc != null ? '${specification.origin_fiber_spc}' : Utils.checkNullString(true)}';*/
-      List<String?> list = [specification.apperance,specification.origin_fiber_spc];
-      subtitle = Utils.createStringFromList(list);
-      break;
-    default:
-      subtitle = Utils.checkNullString(false);
-      break;
-  }
-  return subtitle;
-}
-
-getFiberTitle(Specification specification) {
-  String title = "";
-  switch (specification.nature_id) {
-    case '2':
-      /*title =
-          '${specification.origin_fiber_spc ?? Utils.checkNullString(false)}'
-              '${specification.origin_fiber_spc != null ? ',' : ''}'
-              '${specification.productYear != null ? '${specification.productYear}' : Utils.checkNullString(true)}';*/
-      List<String?> list = [specification.origin_fiber_spc,specification.productYear];
-      title = Utils.createStringFromList(list);
-      break;
-    case '1':
-      /*title =
-          '${specification.brand ?? Utils.checkNullString(false)}'
-              '${specification.brand != null ? ',' : ''}'
-              '${specification.lotNumber != null ? '${specification.lotNumber}' : Utils.checkNullString(true)}';*/
-      List<String?> list = [specification.brand,specification.lotNumber];
-      title = Utils.createStringFromList(list);
-      break;
-    default:
-      title = Utils.checkNullString(false);
-      break;
-  }
-  return title;
 }
