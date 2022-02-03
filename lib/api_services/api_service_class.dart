@@ -12,6 +12,7 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
+import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
@@ -22,6 +23,7 @@ import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
+import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -34,6 +36,7 @@ class ApiService {
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
+  static const String SPEC_USER_END_POINT = "/spec_user";
   static const String SYNC_FIBER_END_POINT = "/syncFiber";
   static const String SYNC_YARN_END_POINT = "/syncYarn";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
@@ -89,6 +92,26 @@ class ApiService {
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return LoginResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<SpecificationUserResponse> getSpecificationUser(
+      SpecificationRequestModel requestModel) async {
+    try {
+      String url = BASE_API_URL + SPEC_USER_END_POINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return SpecificationUserResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {

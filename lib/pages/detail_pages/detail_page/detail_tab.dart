@@ -15,6 +15,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
@@ -1004,7 +1005,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                               inputFormatters: <TextInputFormatter>[
                                                                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                                                               ],
-                                                                              controller: priceController..text = _bidPriceFixed.toString().trim().isNotEmpty ? _bidPriceFixed.toString() : '0',
+                                                                              controller: priceController..text = _bidPrice.toString().trim().isNotEmpty ? _bidPrice.toString() : '0',
                                                                               onChanged: (value) {
                                                                                 if (value != '') {
                                                                                   _bidPrice = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
@@ -1337,7 +1338,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                       .WARNING,
                                                                   'Yes',
                                                                   () {
-
                                                                     placeBid(
                                                                         context);
                                                                   },
@@ -1373,7 +1373,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
                           FocusScope.of(context).unfocus();
-                          Ui.showSnackBar(context, 'Coming soon');
+                          widget.specification != null
+                              ? openSpecificationUserScreen(
+                                  context,
+                                  widget.specification!.spcId.toString(),
+                                  widget.specification!.categoryId.toString())
+                              : openSpecificationUserScreen(
+                                  context,
+                                  widget.yarnSpecification!.ysId.toString(),
+                                  /*widget.yarnSpecification!.category_id.toString()*/
+                                  '2');
                         },
                         color: btnColorLogin,
                         btnText: 'Contact'),

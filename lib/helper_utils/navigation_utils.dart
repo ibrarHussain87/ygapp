@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
+import 'package:yg_app/pages/detail_pages/detail_page/specification_user/specification_user_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/yarn_post_ad.dart';
 import 'package:yg_app/pages/profile/my_products/list_bids_page/bids_page.dart';
@@ -94,6 +95,15 @@ void openMyBidsScreen(BuildContext context) {
     context,
     MaterialPageRoute(
       builder: (context) => BidsListPage(),
+    ),
+  );
+}
+
+void openSpecificationUserScreen(BuildContext context,String specId,String categoryId,) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => SpecificationUserPage(specId: specId, categoryId: categoryId),
     ),
   );
 }
