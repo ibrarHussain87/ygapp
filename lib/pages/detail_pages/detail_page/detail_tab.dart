@@ -2,12 +2,14 @@ import 'package:fitted_text_field_container/fitted_text_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
+import 'package:yg_app/elements/send_proposal_bottom_sheet.dart';
 import 'package:yg_app/elements/text_detail_widget_.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/alert_dialog.dart';
@@ -36,7 +38,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
   List<GridTileModel> _labParameters = [];
   List<GridTileModel> _detailPackaging = [];
   int? _bidPrice;
+  int? _bidPriceFixed;
   int? _bidQuantity;
+  int? _bidQuantityFixed;
   int? _minBidQuantity;
   int? _tempBidQuantity;
   String _bidRemarks = "";
@@ -59,12 +63,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
     setState(() {
       if (widget.specification != null) {
         _bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
+        _bidPriceFixed = _bidPrice;
       } else {
         Logger().e(widget.yarnSpecification!.priceUnit!);
         _bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
+        _bidPriceFixed = _bidPrice;
       }
       _bidQuantity = _isYarn()
+          ? int.parse(widget.yarnSpecification!.minQuantity!)
+          : int.parse(widget.specification!.minQuantity!);
+
+      _bidQuantityFixed = _isYarn()
           ? int.parse(widget.yarnSpecification!.minQuantity!)
           : int.parse(widget.specification!.minQuantity!);
 
@@ -161,39 +171,42 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     ),
                     /*fixed lab parameters issue in fiber*/
                     widget.yarnSpecification != null
-                        ? widget.yarnSpecification!.yarnFamilyId != '4' ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              widget.yarnSpecification != null
-                                  ? Column(
-                                      children: [
-                                        SizedBox(
+                        ? widget.yarnSpecification!.yarnFamilyId != '4'
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  widget.yarnSpecification != null
+                                      ? Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 4.w,
+                                            ),
+                                            TitleTextWidget(
+                                              title: 'Lab Parameters'
+                                                  .toUpperCase(),
+                                              color: titleColor,
+                                            ),
+                                            SizedBox(
+                                              height: 12.w,
+                                            ),
+                                          ],
+                                        )
+                                      : SizedBox(
                                           height: 4.w,
                                         ),
-                                        TitleTextWidget(
-                                          title: 'Lab Parameters'.toUpperCase(),
-                                          color: titleColor,
-                                        ),
-                                        SizedBox(
-                                          height: 12.w,
-                                        ),
-                                      ],
-                                    )
-                                  : SizedBox(
-                                      height: 4.w,
-                                    ),
-                              ListView.separated(
-                                itemCount: _labParameters.length,
-                                shrinkWrap: true,
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                        const Divider(),
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    listDetailItemWidget(
-                                        context, _labParameters[index]),
-                              ),
-                              /*GridView.count(
+                                  ListView.separated(
+                                    itemCount: _labParameters.length,
+                                    shrinkWrap: true,
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const Divider(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        listDetailItemWidget(
+                                            context, _labParameters[index]),
+                                  ),
+                                  /*GridView.count(
                                 crossAxisCount: 3,
                                 childAspectRatio: 2.77,
                                 mainAxisSpacing: 3.w,
@@ -207,12 +220,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       detail: _labParameters[index]._detail);
                                 }),
                               ),*/
-                              const Divider(),
-                              SizedBox(
-                                height: 4.w,
-                              ),
-                            ],
-                          ) : Container()
+                                  const Divider(),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                ],
+                              )
+                            : Container()
                         : SizedBox(
                             height: 4.w,
                           ),
@@ -264,8 +278,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     ),
                     Text(
                       widget.specification == null
-                          ? widget.yarnSpecification!.description ?? Utils.checkNullString(false)
-                          : widget.specification!.description ?? Utils.checkNullString(false),
+                          ? widget.yarnSpecification!.description ??
+                              Utils.checkNullString(false)
+                          : widget.specification!.description ??
+                              Utils.checkNullString(false),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 12.sp,
@@ -305,7 +321,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     SizedBox(
                       height: 16.w,
                     ),
-                    Visibility(
+                    /*Visibility(
                       visible: _showBidContainer,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,9 +337,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                     Padding(
                                         padding: EdgeInsets.all(4.w),
                                         child: Center(
-                                          /*child: TitleSmallTextWidget(
+                                          */ /*child: TitleSmallTextWidget(
                                               title: 'Price'),
-                                        )*/
+                                        )*/ /*
                                           child: Text(
                                             'Price',
                                             style: TextStyle(
@@ -372,7 +388,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 ),
                                               ),
                                             )),
-                                            /*fixed price 3 4 digit issue*/
+                                            */ /*fixed price 3 4 digit issue*/ /*
                                             const SizedBox(
                                               width: 2,
                                             ),
@@ -406,10 +422,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                           ? _bidPrice.toString()
                                                           : '0',
                                                     onChanged: (value) {
-                                                      /*setState(() {
+                                                      */ /*setState(() {
                                                                 value != '' ? bidPrice = int.parse(value) : 0 ;
-                                                              });*/
-                                                      /*if (value == '') {
+                                                              });*/ /*
+                                                      */ /*if (value == '') {
                                                         priceController.text =
                                                             '0';
                                                         priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
@@ -418,7 +434,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       value != ''
                                                           ? _bidPrice =
                                                               int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''))
-                                                          : _bidPrice = 0;*/
+                                                          : _bidPrice = 0;*/ /*
                                                       if (value != '') {
                                                         _bidPrice = int.parse(
                                                             value.replaceAll(
@@ -449,14 +465,14 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                         _bidPrice = 0;
                                                       }
                                                     },
-                                                    /*onSubmitted: (value) {
+                                                    */ /*onSubmitted: (value) {
                                                       setState(() {
                                                         value != ''
                                                             ? _bidPrice =
                                                                 int.parse(value)
                                                             : _bidPrice = 0;
                                                       });
-                                                    },*/
+                                                    },*/ /*
                                                     decoration:
                                                         const InputDecoration(
                                                             border: InputBorder
@@ -515,8 +531,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                     Padding(
                                       padding: EdgeInsets.all(4.w),
                                       child: Center(
-                                          /*child: TitleSmallTextWidget(
-                                              title: 'Quantity (Kg)')*/
+                                          */ /*child: TitleSmallTextWidget(
+                                              title: 'Quantity (Kg)')*/ /*
                                           child: Text(
                                         'Quantity (Kg)',
                                         style: TextStyle(
@@ -579,11 +595,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                   vertical: 0.w,
                                                   horizontal: 3.w),
                                               child: Center(
-                                                /*child: FittedBox(
+                                                */ /*child: FittedBox(
                                                   fit: BoxFit.contain,
                                                   child: LargeTitleTextWidget(
                                                       title: '$bidQuantity'),
-                                                )*/
+                                                )*/ /*
                                                 child: SizedBox(
                                                   width: 50.w,
                                                   child:
@@ -608,15 +624,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                 _bidQuantity
                                                                     .toString(),
                                                       onChanged: (value) {
-                                                        /*setState(() {
+                                                        */ /*setState(() {
                                                           value.isNotEmpty
                                                               ? _bidQuantity =
                                                                   int.parse(
                                                                       value)
                                                               :_bidQuantity = 0;
-                                                        });*/
+                                                        });*/ /*
 
-                                                        /* if (value == '') {
+                                                        */ /* if (value == '') {
                                                           quantityController.text =
                                                           '0';
                                                         }
@@ -624,9 +640,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                         value != ''
                                                             ? _bidQuantity =
                                                             int.parse(value)
-                                                            : _bidQuantity = 0;*/
+                                                            : _bidQuantity = 0;*/ /*
 
-                                                        /*if(value != ''){
+                                                        */ /*if(value != ''){
                                                           if(int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), '')) < _minBidQuantity!){
                                                             _bidQuantity = _minBidQuantity;
                                                             quantityController.text = _minBidQuantity.toString().trim();
@@ -641,7 +657,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                           quantityController.text = _minBidQuantity.toString().trim();
                                                           quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
                                                           _bidQuantity = _minBidQuantity;
-                                                        }*/
+                                                        }*/ /*
                                                         if (value != '') {
                                                           _bidQuantity = int.parse(
                                                               value.replaceAll(
@@ -677,7 +693,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                               _minBidQuantity;
                                                         }
                                                       },
-                                                      /*onSubmitted: (value) {
+                                                      */ /*onSubmitted: (value) {
                                                         setState(() {
                                                           value != ''
                                                               ? _bidQuantity =
@@ -686,7 +702,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                               : _bidQuantity =
                                                                   0;
                                                         });
-                                                        },*/
+                                                        },*/ /*
 
                                                       decoration:
                                                           const InputDecoration(
@@ -776,20 +792,20 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
               flex: 9,
             ),
-            Visibility(
+            /*Visibility(
               visible: _showBidContainer,
               child: ElevatedButtonWithoutIcon(
                   callback: () {
                     FocusScope.of(context).unfocus();
-                    /*var logger = Logger();
+                    */ /*var logger = Logger();
                       logger.e(_bidPrice);
-                      logger.e(_bidQuantity);*/
+                      logger.e(_bidQuantity);*/ /*
                     if (_bidPrice!.toInt() <= 0) {
                       Ui.showSnackBar(context, "Please enter price");
                     } else if (_bidQuantity!.toInt() <= 0) {
@@ -812,7 +828,605 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   },
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
-            ),
+            ),*/
+            Visibility(
+              visible: _showBidContainer,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: ElevatedButtonWithoutIcon(
+                        callback: () {
+                          _bidPrice = _bidPriceFixed;
+                          _bidQuantity = _bidQuantityFixed;
+                          FocusScope.of(context).unfocus();
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setState) {
+                                  return Scaffold(
+                                    resizeToAvoidBottomInset: true,
+                                    body: Container(
+                                        height: 0.54 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                        margin: EdgeInsets.only(
+                                            left: 16.w,
+                                            right: 16.w,
+                                            top: 8.w),
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                                alignment: Alignment.topRight,
+                                                child: GestureDetector(
+                                                  behavior:
+                                                  HitTestBehavior.opaque,
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:
+                                                  const Icon(Icons.close),
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            'Send Proposal',
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                FontWeight.w600),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 20.h,),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.center,
+                                                          children: [
+                                                            Padding(
+                                                                padding:
+                                                                EdgeInsets.all(4.w),
+                                                                child: Center(
+                                                                  /*child: TitleSmallTextWidget(
+                                                          title: 'Price'),
+                                              )*/
+                                                                  child: Text(
+                                                                    'Price',
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                        Colors.black,
+                                                                        fontSize: 12.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w700),
+                                                                  ),
+                                                                )),
+                                                            SizedBox(
+                                                              width: 250.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                EdgeInsets.all(1.w),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                        child:
+                                                                        GestureDetector(
+                                                                          behavior:
+                                                                          HitTestBehavior
+                                                                              .opaque,
+                                                                          onTap: () {
+                                                                            setState(() {
+                                                                              if (_bidPrice! >=
+                                                                                  1) {
+                                                                                _bidPrice =
+                                                                                    _bidPrice! -
+                                                                                        1;
+                                                                              }
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                            decoration:
+                                                                            BoxDecoration(
+                                                                                border:
+                                                                                Border
+                                                                                    .all(
+                                                                                  color:
+                                                                                  lightBlueTabs,
+                                                                                  width:
+                                                                                  1, //                   <--- border width here
+                                                                                ),
+                                                                                borderRadius:
+                                                                                BorderRadius.all(
+                                                                                    Radius.circular(8.w))),
+                                                                            child: Padding(
+                                                                              padding:
+                                                                              EdgeInsets
+                                                                                  .all(8
+                                                                                  .w),
+                                                                              child: Center(
+                                                                                child:
+                                                                                TitleTextWidget(
+                                                                                  title: '-1',
+                                                                                  color:
+                                                                                  lightBlueTabs,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        )),
+                                                                    /*fixed price 3 4 digit issue*/
+                                                                    const SizedBox(
+                                                                      width: 2,
+                                                                    ),
+                                                                    Expanded(
+                                                                        child: Padding(
+                                                                          padding: EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical:
+                                                                              0.w,
+                                                                              horizontal:
+                                                                              3.w),
+                                                                          child: Center(
+                                                                              child: SizedBox(
+                                                                                width: 50.w,
+                                                                                child:
+                                                                                FittedTextFieldContainer(
+                                                                                  child:
+                                                                                  TextField(
+                                                                                    showCursor:
+                                                                                    false,
+                                                                                    keyboardType:
+                                                                                    TextInputType
+                                                                                        .number,
+                                                                                    textInputAction:
+                                                                                    TextInputAction
+                                                                                        .done,
+                                                                                    textAlign:
+                                                                                    TextAlign
+                                                                                        .center,
+                                                                                    inputFormatters: <
+                                                                                        TextInputFormatter>[
+                                                                                      FilteringTextInputFormatter
+                                                                                          .allow(RegExp(
+                                                                                          r'[0-9]')),
+                                                                                    ],
+                                                                                    controller: priceController
+                                                                                      ..text = _bidPriceFixed
+                                                                                          .toString()
+                                                                                          .trim()
+                                                                                          .isNotEmpty
+                                                                                          ? _bidPriceFixed
+                                                                                          .toString()
+                                                                                          : '0',
+                                                                                    onChanged:
+                                                                                        (value) {
+                                                                                      if (value !=
+                                                                                          '') {
+                                                                                        _bidPrice = int.parse(value.replaceAll(
+                                                                                            RegExp(
+                                                                                                r'^0+(?=.)'),
+                                                                                            ''));
+                                                                                        priceController
+                                                                                            .text =
+                                                                                            _bidPrice
+                                                                                                .toString()
+                                                                                                .trim();
+                                                                                        priceController
+                                                                                            .selection =
+                                                                                            TextSelection.fromPosition(
+                                                                                                TextPosition(offset: priceController.text.length));
+                                                                                      } else {
+                                                                                        priceController
+                                                                                            .text =
+                                                                                        '0';
+                                                                                        priceController
+                                                                                            .selection =
+                                                                                            TextSelection.fromPosition(
+                                                                                                TextPosition(offset: priceController.text.length));
+                                                                                        _bidPrice =
+                                                                                        0;
+                                                                                      }
+                                                                                    },
+                                                                                    decoration:
+                                                                                    const InputDecoration(
+                                                                                        border:
+                                                                                        InputBorder.none),
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                        )),
+                                                                    const SizedBox(
+                                                                      width: 2,
+                                                                    ),
+                                                                    Expanded(
+                                                                        child:
+                                                                        GestureDetector(
+                                                                          behavior:
+                                                                          HitTestBehavior
+                                                                              .opaque,
+                                                                          onTap: () {
+                                                                            setState(() {
+                                                                              _bidPrice =
+                                                                                  _bidPrice! +
+                                                                                      1;
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                            decoration:
+                                                                            BoxDecoration(
+                                                                                border:
+                                                                                Border
+                                                                                    .all(
+                                                                                  color:
+                                                                                  lightBlueTabs,
+                                                                                  width:
+                                                                                  1, //                   <--- border width here
+                                                                                ),
+                                                                                borderRadius:
+                                                                                BorderRadius.all(
+                                                                                    Radius.circular(8.w))),
+                                                                            child: Padding(
+                                                                              padding:
+                                                                              EdgeInsets
+                                                                                  .all(8
+                                                                                  .w),
+                                                                              child: Center(
+                                                                                child:
+                                                                                TitleTextWidget(
+                                                                                  title: '+1',
+                                                                                  color:
+                                                                                  lightBlueTabs,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ))
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10.w,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.center,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                              EdgeInsets.all(4.w),
+                                                              child: Center(
+                                                                /*child: TitleSmallTextWidget(
+                                                          title: 'Quantity (Kg)')*/
+                                                                  child: Text(
+                                                                    'Quantity (Kg)',
+                                                                    style: TextStyle(
+                                                                        color: Colors.black,
+                                                                        fontSize: 12.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w700),
+                                                                  )),
+                                                            ),
+                                                            Container(
+                                                              width: 250.w,
+                                                              child: Padding(
+                                                                padding:
+                                                                EdgeInsets.all(1.w),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                      GestureDetector(
+                                                                        behavior:
+                                                                        HitTestBehavior
+                                                                            .opaque,
+                                                                        onTap: () {
+                                                                          setState(() {
+                                                                            if (_bidQuantity! >
+                                                                                _tempBidQuantity!) {
+                                                                              _bidQuantity =
+                                                                                  _bidQuantity! -
+                                                                                      1;
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        child: Container(
+                                                                          decoration:
+                                                                          BoxDecoration(
+                                                                              border: Border
+                                                                                  .all(
+                                                                                color:
+                                                                                lightBlueTabs,
+                                                                                width:
+                                                                                1, //                   <--- border width here
+                                                                              ),
+                                                                              borderRadius:
+                                                                              BorderRadius.all(Radius.circular(8.w))),
+                                                                          child: Padding(
+                                                                            padding:
+                                                                            EdgeInsets
+                                                                                .all(8
+                                                                                .w),
+                                                                            child: Center(
+                                                                              child:
+                                                                              TitleTextWidget(
+                                                                                title:
+                                                                                '-1',
+                                                                                color:
+                                                                                lightBlueTabs,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    Expanded(
+                                                                        child: Padding(
+                                                                          padding: EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical:
+                                                                              0.w,
+                                                                              horizontal:
+                                                                              3.w),
+                                                                          child: Center(
+                                                                            child: SizedBox(
+                                                                              width: 50.w,
+                                                                              child:
+                                                                              FittedTextFieldContainer(
+                                                                                child:
+                                                                                TextField(
+                                                                                  showCursor:
+                                                                                  false,
+                                                                                  keyboardType:
+                                                                                  TextInputType
+                                                                                      .number,
+                                                                                  textInputAction:
+                                                                                  TextInputAction
+                                                                                      .done,
+                                                                                  textAlign:
+                                                                                  TextAlign
+                                                                                      .center,
+                                                                                  inputFormatters: <
+                                                                                      TextInputFormatter>[
+                                                                                    FilteringTextInputFormatter
+                                                                                        .allow(
+                                                                                        RegExp(r'[0-9]')),
+                                                                                  ],
+                                                                                  controller:
+                                                                                  quantityController
+                                                                                    ..text =
+                                                                                    _bidQuantity.toString(),
+                                                                                  onChanged:
+                                                                                      (value) {
+                                                                                    if (value !=
+                                                                                        '') {
+                                                                                      _bidQuantity = int.parse(value.replaceAll(
+                                                                                          RegExp(r'^0+(?=.)'),
+                                                                                          ''));
+                                                                                      quantityController.text = _bidQuantity
+                                                                                          .toString()
+                                                                                          .trim();
+                                                                                      quantityController.selection =
+                                                                                          TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                                                    } else {
+                                                                                      quantityController.text = _minBidQuantity
+                                                                                          .toString()
+                                                                                          .trim();
+                                                                                      quantityController.selection =
+                                                                                          TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                                                      _bidQuantity =
+                                                                                          _minBidQuantity;
+                                                                                    }
+                                                                                  },
+                                                                                  decoration:
+                                                                                  const InputDecoration(
+                                                                                      border:
+                                                                                      InputBorder.none),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        )),
+                                                                    const SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    Expanded(
+                                                                        child:
+                                                                        GestureDetector(
+                                                                          behavior:
+                                                                          HitTestBehavior
+                                                                              .opaque,
+                                                                          onTap: () {
+                                                                            setState(() {
+                                                                              _bidQuantity =
+                                                                                  _bidQuantity! +
+                                                                                      1;
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                              decoration:
+                                                                              BoxDecoration(
+                                                                                  border: Border
+                                                                                      .all(
+                                                                                    color:
+                                                                                    lightBlueTabs,
+                                                                                    width:
+                                                                                    1, //                   <--- border width here
+                                                                                  ),
+                                                                                  borderRadius:
+                                                                                  BorderRadius.all(Radius.circular(8.w))),
+                                                                              child: Padding(
+                                                                                padding:
+                                                                                EdgeInsets
+                                                                                    .all(8
+                                                                                    .w),
+                                                                                child: Center(
+                                                                                  child:
+                                                                                  TitleTextWidget(
+                                                                                    title:
+                                                                                    '+1',
+                                                                                    color:
+                                                                                    lightBlueTabs,
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                        ))
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 12.w,
+                                                        ),
+                                                        Padding(
+                                                            padding: EdgeInsets.only(
+                                                                left: 0.w),
+                                                            child: Align(
+                                                              alignment:
+                                                              AlignmentDirectional
+                                                                  .topStart,
+                                                              child: Text(
+                                                                'Remarks',
+                                                                style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 12.sp,
+                                                                    fontWeight:
+                                                                    FontWeight.w700),
+                                                              ),
+                                                            )),
+                                                        SizedBox(
+                                                          height: 4.w,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5 * 22.w,
+                                                          child: TextFormField(
+                                                              keyboardType:
+                                                              TextInputType.text,
+                                                              maxLines: 5,
+                                                              cursorColor: lightBlueTabs,
+                                                              style: TextStyle(
+                                                                  fontSize: 11.sp),
+                                                              textAlign: TextAlign.start,
+                                                              cursorHeight: 16.w,
+                                                              showCursor: false,
+                                                              readOnly: false,
+                                                              onSaved: (value) {},
+                                                              onChanged: (value) {
+                                                                _bidRemarks = value;
+                                                              },
+                                                              decoration:
+                                                              roundedDescriptionDecorationUpdated(
+                                                                  "Enter your remarks")),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    flex: 9,
+                                                  ),
+                                                  Expanded(
+                                                    child: ElevatedButtonWithoutIcon(
+                                                        callback: () {
+                                                          FocusScope.of(context)
+                                                              .unfocus();
+                                                          var logger = Logger();
+                                                          logger.e(_bidPrice);
+                                                          logger
+                                                              .e(_bidQuantity);
+                                                          if (_bidPrice!
+                                                              .toInt() <=
+                                                              0) {
+                                                            //Ui.showSnackBar(context, "Please enter price");
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                "Please enter price");
+                                                          } else if (_bidQuantity!
+                                                              .toInt() <=
+                                                              0) {
+                                                            //Ui.showSnackBar(context, "Please enter quantity");
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                "Please enter quantity");
+                                                          } else if (_bidQuantity!
+                                                              .toInt() <
+                                                              _minBidQuantity!) {
+                                                            /*Ui.showSnackBar(context,
+                                                                  "Please enter minimum quantity ${_minBidQuantity}");*/
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                "Please enter minimum quantity $_minBidQuantity");
+                                                          } else {
+                                                            showGenericDialog(
+                                                              'Place Bid',
+                                                              "Are you sure, you want to place bid?",
+                                                              context,
+                                                              StylishDialogType
+                                                                  .WARNING,
+                                                              'Yes',
+                                                                  () {
+                                                                placeBid(
+                                                                    context);
+                                                              },
+                                                            );
+                                                          }
+                                                        },
+                                                        color: btnColorLogin,
+                                                        btnText: 'Place Bid'),
+                                                    flex: 1,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  );
+                                });
+                              });
+                        },
+                        color: btnColorLogin,
+                        btnText: 'Send Proposal'),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Expanded(
+                    child: ElevatedButtonWithoutIcon(
+                        callback: () {
+                          FocusScope.of(context).unfocus();
+                          Ui.showSnackBar(context, 'Coming soon');
+                        },
+                        color: btnColorLogin,
+                        btnText: 'Contact'),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -858,7 +1472,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
   _fiberDetails() {
     _detailSpecification = [
-      GridTileModel('Fiber Material', widget.specification!.material ?? Utils.checkNullString(false)),
+      GridTileModel('Fiber Material',
+          widget.specification!.material ?? Utils.checkNullString(false)),
       GridTileModel(
           'Fiber Length',
           widget.specification!.length != null
@@ -879,8 +1494,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.specification!.trash != null
               ? widget.specification!.trash!
               : Utils.checkNullString(false)),
-      GridTileModel('RD',
-          widget.specification!.rd != null ? widget.specification!.rd! : Utils.checkNullString(false)),
+      GridTileModel(
+          'RD',
+          widget.specification!.rd != null
+              ? widget.specification!.rd!
+              : Utils.checkNullString(false)),
       GridTileModel(
           'GPT',
           widget.specification!.gpt != null
@@ -952,7 +1570,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.specification!.minQuantity == null
               ? Utils.checkNullString(false)
               : widget.specification!.minQuantity!),
-      GridTileModel('Seller Location', widget.specification!.unitCount ?? Utils.checkNullString(false))
+      GridTileModel('Seller Location',
+          widget.specification!.unitCount ?? Utils.checkNullString(false))
     ];
   }
 
@@ -962,9 +1581,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '1':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+              'Yarn Family',
+              widget.yarnSpecification!.yarnFamily ??
+                  Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
+              'Yarn Usage',
+              widget.yarnSpecification!.yarnUsage ??
+                  Utils.checkNullString(false)),
           /*GridTileModel('Yarn Appearance',
               widget.yarnSpecification!.yarnApperance ?? Utils.checkNullString(false)),*/
           GridTileModel(
@@ -1039,10 +1662,17 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '2':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+              'Yarn Family',
+              widget.yarnSpecification!.yarnFamily ??
+                  Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
-          GridTileModel('Blend', widget.yarnSpecification!.yarnBlend ?? Utils.checkNullString(false)),
+              'Yarn Usage',
+              widget.yarnSpecification!.yarnUsage ??
+                  Utils.checkNullString(false)),
+          GridTileModel(
+              'Blend',
+              widget.yarnSpecification!.yarnBlend ??
+                  Utils.checkNullString(false)),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
@@ -1083,9 +1713,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '3':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+              'Yarn Family',
+              widget.yarnSpecification!.yarnFamily ??
+                  Utils.checkNullString(false)),
           GridTileModel(
-              'Yarn Usage', widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
+              'Yarn Usage',
+              widget.yarnSpecification!.yarnUsage ??
+                  Utils.checkNullString(false)),
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
@@ -1131,7 +1765,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case '4':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+              'Yarn Family',
+              widget.yarnSpecification!.yarnFamily ??
+                  Utils.checkNullString(false)),
           GridTileModel(
               'Dianner',
               widget.yarnSpecification!.dtyFilament != null
@@ -1162,14 +1798,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.color == null
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.color!),
-          GridTileModel('Yarn Appearance',
-              widget.yarnSpecification!.yarnApperance ?? Utils.checkNullString(false)),
+          GridTileModel(
+              'Yarn Appearance',
+              widget.yarnSpecification!.yarnApperance ??
+                  Utils.checkNullString(false)),
         ];
         break;
       case '5':
         _detailSpecification = [
           GridTileModel(
-              'Yarn Family', widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+              'Yarn Family',
+              widget.yarnSpecification!.yarnFamily ??
+                  Utils.checkNullString(false)),
           GridTileModel(
               'Blend',
               widget.yarnSpecification!.yarnBlend != null
@@ -1324,8 +1964,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
       //         ? Utils.checkNullString(false)
       //         : widget.yarnSpecification!.priceTerms!),
 
-      GridTileModel(
-          'Seller Location', widget.yarnSpecification!.locality ?? Utils.checkNullString(false))
+      GridTileModel('Seller Location',
+          widget.yarnSpecification!.locality ?? Utils.checkNullString(false))
     ];
   }
 
