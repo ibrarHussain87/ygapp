@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -13,7 +14,7 @@ import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 
 class ListBidderBody extends StatefulWidget {
-  final ListBiddersData listBiddersData;
+  final BidData listBiddersData;
 
   const ListBidderBody({Key? key, required this.listBiddersData})
       : super(key: key);
@@ -28,7 +29,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
   @override
   void initState() {
     setState(() {
-      _changeColor = widget.listBiddersData.isAccepted;
+      _changeColor = widget.listBiddersData.status;
     });
 
     super.initState();
@@ -47,14 +48,14 @@ class _ListBidderBodyState extends State<ListBidderBody> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                postAdGreyIcon,
-                width: 24.w,
-                height: 24.w,
-              ),
-              SizedBox(
-                width: 8.w,
-              ),
+              // Image.asset(
+              //   postAdGreyIcon,
+              //   width: 24.w,
+              //   height: 24.w,
+              // ),
+              // SizedBox(
+              //   width: 8.w,
+              // ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +72,18 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TitleTextWidget(title: widget.listBiddersData.price ?? ""),
+                  SizedBox(
+                    height: 4.w,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TitleMediumBoldSmallTextWidget(title: "Quantity:"),
+                      SizedBox(height: 2.h,),
+                      TitleExtraSmallTextWidget(title: widget.listBiddersData.quantity,),
+                      SizedBox(height: 4.h,),
+                    ],
+                  ),
                   SizedBox(
                     height: 4.w,
                   ),

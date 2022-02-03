@@ -1,49 +1,41 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/model/response/list_bidder_response.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/model/response/list_bid_response.dart';
+import 'package:yg_app/pages/detail_pages/detail_page/history_bids_component/history_bids_body.dart';
 
-import '../../../../model/response/list_bid_response.dart';
-import 'list_bidder_body.dart';
+import '../../../../api_services/api_service_class.dart';
+import '../../../../elements/title_text_widget.dart';
+import '../../../../helper_utils/app_constants.dart';
+import '../../../../helper_utils/shared_pref_util.dart';
 
-class BidderListPage extends StatefulWidget {
-  final String materialId;
-  final int specId;
+class HistoryOfBidsPage extends StatefulWidget {
+  final String specId;
+  final String catId;
 
-  const BidderListPage(
-      {Key? key, required this.materialId, required this.specId})
-      : super(key: key);
+  const HistoryOfBidsPage({Key? key,required this.specId,required this.catId}) : super(key: key);
 
   @override
-  _BidderListPageState createState() => _BidderListPageState();
+  _HistoryOfBidsPageState createState() => _HistoryOfBidsPageState();
 }
 
-class _BidderListPageState extends State<BidderListPage> {
+class _HistoryOfBidsPageState extends State<HistoryOfBidsPage> {
 
   String? userId;
 
   @override
   void initState() {
-    super.initState();
+    // TODO: implement initState
     _getUserId().then((value) => setState(() => userId = value));
-  }
 
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<ListBidResponse>(
-        future: ApiService.getListBidders(
-            widget.materialId, widget.specId.toString()),
+        future: ApiService.getBidsHistory(
+            widget.specId.toString(),widget.catId.toString()),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data!.isNotEmpty) {
             return Padding(
@@ -51,7 +43,7 @@ class _BidderListPageState extends State<BidderListPage> {
               child: ListView.builder(
                   itemCount: snapshot.data!.data!.length,
                   itemBuilder: (context, index) {
-                    return ListBidderBody(listBiddersData: snapshot.data!.data![index]);
+                    return HistoryOfBidsBody(bidData: snapshot.data!.data![index]);
                   }),
             );
           } else if (snapshot.hasError) {
@@ -64,9 +56,9 @@ class _BidderListPageState extends State<BidderListPage> {
           } else {
             return const Center(
               child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+                color: Colors.green,
+                size: 24.0,
+              ),
             );
           }
         },

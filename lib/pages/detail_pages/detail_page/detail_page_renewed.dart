@@ -10,6 +10,7 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:yg_app/pages/detail_pages/detail_page/history_bids_component/history_bids_page.dart';
 
 import 'detail_tab.dart';
 import 'list_bidder_components/bider_tab.dart';
@@ -18,9 +19,10 @@ import 'matched_components/matched_tab_page.dart';
 class DetailRenewedPage extends StatefulWidget {
   final Specification? specification;
   final YarnSpecification? yarnSpecification;
+  final bool? isFromBid;
 
   const DetailRenewedPage(
-      {Key? key, this.specification, this.yarnSpecification})
+      {Key? key, this.specification, this.yarnSpecification,this.isFromBid})
       : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> _tabsListCreator = ['Details', "Matched", 'Bidder List'];
   final List<String> _tabsListBidder = ['Details', "Matched"];
+  final List<String> _tabsListBid = ['Details', "History"];
   List<String>? _tabsList;
   List<Widget>? _tabWidgetList;
 
@@ -572,6 +575,23 @@ class _DetailPageState extends State<DetailRenewedPage> {
               specId: widget.specification != null
                   ? widget.specification!.spcId
                   : widget.yarnSpecification!.ysId ?? 1)
+        ];
+      });
+    } else if(widget.isFromBid ?? false){
+      setState(() {
+        _tabsList = _tabsListBid;
+        _tabWidgetList = [
+          DetailTabPage(
+            specification: widget.specification,
+            yarnSpecification: widget.yarnSpecification,
+          ),
+          HistoryOfBidsPage(
+              catId: widget.specification != null
+                  ? widget.specification!.categoryId!
+                  : widget.yarnSpecification!.category_id!.toString(),
+              specId: widget.specification != null
+                  ? widget.specification!.spcId.toString()
+                  : widget.yarnSpecification!.ysId.toString())
         ];
       });
     } else {

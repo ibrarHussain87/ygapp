@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import '../../../helper_utils/app_colors.dart';
+import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../elevated_button_widget_2.dart';
@@ -60,6 +61,37 @@ class FiberBidItem extends StatelessWidget {
                     ),
                   )),
             ),*/
+                Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: Visibility(
+                    visible: true,
+                    maintainSize: true,
+                    maintainState: true,
+                    maintainAnimation: true,
+                    child: Container(
+                        width: 34.w,
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
+                        decoration: BoxDecoration(
+                            color: bidData!.status == "0" ? Colors.brown
+                                .shade100.withOpacity(0.4) : bidData!.status == "1" ? Colors.green
+                                .shade100 : Colors.red.shade100,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(0.w),
+                            )),
+                        child: Text(
+                          _showStatus(int.parse(bidData!.status!)),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: bidData!.status == "0" ? Colors.
+                            brown : bidData!.status == "1" ? Colors.green : Colors.red,
+                            fontSize: 6.sp,
+                            fontFamily: 'Metropolis',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ),
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 10.w, top: 8),
                     child: Row(
@@ -255,7 +287,114 @@ class FiberBidItem extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 5.h,
-                              )
+                              ),
+                              Wrap(
+                                direction: Axis.horizontal,
+                                spacing: 4.0,
+                                runSpacing: 4.0,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.17,
+                                      decoration: BoxDecoration(
+                                        /*color: lightYellowContainer,*/
+                                          border: Border.all(
+                                            color: greenButton,
+                                            width:
+                                            1, //                   <--- border width here
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.all(
+                                              Radius.circular(4.w))),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 4.w, horizontal: 4.w),
+                                        child: Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text(
+                                              //   'Price',
+                                              //   style: TextStyle(
+                                              //       fontSize: 9.sp,
+                                              //       color: Colors.black87,
+                                              //       fontWeight: FontWeight.w400),
+                                              // ),
+                                              // SizedBox(width: 2.w,),
+                                              Text(
+                                                '${bidData!.price}',
+                                                style: TextStyle(
+                                                    fontSize: 9.sp,
+                                                    color: greenButton,
+                                                    fontWeight: FontWeight
+                                                        .w700),
+                                              ),
+                                              SizedBox(
+                                                width: 3.w,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                  Container(
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * 0.17,
+                                      decoration: BoxDecoration(
+                                        /*color: lightYellowContainer,*/
+                                          border: Border.all(
+                                            color: greenButton,
+                                            width:
+                                            1, //                   <--- border width here
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.all(
+                                              Radius.circular(4.w))),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 4.w, horizontal: 4.w),
+                                        child: Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'QTY',
+                                                style: TextStyle(
+                                                    fontSize: 9.sp,
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight
+                                                        .w400),
+                                              ),
+                                              SizedBox(width: 2.w,),
+                                              Text(
+                                                '${bidData!.quantity}',
+                                                style: TextStyle(
+                                                    fontSize: 9.sp,
+                                                    color: greenButton,
+                                                    fontWeight: FontWeight
+                                                        .w700),
+                                              ),
+                                              SizedBox(
+                                                width: 3.w,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+
+                                  TitleExtraSmallTextWidget(title: bidData!.date)
+
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              ),
                             ],
                           ),
                         ),
@@ -378,7 +517,7 @@ class FiberBidItem extends StatelessWidget {
                                 btnText: "Details",
                                 textSize: 8.sp,
                                 callback: () {
-
+                                  openDetailsScreen(context,specification: bidData!.specification as Specification,isFromBid: true);
                                 },
                                 color: Colors.green,
                               ),
@@ -479,5 +618,15 @@ class FiberBidItem extends StatelessWidget {
             )
           ],
         ));
+  }
+}
+
+String _showStatus(int bidStatus) {
+  if (bidStatus == 0) {
+    return "Pending";
+  } else if (bidStatus == 1) {
+    return "Accepted";
+  } else {
+    return "Rejected";
   }
 }

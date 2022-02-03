@@ -82,7 +82,8 @@ class ApiService {
     }
   }
 
-  static Future<LoginResponse> updateProfile(UpdateProfileRequestModel requestModel) async {
+  static Future<LoginResponse> updateProfile(
+      UpdateProfileRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
       final response = await http.post(Uri.parse(url),
@@ -220,9 +221,9 @@ class ApiService {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
       }
-      if(createRequestModel.spc_category_idfk == "1"){
+      if (createRequestModel.spc_category_idfk == "1") {
         createRequestModel.spc_user_idfk = userId.toString();
-      }else{
+      } else {
         createRequestModel.ys_user_idfk = userId.toString();
       }
       request.fields.addAll(createRequestModel.toJson());
@@ -243,7 +244,7 @@ class ApiService {
     }
   }
 
-  static Future<ListBiddersResponse> getListBidders(
+  static Future<ListBidResponse> getListBidders(
       String catId, String specId) async {
     try {
       String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
@@ -260,7 +261,7 @@ class ApiService {
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
-      return ListBiddersResponse.fromJson(
+      return ListBidResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {
@@ -290,8 +291,7 @@ class ApiService {
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
-        return MatchedResponse.fromJson(json.decode(response.body));
-
+      return MatchedResponse.fromJson(json.decode(response.body));
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -321,7 +321,7 @@ class ApiService {
       };
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['user_id'] = '$userID';
       headerMap['device_token'] = '$userDeviceToken';
       final response =
@@ -486,7 +486,35 @@ class ApiService {
       }
     }
   }
+
+  static Future<ListBidResponse> getBidsHistory(
+      String specId, String catId) async {
+    try {
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      Map<String, dynamic> data = {
+        "user_id": userID.toString(),
+        "specification_id": specId,
+        "category_id": catId
+      };
+      String url = BASE_API_URL + "/listBids";
+
+      final response =
+          await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+      return ListBidResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
 }
-
-
-

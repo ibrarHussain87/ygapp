@@ -10,25 +10,30 @@ import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
-void openDetailsScreen(BuildContext context, {Specification? specification,YarnSpecification? yarnSpecification}) {
-  if(specification!= null){
+void openDetailsScreen(BuildContext context,
+    {Specification? specification,
+    YarnSpecification? yarnSpecification,
+    bool? isFromBid}) {
+  // if (specification != null) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => DetailRenewedPage(
-            specification: specification),
+          specification: specification,
+          yarnSpecification: yarnSpecification,
+          isFromBid: isFromBid,
+        ),
       ),
     );
-  }else{
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DetailRenewedPage(
-            yarnSpecification: yarnSpecification),
-      ),
-    );
-  }
-
+  // } else {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) =>
+  //           DetailRenewedPage(yarnSpecification: yarnSpecification,isFromBid: isFromBid),
+  //     ),
+  //   );
+  // }
 }
 
 void openProfileScreen(BuildContext context) {
@@ -40,7 +45,8 @@ void openProfileScreen(BuildContext context) {
   );
 }
 
-void openFiberPostPage(BuildContext context,String? locality,String? businessArea,String? selectedTab){
+void openFiberPostPage(BuildContext context, String? locality,
+    String? businessArea, String? selectedTab) {
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -50,10 +56,10 @@ void openFiberPostPage(BuildContext context,String? locality,String? businessAre
           selectedTab: selectedTab),
     ),
   );
-
 }
 
-void openYarnPostPage(BuildContext context,String? locality,String? businessArea,String? selectedTab){
+void openYarnPostPage(BuildContext context, String? locality,
+    String? businessArea, String? selectedTab) {
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -63,9 +69,7 @@ void openYarnPostPage(BuildContext context,String? locality,String? businessArea
           selectedTab: selectedTab),
     ),
   );
-
 }
-
 
 void openMyAdsScreen(BuildContext context) {
   Navigator.push(

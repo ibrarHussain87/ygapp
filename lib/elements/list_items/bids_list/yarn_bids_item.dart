@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -524,7 +525,9 @@ class YarnBidsItem extends StatelessWidget {
                               child: ElevatedButtonWithoutIcon(
                                 btnText: "Details",
                                 textSize: 8.sp,
-                                callback: () {},
+                                callback: () {
+                                  openDetailsScreen(context,yarnSpecification: bidData.specification as YarnSpecification,isFromBid: true);
+                                },
                                 color: Colors.green,
                               ),
                             ),
