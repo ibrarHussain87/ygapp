@@ -20,7 +20,7 @@ class YarnSpecificationListFuture extends StatefulWidget {
 }
 
 class YarnSpecificationListFutureState
-    extends State<YarnSpecificationListFuture> {
+    extends State<YarnSpecificationListFuture>{
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
   GlobalKey<YarnListBodyState> yarnListBodyState =
       GlobalKey<YarnListBodyState>();

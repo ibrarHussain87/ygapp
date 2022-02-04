@@ -53,7 +53,7 @@ class HomePageState extends State<HomePage> {
                         behavior: HitTestBehavior.opaque,
                         onTap: (){
                           /*openProfileScreen(context);*/
-                          widget.callback(3);
+                          widget.callback(4);
                         },
                         child: const CircleAvatar(
                           radius: 24,

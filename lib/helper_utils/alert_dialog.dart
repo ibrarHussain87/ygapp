@@ -28,7 +28,27 @@ void showGenericDialog(
       onTap: (){
         Navigator.pop(context);
       },
-      child: const TitleMediumBoldSmallTextWidget(
+      child: const TitleTextWidget(
+        title: "Close",
+        color: Colors.green,
+      ),
+    ),
+  ).show();
+}
+
+void showPostRequirementDialog(
+    String title, String content, BuildContext context,String positiveButtonText,Function callback) {
+  StylishDialog(
+    context: context,
+    alertType: StylishDialogType.SUCCESS,
+    /*titleText: title,*/
+    contentText: content,
+    dismissOnTouchOutside: false,
+    cancelButton: GestureDetector(
+      onTap: (){
+       callback();
+      },
+      child: const TitleTextWidget(
         title: "Close",
         color: Colors.green,
       ),

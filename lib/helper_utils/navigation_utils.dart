@@ -15,7 +15,6 @@ void openDetailsScreen(BuildContext context,
     {Specification? specification,
     YarnSpecification? yarnSpecification,
     bool? isFromBid}) {
-  // if (specification != null) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -26,22 +25,13 @@ void openDetailsScreen(BuildContext context,
         ),
       ),
     );
-  // } else {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) =>
-  //           DetailRenewedPage(yarnSpecification: yarnSpecification,isFromBid: isFromBid),
-  //     ),
-  //   );
-  // }
 }
 
 void openProfileScreen(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => ProfilePage(),
+      builder: (context) => const ProfilePage(),
     ),
   );
 }
