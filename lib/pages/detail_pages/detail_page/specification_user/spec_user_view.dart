@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -57,8 +58,19 @@ class _SpecUserViewState extends State<SpecUserView> {
                   separatorBuilder: (BuildContext context, int index) =>
                   const Divider(),
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => listDetailItemWidget(
-                      context, generateUserList(widget.specificationUser)[index]),
+                  itemBuilder: (context, index){
+                    return GestureDetector(
+                      onTap: (){
+                        if(index==1){
+                          _launchCaller(generateUserList(widget.specificationUser)[index].detail);
+                        }else if(index==2){
+                          launchEmailSubmission(generateUserList(widget.specificationUser)[index].detail);
+                        }
+                      },
+                      child: listDetailItemWidget(
+                          context, generateUserList(widget.specificationUser)[index]),
+                    );
+                  },
                 ),
               ],
             ),
@@ -95,10 +107,38 @@ class _SpecUserViewState extends State<SpecUserView> {
     );
   }
 
+  _launchCaller(String phone) async {
+    String url = "tel:$phone";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void launchEmailSubmission(String email) async {
+    final Uri params = Uri(
+        scheme: 'mailto',
+        path: email,
+        queryParameters: {
+          'subject': '',
+          'body': ''
+        }
+    );
+    String url = params.toString();
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
+    }
+  }
+
   List<GridTileModel> generateUserList(SpecificationUser specificationUser) {
     List<GridTileModel> tempList = [];
     tempList.add(GridTileModel('Name', specificationUser.name??Utils.checkNullString(false)));
+    /*Index 1 must contain phone for launchCaller to work*/
     tempList.add(GridTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
+    /*Index 2 must contain email for launchEmailSubmission to work*/
     tempList.add(GridTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
     tempList.add(GridTileModel('Country', specificationUser.country??Utils.checkNullString(false)));
     tempList.add(GridTileModel('City', specificationUser.cityState??Utils.checkNullString(false)));

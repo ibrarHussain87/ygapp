@@ -838,530 +838,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          _bidPrice = _bidPriceFixed;
-                          _bidQuantity = _bidQuantityFixed;
-                          FocusScope.of(context).unfocus();
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return Padding(
-                                  padding: MediaQuery.of(context).viewInsets,
-                                  child: StatefulBuilder(builder:
-                                      (BuildContext context,
-                                          StateSetter setState) {
-                                    return Container(
-                                      height: 0.5 *
-                                          MediaQuery.of(context).size.height,
-                                      margin: EdgeInsets.only(
-                                          left: 16.w, right: 16.w, top: 8.w),
-                                      child: Scaffold(
-                                        resizeToAvoidBottomInset: false,
-                                        body: Stack(
-                                          children: [
-                                            Align(
-                                                alignment: Alignment.topRight,
-                                                child: GestureDetector(
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.close),
-                                                )),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 5),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Center(
-                                                            child: Text(
-                                                              'Send Proposal',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      16.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20.h,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(4
-                                                                              .w),
-                                                                  child: Center(
-                                                                    /*child: TitleSmallTextWidget(
-                                                            title: 'Price'),
-                                              )*/
-                                                                    child: Text(
-                                                                      'Price',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize: 12
-                                                                              .sp,
-                                                                          fontWeight:
-                                                                              FontWeight.w700),
-                                                                    ),
-                                                                  )),
-                                                              SizedBox(
-                                                                width: 250.w,
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(1
-                                                                              .w),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Expanded(
-                                                                          child:
-                                                                              GestureDetector(
-                                                                        behavior:
-                                                                            HitTestBehavior.opaque,
-                                                                        onTap:
-                                                                            () {
-                                                                          setState(
-                                                                              () {
-                                                                            if (_bidPrice! >=
-                                                                                1) {
-                                                                              _bidPrice = _bidPrice! - 1;
-                                                                            }
-                                                                          });
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border.all(
-                                                                                color: lightBlueTabs,
-                                                                                width: 1, //                   <--- border width here
-                                                                              ),
-                                                                              borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                EdgeInsets.all(8.w),
-                                                                            child:
-                                                                                Center(
-                                                                              child: TitleTextWidget(
-                                                                                title: '-1',
-                                                                                color: lightBlueTabs,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      )),
-                                                                      /*fixed price 3 4 digit issue*/
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            2,
-                                                                      ),
-                                                                      Expanded(
-                                                                          child:
-                                                                              Padding(
-                                                                        padding: EdgeInsets.symmetric(
-                                                                            vertical:
-                                                                                0.w,
-                                                                            horizontal: 3.w),
-                                                                        child: Center(
-                                                                            child: SizedBox(
-                                                                          width:
-                                                                              50.w,
-                                                                          child:
-                                                                              FittedTextFieldContainer(
-                                                                            child:
-                                                                                TextField(
-                                                                              showCursor: false,
-                                                                              keyboardType: TextInputType.number,
-                                                                              textInputAction: TextInputAction.done,
-                                                                              textAlign: TextAlign.center,
-                                                                              inputFormatters: <TextInputFormatter>[
-                                                                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                                                              ],
-                                                                              controller: priceController..text = _bidPrice.toString().trim().isNotEmpty ? _bidPrice.toString() : '0',
-                                                                              onChanged: (value) {
-                                                                                if (value != '') {
-                                                                                  _bidPrice = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
-                                                                                  priceController.text = _bidPrice.toString().trim();
-                                                                                  priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
-                                                                                } else {
-                                                                                  priceController.text = '0';
-                                                                                  priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
-                                                                                  _bidPrice = 0;
-                                                                                }
-                                                                              },
-                                                                              decoration: const InputDecoration(border: InputBorder.none),
-                                                                            ),
-                                                                          ),
-                                                                        )),
-                                                                      )),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            2,
-                                                                      ),
-                                                                      Expanded(
-                                                                          child:
-                                                                              GestureDetector(
-                                                                        behavior:
-                                                                            HitTestBehavior.opaque,
-                                                                        onTap:
-                                                                            () {
-                                                                          setState(
-                                                                              () {
-                                                                            _bidPrice =
-                                                                                _bidPrice! + 1;
-                                                                          });
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border.all(
-                                                                                color: lightBlueTabs,
-                                                                                width: 1, //                   <--- border width here
-                                                                              ),
-                                                                              borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                EdgeInsets.all(8.w),
-                                                                            child:
-                                                                                Center(
-                                                                              child: TitleTextWidget(
-                                                                                title: '+1',
-                                                                                color: lightBlueTabs,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ))
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10.w,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(4
-                                                                            .w),
-                                                                child: Center(
-                                                                    /*child: TitleSmallTextWidget(
-                                                            title: 'Quantity (Kg)')*/
-                                                                    child: Text(
-                                                                  'Quantity (Kg)',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          12.sp,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700),
-                                                                )),
-                                                              ),
-                                                              Container(
-                                                                width: 250.w,
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(1
-                                                                              .w),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          behavior:
-                                                                              HitTestBehavior.opaque,
-                                                                          onTap:
-                                                                              () {
-                                                                            setState(() {
-                                                                              if (_bidQuantity! > _tempBidQuantity!) {
-                                                                                _bidQuantity = _bidQuantity! - 1;
-                                                                              }
-                                                                            });
-                                                                          },
-                                                                          child:
-                                                                              Container(
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border.all(
-                                                                                  color: lightBlueTabs,
-                                                                                  width: 1, //                   <--- border width here
-                                                                                ),
-                                                                                borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: EdgeInsets.all(8.w),
-                                                                              child: Center(
-                                                                                child: TitleTextWidget(
-                                                                                  title: '-1',
-                                                                                  color: lightBlueTabs,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            5,
-                                                                      ),
-                                                                      Expanded(
-                                                                          child:
-                                                                              Padding(
-                                                                        padding: EdgeInsets.symmetric(
-                                                                            vertical:
-                                                                                0.w,
-                                                                            horizontal: 3.w),
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                50.w,
-                                                                            child:
-                                                                                FittedTextFieldContainer(
-                                                                              child: TextField(
-                                                                                showCursor: false,
-                                                                                keyboardType: TextInputType.number,
-                                                                                textInputAction: TextInputAction.done,
-                                                                                textAlign: TextAlign.center,
-                                                                                inputFormatters: <TextInputFormatter>[
-                                                                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                                                                ],
-                                                                                controller: quantityController..text = _bidQuantity.toString(),
-                                                                                onChanged: (value) {
-                                                                                  if (value != '') {
-                                                                                    _bidQuantity = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
-                                                                                    quantityController.text = _bidQuantity.toString().trim();
-                                                                                    quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
-                                                                                  } else {
-                                                                                    quantityController.text = _minBidQuantity.toString().trim();
-                                                                                    quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
-                                                                                    _bidQuantity = _minBidQuantity;
-                                                                                  }
-                                                                                },
-                                                                                decoration: const InputDecoration(border: InputBorder.none),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      )),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            5,
-                                                                      ),
-                                                                      Expanded(
-                                                                          child:
-                                                                              GestureDetector(
-                                                                        behavior:
-                                                                            HitTestBehavior.opaque,
-                                                                        onTap:
-                                                                            () {
-                                                                          setState(
-                                                                              () {
-                                                                            _bidQuantity =
-                                                                                _bidQuantity! + 1;
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border.all(
-                                                                                  color: lightBlueTabs,
-                                                                                  width: 1, //                   <--- border width here
-                                                                                ),
-                                                                                borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                                            child: Padding(
-                                                                              padding: EdgeInsets.all(8.w),
-                                                                              child: Center(
-                                                                                child: TitleTextWidget(
-                                                                                  title: '+1',
-                                                                                  color: lightBlueTabs,
-                                                                                ),
-                                                                              ),
-                                                                            )),
-                                                                      ))
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 12.w,
-                                                          ),
-                                                          Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left:
-                                                                          0.w),
-                                                              child: Align(
-                                                                alignment:
-                                                                    AlignmentDirectional
-                                                                        .topStart,
-                                                                child: Text(
-                                                                  'Remarks',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          12.sp,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700),
-                                                                ),
-                                                              )),
-                                                          SizedBox(
-                                                            height: 4.w,
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5 * 22.w,
-                                                            child:
-                                                                TextFormField(
-                                                                    keyboardType:
-                                                                        TextInputType
-                                                                            .text,
-                                                                    maxLines: 5,
-                                                                    cursorColor:
-                                                                        lightBlueTabs,
-                                                                    style: TextStyle(
-                                                                        fontSize: 11
-                                                                            .sp),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .start,
-                                                                    cursorHeight:
-                                                                        16.w,
-                                                                    showCursor:
-                                                                        false,
-                                                                    readOnly:
-                                                                        false,
-                                                                    onSaved:
-                                                                        (value) {},
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      _bidRemarks =
-                                                                          value;
-                                                                    },
-                                                                    decoration:
-                                                                        roundedDescriptionDecorationUpdated(
-                                                                            "Enter your remarks")),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    flex: 9,
-                                                  ),
-                                                  Expanded(
-                                                    child:
-                                                        ElevatedButtonWithoutIcon(
-                                                            callback: () {
-                                                              FocusScope.of(
-                                                                      context)
-                                                                  .unfocus();
-                                                              var logger =
-                                                                  Logger();
-                                                              logger
-                                                                  .e(_bidPrice);
-                                                              logger.e(
-                                                                  _bidQuantity);
-                                                              if (_bidPrice!
-                                                                      .toInt() <=
-                                                                  0) {
-                                                                //Ui.showSnackBar(context, "Please enter price");
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            "Please enter price");
-                                                              } else if (_bidQuantity!
-                                                                      .toInt() <=
-                                                                  0) {
-                                                                //Ui.showSnackBar(context, "Please enter quantity");
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            "Please enter quantity");
-                                                              } else if (_bidQuantity!
-                                                                      .toInt() <
-                                                                  _minBidQuantity!) {
-                                                                /*Ui.showSnackBar(context,
-                                                                  "Please enter minimum quantity ${_minBidQuantity}");*/
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            "Please enter minimum quantity $_minBidQuantity");
-                                                              } else {
-                                                                showGenericDialog(
-                                                                  'Place Bid',
-                                                                  "Are you sure, you want to place bid?",
-                                                                  context,
-                                                                  StylishDialogType
-                                                                      .WARNING,
-                                                                  'Yes',
-                                                                  () {
-                                                                    placeBid(
-                                                                        context);
-                                                                  },
-                                                                );
-                                                              }
-                                                            },
-                                                            color:
-                                                                btnColorLogin,
-                                                            btnText:
-                                                                'Place Bid'),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 4.h,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                );
-                              });
+                          showProposalBottomSheet(context);
                         },
                         color: btnColorLogin,
                         btnText: 'Send Proposal'),
@@ -1394,6 +871,533 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ),
       ),
     );
+  }
+
+  void showProposalBottomSheet(BuildContext context) {
+    _bidPrice = _bidPriceFixed;
+    _bidQuantity = _bidQuantityFixed;
+    FocusScope.of(context).unfocus();
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: StatefulBuilder(builder:
+                (BuildContext context,
+                    StateSetter setState) {
+              return Container(
+                height: 0.5 *
+                    MediaQuery.of(context).size.height,
+                margin: EdgeInsets.only(
+                    left: 16.w, right: 16.w, top: 8.w),
+                child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Stack(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 5),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child:
+                                  SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize:
+                                      MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .center,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        'Send Proposal',
+                                        style: TextStyle(
+                                            color: Colors
+                                                .black,
+                                            fontSize:
+                                                16.sp,
+                                            fontWeight:
+                                                FontWeight
+                                                    .w600),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .center,
+                                      children: [
+                                        Padding(
+                                            padding:
+                                                EdgeInsets
+                                                    .all(4
+                                                        .w),
+                                            child: Center(
+                                              /*child: TitleSmallTextWidget(
+                                      title: 'Price'),
+                        )*/
+                                              child: Text(
+                                                'Price',
+                                                style: TextStyle(
+                                                    color: Colors
+                                                        .black,
+                                                    fontSize: 12
+                                                        .sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            )),
+                                        SizedBox(
+                                          width: 250.w,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets
+                                                    .all(1
+                                                        .w),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                    child:
+                                                        GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  onTap:
+                                                      () {
+                                                    setState(
+                                                        () {
+                                                      if (_bidPrice! >=
+                                                          1) {
+                                                        _bidPrice = _bidPrice! - 1;
+                                                      }
+                                                    });
+                                                  },
+                                                  child:
+                                                      Container(
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: lightBlueTabs,
+                                                          width: 1, //                   <--- border width here
+                                                        ),
+                                                        borderRadius: BorderRadius.all(Radius.circular(8.w))),
+                                                    child:
+                                                        Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.w),
+                                                      child:
+                                                          Center(
+                                                        child: TitleTextWidget(
+                                                          title: '-1',
+                                                          color: lightBlueTabs,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )),
+                                                /*fixed price 3 4 digit issue*/
+                                                const SizedBox(
+                                                  width:
+                                                      2,
+                                                ),
+                                                Expanded(
+                                                    child:
+                                                        Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                          0.w,
+                                                      horizontal: 3.w),
+                                                  child: Center(
+                                                      child: SizedBox(
+                                                    width:
+                                                        50.w,
+                                                    child:
+                                                        FittedTextFieldContainer(
+                                                      child:
+                                                          TextField(
+                                                        showCursor: false,
+                                                        keyboardType: TextInputType.number,
+                                                        textInputAction: TextInputAction.done,
+                                                        textAlign: TextAlign.center,
+                                                        inputFormatters: <TextInputFormatter>[
+                                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                        ],
+                                                        controller: priceController..text = _bidPrice.toString().trim().isNotEmpty ? _bidPrice.toString() : '0',
+                                                        onChanged: (value) {
+                                                          if (value != '') {
+                                                            _bidPrice = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
+                                                            priceController.text = _bidPrice.toString().trim();
+                                                            priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+                                                          } else {
+                                                            priceController.text = '0';
+                                                            priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+                                                            _bidPrice = 0;
+                                                          }
+                                                        },
+                                                        decoration: const InputDecoration(border: InputBorder.none),
+                                                      ),
+                                                    ),
+                                                  )),
+                                                )),
+                                                const SizedBox(
+                                                  width:
+                                                      2,
+                                                ),
+                                                Expanded(
+                                                    child:
+                                                        GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  onTap:
+                                                      () {
+                                                    setState(
+                                                        () {
+                                                      _bidPrice =
+                                                          _bidPrice! + 1;
+                                                    });
+                                                  },
+                                                  child:
+                                                      Container(
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: lightBlueTabs,
+                                                          width: 1, //                   <--- border width here
+                                                        ),
+                                                        borderRadius: BorderRadius.all(Radius.circular(8.w))),
+                                                    child:
+                                                        Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.w),
+                                                      child:
+                                                          Center(
+                                                        child: TitleTextWidget(
+                                                          title: '+1',
+                                                          color: lightBlueTabs,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ))
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10.w,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets
+                                                  .all(4
+                                                      .w),
+                                          child: Center(
+                                              /*child: TitleSmallTextWidget(
+                                      title: 'Quantity (Kg)')*/
+                                              child: Text(
+                                            'Quantity (Kg)',
+                                            style: TextStyle(
+                                                color: Colors
+                                                    .black,
+                                                fontSize:
+                                                    12.sp,
+                                                fontWeight:
+                                                    FontWeight
+                                                        .w700),
+                                          )),
+                                        ),
+                                        Container(
+                                          width: 250.w,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets
+                                                    .all(1
+                                                        .w),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child:
+                                                      GestureDetector(
+                                                    behavior:
+                                                        HitTestBehavior.opaque,
+                                                    onTap:
+                                                        () {
+                                                      setState(() {
+                                                        if (_bidQuantity! > _tempBidQuantity!) {
+                                                          _bidQuantity = _bidQuantity! - 1;
+                                                        }
+                                                      });
+                                                    },
+                                                    child:
+                                                        Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                            color: lightBlueTabs,
+                                                            width: 1, //                   <--- border width here
+                                                          ),
+                                                          borderRadius: BorderRadius.all(Radius.circular(8.w))),
+                                                      child:
+                                                          Padding(
+                                                        padding: EdgeInsets.all(8.w),
+                                                        child: Center(
+                                                          child: TitleTextWidget(
+                                                            title: '-1',
+                                                            color: lightBlueTabs,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width:
+                                                      5,
+                                                ),
+                                                Expanded(
+                                                    child:
+                                                        Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical:
+                                                          0.w,
+                                                      horizontal: 3.w),
+                                                  child:
+                                                      Center(
+                                                    child:
+                                                        SizedBox(
+                                                      width:
+                                                          50.w,
+                                                      child:
+                                                          FittedTextFieldContainer(
+                                                        child: TextField(
+                                                          showCursor: false,
+                                                          keyboardType: TextInputType.number,
+                                                          textInputAction: TextInputAction.done,
+                                                          textAlign: TextAlign.center,
+                                                          inputFormatters: <TextInputFormatter>[
+                                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                          ],
+                                                          controller: quantityController..text = _bidQuantity.toString(),
+                                                          onChanged: (value) {
+                                                            if (value != '') {
+                                                              _bidQuantity = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
+                                                              quantityController.text = _bidQuantity.toString().trim();
+                                                              quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                            } else {
+                                                              quantityController.text = _minBidQuantity.toString().trim();
+                                                              quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
+                                                              _bidQuantity = _minBidQuantity;
+                                                            }
+                                                          },
+                                                          decoration: const InputDecoration(border: InputBorder.none),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )),
+                                                const SizedBox(
+                                                  width:
+                                                      5,
+                                                ),
+                                                Expanded(
+                                                    child:
+                                                        GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  onTap:
+                                                      () {
+                                                    setState(
+                                                        () {
+                                                      _bidQuantity =
+                                                          _bidQuantity! + 1;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                            color: lightBlueTabs,
+                                                            width: 1, //                   <--- border width here
+                                                          ),
+                                                          borderRadius: BorderRadius.all(Radius.circular(8.w))),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(8.w),
+                                                        child: Center(
+                                                          child: TitleTextWidget(
+                                                            title: '+1',
+                                                            color: lightBlueTabs,
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ))
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 12.w,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets
+                                            .only(
+                                                left:
+                                                    0.w),
+                                        child: Align(
+                                          alignment:
+                                              AlignmentDirectional
+                                                  .topStart,
+                                          child: Text(
+                                            'Remarks',
+                                            style: TextStyle(
+                                                color: Colors
+                                                    .black,
+                                                fontSize:
+                                                    12.sp,
+                                                fontWeight:
+                                                    FontWeight
+                                                        .w700),
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      height: 4.w,
+                                    ),
+                                    SizedBox(
+                                      height: 5 * 22.w,
+                                      child:
+                                          TextFormField(
+                                              keyboardType:
+                                                  TextInputType
+                                                      .text,
+                                              maxLines: 5,
+                                              cursorColor:
+                                                  lightBlueTabs,
+                                              style: TextStyle(
+                                                  fontSize: 11
+                                                      .sp),
+                                              textAlign:
+                                                  TextAlign
+                                                      .start,
+                                              cursorHeight:
+                                                  16.w,
+                                              showCursor:
+                                                  false,
+                                              readOnly:
+                                                  false,
+                                              onSaved:
+                                                  (value) {},
+                                              onChanged:
+                                                  (value) {
+                                                _bidRemarks =
+                                                    value;
+                                              },
+                                              decoration:
+                                                  roundedDescriptionDecorationUpdated(
+                                                      "Enter your remarks")),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              flex: 9,
+                            ),
+                            Expanded(
+                              child:
+                                  ElevatedButtonWithoutIcon(
+                                      callback: () {
+                                        FocusScope.of(
+                                                context)
+                                            .unfocus();
+                                        var logger =
+                                            Logger();
+                                        logger
+                                            .e(_bidPrice);
+                                        logger.e(
+                                            _bidQuantity);
+                                        if (_bidPrice!
+                                                .toInt() <=
+                                            0) {
+                                          //Ui.showSnackBar(context, "Please enter price");
+                                          Fluttertoast
+                                              .showToast(
+                                                  msg:
+                                                      "Please enter price");
+                                        } else if (_bidQuantity!
+                                                .toInt() <=
+                                            0) {
+                                          //Ui.showSnackBar(context, "Please enter quantity");
+                                          Fluttertoast
+                                              .showToast(
+                                                  msg:
+                                                      "Please enter quantity");
+                                        } else if (_bidQuantity!
+                                                .toInt() <
+                                            _minBidQuantity!) {
+                                          /*Ui.showSnackBar(context,
+                                            "Please enter minimum quantity ${_minBidQuantity}");*/
+                                          Fluttertoast
+                                              .showToast(
+                                                  msg:
+                                                      "Please enter minimum quantity $_minBidQuantity");
+                                        } else {
+                                          showGenericDialog(
+                                            'Place Bid',
+                                            "Are you sure, you want to place bid?",
+                                            context,
+                                            StylishDialogType
+                                                .WARNING,
+                                            'Yes',
+                                            () {
+                                              placeBid(
+                                                  context);
+                                            },
+                                          );
+                                        }
+                                      },
+                                      color:
+                                          btnColorLogin,
+                                      btnText:
+                                          'Place Bid'),
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            )
+                          ],
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: GestureDetector(
+                            behavior:
+                            HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child:
+                            const Icon(Icons.close),
+                          )),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          );
+        });
   }
 
   void placeBid(BuildContext context) {

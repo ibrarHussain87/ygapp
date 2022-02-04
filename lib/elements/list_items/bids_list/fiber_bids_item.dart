@@ -59,7 +59,7 @@ class FiberBidItem extends StatelessWidget {
                     ),
                   )),
             ),*/
-                Align(
+                /*Align(
                   alignment: AlignmentDirectional.topEnd,
                   child: Visibility(
                     visible: true,
@@ -94,7 +94,7 @@ class FiberBidItem extends StatelessWidget {
                           ),
                         )),
                   ),
-                ),
+                ),*/
                 Padding(
                     padding: EdgeInsets.only(left: 10.w, top: 8),
                     child: Row(
@@ -296,7 +296,7 @@ class FiberBidItem extends StatelessWidget {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              Wrap(
+                              /*Wrap(
                                 direction: Axis.horizontal,
                                 spacing: 4.0,
                                 runSpacing: 4.0,
@@ -306,7 +306,7 @@ class FiberBidItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.17,
                                       decoration: BoxDecoration(
-                                          /*color: lightYellowContainer,*/
+                                          *//*color: lightYellowContainer,*//*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
@@ -367,7 +367,7 @@ class FiberBidItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.17,
                                       decoration: BoxDecoration(
-                                          /*color: lightYellowContainer,*/
+                                          *//*color: lightYellowContainer,*//*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
@@ -412,7 +412,7 @@ class FiberBidItem extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 4.h,
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
@@ -574,6 +574,11 @@ class FiberBidItem extends StatelessWidget {
                   ],
                 ),
               )*/
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 0.w, right: 0.w, top: 0.w,bottom: 0.w),
+                  child: Utils.buildContainer(bidData!),
+                )
               ],
             ),
             Positioned(
@@ -643,12 +648,3 @@ class FiberBidItem extends StatelessWidget {
   }
 }
 
-String _showStatus(int bidStatus) {
-  if (bidStatus == 0) {
-    return "Pending";
-  } else if (bidStatus == 1) {
-    return "Accepted";
-  } else {
-    return "Rejected";
-  }
-}

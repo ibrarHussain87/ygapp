@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
 import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -580,10 +582,13 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                   )
                 ],
               ),
-            )
+            ),
+
           ],
         ));
   }
+
+
 
   _updateDialog(context, YarnSpecification specification) {
     showGeneralDialog(

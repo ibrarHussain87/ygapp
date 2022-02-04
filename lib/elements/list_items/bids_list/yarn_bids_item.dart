@@ -1,6 +1,8 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -16,13 +18,12 @@ import '../../title_text_widget.dart';
 class YarnBidsItem extends StatelessWidget {
   final BidData bidData;
 
-  const YarnBidsItem({Key? key, required this.bidData})
-      : super(key: key);
+  const YarnBidsItem({Key? key, required this.bidData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    YarnSpecification yarnSpecification = bidData
-        .specification as YarnSpecification;
+    YarnSpecification yarnSpecification =
+        bidData.specification as YarnSpecification;
     return Card(
         color: Colors.white,
         elevation: 18.0,
@@ -36,7 +37,7 @@ class YarnBidsItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Align(
+                /*Align(
                   alignment: AlignmentDirectional.topEnd,
                   child: Visibility(
                     visible: true,
@@ -45,12 +46,14 @@ class YarnBidsItem extends StatelessWidget {
                     maintainAnimation: true,
                     child: Container(
                         width: 34.w,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 3.w, vertical: 3.w),
                         decoration: BoxDecoration(
-                            color: bidData.status == "0" ? Colors.brown
-                                .shade100.withOpacity(0.4) : bidData.status == "1" ? Colors.green
-                                .shade100 : Colors.red.shade100,
+                            color: bidData.status == "0"
+                                ? Colors.brown.shade100.withOpacity(0.4)
+                                : bidData.status == "1"
+                                    ? Colors.green.shade100
+                                    : Colors.red.shade100,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(0.w),
                             )),
@@ -58,15 +61,18 @@ class YarnBidsItem extends StatelessWidget {
                           _showStatus(int.parse(bidData.status!)),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: bidData.status == "0" ? Colors.
-                            brown : bidData.status == "1" ? Colors.green : Colors.red,
+                            color: bidData.status == "0"
+                                ? Colors.brown
+                                : bidData.status == "1"
+                                    ? Colors.green
+                                    : Colors.red,
                             fontSize: 6.sp,
                             fontFamily: 'Metropolis',
                             fontWeight: FontWeight.bold,
                           ),
                         )),
                   ),
-                ),
+                ),*/
                 Padding(
                     padding: EdgeInsets.only(left: 10.w, top: 8),
                     child: Row(
@@ -86,10 +92,7 @@ class YarnBidsItem extends StatelessWidget {
                               fontFamily: 'Metropolis',
                             ),
                           ),
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.30,
+                          width: MediaQuery.of(context).size.width * 0.30,
                         ),
                         SizedBox(
                           width: 4.w,
@@ -109,7 +112,7 @@ class YarnBidsItem extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 2.w),
                           child: Visibility(
                               visible:
-                              Ui.showHide(yarnSpecification.is_verified),
+                                  Ui.showHide(yarnSpecification.is_verified),
                               maintainSize: true,
                               maintainState: true,
                               maintainAnimation: true,
@@ -141,7 +144,7 @@ class YarnBidsItem extends StatelessWidget {
                                   Container(
                                       color: blueBackgroundColor,
                                       constraints:
-                                      const BoxConstraints(maxHeight: 14),
+                                          const BoxConstraints(maxHeight: 14),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
@@ -175,10 +178,10 @@ class YarnBidsItem extends StatelessWidget {
                               ),
                               Padding(
                                 padding:
-                                EdgeInsets.only(bottom: 6.0.w, top: 8.w),
+                                    EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                                 child: TitleSmallBoldTextWidget(
                                   title:
-                                  Utils.setDetailsData(yarnSpecification),
+                                      Utils.setDetailsData(yarnSpecification),
                                   /*title:'Weaving,Ring Frame,Carded,Regular',*/
                                   color: Colors.black87,
                                   size: 10,
@@ -189,66 +192,61 @@ class YarnBidsItem extends StatelessWidget {
                                 padding: EdgeInsets.only(top: 0.w, right: 35.w),
                                 child: yarnSpecification.yarnFamilyId != "4"
                                     ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'AC ${yarnSpecification
-                                            .actualYarnCount ?? ""}',
-                                      ),
-                                      flex: 1,
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'CLSP ${yarnSpecification.clsp ?? ""}',
-                                      ),
-                                      flex: 1,
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'IPI ${yarnSpecification.ys_ipm_km ??
-                                            ""}',
-                                      ),
-                                      flex: 1,
-                                    ),
-                                  ],
-                                )
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'AC ${yarnSpecification.actualYarnCount ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          SizedBox(width: 8.w),
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'CLSP ${yarnSpecification.clsp ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          SizedBox(width: 8.w),
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'IPI ${yarnSpecification.ys_ipm_km ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                        ],
+                                      )
                                     : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'Q ${yarnSpecification.yarnQuality ??
-                                            ""}',
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'Q ${yarnSpecification.yarnQuality ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          SizedBox(width: 8.w),
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'A ${yarnSpecification.yarnApperance ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                          SizedBox(width: 8.w),
+                                          Expanded(
+                                            child: BgLightBlueNormalTextWidget(
+                                              title:
+                                                  'G ${yarnSpecification.yarnGrade ?? ""}',
+                                            ),
+                                            flex: 1,
+                                          ),
+                                        ],
                                       ),
-                                      flex: 1,
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'A ${yarnSpecification.yarnApperance ??
-                                            ""}',
-                                      ),
-                                      flex: 1,
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Expanded(
-                                      child: BgLightBlueNormalTextWidget(
-                                        title:
-                                        'G ${yarnSpecification.yarnGrade ??
-                                            ""}',
-                                      ),
-                                      flex: 1,
-                                    ),
-                                  ],
-                                ),
                               ),
                               SizedBox(
                                 height: 5.w,
@@ -276,7 +274,7 @@ class YarnBidsItem extends StatelessWidget {
                                         ),
                                         ShortDetailRenewedWidget(
                                           title: yarnSpecification
-                                              .deliveryPeriod ??
+                                                  .deliveryPeriod ??
                                               Utils.checkNullString(false),
                                           imageIcon: 'images/img_van.png',
                                           size: 9.sp,
@@ -297,26 +295,23 @@ class YarnBidsItem extends StatelessWidget {
                               SizedBox(
                                 height: 2.h,
                               ),
-                              Wrap(
+                             /* Wrap(
                                 direction: Axis.horizontal,
                                 spacing: 4.0,
                                 runSpacing: 4.0,
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   Container(
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.17,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.17,
                                       decoration: BoxDecoration(
-                                        /*color: lightYellowContainer,*/
+                                          *//*color: lightYellowContainer,*//*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
-                                          borderRadius:
-                                          BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(4.w))),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -324,7 +319,7 @@ class YarnBidsItem extends StatelessWidget {
                                         child: Center(
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               // Text(
                                               //   'Price',
@@ -338,26 +333,26 @@ class YarnBidsItem extends StatelessWidget {
                                               Text.rich(TextSpan(children: [
                                                 TextSpan(
                                                   text:
-                                                  '${bidData.price.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                                      '${bidData.price.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 9.sp,
                                                       fontFamily: 'Metropolis',
                                                       fontWeight:
-                                                      FontWeight.w400),
+                                                          FontWeight.w400),
                                                 ),
                                                 TextSpan(
                                                   text: bidData.price
                                                       .toString()
                                                       .replaceAll(
-                                                      RegExp(r'[^0-9]'),
-                                                      ''),
+                                                          RegExp(r'[^0-9]'),
+                                                          ''),
                                                   style: TextStyle(
                                                       color: Colors.green,
                                                       fontSize: 9.sp,
                                                       fontFamily: 'Metropolis',
                                                       fontWeight:
-                                                      FontWeight.w600),
+                                                          FontWeight.w600),
                                                 ),
                                               ])),
 
@@ -372,11 +367,11 @@ class YarnBidsItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.17,
                                       decoration: BoxDecoration(
-                                        /*color: lightYellowContainer,*/
+                                          *//*color: lightYellowContainer,*//*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
-                                            1, //                   <--- border width here
+                                                1, //                   <--- border width here
                                           ),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.w))),
@@ -392,16 +387,15 @@ class YarnBidsItem extends StatelessWidget {
                                                     fontSize: 9.sp,
                                                     color: Colors.black87,
                                                     fontWeight:
-                                                    FontWeight.w400),
+                                                        FontWeight.w400),
                                               ),
-
                                               Text(
                                                 '${bidData.quantity}',
                                                 style: TextStyle(
                                                     fontSize: 9.sp,
                                                     color: greenButton,
                                                     fontWeight:
-                                                    FontWeight.w600),
+                                                        FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 width: 3.w,
@@ -410,21 +404,21 @@ class YarnBidsItem extends StatelessWidget {
                                           ),
                                         ),
                                       )),
-
-                                  TitleExtraSmallTextWidget(title: DateFormat("MMM dd, yyyy").format(DateTime.parse(bidData.date??"")) )
-
+                                  TitleExtraSmallTextWidget(
+                                      title: DateFormat("MMM dd, yyyy").format(
+                                          DateTime.parse(bidData.date ?? "")))
                                 ],
                               ),
                               SizedBox(
                                 height: 4.h,
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
                       ),
                       Container(
                         padding:
-                        EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
+                            EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
                         child: Column(
                           children: [
                             Column(
@@ -433,9 +427,7 @@ class YarnBidsItem extends StatelessWidget {
                                 Text.rich(TextSpan(children: [
                                   TextSpan(
                                     text:
-                                    '${yarnSpecification.priceUnit.toString()
-                                        .replaceAll(
-                                        RegExp(r'[^a-zA-Z$]'), '')}.',
+                                        '${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
@@ -454,8 +446,7 @@ class YarnBidsItem extends StatelessWidget {
                                   ),
                                   TextSpan(
                                     text:
-                                    "/${yarnSpecification.unitCount ??
-                                        Utils.checkNullString(false)}",
+                                        "/${yarnSpecification.unitCount ?? Utils.checkNullString(false)}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
@@ -540,15 +531,17 @@ class YarnBidsItem extends StatelessWidget {
                                 btnText: "Details",
                                 textSize: 8.sp,
                                 callback: () {
-                                  openDetailsScreen(context,yarnSpecification: bidData.specification as YarnSpecification,isFromBid: true);
+                                  openDetailsScreen(context,
+                                      yarnSpecification: bidData.specification
+                                          as YarnSpecification,
+                                      isFromBid: true);
                                 },
                                 color: Colors.green,
                               ),
                             ),
-                            SizedBox(
+                            /*SizedBox(
                               height: 8.w,
-                            ),
-
+                            ),*/
                           ],
                         ),
                       ),
@@ -576,7 +569,11 @@ class YarnBidsItem extends StatelessWidget {
                   ],
                 ),
               )*/
-
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: 0.w, right: 0.w, top: 0.w,bottom: 0.w),
+                  child: Utils.buildContainer(bidData),
+                )
               ],
             ),
             Positioned(
@@ -645,14 +642,10 @@ class YarnBidsItem extends StatelessWidget {
           ],
         ));
   }
+
+
 }
 
-String _showStatus(int bidStatus) {
-  if (bidStatus == 0) {
-    return "Pending";
-  } else if (bidStatus == 1) {
-    return "Accepted";
-  } else {
-    return "Rejected";
-  }
-}
+
+
+

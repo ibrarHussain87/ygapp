@@ -1,7 +1,14 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-
+import 'package:intl/intl.dart';
 import '../model/response/fiber_response/fiber_specification.dart';
+import 'app_colors.dart';
 
 class Utils{
 
@@ -193,5 +200,151 @@ class Utils{
     return title;
   }
 
+  static getBackgroundColor(String status) {
+    var color = Colors.white;
+    switch(status){
+      case '0':
+        color = Colors.white;
+        break;
+      case '1':
+        color = lightBlueBidderColor;
+        break;
+      case '2':
+        color = lightOrangeBidderColor;
+        break;
+    }
+    return color;
+  }
+
+  static getBackgroundColorCustom(String status) {
+    var color = Colors.grey.shade50;
+    switch(status){
+      case '0':
+        color = Colors.grey.shade200;
+        break;
+      case '1':
+        color = lightBlueBidderColor;
+        break;
+      case '2':
+        color = lightOrangeBidderColor;
+        break;
+    }
+    return color;
+  }
+
+  static Container buildContainer(BidData bidData) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 0.w, top: 8.w),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Utils.getBackgroundColorCustom(bidData.status!),
+            borderRadius: const BorderRadius.all(Radius.circular(0))
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: DottedLine(
+                dashColor: geryTextColor,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 12.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Image.asset(
+                  //   postAdGreyIcon,
+                  //   width: 24.w,
+                  //   height: 24.w,
+                  // ),
+                  // SizedBox(
+                  //   width: 8.w,
+                  // ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomBrandWidget(title: "Proposed Price:",color: geryTextColor,size: 12,),
+                            SizedBox(width: 2.w,),
+                            CustomBrandWidget(title: '${bidData.price}',size: 13,),
+                            SizedBox(width: 4.w,),
+                          ],
+                        ),
+                        SizedBox(height: 5.w,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomBrandWidget(title: "Quantity:",color: geryTextColor,size: 12,),
+                            SizedBox(width: 2.w,),
+                            CustomBrandWidget(title: bidData.quantity,size: 13,),
+                            SizedBox(width: 8.w,),
+                            CustomBrandWidget(title: DateFormat("dd-MM-yyyy | HH:MM:ss").format(DateTime.parse(bidData.date??"")),size: 11,color: geryTextColor,)
+                          ],
+                        ),
+                      ],
+                    ),
+                    flex: 8,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomBrandWidget(title: 'Status',color: geryTextColor,size: 12,),
+                        SizedBox(
+                          height: 6.w,
+                        ),
+                        Container(
+                            width: 60.w,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12.w, vertical: 5.w),
+                            decoration: BoxDecoration(
+                                color: bidData.status == "0"
+                                    ? Colors.brown.shade100.withOpacity(0.4)
+                                    : bidData.status == "1"
+                                    ? Colors.green.shade100
+                                    : Colors.red.shade100,
+                                borderRadius: const BorderRadius.all(Radius.circular(2))
+                                ),
+                            child: Text(
+                              showStatus(int.parse(bidData.status!)),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: bidData.status == "0"
+                                    ? Colors.brown
+                                    : bidData.status == "1"
+                                    ? Colors.green
+                                    : Colors.red,
+                                fontSize: 8.sp,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static String showStatus(int bidStatus) {
+    if (bidStatus == 0) {
+      return "Pending";
+    } else if (bidStatus == 1) {
+      return "Accepted";
+    } else {
+      return "Rejected";
+    }
+  }
 
 }

@@ -45,6 +45,7 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
   void initState() {
     _specificationRequestModel = SpecificationRequestModel(
         spc_id: widget.specId, category_id: widget.categoryId);
+    Logger().e(_specificationRequestModel.toJson());
     super.initState();
   }
 

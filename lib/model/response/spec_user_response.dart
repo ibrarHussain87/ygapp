@@ -33,7 +33,7 @@ class SpecificationUser {
   String? country;
   String? cityState;
   String? company;
-  Null? ntnNumber;
+  String? ntnNumber;
 
   SpecificationUser(
       {this.name,
