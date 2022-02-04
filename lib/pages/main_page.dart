@@ -54,8 +54,8 @@ class _MainPageState extends State<MainPage> {
       MarketPage(
         locality: international,
       ),
-      const ProfilePage(),
       const YGServices(),
+      const ProfilePage(),
       // const PastAdPage()
     ];
   }
@@ -241,17 +241,6 @@ class _MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
             icon: _selectedIndex == 3
                 ? Padding(
-              padding: EdgeInsets.all(2.w),
-              child: const Icon(Icons.segment,size: 28,color: Colors.green,),
-            )
-                : Padding(
-              padding: EdgeInsets.all(2.0.w),
-              child: const Icon(Icons.segment,size: 28,color: Colors.grey,),
-            ),
-            label: "Menu"),
-        BottomNavigationBarItem(
-            icon: _selectedIndex == 4
-                ? Padding(
                     padding: EdgeInsets.all(5.w),
                     child: Image.asset(
                       ygServicesIcon,
@@ -268,6 +257,17 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
             label: ygService),
+        BottomNavigationBarItem(
+            icon: _selectedIndex == 4
+                ? Padding(
+              padding: EdgeInsets.all(2.w),
+              child: const Icon(Icons.segment,size: 28,color: Colors.green,),
+            )
+                : Padding(
+              padding: EdgeInsets.all(2.0.w),
+              child: const Icon(Icons.segment,size: 28,color: Colors.grey,),
+            ),
+            label: "Profile"),
         // BottomNavigationBarItem(
         //     icon: _selectedIndex == 4
         //         ? Padding(

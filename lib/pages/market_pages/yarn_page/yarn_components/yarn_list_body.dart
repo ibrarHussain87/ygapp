@@ -5,6 +5,8 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
+import '../../../detail_pages/detail_page/detail_page_renewed.dart';
+
 class YarnListBody extends StatefulWidget {
   final List<YarnSpecification> specification;
 
@@ -27,9 +29,13 @@ class YarnListBodyState extends State<YarnListBody> {
 
   List<YarnSpecification>? _specification;
   List<YarnSpecification>? _yarnFilteredSpecification;
+  bool isResume = false;
 
   @override
   void initState() {
+    setState(() {
+      isResume = true;
+    });
     _specification = widget.specification;
     _yarnFilteredSpecification = _specification;
     super.initState();
@@ -44,8 +50,24 @@ class YarnListBodyState extends State<YarnListBody> {
               return GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    openDetailsScreen(context,
-                        yarnSpecification: _yarnFilteredSpecification![index]);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailRenewedPage(
+                          specification: null,
+                          yarnSpecification: _yarnFilteredSpecification![index],
+                          isFromBid: null,
+                        ),
+                      ),
+                    ).then((value) {
+                      setState(() {
+                        isResume = true;
+                      });
+                    });
+
+                    // openDetailsScreen(context,
+                    //     yarnSpecification: _yarnFilteredSpecification![index]);
                   },
                   child: buildYarnRenewedWidget(_yarnFilteredSpecification![index],context));
             })

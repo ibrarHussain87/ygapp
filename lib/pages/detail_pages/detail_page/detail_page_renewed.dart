@@ -76,7 +76,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
           leading: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context,true);
             },
             child: Padding(
                 padding: EdgeInsets.all(12.w),

@@ -1,36 +1,47 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/spec_user_response.dart';
+import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
+import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/ui_utils.dart';
 import '../detail_tab.dart';
 
 class SpecUserView extends StatefulWidget {
-
   final SpecificationUser specificationUser;
+  final String specId;
+  final String categoryId;
 
-
-  const SpecUserView({Key? key,required this.specificationUser}) : super(key: key);
+  const SpecUserView(
+      {Key? key,
+      required this.specificationUser,
+      required this.specId,
+      required this.categoryId})
+      : super(key: key);
 
   @override
   _SpecUserViewState createState() => _SpecUserViewState();
 }
 
 class _SpecUserViewState extends State<SpecUserView> {
-
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,10 +66,10 @@ class _SpecUserViewState extends State<SpecUserView> {
                   itemCount: generateUserList(widget.specificationUser).length,
                   shrinkWrap: true,
                   separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
+                      const Divider(),
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => listDetailItemWidget(
-                      context, generateUserList(widget.specificationUser)[index]),
+                  itemBuilder: (context, index) => listDetailItemWidget(context,
+                      generateUserList(widget.specificationUser)[index]),
                 ),
               ],
             ),
@@ -72,7 +83,7 @@ class _SpecUserViewState extends State<SpecUserView> {
               Expanded(
                 child: ElevatedButtonWithoutIcon(
                     callback: () {
-
+                      _markYgApi();
                     },
                     color: btnColorLogin,
                     btnText: 'Service through YG'),
@@ -83,7 +94,7 @@ class _SpecUserViewState extends State<SpecUserView> {
               Expanded(
                 child: ElevatedButtonWithoutIcon(
                     callback: () {
-
+                      _postAsRequirement();
                     },
                     color: btnColorLogin,
                     btnText: 'Post as requirement'),
@@ -97,14 +108,61 @@ class _SpecUserViewState extends State<SpecUserView> {
 
   List<GridTileModel> generateUserList(SpecificationUser specificationUser) {
     List<GridTileModel> tempList = [];
-    tempList.add(GridTileModel('Name', specificationUser.name??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Country', specificationUser.country??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('City', specificationUser.cityState??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Company', specificationUser.company??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('NTN Number', specificationUser.ntnNumber??Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'Name', specificationUser.name ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'Phone', specificationUser.phone ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'Email', specificationUser.email ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'Country', specificationUser.country ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'City', specificationUser.cityState ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel(
+        'Company', specificationUser.company ?? Utils.checkNullString(false)));
+    tempList.add(GridTileModel('NTN Number',
+        specificationUser.ntnNumber ?? Utils.checkNullString(false)));
     return tempList;
   }
-}
 
+  void _markYgApi() {
+    showGenericDialog("Alert", "Are you sure for service through Yg", context,
+        StylishDialogType.WARNING, "Confirm", () {
+      ProgressDialogUtil.showDialog(context, "Please wait...");
+      ApiService.markYg(widget.specId, widget.categoryId).then((value) {
+        ProgressDialogUtil.hideDialog();
+        // Ui.showSnackBar(context, value.message.toString());
+        showGenericDialog("Success", value.message.toString(), context,
+            StylishDialogType.SUCCESS, "Close", () {});
+      }, onError: (error, stackTrac) {
+        ProgressDialogUtil.hideDialog();
+        Ui.showSnackBar(context, error.toString());
+      });
+    });
+  }
+
+  void _postAsRequirement() {
+    showGenericDialog("Alert", "Are you sure post as requirement?", context,
+        StylishDialogType.WARNING, "Confirm", () {
+      ProgressDialogUtil.showDialog(context, "Please wait...");
+      ApiService.copySpecification(widget.specId, widget.categoryId).then(
+          (value) {
+        ProgressDialogUtil.hideDialog();
+        // Ui.showSnackBar(context, value.message.toString());
+
+        showGenericDialog(
+            "Success",
+            widget.categoryId == "1"
+                ? (value as FiberSpecificationResponse).message.toString()
+                : (value as GetYarnSpecificationResponse).message.toString(),
+            context,
+            StylishDialogType.SUCCESS,
+            "Close",
+            () {});
+      }, onError: (error, stackTrac) {
+        ProgressDialogUtil.hideDialog();
+        Ui.showSnackBar(context, error.toString());
+      });
+    });
+  }
+}

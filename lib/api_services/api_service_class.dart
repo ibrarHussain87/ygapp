@@ -28,6 +28,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../model/response/list_bid_response.dart';
+import '../model/response/mark_yg_response.dart';
 
 class ApiService {
   static var logger = Logger();
@@ -530,6 +531,77 @@ class ApiService {
       return ListBidResponse.fromJson(
         json.decode(response.body),
       );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<MarkYgResponse> markYg(
+      String specId, String catId) async {
+    try {
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      Map<String, dynamic> data = {
+        "user_id": userID.toString(),
+        "specification_id": specId,
+        "category_id": catId
+      };
+      String url = BASE_API_URL + "/mark_yg";
+
+      final response =
+      await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+      return MarkYgResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  //Post as requirement
+  static Future<dynamic> copySpecification(
+      String specId, String catId) async {
+    try {
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      Map<String, dynamic> data = {
+        "user_id": userID.toString(),
+        "specification_id": specId,
+        "category_id": catId
+      };
+      String url = BASE_API_URL + "/copy_spec";
+
+      final response =
+      await http.post(Uri.parse(url), headers: headerMap, body: data);
+
+      if(catId == "1"){
+        return FiberSpecificationResponse.fromJson(
+          json.decode(response.body),
+        );
+      }else{
+        return GetYarnSpecificationResponse.fromJson(
+          json.decode(response.body),
+        );
+      }
+
+
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

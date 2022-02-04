@@ -83,7 +83,7 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
           future: ApiService.getSpecificationUser(_specificationRequestModel),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data!= null) {
-              return SpecUserView(specificationUser: snapshot.data!.data!);
+              return SpecUserView(specificationUser: snapshot.data!.data!,specId:widget.specId,categoryId:widget.categoryId);
             } else if (snapshot.hasError) {
               return Center(
                   child: TitleSmallTextWidget(title: snapshot.error.toString()));
