@@ -497,8 +497,8 @@ class _SendProposalBottomSheetState extends State<SendProposalBottomSheet> {
                             "Please enter minimum quantity ${_minBidQuantity}");
                       } else {
                         showGenericDialog(
-                          'Place Bid',
-                          "Are you sure, you want to place bid?",
+                          'Send Proposal',
+                          "Are you sure, you want to send Proposal?",
                           context,
                           StylishDialogType.WARNING,
                           'Yes',
@@ -509,7 +509,7 @@ class _SendProposalBottomSheetState extends State<SendProposalBottomSheet> {
                       }
                     },
                     color: btnColorLogin,
-                    btnText: 'Place Bid'),
+                    btnText: 'Send Proposal'),
               ),
             ],
           )),
@@ -532,7 +532,7 @@ class _SendProposalBottomSheetState extends State<SendProposalBottomSheet> {
       ProgressDialogUtil.hideDialog();
       // Ui.showSnackBar(context, value.message);
       showGenericDialog(
-        'Place Bid',
+        'Send Proposal',
         value.message,
         context,
         StylishDialogType.SUCCESS,
@@ -543,7 +543,7 @@ class _SendProposalBottomSheetState extends State<SendProposalBottomSheet> {
       ProgressDialogUtil.hideDialog();
       // Ui.showSnackBar(context, error.message.toString());
       showGenericDialog(
-        'Place Bid',
+        'Send Proposal',
         error.message.toString(),
         context,
         StylishDialogType.ERROR,

@@ -32,7 +32,7 @@ class DetailRenewedPage extends StatefulWidget {
 class _DetailPageState extends State<DetailRenewedPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> _tabsListCreator = ['Details', "Matched", 'Bidder List'];
-  final List<String> _tabsListBidder = ['Details', "Matched"];
+  final List<String> _tabsListBidder = ['Details',/* "Matched"*/];
   final List<String> _tabsListBid = ['Details', "History"];
   List<String>? _tabsList;
   List<Widget>? _tabWidgetList;
@@ -602,13 +602,13 @@ class _DetailPageState extends State<DetailRenewedPage> {
             specification: widget.specification,
             yarnSpecification: widget.yarnSpecification,
           ),
-          MatchedPage(
+          /*MatchedPage(
               catId: widget.specification != null
                   ? widget.specification!.categoryId!
                   : "2",
               specId: widget.specification != null
                   ? widget.specification!.spcId
-                  : widget.yarnSpecification!.ysId ?? 1),
+                  : widget.yarnSpecification!.ysId ?? 1),*/
         ];
       });
     }

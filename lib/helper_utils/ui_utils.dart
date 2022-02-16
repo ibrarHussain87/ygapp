@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Ui {
+
   static bool showHide(String? value){
     if(value == '1'){
       return true;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item_renewed.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
 class FiberListingBody extends StatefulWidget {
@@ -15,6 +17,8 @@ class FiberListingBody extends StatefulWidget {
 }
 
 class FiberListingBodyState extends State<FiberListingBody> {
+
+  late String? userId;
 
   filterListSearch(value) {
     setState(() {
@@ -30,9 +34,17 @@ class FiberListingBodyState extends State<FiberListingBody> {
 
   @override
   void initState() {
+    setInitialData();
+    super.initState();
+  }
+
+  void setInitialData() async {
     specification = widget.specification;
     specificationFiltered = specification;
-    super.initState();
+    userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    setState(() {
+
+    });
   }
 
   @override
@@ -45,7 +57,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberRenewedWidget(specificationFiltered![index],context)),
+          child: buildFiberRenewedWidget(specificationFiltered![index],context,userId!)),
       // separatorBuilder: (context, index) {
       //   return Divider(
       //     height: 1,

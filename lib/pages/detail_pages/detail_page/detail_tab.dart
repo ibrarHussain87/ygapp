@@ -1356,8 +1356,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                       "Please enter minimum quantity $_minBidQuantity");
                                         } else {
                                           showGenericDialog(
-                                            'Place Bid',
-                                            "Are you sure, you want to place bid?",
+                                            'Send Proposal',
+                                            "Are you sure, you want to send proposal?",
                                             context,
                                             StylishDialogType
                                                 .WARNING,
@@ -1372,7 +1372,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       color:
                                           btnColorLogin,
                                       btnText:
-                                          'Place Bid'),
+                                          'Send Proposal'),
                             ),
                             SizedBox(
                               height: 4.h,
@@ -1416,7 +1416,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       ProgressDialogUtil.hideDialog();
       // Ui.showSnackBar(context, value.message);
       showGenericDialog(
-        'Place Bid',
+        'Send Proposal',
         value.message,
         context,
         StylishDialogType.SUCCESS,
@@ -1427,7 +1427,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       ProgressDialogUtil.hideDialog();
       // Ui.showSnackBar(context, error.message.toString());
       showGenericDialog(
-        'Place Bid',
+        'Send Proposal',
         error.message.toString(),
         context,
         StylishDialogType.ERROR,

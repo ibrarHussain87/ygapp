@@ -575,7 +575,8 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                       btnText: "Update",
                       textSize: 8.sp,
                       callback: () {
-                        _updateDialog(context, widget.specification);
+                        Utils.updateDialog(context, widget.specification,null,
+                            _deliveryPeriod,_deliveryPeriodList,_createRequestModel,_controllerAvailQ,_controllerUpdatePrice);
                       },
                       color: Colors.green,
                     ),
@@ -590,7 +591,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
 
 
 
-  _updateDialog(context, YarnSpecification specification) {
+  /*_updateDialog(context, YarnSpecification specification) {
     showGeneralDialog(
       context: context,
       barrierLabel: "Barrier",
@@ -834,7 +835,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
         );
       },
     );
-  }
+  }*/
 }
 
 

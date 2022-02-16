@@ -17,7 +17,10 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import 'package:intl/intl.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
-Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context) {
+import '../elevated_button_widget_2.dart';
+
+Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context, String userId) {
+
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -357,9 +360,26 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                           SizedBox(
                             height: 8.w,
                           ),
+                          userId != specification.ys_user_id ?
                           Padding(
                               padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 4.w),
-                              child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,)),
+                              child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,))
+                              : Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: SizedBox(
+                            width: 64.w,
+                            height: 24.w,
+                            child: ElevatedButtonWithoutIcon(
+                                btnText: "Update",
+                                textSize: 8.sp,
+                                callback: () {
+                                  /*Utils.updateDialog(context, specification,null,
+                                      _deliveryPeriod,_deliveryPeriodList,_createRequestModel,_controllerAvailQ,_controllerUpdatePrice);*/
+                                },
+                                color: Colors.green,
+                            ),
+                          ),
+                              )
 
                         ],
                       ),

@@ -11,8 +11,10 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
+import '../elevated_button_widget_2.dart';
+
 Widget buildFiberRenewedWidget(
-    Specification specification, BuildContext context) {
+    Specification specification, BuildContext context, String userId) {
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -361,13 +363,31 @@ Widget buildFiberRenewedWidget(
                           SizedBox(
                             height: 8.w,
                           ),
+                          userId != specification.spc_user_id ?
                           Padding(
                               padding: EdgeInsets.only(left: 4.w, right: 4.w),
                               child: BidNowWidget(
                                 title: 'Send Proposal',
                                 size: 10.sp,
                                 padding: 5,
-                              )),
+                              ))
+                          :
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: SizedBox(
+                              width: 64.w,
+                              height: 24.w,
+                              child: ElevatedButtonWithoutIcon(
+                                btnText: "Update",
+                                textSize: 8.sp,
+                                callback: () {
+                                  /*Utils.updateDialog(context, specification,null,
+                                      _deliveryPeriod,_deliveryPeriodList,_createRequestModel,_controllerAvailQ,_controllerUpdatePrice);*/
+                                },
+                                color: Colors.green,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
