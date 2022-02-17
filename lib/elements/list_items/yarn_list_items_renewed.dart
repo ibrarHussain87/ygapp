@@ -373,8 +373,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 btnText: "Update",
                                 textSize: 8.sp,
                                 callback: () {
-                                  /*Utils.updateDialog(context, specification,null,
-                                      _deliveryPeriod,_deliveryPeriodList,_createRequestModel,_controllerAvailQ,_controllerUpdatePrice);*/
+                                  Utils.updateDialog(context, specification,null,);
                                 },
                                 color: Colors.green,
                             ),

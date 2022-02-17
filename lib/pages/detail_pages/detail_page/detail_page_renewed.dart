@@ -475,17 +475,21 @@ class _DetailPageState extends State<DetailRenewedPage> {
                             preferredSize: Size(double.infinity, 28.w),
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: TabBar(
-                                // padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                isScrollable: false,
-                                unselectedLabelColor: lightBlueTabs,
-                                labelColor: Colors.white,
-                                indicatorColor: lightBlueTabs,
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    color: lightBlueTabs),
-                                tabs: tabMakerUpdated(),
+                              child: Visibility(
+                                visible: _tabsList!.length>1,
+                                maintainSize: false,
+                                child: TabBar(
+                                  // padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                                  isScrollable: false,
+                                  unselectedLabelColor: lightBlueTabs,
+                                  labelColor: Colors.white,
+                                  indicatorColor: lightBlueTabs,
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  indicator: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      color: lightBlueTabs),
+                                  tabs: tabMakerUpdated(),
+                                ),
                               ),
                             ),
                           ),

@@ -48,6 +48,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
   bool _showBidContainer = false;
   bool _isChanged = false;
   String? _userId;
+  late BuildContext _context1;
   final priceController = TextEditingController();
   final quantityController = TextEditingController();
 
@@ -122,6 +123,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
   @override
   Widget build(BuildContext context) {
+    _context1 = context;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -830,42 +832,48 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
             ),*/
-            Visibility(
-              visible: _showBidContainer,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ElevatedButtonWithoutIcon(
-                        callback: () {
-                          showProposalBottomSheet(context);
-                        },
-                        color: btnColorLogin,
-                        btnText: 'Send Proposal'),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Expanded(
-                    child: ElevatedButtonWithoutIcon(
-                        callback: () {
-                          FocusScope.of(context).unfocus();
-                          widget.specification != null
-                              ? openSpecificationUserScreen(
-                                  context,
-                                  widget.specification!.spcId.toString(),
-                                  widget.specification!.categoryId.toString())
-                              : openSpecificationUserScreen(
-                                  context,
-                                  widget.yarnSpecification!.ysId.toString(),
-                                  /*widget.yarnSpecification!.category_id.toString()*/
-                                  '2');
-                        },
-                        color: btnColorLogin,
-                        btnText: 'Contact'),
-                  ),
-                ],
-              ),
+            !_showBidContainer ?
+            ElevatedButtonWithoutIcon(
+                callback: () {
+                  widget.specification == null ?
+                  Utils.updateDialog(context, widget.yarnSpecification,null,):
+                  Utils.updateDialog(context, null,widget.specification,);
+                },
+                color: btnColorLogin,
+                btnText: 'Update'):
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ElevatedButtonWithoutIcon(
+                      callback: () {
+                        showProposalBottomSheet(context);
+                      },
+                      color: btnColorLogin,
+                      btnText: 'Send Proposal'),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Expanded(
+                  child: ElevatedButtonWithoutIcon(
+                      callback: () {
+                        FocusScope.of(context).unfocus();
+                        widget.specification != null
+                            ? openSpecificationUserScreen(
+                                context,
+                                widget.specification!.spcId.toString(),
+                                widget.specification!.categoryId.toString())
+                            : openSpecificationUserScreen(
+                                context,
+                                widget.yarnSpecification!.ysId.toString(),
+                                /*widget.yarnSpecification!.category_id.toString()*/
+                                '2');
+                      },
+                      color: btnColorLogin,
+                      btnText: 'Contact'),
+                ),
+              ],
             )
           ],
         ),
@@ -1415,10 +1423,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
         .then((value) {
       ProgressDialogUtil.hideDialog();
       // Ui.showSnackBar(context, value.message);
+      Navigator.pop(context);
       showGenericDialog(
         'Send Proposal',
         value.message,
-        context,
+        _context1,
         StylishDialogType.SUCCESS,
         'Yes',
         () {},

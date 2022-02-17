@@ -154,7 +154,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                                     context,specification: widget.specification![index]!);
                               },
                               child: buildFiberProductWidget(
-                                  _filteredSpecification![index]!)),
+                                  _filteredSpecification![index]!,context)),
                           // separatorBuilder: (context, index) {
                           //   return Divider(
                           //     height: 1,

@@ -575,8 +575,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                       btnText: "Update",
                       textSize: 8.sp,
                       callback: () {
-                        Utils.updateDialog(context, widget.specification,null,
-                            _deliveryPeriod,_deliveryPeriodList,_createRequestModel,_controllerAvailQ,_controllerUpdatePrice);
+                        Utils.updateDialog(context, widget.specification,null,);
                       },
                       color: Colors.green,
                     ),

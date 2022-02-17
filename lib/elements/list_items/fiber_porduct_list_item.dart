@@ -16,7 +16,9 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
-Widget buildFiberProductWidget(Specification specification) {
+import '../elevated_button_widget_2.dart';
+
+Widget buildFiberProductWidget(Specification specification, BuildContext context) {
   return Card(
     color: Colors.white,
     elevation: 18.0,
@@ -243,9 +245,21 @@ Widget buildFiberProductWidget(Specification specification) {
                     SizedBox(
                       height: 8.w,
                     ),
-                    Padding(
+                    /*Padding(
                         padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 16.w),
-                        child: BidNowWidget(title: 'Update'))
+                        child: BidNowWidget(title: 'Update'))*/
+                    SizedBox(
+                      width: 64.w,
+                      height: 24.w,
+                      child: ElevatedButtonWithoutIcon(
+                        btnText: "Update",
+                        textSize: 8.sp,
+                        callback: () {
+                          Utils.updateDialog(context, null,specification,);
+                        },
+                        color: Colors.green,
+                      ),
+                    )
                   ],
                 ),
               ),
