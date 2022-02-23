@@ -19,7 +19,7 @@ import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
 import '../elevated_button_widget_2.dart';
 
-Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context, String userId) {
+Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context,) {
 
   return Card(
       color: Colors.white,
@@ -334,6 +334,24 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                           SizedBox(
                             height: 4.w,
                           ),
+                          specification.certifications!.isNotEmpty?
+                          SizedBox(
+                            height: 25.h,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: specification.certifications!.length,
+                                itemBuilder: (context, index) {
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.network(
+                                      specification.certifications![index].certification!.icon??'images/ic_list.png',
+                                      height: 24.w,
+                                      width: 24.h,
+                                    ),
+                                  );
+                                }),
+                          ):
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -360,7 +378,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                           SizedBox(
                             height: 8.w,
                           ),
-                          userId != specification.ys_user_id ?
+                          /*userId != specification.ys_user_id ?
                           Padding(
                               padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 4.w),
                               child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,))
@@ -378,8 +396,37 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 color: Colors.green,
                             ),
                           ),
-                              )
-
+                              ),*/
+                          FutureBuilder<String>(
+                            future: Utils.getUserId(),
+                            builder: (context,snapshot){
+                              if(snapshot.hasData){
+                                return snapshot.data != specification.ys_user_id ?
+                                Padding(
+                                    padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 4.w),
+                                    child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,))
+                                    : Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: SizedBox(
+                                    width: 64.w,
+                                    height: 24.w,
+                                    child: ElevatedButtonWithoutIcon(
+                                      btnText: "Update",
+                                      textSize: 8.sp,
+                                      callback: () {
+                                        Utils.updateDialog(context, specification,null,);
+                                      },
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                );
+                              }else{
+                                return Text('Error: ${snapshot.error}',overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,);
+                              }
+                            },
+                          )
                         ],
                       ),
                     ),

@@ -21,9 +21,7 @@ import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/specification_user/spec_user_view.dart';
 
-
 class SpecificationUserPage extends StatefulWidget {
-
   final String specId;
   final String categoryId;
 
@@ -36,10 +34,10 @@ class SpecificationUserPage extends StatefulWidget {
 }
 
 class _SpecificationUserPageState extends State<SpecificationUserPage> {
-
   late SpecificationRequestModel _specificationRequestModel;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<GridTileModel> _userDetails = [];
+  String companyName = 'Contact Card';
 
   @override
   void initState() {
@@ -51,54 +49,64 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
+    return FutureBuilder<SpecificationUserResponse?>(
+      future: ApiService.getSpecificationUser(_specificationRequestModel),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null &&
+            snapshot.data!.data != null) {
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                leading: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
+                      padding: EdgeInsets.all(12.w),
+                      child: Card(
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 4.w),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 12.w,
+                            )),
                       )),
-                )),
-          ),
-          title: Text('Contact Card',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        ),
-        body: FutureBuilder<SpecificationUserResponse?>(
-          future: ApiService.getSpecificationUser(_specificationRequestModel),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data!= null) {
-              return SpecUserView(specificationUser: snapshot.data!.data!,specId:widget.specId,categoryId:widget.categoryId);
-            } else if (snapshot.hasError) {
-              return Center(
-                  child: TitleSmallTextWidget(title: snapshot.error.toString()));
-            } else {
-              return const Center(
-                child: SpinKitWave(
-                  color: Colors.green,
-                  size: 24.0,
                 ),
-              );
-            }
-          },
-        ),
-      ),
+                title: Text(snapshot.data!.data!.company??companyName,
+                    style: TextStyle(
+                        fontSize: 16.0.w,
+                        color: appBarTextColor,
+                        fontWeight: FontWeight.w400)),
+              ),
+              body: SpecUserView(
+                  specificationUser: snapshot.data!.data!,
+                  specId: widget.specId,
+                  categoryId: widget.categoryId),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Container(
+            color: Colors.white,
+            child: Center(
+                child: TitleSmallTextWidget(title: snapshot.error.toString())),
+          );
+        } else {
+          return Container(
+            color: Colors.white,
+            child: const Center(
+              child: SpinKitWave(
+                color: Colors.green,
+                size: 24.0,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

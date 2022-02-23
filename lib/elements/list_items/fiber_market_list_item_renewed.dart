@@ -14,7 +14,7 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import '../elevated_button_widget_2.dart';
 
 Widget buildFiberRenewedWidget(
-    Specification specification, BuildContext context, String userId) {
+    Specification specification, BuildContext context) {
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -333,6 +333,21 @@ Widget buildFiberRenewedWidget(
                           SizedBox(
                             height: 4.w,
                           ),
+                          specification.certifications!.isNotEmpty?
+                          SizedBox(
+                            height: 25.h,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: specification.certifications!.length,
+                                itemBuilder: (context, index) {
+                                  return Image.network(
+                                    specification.certifications![index].certification!.icon??'images/ic_list.png',
+                                    height: 24.w,
+                                    width: 24.h,
+                                  );
+                                }),
+                          ):
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -363,7 +378,7 @@ Widget buildFiberRenewedWidget(
                           SizedBox(
                             height: 8.w,
                           ),
-                          userId != specification.spc_user_id ?
+                          /*userId != specification.spc_user_id ?
                           Padding(
                               padding: EdgeInsets.only(left: 4.w, right: 4.w),
                               child: BidNowWidget(
@@ -386,6 +401,50 @@ Widget buildFiberRenewedWidget(
                                 color: Colors.green,
                               ),
                             ),
+                          ),*/
+                          FutureBuilder<String>(
+                            future: Utils.getUserId(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data !=
+                                        specification.spc_user_id
+                                    ? Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 4.w, right: 4.w),
+                                        child: BidNowWidget(
+                                          title: 'Send Proposal',
+                                          size: 10.sp,
+                                          padding: 5,
+                                        ))
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: SizedBox(
+                                          width: 64.w,
+                                          height: 24.w,
+                                          child: ElevatedButtonWithoutIcon(
+                                            btnText: "Update",
+                                            textSize: 8.sp,
+                                            callback: () {
+                                              Utils.updateDialog(
+                                                context,
+                                                null,
+                                                specification,
+                                              );
+                                            },
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      );
+                              } else {
+                                return Text(
+                                  'Error: ${snapshot.error}',
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                );
+                              }
+                            },
                           )
                         ],
                       ),

@@ -1,3 +1,5 @@
+import '../../certifications_model.dart';
+
 class FiberSpecificationResponse {
   FiberSpecificationResponse({
     required this.status,
@@ -92,6 +94,7 @@ class Specification {
     required this.description,
     required this.date,
     required this.pictures,
+    required this.certifications,
   });
 
   late final int spcId;
@@ -130,6 +133,7 @@ class Specification {
   String? description;
   String? date;
   List<Pictures>? pictures;
+  List<CertificationModel>? certifications;
 
   Specification.fromJson(Map<String, dynamic> json) {
     spcId = json['spc_id'];
@@ -170,6 +174,10 @@ class Specification {
     if (json['pictures'] != null) {
       pictures =
           List.from(json['pictures']).map((e) => Pictures.fromJson(e)).toList();
+    }
+    if (json['certifications'] != null) {
+      certifications =
+          List.from(json['certifications']).map((e) => CertificationModel.fromJson(e)).toList();
     }
   }
 
@@ -213,6 +221,9 @@ class Specification {
     if (pictures != null) {
       _data['pictures'] = pictures!.map((e) => e.toJson()).toList();
     }
+    if (certifications != null) {
+      _data['certifications'] = certifications!.map((e) => e.toJson()).toList();
+    }
     return _data;
   }
 }
@@ -234,3 +245,4 @@ class Pictures {
     return _data;
   }
 }
+

@@ -22,7 +22,6 @@ class YarnListBody extends StatefulWidget {
 
 class YarnListBodyState extends State<YarnListBody> {
 
-  late String? userId;
 
   filterListSearch(value) {
     setState(() {
@@ -40,17 +39,12 @@ class YarnListBodyState extends State<YarnListBody> {
 
   @override
   void initState() {
-    setInitialData();
-    super.initState();
-  }
-
-  void setInitialData() async {
     _specification = widget.specification;
     _yarnFilteredSpecification = _specification;
-    userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
     setState(() {
       isResume = true;
     });
+    super.initState();
   }
 
   @override
@@ -81,7 +75,7 @@ class YarnListBodyState extends State<YarnListBody> {
                     // openDetailsScreen(context,
                     //     yarnSpecification: _yarnFilteredSpecification![index]);
                   },
-                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index],context,userId!));
+                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index],context,));
             })
         : const Center(
             child: TitleSmallTextWidget(

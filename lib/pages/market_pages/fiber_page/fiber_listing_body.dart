@@ -18,7 +18,6 @@ class FiberListingBody extends StatefulWidget {
 
 class FiberListingBodyState extends State<FiberListingBody> {
 
-  late String? userId;
 
   filterListSearch(value) {
     setState(() {
@@ -34,17 +33,9 @@ class FiberListingBodyState extends State<FiberListingBody> {
 
   @override
   void initState() {
-    setInitialData();
-    super.initState();
-  }
-
-  void setInitialData() async {
     specification = widget.specification;
     specificationFiltered = specification;
-    userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-    setState(() {
-
-    });
+    super.initState();
   }
 
   @override
@@ -57,7 +48,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberRenewedWidget(specificationFiltered![index],context,userId!)),
+          child: buildFiberRenewedWidget(specificationFiltered![index],context,)),
       // separatorBuilder: (context, index) {
       //   return Divider(
       //     height: 1,

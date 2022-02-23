@@ -645,7 +645,7 @@ class Utils{
     });
   }
 
-  static Future<String?> getUserId() async {
+  static Future<String> getUserId() async {
     return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
   }
 

@@ -1,5 +1,7 @@
 
 
+import '../../certifications_model.dart';
+
 class GetYarnSpecificationResponse {
   GetYarnSpecificationResponse({
     required this.status,
@@ -213,7 +215,7 @@ class YarnSpecification {
   String? yarn_country;
   String? date;
   List<dynamic>? pictures;
-  List<dynamic>? certifications;
+  List<CertificationModel>? certifications;
 
   YarnSpecification.fromJson(Map<String, dynamic> json) {
     yarnTitle = json['yarn_details'];
@@ -288,7 +290,10 @@ class YarnSpecification {
     date = json['date'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
-    certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
+    if (json['certifications'] != null) {
+      certifications =
+          List.from(json['certifications']).map((e) => CertificationModel.fromJson(e)).toList();
+    }
   }
 
   Map<String, dynamic> toJson() {

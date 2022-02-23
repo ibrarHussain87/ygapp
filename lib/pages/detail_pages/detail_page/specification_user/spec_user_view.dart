@@ -73,14 +73,14 @@ class _SpecUserViewState extends State<SpecUserView> {
                   itemBuilder: (context, index){
                     return GestureDetector(
                       onTap: (){
-                        if(index==1){
-                          _launchCaller(generateUserList(widget.specificationUser)[index].detail);
-                        }else if(index==2){
+                        if(index==generateUserList(widget.specificationUser).length-2){
+                          /*_launchCaller(generateUserList(widget.specificationUser)[index].detail);*/
+                        }else if(index==generateUserList(widget.specificationUser).length-1){
                           launchEmailSubmission(generateUserList(widget.specificationUser)[index].detail);
                         }
                       },
-                      child: listDetailItemWidget(
-                          context, generateUserList(widget.specificationUser)[index]),
+                      child: listItemContactCard(
+                          context, generateUserList(widget.specificationUser)[index],index==generateUserList(widget.specificationUser).length-2),
                     );
                   },
                 ),
@@ -119,14 +119,14 @@ class _SpecUserViewState extends State<SpecUserView> {
     );
   }
 
-  _launchCaller(String phone) async {
+  /*_launchCaller(String phone) async {
     String url = "tel:$phone";
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
-  }
+  }*/
 
   void launchEmailSubmission(String email) async {
     final Uri params = Uri(
@@ -148,14 +148,14 @@ class _SpecUserViewState extends State<SpecUserView> {
   List<GridTileModel> generateUserList(SpecificationUser specificationUser) {
     List<GridTileModel> tempList = [];
     tempList.add(GridTileModel('Name', specificationUser.name??Utils.checkNullString(false)));
-    /*Index 1 must contain phone for launchCaller to work*/
-    tempList.add(GridTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
-    /*Index 2 must contain email for launchEmailSubmission to work*/
-    tempList.add(GridTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
     tempList.add(GridTileModel('Country', specificationUser.country??Utils.checkNullString(false)));
     tempList.add(GridTileModel('City', specificationUser.cityState??Utils.checkNullString(false)));
     tempList.add(GridTileModel('Company', specificationUser.company??Utils.checkNullString(false)));
     tempList.add(GridTileModel('NTN Number', specificationUser.ntnNumber??Utils.checkNullString(false)));
+    /*Index Second Last must contain phone for launchCaller to work*/
+    tempList.add(GridTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
+    /*Index Last must contain email for launchEmailSubmission to work*/
+    tempList.add(GridTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
     return tempList;
   }
 
