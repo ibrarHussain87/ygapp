@@ -138,6 +138,7 @@ class YarnSpecification {
     this.is_verified,
     required this.deliveryPeriod,
     this.available,
+    this.port,
     required this.priceTerms,
     required this.minQuantity,
     required this.description,
@@ -214,6 +215,7 @@ class YarnSpecification {
   String? ys_rkm;
   String? yarn_country;
   String? date;
+  String? port;
   List<dynamic>? pictures;
   List<CertificationModel>? certifications;
 
@@ -287,6 +289,7 @@ class YarnSpecification {
     yarn_country = json['yarn_country'];
     unitCount = json['unit_count'];
     ys_rkm = json['ys_rkm'];
+    port = json['port'];
     date = json['date'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
@@ -366,6 +369,7 @@ class YarnSpecification {
     _data['ys_ipm_km'] = ys_ipm_km;
     _data['ys_hairness'] = ys_hairness;
     _data['ys_rkm'] = ys_rkm;
+    _data['port'] = port;
     _data['date'] = date;
     return _data;
   }

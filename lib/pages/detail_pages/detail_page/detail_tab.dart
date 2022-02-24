@@ -1526,29 +1526,61 @@ class _DetailTabPageState extends State<DetailTabPage> {
     // ];
 
     _detailPackaging = [
-      // GridTileModel(
-      //     'Unit Of Count',
-      //     widget.specification!.unitCount == null
-      //         ? Utils.checkNullString(false)
-      //         : widget.specification!.unitCount!),
+      GridTileModel(
+          'Unit of Counting',
+          widget.specification!.unitCount == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.unitCount!),
+      GridTileModel('Seller Location',
+          widget.specification!.locality ?? Utils.checkNullString(false)),
+      /*GridTileModel(
+          'Country',
+          widget.specification!.country == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.country!),*/
+      GridTileModel(
+          'Packing',
+          widget.specification!.priceTerms == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.priceTerms!),
+      /*GridTileModel(
+          'Payment Type',
+          widget.specification!.paymentType == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.paymentType!),*/
+     /* GridTileModel(
+          'LC Type',
+          widget.specification!.lcType == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.lcType!),*/
       GridTileModel(
           'Price',
           widget.specification!.priceUnit == null
               ? Utils.checkNullString(false)
               : widget.specification!.priceUnit!),
       GridTileModel(
-          'Packing',
-          widget.specification!.priceTerms == null
+          'Available Quantity',
+          widget.specification!.available == null
               ? Utils.checkNullString(false)
-              : widget.specification!.priceTerms!),
+              : widget.specification!.available!),
+      GridTileModel(
+          'Delivery Period',
+          widget.specification!.deliveryPeriod == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.deliveryPeriod!),
       GridTileModel(
           'Minimum Quantity',
           widget.specification!.minQuantity == null
               ? Utils.checkNullString(false)
               : widget.specification!.minQuantity!),
-      GridTileModel('Seller Location',
-          widget.specification!.unitCount ?? Utils.checkNullString(false))
     ];
+    if(widget.specification!.locality!.toUpperCase() == international){
+      _detailPackaging.add(GridTileModel(
+          'Port',
+          widget.specification!.port == null
+              ? Utils.checkNullString(false)
+              : widget.specification!.port!));
+    }
   }
 
   _yarnDetails() {
@@ -1899,50 +1931,78 @@ class _DetailTabPageState extends State<DetailTabPage> {
     ];
 
     _detailPackaging = [
-      // GridTileModel(
-      //     'Unit Of Counting',
-      //       widget.yarnSpecification!.unitCount == null
-      //         ? Utils.checkNullString(false)
-      //         : widget.yarnSpecification!.unitCount!),
-
-      // GridTileModel(
-      //     'Available Quantity',
-      //     widget.yarnSpecification!.ava == null
-      //         ? Utils.checkNullString(false)
-      //         : widget.yarnSpecification!.av!),
 
       GridTileModel(
-          'Minimum Quantity',
-          widget.yarnSpecification!.minQuantity == null
+          'Unit of Counting',
+          widget.yarnSpecification!.unitCount == null
               ? Utils.checkNullString(false)
-              : widget.yarnSpecification!.minQuantity!),
+              : widget.yarnSpecification!.unitCount!),
       GridTileModel(
-          'Delivery Period',
-          widget.yarnSpecification!.deliveryPeriod == null
+          'Weight/Bags',
+          widget.yarnSpecification!.weightBag == null
               ? Utils.checkNullString(false)
-              : widget.yarnSpecification!.deliveryPeriod!),
-
+              : widget.yarnSpecification!.weightBag!),
       GridTileModel(
-          'Price',
-          widget.yarnSpecification!.priceUnit == null
+          'Cones/Bags',
+          widget.yarnSpecification!.conesBag == null
               ? Utils.checkNullString(false)
-              : widget.yarnSpecification!.priceUnit!),
-
+              : widget.yarnSpecification!.conesBag!),
+      /*GridTileModel(
+          'Cone Type',
+          widget.yarnSpecification!.c == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.c!),*/
+      GridTileModel('Seller Location',
+          widget.yarnSpecification!.locality ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Country',
+          widget.yarnSpecification!.yarn_country == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.yarn_country!),
       GridTileModel(
           'Price Terms',
           widget.yarnSpecification!.priceTerms == null
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.priceTerms!),
-      //
-      // GridTileModel(
-      //     'Cone Type',
-      //     widget.yarnSpecification!.ty == null
-      //         ? Utils.checkNullString(false)
-      //         : widget.yarnSpecification!.priceTerms!),
+      GridTileModel(
+          'Payment Type',
+          widget.yarnSpecification!.paymentType == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.paymentType!),
+      GridTileModel(
+          'LC Type',
+          widget.yarnSpecification!.lcType == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.lcType!),
+      GridTileModel(
+          'Price',
+          widget.yarnSpecification!.priceUnit == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.priceUnit!),
+      GridTileModel(
+          'Available Quantity',
+          widget.yarnSpecification!.available == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.available!),
+      GridTileModel(
+          'Delivery Period',
+          widget.yarnSpecification!.deliveryPeriod == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.deliveryPeriod!),
+      GridTileModel(
+          'Minimum Quantity',
+          widget.yarnSpecification!.minQuantity == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.minQuantity!),
 
-      GridTileModel('Seller Location',
-          widget.yarnSpecification!.locality ?? Utils.checkNullString(false))
     ];
+    if(widget.yarnSpecification!.locality!.toUpperCase() == international){
+      _detailPackaging.add(GridTileModel(
+          'Port',
+          widget.yarnSpecification!.port == null
+              ? Utils.checkNullString(false)
+              : widget.yarnSpecification!.port!));
+    }
   }
 
   Future<String?> _getUserId() async {

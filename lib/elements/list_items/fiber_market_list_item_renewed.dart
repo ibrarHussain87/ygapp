@@ -333,7 +333,6 @@ Widget buildFiberRenewedWidget(
                           SizedBox(
                             height: 4.w,
                           ),
-                          specification.certifications!.isNotEmpty?
                           SizedBox(
                             height: 25.h,
                             child: ListView.builder(
@@ -341,14 +340,23 @@ Widget buildFiberRenewedWidget(
                                 shrinkWrap: true,
                                 itemCount: specification.certifications!.length,
                                 itemBuilder: (context, index) {
-                                  return Image.network(
-                                    specification.certifications![index].certification!.icon??'images/ic_list.png',
-                                    height: 24.w,
-                                    width: 24.h,
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: Colors.grey.shade500)
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        specification.certifications![index].certification!.icon??'images/ic_list.png',
+                                        height: 24.w,
+                                        width: 24.h,
+                                      ),
+                                    ),
                                   );
                                 }),
-                          ):
-                          Row(
+                          ),
+                          /*Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -374,7 +382,7 @@ Widget buildFiberRenewedWidget(
                                 width: 24.w,
                               ),
                             ],
-                          ),
+                          ),*/
                           SizedBox(
                             height: 8.w,
                           ),
@@ -406,36 +414,31 @@ Widget buildFiberRenewedWidget(
                             future: Utils.getUserId(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return snapshot.data !=
-                                        specification.spc_user_id
-                                    ? Padding(
+                                return Padding(
                                         padding: EdgeInsets.only(
-                                            left: 4.w, right: 4.w),
-                                        child: BidNowWidget(
-                                          title: 'Send Proposal',
-                                          size: 10.sp,
-                                          padding: 5,
-                                        ))
-                                    : Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: SizedBox(
-                                          width: 64.w,
-                                          height: 24.w,
-                                          child: ElevatedButtonWithoutIcon(
-                                            btnText: "Update",
-                                            textSize: 8.sp,
-                                            callback: () {
+                                            left: 4.w, right: 4.w, bottom: 6.w),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            if(snapshot.data == specification.spc_user_id){
                                               Utils.updateDialog(
                                                 context,
                                                 null,
                                                 specification,
                                               );
-                                            },
-                                            color: Colors.green,
+                                            }
+                                          },
+                                          child: SizedBox(
+                                            width: 80,
+                                            height: 20,
+                                            child: BidNowWidget(
+                                              title: snapshot.data !=
+                                                  specification.spc_user_id
+                                                  ?'Send Proposal': "Update",
+                                              size: 10.sp,
+                                              padding: 5,
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        ));
                               } else {
                                 return Text(
                                   'Error: ${snapshot.error}',

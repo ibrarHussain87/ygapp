@@ -19,8 +19,10 @@ import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
 import '../elevated_button_widget_2.dart';
 
-Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext context,) {
-
+Widget buildYarnRenewedWidget(
+  YarnSpecification specification,
+  BuildContext context,
+) {
   return Card(
       color: Colors.white,
       elevation: 18.0,
@@ -59,24 +61,24 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                   )),
             ),*/
               Padding(
-                  padding: EdgeInsets.only(left: 10.w,top: 8),
+                  padding: EdgeInsets.only(left: 10.w, top: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
                         child: Text(
-                          specification.company??Utils.checkNullString(false),
+                          specification.company ?? Utils.checkNullString(false),
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Metropolis',
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Metropolis',
                           ),
                         ),
-                        width: MediaQuery.of(context).size.width*0.30,
+                        width: MediaQuery.of(context).size.width * 0.30,
                       ),
                       SizedBox(
                         width: 4.w,
@@ -107,8 +109,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                             )),
                       )
                     ],
-                  )
-              ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(top: 3.w),
                 child: Row(
@@ -120,25 +121,30 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 5.w,),
+                            SizedBox(
+                              height: 5.w,
+                            ),
                             Row(
                               children: [
                                 Container(
                                     color: blueBackgroundColor,
-                                    constraints: const BoxConstraints(maxHeight: 14),
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 14),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 1),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title:
-                                          Utils.setFamilyData(specification),
+                                          title: Utils.setFamilyData(
+                                              specification),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
                                       ),
-                                    )
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
                                 ),
-                                SizedBox(width: 2.w,),
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 1),
@@ -150,15 +156,14 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                       size: 13,
                                     ),
                                   ),
-                                    flex: 1,
+                                  flex: 1,
                                 ),
-
                               ],
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                               child: TitleSmallBoldTextWidget(
-                                title:Utils.setDetailsData(specification),
+                                title: Utils.setDetailsData(specification),
                                 /*title:'Weaving,Ring Frame,Carded,Regular',*/
                                 color: Colors.black87,
                                 size: 10,
@@ -166,56 +171,63 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 0.w,right: 35.w),
-                              child: specification.yarnFamilyId != "4" ? Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: 'AC ${specification.actualYarnCount??""}',
+                              padding: EdgeInsets.only(top: 0.w, right: 35.w),
+                              child: specification.yarnFamilyId != "4"
+                                  ? Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title:
+                                                'AC ${specification.actualYarnCount ?? ""}',
+                                          ),
+                                          flex: 1,
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title:
+                                                'CLSP ${specification.clsp ?? ""}',
+                                          ),
+                                          flex: 1,
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title:
+                                                'IPI ${specification.ys_ipm_km ?? ""}',
+                                          ),
+                                          flex: 1,
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title: specification.yarnType ?? "",
+                                          ),
+                                          flex: 1,
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title:
+                                                specification.yarnQuality ?? "",
+                                          ),
+                                          flex: 1,
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Expanded(
+                                          child: BgLightBlueNormalTextWidget(
+                                            title:
+                                                specification.yarnGrade ?? "",
+                                          ),
+                                          flex: 1,
+                                        ),
+                                      ],
                                     ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: 'CLSP ${specification.clsp??""}',
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: 'IPI ${specification.ys_ipm_km??""}',
-                                    ),
-                                    flex: 1,
-                                  ),
-                                ],
-                              ): Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.yarnType??"",
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.yarnQuality??"",
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.yarnGrade??"",
-                                    ),
-                                    flex: 1,
-                                  ),
-                                ],
-                              ),
                             ),
                             SizedBox(
                               height: 5.w,
@@ -228,25 +240,29 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                     runSpacing: 3.0,
                                     children: [
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightBag ?? Utils.checkNullString(false),
+                                        title: specification.weightBag ??
+                                            Utils.checkNullString(false),
                                         imageIcon: 'images/img_bag.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightCone ?? Utils.checkNullString(false),
+                                        title: specification.weightCone ??
+                                            Utils.checkNullString(false),
                                         imageIcon: 'images/img_cone.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ?? Utils.checkNullString(false),
+                                        title: specification.deliveryPeriod ??
+                                            Utils.checkNullString(false),
                                         imageIcon: 'images/img_van.png',
                                         size: 9.sp,
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality ?? Utils.checkNullString(false),
+                                        title: specification.locality ??
+                                            Utils.checkNullString(false),
                                         imageIcon: 'images/img_location.png',
                                         size: 9.sp,
                                         iconSize: 14,
@@ -256,52 +272,58 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 )
                               ],
                             ),
-                            SizedBox(height: 5.h,)
+                            SizedBox(
+                              height: 5.h,
+                            )
                           ],
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 6.w, right: 6.w,top: 5.h),
+                      padding: EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
                       child: Column(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text.rich( TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'),'')}.',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: specification.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'),''),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 17.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "/${specification.unitCount??Utils.checkNullString(false)}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12.sp,
-                                          fontFamily: 'Metropolis',
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                  ]
-                              )),
-                              SizedBox(height: 1.h,),
+                              Text.rich(TextSpan(children: [
+                                TextSpan(
+                                  text:
+                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                TextSpan(
+                                  text: specification.priceUnit
+                                      .toString()
+                                      .replaceAll(RegExp(r'[^0-9]'), ''),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontFamily: 'Metropolis',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ])),
+                              SizedBox(
+                                height: 1.h,
+                              ),
                               const Center(
-                                child: TitleSmallNormalTextWidget(title: "Ex- Factory",size: 7,),
+                                child: TitleSmallNormalTextWidget(
+                                  title: "Ex- Factory",
+                                  size: 7,
+                                ),
                               )
                             ],
                           ),
@@ -334,7 +356,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                           SizedBox(
                             height: 4.w,
                           ),
-                          specification.certifications!.isNotEmpty?
+                          /*specification.certifications!.isNotEmpty?*/
                           SizedBox(
                             height: 25.h,
                             child: ListView.builder(
@@ -342,17 +364,25 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 shrinkWrap: true,
                                 itemCount: specification.certifications!.length,
                                 itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(
-                                      specification.certifications![index].certification!.icon??'images/ic_list.png',
-                                      height: 24.w,
-                                      width: 24.h,
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: Colors.grey.shade500)
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        specification.certifications![index]
+                                                .certification!.icon ??
+                                            'images/ic_list.png',
+                                        height: 24.w,
+                                        width: 24.h,
+                                      ),
                                     ),
                                   );
                                 }),
-                          ):
-                          Row(
+                          ),
+                          /*Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -374,7 +404,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                                 width: 24.w,
                               ),
                             ],
-                          ),
+                          ),*/
                           SizedBox(
                             height: 8.w,
                           ),
@@ -399,31 +429,43 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                               ),*/
                           FutureBuilder<String>(
                             future: Utils.getUserId(),
-                            builder: (context,snapshot){
-                              if(snapshot.hasData){
-                                return snapshot.data != specification.ys_user_id ?
-                                Padding(
-                                    padding: EdgeInsets.only(left: 4.w, right: 4.w,bottom: 4.w),
-                                    child: BidNowWidget(title: 'Send Proposal',size: 10.sp,padding: 5,))
-                                    : Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: SizedBox(
-                                    width: 64.w,
-                                    height: 24.w,
-                                    child: ElevatedButtonWithoutIcon(
-                                      btnText: "Update",
-                                      textSize: 8.sp,
-                                      callback: () {
-                                        Utils.updateDialog(context, specification,null,);
-                                      },
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                );
-                              }else{
-                                return Text('Error: ${snapshot.error}',overflow: TextOverflow.fade,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 4.w, right: 4.w, bottom: 6.w),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          if (snapshot.data ==
+                                              specification.ys_user_id) {
+                                            Utils.updateDialog(
+                                              context,
+                                              specification,
+                                              null,
+                                            );
+                                          }
+                                        },
+                                        child: SizedBox(
+                                          width: 80,
+                                          height: 20,
+                                          child: Center(
+                                            child: BidNowWidget(
+                                              title: snapshot.data !=
+                                                      specification.ys_user_id
+                                                  ? 'Send Proposal'
+                                                  : "Update",
+                                              size: 10.sp,
+                                              padding: 5,
+                                            ),
+                                          ),
+                                        )));
+                              } else {
+                                return Text(
+                                  'Error: ${snapshot.error}',
+                                  overflow: TextOverflow.fade,
                                   maxLines: 1,
-                                  softWrap: false,);
+                                  softWrap: false,
+                                );
                               }
                             },
                           )
@@ -488,9 +530,11 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                         ),
                       )),
                 ),
-                SizedBox(height: 5.h,),
+                SizedBox(
+                  height: 5.h,
+                ),
                 Padding(
-                  padding: EdgeInsets.only(right: 0.w,bottom: 4.w),
+                  padding: EdgeInsets.only(right: 0.w, bottom: 4.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -498,15 +542,19 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
                         TextSpan(
                           text: "Updated ",
                           style: TextStyle(
-                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                              fontSize: 5.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500),
                         ),
                         TextSpan(
-                          text: DateFormat("MMM dd, yyyy").format(DateTime.parse(specification.date??"")),
+                          text: DateFormat("MMM dd, yyyy")
+                              .format(DateTime.parse(specification.date ?? "")),
                           style: TextStyle(
-                              fontSize: 5.sp, color: Colors.black87,fontWeight: FontWeight.w500),
+                              fontSize: 5.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500),
                         )
                       ])),
-
                     ],
                   ),
                 )
@@ -514,8 +562,7 @@ Widget buildYarnRenewedWidget(YarnSpecification specification, BuildContext cont
             ),
           )
         ],
-      )
-  );
+      ));
 }
 
 /*String setFamilyData(YarnSpecification specification){
@@ -578,7 +625,7 @@ String setDetailsData(YarnSpecification specification){
       detailsData = '${specification.yarnColorTreatmentMethod??Utils.checkNullString(false)}${specification.yarnApperance!= null ?  ',${specification.yarnApperance}':Utils.checkNullString(true)}${specification.doublingMethod!= null ?  ',${specification.doublingMethod}':Utils.checkNullString(true)}${specification.yarnGrade!= null ?  ',${specification.yarnGrade}':Utils.checkNullString(true)}';
       break;
       case '5':
-      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.yarnPattern!= null ?  ',${specification.yarnPattern}':Utils.checkNullString(true)}';*//*,${specification.doublingMethod??Utils.checkNullString(false)}*//*
+      detailsData = '${specification.yarnSpunTechnique??Utils.checkNullString(false)}${specification.yarnColorTreatmentMethod!= null ?  ',${specification.yarnColorTreatmentMethod}':Utils.checkNullString(true)}${specification.yarnPattern!= null ?  ',${specification.yarnPattern}':Utils.checkNullString(true)}';*/ /*,${specification.doublingMethod??Utils.checkNullString(false)}*/ /*
       break;
   }
   return detailsData;

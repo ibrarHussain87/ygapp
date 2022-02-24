@@ -86,7 +86,7 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                         ],
                       ),
                       SizedBox(height: 4.h,),
-                      BrandWidget(title: DateFormat("MMM dd, yyyy HH:MM:s").format(DateTime.parse(widget.listBiddersData.date??"")))
+                      BrandWidget(title: DateFormat("MMM dd, yyyy HH:mm:s").format(DateTime.parse(widget.listBiddersData.date??"")))
                     ],
                   ),
                   flex: 8,

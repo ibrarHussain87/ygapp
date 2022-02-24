@@ -44,7 +44,7 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                         SizedBox(height: 4.h,)
                       ],
                     ),
-                    TitleMediumBoldSmallTextWidget(title: DateFormat("MMM dd, yyyy HH:MM:s").format(DateTime.parse(widget.bidData.date??"")))
+                    TitleMediumBoldSmallTextWidget(title: DateFormat("MMM dd, yyyy HH:mm:s").format(DateTime.parse(widget.bidData.date??"")))
                   ],
                 ),
                 flex: 8,

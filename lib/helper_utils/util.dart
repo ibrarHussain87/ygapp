@@ -298,7 +298,7 @@ class Utils{
                             SizedBox(width: 2.w,),
                             CustomBrandWidget(title: bidData.quantity,size: 13,),
                             SizedBox(width: 8.w,),
-                            CustomBrandWidget(title: DateFormat("dd-MM-yyyy | HH:MM:ss").format(DateTime.parse(bidData.date??"")),size: 11,color: geryTextColor,)
+                            CustomBrandWidget(title: DateFormat("dd-MM-yyyy | HH:mm:ss").format(DateTime.parse(bidData.date??"")),size: 11,color: geryTextColor,)
                           ],
                         ),
                       ],
