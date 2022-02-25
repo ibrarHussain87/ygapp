@@ -42,6 +42,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: specificationFiltered!.length,
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {

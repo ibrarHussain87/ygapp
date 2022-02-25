@@ -17,7 +17,7 @@ Widget buildFiberRenewedWidget(
     Specification specification, BuildContext context) {
   return Card(
       color: Colors.white,
-      elevation: 18.0,
+      elevation: /*18.0*/0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0.w),
       ),

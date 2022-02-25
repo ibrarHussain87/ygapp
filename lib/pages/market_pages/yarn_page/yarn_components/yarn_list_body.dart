@@ -52,6 +52,7 @@ class YarnListBodyState extends State<YarnListBody> {
     return _yarnFilteredSpecification!.isNotEmpty
         ? ListView.builder(
             itemCount: _yarnFilteredSpecification!.length,
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return GestureDetector(
                   behavior: HitTestBehavior.opaque,

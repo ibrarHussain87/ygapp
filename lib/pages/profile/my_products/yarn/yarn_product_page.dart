@@ -173,6 +173,7 @@ class YarnProductPageState extends State<YarnProductPage> {
                   child: _filteredSpecification!.isNotEmpty
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
