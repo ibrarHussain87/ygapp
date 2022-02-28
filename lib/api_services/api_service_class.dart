@@ -20,7 +20,6 @@ import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart'
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
-import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/spec_user_response.dart';
@@ -612,4 +611,43 @@ class ApiService {
       }
     }
   }
+
+  // static Future<dynamic> specificationRequest(
+  //     String specId, String catId) async {
+  //   try {
+  //     var userToken =
+  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+  //     headerMap['Authorization'] = 'Bearer $userToken';
+  //     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  //     Map<String, dynamic> data = {
+  //       "user_id": userID.toString(),
+  //       "specification_id": specId,
+  //       "category_id": catId
+  //     };
+  //     String url = BASE_API_URL + "/copy_spec";
+  //
+  //     final response =
+  //     await http.post(Uri.parse(url), headers: headerMap, body: data);
+  //
+  //     if(catId == "1"){
+  //       return FiberSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }else{
+  //       return GetYarnSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }
+  //
+  //
+  //   } catch (e) {
+  //     if (e is SocketException) {
+  //       throw (no_internet_available_msg);
+  //     } else if (e is TimeoutException) {
+  //       throw (e.toString());
+  //     } else {
+  //       throw ("Something went wrong");
+  //     }
+  //   }
+  // }
 }

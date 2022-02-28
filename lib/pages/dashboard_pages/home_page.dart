@@ -1,15 +1,11 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/market_stock_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/market_trend_widget.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
 
 import 'home_widgets/home_filter_widget.dart';
 
