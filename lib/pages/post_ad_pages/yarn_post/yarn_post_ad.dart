@@ -27,12 +27,12 @@ class YarnPostAdPage extends StatefulWidget {
 }
 
 class _YarnPostAdPageState extends State<YarnPostAdPage> {
-  CreateRequestModel? _fiberRequestModel;
+  CreateRequestModel? _createRequestModel;
   Future<YarnSyncResponse>? _syncFuture;
 
   @override
   void initState() {
-    _fiberRequestModel = CreateRequestModel();
+    _createRequestModel = CreateRequestModel();
     _syncFuture = ApiService.syncYarn();
     super.initState();
   }
@@ -61,7 +61,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
             }
           },
         )*/ Provider(
-            create: (_) => _fiberRequestModel,
+            create: (_) => _createRequestModel,
             child: FamilyBlendAdsBody(
               // yarnSyncResponse: data!,
               locality: widget.locality,
@@ -85,7 +85,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return Provider(
-              create: (_) => _fiberRequestModel,
+              create: (_) => _createRequestModel,
               child: FamilyBlendAdsBody(
                 // yarnSyncResponse: data!,
                 locality: widget.locality,

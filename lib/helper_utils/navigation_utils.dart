@@ -5,6 +5,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/specification_user/specification_user_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
+import 'package:yg_app/pages/post_ad_pages/stocklot_page/create_stocklot_page.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/yarn_post_ad.dart';
 import 'package:yg_app/pages/profile/my_products/list_bids_page/bids_page.dart';
 import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
@@ -55,6 +56,19 @@ void openYarnPostPage(BuildContext context, String? locality,
     context,
     MaterialPageRoute(
       builder: (context) => YarnPostAdPage(
+          locality: locality,
+          businessArea: businessArea,
+          selectedTab: selectedTab),
+    ),
+  );
+}
+
+void openStockLotPostPage(BuildContext context, String? locality,
+    String? businessArea, String? selectedTab) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CreateStockLotPage(
           locality: locality,
           businessArea: businessArea,
           selectedTab: selectedTab),

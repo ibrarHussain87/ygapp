@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
+import '../market_pages/stocklot_page/stocklot_page.dart';
 
 class MarketPage extends StatefulWidget {
   final String? locality;
@@ -24,11 +23,12 @@ class MarketPageState extends State<MarketPage>
     'Yarn',
     // 'Product Weaving',
     // 'Converstion (Leasing)',
-    // 'Stock Lot'
+    'Stock Lot'
   ];
 
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   GlobalKey<YarnPageState> yarnPageState = GlobalKey<YarnPageState>();
+  final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<StockLotPageState>();
   TabController? tabController;
 
   @override
@@ -203,6 +203,10 @@ class MarketPageState extends State<MarketPage>
                     ),
                     YarnPage(
                       key: yarnPageState,
+                      locality: widget.locality,
+                    ),
+                    StockLotPage(
+                      key: _stocklotPageState,
                       locality: widget.locality,
                     ),
                     // ProductWeavingPage(),
