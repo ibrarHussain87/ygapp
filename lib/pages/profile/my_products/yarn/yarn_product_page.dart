@@ -24,22 +24,27 @@ class YarnProductPage extends StatefulWidget {
   YarnProductPageState createState() => YarnProductPageState();
 }
 
-class YarnProductPageState extends State<YarnProductPage> {
+class YarnProductPageState extends State<YarnProductPage>
+    with AutomaticKeepAliveClientMixin {
   void _filterFamily(value) {
     setState(() {
       _filteredSpecification = _specification!
-          .where((element) =>
-      (element!.yarnFamily!.toLowerCase() == value.toString().toLowerCase() && element.is_offering == isOffering))
+          .where((element) => (element!.yarnFamily!.toLowerCase() ==
+                  value.toString().toLowerCase() &&
+              element.is_offering == isOffering))
           .toList();
     });
   }
 
+  @override
+  bool get wantKeepAlive => true;
+
   void _filterBlend(value) {
     setState(() {
       _filteredSpecification = _specification!
-          .where((element) =>
-      (element!.yarnBlend!.toLowerCase() ==
-              value!.toString().toLowerCase() && element.is_offering == isOffering))
+          .where((element) => (element!.yarnBlend!.toLowerCase() ==
+                  value!.toString().toLowerCase() &&
+              element.is_offering == isOffering))
           .toList();
     });
   }
@@ -66,7 +71,9 @@ class YarnProductPageState extends State<YarnProductPage> {
     });
     isOffering = "1";
     _specification = widget.specification;
-    _filteredSpecification = _specification!.where((element) => element!.is_offering == isOffering).toList();
+    _filteredSpecification = _specification!
+        .where((element) => element!.is_offering == isOffering)
+        .toList();
     // queryFamilySettings(yarnFamilyList.first.famId!);
 
     super.initState();
@@ -74,6 +81,7 @@ class YarnProductPageState extends State<YarnProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return yarnFamilyList.isNotEmpty && yarnBlendList.isNotEmpty
         ? Container(
             color: Colors.grey.shade200,
@@ -104,8 +112,8 @@ class YarnProductPageState extends State<YarnProductPage> {
                           flex: 3,
                           child: ElevatedButtonWithoutIcon(
                             callback: () {
-                              showBottomSheetOR(context, (value){
-                                openYarnPostPage(context,local,yarn,value);
+                              showBottomSheetOR(context, (value) {
+                                openYarnPostPage(context, local, yarn, value);
                               });
                             },
                             btnText: "Post Offer",
@@ -162,7 +170,10 @@ class YarnProductPageState extends State<YarnProductPage> {
                       callback: (value) {
                         setState(() {
                           isOffering = value.toString();
-                          _filteredSpecification = _specification!.where((element) => element!.is_offering == value.toString()).toList();
+                          _filteredSpecification = _specification!
+                              .where((element) =>
+                                  element!.is_offering == value.toString())
+                              .toList();
                         });
                       },
                     ),
@@ -171,16 +182,26 @@ class YarnProductPageState extends State<YarnProductPage> {
                 Expanded(
                     child: Container(
                   child: _filteredSpecification!.isNotEmpty
-                      ? ListView.builder(
+                      ? ListView.separated(
                           itemCount: _filteredSpecification!.length,
+                          addAutomaticKeepAlives: true,
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              height: 1,
+                              color: Colors.grey.shade400,
+                            );
+                          },
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                openDetailsScreen(
-                                    context, yarnSpecification: widget.specification![index]!);
+                                openDetailsScreen(context,
+                                    yarnSpecification:
+                                        widget.specification![index]!);
                               },
-                              child: BuildYarnProductWidget(specification: _filteredSpecification![index]!,)),
+                              child: BuildYarnProductWidget(
+                                specification: _filteredSpecification![index]!,
+                              )),
                         )
                       : const Center(
                           child: TitleSmallTextWidget(
@@ -211,9 +232,9 @@ class YarnProductPageState extends State<YarnProductPage> {
   filterListSearch(value) {
     setState(() {
       _filteredSpecification = _specification!
-          .where(
-              (element) =>
-                  (element!.yarnFamily.toString().toLowerCase().contains(value) || element.yarnBlend.toString().contains(value)))
+          .where((element) =>
+              (element!.yarnFamily.toString().toLowerCase().contains(value) ||
+                  element.yarnBlend.toString().contains(value)))
           .toList();
     });
   }

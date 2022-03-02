@@ -11,7 +11,6 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import '../../../detail_pages/detail_page/detail_page_renewed.dart';
 
 class YarnListBody extends StatefulWidget {
-
   final List<YarnSpecification> specification;
 
   const YarnListBody({Key? key, required this.specification}) : super(key: key);
@@ -21,8 +20,6 @@ class YarnListBody extends StatefulWidget {
 }
 
 class YarnListBodyState extends State<YarnListBody> {
-
-
   filterListSearch(value) {
     setState(() {
       _yarnFilteredSpecification = _specification!
@@ -50,14 +47,19 @@ class YarnListBodyState extends State<YarnListBody> {
   @override
   Widget build(BuildContext context) {
     return _yarnFilteredSpecification!.isNotEmpty
-        ? ListView.builder(
+        ? ListView.separated(
             itemCount: _yarnFilteredSpecification!.length,
+            separatorBuilder: (context, index) {
+              return Divider(
+                height: 1,
+                color: Colors.grey.shade400,
+              );
+            },
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -76,7 +78,10 @@ class YarnListBodyState extends State<YarnListBody> {
                     // openDetailsScreen(context,
                     //     yarnSpecification: _yarnFilteredSpecification![index]);
                   },
-                  child: buildYarnRenewedWidget(_yarnFilteredSpecification![index],context,));
+                  child: buildYarnRenewedWidget(
+                    _yarnFilteredSpecification![index],
+                    context,
+                  ));
             })
         : const Center(
             child: TitleSmallTextWidget(

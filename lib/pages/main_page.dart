@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,6 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
-
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
 import 'dashboard_pages/yg_services.dart';
@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
           ? Scaffold(
               body: /*buildPageView()*/ IndexedStack(
                   index: _selectedIndex, children: _screens!),
-              bottomNavigationBar: _generateBottomBar())
+              bottomNavigationBar: _generateBottomBarCurved())
           : FutureBuilder<bool>(
               future: _synData(),
               builder: (context, snapshot) {
@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                   return Scaffold(
                       body: /*buildPageView()*/ IndexedStack(
                           index: _selectedIndex, children: _screens!),
-                      bottomNavigationBar: _generateBottomBar());
+                      bottomNavigationBar: _generateBottomBarCurved());
                 } else {
                   return Scaffold(
                       extendBodyBehindAppBar: true,
@@ -164,7 +164,7 @@ class _MainPageState extends State<MainPage> {
                           ],
                         ),
                       ),
-                      bottomNavigationBar: _generateBottomBar());
+                      bottomNavigationBar: _generateBottomBarCurved());
                 }
               },
             ),
@@ -290,6 +290,95 @@ class _MainPageState extends State<MainPage> {
       ],
     );
   }
+
+  CurvedNavigationBar _generateBottomBarCurved() {
+    return CurvedNavigationBar(
+      backgroundColor: Colors.blueAccent,
+      index: _selectedIndex,
+      onTap: _onItemTapped,
+      height: 50,
+      animationCurve: Curves.easeInOut,
+      animationDuration: Duration(milliseconds: 600),
+      items: [
+        _selectedIndex == 0
+            ? Padding(
+            padding: EdgeInsets.all(5.w),
+            child: Image.asset(
+              homeIcon,
+              width: 20.w,
+              height: 20.h,
+            ))
+            : Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Image.asset(
+            homeGreyIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        ),
+        _selectedIndex == 1
+            ? Padding(
+            padding: EdgeInsets.all(5.w),
+            child: Image.asset(
+              marketIcon,
+              width: 20.w,
+              height: 20.h,
+            ))
+            : Padding(
+          padding: EdgeInsets.all(5.0.w),
+          child: Image.asset(
+            marketGreyIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        ),
+        _selectedIndex == 2
+            ? Padding(
+          padding: EdgeInsets.all(5.w),
+          child: Image.asset(
+            marketIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        )
+            : Padding(
+          padding: EdgeInsets.all(5.0.w),
+          child: Image.asset(
+            marketGreyIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        ),
+        _selectedIndex == 3
+            ? Padding(
+          padding: EdgeInsets.all(5.w),
+          child: Image.asset(
+            ygServicesIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        )
+            : Padding(
+          padding: EdgeInsets.all(5.0.w),
+          child: Image.asset(
+            ygServicesGreyIcon,
+            width: 20.w,
+            height: 20.h,
+          ),
+        ),
+        _selectedIndex == 4
+            ? Padding(
+          padding: EdgeInsets.all(2.w),
+          child: const Icon(Icons.segment,size: 28,color: Colors.green,),
+        )
+            : Padding(
+          padding: EdgeInsets.all(2.0.w),
+          child: const Icon(Icons.segment,size: 28,color: Colors.grey,),
+        ),
+      ],
+    );
+  }
+
 
   Future<bool> _synData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);

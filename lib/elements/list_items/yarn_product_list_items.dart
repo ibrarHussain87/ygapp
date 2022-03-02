@@ -63,9 +63,9 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Material(
         color: Colors.white,
-        elevation: 18.0,
+        elevation: /*18.0*/0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
         ),
