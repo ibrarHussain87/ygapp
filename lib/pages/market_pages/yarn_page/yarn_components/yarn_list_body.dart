@@ -8,6 +8,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
+import '../../../../elements/list_items/yarn_list_items_renewed_again.dart';
 import '../../../detail_pages/detail_page/detail_page_renewed.dart';
 
 class YarnListBody extends StatefulWidget {
@@ -78,7 +79,7 @@ class YarnListBodyState extends State<YarnListBody> {
                     // openDetailsScreen(context,
                     //     yarnSpecification: _yarnFilteredSpecification![index]);
                   },
-                  child: buildYarnRenewedWidget(
+                  child: buildYarnRenewedAgainWidget(
                     _yarnFilteredSpecification![index],
                     context,
                   ));

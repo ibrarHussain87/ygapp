@@ -14,18 +14,20 @@ class BidNowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: btnGreen,
+          color: greenButtonColor,
           borderRadius:
           BorderRadius.all(Radius.circular(2.w))),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical:3.w,horizontal: padding??3.w),
         child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-                fontSize: size??11.sp,
-                color: Colors.white,
-                fontWeight: FontWeight.w400),
+          child: FittedBox(
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontSize: size??11.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400),
+            ),
           ),
         ),
       ),

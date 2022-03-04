@@ -47,4 +47,9 @@ String ic_suppliers = "images/ic_suppliers.png";
 String ic_universe = "images/ic_universe.png";
 String ic_products = "images/ic_products.png";
 String ic_update_header = "images/update_header.png";
+String IC_BAG_RENEWED = "images/ic_bag_renewed.png";
+String IC_CONE_RENEWED = "images/ic_cone_renewed.png";
+String IC_VAN_RENEWED = "images/ic_van_renewed.png";
+String IC_LOCATION_RENEWED = "images/ic_location_renewed.png";
+String FEATURED_VERTICAL = "images/img_featured_vertical.png";
 

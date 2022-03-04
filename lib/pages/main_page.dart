@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
           ? Scaffold(
               body: /*buildPageView()*/ IndexedStack(
                   index: _selectedIndex, children: _screens!),
-              bottomNavigationBar: _generateBottomBarCurved())
+              bottomNavigationBar: _generateBottomBar())
           : FutureBuilder<bool>(
               future: _synData(),
               builder: (context, snapshot) {
@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                   return Scaffold(
                       body: /*buildPageView()*/ IndexedStack(
                           index: _selectedIndex, children: _screens!),
-                      bottomNavigationBar: _generateBottomBarCurved());
+                      bottomNavigationBar: _generateBottomBar());
                 } else {
                   return Scaffold(
                       extendBodyBehindAppBar: true,
@@ -164,7 +164,7 @@ class _MainPageState extends State<MainPage> {
                           ],
                         ),
                       ),
-                      bottomNavigationBar: _generateBottomBarCurved());
+                      bottomNavigationBar: _generateBottomBar());
                 }
               },
             ),

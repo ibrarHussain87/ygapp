@@ -34,7 +34,7 @@ class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
             height: widget.iconSize??12.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 2.w),
+            padding: EdgeInsets.only(left: 3.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +51,7 @@ class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
                   visible: false,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 3.0),
+                  padding: const EdgeInsets.only(top: 1.0),
                   child: Text(
                     widget.title ?? Utils.checkNullString(false),
                     textAlign: TextAlign.center,
