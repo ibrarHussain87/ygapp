@@ -32,7 +32,7 @@ Widget buildYarnRenewedAgainWidget(
   double paddingEnd = 10;
 
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
+    padding: const EdgeInsets.only(left: 8,right: 8,bottom: 6),
     child: Material(
         color: Colors.white,
         elevation: 10,
