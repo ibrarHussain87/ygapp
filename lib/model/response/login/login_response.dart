@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:flutter/cupertino.dart';
 
 class LoginResponse {
   LoginResponse({
@@ -69,7 +70,7 @@ class Data {
 }
 
 @Entity(tableName: 'user_table')
-class User {
+class User{
   User({
     required this.id,
     required this.name,
@@ -178,4 +179,5 @@ class User {
     // _data['certifications'] = certifications;
     return _data;
   }
+
 }
