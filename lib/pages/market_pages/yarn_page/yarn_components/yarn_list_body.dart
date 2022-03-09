@@ -48,14 +48,14 @@ class YarnListBodyState extends State<YarnListBody> {
   @override
   Widget build(BuildContext context) {
     return _yarnFilteredSpecification!.isNotEmpty
-        ? ListView.separated(
+        ? ListView.builder(
             itemCount: _yarnFilteredSpecification!.length,
-            separatorBuilder: (context, index) {
+            /*separatorBuilder: (context, index) {
               return Divider(
                 height: 1,
                 color: Colors.grey.shade400,
               );
-            },
+            },*/
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return GestureDetector(
