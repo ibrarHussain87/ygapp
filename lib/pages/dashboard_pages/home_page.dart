@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/Providers/banners_provider.dart';
+import 'package:yg_app/Providers/family_list_provider.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
@@ -26,6 +27,7 @@ class HomePageState extends State<HomePage> {
 
   List<SingleChildWidget> providers = [
     ChangeNotifierProvider<BannersProvider>(create: (_) => BannersProvider()),
+    ChangeNotifierProvider<FamilyListProvider>(create: (_) => FamilyListProvider())
   ];
 
   @override

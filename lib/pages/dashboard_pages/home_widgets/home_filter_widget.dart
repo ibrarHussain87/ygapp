@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/Providers/family_list_provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/model/response/family_data.dart';
@@ -20,57 +22,25 @@ class HomeFilterWidget extends StatefulWidget {
 
 class _HomeFilterWidgetState extends State<HomeFilterWidget> {
 
-  List<FamilyData>? familyList;
-
-  List<FiberMaterial> _fiberMaterialList = [];
-  List<Family> _yarnFamilyList = [];
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    familyList = [];
-
-    AppDbInstance.getDbInstance().then((value) async{
-
-      familyList!.clear();
-      _fiberMaterialList.clear();
-      _yarnFamilyList.clear();
-
-      _fiberMaterialList = await value.fiberMaterialDao.findAllFiberMaterials();
-      _yarnFamilyList = await value.yarnFamilyDao.findAllYarnFamily();
-      setState(() {
-        if(_fiberMaterialList.isNotEmpty  && _fiberMaterialList.length >= 4){
-          _fiberMaterialList = _fiberMaterialList.take(4).toList();
-          for (var element in _fiberMaterialList) {
-            familyList!.add(FamilyData(element.fbmId, element.icon_selected??"", element.icon_unselected!, element.fbmName!));
-          }
-
-        }
-
-        if(_yarnFamilyList.isNotEmpty && _yarnFamilyList.length >= 4){
-          _yarnFamilyList = _yarnFamilyList.take(4).toList()..shuffle();
-          for (var element in _yarnFamilyList) {
-            familyList!.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
-          }
-        }
-      });
-
-    });
+    final familyListProvider = Provider.of<FamilyListProvider>(context,listen: false);
+    familyListProvider.getFamilyListData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final familyListProvider = Provider.of<FamilyListProvider>(context);
     return Container(
       color: Colors.white30,
       padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.w),
-      child:  familyList!.isNotEmpty ? GridMoreWidget(
+      child:  familyListProvider.familyList!.isNotEmpty ? GridMoreWidget(
         spanCount: 4,
         callback: (value){
           widget.callback(1);
         },
-        listOfItems: familyList!,
+        listOfItems: familyListProvider.familyList!,
       ):Container(
         color: Colors.transparent,
         height: 100,
