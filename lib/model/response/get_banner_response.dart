@@ -29,9 +29,9 @@ class GetBannersResponse {
 
 class BannerData {
   BannerData({
-    required this.banners,
+     this.banners,
   });
-  late final List<Banners> banners;
+  late final List<Banners>? banners;
 
   BannerData.fromJson(Map<String, dynamic> json){
     banners = List.from(json['banners']).map((e)=>Banners.fromJson(e)).toList();
@@ -39,7 +39,7 @@ class BannerData {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['banners'] = banners.map((e)=>e.toJson()).toList();
+    _data['banners'] = banners!.map((e)=>e.toJson()).toList();
     return _data;
   }
 }

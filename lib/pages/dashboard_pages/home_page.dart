@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
+import 'package:yg_app/Providers/banners_provider.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
@@ -14,11 +17,17 @@ class HomePage extends StatefulWidget {
   final Function callback;
 
   const HomePage({Key? key,required this.callback}) : super(key: key);
+
   @override
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
+
+  List<SingleChildWidget> providers = [
+    ChangeNotifierProvider<BannersProvider>(create: (_) => BannersProvider()),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -86,7 +95,9 @@ class HomePageState extends State<HomePage> {
                   )),
             ),
           ),
-          body: ListView(
+          body: MultiProvider(
+          providers: providers,
+          child: ListView(
             shrinkWrap: true,
             primary: true,
             children: [
@@ -123,6 +134,7 @@ class HomePageState extends State<HomePage> {
               )
             ],
           )),
+          )
     );
   }
 }

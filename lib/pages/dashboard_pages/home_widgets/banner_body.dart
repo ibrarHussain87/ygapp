@@ -3,6 +3,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/Providers/banners_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -17,8 +19,8 @@ class BannerBody extends StatefulWidget {
 }
 
 class _BannerBodyState extends State<BannerBody> {
+
   int currentImageBanner = 0;
-  BannerData? _bannerData;
 
   void _launchURL(_url) async {
     if (!await launch(_url)) throw 'Could not launch $_url';
@@ -26,17 +28,15 @@ class _BannerBodyState extends State<BannerBody> {
 
   @override
   void initState() {
-    ApiService.getBanners().then((value) {
-      setState(() {
-        _bannerData = value.data;
-      });
-    });
     super.initState();
+    final bannerProvider = Provider.of<BannersProvider>(context,listen: false);
+    bannerProvider.getBannerData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _bannerData != null
+    final bannerProvider = Provider.of<BannersProvider>(context);
+    return bannerProvider.bannerData.banners != null
         ? Column(
             children: [
               GFCarousel(
@@ -48,7 +48,7 @@ class _BannerBodyState extends State<BannerBody> {
                 enableInfiniteScroll: true,
                 activeIndicator: lightBlueTabs,
                 passiveIndicator: textColorGreyLight,
-                items: _bannerData!.banners.map((i) {
+                items: bannerProvider.bannerData.banners!.map((i) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
@@ -92,7 +92,7 @@ class _BannerBodyState extends State<BannerBody> {
               Container(
                 padding: EdgeInsets.only(top: 4.w),
                 child: DotsIndicator(
-                  dotsCount: _bannerData!.banners.length,
+                  dotsCount: bannerProvider.bannerData.banners!.length,
                   position: double.tryParse(currentImageBanner.toString())!,
                   decorator: DotsDecorator(
                     shape: const _DiamondBorder(),
