@@ -91,11 +91,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 16.w, right: 16.w),
                             child: Center(
-                              child: Builder(
-                                  builder: (BuildContext context2){
-                                    return buildUserDataColumn(snapshot,context2);
-                                  }
-                              ),
+                              child: Builder(builder: (BuildContext context2) {
+                                return buildUserDataColumn(snapshot, context2);
+                              }),
                             ),
                           ),
                         ),
@@ -113,8 +111,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Column buildUserDataColumn(AsyncSnapshot<User?> snapshot, BuildContext context2) {
-   var userNotifier = context2.watch<UserNotifier>();
+  Column buildUserDataColumn(
+      AsyncSnapshot<User?> snapshot, BuildContext context2) {
+    var userNotifier = context2.watch<UserNotifier>();
     return Column(
       children: [
         Padding(
@@ -135,7 +134,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   cursorColor: Colors.black,
                   initialValue: userNotifier.getUser().ntn_number ?? '',
                   onSaved: (input) =>
-                      _updateProfileRequestModel.ntn_number = input!/*'44'*/,
+                      _updateProfileRequestModel.ntn_number = input! /*'44'*/,
                   validator: (input) {
                     /*if (input == null ||
                                                 input.isEmpty) {
@@ -558,29 +557,28 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           padding: EdgeInsets.all(16.w),
           child: SizedBox(
               width: double.infinity,
-              child: Builder(
-                builder:(BuildContext context1){
-                  return ElevatedButton(
-                      child: Text("Submit",
-                          style:
-                          TextStyle(fontFamily: 'Metropolis', fontSize: 14.sp)),
-                      style: ButtonStyle(
-                          foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(btnColorLogin),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              const RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                                  side: BorderSide(color: Colors.transparent)))),
-                      onPressed: () {
-                        if (validateAndSave()) {
-                          _UpdateProfileCall(snapshot.data,context1);
-                        }
-                      });
-                }
-              )),
+              child: Builder(builder: (BuildContext context1) {
+                return ElevatedButton(
+                    child: Text("Submit",
+                        style: TextStyle(
+                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(btnColorLogin),
+                        shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                            const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                side: BorderSide(color: Colors.transparent)))),
+                    onPressed: () {
+                      if (validateAndSave()) {
+                        _UpdateProfileCall(snapshot.data, context1);
+                      }
+                    });
+              })),
         ),
       ],
     );
