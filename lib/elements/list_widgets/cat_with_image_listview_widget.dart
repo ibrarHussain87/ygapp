@@ -63,6 +63,9 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     } else if (widget.listItem is List<Blends>) {
       name = widget.listItem!.cast<Blends>()[index].blnName;
       castingCheckPos = 1;
+    }else if (widget.listItem is List<Family>) {
+      name = widget.listItem!.cast<Family>()[index].famName;
+      castingCheckPos = 2;
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -78,34 +81,14 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       },
       child: Center(
         child: SizedBox(
-          width: 0.2 * MediaQuery.of(context).size.width,
+          width: 0.205 * MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               NetworkImageIconWidget(
-                imageUrl: checked
-                    ? castingCheckPos == 0
-                    ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_selected??""}'
-                    : widget.listItem!.cast<Blends>()[index].iconSelected !=
-                    null
-                    ? ApiService.BASE_URL +
-                    widget.listItem!
-                        .cast<Blends>()[index]
-                        .iconSelected!
-                    : ""
-                    : castingCheckPos == 0
-                    ? '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_unselected??""}'
-                    : widget.listItem!
-                    .cast<Blends>()[index]
-                    .iconUnselected !=
-                    null
-                    ? ApiService.BASE_URL +
-                    widget.listItem!
-                        .cast<Blends>()[index]
-                        .iconUnselected!
-                    : "",
+                imageUrl: getImageUrl(checked,castingCheckPos!,index)
               ),
               SizedBox(
                 height: 2.h,
@@ -126,5 +109,34 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         ),
       ),
     );
+  }
+
+  String? getImageUrl(bool checked,int castingCheckPos,index) {
+    String url= "";
+    if(checked == true){
+      if(castingCheckPos == 0){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_selected??""}';
+      }else if(castingCheckPos == 1){
+        if(widget.listItem!.cast<Blends>()[index].iconSelected != null){
+          return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconSelected!;
+        }else{
+          return "";
+        }
+      }else if(castingCheckPos == 2){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconSelected??""}';
+      }
+    }else{
+      if(castingCheckPos == 0){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_unselected??""}';
+      }else if(castingCheckPos == 1){
+        if(widget.listItem!.cast<Blends>()[index].iconUnselected != null){
+          return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconUnselected!;
+        }else{
+          return "";
+        }
+      }else if(castingCheckPos == 2){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconUnSelected??""}';
+      }
+    }
   }
 }

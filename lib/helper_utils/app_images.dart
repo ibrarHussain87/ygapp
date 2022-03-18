@@ -52,4 +52,5 @@ String IC_CONE_RENEWED = "images/ic_cone_renewed.png";
 String IC_VAN_RENEWED = "images/ic_van_renewed.png";
 String IC_LOCATION_RENEWED = "images/ic_location_renewed.png";
 String FEATURED_VERTICAL = "images/img_featured_vertical.png";
+String FILTERED_RENEWED = "images/ic_filter_renewed.png";
 

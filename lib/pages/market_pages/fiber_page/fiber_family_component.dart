@@ -7,6 +7,8 @@ import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
+import '../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
+
 class FiberFamilyComponent extends StatefulWidget {
   final Function callback;
   final int? selectedIndex;
@@ -55,6 +57,9 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 8.w,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,10 +73,10 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                           )),
                     ),
                     SizedBox(
-                        height: 0.055 * MediaQuery.of(context).size.height,
+                        height: 0.04 * MediaQuery.of(context).size.height,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 2.0),
-                          child: SingleSelectTileWidget(
+                          child: SingleSelectTileRenewedWidget(
                             spanCount: 2,
                             listOfItems: fiberNature!,
                             callback: (value) {
@@ -86,6 +91,9 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 8.w,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,19 +106,23 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                             title: 'Fiber Material',
                           )),
                     ),
-                    CatWithImageListWidget(
-                      selectedItem: widget.selectedIndex?? -1,
-                      listItem: materials!
-                          .where((element) => element.nature_id == natureId)
-                          .toList(),
-                      onClickCallback: (index) {
-                        widget.callback(materials!
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: CatWithImageListWidget(
+                        selectedItem: widget.selectedIndex?? -1,
+                        listItem: materials!
                             .where((element) => element.nature_id == natureId)
-                            .toList()[index]);
-                      },
+                            .toList(),
+                        onClickCallback: (index) {
+                          widget.callback(materials!
+                              .where((element) => element.nature_id == natureId)
+                              .toList()[index]);
+                        },
+                      ),
                     ),
                   ],
                 ),
+
               ],
             ),
           )

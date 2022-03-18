@@ -8,6 +8,8 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
+
 class BlendFamily extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
   final Function yarnFamilyCallback;
@@ -72,12 +74,20 @@ class _BlendFamilyState extends State<BlendFamily> {
                         child: TitleTextWidget(title: yarnCategory)),
                     SizedBox(
                       height: 0.055 * MediaQuery.of(context).size.height,
-                      child: FamilyTileWidget(
+                      child: /*FamilyTileWidget(
                         selectedIndex: -1,
                         listItems: _yarnFamily,
                         callback: (Family value) {
                           queryFamilySettings(value.famId!);
                           widget.yarnFamilyCallback(value);
+                        },
+                      ),*/CatWithImageListWidget(
+                        selectedItem: -1,
+                        listItem: _yarnFamily,
+                        onClickCallback: (value) {
+                          var item = _yarnFamily![value];
+                          queryFamilySettings(item.famId!);
+                          widget.yarnFamilyCallback(item);
                         },
                       ),
                     ),
@@ -95,7 +105,7 @@ class _BlendFamilyState extends State<BlendFamily> {
               ),
               Visibility(
                 visible: Ui.showHide(_yarnSetting!.showBlend),
-                child: CatWithImageListWidget(
+                child: /*CatWithImageListWidget(
                   selectedItem: -1,
                   listItem: _yarnBlends!
                       .where((element) =>
@@ -110,6 +120,22 @@ class _BlendFamilyState extends State<BlendFamily> {
                             .toList()[value],
                         selectedFamilyId);
                   },
+                ),*/
+                SizedBox(
+                  height: MediaQuery.of(context).size.height*0.05,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: SingleSelectTileRenewedWidget(
+                      spanCount: 2,
+                      listOfItems: _yarnBlends!
+                          .where((element) =>
+                      element.familyIdfk == selectedFamilyId.toString())
+                          .toList(),
+                      callback: (value) {
+                        widget.blendCallback(value, selectedFamilyId);
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],

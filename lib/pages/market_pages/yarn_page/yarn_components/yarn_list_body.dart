@@ -25,7 +25,7 @@ class YarnListBodyState extends State<YarnListBody> {
     setState(() {
       _yarnFilteredSpecification = _specification!
           .where((element) =>
-              (element.yarnFamily.toString().toLowerCase().contains(value) ||
+              (element.yarnFamily.toString().toLowerCase().contains(value) || element.yarn_country.toString().toLowerCase().contains(value.toString().toLowerCase()) ||
                   element.yarnBlend.toString().contains(value)))
           .toList();
     });

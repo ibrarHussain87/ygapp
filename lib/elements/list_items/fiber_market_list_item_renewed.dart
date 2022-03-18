@@ -6,6 +6,7 @@ import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
@@ -234,8 +235,8 @@ Widget buildFiberRenewedWidget(
                                         iconSize: 14,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality ??
-                                            Utils.checkNullString(false),
+                                        title: specification.locality == international  ? specification.origin :specification.locality
+                                            /*Utils.checkNullString(false)*/,
                                         imageIcon: 'images/img_location.png',
                                         size: 9.sp,
                                         iconSize: 14,

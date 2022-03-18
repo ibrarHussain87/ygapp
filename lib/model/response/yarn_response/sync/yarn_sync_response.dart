@@ -1140,6 +1140,10 @@ class Blends {
     data['bln_sortid'] = this.blnSortid;
     return data;
   }
+  @override
+  String toString() {
+    return bln_abrv.toString();
+  }
 }
 
 @Entity(tableName: "corn_type")

@@ -23,7 +23,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
     setState(() {
       specificationFiltered = specification!
           .where(
-              (element) => (element.material.toString().toLowerCase().contains(value) || element.grade.toString().contains(value)))
+              (element) => (element.material.toString().toLowerCase().contains(value) || element.origin.toString().toLowerCase().contains(value.toString().toLowerCase()) || element.grade.toString().contains(value)))
           .toList();
     });
   }
