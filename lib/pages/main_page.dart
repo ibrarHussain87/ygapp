@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   bool isSynced = false;
   List<SingleChildWidget> providers = [
-    ChangeNotifierProvider<SyncProvider>(create: (_) => SyncProvider()),
+    ChangeNotifierProvider<SyncProvider>(create: (_) => SyncProvider())
   ];
 
   void _onItemTapped(int selectedIndex) {

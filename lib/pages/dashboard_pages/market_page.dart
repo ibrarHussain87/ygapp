@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
@@ -29,7 +31,8 @@ class MarketPageState extends State<MarketPage>
 
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   GlobalKey<YarnPageState> yarnPageState = GlobalKey<YarnPageState>();
-  final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<StockLotPageState>();
+  final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<
+      StockLotPageState>();
   TabController? tabController;
 
   @override
@@ -78,7 +81,8 @@ class MarketPageState extends State<MarketPage>
                           titleSpacing: 0,
                           title: Container(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8,right: 8,top: 8,bottom: 1),
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, top: 8, bottom: 1),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -110,29 +114,32 @@ class MarketPageState extends State<MarketPage>
                                               child: TextFormField(
                                                 onChanged: (value) {
                                                   _filterList(value);
-
                                                 },
                                                 cursorColor: Colors.black,
-                                                keyboardType: TextInputType.text,
-                                                style: TextStyle(fontSize: 11.sp),
+                                                keyboardType: TextInputType
+                                                    .text,
+                                                style: TextStyle(
+                                                    fontSize: 11.sp),
                                                 decoration: const InputDecoration(
                                                   border: InputBorder.none,
-                                                  focusedBorder: InputBorder.none,
-                                                  enabledBorder: InputBorder.none,
+                                                  focusedBorder: InputBorder
+                                                      .none,
+                                                  enabledBorder: InputBorder
+                                                      .none,
                                                   errorBorder: InputBorder.none,
                                                   disabledBorder:
-                                                      InputBorder.none,
+                                                  InputBorder.none,
                                                   isDense: true,
                                                   // this will remove the default content padding
                                                   // now you can customize it here or add padding widget
                                                   contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 0,
-                                                          vertical: 0),
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0,
+                                                      vertical: 0),
                                                   // contentPadding:
                                                   // EdgeInsets.only(left: 4, bottom: 4, top: 4, right: 4),
                                                   hintText:
-                                                      "Search Product,Brand and Category",
+                                                  "Search Product,Brand and Category",
                                                 ),
                                               ),
                                             ),
@@ -157,15 +164,17 @@ class MarketPageState extends State<MarketPage>
                                             ))),
                                   ),
                                   GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () async {
-                                      if(stateFiberPage.currentState!= null) {
-                                        _openFiberFilterView();
-                                      }else if(yarnPageState.currentState!= null){
-                                        _openYarnFilterPage();
-                                      }
-                                    },
-                                    child: /*Card(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () async {
+                                        if (stateFiberPage.currentState !=
+                                            null) {
+                                          _openFiberFilterView();
+                                        } else if (yarnPageState.currentState !=
+                                            null) {
+                                          _openYarnFilterPage();
+                                        }
+                                      },
+                                      child: /*Card(
                                         elevation: 1,
                                         child: Padding(
                                             padding: EdgeInsets.all(4.w),
@@ -176,14 +185,14 @@ class MarketPageState extends State<MarketPage>
                                             )
                                         )
                                     ),*/
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4),
-                                      child: Image.asset(
-                                        FILTERED_RENEWED,
-                                        width: 25.w,
-                                        height: 25.h,
-                                      ),
-                                    )
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 4),
+                                        child: Image.asset(
+                                          FILTERED_RENEWED,
+                                          width: 25.w,
+                                          height: 25.h,
+                                        ),
+                                      )
                                   ),
                                 ],
                               ),
@@ -242,22 +251,22 @@ class MarketPageState extends State<MarketPage>
     for (var i = 0; i < tabsList.length; i++) {
       tabs.add(
           Tab(
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            tabsList[i],
-            style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Metropolis'),
-          ),
-        ),
-      ));
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                tabsList[i],
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Metropolis'),
+              ),
+            ),
+          ));
     }
     return tabs;
   }
 
-  _filterList(value){
+  _filterList(value) {
     if (yarnPageState
         .currentState !=
         null) {
@@ -283,41 +292,45 @@ class MarketPageState extends State<MarketPage>
     }
   }
 
-  _openFiberFilterView(){
+  _openFiberFilterView() {
     // if (stateFiberPage
     //     .currentState!
     //     .familySateFiber
     //     .currentState!
     //     .fiberSyncResponse !=
     //     null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const FiberFilterView(
-                )),
-      ).then((value) {
-        //Getting result from filter
-        if (tabController!.index == 0) {
-          if (value != null) {
-            stateFiberPage.currentState!
-                .fiberListingState.currentState!
-                .refreshListing(value);
-          }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+          const FiberFilterView(
+          )),
+    ).then((value) {
+      //Getting result from filter
+      if (tabController!.index == 0) {
+        if (value != null) {
+          stateFiberPage.currentState!
+              .fiberListingState.currentState!
+              .refreshListing(value);
+          //final fiberFilterProvider = Provider.of<FiberFilterProvider>(context,listen: false);
+          //  fiberFilterProvider.setFilterData(value);
+
+          // stateFiberPage.currentState!.familySateFiber.currentState!.singleSelectState.currentState!.selectWidget(1);
         }
-      });
+      }
+    });
     // } else {
     //   Fluttertoast.showToast(
     //       msg: "Please wait...");
     // }
   }
 
-  _openYarnFilterPage(){
+  _openYarnFilterPage() {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) =>
-              const YarnFilterBody()),
+          const YarnFilterBody()),
     ).then((value) {
       //Getting result from filter
       if (tabController!.index == 1) {

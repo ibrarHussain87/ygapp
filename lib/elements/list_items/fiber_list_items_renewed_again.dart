@@ -14,6 +14,7 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/extensions.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
@@ -21,8 +22,8 @@ import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 import '../../helper_utils/app_constants.dart';
 import '../elevated_button_widget_2.dart';
 
-Widget buildYarnRenewedAgainWidget(
-  YarnSpecification specification,
+Widget buildFiberRenewedAgainWidget(
+  Specification specification,
   BuildContext context,
 ) {
   var size = MediaQuery.of(context).size;
@@ -45,7 +46,7 @@ Widget buildYarnRenewedAgainWidget(
             Container(
               width: size.width,
               child: Padding(
-                padding: EdgeInsets.only(left: specification.is_featured == '0' ? paddingStart:paddingStartFeatured,right: paddingEnd,top: paddingTop,bottom: paddingBottom),
+                padding: EdgeInsets.only(left: specification.isFeatured == '0' ? paddingStart:paddingStartFeatured,right: paddingEnd,top: paddingTop,bottom: paddingBottom),
                 child: Container(
                   child: Row(
                     children: [
@@ -99,7 +100,7 @@ Widget buildYarnRenewedAgainWidget(
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 2.w),
                                   child: Visibility(
-                                      visible: Ui.showHide(specification.is_verified)/*true*/,
+                                      visible: Ui.showHide(specification.isVerified)/*true*/,
                                       maintainSize: true,
                                       maintainState: true,
                                       maintainAnimation: true,
@@ -125,8 +126,7 @@ Widget buildYarnRenewedAgainWidget(
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: Utils.setFamilyData(
-                                              specification),
+                                          title: '${specification.material}',
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -135,7 +135,7 @@ Widget buildYarnRenewedAgainWidget(
                                 const SizedBox(width: 2,),
                                 Expanded(
                                   child: TitleMediumTextWidget(
-                                    title: Utils.setTitleData(specification),
+                                    title: Utils.getFiberTitle(specification),
                                     /*title: 'Greige,wrap'.toUpperCase(),*/
                                     color: Colors.black87,
                                     weight: FontWeight.w600,
@@ -146,7 +146,7 @@ Widget buildYarnRenewedAgainWidget(
                             ),
                             const SizedBox(height: 10,),
                             TitleSmallBoldTextWidget(
-                              title: Utils.setDetailsData(specification),
+                              title: Utils.getFiberSubtitle(specification),
                               /*title:'Weaving,Ring Frame,Carded,Regular',*/
                               color: Colors.black87,
                               size: 11,
@@ -155,14 +155,15 @@ Widget buildYarnRenewedAgainWidget(
                             const SizedBox(height: 8,),
                             Container(
                               width: size.width*0.55,
-                              child: specification.yarnFamilyId != "4"
-                                  ? Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title:
-                                      'AC ${specification.actualYarnCount ?? ""}',
+                                      specification.nature_id == '2'
+                                          ? 'FL ${specification.length ?? ""}'
+                                          : 'FL ${specification.length ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
@@ -170,7 +171,9 @@ Widget buildYarnRenewedAgainWidget(
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title:
-                                      'CLSP ${specification.clsp ?? ""}',
+                                      specification.nature_id == '2'
+                                          ? 'M ${specification.micronaire ?? ""}'
+                                          : 'Mic ${specification.micronaire ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
@@ -178,34 +181,9 @@ Widget buildYarnRenewedAgainWidget(
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title:
-                                      'IPI ${specification.ys_ipm_km ?? ""}',
-                                    ),
-                                    flex: 1,
-                                  ),
-                                ],
-                              )
-                                  : Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.yarnType ?? "",
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.yarnQuality ?? "",
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.yarnGrade ?? "",
+                                      specification.nature_id == '2'
+                                          ? 'T ${specification.trash ?? ""}'
+                                          : 'GD ${specification.grade ?? ""}',
                                     ),
                                     flex: 1,
                                   ),
@@ -221,14 +199,14 @@ Widget buildYarnRenewedAgainWidget(
                                     runSpacing: 3.0,
                                     children: [
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightBag ??
+                                        title: specification.unitCount ??
                                             Utils.checkNullString(false),
                                         imageIcon: IC_BAG_RENEWED,
                                         size: 10.sp,
                                         iconSize: 12,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.weightCone ??
+                                        title: specification.available ??
                                             Utils.checkNullString(false),
                                         imageIcon: IC_CONE_RENEWED,
                                         size: 10.sp,
@@ -242,7 +220,7 @@ Widget buildYarnRenewedAgainWidget(
                                         iconSize: 12,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality == international  ? specification.yarn_country?.capitalizeAndLower() :specification.locality?.capitalizeAndLower()
+                                        title: specification.locality == international  ? specification.origin?.capitalizeAndLower() :specification.locality?.capitalizeAndLower()
                                             /*:Utils.checkNullString(false)*/,
                                         imageIcon: IC_LOCATION_RENEWED,
                                         size: 10.sp,
@@ -361,11 +339,11 @@ Widget buildYarnRenewedAgainWidget(
                                         child: GestureDetector(
                                             onTap: () {
                                               if (snapshot.data ==
-                                                  specification.ys_user_id) {
+                                                  specification.spc_user_id) {
                                                 Utils.updateDialog(
                                                   context,
-                                                  specification,
                                                   null,
+                                                  specification,
                                                 );
                                               }
                                             },
@@ -375,7 +353,7 @@ Widget buildYarnRenewedAgainWidget(
                                               child: Center(
                                                 child: BidNowWidget(
                                                   title: snapshot.data !=
-                                                      specification.ys_user_id
+                                                      specification.spc_user_id
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
@@ -403,7 +381,7 @@ Widget buildYarnRenewedAgainWidget(
               ),
             ),
             Visibility(
-              visible: Ui.showHide(specification.is_featured),
+              visible: Ui.showHide(specification.isFeatured),
               child: Positioned.fill(
                 left: 0,
                 top: 0,

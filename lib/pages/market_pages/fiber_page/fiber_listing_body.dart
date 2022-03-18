@@ -6,6 +6,8 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 
+import '../../../elements/list_items/fiber_list_items_renewed_again.dart';
+
 class FiberListingBody extends StatefulWidget {
   final List<Specification> specification;
 
@@ -49,7 +51,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberRenewedWidget(specificationFiltered![index],context,)),
+          child: buildFiberRenewedAgainWidget(specificationFiltered![index],context,)),
       separatorBuilder: (context, index) {
         return Divider(
           height: 1,

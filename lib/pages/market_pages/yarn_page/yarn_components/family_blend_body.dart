@@ -124,7 +124,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height*0.05,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
                       spanCount: 2,
                       listOfItems: _yarnBlends!

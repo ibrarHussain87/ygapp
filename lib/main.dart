@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -33,6 +34,7 @@ Future init() async {
 }
 
 class YgApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
