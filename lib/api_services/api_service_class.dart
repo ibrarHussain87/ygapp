@@ -13,6 +13,7 @@ import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
+import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
@@ -28,6 +29,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
+import '../model/response/sync/sync_response.dart';
 
 class ApiService {
   static var logger = Logger();
@@ -39,6 +41,7 @@ class ApiService {
   static const String SPEC_USER_END_POINT = "/spec_user";
   static const String SYNC_FIBER_END_POINT = "/syncFiber";
   static const String SYNC_YARN_END_POINT = "/syncYarn";
+  static const String SYNC_END_POINT = "/sync";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
   static const String CREATE_FIBER_END_POINT = "/createSpecification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
@@ -186,6 +189,29 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headerMap);
 
       return YarnSyncResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<SyncResponse> syncCall(SyncRequestModel requestModel) async {
+    try {
+      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+
+      String url = BASE_API_URL + SYNC_END_POINT;
+
+      final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
+
+      return SyncResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {

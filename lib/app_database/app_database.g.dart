@@ -97,6 +97,10 @@ class _$AppDatabase extends AppDatabase {
 
   UnitDao? _unitDaoInstance;
 
+  StocklotCategoriesDao? _stocklotCategoriesDaoInstance;
+
+  StocklotDao? _stocklotDaoInstance;
+
   YarnSettingDao? _yarnSettingsDaoInstance;
 
   YarnFamilyDao? _yarnFamilyDaoInstance;
@@ -229,6 +233,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `usage_table` (`yuId` INTEGER, `ysFamilyId` TEXT, `yuName` TEXT, `yuDescription` TEXT, `yuIsActive` TEXT, `yuSortid` TEXT, PRIMARY KEY (`yuId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_types_table` (`ytId` INTEGER, `ytBlendIdfk` TEXT, `ytName` TEXT, `dannierRange` TEXT, `filamentRange` TEXT, `ytIsActive` TEXT, `ytSortid` TEXT, PRIMARY KEY (`ytId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `stocklots_table` (`id` INTEGER, `categoryId` TEXT, `parentId` TEXT, `name` TEXT, `isActive` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `stocklot_categories_table` (`id` INTEGER, `parentId` TEXT, `category` TEXT, `isActive` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -331,6 +339,17 @@ class _$AppDatabase extends AppDatabase {
   @override
   UnitDao get unitDao {
     return _unitDaoInstance ??= _$UnitDao(database, changeListener);
+  }
+
+  @override
+  StocklotCategoriesDao get stocklotCategoriesDao {
+    return _stocklotCategoriesDaoInstance ??=
+        _$StocklotCategoriesDao(database, changeListener);
+  }
+
+  @override
+  StocklotDao get stocklotDao {
+    return _stocklotDaoInstance ??= _$StocklotDao(database, changeListener);
   }
 
   @override
@@ -1754,6 +1773,147 @@ class _$UnitDao extends UnitDao {
   Future<List<int>> insertAllUnit(List<Units> certifications) {
     return _unitsInsertionAdapter.insertListAndReturnIds(
         certifications, OnConflictStrategy.replace);
+  }
+}
+
+class _$StocklotCategoriesDao extends StocklotCategoriesDao {
+  _$StocklotCategoriesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _stocklotCategoriesInsertionAdapter = InsertionAdapter(
+            database,
+            'stocklot_categories_table',
+            (StocklotCategories item) => <String, Object?>{
+                  'id': item.id,
+                  'parentId': item.parentId,
+                  'category': item.category,
+                  'isActive': item.isActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<StocklotCategories>
+      _stocklotCategoriesInsertionAdapter;
+
+  @override
+  Future<List<StocklotCategories>> findAllStocklotCategories() async {
+    return _queryAdapter.queryList('SELECT * FROM stocklot_categories_table',
+        mapper: (Map<String, Object?> row) => StocklotCategories(
+            id: row['id'] as int?,
+            parentId: row['parentId'] as String?,
+            category: row['category'] as String?,
+            isActive: row['isActive'] as String?));
+  }
+
+  @override
+  Future<StocklotCategories?> findStocklotCategoriesWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM stocklot_categories_table where id = ?1',
+        mapper: (Map<String, Object?> row) => StocklotCategories(
+            id: row['id'] as int?,
+            parentId: row['parentId'] as String?,
+            category: row['category'] as String?,
+            isActive: row['isActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteStocklotCategories(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from stocklot_categories_table where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from stocklot_categories_table');
+  }
+
+  @override
+  Future<void> insertStocklotCategories(
+      StocklotCategories stocklotCategories) async {
+    await _stocklotCategoriesInsertionAdapter.insert(
+        stocklotCategories, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllStocklotCategories(
+      List<StocklotCategories> stocklotCategories) {
+    return _stocklotCategoriesInsertionAdapter.insertListAndReturnIds(
+        stocklotCategories, OnConflictStrategy.replace);
+  }
+}
+
+class _$StocklotDao extends StocklotDao {
+  _$StocklotDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _stocklotsInsertionAdapter = InsertionAdapter(
+            database,
+            'stocklots_table',
+            (Stocklots item) => <String, Object?>{
+                  'id': item.id,
+                  'categoryId': item.categoryId,
+                  'parentId': item.parentId,
+                  'name': item.name,
+                  'isActive': item.isActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Stocklots> _stocklotsInsertionAdapter;
+
+  @override
+  Future<List<Stocklots>> findAllStocklots() async {
+    return _queryAdapter.queryList('SELECT * FROM stocklots_table',
+        mapper: (Map<String, Object?> row) => Stocklots(
+            id: row['id'] as int?,
+            categoryId: row['categoryId'] as String?,
+            parentId: row['parentId'] as String?,
+            name: row['name'] as String?,
+            isActive: row['isActive'] as String?));
+  }
+
+  @override
+  Future<Stocklots?> findStocklotsWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM stocklots_table where id = ?1',
+        mapper: (Map<String, Object?> row) => Stocklots(
+            id: row['id'] as int?,
+            categoryId: row['categoryId'] as String?,
+            parentId: row['parentId'] as String?,
+            name: row['name'] as String?,
+            isActive: row['isActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteStocklots(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from stocklots_table where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from stocklots_table');
+  }
+
+  @override
+  Future<void> insertStocklots(Stocklots stocklots) async {
+    await _stocklotsInsertionAdapter.insert(
+        stocklots, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllStocklots(List<Stocklots> stocklots) {
+    return _stocklotsInsertionAdapter.insertListAndReturnIds(
+        stocklots, OnConflictStrategy.replace);
   }
 }
 

@@ -1,5 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
+import 'package:yg_app/model/request/sync_request/sync_request.dart';
+import 'package:yg_app/model/response/sync/sync_response.dart';
 
 import '../api_services/api_service_class.dart';
 import '../app_database/app_database_instance.dart';
@@ -135,6 +138,19 @@ class SyncProvider extends ChangeNotifier{
                     syncYarnResponse.data.yarn.apperance!),
                 value.packingDao
                     .insertAllPacking(syncYarnResponse.data.yarn.packing!)
+              ]);
+            });
+          }
+        }),
+        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((SyncResponse response) {
+          if (response.status!){
+            Logger().e("Sync got successfully : "+response.toJson().toString());
+            AppDbInstance.getDbInstance().then((value) async {
+              await Future.wait([
+                value.stocklotCategoriesDao
+                    .insertAllStocklotCategories(response.data!.stocklot!.stocklotCategories!),
+                value.stocklotDao
+                    .insertAllStocklots(response.data!.stocklot!.stocklots!),
               ]);
             });
           }
