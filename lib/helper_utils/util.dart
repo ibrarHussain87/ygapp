@@ -131,6 +131,7 @@ class Utils{
     return titleData;
   }
 
+
   static String setDetailsData(YarnSpecification specification) {
     String detailsData = "";
     switch (specification.yarnFamilyId) {

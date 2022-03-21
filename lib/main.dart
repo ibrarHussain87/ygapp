@@ -14,6 +14,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
 
+import 'Providers/stocklot_provider.dart';
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
@@ -34,7 +35,9 @@ Future init() async {
 }
 
 class YgApp extends StatelessWidget {
-
+  List<SingleChildWidget> providers = [
+    ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -42,14 +45,17 @@ class YgApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MaterialApp(
-      title: 'Splash Screen',
-      theme: ThemeData(
-          primaryColor: lightBlueTabs,
-          primarySwatch: Colors.green,
-          fontFamily: 'Metropolis'),
-      home: YgAppPage(),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        title: 'Splash Screen',
+        theme: ThemeData(
+            primaryColor: lightBlueTabs,
+            primarySwatch: Colors.green,
+            fontFamily: 'Metropolis'),
+        home: YgAppPage(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -73,6 +79,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late Timer _timer;
   late AnimationController _controller;
   late Animation<double> _animation;
+
 
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {

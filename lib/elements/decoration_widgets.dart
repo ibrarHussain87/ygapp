@@ -173,7 +173,7 @@ InputDecoration borderDecoration(String hint) {
       hintText: hint,
       hintStyle: TextStyle(fontSize: 11.sp,),
       filled: true,
-      fillColor: Colors.grey.shade100,
+      fillColor: Colors.white,
       // contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
       isDense: true,
       enabledBorder: OutlineInputBorder(

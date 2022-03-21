@@ -198,6 +198,11 @@ class StocklotCategories {
     data['sortid'] = this.sortid;
     return data;
   }
+
+  @override
+  String toString() {
+    return category??"";
+  }
 }
 @Entity(tableName: 'stocklots_table')
 class Stocklots {
@@ -236,6 +241,11 @@ class Stocklots {
     data['is_active'] = this.isActive;
     data['sortid'] = this.sortid;
     return data;
+  }
+
+  @override
+  String toString() {
+    return name??"";
   }
 }
 
