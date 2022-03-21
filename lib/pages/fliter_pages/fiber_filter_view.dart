@@ -363,6 +363,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     selectedIndex: -1,
                                       callback: (FiberMaterial value) {
                                     _querySetting(value.fbmId);
+                                    var natureId1 = value.nature_id;
+                                    var selectedNature = int.parse(natureId1!)-1;
+                                    _getSpecificationRequestModel!.natureId = selectedNature.toString();
+                                    _getSpecificationRequestModel!.fiberMaterialId = [value.fbmId];
                                     _getSpecificationRequestModel!
                                             .fiberMaterialId =
                                         _filterList(

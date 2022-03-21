@@ -26,6 +26,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
   late int checkedIndex;
   int _selectedSegmentIndex = 1;
   bool disableClick = false;
+  bool isGlobalParam = true;
 
   @override
   void initState() {
@@ -41,6 +42,9 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if(isGlobalParam){
+      checkedIndex = widget.selectedItem ?? 0;
+    }
     return SizedBox(
       height: 0.06 * MediaQuery.of(context).size.height,
       child: ListView.builder(
@@ -74,6 +78,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
           setState(() {
             if (_selectedSegmentIndex == 1) {
               checkedIndex = index;
+              isGlobalParam = false;
             }
           });
           widget.onClickCallback!(index);

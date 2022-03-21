@@ -1,6 +1,7 @@
 class GetSpecificationRequestModel {
   // String? userId;
   String? categoryId;
+  String? natureId;
   String? isOffering;
   String? productionYear;
   String? locality;
@@ -43,6 +44,7 @@ class GetSpecificationRequestModel {
       this.ys_dying_method_idfk,
       this.locality,
       this.gradeId,
+      this.natureId,
       this.apperanceYarnId,
       this.fiberMaterialId,
       this.originId,
@@ -73,6 +75,7 @@ class GetSpecificationRequestModel {
       // 'user_id': userId!.trim(),
       'category_id': categoryId!.trim(),
       'grade_id': gradeId,
+      'nature_id': natureId,
       'locality': locality,
       'is_offering': isOffering,
       'fiber_material_id': fiberMaterialId,

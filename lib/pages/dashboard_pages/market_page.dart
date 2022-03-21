@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
 import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
@@ -312,10 +313,11 @@ class MarketPageState extends State<MarketPage>
           stateFiberPage.currentState!
               .fiberListingState.currentState!
               .refreshListing(value);
-          //final fiberFilterProvider = Provider.of<FiberFilterProvider>(context,listen: false);
-          //  fiberFilterProvider.setFilterData(value);
+          GetSpecificationRequestModel getSpecificationRequestModel = value;
+          stateFiberPage.currentState!.familySateFiber.currentState!.setNature(
+              getSpecificationRequestModel.natureId != null ? int.parse(getSpecificationRequestModel.natureId!):0,
+          getSpecificationRequestModel.fiberMaterialId!.first);
 
-          // stateFiberPage.currentState!.familySateFiber.currentState!.singleSelectState.currentState!.selectWidget(1);
         }
       }
     });

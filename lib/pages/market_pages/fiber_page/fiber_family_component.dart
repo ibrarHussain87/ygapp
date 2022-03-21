@@ -14,7 +14,8 @@ class FiberFamilyComponent extends StatefulWidget {
   final Function callback;
   final int? selectedIndex;
 
-  const FiberFamilyComponent({Key? key, required this.callback, this.selectedIndex})
+  const FiberFamilyComponent({Key? key, required this.callback,
+    this.selectedIndex})
       : super(key: key);
 
   @override
@@ -27,6 +28,10 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
   List<FiberMaterial>? materials;
   List<FiberNature>? fiberNature;
   String? natureId;
+  int selectedNature=0;
+  late int? selectedBlendIndex;
+  late int? tempBlendIndex;
+
 
 
   _getFiberDataFromDb() {
@@ -46,12 +51,14 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
   }
   @override
   void initState() {
+    tempBlendIndex = widget.selectedIndex??-1;
     _getFiberDataFromDb();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    selectedBlendIndex = tempBlendIndex??-1;
     return (fiberNature != null && materials != null)
         ? Container(
             color: Colors.white,
@@ -80,10 +87,12 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                           padding: const EdgeInsets.only(top: 2.0),
                           child: SingleSelectTileRenewedWidget(
                             spanCount: 2,
+                            selectedIndex: selectedNature,
                             listOfItems: fiberNature!,
                             callback: (value) {
                               setState(() {
                                 natureId = value.id.toString();
+                                selectedNature = int.parse(natureId!)-1;
                               });
                             },
                           ),
@@ -111,7 +120,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: CatWithImageListWidget(
-                        selectedItem: widget.selectedIndex?? -1,
+                        selectedItem: selectedBlendIndex?? -1,
                         listItem: materials!
                             .where((element) => element.nature_id == natureId)
                             .toList(),
@@ -132,6 +141,20 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
             child: const LoadingListing(),
             height: 0.065 * MediaQuery.of(context).size.height,
           );
+  }
+
+  setNature(int index,int fiberMaterialId){
+    setState(() {
+      var material = materials!
+          .where((element) => element.fbmId == fiberMaterialId)
+          .toList().first;
+      var materialsList = materials!
+          .where((element) => element.nature_id == natureId)
+          .toList();
+      var blendIndex = materialsList.indexOf(material);
+      tempBlendIndex =  blendIndex;
+      selectedNature = index;
+    });
   }
 
 

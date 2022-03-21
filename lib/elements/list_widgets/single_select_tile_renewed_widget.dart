@@ -32,7 +32,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileRenewedWidget> {
 
   @override
   void initState() {
-    checkedTile = widget.selectedIndex ?? 0;
+    //checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
     } else if (widget.spanCount == 3) {
@@ -64,6 +64,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileRenewedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    checkedTile = widget.selectedIndex ?? 0;
     return SizedBox(
       height: 0.01 * MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
