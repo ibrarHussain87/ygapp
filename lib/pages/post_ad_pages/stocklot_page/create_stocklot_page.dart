@@ -181,11 +181,12 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             .where((element) =>
                                                 element.id == value.id.toString())
                                             .toList();
-                                        if (list.isNotEmpty) {
+                                        /*if (list.isNotEmpty) {
                                           return;
-                                        }
+                                        }*/
+                                        var editWasteModel = list.isNotEmpty ? list.first : null;
                                         showStocklotBottomSheet(
-                                            value, stocklotProvider);
+                                            value, stocklotProvider,editWasteModel);
                                       },
                                     )
                                   ],
@@ -222,11 +223,25 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               children: [
                                                 Container(
                                                   width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.1,
+                                                  child: Text(
+                                                    'Sr#',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                        FontWeight.w600),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.3,
+                                                      0.25,
                                                   child: Text(
-                                                    'Description',
+                                                    'Name',
                                                     overflow: TextOverflow.fade,
                                                     maxLines: 1,
                                                     softWrap: false,
@@ -239,16 +254,18 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 ),
                                                 Container(
                                                   width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.2,
-                                                  child: Text(
-                                                    'Quantity',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                      .size
+                                                      .width *
+                                                      0.15,
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Price',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12.sp,
+                                                          fontWeight:
+                                                          FontWeight.w600),
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -256,13 +273,15 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           .size
                                                           .width *
                                                       0.2,
-                                                  child: Text(
-                                                    'Unit Count',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Quantity',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -270,13 +289,15 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           .size
                                                           .width *
                                                       0.2,
-                                                  child: Text(
-                                                    'Price',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Unit Count',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -326,18 +347,18 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           stocklotProvider
                                                                   .filteredStocklotWasteList!
                                                                   .length -
-                                                              1, () {
+                                                              1, (value) {
+                                                    return stocklotProvider.removeStockWaste(value);
                                                     /*Logger().e('uytr' +
-                                                        stocklotCategories!
+                                                        value!
                                                             .toJson()
                                                             .toString());*/
-                                                    if (stocklotCategories !=
-                                                        null) {
-                                                      showStocklotBottomSheet(
+                                                    if (stocklotCategories != null) {
+                                                      /*showStocklotBottomSheet(
                                                           stocklotCategories!,
-                                                          stocklotProvider);
+                                                          stocklotProvider);*/
                                                     }
-                                                  }),
+                                                  },index+1),
                                                 );
                                               },
                                             ),
@@ -594,15 +615,19 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
   }
 
   void showStocklotBottomSheet(
-      StocklotCategories value, StocklotProvider stocklotProvider) {
+      StocklotCategories value, StocklotProvider stocklotProvider, StocklotWasteModel? editWasteModel) {
     /*stocklotProvider.getFilteredStocklotWaste(value.id??-1);*/
     /*var list = stocklotProvider.stocklotWasteList!.where((element) => element.id == value.id.toString()).toList();
     if(list.isNotEmpty){
       return;
     }*/
     var stocklotWaste = StocklotWasteModel(
-        unitOfCount: stocklotProvider.unitsList![0].untName,
-        id: value.id.toString());
+        unitOfCount: editWasteModel != null ? editWasteModel.unitOfCount : stocklotProvider.unitsList![0].untName,
+        name: editWasteModel != null ? editWasteModel.name : value.category,
+        price: editWasteModel != null ? editWasteModel.price : '',
+        quantity: editWasteModel != null ? editWasteModel.quantity : '',
+        description: editWasteModel != null ? editWasteModel.description : '',
+        id: editWasteModel != null ? editWasteModel.id : value.id.toString());
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -658,6 +683,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         ),
                                         SingleSelectTileWidget(
                                             spanCount: 4,
+                                            selectedIndex: editWasteModel != null ?
+                                            stocklotProvider.unitsList!.indexWhere((element) => element.untName == editWasteModel.unitOfCount):0,
                                             listOfItems:
                                                 stocklotProvider.unitsList!,
                                             callback: (Units value) {
@@ -699,6 +726,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   FilteringTextInputFormatter
                                                       .allow(RegExp("[0-9]")),
                                                 ],
+                                                initialValue: editWasteModel != null ? editWasteModel.price:'',
                                                 onSaved: (input) {
                                                   stocklotWaste.price = input;
                                                 },
@@ -749,6 +777,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                     FilteringTextInputFormatter
                                                         .allow(RegExp("[0-9]")),
                                                   ],
+                                                  initialValue: editWasteModel != null ? editWasteModel.quantity:'',
                                                   onSaved: (input) {
                                                     stocklotWaste.quantity =
                                                         input;
@@ -795,6 +824,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           style: TextStyle(fontSize: 11.sp),
                                           textAlign: TextAlign.start,
                                           cursorHeight: 16.w,
+                                          initialValue: editWasteModel != null ? editWasteModel.description:'',
                                           onSaved: (input) {
                                             stocklotWaste.description = input;
                                           },

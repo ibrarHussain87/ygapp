@@ -37,6 +37,7 @@ class StocklotProvider extends ChangeNotifier{
     priceTermsList!.clear();
     countryList!.clear();
     stocklotWasteList!.clear();
+    ignoreClick = false;
     var dbInstance = await AppDbInstance.getDbInstance();
     stocklotAllCategories = await dbInstance.stocklotCategoriesDao.findAllStocklotCategories();
     stocklots = stocklotAllCategories!.where((element) => element.parentId == null).toList();
@@ -69,10 +70,29 @@ class StocklotProvider extends ChangeNotifier{
   }
 
   addStocklotWaste(StocklotWasteModel stocklotWasteModel){
-    stocklotWasteList!.add(stocklotWasteModel);
+    if(stocklotWasteList!.isNotEmpty){
+      var index = stocklotWasteList!.indexWhere((element) => element.id == stocklotWasteModel.id);
+      if(index >-1){
+        stocklotWasteList![index] = stocklotWasteModel;
+      }else{
+        stocklotWasteList!.add(stocklotWasteModel);
+      }
+    }else{
+      stocklotWasteList!.add(stocklotWasteModel);
+    }
     if(selectedSubCategoryId != -1){
       filteredStocklotWasteList!.clear();
-      filteredStocklotWasteList = stocklotWasteList!.where((element) => element.id == selectedSubCategoryId.toString()).toList();
+     // filteredStocklotWasteList = stocklotWasteList!.where((element) => element.id == selectedSubCategoryId.toString()).toList();
+      filteredStocklotWasteList = stocklotWasteList!.toList();
+    }
+    notifyListeners();
+  }
+
+  removeStockWaste(StocklotWasteModel stocklotWasteModel){
+    stocklotWasteList!.remove(stocklotWasteModel);
+    filteredStocklotWasteList = stocklotWasteList!.toList();
+    if(filteredStocklotWasteList!.isEmpty){
+      ignoreClick = false;
     }
     notifyListeners();
   }
@@ -80,7 +100,8 @@ class StocklotProvider extends ChangeNotifier{
   getFilteredStocklotWaste(int id){
     selectedSubCategoryId = id;
     filteredStocklotWasteList!.clear();
-    filteredStocklotWasteList = stocklotWasteList!.where((element) => element.id == selectedSubCategoryId.toString()).toList();
+   // filteredStocklotWasteList = stocklotWasteList!.where((element) => element.id == selectedSubCategoryId.toString()).toList();
+    filteredStocklotWasteList = stocklotWasteList!.toList();
     notifyListeners();
   }
 
