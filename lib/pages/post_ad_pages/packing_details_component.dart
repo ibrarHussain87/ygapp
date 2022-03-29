@@ -109,10 +109,7 @@ class PackagingDetailsState extends State<PackagingDetails>
               element.ptrCategoryIdfk == "2"))
           .toList();
     } else {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "1"))
-          .toList();
+      return _priceTermList.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "1")).toList();
     }
   }
 
