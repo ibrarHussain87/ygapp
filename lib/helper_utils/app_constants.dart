@@ -91,7 +91,7 @@ String apperance = 'Appearence';
 String actualYarnCount = 'Actual Yarn Count';
 String CLSP = 'CLSP';
 String weightCones = 'Weight/Cones';
-String weightBags = 'Weight/Bags';
+// String weightBags = 'Weight/Bags';
 String coneBags = 'Cone/Bags';
 String yarn = "Yarn";
 

@@ -19,6 +19,8 @@ import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
 import 'pages/auth_pages/login_page.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -32,6 +34,7 @@ Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FCM.initialize(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
+
 }
 
 class YgApp extends StatelessWidget {
@@ -40,6 +43,7 @@ class YgApp extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -89,6 +93,16 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     });
   }
 
+  void _firebaseCrash() async {
+    if (kDebugMode) {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    } else {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
+    // FirebaseCrashlytics.instance.crash();
+  }
+
+
   void _incrementCounter() {
     setState(() {
       heightC1 = MediaQuery.of(context).size.width * 0.5;
@@ -114,6 +128,8 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.streamCtlr.stream.listen(_changeData);
     firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
+
+    _firebaseCrash();
 
     super.initState();
 
@@ -178,6 +194,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             maxHeight: MediaQuery.of(context).size.height),
         designSize: const Size(360, 690),
         orientation: Orientation.portrait);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(

@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +9,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
@@ -49,12 +45,9 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String verificationID = "";
 
-  TextEditingController textEditingController = TextEditingController();
-
   // ..text = "123456";
 
   // ignore: close_sinks
-  StreamController<ErrorAnimationType>? errorController;
 
   bool hasError = false;
   String currentText = "";
@@ -67,14 +60,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
-    errorController = StreamController<ErrorAnimationType>();
     _signupRequestModel = SignUpRequestModel();
     super.initState();
   }
 
   @override
   void dispose() {
-    errorController!.close();
+    // errorController!.close();
     super.dispose();
   }
 
@@ -600,11 +592,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 side: BorderSide(color: Colors.transparent)))),
                                     onPressed: () {
                                       if (validateAndSave()) {
-                                        /*Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => MainPage()),
-                                  (Route<dynamic> route) => false);*/
-                                        // _signUpCall();
                                         if (_signupRequestModel
                                                 .telephoneNumber !=
                                             null) {
@@ -625,8 +612,8 @@ class _SignUpPageState extends State<SignUpPage> {
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate() && _termsChecked) {
-    form.save();
-    return true;
+      form.save();
+      return true;
     } else if (!_termsChecked) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please accept Terms & Conditions')));
@@ -639,35 +626,47 @@ class _SignUpPageState extends State<SignUpPage> {
       phoneNumber: _signupRequestModel.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
-          print("You are logged in successfully");
+          _signUpCall();
         });
       },
       verificationFailed: (FirebaseAuthException e) {
         print(e.message);
+        Fluttertoast.showToast(
+            msg: e.message.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
       },
       codeSent: (String verificationId, int? resendToken) {
         verificationID = verificationId;
+        Fluttertoast.showToast(
+            msg: "Otp sent successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
         setState(() {});
-        Ui.showSnackBar(context, "Otp sent successfully");
-    otpDialogBox(context);
-    },
-    codeAutoRetrievalTimeout: (String verificationId) {
-      Ui.showSnackBar(context, "SMS retrieval timeout");
-    },
+        otpDialogBox(context);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        Ui.showSnackBar(context, "SMS retrieval timeout");
+      },
     );
   }
 
   otpDialogBox(BuildContext buildContext) {
+    // TextEditingController textEditingController = TextEditingController();
+    // StreamController<ErrorAnimationType>? errorController = StreamController<ErrorAnimationType>();
+
     return showModalBottomSheet(
         context: buildContext,
-        enableDrag: false,
         isDismissible: false,
         isScrollControlled: true,
+        enableDrag: false,
         builder: (BuildContext buildContext) {
           return Container(
               color: Colors.white,
               padding: MediaQuery.of(buildContext).viewInsets,
-              height: 400,
+              height: 350,
               width: MediaQuery.of(buildContext).size.width,
               child: ListView(children: <Widget>[
                 const SizedBox(height: 30),
@@ -699,13 +698,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         text: "Enter the code sent to ",
                         children: [
                           TextSpan(
-                              text: _signupRequestModel.telephoneNumber ?? "+13436575666",
+                              text: _signupRequestModel.telephoneNumber ??
+                                  "Enter your number",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15)),
                         ],
-                        style: const TextStyle(color: Colors.black54, fontSize: 12)),
+                        style: const TextStyle(
+                            color: Colors.black54, fontSize: 12)),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -731,8 +732,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (v) {
-                        if (v!.length < 3) {
-                          return "I'm from validator";
+                        if (v!.length < 6) {
+                          return "Please enter OTP";
                         } else {
                           return null;
                         }
@@ -747,8 +748,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
                       enableActiveFill: true,
-                      errorAnimationController: errorController,
-                      controller: textEditingController,
+                      // errorAnimationController: errorController,
+                      // controller: textEditingController,
                       keyboardType: TextInputType.number,
                       boxShadows: const [
                         BoxShadow(
@@ -790,27 +791,27 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 8,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Didn't receive the code? ",
-                      style: TextStyle(color: Colors.black54, fontSize: 15),
-                    ),
-                    TextButton(
-                        onPressed: () => loginWithPhone,
-                        child: const Text(
-                          "RESEND",
-                          style: TextStyle(
-                              color: Color(0xFF91D3B3),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     const Text(
+                //       "Didn't receive the code? ",
+                //       style: TextStyle(color: Colors.black54, fontSize: 15),
+                //     ),
+                //     TextButton(
+                //         onPressed: () => loginWithPhone,
+                //         child: const Text(
+                //           "RESEND",
+                //           style: TextStyle(
+                //               color: Color(0xFF91D3B3),
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 16),
+                //         ))
+                //   ],
+                // ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
                 Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 16),
@@ -820,8 +821,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       onPressed: () {
                         // conditions for validating
                         if (currentText.length != 6) {
-                          errorController!.add(ErrorAnimationType
-                              .shake); // Triggering error shake animation
+                          // errorController!.add(ErrorAnimationType
+                          //     .shake); // Triggering error shake animation
                           setState(() => hasError = true);
                         } else {
                           setState(
@@ -830,7 +831,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             },
                           );
 
-                          verifyOTP(otp);
+                          verifyOTP(otp, buildContext);
                         }
                       },
                       child: Center(
@@ -857,6 +858,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             blurRadius: 5)
                       ]),
                 ),
+                const SizedBox(
+                  height: 8,
+                )
               ]));
         });
 
@@ -896,22 +900,22 @@ class _SignUpPageState extends State<SignUpPage> {
     //     });
   }
 
-  void verifyOTP(String otp) async {
+  void verifyOTP(
+    String otp,
+    BuildContext buildContext,
+  ) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationID, smsCode: otp);
 
     await auth.signInWithCredential(credential).then((value) {
-      Navigator.of(context).pop();
-
-      print("You are logged in successfully");
+      Navigator.pop(buildContext);
+      _signUpCall();
+    },onError: (error){
       Fluttertoast.showToast(
-          msg: "You are logged in successfully",
+          msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);
     });
   }
 
