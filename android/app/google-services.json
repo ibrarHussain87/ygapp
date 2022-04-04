@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "236321379708-d74b7r56g3g1t1d81k1bma9583jima4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yarn.guru",
+            "certificate_hash": "6fc468c37e03c82341f1b5a7ed1945b7b2bbed4a"
+          }
+        },
+        {
+          "client_id": "236321379708-dtu8986pb6v9o6eudkag2vuvq10edudn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yarn.guru",
+            "certificate_hash": "dba8812b614d26a46130366af4d2fb156490f68c"
+          }
+        },
+        {
           "client_id": "236321379708-i6stflc49esk2i69fjqpt7o1gplmk9j9.apps.googleusercontent.com",
           "client_type": 3
         }

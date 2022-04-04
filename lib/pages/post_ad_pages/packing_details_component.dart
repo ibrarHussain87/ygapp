@@ -109,10 +109,7 @@ class PackagingDetailsState extends State<PackagingDetails>
               element.ptrCategoryIdfk == "2"))
           .toList();
     } else {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "1"))
-          .toList();
+      return _priceTermList.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "1")).toList();
     }
   }
 
@@ -250,7 +247,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
                                                     title:
-                                                        "$weightBags ($unitCountSelected)")),
+                                                        "Weight($unitCountSelected)/Bag")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -289,13 +286,13 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 validator: (input) {
                                                   if (input == null ||
                                                       input.isEmpty) {
-                                                    return weightBags;
+                                                    return "Weight($unitCountSelected)/Bag";
                                                   }
                                                   return null;
                                                 },
                                                 decoration:
                                                     roundedTextFieldDecoration(
-                                                        weightBags)),
+                                                        "Weight($unitCountSelected)/Bag")),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),

@@ -65,15 +65,15 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                       maintainState: true,
                       maintainAnimation: true,
                       child: Container(
-                          width: 34.w,
+                          width: 60.w,
                           padding:
-                          EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
                           decoration: BoxDecoration(
                               color: widget.bidData.status == "0" ? Colors.brown
                                   .shade100.withOpacity(0.4) : widget.bidData.status == "1" ? Colors.green
                                   .shade100 : Colors.red.shade100,
                               borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(0.w),
+                                topRight: Radius.circular(2.w),
                               )),
                           child: Text(
                             _showStatus(int.parse(widget.bidData.status!)),
@@ -81,7 +81,7 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                             style: TextStyle(
                               color: widget.bidData.status == "0" ? Colors.
                               brown : widget.bidData.status == "1" ? Colors.green : Colors.red,
-                              fontSize: 6.sp,
+                              fontSize: 8.sp,
                               fontFamily: 'Metropolis',
                               fontWeight: FontWeight.bold,
                             ),

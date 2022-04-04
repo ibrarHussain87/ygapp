@@ -114,7 +114,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         callback: (StocklotCategories value) {
                                           if (stocklotProvider
                                               .stocklotWasteList!.isEmpty) {
-                                            stocklotProvider.getCategories(value.id.toString());
+                                            stocklotProvider.getCategories(
+                                                value.id.toString());
                                           }
                                         },
                                       ),
@@ -142,8 +143,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       ignoring: stocklotProvider.ignoreClick,
                                       child: SingleSelectTileWidget(
                                         spanCount: 3,
-                                        listOfItems:
-                                            stocklotProvider.stocklotCategories!,
+                                        listOfItems: stocklotProvider
+                                            .stocklotCategories!,
                                         selectedIndex: 0,
                                         callback: (StocklotCategories value) {
                                           if (stocklotProvider
@@ -175,24 +176,27 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                     ),
                                     SingleSelectTileWidget(
                                       spanCount: 3,
-                                      listOfItems:
-                                          stocklotProvider.stocklotSubcategories!,
+                                      listOfItems: stocklotProvider
+                                          .stocklotSubcategories!,
                                       selectedIndex: 0,
                                       callback: (StocklotCategories value) {
                                         stocklotCategories = value;
-                                        stocklotProvider.getFilteredStocklotWaste(
-                                            value.id ?? -1);
+                                        stocklotProvider
+                                            .getFilteredStocklotWaste(
+                                                value.id ?? -1);
                                         var list = stocklotProvider
                                             .stocklotWasteList!
                                             .where((element) =>
-                                                element.id == value.id.toString())
+                                                element.id ==
+                                                value.id.toString())
                                             .toList();
                                         /*if (list.isNotEmpty) {
                                           return;
                                         }*/
-                                        var editWasteModel = list.isNotEmpty ? list.first : null;
-                                        showStocklotBottomSheet(
-                                            value, stocklotProvider,editWasteModel);
+                                        var editWasteModel =
+                                            list.isNotEmpty ? list.first : null;
+                                        showStocklotBottomSheet(value,
+                                            stocklotProvider, editWasteModel);
                                       },
                                     )
                                   ],
@@ -213,8 +217,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           title: 'Stocklot Waste',
                                         )),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 8.w, right: 8.w),
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, right: 8.w),
                                       child: SizedBox(
                                           /*height: 36.w,*/
                                           child: Column(
@@ -223,14 +227,15 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             height: 4.h,
                                           ),
                                           Container(
-                                            width:
-                                                MediaQuery.of(context).size.width,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: Row(
                                               children: [
                                                 Container(
                                                   width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
+                                                          .size
+                                                          .width *
                                                       0.1,
                                                   child: Text(
                                                     'Sr#',
@@ -238,7 +243,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                         color: Colors.black,
                                                         fontSize: 12.sp,
                                                         fontWeight:
-                                                        FontWeight.w600),
+                                                            FontWeight.w600),
                                                   ),
                                                 ),
                                                 Container(
@@ -260,8 +265,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 ),
                                                 Container(
                                                   width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
+                                                          .size
+                                                          .width *
                                                       0.15,
                                                   child: Center(
                                                     child: Text(
@@ -270,7 +275,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           color: Colors.black,
                                                           fontSize: 12.sp,
                                                           fontWeight:
-                                                          FontWeight.w600),
+                                                              FontWeight.w600),
                                                     ),
                                                   ),
                                                 ),
@@ -348,23 +353,30 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               itemBuilder: (context, index) {
                                                 return GestureDetector(
                                                   onTap: () {},
-                                                  child: listItemStocklot(context, stocklotProvider.filteredStocklotWasteList![index],
+                                                  child: listItemStocklot(
+                                                      context,
+                                                      stocklotProvider
+                                                              .filteredStocklotWasteList![
+                                                          index],
                                                       index ==
                                                           stocklotProvider
                                                                   .filteredStocklotWasteList!
                                                                   .length -
                                                               1, (value) {
-                                                    return stocklotProvider.removeStockWaste(value);
+                                                    return stocklotProvider
+                                                        .removeStockWaste(
+                                                            value);
                                                     /*Logger().e('uytr' +
                                                         value!
                                                             .toJson()
                                                             .toString());*/
-                                                    if (stocklotCategories != null) {
+                                                    if (stocklotCategories !=
+                                                        null) {
                                                       /*showStocklotBottomSheet(
                                                           stocklotCategories!,
                                                           stocklotProvider);*/
                                                     }
-                                                  },index+1),
+                                                  }, index + 1),
                                                 );
                                               },
                                             ),
@@ -401,13 +413,16 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(24.w))),
                                         child: DropdownButtonFormField(
-                                          hint: const Text('Select Price Terms'),
-                                          items: stocklotProvider.priceTermsList!
+                                          hint:
+                                              const Text('Select Price Terms'),
+                                          items: stocklotProvider
+                                              .priceTermsList!
                                               .map((value) => DropdownMenuItem(
                                                     child: Text(
                                                         value.ptrName ??
-                                                            Utils.checkNullString(
-                                                                false),
+                                                            Utils
+                                                                .checkNullString(
+                                                                    false),
                                                         textAlign:
                                                             TextAlign.center),
                                                     value: value,
@@ -470,8 +485,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               .map((value) => DropdownMenuItem(
                                                     child: Text(
                                                         value.conCurrency ??
-                                                            Utils.checkNullString(
-                                                                false),
+                                                            Utils
+                                                                .checkNullString(
+                                                                    false),
                                                         textAlign:
                                                             TextAlign.center),
                                                     value: value,
@@ -529,7 +545,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(24.w))),
                                         child: DropdownButtonFormField(
-                                          hint: const Text('Select Availability'),
+                                          hint:
+                                              const Text('Select Availability'),
                                           items: /*stocklotProvider.countryList!*/ [
                                             'Available',
                                             'Not Available'
@@ -537,9 +554,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               .map((value) => DropdownMenuItem(
                                                     child: Text(
                                                         /*value.conCurrency*/
-                                                        value ??
-                                                            Utils.checkNullString(
-                                                                false),
+                                                        value,
                                                         textAlign:
                                                             TextAlign.center),
                                                     value: value,
@@ -664,15 +679,17 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     });
   }
 
-  void showStocklotBottomSheet(
-      StocklotCategories value, StocklotProvider stocklotProvider, StocklotWasteModel? editWasteModel) {
+  void showStocklotBottomSheet(StocklotCategories value,
+      StocklotProvider stocklotProvider, StocklotWasteModel? editWasteModel) {
     /*stocklotProvider.getFilteredStocklotWaste(value.id??-1);*/
     /*var list = stocklotProvider.stocklotWasteList!.where((element) => element.id == value.id.toString()).toList();
     if(list.isNotEmpty){
       return;
     }*/
     var stocklotWaste = StocklotWasteModel(
-        unitOfCount: editWasteModel != null ? editWasteModel.unitOfCount : stocklotProvider.unitsList![0].untName,
+        unitOfCount: editWasteModel != null
+            ? editWasteModel.unitOfCount
+            : stocklotProvider.unitsList![0].untName,
         name: editWasteModel != null ? editWasteModel.name : value.category,
         price: editWasteModel != null ? editWasteModel.price : '',
         quantity: editWasteModel != null ? editWasteModel.quantity : '',
@@ -733,8 +750,14 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         ),
                                         SingleSelectTileWidget(
                                             spanCount: 4,
-                                            selectedIndex: editWasteModel != null ?
-                                            stocklotProvider.unitsList!.indexWhere((element) => element.untName == editWasteModel.unitOfCount):0,
+                                            selectedIndex: editWasteModel !=
+                                                    null
+                                                ? stocklotProvider.unitsList!
+                                                    .indexWhere((element) =>
+                                                        element.untName ==
+                                                        editWasteModel
+                                                            .unitOfCount)
+                                                : 0,
                                             listOfItems:
                                                 stocklotProvider.unitsList!,
                                             callback: (Units value) {
@@ -776,7 +799,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   FilteringTextInputFormatter
                                                       .allow(RegExp("[0-9]")),
                                                 ],
-                                                initialValue: editWasteModel != null ? editWasteModel.price:'',
+                                                initialValue:
+                                                    editWasteModel != null
+                                                        ? editWasteModel.price
+                                                        : '',
                                                 onSaved: (input) {
                                                   stocklotWaste.price = input;
                                                 },
@@ -827,7 +853,11 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                     FilteringTextInputFormatter
                                                         .allow(RegExp("[0-9]")),
                                                   ],
-                                                  initialValue: editWasteModel != null ? editWasteModel.quantity:'',
+                                                  initialValue:
+                                                      editWasteModel != null
+                                                          ? editWasteModel
+                                                              .quantity
+                                                          : '',
                                                   onSaved: (input) {
                                                     stocklotWaste.quantity =
                                                         input;
@@ -874,7 +904,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           style: TextStyle(fontSize: 11.sp),
                                           textAlign: TextAlign.start,
                                           cursorHeight: 16.w,
-                                          initialValue: editWasteModel != null ? editWasteModel.description:'',
+                                          initialValue: editWasteModel != null
+                                              ? editWasteModel.description
+                                              : '',
                                           onSaved: (input) {
                                             stocklotWaste.description = input;
                                           },

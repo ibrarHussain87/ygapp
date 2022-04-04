@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if (input == null ||
                                     input.isEmpty ||
                                     input.length < 8) {
-                                  return "Password must be greater then 8 characters";
+                                  return "Password must be greater than 8 characters";
                                 }
                                 return null;
                               },

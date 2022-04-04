@@ -21,6 +21,7 @@ class CreateRequestModel {
   String? spc_appearance_idfk;
   String? spc_brand_idfk;
   String? spc_no_of_days;
+  String? spc_active;
 
   //Packing Details keys
   String? is_offering;
@@ -119,6 +120,7 @@ class CreateRequestModel {
       this.spc_gpt_idfk,
       this.cone_type_id,
       this.spc_no_of_days,
+      this.spc_active,
       this.spc_production_year,
       this.spc_lot_number,
       this.spc_appearance_idfk,
@@ -208,6 +210,7 @@ class CreateRequestModel {
       'spc_rd_idfk': spc_rd_idfk ?? "",
       'spc_gpt_idfk': spc_gpt_idfk ?? "",
       'spc_no_of_days': spc_no_of_days ?? "",
+      'spc_active': spc_active ?? "",
       'is_offering': is_offering ?? "",
       'spc_appearance_idfk': spc_appearance_idfk ?? "",
       'spc_brand_idfk': spc_brand_idfk ?? "",
