@@ -194,7 +194,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showColorTreatmentMethod` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showProductionYear` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFiberMaterialIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, `show_actual_count` TEXT, `actual_count_min_max` TEXT, PRIMARY KEY (`ysId`))');
         await database.execute(
@@ -556,7 +556,9 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'showGpt': item.showGpt,
                   'gptMinMax': item.gptMinMax,
                   'showAppearance': item.showAppearance,
+                  'showColorTreatmentMethod': item.showColorTreatmentMethod,
                   'showBrand': item.showBrand,
+                  'showProductionYear': item.showProductionYear,
                   'showOrigin': item.showOrigin,
                   'showCertification': item.showCertification,
                   'showCountUnit': item.showCountUnit,
@@ -564,6 +566,7 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'showAvailableForMarket': item.showAvailableForMarket,
                   'showPriceTerms': item.showPriceTerms,
                   'showLotNumber': item.showLotNumber,
+                  'showRatio': item.showRatio,
                   'fbsIsActive': item.fbsIsActive,
                   'catName': item.catName,
                   'matName': item.matName
@@ -598,7 +601,9 @@ class _$FiberSettingDao extends FiberSettingDao {
             showGpt: row['showGpt'] as String,
             gptMinMax: row['gptMinMax'] as String,
             showAppearance: row['showAppearance'] as String,
+            showColorTreatmentMethod: row['showColorTreatmentMethod'] as String,
             showBrand: row['showBrand'] as String,
+            showProductionYear: row['showProductionYear'] as String,
             showOrigin: row['showOrigin'] as String,
             showCertification: row['showCertification'] as String,
             showCountUnit: row['showCountUnit'] as String,
@@ -606,6 +611,7 @@ class _$FiberSettingDao extends FiberSettingDao {
             showAvailableForMarket: row['showAvailableForMarket'] as String,
             showPriceTerms: row['showPriceTerms'] as String,
             showLotNumber: row['showLotNumber'] as String,
+            showRatio: row['showRatio'] as String,
             fbsIsActive: row['fbsIsActive'] as String,
             catName: row['catName'] as String,
             matName: row['matName'] as String));
@@ -633,7 +639,9 @@ class _$FiberSettingDao extends FiberSettingDao {
             showGpt: row['showGpt'] as String,
             gptMinMax: row['gptMinMax'] as String,
             showAppearance: row['showAppearance'] as String,
+            showColorTreatmentMethod: row['showColorTreatmentMethod'] as String,
             showBrand: row['showBrand'] as String,
+            showProductionYear: row['showProductionYear'] as String,
             showOrigin: row['showOrigin'] as String,
             showCertification: row['showCertification'] as String,
             showCountUnit: row['showCountUnit'] as String,
@@ -641,6 +649,7 @@ class _$FiberSettingDao extends FiberSettingDao {
             showAvailableForMarket: row['showAvailableForMarket'] as String,
             showPriceTerms: row['showPriceTerms'] as String,
             showLotNumber: row['showLotNumber'] as String,
+            showRatio: row['showRatio'] as String,
             fbsIsActive: row['fbsIsActive'] as String,
             catName: row['catName'] as String,
             matName: row['matName'] as String),

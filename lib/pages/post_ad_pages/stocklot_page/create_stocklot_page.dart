@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/Providers/stocklot_provider.dart';
@@ -22,6 +23,7 @@ import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/request/stocklot_request/stocklot_request.dart';
 import '../../../model/response/common_response_models/price_term.dart';
 import '../../../model/response/common_response_models/unit_of_count.dart';
 import '../../../model/response/sync/sync_response.dart';
@@ -46,6 +48,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
   final GlobalKey<StockLotSpecificationBodyState> stockLotSpecificationKey =
       GlobalKey<StockLotSpecificationBodyState>();
   StocklotCategories? stocklotCategories;
+  FPriceTerms? priceTermsModel;
+  Countries? countryModel;
+  String? availability = '';
+  List<PickedFile> imageFiles = [];
 
   @override
   void initState() {
@@ -408,7 +414,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   ))
                                               .toList(),
                                           isExpanded: true,
-                                          onChanged: (FPriceTerms? value) {},
+                                          onChanged: (FPriceTerms? value) {
+                                            priceTermsModel = value;
+                                          },
                                           // validator: (value) => value == null
                                           //     ? 'field required'
                                           //     : null,
@@ -470,7 +478,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   ))
                                               .toList(),
                                           isExpanded: true,
-                                          onChanged: (Countries? value) {},
+                                          onChanged: (Countries? value) {
+                                            countryModel = value;
+                                          },
                                           // validator: (value) => value == null
                                           //     ? 'field required'
                                           //     : null,
@@ -536,7 +546,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   ))
                                               .toList(),
                                           isExpanded: true,
-                                          onChanged: (/*Countries?*/ value) {},
+                                          onChanged: (/*Countries?*/String? value) {
+                                            availability = value;
+                                          },
                                           // validator: (value) => value == null
                                           //     ? 'field required'
                                           //     : null,
@@ -570,7 +582,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   child: AddPictureWidget(
                                     imageCount: 1,
                                     callbackImages: (value) {
-                                      // imageFiles = value;
+                                       imageFiles = value;
                                     },
                                   ),
                                 ),
@@ -589,6 +601,44 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                           color: Colors.green,
                           callback: () {
                             Fluttertoast.showToast(msg: 'Coming soon...');
+                            if(stocklotProvider.stocklotId == null || stocklotProvider.stocklotId == -1){
+                              Fluttertoast.showToast(msg: 'Please select stocklot');
+                            }else if(stocklotProvider.categoryId == null || stocklotProvider.categoryId == -1){
+                              Fluttertoast.showToast(msg: 'Please select category');
+                            }else if(stocklotProvider.subcategoryId == null || stocklotProvider.subcategoryId == -1){
+                              Fluttertoast.showToast(msg: 'Please select subcategory');
+                            }else if(priceTermsModel == null){
+                              Fluttertoast.showToast(msg: 'Please select price terms');
+                            }else if(countryModel == null){
+                              Fluttertoast.showToast(msg: 'Please select currency');
+                            }else if(availability == ''){
+                              Fluttertoast.showToast(msg: 'Please select availability');
+                            }else if(imageFiles.isEmpty){
+                              Fluttertoast.showToast(msg: 'Please select image');
+                            }else if(stocklotProvider.stocklotWasteList!.isEmpty){
+                              Fluttertoast.showToast(msg: 'Please select stocklot wastes');
+                            }else{
+                              var stocklotRequestModel = StocklotRequestModel();
+                              var stocklot = stocklotProvider.
+                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.stocklotId).toList();
+                              var category = stocklotProvider.
+                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.categoryId).toList();
+                              var subcategory = stocklotProvider.
+                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.subcategoryId).toList();
+                              stocklotRequestModel.stocklotId = stocklot.first.id.toString();
+                              stocklotRequestModel.stocklotName = stocklot.first.category.toString();
+                              stocklotRequestModel.categoryId = category.first.id.toString();
+                              stocklotRequestModel.categoryName = category.first.category.toString();
+                              stocklotRequestModel.subcategoryId = subcategory.first.id.toString();
+                              stocklotRequestModel.subcategoryName = subcategory.first.category.toString();
+                              stocklotRequestModel.priceTermsId = priceTermsModel!.ptrId.toString();
+                              stocklotRequestModel.priceTermsName = priceTermsModel!.ptrName.toString();
+                              stocklotRequestModel.countryId = countryModel!.conId.toString();
+                              stocklotRequestModel.currency = countryModel!.conCurrency.toString();
+                              stocklotRequestModel.availability = availability;
+                              stocklotRequestModel.stocklotWasteModelList = stocklotProvider.stocklotWasteList;
+                              Logger().e(stocklotRequestModel.toJson().toString());
+                            }
                           },
                         ),
                       ),

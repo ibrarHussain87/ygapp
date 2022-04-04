@@ -367,7 +367,9 @@ class FiberSettings {
     required this.showGpt,
     required this.gptMinMax,
     required this.showAppearance,
+    required this.showColorTreatmentMethod,
     required this.showBrand,
+    required this.showProductionYear,
     required this.showOrigin,
     required this.showCertification,
     required this.showCountUnit,
@@ -375,6 +377,7 @@ class FiberSettings {
     required this.showAvailableForMarket,
     required this.showPriceTerms,
     required this.showLotNumber,
+    required this.showRatio,
     required this.fbsIsActive,
     this.fbsSortid,
     required this.catName,
@@ -399,7 +402,9 @@ class FiberSettings {
   late final String showGpt;
   late final String gptMinMax;
   late final String showAppearance;
+  late final String showColorTreatmentMethod;
   late final String showBrand;
+  late final String showProductionYear;
   late final String showOrigin;
   late final String showCertification;
   late final String showCountUnit;
@@ -407,6 +412,7 @@ class FiberSettings {
   late final String showAvailableForMarket;
   late final String showPriceTerms;
   late final String showLotNumber;
+  late final String showRatio;
   late final String fbsIsActive;
   @ignore
   late final Null fbsSortid;
@@ -431,7 +437,9 @@ class FiberSettings {
     showGpt = json['show_gpt'];
     gptMinMax = json['gpt_min_max'];
     showAppearance = json['show_appearance'];
+    showColorTreatmentMethod = json['show_color_treatment_method'];
     showBrand = json['show_brand'];
+    showProductionYear = json['show_production_year'];
     showOrigin = json['show_origin'];
     showCertification = json['show_certification'];
     showCountUnit = json['show_count_unit'];
@@ -439,6 +447,7 @@ class FiberSettings {
     showAvailableForMarket = json['show_available_for_market'];
     showPriceTerms = json['show_price_terms'];
     showLotNumber = json['show_lot_number'];
+    showRatio = json['show_ratio'];
     fbsIsActive = json['fbs_is_active'];
     fbsSortid = null;
     catName = json['cat_name'];
@@ -464,13 +473,17 @@ class FiberSettings {
     _data['show_gpt'] = showGpt;
     _data['gpt_min_max'] = gptMinMax;
     _data['show_appearance'] = showAppearance;
+    _data['show_color_treatment_method'] = showColorTreatmentMethod;
     _data['show_brand'] = showBrand;
+    _data['show_production_year'] = showProductionYear;
     _data['show_origin'] = showOrigin;
     _data['show_certification'] = showCertification;
     _data['show_count_unit'] = showCountUnit;
     _data['show_delivery_period'] = showDeliveryPeriod;
     _data['show_available_for_market'] = showAvailableForMarket;
     _data['show_price_terms'] = showPriceTerms;
+    _data['show_lot_number'] = showLotNumber;
+    _data['show_ratio'] = showRatio;
     _data['fbs_is_active'] = fbsIsActive;
     _data['fbs_sortid'] = fbsSortid;
     _data['cat_name'] = catName;

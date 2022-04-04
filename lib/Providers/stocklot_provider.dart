@@ -27,6 +27,9 @@ class StocklotProvider extends ChangeNotifier{
   bool loading = false;
   bool ignoreClick = false;
   int selectedSubCategoryId = -1;
+  int? stocklotId = -1;
+  int? categoryId = -1;
+  int? subcategoryId = -1;
 
   getStocklotData() async{
     loading = true;
@@ -53,6 +56,7 @@ class StocklotProvider extends ChangeNotifier{
   }
 
   getCategories(String id)async{
+    stocklotId = int.parse(id);
     stocklotCategories!.clear();
     stocklotCategories = stocklotAllCategories!.where((element) => element.parentId == id).toList();
     if(stocklotCategories != null){
@@ -62,8 +66,10 @@ class StocklotProvider extends ChangeNotifier{
   }
 
   getSubcategories(String id)async{
+    categoryId = int.parse(id);
     stocklotSubcategories!.clear();
     stocklotWasteList!.clear();
+    subcategoryId = -1;
     selectedSubCategoryId = -1;
     stocklotSubcategories = stocklotAllCategories!.where((element) => element.parentId == id).toList();
     notifyListeners();
@@ -99,6 +105,7 @@ class StocklotProvider extends ChangeNotifier{
 
   getFilteredStocklotWaste(int id){
     selectedSubCategoryId = id;
+    subcategoryId = id;
     filteredStocklotWasteList!.clear();
    // filteredStocklotWasteList = stocklotWasteList!.where((element) => element.id == selectedSubCategoryId.toString()).toList();
     filteredStocklotWasteList = stocklotWasteList!.toList();

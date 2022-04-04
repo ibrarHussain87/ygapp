@@ -9,12 +9,16 @@ class StocklotWasteModel {
 
   StocklotWasteModel({this.id, this.description,this.name,this.quantity,this.unitOfCount,this.price});
 
-  /*Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'email': email!.trim(),
-      'password': password!.trim()
+      'id': id!.trim(),
+      'description': description!.trim(),
+      'name': name!.trim(),
+      'quantity': quantity!.trim(),
+      'unitOfCount': unitOfCount!.trim(),
+      'price': price!.trim(),
     };
 
     return map;
-  }*/
+  }
 }

@@ -708,7 +708,7 @@ class FiberSpecificationComponentState
                                               : 0,
                                     ),
                                     Visibility(
-                                      visible: true,
+                                      visible: Ui.showHide(_fiberSettings!.showProductionYear),
                                       child: Expanded(
                                         child: Padding(
                                           padding: EdgeInsets.only(top: 8.w),
