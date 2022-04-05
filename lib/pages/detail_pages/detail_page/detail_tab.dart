@@ -26,8 +26,10 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 class DetailTabPage extends StatefulWidget {
   final Specification? specification;
   final YarnSpecification? yarnSpecification;
+  final bool? sendProposal;
 
-  const DetailTabPage({Key? key, this.specification, this.yarnSpecification})
+
+  const DetailTabPage({Key? key, this.specification, this.yarnSpecification,this.sendProposal})
       : super(key: key);
 
   @override
@@ -101,12 +103,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
           setState(() {
             _showBidContainer = true;
           });
+          if(widget.sendProposal ?? false){
+            showProposalBottomSheet(context);
+          }
         }
       } else {
         if (value != widget.yarnSpecification!.ys_user_id) {
           setState(() {
             _showBidContainer = true;
           });
+          if(widget.sendProposal ?? false){
+            showProposalBottomSheet(context);
+          }
         }
       }
     });

@@ -20,9 +20,10 @@ class DetailRenewedPage extends StatefulWidget {
   final Specification? specification;
   final YarnSpecification? yarnSpecification;
   final bool? isFromBid;
+  final bool? sendProposal;
 
   const DetailRenewedPage(
-      {Key? key, this.specification, this.yarnSpecification,this.isFromBid})
+      {Key? key, this.specification, this.yarnSpecification,this.isFromBid,this.sendProposal})
       : super(key: key);
 
   @override
@@ -57,6 +58,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
       } else {
         if (userId != widget.yarnSpecification!.ys_user_id) {
           _creatorOrBidder(false);
+
         } else {
           _creatorOrBidder(true);
         }
@@ -588,6 +590,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
           DetailTabPage(
             specification: widget.specification,
             yarnSpecification: widget.yarnSpecification,
+
           ),
           HistoryOfBidsPage(
               catId: widget.specification != null
@@ -605,6 +608,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
           DetailTabPage(
             specification: widget.specification,
             yarnSpecification: widget.yarnSpecification,
+            sendProposal: widget.sendProposal??false,
           ),
           /*MatchedPage(
               catId: widget.specification != null

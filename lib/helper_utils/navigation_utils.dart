@@ -15,7 +15,7 @@ import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 void openDetailsScreen(BuildContext context,
     {Specification? specification,
     YarnSpecification? yarnSpecification,
-    bool? isFromBid,}) {
+    bool? isFromBid,bool? sendProposal}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -23,6 +23,7 @@ void openDetailsScreen(BuildContext context,
           specification: specification,
           yarnSpecification: yarnSpecification,
           isFromBid: isFromBid,
+          sendProposal: sendProposal,
         ),
       ),
     );

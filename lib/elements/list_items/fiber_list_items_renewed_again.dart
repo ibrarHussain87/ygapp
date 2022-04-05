@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_normal_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
@@ -19,7 +20,11 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import 'package:intl/intl.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
+import '../../api_services/api_service_class.dart';
+import '../../helper_utils/alert_dialog.dart';
 import '../../helper_utils/app_constants.dart';
+import '../../helper_utils/navigation_utils.dart';
+import '../../helper_utils/progress_dialog_util.dart';
 import '../elevated_button_widget_2.dart';
 
 Widget buildFiberRenewedAgainWidget(
@@ -346,7 +351,8 @@ Widget buildFiberRenewedAgainWidget(
                                                   specification,
                                                 );
                                               }else{
-
+                                                openDetailsScreen(
+                                                    context,specification: specification,sendProposal: true);
                                               }
                                             },
                                             child: SizedBox(
@@ -409,6 +415,7 @@ Widget buildFiberRenewedAgainWidget(
     ),
   );
 }
+
 
 /*String setFamilyData(YarnSpecification specification){
   String familyData = "";
