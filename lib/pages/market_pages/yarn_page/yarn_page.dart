@@ -146,11 +146,15 @@ class YarnPageState extends State<YarnPage> {
                                   items: _countries
                                       .map((value) =>
                                       DropdownMenuItem(
-                                        child: Text(
-                                            value.conName ??
-                                                Utils.checkNullString(false),
-                                            textAlign: TextAlign
-                                                .center),
+                                        child: Expanded(
+                                          child: Text(
+                                              value.conName ??
+                                                  Utils.checkNullString(false),
+                                              textAlign: TextAlign.start,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,),
+                                        ),
                                         value: value,
                                       ))
                                       .toList(),

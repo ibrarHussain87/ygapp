@@ -14,6 +14,7 @@ import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
 
 import '../../helper_utils/app_images.dart';
@@ -170,11 +171,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.phone,
-                                                    cursorColor: Colors.black,
-                                                    inputFormatters: [
+                                                    inputFormatters: <TextInputFormatter>[
+                                                      FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
                                                       LengthLimitingTextInputFormatter(
                                                           13),
                                                     ],
+                                                    cursorColor: Colors.black,
+                                                    /*inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          13),
+                                                    ],*/
+                                                    onChanged: (input){
+                                                      Utils.validateMobile(input);
+                                                    },
                                                     onSaved: (input) =>
                                                         _signupRequestModel
                                                                 .telephoneNumber =
@@ -239,6 +248,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.text,
+                                                  inputFormatters: <TextInputFormatter>[
+                                                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9])')),
+                                                    LengthLimitingTextInputFormatter(
+                                                        20),
+                                                  ],
                                                   cursorColor: Colors.black,
                                                   onSaved: (input) =>
                                                       _signupRequestModel.name =
@@ -276,6 +290,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                   keyboardType: TextInputType
                                                       .emailAddress,
+                                                  inputFormatters: <TextInputFormatter>[
+                                                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
+                                                    LengthLimitingTextInputFormatter(
+                                                        25),
+                                                  ],
                                                   cursorColor: Colors.black,
                                                   onSaved: (input) =>
                                                       _signupRequestModel
@@ -322,7 +341,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   if (input == null ||
                                                       input.isEmpty ||
                                                       input.length < 8) {
-                                                    return "Password must be greater than 8 characters";
+                                                    return "Password must be at least 8 characters long";
                                                   }
                                                   password = input;
                                                   return null;
@@ -396,7 +415,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   if (input == null ||
                                                       input.isEmpty ||
                                                       input.length < 8) {
-                                                    return "Password not matched";
+                                                    return "Password must be at least 8 characters long";
                                                   } else if (input !=
                                                       password) {
                                                     return "Password not matched";
