@@ -126,6 +126,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
+                      selectedIndex: 0,
                       spanCount: 2,
                       listOfItems: _yarnBlends!
                           .where((element) =>
