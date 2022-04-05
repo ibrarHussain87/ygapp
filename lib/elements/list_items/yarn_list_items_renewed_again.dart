@@ -19,6 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
 import '../../helper_utils/app_constants.dart';
+import '../../helper_utils/navigation_utils.dart';
 import '../elevated_button_widget_2.dart';
 
 Widget buildYarnRenewedAgainWidget(
@@ -367,6 +368,9 @@ Widget buildYarnRenewedAgainWidget(
                                                   specification,
                                                   null,
                                                 );
+                                              }else{
+                                                openDetailsScreen(
+                                                    context,yarnSpecification: specification,sendProposal: true);
                                               }
                                             },
                                             child: SizedBox(
