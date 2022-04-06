@@ -41,7 +41,7 @@ class YarnSpecificationComponent extends StatefulWidget {
 }
 
 class YarnSpecificationComponentState
-    extends State<YarnSpecificationComponent> {
+    extends State<YarnSpecificationComponent> with AutomaticKeepAliveClientMixin {
   // ValueChanged<Color> callback
   _changeColor(Color color) {
     setState(() {
@@ -2206,5 +2206,8 @@ class YarnSpecificationComponentState
     }
     return widget;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }
