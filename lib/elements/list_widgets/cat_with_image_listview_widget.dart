@@ -65,7 +65,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       name = widget.listItem!.cast<FiberMaterial>()[index].fbmName;
       castingCheckPos = 0;
     } else if (widget.listItem is List<Blends>) {
-      name = widget.listItem!.cast<Blends>()[index].blnName;
+      var blend = widget.listItem!.cast<Blends>()[index];
+      name = blend.bln_abrv ?? blend.blnName;
       castingCheckPos = 1;
     }else if (widget.listItem is List<Family>) {
       name = widget.listItem!.cast<Family>()[index].famName;

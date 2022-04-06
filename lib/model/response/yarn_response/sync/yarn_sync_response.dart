@@ -586,6 +586,7 @@ class Quality {
     required this.yqId,
     required this.familyId,
     required this.yqName,
+    required this.yqAbrv,
     required this.spun_technique_id,
     required this.yqBlendIdfk,
     this.yqDescription,
@@ -597,6 +598,7 @@ class Quality {
   int? yqId;
   String? familyId;
   String? yqName;
+  String? yqAbrv;
   String? spun_technique_id;
   String? yqBlendIdfk;
   String? yqDescription;
@@ -608,6 +610,7 @@ class Quality {
     familyId = json['family_id'];
     spun_technique_id = json['spun_technique_id'];
     yqName = json['yq_name'];
+    yqAbrv = json['yq_abrv'];
     yqBlendIdfk = json['yq_blend_idfk'];
     yqDescription = null;
     yqIsActive = json['yq_is_active'];
@@ -619,6 +622,7 @@ class Quality {
     _data['yq_id'] = yqId;
     _data['family_id'] = familyId;
     _data['yq_name'] = yqName;
+    _data['yq_abrv'] = yqAbrv;
     _data['spun_technique_id'] = spun_technique_id;
     _data['yq_blend_idfk'] = yqBlendIdfk;
     _data['yq_description'] = yqDescription;
@@ -630,7 +634,7 @@ class Quality {
   @override
   String toString() {
     // TODO: implement toString
-    return yqName ?? "";
+    return yqAbrv ?? yqName ?? "";
   }
 }
 

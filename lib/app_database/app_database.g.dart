@@ -224,7 +224,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ply_table` (`plyId` INTEGER, `familyId` TEXT, `plyName` TEXT, `plyDescription` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`plyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `spun_technique_id` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
+            'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `yqAbrv` TEXT, `spun_technique_id` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `spun_technique` (`ystId` INTEGER, `familyId` TEXT, `orientationId` TEXT, `ystName` TEXT, `ystBlendIdfd` TEXT, `ystDescription` TEXT, `ystIsActive` TEXT, `ystSortid` TEXT, PRIMARY KEY (`ystId`))');
         await database.execute(
@@ -3001,6 +3001,7 @@ class _$QualityDao extends QualityDao {
                   'yqId': item.yqId,
                   'familyId': item.familyId,
                   'yqName': item.yqName,
+                  'yqAbrv': item.yqAbrv,
                   'spun_technique_id': item.spun_technique_id,
                   'yqBlendIdfk': item.yqBlendIdfk,
                   'yqDescription': item.yqDescription,
@@ -3023,6 +3024,7 @@ class _$QualityDao extends QualityDao {
             yqId: row['yqId'] as int?,
             familyId: row['familyId'] as String?,
             yqName: row['yqName'] as String?,
+            yqAbrv: row['yqAbrv'] as String?,
             spun_technique_id: row['spun_technique_id'] as String?,
             yqBlendIdfk: row['yqBlendIdfk'] as String?,
             yqDescription: row['yqDescription'] as String?,
@@ -3037,6 +3039,7 @@ class _$QualityDao extends QualityDao {
             yqId: row['yqId'] as int?,
             familyId: row['familyId'] as String?,
             yqName: row['yqName'] as String?,
+            yqAbrv: row['yqAbrv'] as String?,
             spun_technique_id: row['spun_technique_id'] as String?,
             yqBlendIdfk: row['yqBlendIdfk'] as String?,
             yqDescription: row['yqDescription'] as String?,
