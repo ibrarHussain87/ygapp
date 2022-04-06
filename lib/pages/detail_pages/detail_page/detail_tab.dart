@@ -1514,7 +1514,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.specification!.certification!),
     ];
-
+    var newSpecifications = _detailSpecification.toList();
+    _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
     // labParameters = [
     //   GridTileModel(
     //       'Unit Of Count',
@@ -1589,6 +1590,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.specification!.port!));
     }
+    var newPackingDetails = _detailPackaging.toList();
+    _detailPackaging = newPackingDetails.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+
   }
 
   _yarnDetails() {
@@ -1674,6 +1678,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.yarnCertificationStr!
                       .replaceAll(",", "")),*/
         ];
+        var newSpecifications = _detailSpecification.toList();
+        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
         break;
       case '2':
         _detailSpecification = [
@@ -1725,6 +1731,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
+        var newSpecifications = _detailSpecification.toList();
+        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
         break;
       case '3':
         _detailSpecification = [
@@ -1777,6 +1785,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
+        var newSpecifications = _detailSpecification.toList();
+        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
         break;
       case '4':
         _detailSpecification = [
@@ -1819,6 +1829,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnApperance ??
                   Utils.checkNullString(false)),
         ];
+        var newSpecifications = _detailSpecification.toList();
+        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
         break;
       case '5':
         _detailSpecification = [
@@ -1867,6 +1879,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
         ];
+        var newSpecifications = _detailSpecification.toList();
+        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
         break;
     }
 
@@ -1937,6 +1951,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.ys_tm!),
     ];
+    var newLabParams = _labParameters.toList();
+    _labParameters = newLabParams.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
 
     _detailPackaging = [
 
@@ -2011,6 +2027,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.port!));
     }
+    var newPackingDetails = _detailPackaging.toList();
+    _detailPackaging = newPackingDetails.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+
   }
 
   Future<String?> _getUserId() async {
