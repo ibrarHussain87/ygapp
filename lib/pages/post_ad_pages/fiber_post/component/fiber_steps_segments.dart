@@ -36,6 +36,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
   late List<Widget> _samplePages;
 
   final GlobalKey<FiberSpecificationComponentState> _fiberSpecificationState = GlobalKey<FiberSpecificationComponentState>();
+  final GlobalKey<PackagingDetailsState> _packingStateKey = GlobalKey<PackagingDetailsState>();
   final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
 
   // late SyncFiberResponse _syncFiberResponse;
@@ -63,6 +64,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
         },
       ),
       PackagingDetails(
+        key: _packingStateKey,
         // requestModel: _fiberRequestModel,
         locality: widget.locality,
         businessArea: widget.businessArea,
@@ -123,10 +125,33 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                   ),
                 },
                 onValueChanged: (value) {
-                  if(_fiberSpecificationState.currentState!.validationAllPage()){
+                  /*if(_fiberSpecificationState.currentState!.validationAllPage()){
                     _moveToNextPage(value);
                   }else if(_labParameterState.currentState!.validateAndSave()){
                     _moveToNextPage(value);
+                  }*/
+                  switch (value) {
+                    case 1:
+                      if (selectedValue == 2) {
+                        if (_packingStateKey.currentState != null &&
+                            _packingStateKey.currentState!
+                                .validateAndSave()) {
+                          _moveToNextPage(value);
+                        }
+                      }
+                      break;
+                    case 2:
+                      if (selectedValue == 1) {
+                        /*if (_fiberSpecificationState.currentState != null &&
+                            _fiberSpecificationState.currentState!
+                                .validationAllPage()) {
+                          _moveToNextPage(value);
+                        }*/
+                        if(_fiberSpecificationState.currentState != null){
+                          _fiberSpecificationState.currentState!.handleNextClick();
+                        }
+                      }
+                      break;
                   }
                 },
               ),

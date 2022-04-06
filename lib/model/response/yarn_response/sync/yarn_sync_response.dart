@@ -1142,7 +1142,7 @@ class Blends {
   }
   @override
   String toString() {
-    return bln_abrv.toString();
+    return bln_abrv != null ? bln_abrv.toString():blnName.toString();
   }
 }
 

@@ -50,6 +50,7 @@ class FiberSpecificationComponent extends StatefulWidget {
 class FiberSpecificationComponentState
     extends State<FiberSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
@@ -110,6 +111,7 @@ class FiberSpecificationComponentState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
     return FutureBuilder<List<FiberSettings>>(
       future: AppDbInstance.getDbInstance().then((value) async {
@@ -975,25 +977,7 @@ class FiberSpecificationComponentState
                     width: double.maxFinite,
                     child: ElevatedButtonWithIcon(
                       callback: () async {
-                        if (validationAllPage()) {
-                          _createRequestModel!.spc_category_idfk = "1";
-
-                          _createRequestModel!.spc_fiber_material_idfk =
-                              _selectedMaterial.toString();
-                          // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-                          //
-                          // _createRequestModel!.spc_user_idfk = userId;
-
-                          _createRequestModel!.spc_nature_idfk = _fiberMaterialList
-                              .where((element) =>
-                                  element.fbmId == _selectedMaterial)
-                              .toList()
-                              .first
-                              .nature_id
-                              .toString();
-
-                          widget.callback!(1);
-                        }
+                        handleNextClick();
                       },
                       color: btnColorLogin,
                       btnText: "Next",
@@ -1016,6 +1000,28 @@ class FiberSpecificationComponentState
         }
       },
     );
+  }
+
+  void handleNextClick() {
+    if (validationAllPage()) {
+      _createRequestModel!.spc_category_idfk = "1";
+
+      _createRequestModel!.spc_fiber_material_idfk =
+          _selectedMaterial.toString();
+      // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      //
+      // _createRequestModel!.spc_user_idfk = userId;
+
+      _createRequestModel!.spc_nature_idfk = _fiberMaterialList
+          .where((element) =>
+              element.fbmId == _selectedMaterial)
+          .toList()
+          .first
+          .nature_id
+          .toString();
+
+      widget.callback!(1);
+    }
   }
 
   _resetData() {
