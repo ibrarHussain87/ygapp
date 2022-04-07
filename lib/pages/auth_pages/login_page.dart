@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -94,6 +95,11 @@ class _LoginPageState extends State<LoginPage> {
                                 top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
                             child: TextFormField(
                                 keyboardType: TextInputType.text,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
+                                  LengthLimitingTextInputFormatter(
+                                      25),
+                                ],
                                 cursorColor: Colors.black,
                                 onSaved: (input) =>
                                     _loginRequestModel.email = input!,
