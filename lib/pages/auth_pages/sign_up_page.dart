@@ -53,6 +53,13 @@ class _SignUpPageState extends State<SignUpPage> {
   bool hasError = false;
   String currentText = "";
 
+  final usernameFocus = FocusNode();
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
+  final confirmPasswordFocus = FocusNode();
+  final businessAreaFocus = FocusNode();
+  final companyFocus = FocusNode();
+
   void _togglevisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -172,6 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                     keyboardType:
                                                         TextInputType.phone,
                                                     textInputAction: TextInputAction.next,
+                                                    onEditingComplete: () => FocusScope.of(context).requestFocus(usernameFocus),
                                                     inputFormatters: <TextInputFormatter>[
                                                       FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
                                                       LengthLimitingTextInputFormatter(
@@ -247,9 +255,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                  focusNode: usernameFocus,
                                                   keyboardType:
                                                       TextInputType.text,
                                                   textInputAction: TextInputAction.next,
+                                                  onEditingComplete: () => FocusScope.of(context).requestFocus(emailFocus),
                                                   inputFormatters: <TextInputFormatter>[
                                                     FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9])')),
                                                     LengthLimitingTextInputFormatter(
@@ -290,9 +300,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                focusNode: emailFocus,
                                                   keyboardType: TextInputType
                                                       .emailAddress,
                                                   textInputAction: TextInputAction.next,
+                                                  onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocus),
                                                   inputFormatters: <TextInputFormatter>[
                                                     FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
                                                     LengthLimitingTextInputFormatter(
@@ -334,10 +346,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                focusNode: passwordFocus,
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 textInputAction: TextInputAction.next,
+                                                onEditingComplete: () => FocusScope.of(context).requestFocus(confirmPasswordFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     password = input!,
@@ -408,10 +422,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                focusNode: confirmPasswordFocus,
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 textInputAction: TextInputAction.next,
+                                                onEditingComplete: () => FocusScope.of(context).requestFocus(businessAreaFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -485,9 +501,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                focusNode: businessAreaFocus,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 textInputAction: TextInputAction.next,
+                                                onEditingComplete: () => FocusScope.of(context).requestFocus(companyFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -523,6 +541,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
+                                                focusNode: companyFocus,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 textInputAction: TextInputAction.done,
