@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -14,6 +15,9 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+
+import '../../../../helper_utils/navigation_utils.dart';
 
 
 class ListBidderBody extends StatefulWidget {
@@ -174,7 +178,21 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                           child: GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-
+                              FocusScope.of(context).unfocus();
+                              if(widget.listBiddersData.specification is Specification){
+                                var specification = widget.listBiddersData.specification as Specification;
+                                openSpecificationUserScreen(
+                                    context,
+                                    specification.spcId.toString(),
+                                    specification.categoryId.toString());
+                              }else if(widget.listBiddersData.specification is YarnSpecification){
+                                var yarnSpecification = widget.listBiddersData.specification as YarnSpecification;
+                                openSpecificationUserScreen(
+                                    context,
+                                    yarnSpecification.ysId.toString(),
+                                    /*yarnSpecification.category_id.toString()*/
+                                    '2');
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(

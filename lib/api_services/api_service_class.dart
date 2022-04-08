@@ -309,7 +309,7 @@ class ApiService {
       headerMap['Authorization'] = 'Bearer $userToken';
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
-
+      logger.e(data.toString());
       return ListBidResponse.fromJson(
         json.decode(response.body),
       );
