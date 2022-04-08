@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -95,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                                 top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
                             child: TextFormField(
                                 keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.next,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
                                   LengthLimitingTextInputFormatter(
@@ -199,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                                               side: BorderSide(
                                                   color: Colors.transparent)))),
                                   onPressed: () {
+                                    FocusScope.of(context).unfocus();
                                     if (validateAndSave()) {
                                       _loginCall();
                                     }

@@ -171,6 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.phone,
+                                                    textInputAction: TextInputAction.next,
                                                     inputFormatters: <TextInputFormatter>[
                                                       FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
                                                       LengthLimitingTextInputFormatter(
@@ -248,6 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                   keyboardType:
                                                       TextInputType.text,
+                                                  textInputAction: TextInputAction.next,
                                                   inputFormatters: <TextInputFormatter>[
                                                     FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9])')),
                                                     LengthLimitingTextInputFormatter(
@@ -290,6 +292,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                   keyboardType: TextInputType
                                                       .emailAddress,
+                                                  textInputAction: TextInputAction.next,
                                                   inputFormatters: <TextInputFormatter>[
                                                     FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
                                                     LengthLimitingTextInputFormatter(
@@ -334,6 +337,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
+                                                textInputAction: TextInputAction.next,
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     password = input!,
@@ -407,6 +411,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
+                                                textInputAction: TextInputAction.next,
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -482,6 +487,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                 keyboardType:
                                                     TextInputType.text,
+                                                textInputAction: TextInputAction.next,
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -519,6 +525,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               TextFormField(
                                                 keyboardType:
                                                     TextInputType.text,
+                                                textInputAction: TextInputAction.done,
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -610,6 +617,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                     Radius.circular(8)),
                                                 side: BorderSide(color: Colors.transparent)))),
                                     onPressed: () {
+                                      FocusScope.of(context).unfocus();
                                       if (validateAndSave()) {
                                         if (_signupRequestModel
                                                 .telephoneNumber !=
