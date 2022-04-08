@@ -277,26 +277,34 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     /* SizedBox(
                       height: 8.w,
                     ),*/
-                    Text(
-                      'Description',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 6.w,
-                    ),
-                    Text(
-                      widget.specification == null
-                          ? widget.yarnSpecification!.description ??
-                              Utils.checkNullString(false)
-                          : widget.specification!.description ??
-                              Utils.checkNullString(false),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400),
+                    Visibility(
+                      visible: getDescriptionVisibility(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Description',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 6.w,
+                          ),
+                          Text(
+                            widget.specification == null
+                                ? widget.yarnSpecification!.description ??
+                                    Utils.checkNullString(false)
+                                : widget.specification!.description ??
+                                    Utils.checkNullString(false),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
                     ),
                     /*SizedBox(
                       height: 8.w,
@@ -887,6 +895,26 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ),
       ),
     );
+  }
+
+  bool getDescriptionVisibility() {
+    bool visible = true;
+    if(widget.specification == null){
+      var specification = widget.specification as YarnSpecification;
+      if(specification.description == null){
+        visible = false;
+      }else if(specification.description!.isEmpty){
+        visible = false;
+      }
+    }else{
+      var specification = widget.specification as Specification;
+      if(specification.description == null){
+        visible = false;
+      }else if(specification.description!.isEmpty){
+        visible = false;
+      }
+    }
+    return visible;
   }
 
   void showProposalBottomSheet(BuildContext context) {
