@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/Providers/yarn_specifications_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -29,21 +31,23 @@ class YarnSpecificationListFutureState
   void initState() {
     getRequestModel.locality = widget.locality;
     getRequestModel.categoryId = 2.toString();
+    final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context, listen: false);
+    yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context);
     return FutureBuilder<GetYarnSpecificationResponse>(
-      future:
-          ApiService.getYarnSpecifications(getRequestModel, widget.locality),
+      future:yarnSpecificationsProvider.getYarns(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return snapshot.data!.data!=null
               ? YarnListBody(
                   key: yarnListBodyState,
-                  specification: snapshot.data!.data!.specification!)
+                  specification: yarnSpecificationsProvider.yarnSpecificationResponse!.data!.specification!)
               : const Center(
                   child: TitleSmallTextWidget(title: "No Data Found"));
         } else if (snapshot.hasError) {

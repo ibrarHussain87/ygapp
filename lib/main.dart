@@ -14,7 +14,9 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
 
+import 'Providers/fiber_specifications_provider.dart';
 import 'Providers/stocklot_provider.dart';
+import 'Providers/yarn_specifications_provider.dart';
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
@@ -40,6 +42,8 @@ Future init() async {
 class YgApp extends StatelessWidget {
   List<SingleChildWidget> providers = [
     ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
+    ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
+    ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
   ];
   @override
   Widget build(BuildContext context) {

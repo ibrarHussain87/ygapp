@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -19,6 +22,8 @@ import 'package:yg_app/model/response/common_response_models/delievery_period.da
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
+import '../Providers/fiber_specifications_provider.dart';
+import '../Providers/yarn_specifications_provider.dart';
 import '../model/response/fiber_response/fiber_specification.dart';
 import 'alert_dialog.dart';
 import 'app_colors.dart';
@@ -718,7 +723,16 @@ class Utils {
                                       openMyAdsScreen(context);
                                     });
                                   } else {
+                                    log(value.message);
                                     Navigator.pop(context);
+                                    if(specification == null){
+                                      log('yarn s');
+                                      final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context,listen: false);
+                                      yarnSpecificationsProvider.getUpdatedYarnSpecificationsData();
+                                    }else{
+                                      final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context,listen: false);
+                                      fiberSpecificationsProvider.getUpdatedFiberSpecificationsData();
+                                    }
                                   }
                                 } else {
                                   Ui.showSnackBar(context, value.message);
