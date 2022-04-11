@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
 
     return Builder(
       builder: (BuildContext context) {
-        final syncProvider = Provider.of<SyncProvider>(context);
+        final syncProvider = Provider.of<SyncProvider>(context,listen: true);
         syncProvider.syncAppData();
         return syncProvider.isDataSynced ?
         Scaffold(

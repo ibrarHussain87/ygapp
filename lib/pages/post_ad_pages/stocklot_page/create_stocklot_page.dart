@@ -12,6 +12,7 @@ import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
@@ -22,6 +23,7 @@ import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';
 import '../../../helper_utils/app_constants.dart';
+import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/request/stocklot_request/stocklot_request.dart';
 import '../../../model/response/common_response_models/price_term.dart';
@@ -42,24 +44,22 @@ class CreateStockLotPage extends StatefulWidget {
 }
 
 class _CreateStockLotPageState extends State<CreateStockLotPage> {
-  CreateRequestModel? _createRequestModel;
-  final GlobalKey<StockLotStepsSegmentState> _stockLotStepSegment = GlobalKey();
+  // CreateRequestModel? _createRequestModel;
 
   final GlobalKey<StockLotSpecificationBodyState> stockLotSpecificationKey =
       GlobalKey<StockLotSpecificationBodyState>();
   StocklotCategories? stocklotCategories;
-  FPriceTerms? priceTermsModel;
   Countries? countryModel;
-  String? availability = '';
   List<PickedFile> imageFiles = [];
+  final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
+
+  late StocklotProvider stocklotProvider;
 
   @override
   void initState() {
     // TODO: implement initState
-    _createRequestModel = CreateRequestModel();
-    _createRequestModel!.spc_category_idfk = "1";
     super.initState();
-    final stocklotProvider =
+    stocklotProvider =
         Provider.of<StocklotProvider>(context, listen: false);
     stocklotProvider.getStocklotData();
   }
@@ -71,605 +71,551 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   Widget buildStocklotPage() {
     return Builder(builder: (BuildContext buildContext) {
-      final stocklotProvider = Provider.of<StocklotProvider>(buildContext);
+      stocklotProvider = Provider.of<StocklotProvider>(buildContext);
       return stocklotProvider.stocklots!.isNotEmpty
           ? SafeArea(
               child: Scaffold(
-                  body: Provider(
-              create: (_) => _createRequestModel,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
+                  body: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Form(
+                        key: _globalFormKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 8.w,
+                                right: 8.w,
+                                top: 16.w,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const TitleMediumTextWidget(
+                                      title: "Stocklot"),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  IgnorePointer(
+                                    ignoring: stocklotProvider.ignoreClick,
+                                    child: SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
+                                          .stocklots!,
+                                      selectedIndex: 0,
+                                      callback: (StocklotCategories value) {
+                                        if (stocklotProvider
+                                            .stocklotWasteList!.isEmpty) {
+                                          stocklotProvider.getCategories(
+                                              value.id.toString());
+                                        }
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 8.w,
+                                right: 8.w,
+                                top: 10.w,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const TitleMediumTextWidget(
+                                      title: "Category"),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  IgnorePointer(
+                                    ignoring: stocklotProvider.ignoreClick,
+                                    child: SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems:
+                                          stocklotProvider.stocklotCategories!,
+                                      selectedIndex: -1,
+                                      callback: (StocklotCategories value) {
+                                        stocklotProvider.stocklotRequestModel.subcategoryId =
+                                            value.id.toString();
+                                        if (stocklotProvider
+                                            .stocklotWasteList!.isEmpty) {
+                                          stocklotProvider.getSubcategories(
+                                              value.id.toString());
+                                        }
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: 8.w,
+                                  right: 8.w,
+                                  top: 10.w,
+                                  bottom: 8.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const TitleMediumTextWidget(
+                                      title: "Sub Categories"),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  SingleSelectTileWidget(
+                                    spanCount: 3,
+                                    listOfItems:
+                                        stocklotProvider.stocklotSubcategories!,
+                                    selectedIndex: -1,
+                                    callback: (StocklotCategories value) {
+                                      stocklotCategories = value;
+                                      stocklotProvider.getFilteredStocklotWaste(
+                                          value.id ?? -1);
+                                      var list = stocklotProvider
+                                          .stocklotWasteList!
+                                          .where((element) =>
+                                              element.id == value.id.toString())
+                                          .toList();
+                                      var editWasteModel =
+                                          list.isNotEmpty ? list.first : null;
+                                      showStocklotBottomSheet(value,
+                                          stocklotProvider, editWasteModel);
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: stocklotProvider
+                                  .filteredStocklotWasteList!.isNotEmpty,
+                              maintainSize: false,
+                              maintainState: false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.w, left: 8.w, bottom: 6.w),
+                                      child: const TitleMediumTextWidget(
+                                        title: 'Stocklot Waste',
+                                      )),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 8.w, right: 8.w),
+                                    child: SizedBox(
+                                        /*height: 36.w,*/
+                                        child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 4.h,
+                                        ),
+                                        Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.1,
+                                                child: Text(
+                                                  'Sr#',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.25,
+                                                child: Text(
+                                                  'Name',
+                                                  overflow: TextOverflow.fade,
+                                                  maxLines: 1,
+                                                  softWrap: false,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.15,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Price',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.2,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Quantity',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.2,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Unit Count',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.05,
+                                                child: const Visibility(
+                                                  visible: false,
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 6.h,
+                                        ),
+                                        ListView.separated(
+                                          itemCount: stocklotProvider
+                                              .filteredStocklotWasteList!
+                                              .length,
+                                          shrinkWrap: true,
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                      int index) =>
+                                                  const Divider(),
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {},
+                                              child: listItemStocklot(
+                                                  context,
+                                                  stocklotProvider
+                                                          .filteredStocklotWasteList![
+                                                      index],
+                                                  index ==
+                                                      stocklotProvider
+                                                              .filteredStocklotWasteList!
+                                                              .length -
+                                                          1, (value) {
+                                                return stocklotProvider
+                                                    .removeStockWaste(value);
+                                                /*Logger().e('uytr' +
+                                                          value!
+                                                              .toJson()
+                                                              .toString());*/
+                                                if (stocklotCategories !=
+                                                    null) {
+                                                  /*showStocklotBottomSheet(
+                                                            stocklotCategories!,
+                                                            stocklotProvider);*/
+                                                }
+                                              }, index + 1),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12.w, left: 8.w, bottom: 6.w),
+                                    child: TitleMediumTextWidget(
+                                      title: priceTerms,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 8.w,
+                                    right: 8.w,
+                                  ),
+                                  child: SizedBox(
+                                    height: 36.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                            width:
+                                                1, //                   <--- border width here
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(24.w))),
+                                      child: DropdownButtonFormField(
+                                        hint: const Text('Select Price Terms'),
+                                        items: stocklotProvider.priceTermsList!
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(
+                                                      value.ptrName ??
+                                                          Utils.checkNullString(
+                                                              false),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
+                                            .toList(),
+                                        isExpanded: true,
+                                        onChanged: (FPriceTerms? value) {
+                                          stocklotProvider.stocklotRequestModel.priceTermsId = value!.ptrId.toString();
+                                        },
+                                        // validator: (value) => value == null
+                                        //     ? 'field required'
+                                        //     : null,
+                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 16.w,
+                                              right: 6.w,
+                                              top: 0,
+                                              bottom: 0),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: textColorGrey),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.w, left: 8.w, bottom: 6.w),
+                                    child: const TitleMediumTextWidget(
+                                      title: 'Currency',
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 8.w,
+                                    right: 8.w,
+                                  ),
+                                  child: SizedBox(
+                                    height: 36.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                            width:
+                                                1, //                   <--- border width here
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(24.w))),
+                                      child: DropdownButtonFormField(
+                                        hint: const Text('Select Currency'),
+                                        items: stocklotProvider.countryList!
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(
+                                                      value.conCurrency ??
+                                                          Utils.checkNullString(
+                                                              false),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
+                                            .toList(),
+                                        isExpanded: true,
+                                        onChanged: (Countries? value) {
+                                          countryModel = value;
+                                        },
+                                        // validator: (value) => value == null
+                                        //     ? 'field required'
+                                        //     : null,
+                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 16.w,
+                                              right: 6.w,
+                                              top: 0,
+                                              bottom: 0),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: textColorGrey),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.w, left: 8.w, bottom: 6.w),
+                                    child: const TitleMediumTextWidget(
+                                      title: 'Availability',
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 8.w,
+                                    right: 8.w,
+                                  ),
+                                  child: SizedBox(
+                                    height: 36.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                            width:
+                                                1, //                   <--- border width here
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(24.w))),
+                                      child: DropdownButtonFormField(
+                                        hint: const Text('Select Availability'),
+                                        items: /*stocklotProvider.countryList!*/ [
+                                          'Available',
+                                          'Not Available'
+                                        ]
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(
+                                                      /*value.conCurrency*/
+                                                      value,
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
+                                            .toList(),
+                                        isExpanded: true,
+                                        onChanged: (/*Countries?*/
+                                            String? value) {
+                                          stocklotProvider.stocklotRequestModel.availability = value;
+                                        },
+                                        // validator: (value) => value == null
+                                        //     ? 'field required'
+                                        //     : null,
+                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              left: 16.w,
+                                              right: 6.w,
+                                              top: 0,
+                                              bottom: 0),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: textColorGrey),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Visibility(
+                              visible: true,
+                              child: Padding(
                                 padding: EdgeInsets.only(
                                   left: 8.w,
                                   right: 8.w,
                                   top: 16.w,
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    const TitleMediumTextWidget(
-                                        title: "Stocklot"),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    IgnorePointer(
-                                      ignoring: stocklotProvider.ignoreClick,
-                                      child: SingleSelectTileWidget(
-                                        spanCount: 3,
-                                        listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
-                                            .stocklots!,
-                                        selectedIndex: 0,
-                                        callback: (StocklotCategories value) {
-                                          if (stocklotProvider
-                                              .stocklotWasteList!.isEmpty) {
-                                            stocklotProvider.getCategories(
-                                                value.id.toString());
-                                          }
-                                        },
-                                      ),
-                                    )
-                                  ],
+                                child: AddPictureWidget(
+                                  imageCount: 1,
+                                  callbackImages: (value) {
+                                    imageFiles = value;
+                                  },
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                  left: 8.w,
-                                  right: 8.w,
-                                  top: 10.w,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    const TitleMediumTextWidget(
-                                        title: "Category"),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    IgnorePointer(
-                                      ignoring: stocklotProvider.ignoreClick,
-                                      child: SingleSelectTileWidget(
-                                        spanCount: 3,
-                                        listOfItems: stocklotProvider
-                                            .stocklotCategories!,
-                                        selectedIndex: 0,
-                                        callback: (StocklotCategories value) {
-                                          if (stocklotProvider
-                                              .stocklotWasteList!.isEmpty) {
-                                            stocklotProvider.getSubcategories(
-                                                value.id.toString());
-                                          }
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 8.w,
-                                    right: 8.w,
-                                    top: 10.w,
-                                    bottom: 8.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    const TitleMediumTextWidget(
-                                        title: "Subcategories"),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    SingleSelectTileWidget(
-                                      spanCount: 3,
-                                      listOfItems: stocklotProvider
-                                          .stocklotSubcategories!,
-                                      selectedIndex: 0,
-                                      callback: (StocklotCategories value) {
-                                        stocklotCategories = value;
-                                        stocklotProvider
-                                            .getFilteredStocklotWaste(
-                                                value.id ?? -1);
-                                        var list = stocklotProvider
-                                            .stocklotWasteList!
-                                            .where((element) =>
-                                                element.id ==
-                                                value.id.toString())
-                                            .toList();
-                                        /*if (list.isNotEmpty) {
-                                          return;
-                                        }*/
-                                        var editWasteModel =
-                                            list.isNotEmpty ? list.first : null;
-                                        showStocklotBottomSheet(value,
-                                            stocklotProvider, editWasteModel);
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Visibility(
-                                visible: stocklotProvider
-                                    .filteredStocklotWasteList!.isNotEmpty,
-                                maintainSize: false,
-                                maintainState: false,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w, bottom: 6.w),
-                                        child: const TitleMediumTextWidget(
-                                          title: 'Stocklot Waste',
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 8.w, right: 8.w),
-                                      child: SizedBox(
-                                          /*height: 36.w,*/
-                                          child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: 4.h,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.1,
-                                                  child: Text(
-                                                    'Sr#',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.25,
-                                                  child: Text(
-                                                    'Name',
-                                                    overflow: TextOverflow.fade,
-                                                    maxLines: 1,
-                                                    softWrap: false,
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.15,
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Price',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.2,
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Quantity',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.2,
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Unit Count',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                  child: const Visibility(
-                                                    visible: false,
-                                                    child: Icon(
-                                                      Icons.add,
-                                                      size: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 6.h,
-                                          ),
-                                          Container(
-                                            /*decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey.shade300,
-                                                  width:
-                                                  1, //                   <--- border width here
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(24.w))),*/
-                                            child: ListView.separated(
-                                              itemCount: stocklotProvider
-                                                  .filteredStocklotWasteList!
-                                                  .length,
-                                              shrinkWrap: true,
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                          int index) =>
-                                                      const Divider(),
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                return GestureDetector(
-                                                  onTap: () {},
-                                                  child: listItemStocklot(
-                                                      context,
-                                                      stocklotProvider
-                                                              .filteredStocklotWasteList![
-                                                          index],
-                                                      index ==
-                                                          stocklotProvider
-                                                                  .filteredStocklotWasteList!
-                                                                  .length -
-                                                              1, (value) {
-                                                    return stocklotProvider
-                                                        .removeStockWaste(
-                                                            value);
-                                                    /*Logger().e('uytr' +
-                                                        value!
-                                                            .toJson()
-                                                            .toString());*/
-                                                    if (stocklotCategories !=
-                                                        null) {
-                                                      /*showStocklotBottomSheet(
-                                                          stocklotCategories!,
-                                                          stocklotProvider);*/
-                                                    }
-                                                  }, index + 1),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12.w, left: 8.w, bottom: 6.w),
-                                      child: TitleMediumTextWidget(
-                                        title: priceTerms,
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 8.w,
-                                      right: 8.w,
-                                    ),
-                                    child: SizedBox(
-                                      height: 36.w,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                              width:
-                                                  1, //                   <--- border width here
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(24.w))),
-                                        child: DropdownButtonFormField(
-                                          hint:
-                                              const Text('Select Price Terms'),
-                                          items: stocklotProvider
-                                              .priceTermsList!
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                        value.ptrName ??
-                                                            Utils
-                                                                .checkNullString(
-                                                                    false),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
-                                          isExpanded: true,
-                                          onChanged: (FPriceTerms? value) {
-                                            priceTermsModel = value;
-                                          },
-                                          // validator: (value) => value == null
-                                          //     ? 'field required'
-                                          //     : null,
-                                          // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                          decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left: 16.w,
-                                                right: 6.w,
-                                                top: 0,
-                                                bottom: 0),
-                                            border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none),
-                                          ),
-                                          style: TextStyle(
-                                              fontSize: 11.sp,
-                                              color: textColorGrey),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.w, left: 8.w, bottom: 6.w),
-                                      child: const TitleMediumTextWidget(
-                                        title: 'Currency',
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 8.w,
-                                      right: 8.w,
-                                    ),
-                                    child: SizedBox(
-                                      height: 36.w,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                              width:
-                                                  1, //                   <--- border width here
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(24.w))),
-                                        child: DropdownButtonFormField(
-                                          hint: const Text('Select Currency'),
-                                          items: stocklotProvider.countryList!
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                        value.conCurrency ??
-                                                            Utils
-                                                                .checkNullString(
-                                                                    false),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
-                                          isExpanded: true,
-                                          onChanged: (Countries? value) {
-                                            countryModel = value;
-                                          },
-                                          // validator: (value) => value == null
-                                          //     ? 'field required'
-                                          //     : null,
-                                          // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                          decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left: 16.w,
-                                                right: 6.w,
-                                                top: 0,
-                                                bottom: 0),
-                                            border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none),
-                                          ),
-                                          style: TextStyle(
-                                              fontSize: 11.sp,
-                                              color: textColorGrey),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.w, left: 8.w, bottom: 6.w),
-                                      child: const TitleMediumTextWidget(
-                                        title: 'Availability',
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 8.w,
-                                      right: 8.w,
-                                    ),
-                                    child: SizedBox(
-                                      height: 36.w,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                              width:
-                                                  1, //                   <--- border width here
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(24.w))),
-                                        child: DropdownButtonFormField(
-                                          hint:
-                                              const Text('Select Availability'),
-                                          items: /*stocklotProvider.countryList!*/ [
-                                            'Available',
-                                            'Not Available'
-                                          ]
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                        /*value.conCurrency*/
-                                                        value,
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
-                                          isExpanded: true,
-                                          onChanged: (/*Countries?*/String? value) {
-                                            availability = value;
-                                          },
-                                          // validator: (value) => value == null
-                                          //     ? 'field required'
-                                          //     : null,
-                                          // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                          decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left: 16.w,
-                                                right: 6.w,
-                                                top: 0,
-                                                bottom: 0),
-                                            border: const OutlineInputBorder(
-                                                borderSide: BorderSide.none),
-                                          ),
-                                          style: TextStyle(
-                                              fontSize: 11.sp,
-                                              color: textColorGrey),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Visibility(
-                                visible: true,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 8.w,
-                                    right: 8.w,
-                                    top: 16.w,
-                                  ),
-                                  child: AddPictureWidget(
-                                    imageCount: 1,
-                                    callbackImages: (value) {
-                                       imageFiles = value;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Center(
-                        child: ElevatedButtonWithoutIcon(
-                          btnText: "Submit",
-                          textSize: 12.sp,
-                          color: Colors.green,
-                          callback: () {
-                            Fluttertoast.showToast(msg: 'Coming soon...');
-                            if(stocklotProvider.stocklotId == null || stocklotProvider.stocklotId == -1){
-                              Fluttertoast.showToast(msg: 'Please select stocklot');
-                            }else if(stocklotProvider.categoryId == null || stocklotProvider.categoryId == -1){
-                              Fluttertoast.showToast(msg: 'Please select category');
-                            }else if(stocklotProvider.subcategoryId == null || stocklotProvider.subcategoryId == -1){
-                              Fluttertoast.showToast(msg: 'Please select subcategory');
-                            }else if(priceTermsModel == null){
-                              Fluttertoast.showToast(msg: 'Please select price terms');
-                            }else if(countryModel == null){
-                              Fluttertoast.showToast(msg: 'Please select currency');
-                            }else if(availability == ''){
-                              Fluttertoast.showToast(msg: 'Please select availability');
-                            }else if(imageFiles.isEmpty){
-                              Fluttertoast.showToast(msg: 'Please select image');
-                            }else if(stocklotProvider.stocklotWasteList!.isEmpty){
-                              Fluttertoast.showToast(msg: 'Please select stocklot wastes');
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Center(
+                      child: ElevatedButtonWithoutIcon(
+                        btnText: "Submit",
+                        textSize: 12.sp,
+                        color: Colors.green,
+                        callback: () {
+                          if (validateAndSave()) {
+                            stocklotProvider.stocklotRequestModel.spc_category_idfk = "5";
+                            stocklotProvider.stocklotRequestModel.countryId =
+                                countryModel!.conId.toString();
+                            stocklotProvider.stocklotRequestModel.currency =
+                                countryModel!.conCurrency.toString();
+                            stocklotProvider.stocklotRequestModel.stocklotWasteModelList =
+                                stocklotProvider.stocklotWasteList;
+                            stocklotProvider.createStockLot();
+                            if(!stocklotProvider.loading){
+                              ProgressDialogUtil.hideDialog();
                             }else{
-                              var stocklotRequestModel = StocklotRequestModel();
-                              var stocklot = stocklotProvider.
-                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.stocklotId).toList();
-                              var category = stocklotProvider.
-                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.categoryId).toList();
-                              var subcategory = stocklotProvider.
-                              stocklotAllCategories!.where((element) => element.id == stocklotProvider.subcategoryId).toList();
-                              stocklotRequestModel.stocklotId = stocklot.first.id.toString();
-                              stocklotRequestModel.stocklotName = stocklot.first.category.toString();
-                              stocklotRequestModel.categoryId = category.first.id.toString();
-                              stocklotRequestModel.categoryName = category.first.category.toString();
-                              stocklotRequestModel.subcategoryId = subcategory.first.id.toString();
-                              stocklotRequestModel.subcategoryName = subcategory.first.category.toString();
-                              stocklotRequestModel.priceTermsId = priceTermsModel!.ptrId.toString();
-                              stocklotRequestModel.priceTermsName = priceTermsModel!.ptrName.toString();
-                              stocklotRequestModel.countryId = countryModel!.conId.toString();
-                              stocklotRequestModel.currency = countryModel!.conCurrency.toString();
-                              stocklotRequestModel.availability = availability;
-                              stocklotRequestModel.stocklotWasteModelList = stocklotProvider.stocklotWasteList;
-                              Logger().e(stocklotRequestModel.toJson().toString());
+                              ProgressDialogUtil.showDialog(context, "Please wait...");
                             }
-                          },
-                        ),
+
+                          }
+                        },
                       ),
-                    )
-                    /*Expanded(
-                        flex: 7,
-                        child: StockLotStepsSegment(
-                                          key: _stockLotStepSegment,
-                                          businessArea: widget.businessArea,
-                                          locality: widget.locality,
-                                          selectedTab: widget.selectedTab,
-                                          callback: (value) {},
-                                        ),
-                      ),*/
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             )))
           : Container(
@@ -970,5 +916,35 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
             }),
           );
         });
+  }
+
+  bool validateAndSave() {
+    final form = _globalFormKey.currentState;
+
+    if (stocklotProvider.stocklotRequestModel.subcategoryId == null) {
+      Ui.showSnackBar(context, "Please select category");
+      return false;
+    }
+
+    if (stocklotProvider.stocklotRequestModel.stocklotWasteModelList!= null && stocklotProvider.stocklotRequestModel.stocklotWasteModelList!.isEmpty) {
+      Ui.showSnackBar(context, "Please select select sub category");
+      return false;
+    }
+
+    if (stocklotProvider.stocklotRequestModel.priceTermsId == null) {
+      Ui.showSnackBar(context, "Please select price terms");
+      return false;
+    }
+
+    if (stocklotProvider.stocklotRequestModel.availability == null) {
+      Ui.showSnackBar(context, "Please select availability");
+      return false;
+    }
+
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }

@@ -2,11 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 
 import '../app_database/app_database_instance.dart';
+import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/common_response_models/unit_of_count.dart';
 import '../model/response/family_data.dart';
 import '../model/response/sync/sync_response.dart';
@@ -30,6 +32,8 @@ class StocklotProvider extends ChangeNotifier{
   int? stocklotId = -1;
   int? categoryId = -1;
   int? subcategoryId = -1;
+  var stocklotRequestModel = StocklotRequestModel();
+
 
   getStocklotData() async{
     loading = true;
@@ -53,6 +57,24 @@ class StocklotProvider extends ChangeNotifier{
     }
     loading = false;
     notifyListeners();
+  }
+
+
+  createStockLot() async{
+    loading = true;
+    notifyListeners();
+    try{
+      ApiService.createStockLot(stocklotRequestModel, "").then((value) {
+        // if(value.status){
+        loading = false;
+        notifyListeners();
+        // }
+      });
+    }catch(e){
+      loading = false;
+      notifyListeners();
+    }
+
   }
 
   getCategories(String id)async{

@@ -1,38 +1,27 @@
 import 'package:yg_app/model/stocklot_waste_model.dart';
 
 class StocklotRequestModel {
-
-  String? stocklotId;
-  String? stocklotName;
-  String? categoryId;
-  String? categoryName;
+  String? user_id;
+  String? spc_category_idfk;
   String? subcategoryId;
-  String? subcategoryName;
   String? priceTermsId;
-  String? priceTermsName;
   String? countryId;
   String? currency;
   String? availability;
   List<StocklotWasteModel>? stocklotWasteModelList;
 
-  StocklotRequestModel({this.stocklotId, this.stocklotName,this.categoryId, this.categoryName,
-    this.subcategoryId,this.subcategoryName, this.priceTermsId,
-    this.priceTermsName,this.countryId, this.currency,this.availability,this.stocklotWasteModelList,});
+  StocklotRequestModel({this.user_id,this.spc_category_idfk,
+    this.subcategoryId, this.priceTermsId,this.countryId, this.currency,this.availability,this.stocklotWasteModelList,});
 
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = {
-      'stocklot_id': stocklotId!.trim(),
-      'stocklot_name': stocklotName!.trim(),
-      'category_id': categoryId!.trim(),
-      'category_name': categoryName!.trim(),
-      'subcategory_id': subcategoryId!.trim(),
-      'subcategory_name': subcategoryName!.trim(),
-      'priceTerms_id': priceTermsId!.trim(),
-      'priceTerms_name': priceTermsName!.trim(),
+  Map<String, String> toJson() {
+    Map<String, String> map = {
+      'user_id': user_id!.trim(),
+      'spc_category_idfk': spc_category_idfk!.trim(),
+      'sub_category_id': subcategoryId!.trim(),
+      'price_term_id': priceTermsId!.trim(),
       'country_id': countryId!.trim(),
-      'currency': currency!.trim(),
-      'availability': availability!.trim(),
-      'stocklot_waste_model_list': stocklotWasteModelList!.map((e) => e.toJson()).toList(),
+      'avability_id': availability!.trim(),
+      'stocklot_specification_details': stocklotWasteModelList!.map((e) => e.toJson()).toList().toString(),
     };
 
     return map;
