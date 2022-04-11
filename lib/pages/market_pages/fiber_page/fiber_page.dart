@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -138,6 +139,7 @@ class FiberPageState extends State<FiberPage> {
                         padding: const EdgeInsets.only(right: 8),
                         child: Row(
                           children: [
+
                             Expanded(
                               flex: widget.locality==international ? 8: 10,
                               child: OfferingRequirementSegmentComponent(
@@ -166,11 +168,12 @@ class FiberPageState extends State<FiberPage> {
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
-                                child: DropdownButtonFormField(
+                                child:
+                                SearchableDropdown(
+
                                   isExpanded: true,
-                                  decoration: const InputDecoration.collapsed(hintText: ''),
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                  items: _countries
+                                  items:  _countries
                                       .map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
@@ -181,6 +184,11 @@ class FiberPageState extends State<FiberPage> {
                                         value: value,
                                       ))
                                       .toList(),
+                                  isCaseSensitiveSearch: false,
+//                                  searchHint: Text(
+//                                    'Search Country Here',
+//                                    style:TextStyle(fontSize: 11.sp),
+//                                  ),
                                   onChanged: (Countries? value) {
                                     /*_createRequestModel!
                                       .spc_origin_idfk =
@@ -191,6 +199,31 @@ class FiberPageState extends State<FiberPage> {
                                       fontSize: 11.sp,
                                       color: textColorGrey),
                                 ),
+//                                DropdownButtonFormField(
+//                                  isExpanded: true,
+//                                  decoration: const InputDecoration.collapsed(hintText: ''),
+//                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
+//                                  items: _countries
+//                                      .map((value) =>
+//                                      DropdownMenuItem(
+//                                        child: Text(
+//                                            value.conName ??
+//                                                Utils.checkNullString(false),
+//                                            textAlign: TextAlign
+//                                                .center),
+//                                        value: value,
+//                                      ))
+//                                      .toList(),
+//                                  onChanged: (Countries? value) {
+//                                    /*_createRequestModel!
+//                                      .spc_origin_idfk =
+//                                      value!.conId.toString();*/
+//                                    fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
+//                                  },
+//                                  style: TextStyle(
+//                                      fontSize: 11.sp,
+//                                      color: textColorGrey),
+//                                ),
                               ),
                             ),
 

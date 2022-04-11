@@ -54,6 +54,93 @@ InputDecoration textFormFieldDecProfile(String hintLabel,String assetName) {
           borderSide: BorderSide(color: textColorGrey)));
 }
 
+//////////Edit profile
+InputDecoration textFieldProfile(String hintLabel,String title) {
+  return InputDecoration(
+//    labelText: title,
+
+      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style: TextStyle(color: formFieldLabel),),
+          const Text("*", style: TextStyle(color: Colors.red)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      hintText: hintLabel,
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//      prefixIcon: IconButton(
+//        padding: EdgeInsets.all(0.w),
+//        onPressed: (){
+//
+//        },
+//        icon: SvgPicture.asset(
+//          assetName,
+//          color: iconColor,
+//          fit: BoxFit.cover,
+//          height: 16,
+//          width: 16,
+//        ),
+//      ),
+      border: OutlineInputBorder(
+          borderRadius:BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          borderSide: BorderSide(color: newColorGrey)));
+}
+
+InputDecoration dropDownProfile(String hintLabel,String title) {
+  return InputDecoration(
+//    labelText: title,
+      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style: TextStyle(color: formFieldLabel),),
+          const Text("*", style: TextStyle(color: Colors.red)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      hintText: hintLabel,
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+      border: OutlineInputBorder(
+          borderRadius:BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          borderSide: BorderSide(color: newColorGrey)));
+}
+
+
+InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
+  return InputDecoration(
+//    labelText: title,
+
+      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style: TextStyle(color: formFieldLabel),),
+          const Text("*", style: TextStyle(color: Colors.red)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      prefixText: hintLabel,
+      prefixStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color: Colors.black87),
+
+      border: OutlineInputBorder(
+          borderRadius:BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          borderSide: BorderSide(color: newColorGrey)));
+}
+
+//////////////////////////
+
 BoxDecoration getOfferingDec(Color lightBlueTabs) {
   return BoxDecoration(
       color: lightBlueTabs,

@@ -204,12 +204,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const Divider()
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Membership",
-                                            image: ic_membership),
-                                        const Divider()
-                                      ],
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: (){
+                                        openMembershipScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "Membership",
+                                              image: ic_membership),
+                                          const Divider()
+                                        ],
+                                      ),
                                     ),
                                     Column(
                                       children: [

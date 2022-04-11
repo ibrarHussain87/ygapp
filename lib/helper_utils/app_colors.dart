@@ -2,6 +2,26 @@ import 'dart:ui';
 
 var textColorBlue = HexColor.fromHex('#3BC458');
 var textColorGrey = HexColor.fromHex('#5C5C7B');
+
+////
+var newColorGrey = HexColor.fromHex('#C3CCD3');
+var hintColorGrey = HexColor.fromHex('#ced3d7');
+//var hintColorGrey = HexColor.fromHex('#C7CCD2');
+var headingColor = HexColor.fromHex('#2E2F32');
+var subHeadingColor = HexColor.fromHex('#C6C6D0');
+var cardColor = HexColor.fromHex('#2267db');
+var btnTextColor = HexColor.fromHex('#2267DB');
+var unSelectHeadingTextColor = HexColor.fromHex('#0B0914');
+var unSelectBtnTextColor = HexColor.fromHex('#ECF6FF');
+var tabColors = HexColor.fromHex('#25398B');
+var tabBackground = HexColor.fromHex('#D6E1EA');
+var indicatorColor = HexColor.fromHex('#A7B5C2');
+var formFieldLabel = HexColor.fromHex('#728498');
+
+
+//
+
+
 var tileGreyClr = HexColor.fromHex('#DDF1FA');
 var textColorGreyLight = HexColor.fromHex('#A1A8B3');
 var strokeGrey = HexColor.fromHex('#E0E0E0');

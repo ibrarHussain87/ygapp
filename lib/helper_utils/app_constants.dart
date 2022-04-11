@@ -120,6 +120,14 @@ var tm = 'TM';
 var offering = 'Offering';
 var requirement = 'Requiremnet';
 
+//
+var personal = 'Personal Info';
+var business = 'Business Info';
+var brands = 'Brands';
+//
+
+
+
 int YARN_CATEGORY_ID = 2;
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";

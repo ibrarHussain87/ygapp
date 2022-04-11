@@ -39,6 +39,7 @@ class _BannerBodyState extends State<BannerBody> {
     return bannerProvider.bannerData.banners != null
         ? Column(
             children: [
+
               GFCarousel(
                 height: MediaQuery.of(context).size.height / 6,
                 pagination: false,
