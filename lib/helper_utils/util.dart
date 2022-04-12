@@ -451,9 +451,16 @@ class Utils {
     controllerAvailQ.text = specification != null
         ? specification.available ?? ""
         : yarnSpecification!.available ?? "";
-    createRequestModel.ys_id = specification != null
-        ? specification.spcId.toString()
-        : yarnSpecification!.ysId.toString();
+    if(yarnSpecification != null){
+      createRequestModel.ys_id = specification != null
+          ? specification.spcId.toString()
+          : yarnSpecification!.ysId.toString();
+    }
+    if(specification != null){
+      createRequestModel.spc_id = specification != null
+          ? specification.spcId.toString()
+          : yarnSpecification!.ysId.toString();
+    }
     createRequestModel.fbp_price = controllerUpdatePrice.text.toString();
     createRequestModel.spc_category_idfk = specification != null ? "1" : "2";
 
@@ -704,6 +711,7 @@ class Utils {
                                 context,
                                 StylishDialogType.WARNING,
                                 "Confirm", () {
+                                  Logger().e(createRequestModel.toJson().toString());
                               ProgressDialogUtil.showDialog(
                                   context, "Please wait..");
                               ApiService.createSpecification(
@@ -711,6 +719,7 @@ class Utils {
                                   .then((value) {
                                 ProgressDialogUtil.hideDialog();
                                 if (value.status) {
+                                  Logger().e(value.toJson().toString());
                                   // Fluttertoast.showToast(msg: value.message);
                                   if (value.responseCode == 205) {
                                     showGenericDialog(
