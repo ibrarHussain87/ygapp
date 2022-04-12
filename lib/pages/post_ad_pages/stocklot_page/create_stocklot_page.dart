@@ -59,8 +59,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    stocklotProvider =
-        Provider.of<StocklotProvider>(context, listen: false);
+    stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
     stocklotProvider.getStocklotData();
   }
 
@@ -146,7 +145,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           stocklotProvider.stocklotCategories!,
                                       selectedIndex: -1,
                                       callback: (StocklotCategories value) {
-                                        stocklotProvider.stocklotRequestModel.subcategoryId =
+                                        stocklotProvider.stocklotRequestModel
+                                                .subcategoryId =
                                             value.id.toString();
                                         if (stocklotProvider
                                             .stocklotWasteList!.isEmpty) {
@@ -203,172 +203,88 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   .filteredStocklotWasteList!.isNotEmpty,
                               maintainSize: false,
                               maintainState: false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.w, left: 8.w, bottom: 6.w),
-                                      child: const TitleMediumTextWidget(
-                                        title: 'Stocklot Waste',
-                                      )),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 8.w, right: 8.w),
-                                    child: SizedBox(
-                                        /*height: 36.w,*/
-                                        child: Column(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 8.w, right: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(6))),
+                                child: SizedBox(
+                                    /*height: 36.w,*/
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        SizedBox(
-                                          height: 4.h,
-                                        ),
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.1,
-                                                child: Text(
-                                                  'Sr#',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.25,
-                                                child: Text(
-                                                  'Name',
-                                                  overflow: TextOverflow.fade,
-                                                  maxLines: 1,
-                                                  softWrap: false,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.15,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Price',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.2,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Quantity',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.2,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Unit Count',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.05,
-                                                child: const Visibility(
-                                                  visible: false,
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    size: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 8.w,
+                                                left: 8.w,
+                                                bottom: 6.w),
+                                            child: const TitleMediumTextWidget(
+                                              title: 'Stocklot Waste',
+                                            )),
+                                        GestureDetector(
+                                          onTap: (){
+                                            stocklotProvider.changeExpandStockLostWast();
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 4,right: 6,bottom: 4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.green.shade700
+                                                  .withOpacity(0.1),
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              stocklotProvider.expandStockLostWast ? Icons.keyboard_arrow_up_outlined :Icons.keyboard_arrow_down_outlined,
+                                              size: 24,
+                                              color: Colors.green,
+                                            ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 6.h,
-                                        ),
-                                        ListView.separated(
-                                          itemCount: stocklotProvider
-                                              .filteredStocklotWasteList!
-                                              .length,
-                                          shrinkWrap: true,
-                                          separatorBuilder:
-                                              (BuildContext context,
-                                                      int index) =>
-                                                  const Divider(),
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {},
-                                              child: listItemStocklot(
-                                                  context,
-                                                  stocklotProvider
-                                                          .filteredStocklotWasteList![
-                                                      index],
-                                                  index ==
-                                                      stocklotProvider
-                                                              .filteredStocklotWasteList!
-                                                              .length -
-                                                          1, (value) {
-                                                return stocklotProvider
-                                                    .removeStockWaste(value);
-                                                /*Logger().e('uytr' +
-                                                          value!
-                                                              .toJson()
-                                                              .toString());*/
-                                                if (stocklotCategories !=
-                                                    null) {
-                                                  /*showStocklotBottomSheet(
-                                                            stocklotCategories!,
-                                                            stocklotProvider);*/
-                                                }
-                                              }, index + 1),
-                                            );
-                                          },
-                                        ),
                                       ],
-                                    )),
-                                  ),
-                                ],
+                                    ),
+                                    Visibility(
+                                      visible: stocklotProvider.expandStockLostWast,
+                                      child: Column(
+                                        children: [
+                                          Divider(),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.only(left: 4,right: 4,bottom: 8),
+                                            child: ListView.separated(
+                                              itemCount: stocklotProvider
+                                                  .filteredStocklotWasteList!.length,
+                                              shrinkWrap: true,
+                                              separatorBuilder:
+                                                  (BuildContext context, int index) =>
+                                              const Divider(),
+                                              itemBuilder: (context, index) {
+                                                return ListItemStockLot(
+                                                    stocklotWaste: stocklotProvider
+                                                        .filteredStocklotWasteList![
+                                                    index],
+                                                    addMore: index ==
+                                                        stocklotProvider
+                                                            .filteredStocklotWasteList!
+                                                            .length -
+                                                            1,
+                                                    callback: (value) {
+                                                      stocklotProvider
+                                                          .removeStockWaste(value);
+                                                    },
+                                                    i: index + 1);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
                               ),
                             ),
                             Column(
@@ -411,7 +327,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             .toList(),
                                         isExpanded: true,
                                         onChanged: (FPriceTerms? value) {
-                                          stocklotProvider.stocklotRequestModel.priceTermsId = value!.ptrId.toString();
+                                          stocklotProvider.stocklotRequestModel
+                                                  .priceTermsId =
+                                              value!.ptrId.toString();
                                         },
                                         // validator: (value) => value == null
                                         //     ? 'field required'
@@ -542,7 +460,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         isExpanded: true,
                                         onChanged: (/*Countries?*/
                                             String? value) {
-                                          stocklotProvider.stocklotRequestModel.availability = value;
+                                          stocklotProvider.stocklotRequestModel
+                                              .availability = value;
                                         },
                                         // validator: (value) => value == null
                                         //     ? 'field required'
@@ -596,20 +515,22 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                         color: Colors.green,
                         callback: () {
                           if (validateAndSave()) {
-                            stocklotProvider.stocklotRequestModel.spc_category_idfk = "5";
+                            stocklotProvider
+                                .stocklotRequestModel.spc_category_idfk = "5";
                             stocklotProvider.stocklotRequestModel.countryId =
                                 countryModel!.conId.toString();
                             stocklotProvider.stocklotRequestModel.currency =
                                 countryModel!.conCurrency.toString();
-                            stocklotProvider.stocklotRequestModel.stocklotWasteModelList =
+                            stocklotProvider.stocklotRequestModel
+                                    .stocklotWasteModelList =
                                 stocklotProvider.stocklotWasteList;
                             stocklotProvider.createStockLot();
-                            if(!stocklotProvider.loading){
+                            if (!stocklotProvider.loading) {
                               ProgressDialogUtil.hideDialog();
-                            }else{
-                              ProgressDialogUtil.showDialog(context, "Please wait...");
+                            } else {
+                              ProgressDialogUtil.showDialog(
+                                  context, "Please wait...");
                             }
-
                           }
                         },
                       ),
@@ -926,7 +847,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
-    if (stocklotProvider.stocklotRequestModel.stocklotWasteModelList!= null && stocklotProvider.stocklotRequestModel.stocklotWasteModelList!.isEmpty) {
+    if (stocklotProvider.stocklotRequestModel.stocklotWasteModelList != null &&
+        stocklotProvider.stocklotRequestModel.stocklotWasteModelList!.isEmpty) {
       Ui.showSnackBar(context, "Please select select sub category");
       return false;
     }

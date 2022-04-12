@@ -24,14 +24,15 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
-import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:yg_app/model/stocklot_waste_model.dart';
 
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
+import '../model/response/spec_user_response.dart';
 import '../model/response/sync/sync_response.dart';
-
+import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
@@ -297,21 +298,22 @@ class ApiService {
 
   static Future<CreateFiberResponse> createStockLot(
       StocklotRequestModel createRequestModel, String imagePath) async {
-    //for multipart Request
+
+    // //for multipart Request
     try {
       var request = http.MultipartRequest(
           'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      createRequestModel.user_id = userId.toString();
+      request = jsonToFormData(request, createRequestModel.toJson());
       request.headers.addAll(
           {"Accept": "application/json", "Authorization": "Bearer $userToken"});
       if (imagePath.isNotEmpty) {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
       }
-      createRequestModel.user_id = userId.toString();
-      request.fields.addAll(createRequestModel.toJson());
       logger.e(createRequestModel.toJson());
       var response = await request.send();
       var responsed = await http.Response.fromStream(response);
@@ -327,6 +329,13 @@ class ApiService {
         throw ("Something went wrong");
       }
     }
+  }
+
+  static jsonToFormData(http.MultipartRequest request, Map<String, dynamic> data) {
+    for (var key in data.keys) {
+      request.fields[key] = data[key].toString();
+    }
+    return request;
   }
 
   static Future<ListBidResponse> getListBidders(

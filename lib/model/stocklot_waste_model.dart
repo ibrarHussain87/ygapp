@@ -13,7 +13,7 @@ class StocklotWasteModel {
     Map<String, dynamic> map = {
       'category_id': id!.trim(),
       'description': description!.trim(),
-      'name': name!.trim(),
+      // 'name': name!.trim(),
       'quantity': quantity!.trim(),
       'unit_id': unitOfCount!.trim(),
       'price': price!.trim(),

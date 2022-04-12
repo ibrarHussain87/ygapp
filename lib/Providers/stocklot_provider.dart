@@ -32,6 +32,7 @@ class StocklotProvider extends ChangeNotifier{
   int? stocklotId = -1;
   int? categoryId = -1;
   int? subcategoryId = -1;
+  bool expandStockLostWast = true;
   var stocklotRequestModel = StocklotRequestModel();
 
 
@@ -61,12 +62,12 @@ class StocklotProvider extends ChangeNotifier{
 
 
   createStockLot() async{
-    loading = true;
-    notifyListeners();
+    // loading = true;
+    // notifyListeners();
     try{
       ApiService.createStockLot(stocklotRequestModel, "").then((value) {
         // if(value.status){
-        loading = false;
+        // loading = false;
         notifyListeners();
         // }
       });
@@ -75,6 +76,16 @@ class StocklotProvider extends ChangeNotifier{
       notifyListeners();
     }
 
+  }
+
+  void changeExpandStockLostWast(){
+    if(expandStockLostWast){
+      expandStockLostWast = false;
+      notifyListeners();
+    }else{
+      expandStockLostWast = true;
+      notifyListeners();
+    }
   }
 
   getCategories(String id)async{
