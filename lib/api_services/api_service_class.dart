@@ -28,11 +28,13 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 
+import '../model/response/create_stocklot_response.dart';
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
 import '../model/response/spec_user_response.dart';
 import '../model/response/sync/sync_response.dart';
 import 'package:dio/dio.dart' as dio;
+
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
@@ -296,30 +298,47 @@ class ApiService {
     }
   }
 
-  static Future<CreateFiberResponse> createStockLot(
-      StocklotRequestModel createRequestModel, String imagePath) async {
-
+  static Future<CreateStockLotResponse?> createStockLot(
+      StocklotRequestModel stocklotRequestModel, String imagePath) async {
     // //for multipart Request
     try {
-      var request = http.MultipartRequest(
-          'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-      createRequestModel.user_id = userId.toString();
-      request = jsonToFormData(request, createRequestModel.toJson());
-      request.headers.addAll(
-          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
-      if (imagePath.isNotEmpty) {
-        request.files
-            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
-      }
-      logger.e(createRequestModel.toJson());
-      var response = await request.send();
-      var responsed = await http.Response.fromStream(response);
-      logger.e(json.decode(responsed.body));
+      stocklotRequestModel.user_id = userId.toString();
+      try {
+        ///[1] CREATING INSTANCE
+        var dioRequest = dio.Dio();
+        dioRequest.options.baseUrl = BASE_API_URL;
 
-      return CreateFiberResponse.fromJson(json.decode(responsed.body));
+        //[2] ADDING TOKEN
+        dioRequest.options.headers = {
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        };
+
+        //[3] ADDING EXTRA INFO
+        var formData = dio.FormData.fromMap(stocklotRequestModel.toJson());
+
+        //[4] ADD IMAGE TO UPLOAD
+        // var file = await dio.MultipartFile.fromFile(imagePath,
+        //     filename: basename(imagePath),
+        //     contentType: MediaType("image", basename(imagePath)));
+        //
+        // formData.files.add(MapEntry('fpc_picture[]', file));
+
+        //[5] SEND TO SERVER
+        var response = await dioRequest.post(
+          CREATE_END_POINT,
+          data: formData,
+        );
+        final result = json.decode(response.toString());
+        return CreateStockLotResponse.fromJson(result);
+
+      } catch (err) {
+        throw (err.toString());
+      }
+
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -331,7 +350,8 @@ class ApiService {
     }
   }
 
-  static jsonToFormData(http.MultipartRequest request, Map<String, dynamic> data) {
+  static jsonToFormData(
+      http.MultipartRequest request, Map<String, dynamic> data) {
     for (var key in data.keys) {
       request.fields[key] = data[key].toString();
     }

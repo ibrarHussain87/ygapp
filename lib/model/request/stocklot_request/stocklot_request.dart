@@ -28,4 +28,5 @@ class StocklotRequestModel {
 
     return map;
   }
+
 }

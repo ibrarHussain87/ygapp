@@ -228,18 +228,25 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               title: 'Stocklot Waste',
                                             )),
                                         GestureDetector(
-                                          onTap: (){
-                                            stocklotProvider.changeExpandStockLostWast();
+                                          onTap: () {
+                                            stocklotProvider
+                                                .changeExpandStockLostWast();
                                           },
                                           child: Container(
-                                            margin: EdgeInsets.only(top: 4,right: 6,bottom: 4),
+                                            margin: EdgeInsets.only(
+                                                top: 4, right: 6, bottom: 4),
                                             decoration: BoxDecoration(
                                               color: Colors.green.shade700
                                                   .withOpacity(0.1),
                                               shape: BoxShape.circle,
                                             ),
                                             child: Icon(
-                                              stocklotProvider.expandStockLostWast ? Icons.keyboard_arrow_up_outlined :Icons.keyboard_arrow_down_outlined,
+                                              stocklotProvider
+                                                      .expandStockLostWast
+                                                  ? Icons
+                                                      .keyboard_arrow_up_outlined
+                                                  : Icons
+                                                      .keyboard_arrow_down_outlined,
                                               size: 24,
                                               color: Colors.green,
                                             ),
@@ -248,33 +255,37 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       ],
                                     ),
                                     Visibility(
-                                      visible: stocklotProvider.expandStockLostWast,
+                                      visible:
+                                          stocklotProvider.expandStockLostWast,
                                       child: Column(
                                         children: [
                                           Divider(),
                                           Padding(
-                                            padding:
-                                            const EdgeInsets.only(left: 4,right: 4,bottom: 8),
+                                            padding: const EdgeInsets.only(
+                                                left: 4, right: 4, bottom: 8),
                                             child: ListView.separated(
                                               itemCount: stocklotProvider
-                                                  .filteredStocklotWasteList!.length,
+                                                  .filteredStocklotWasteList!
+                                                  .length,
                                               shrinkWrap: true,
                                               separatorBuilder:
-                                                  (BuildContext context, int index) =>
-                                              const Divider(),
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      const Divider(),
                                               itemBuilder: (context, index) {
                                                 return ListItemStockLot(
                                                     stocklotWaste: stocklotProvider
-                                                        .filteredStocklotWasteList![
-                                                    index],
+                                                            .filteredStocklotWasteList![
+                                                        index],
                                                     addMore: index ==
                                                         stocklotProvider
-                                                            .filteredStocklotWasteList!
-                                                            .length -
+                                                                .filteredStocklotWasteList!
+                                                                .length -
                                                             1,
                                                     callback: (value) {
                                                       stocklotProvider
-                                                          .removeStockWaste(value);
+                                                          .removeStockWaste(
+                                                              value);
                                                     },
                                                     i: index + 1);
                                               },
@@ -524,13 +535,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                             stocklotProvider.stocklotRequestModel
                                     .stocklotWasteModelList =
                                 stocklotProvider.stocklotWasteList;
-                            stocklotProvider.createStockLot();
-                            if (!stocklotProvider.loading) {
-                              ProgressDialogUtil.hideDialog();
-                            } else {
-                              ProgressDialogUtil.showDialog(
-                                  context, "Please wait...");
-                            }
+                            stocklotProvider.createStockLot(context);
                           }
                         },
                       ),
