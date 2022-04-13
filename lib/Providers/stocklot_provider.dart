@@ -17,11 +17,13 @@ import '../model/response/family_data.dart';
 import '../model/stocklot_waste_model.dart';
 
 class StocklotProvider extends ChangeNotifier {
-
   //Keys
-  final GlobalKey<SingleSelectTileWidgetState> stocklotKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> categoryKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> subCategoryKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> stocklotKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> categoryKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
+      GlobalKey<SingleSelectTileWidgetState>();
 
   List<StocklotCategories>? stocklotAllCategories = [];
   List<StocklotCategories>? stocklots = [];
@@ -62,8 +64,7 @@ class StocklotProvider extends ChangeNotifier {
         .toList();
     stocklotAllSubcategories = await dbInstance.stocklotDao.findAllStocklots();
     unitsList = await dbInstance.unitDao.findAllUnit();
-    priceTermsList =
-        await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
+    priceTermsList = await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
     availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
@@ -174,7 +175,6 @@ class StocklotProvider extends ChangeNotifier {
   }
 
   resetData() {
-
     if (stocklotKey.currentState != null) {
       stocklotKey.currentState!.checkedTile = 0;
     }

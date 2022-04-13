@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/Providers/stocklot_provider.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
@@ -527,16 +529,25 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                         color: Colors.green,
                         callback: () {
                           if (validateAndSave()) {
-                            stocklotProvider
-                                .stocklotRequestModel.spc_category_idfk = "5";
-                            stocklotProvider.stocklotRequestModel.isOffering =
-                                widget.businessArea;
-                            stocklotProvider.stocklotRequestModel.locality =
-                                widget.locality;
-                            stocklotProvider.stocklotRequestModel
-                                    .stocklotWasteModelList =
-                                stocklotProvider.stocklotWasteList;
-                            stocklotProvider.createStockLot(context);
+                            showGenericDialog(
+                              '',
+                              "Are you sure, you want to submit?",
+                              context,
+                              StylishDialogType.WARNING,
+                              'Yes',
+                              () {
+                                stocklotProvider.stocklotRequestModel
+                                    .spc_category_idfk = "5";
+                                stocklotProvider.stocklotRequestModel
+                                    .isOffering = widget.selectedTab;
+                                stocklotProvider.stocklotRequestModel.locality =
+                                    widget.locality;
+                                stocklotProvider.stocklotRequestModel
+                                        .stocklotWasteModelList =
+                                    stocklotProvider.stocklotWasteList;
+                                stocklotProvider.createStockLot(context);
+                              },
+                            );
                           }
                         },
                       ),
@@ -546,7 +557,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
               ),
             )))
           : Container(
-              color: Colors.transparent,
+              color: Colors.white,
               height: 100,
             );
     });
@@ -853,9 +864,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
-    if (stocklotProvider
-        .filteredStocklotWasteList!
-        .isEmpty) {
+    if (stocklotProvider.filteredStocklotWasteList!.isEmpty) {
       Ui.showSnackBar(context, "Please select select sub category");
       return false;
     }

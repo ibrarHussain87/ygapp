@@ -163,7 +163,6 @@ class FiberPageState extends State<FiberPage> {
                                 ),
                               ),
                             ),
-
                             Visibility(
                               visible: false,
                               child: Center(
