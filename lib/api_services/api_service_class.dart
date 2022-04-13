@@ -39,9 +39,8 @@ import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
-  static String BASE_URL = "http://yarnonline.net/dev/public/";
+  static String BASE_URL = "http://yarnonline.net/staging/public/";
   // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
-  static String BASE_API_URL_STAGING = "http://yarnonline.net/staging/public/api";
   static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
@@ -238,7 +237,7 @@ class ApiService {
       var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
-      String url = BASE_API_URL_STAGING + SYNC_END_POINT;
+      String url = BASE_API_URL + SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
 
@@ -727,42 +726,42 @@ class ApiService {
     }
   }
 
-// static Future<dynamic> specificationRequest(
-//     String specId, String catId) async {
-//   try {
-//     var userToken =
-//     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-//     headerMap['Authorization'] = 'Bearer $userToken';
-//     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-//     Map<String, dynamic> data = {
-//       "user_id": userID.toString(),
-//       "specification_id": specId,
-//       "category_id": catId
-//     };
-//     String url = BASE_API_URL + "/copy_spec";
-//
-//     final response =
-//     await http.post(Uri.parse(url), headers: headerMap, body: data);
-//
-//     if(catId == "1"){
-//       return FiberSpecificationResponse.fromJson(
-//         json.decode(response.body),
-//       );
-//     }else{
-//       return GetYarnSpecificationResponse.fromJson(
-//         json.decode(response.body),
-//       );
-//     }
-//
-//
-//   } catch (e) {
-//     if (e is SocketException) {
-//       throw (no_internet_available_msg);
-//     } else if (e is TimeoutException) {
-//       throw (e.toString());
-//     } else {
-//       throw ("Something went wrong");
-//     }
-//   }
-// }
+  // static Future<dynamic> specificationRequest(
+  //     String specId, String catId) async {
+  //   try {
+  //     var userToken =
+  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+  //     headerMap['Authorization'] = 'Bearer $userToken';
+  //     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  //     Map<String, dynamic> data = {
+  //       "user_id": userID.toString(),
+  //       "specification_id": specId,
+  //       "category_id": catId
+  //     };
+  //     String url = BASE_API_URL + "/copy_spec";
+  //
+  //     final response =
+  //     await http.post(Uri.parse(url), headers: headerMap, body: data);
+  //
+  //     if(catId == "1"){
+  //       return FiberSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }else{
+  //       return GetYarnSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }
+  //
+  //
+  //   } catch (e) {
+  //     if (e is SocketException) {
+  //       throw (no_internet_available_msg);
+  //     } else if (e is TimeoutException) {
+  //       throw (e.toString());
+  //     } else {
+  //       throw ("Something went wrong");
+  //     }
+  //   }
+  // }
 }

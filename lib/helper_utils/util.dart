@@ -454,7 +454,7 @@ class Utils {
     if(yarnSpecification != null){
       createRequestModel.ys_id = specification != null
           ? specification.spcId.toString()
-          : yarnSpecification!.ysId.toString();
+          : yarnSpecification.ysId.toString();
     }
     if(specification != null){
       createRequestModel.spc_id = specification != null
