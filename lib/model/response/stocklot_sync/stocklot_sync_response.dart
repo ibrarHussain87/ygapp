@@ -1,29 +1,31 @@
-
-
 import 'package:floor/floor.dart';
+import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
+import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/common_response_models/price_term.dart';
 
 import '../common_response_models/city_state_response.dart';
 import '../common_response_models/countries_response.dart';
 import '../common_response_models/delievery_period.dart';
 import '../common_response_models/unit_of_count.dart';
 
-class SyncResponse {
+class StockLotSyncResponse {
   bool? status;
   int? responseCode;
   Data? data;
   String? message;
 
-  SyncResponse({this.status, this.responseCode, this.data, this.message});
+  StockLotSyncResponse(
+      {this.status, this.responseCode, this.data, this.message});
 
-  SyncResponse.fromJson(Map<String, dynamic> json) {
+  StockLotSyncResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['response_code'] = this.responseCode;
     if (this.data != null) {
@@ -40,13 +42,12 @@ class Data {
   Data({this.stocklot});
 
   Data.fromJson(Map<String, dynamic> json) {
-    stocklot = json['stocklot'] != null
-        ? new Stocklot.fromJson(json['stocklot'])
-        : null;
+    stocklot =
+        json['stocklot'] != null ? Stocklot.fromJson(json['stocklot']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.stocklot != null) {
       data['stocklot'] = this.stocklot!.toJson();
     }
@@ -59,82 +60,92 @@ class Stocklot {
   List<Stocklots>? stocklots;
   List<Countries>? countries;
   List<CityState>? cityState;
-  List<PriceTerms>? priceTerms;
-  List<LcTypes>? lcTypes;
-  List<PaymentTypes>? paymentTypes;
+  List<FPriceTerms>? priceTerms;
+  List<LcType>? lcTypes;
+  List<AvailabilityModel>? availabilityList;
+  List<PaymentType>? paymentTypes;
   List<Units>? units;
   List<DeliveryPeriod>? deliveryPeriod;
 
   Stocklot(
       {this.stocklotCategories,
-        this.stocklots,
-        this.countries,
-        this.cityState,
-        this.priceTerms,
-        this.lcTypes,
-        this.paymentTypes,
-        this.units,
-        this.deliveryPeriod});
+      this.stocklots,
+      this.countries,
+      this.cityState,
+      this.priceTerms,
+      this.lcTypes,
+      this.availabilityList,
+      this.paymentTypes,
+      this.units,
+      this.deliveryPeriod});
 
   Stocklot.fromJson(Map<String, dynamic> json) {
     if (json['Stocklot_categories'] != null) {
       stocklotCategories = <StocklotCategories>[];
       json['Stocklot_categories'].forEach((v) {
-        stocklotCategories!.add(new StocklotCategories.fromJson(v));
+        stocklotCategories!.add(StocklotCategories.fromJson(v));
       });
     }
     if (json['stocklots'] != null) {
       stocklots = <Stocklots>[];
       json['stocklots'].forEach((v) {
-        stocklots!.add(new Stocklots.fromJson(v));
+        stocklots!.add(Stocklots.fromJson(v));
       });
     }
     if (json['countries'] != null) {
       countries = <Countries>[];
       json['countries'].forEach((v) {
-        countries!.add(new Countries.fromJson(v));
+        countries!.add(Countries.fromJson(v));
       });
     }
     if (json['city_state'] != null) {
       cityState = <CityState>[];
       json['city_state'].forEach((v) {
-        cityState!.add(new CityState.fromJson(v));
+        cityState!.add(CityState.fromJson(v));
       });
     }
     if (json['price_terms'] != null) {
-      priceTerms = <PriceTerms>[];
+      priceTerms = <FPriceTerms>[];
       json['price_terms'].forEach((v) {
-        priceTerms!.add(new PriceTerms.fromJson(v));
+        priceTerms!.add(FPriceTerms.fromJson(v));
       });
     }
     if (json['lc_types'] != null) {
-      lcTypes = <LcTypes>[];
+      lcTypes = <LcType>[];
       json['lc_types'].forEach((v) {
-        lcTypes!.add(new LcTypes.fromJson(v));
+        lcTypes!.add(LcType.fromJson(v));
       });
     }
+
+    if (json['availablity'] != null) {
+      availabilityList = <AvailabilityModel>[];
+      json['availablity'].forEach((v) {
+        availabilityList!.add(AvailabilityModel.fromJson(v));
+      });
+    }
+
     if (json['payment_types'] != null) {
-      paymentTypes = <PaymentTypes>[];
+      paymentTypes = <PaymentType>[];
       json['payment_types'].forEach((v) {
-        paymentTypes!.add(new PaymentTypes.fromJson(v));
+        paymentTypes!.add(PaymentType.fromJson(v));
       });
     }
     if (json['units'] != null) {
       units = <Units>[];
       json['units'].forEach((v) {
-        units!.add(new Units.fromJson(v));
+        units!.add(Units.fromJson(v));
       });
     }
     if (json['delivery_period'] != null) {
       deliveryPeriod = <DeliveryPeriod>[];
       json['delivery_period'].forEach((v) {
-        deliveryPeriod!.add(new DeliveryPeriod.fromJson(v));
+        deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.stocklotCategories != null) {
       data['Stocklot_categories'] =
           this.stocklotCategories!.map((v) => v.toJson()).toList();
@@ -168,6 +179,7 @@ class Stocklot {
     return data;
   }
 }
+
 @Entity(tableName: 'stocklot_categories_table')
 class StocklotCategories {
   @PrimaryKey(autoGenerate: false)
@@ -190,7 +202,7 @@ class StocklotCategories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['parent_id'] = this.parentId;
     data['category'] = this.category;
@@ -201,9 +213,10 @@ class StocklotCategories {
 
   @override
   String toString() {
-    return category??"";
+    return category ?? "";
   }
 }
+
 @Entity(tableName: 'stocklots_table')
 class Stocklots {
   @PrimaryKey(autoGenerate: false)
@@ -217,11 +230,11 @@ class Stocklots {
 
   Stocklots(
       {this.id,
-        this.categoryId,
-        this.parentId,
-        this.name,
-        this.isActive,
-        this.sortid});
+      this.categoryId,
+      this.parentId,
+      this.name,
+      this.isActive,
+      this.sortid});
 
   Stocklots.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -233,7 +246,7 @@ class Stocklots {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['category_id'] = this.categoryId;
     data['parent_id'] = this.parentId;
@@ -245,54 +258,66 @@ class Stocklots {
 
   @override
   String toString() {
-    return name??"";
+    return name ?? "";
   }
 }
 
-/*class Countries {
-  int? conId;
-  String? conName;
-  String? conIsoCode2;
-  String? conIsoCode3;
-  String? conCurrency;
-  String? conAddressFormat;
-  String? conPostcodeRequired;
-  String? conIsActive;
+@Entity(tableName: 'availability_table')
+class AvailabilityModel {
+  @PrimaryKey(autoGenerate: false)
+  int? afm_id;
+  String? afm_category_idfk;
+  String? afm_port_idfk;
+  String? afm_name;
+  String? afm_is_active;
+  String? afm_sortid;
+  String? created_at;
+  String? updated_at;
+  String? deleted_at;
 
-  Countries(
-      {this.conId,
-        this.conName,
-        this.conIsoCode2,
-        this.conIsoCode3,
-        this.conCurrency,
-        this.conAddressFormat,
-        this.conPostcodeRequired,
-        this.conIsActive});
+  AvailabilityModel(
+      {this.afm_id,
+        this.afm_category_idfk,
+        this.afm_port_idfk,
+        this.afm_name,
+        this.afm_is_active,
+        this.afm_sortid,
+        this.created_at,
+        this.updated_at,
+        this.deleted_at});
 
-  Countries.fromJson(Map<String, dynamic> json) {
-    conId = json['con_id'];
-    conName = json['con_name'];
-    conIsoCode2 = json['con_iso_code_2'];
-    conIsoCode3 = json['con_iso_code_3'];
-    conCurrency = json['con_currency'];
-    conAddressFormat = json['con_address_format'];
-    conPostcodeRequired = json['con_postcode_required'];
-    conIsActive = json['con_is_active'];
+  AvailabilityModel.fromJson(Map<String, dynamic> json) {
+    afm_id = json['afm_id'];
+    afm_category_idfk = json['afm_category_idfk'];
+    afm_port_idfk = json['afm_port_idfk'];
+    afm_name = json['afm_name'];
+    afm_is_active = json['afm_is_active'];
+    afm_sortid = json['afm_sortid'];
+    created_at = json['created_at'];
+    updated_at = json['updated_at'];
+    deleted_at = json['deleted_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['con_id'] = this.conId;
-    data['con_name'] = this.conName;
-    data['con_iso_code_2'] = this.conIsoCode2;
-    data['con_iso_code_3'] = this.conIsoCode3;
-    data['con_currency'] = this.conCurrency;
-    data['con_address_format'] = this.conAddressFormat;
-    data['con_postcode_required'] = this.conPostcodeRequired;
-    data['con_is_active'] = this.conIsActive;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['afm_id'] = this.afm_id;
+    data['afm_category_idfk'] = this.afm_category_idfk;
+    data['afm_port_idfk'] = this.afm_port_idfk;
+    data['afm_name'] = this.afm_name;
+    data['afm_is_active'] = this.afm_is_active;
+    data['afm_sortid'] = this.afm_sortid;
+    data['created_at'] = this.created_at;
+    data['updated_at'] = this.updated_at;
+    data['deleted_at'] = this.deleted_at;
     return data;
   }
-}*/
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return afm_name ?? "";
+  }
+}
 
 /*class CityState {
   int? id;
@@ -318,153 +343,6 @@ class Stocklots {
     return data;
   }
 }*/
-
-class PriceTerms {
-  int? ptrId;
-  String? ptrCategoryIdfk;
-  Null? ptrCountryIdfk;
-  String? ptrLocality;
-  Null? parentId;
-  String? ptrName;
-  String? ptrIsActive;
-  Null? ptrSortid;
-  Null? createdAt;
-  Null? updatedAt;
-  Null? deletedAt;
-
-  PriceTerms(
-      {this.ptrId,
-        this.ptrCategoryIdfk,
-        this.ptrCountryIdfk,
-        this.ptrLocality,
-        this.parentId,
-        this.ptrName,
-        this.ptrIsActive,
-        this.ptrSortid,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
-
-  PriceTerms.fromJson(Map<String, dynamic> json) {
-    ptrId = json['ptr_id'];
-    ptrCategoryIdfk = json['ptr_category_idfk'];
-    ptrCountryIdfk = json['ptr_country_idfk'];
-    ptrLocality = json['ptr_locality'];
-    parentId = json['parent_id'];
-    ptrName = json['ptr_name'];
-    ptrIsActive = json['ptr_is_active'];
-    ptrSortid = json['ptr_sortid'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ptr_id'] = this.ptrId;
-    data['ptr_category_idfk'] = this.ptrCategoryIdfk;
-    data['ptr_country_idfk'] = this.ptrCountryIdfk;
-    data['ptr_locality'] = this.ptrLocality;
-    data['parent_id'] = this.parentId;
-    data['ptr_name'] = this.ptrName;
-    data['ptr_is_active'] = this.ptrIsActive;
-    data['ptr_sortid'] = this.ptrSortid;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    return data;
-  }
-}
-
-class LcTypes {
-  int? lcId;
-  String? lcName;
-  String? lcIsActive;
-  Null? lcSortid;
-  Null? createdAt;
-  Null? updatedAt;
-  Null? deletedAt;
-
-  LcTypes(
-      {this.lcId,
-        this.lcName,
-        this.lcIsActive,
-        this.lcSortid,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
-
-  LcTypes.fromJson(Map<String, dynamic> json) {
-    lcId = json['lc_id'];
-    lcName = json['lc_name'];
-    lcIsActive = json['lc_is_active'];
-    lcSortid = json['lc_sortid'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lc_id'] = this.lcId;
-    data['lc_name'] = this.lcName;
-    data['lc_is_active'] = this.lcIsActive;
-    data['lc_sortid'] = this.lcSortid;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    return data;
-  }
-}
-
-class PaymentTypes {
-  String? payId;
-  String? payPriceTerrmIdfk;
-  String? parentId;
-  String? payName;
-  String? payIsActive;
-  Null? paySortid;
-  Null? createdAt;
-  Null? updatedAt;
-  Null? deletedAt;
-
-  PaymentTypes(
-      {this.payId,
-        this.payPriceTerrmIdfk,
-        this.parentId,
-        this.payName,
-        this.payIsActive,
-        this.paySortid,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
-
-  PaymentTypes.fromJson(Map<String, dynamic> json) {
-    payId = json['pay_id'];
-    payPriceTerrmIdfk = json['pay_price_terrm_idfk'];
-    parentId = json['parent_id'];
-    payName = json['pay_name'];
-    payIsActive = json['pay_is_active'];
-    paySortid = json['pay_sortid'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pay_id'] = this.payId;
-    data['pay_price_terrm_idfk'] = this.payPriceTerrmIdfk;
-    data['parent_id'] = this.parentId;
-    data['pay_name'] = this.payName;
-    data['pay_is_active'] = this.payIsActive;
-    data['pay_sortid'] = this.paySortid;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    return data;
-  }
-}
 
 /*class Units {
   int? untId;

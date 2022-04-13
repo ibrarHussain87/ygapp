@@ -101,6 +101,8 @@ class _$AppDatabase extends AppDatabase {
 
   StocklotDao? _stocklotDaoInstance;
 
+  AvailabilityDao? _availabilityDaoInstance;
+
   FabricSettingDao? _fabricSettingDaoInstance;
 
   FabricFamilyDao? _fabricFamilyDaoInstance;
@@ -218,7 +220,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT, `pacIsActive` TEXT, PRIMARY KEY (`pacId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT, `payPriceTerrmIdfk` TEXT, `payName` TEXT, `payIsActive` TEXT, PRIMARY KEY (`payId`))');
+            'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT, `payPriceTerrmIdfk` TEXT, `ptrCountryIdfk` TEXT, `payName` TEXT, `payIsActive` TEXT, `parentId` TEXT, PRIMARY KEY (`payId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
         await database.execute(
@@ -257,6 +259,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `fabric_weave` (`fabricWeaveId` INTEGER, `fabricWeaveName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricWeaveId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_layyer` (`fabricLayyerId` INTEGER, `fabricLayyerName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricLayyerId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `availability_table` (`afm_id` INTEGER, `afm_category_idfk` TEXT, `afm_port_idfk` TEXT, `afm_name` TEXT, `afm_is_active` TEXT, `afm_sortid` TEXT, `created_at` TEXT, `updated_at` TEXT, `deleted_at` TEXT, PRIMARY KEY (`afm_id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
@@ -406,6 +410,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   StocklotDao get stocklotDao {
     return _stocklotDaoInstance ??= _$StocklotDao(database, changeListener);
+  }
+
+  @override
+  AvailabilityDao get availabilityDao {
+    return _availabilityDaoInstance ??=
+        _$AvailabilityDao(database, changeListener);
   }
 
   @override
@@ -1662,8 +1672,10 @@ class _$PaymentTypeDao extends PaymentTypeDao {
             (PaymentType item) => <String, Object?>{
                   'payId': item.payId,
                   'payPriceTerrmIdfk': item.payPriceTerrmIdfk,
+                  'ptrCountryIdfk': item.ptrCountryIdfk,
                   'payName': item.payName,
-                  'payIsActive': item.payIsActive
+                  'payIsActive': item.payIsActive,
+                  'parentId': item.parentId
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -1681,7 +1693,8 @@ class _$PaymentTypeDao extends PaymentTypeDao {
             payId: row['payId'] as String?,
             payName: row['payName'] as String?,
             payPriceTerrmIdfk: row['payPriceTerrmIdfk'] as String?,
-            payIsActive: row['payIsActive'] as String?));
+            payIsActive: row['payIsActive'] as String?,
+            parentId: row['parentId'] as String?));
   }
 
   @override
@@ -1691,7 +1704,8 @@ class _$PaymentTypeDao extends PaymentTypeDao {
             payId: row['payId'] as String?,
             payName: row['payName'] as String?,
             payPriceTerrmIdfk: row['payPriceTerrmIdfk'] as String?,
-            payIsActive: row['payIsActive'] as String?),
+            payIsActive: row['payIsActive'] as String?,
+            parentId: row['parentId'] as String?),
         arguments: [id]);
   }
 
@@ -1822,6 +1836,19 @@ class _$PriceTermsDao extends PriceTermsDao {
   Future<FPriceTerms?> findYarnFPriceTermsWithId(int id) async {
     return _queryAdapter.query(
         'SELECT * FROM price_terms_table where ptrId = ?1',
+        mapper: (Map<String, Object?> row) => FPriceTerms(
+            ptrId: row['ptrId'] as int,
+            ptrCategoryIdfk: row['ptrCategoryIdfk'] as String?,
+            ptr_locality: row['ptr_locality'] as String?,
+            ptrName: row['ptrName'] as String?,
+            ptrIsActive: row['ptrIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<FPriceTerms>> findYarnFPriceTermsWithCatId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM price_terms_table where ptrCategoryIdfk = ?1',
         mapper: (Map<String, Object?> row) => FPriceTerms(
             ptrId: row['ptrId'] as int,
             ptrCategoryIdfk: row['ptrCategoryIdfk'] as String?,
@@ -2061,6 +2088,89 @@ class _$StocklotDao extends StocklotDao {
   Future<List<int>> insertAllStocklots(List<Stocklots> stocklots) {
     return _stocklotsInsertionAdapter.insertListAndReturnIds(
         stocklots, OnConflictStrategy.replace);
+  }
+}
+
+class _$AvailabilityDao extends AvailabilityDao {
+  _$AvailabilityDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _availabilityModelInsertionAdapter = InsertionAdapter(
+            database,
+            'availability_table',
+            (AvailabilityModel item) => <String, Object?>{
+                  'afm_id': item.afm_id,
+                  'afm_category_idfk': item.afm_category_idfk,
+                  'afm_port_idfk': item.afm_port_idfk,
+                  'afm_name': item.afm_name,
+                  'afm_is_active': item.afm_is_active,
+                  'afm_sortid': item.afm_sortid,
+                  'created_at': item.created_at,
+                  'updated_at': item.updated_at,
+                  'deleted_at': item.deleted_at
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<AvailabilityModel> _availabilityModelInsertionAdapter;
+
+  @override
+  Future<List<AvailabilityModel>> findAllAvailability() async {
+    return _queryAdapter.queryList('SELECT * FROM availability_table',
+        mapper: (Map<String, Object?> row) => AvailabilityModel(
+            afm_id: row['afm_id'] as int?,
+            afm_category_idfk: row['afm_category_idfk'] as String?,
+            afm_port_idfk: row['afm_port_idfk'] as String?,
+            afm_name: row['afm_name'] as String?,
+            afm_is_active: row['afm_is_active'] as String?,
+            afm_sortid: row['afm_sortid'] as String?,
+            created_at: row['created_at'] as String?,
+            updated_at: row['updated_at'] as String?,
+            deleted_at: row['deleted_at'] as String?));
+  }
+
+  @override
+  Future<AvailabilityModel?> findAvailabilityWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM availability_table where id = ?1',
+        mapper: (Map<String, Object?> row) => AvailabilityModel(
+            afm_id: row['afm_id'] as int?,
+            afm_category_idfk: row['afm_category_idfk'] as String?,
+            afm_port_idfk: row['afm_port_idfk'] as String?,
+            afm_name: row['afm_name'] as String?,
+            afm_is_active: row['afm_is_active'] as String?,
+            afm_sortid: row['afm_sortid'] as String?,
+            created_at: row['created_at'] as String?,
+            updated_at: row['updated_at'] as String?,
+            deleted_at: row['deleted_at'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAvailability(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from availability_table where id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from availability_table');
+  }
+
+  @override
+  Future<void> insertAvailability(AvailabilityModel availablityModel) async {
+    await _availabilityModelInsertionAdapter.insert(
+        availablityModel, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllAvailability(
+      List<AvailabilityModel> availablityModel) {
+    return _availabilityModelInsertionAdapter.insertListAndReturnIds(
+        availablityModel, OnConflictStrategy.replace);
   }
 }
 

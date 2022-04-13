@@ -4,31 +4,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/Providers/stocklot_provider.dart';
-import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 import 'package:yg_app/pages/post_ad_pages/stocklot_page/component/stocklot_specification_body.dart';
-import 'package:yg_app/pages/post_ad_pages/stocklot_page/component/stocklot_steps_segment.dart';
-
 import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
-import '../../../model/request/stocklot_request/stocklot_request.dart';
 import '../../../model/response/common_response_models/price_term.dart';
 import '../../../model/response/common_response_models/unit_of_count.dart';
-import '../../../model/response/sync/sync_response.dart';
 
 class CreateStockLotPage extends StatefulWidget {
   final String? locality;
@@ -49,8 +42,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
   final GlobalKey<StockLotSpecificationBodyState> stockLotSpecificationKey =
       GlobalKey<StockLotSpecificationBodyState>();
   StocklotCategories? stocklotCategories;
-  Countries? countryModel;
-  List<PickedFile> imageFiles = [];
+
+  // Countries? countryModel;
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
 
   late StocklotProvider stocklotProvider;
@@ -74,7 +67,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return stocklotProvider.stocklots!.isNotEmpty
           ? SafeArea(
               child: Scaffold(
-                  body: Container(
+                  body: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -105,6 +98,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   IgnorePointer(
                                     ignoring: stocklotProvider.ignoreClick,
                                     child: SingleSelectTileWidget(
+                                      key: stocklotProvider.stocklotKey,
                                       spanCount: 3,
                                       listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
                                           .stocklots!,
@@ -140,6 +134,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   IgnorePointer(
                                     ignoring: stocklotProvider.ignoreClick,
                                     child: SingleSelectTileWidget(
+                                      key: stocklotProvider.categoryKey,
                                       spanCount: 3,
                                       listOfItems:
                                           stocklotProvider.stocklotCategories!,
@@ -176,6 +171,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                     height: 8.h,
                                   ),
                                   SingleSelectTileWidget(
+                                    key: stocklotProvider.subCategoryKey,
                                     spanCount: 3,
                                     listOfItems:
                                         stocklotProvider.stocklotSubcategories!,
@@ -325,7 +321,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               Radius.circular(24.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Price Terms'),
-                                        items: stocklotProvider.priceTermsList!
+                                        items: stocklotProvider.priceTermsList
                                             .map((value) => DropdownMenuItem(
                                                   child: Text(
                                                       value.ptrName ??
@@ -393,10 +389,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         hint: const Text('Select Currency'),
                                         items: stocklotProvider.countryList!
                                             .map((value) => DropdownMenuItem(
-                                                  child: Text(
-                                                      value.conCurrency ??
-                                                          Utils.checkNullString(
-                                                              false),
+                                                  child: Text(value.toString(),
                                                       textAlign:
                                                           TextAlign.center),
                                                   value: value,
@@ -404,7 +397,16 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             .toList(),
                                         isExpanded: true,
                                         onChanged: (Countries? value) {
-                                          countryModel = value;
+                                          if (value != null) {
+                                            stocklotProvider
+                                                    .stocklotRequestModel
+                                                    .countryId =
+                                                value.conId.toString();
+                                            stocklotProvider
+                                                    .stocklotRequestModel
+                                                    .currency =
+                                                value.conCurrency.toString();
+                                          }
                                         },
                                         // validator: (value) => value == null
                                         //     ? 'field required'
@@ -455,14 +457,12 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                               Radius.circular(24.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Availability'),
-                                        items: /*stocklotProvider.countryList!*/ [
-                                          'Available',
-                                          'Not Available'
-                                        ]
+                                        items: stocklotProvider
+                                            .availabilityList!
                                             .map((value) => DropdownMenuItem(
                                                   child: Text(
                                                       /*value.conCurrency*/
-                                                      value,
+                                                      value.toString(),
                                                       textAlign:
                                                           TextAlign.center),
                                                   value: value,
@@ -470,9 +470,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             .toList(),
                                         isExpanded: true,
                                         onChanged: (/*Countries?*/
-                                            String? value) {
+                                            AvailabilityModel? value) {
                                           stocklotProvider.stocklotRequestModel
-                                              .availability = value;
+                                                  .availability =
+                                              value!.afm_id.toString();
                                         },
                                         // validator: (value) => value == null
                                         //     ? 'field required'
@@ -507,7 +508,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 child: AddPictureWidget(
                                   imageCount: 1,
                                   callbackImages: (value) {
-                                    imageFiles = value;
+                                    stocklotProvider.imageFiles = value;
                                   },
                                 ),
                               ),
@@ -528,10 +529,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                           if (validateAndSave()) {
                             stocklotProvider
                                 .stocklotRequestModel.spc_category_idfk = "5";
-                            stocklotProvider.stocklotRequestModel.countryId =
-                                countryModel!.conId.toString();
-                            stocklotProvider.stocklotRequestModel.currency =
-                                countryModel!.conCurrency.toString();
+                            stocklotProvider.stocklotRequestModel.isOffering =
+                                widget.businessArea;
+                            stocklotProvider.stocklotRequestModel.locality =
+                                widget.locality;
                             stocklotProvider.stocklotRequestModel
                                     .stocklotWasteModelList =
                                 stocklotProvider.stocklotWasteList;
@@ -852,8 +853,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
-    if (stocklotProvider.stocklotRequestModel.stocklotWasteModelList != null &&
-        stocklotProvider.stocklotRequestModel.stocklotWasteModelList!.isEmpty) {
+    if (stocklotProvider
+        .filteredStocklotWasteList!
+        .isEmpty) {
       Ui.showSnackBar(context, "Please select select sub category");
       return false;
     }
@@ -863,8 +865,18 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
+    if (stocklotProvider.stocklotRequestModel.currency == null) {
+      Ui.showSnackBar(context, "Please select currency");
+      return false;
+    }
+
     if (stocklotProvider.stocklotRequestModel.availability == null) {
       Ui.showSnackBar(context, "Please select availability");
+      return false;
+    }
+
+    if (stocklotProvider.imageFiles.isEmpty) {
+      Ui.showSnackBar(context, "Image is required");
       return false;
     }
 

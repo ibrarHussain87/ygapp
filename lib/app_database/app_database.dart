@@ -17,8 +17,9 @@ import 'package:yg_app/app_database/dao/packing_dao.dart';
 import 'package:yg_app/app_database/dao/payment_type_dao.dart';
 import 'package:yg_app/app_database/dao/port_dao.dart';
 import 'package:yg_app/app_database/dao/price_terms_dao.dart';
-import 'package:yg_app/app_database/dao/stocklot_categories_dao.dart';
-import 'package:yg_app/app_database/dao/stocklot_dao.dart';
+import 'package:yg_app/app_database/dao/stocklot_dao/availability_dao.dart';
+import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_categories_dao.dart';
+import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_dao.dart';
 import 'package:yg_app/app_database/dao/unit_dao.dart';
 import 'package:yg_app/app_database/dao/user_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/color_treatment_method_dao.dart';
@@ -59,7 +60,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
-import '../model/response/sync/sync_response.dart';
+import '../model/response/stocklot_sync/stocklot_sync_response.dart';
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
 import 'dao/fabric_dao/fabric_blends_dao.dart';
 import 'dao/fabric_dao/fabric_color_treatment_dao.dart';
@@ -83,7 +84,7 @@ part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,FabricAppearance,KnittingTypes,FabricPly,
-  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
+  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,Stocklots,StocklotCategories])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
@@ -108,6 +109,8 @@ abstract class AppDatabase extends FloorDatabase {
   UnitDao get unitDao;
   StocklotCategoriesDao get stocklotCategoriesDao;
   StocklotDao get stocklotDao;
+  AvailabilityDao get availabilityDao;
+
 
   FabricSettingDao get fabricSettingDao;
   FabricFamilyDao get fabricFamilyDao;

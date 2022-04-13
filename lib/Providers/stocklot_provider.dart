@@ -1,28 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
+import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
 
 import '../app_database/app_database_instance.dart';
 import '../helper_utils/ui_utils.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/common_response_models/unit_of_count.dart';
 import '../model/response/family_data.dart';
-import '../model/response/sync/sync_response.dart';
 import '../model/stocklot_waste_model.dart';
 
 class StocklotProvider extends ChangeNotifier {
+
+  //Keys
+  final GlobalKey<SingleSelectTileWidgetState> stocklotKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> categoryKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> subCategoryKey = GlobalKey<SingleSelectTileWidgetState>();
+
   List<StocklotCategories>? stocklotAllCategories = [];
   List<StocklotCategories>? stocklots = [];
   List<StocklotCategories>? stocklotCategories = [];
   List<Stocklots>? stocklotAllSubcategories = [];
   List<StocklotCategories>? stocklotSubcategories = [];
   List<Units>? unitsList = [];
-  List<FPriceTerms>? priceTermsList = [];
+  List<FPriceTerms> priceTermsList = [];
   List<Countries>? countryList = [];
+  List<AvailabilityModel>? availabilityList = [];
   List<StocklotWasteModel>? stocklotWasteList = [];
   List<StocklotWasteModel>? filteredStocklotWasteList = [];
   bool loading = false;
@@ -32,6 +41,7 @@ class StocklotProvider extends ChangeNotifier {
   int? categoryId = -1;
   int? subcategoryId = -1;
   bool expandStockLostWast = true;
+  List<PickedFile> imageFiles = [];
   var stocklotRequestModel = StocklotRequestModel();
 
   getStocklotData() async {
@@ -40,7 +50,7 @@ class StocklotProvider extends ChangeNotifier {
     stocklots!.clear();
     stocklotAllSubcategories!.clear();
     unitsList!.clear();
-    priceTermsList!.clear();
+    priceTermsList.clear();
     countryList!.clear();
     stocklotWasteList!.clear();
     ignoreClick = false;
@@ -52,8 +62,10 @@ class StocklotProvider extends ChangeNotifier {
         .toList();
     stocklotAllSubcategories = await dbInstance.stocklotDao.findAllStocklots();
     unitsList = await dbInstance.unitDao.findAllUnit();
-    priceTermsList = await dbInstance.priceTermsDao.findAllFPriceTerms();
+    priceTermsList =
+        await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
+    availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
       getCategories(stocklots!.first.id.toString());
     }
@@ -64,18 +76,18 @@ class StocklotProvider extends ChangeNotifier {
   createStockLot(context) async {
     loading = true;
     notifyListeners();
-    if(loading){
-      ProgressDialogUtil.showDialog(
-          context, "Please wait...");
+    if (loading) {
+      ProgressDialogUtil.showDialog(context, "Please wait...");
     }
-    ApiService.createStockLot(stocklotRequestModel, "").then((value) {
-
-        if (value!= null && value.status!) {
-          loading = false;
-          ProgressDialogUtil.hideDialog();
-          Ui.showSnackBar(context, value.message.toString());
-          notifyListeners();
-        }
+    ApiService.createStockLot(stocklotRequestModel, imageFiles.first).then(
+        (value) {
+      if (value != null && value.status!) {
+        loading = false;
+        ProgressDialogUtil.hideDialog();
+        Ui.showSnackBar(context, value.message.toString());
+        resetData();
+        notifyListeners();
+      }
     }, onError: (error) {
       loading = false;
       Ui.showSnackBar(context, error.toString());
@@ -159,5 +171,31 @@ class StocklotProvider extends ChangeNotifier {
   disableClick() {
     ignoreClick = true;
     notifyListeners();
+  }
+
+  resetData() {
+
+    if (stocklotKey.currentState != null) {
+      stocklotKey.currentState!.checkedTile = 0;
+    }
+    if (categoryKey.currentState != null) {
+      categoryKey.currentState!.checkedTile = -1;
+    }
+
+    if (subCategoryKey.currentState != null) {
+      subCategoryKey.currentState!.checkedTile = -1;
+    }
+    stocklotWasteList = [];
+    filteredStocklotWasteList = [];
+    getStocklotData();
+    loading = false;
+    ignoreClick = false;
+    selectedSubCategoryId = -1;
+    stocklotId = -1;
+    categoryId = -1;
+    subcategoryId = -1;
+    expandStockLostWast = true;
+    imageFiles = [];
+    stocklotRequestModel = StocklotRequestModel();
   }
 }

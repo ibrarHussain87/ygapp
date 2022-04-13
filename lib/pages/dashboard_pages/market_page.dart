@@ -231,6 +231,7 @@ class MarketPageState extends State<MarketPage>
                       key: yarnPageState,
                       locality: widget.locality,
                     ),
+
                     StockLotPage(
                       key: _stocklotPageState,
                       locality: widget.locality,

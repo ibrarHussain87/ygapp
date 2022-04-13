@@ -28,8 +28,8 @@ class YarnPage extends StatefulWidget {
 class YarnPageState extends State<YarnPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final GlobalKey<YarnSpecificationListFutureState> yarnSpecificationListState =
-      GlobalKey<YarnSpecificationListFutureState>();
-  late List<Countries> _countries;
+  GlobalKey<YarnSpecificationListFutureState>();
+  List<Countries> _countries = [];
 
   @override
   void initState() {
@@ -99,7 +99,7 @@ class YarnPageState extends State<YarnPage> {
                           yarnSpecificationListState.currentState!
                               .searchData(model);
                         },
-                        blendCallback: (Blends blend,int familyId) {
+                        blendCallback: (Blends blend, int familyId) {
                           var model = GetSpecificationRequestModel();
                           model.ysBlendIdFk = [blend.blnId!];
                           model.ysFamilyIdFk = [familyId];
@@ -112,17 +112,17 @@ class YarnPageState extends State<YarnPage> {
                         child: Row(
                           children: [
                             Expanded(
-                              flex: widget.locality==international ? 8: 10,
+                              flex: widget.locality == international ? 8 : 10,
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
                                   yarnSpecificationListState.currentState!
                                       .searchData(GetSpecificationRequestModel(
-                                          isOffering: value.toString()));
+                                      isOffering: value.toString()));
                                 },
                               ),
                             ),
                             Visibility(
-                              visible: widget.locality==international,
+                              visible: widget.locality == international,
                               maintainState: false,
                               maintainSize: false,
                               child: Expanded(
@@ -134,23 +134,25 @@ class YarnPageState extends State<YarnPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 2: 0,
+                              flex: widget.locality == international ? 2 : 0,
                               child: Visibility(
                                 maintainSize: false,
                                 maintainState: false,
-                                visible: widget.locality==international,
+                                visible: widget.locality == international,
                                 child: DropdownButtonFormField(
                                   isExpanded: true,
-                                  decoration: const InputDecoration.collapsed(hintText: ''),
-                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
-                                  items: _countries
-                                      .map((value) =>
+                                  decoration: const InputDecoration.collapsed(
+                                      hintText: ''),
+                                  hint: const TitleExtraSmallBoldTextWidget(
+                                      title: 'Country'),
+                                  items:  _countries.map((
+                                      value) =>
                                       DropdownMenuItem(
                                         child: Expanded(
                                           child: Text(
-                                              value.conName ??
-                                                  Utils.checkNullString(false),
-                                              textAlign: TextAlign.start,
+                                            value.conName ??
+                                                Utils.checkNullString(false),
+                                            textAlign: TextAlign.start,
                                             maxLines: 1,
                                             overflow: TextOverflow.fade,
                                             softWrap: false,),
@@ -162,7 +164,10 @@ class YarnPageState extends State<YarnPage> {
                                     /*_createRequestModel!
                                         .spc_origin_idfk =
                                         value!.conId.toString();*/
-                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                                    yarnSpecificationListState.currentState!
+                                        .yarnListBodyState.currentState!
+                                        .filterListSearch(
+                                        value!.conName.toString());
                                   },
                                   style: TextStyle(
                                       fontSize: 11.sp,

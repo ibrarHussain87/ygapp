@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
-import 'package:yg_app/model/response/sync/sync_response.dart';
+import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
 
 import '../api_services/api_service_class.dart';
 import '../app_database/app_database_instance.dart';
@@ -143,15 +143,17 @@ class SyncProvider extends ChangeNotifier{
             });
           }
         }),
-        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((SyncResponse response) {
+        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((StockLotSyncResponse response) {
           if (response.status!){
             Logger().e("Sync got successfully : "+response.toJson().toString());
             AppDbInstance.getDbInstance().then((value) async {
               await Future.wait([
-                value.stocklotCategoriesDao
-                    .insertAllStocklotCategories(response.data!.stocklot!.stocklotCategories!),
-                value.stocklotDao
-                    .insertAllStocklots(response.data!.stocklot!.stocklots!),
+                value.stocklotCategoriesDao.insertAllStocklotCategories(response.data!.stocklot!.stocklotCategories!),
+                if(response.data!.stocklot!.stocklots != null) value.stocklotDao.insertAllStocklots(response.data!.stocklot!.stocklots!),
+                value.availabilityDao.insertAllAvailability(response.data!.stocklot!.availabilityList!),
+                value.priceTermsDao.insertAllFPriceTerms(response.data!.stocklot!.priceTerms!),
+                value.lcTypeDao.insertAllLcType(response.data!.stocklot!.lcTypes!),
+                value.paymentTypeDao.insertAllPaymentType(response.data!.stocklot!.paymentTypes!)
               ]);
             });
           }

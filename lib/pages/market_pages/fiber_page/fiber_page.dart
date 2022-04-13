@@ -38,8 +38,7 @@ class FiberPageState extends State<FiberPage> {
       GlobalKey<FiberListingComponentState>();
 
   final GlobalKey<FiberFamilyComponentState> familySateFiber = GlobalKey();
-  late List<Countries> _countries;
-
+  List<Countries> _countries = [];
 
   @override
   void initState() {
@@ -60,35 +59,6 @@ class FiberPageState extends State<FiberPage> {
   bodyContent() {
     return SafeArea(
       child: Scaffold(
-        /*floatingActionButton: SpeedDial(
-          icon: Icons.add,
-          openCloseDial: isDialOpen,
-          backgroundColor: Colors.blueAccent,
-          overlayColor: Colors.grey,
-          overlayOpacity: 0.5,
-          spacing: 3.w,
-          spaceBetweenChildren: 3.w,
-          closeManually: true,
-          children: [
-            SpeedDialChild(
-                label: requirement,
-                backgroundColor: Colors.blue,
-                onTap: () {
-                  setState(() {
-                    isDialOpen.value = false;
-                  });
-                  openFiberPostPage(context,widget.locality,'Fiber','0');
-                }),
-            SpeedDialChild(
-                label: offering,
-                onTap: () {
-                  setState(() {
-                    isDialOpen.value = false;
-                  });
-                  openFiberPostPage(context,widget.locality,'Fiber','1');
-                }),
-          ],
-        ),*/
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             showBottomSheetOR(context,(value){

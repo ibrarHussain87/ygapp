@@ -78,7 +78,7 @@ dependencies:
   chip_list: ^2.3.3+8
   curved_navigation_bar: ^1.0.3
   pin_code_fields: ^7.3.0
-
+  mime_type: ^1.0.0
   #Firebase dependencies
   firebase_crashlytics: ^2.5.3
   firebase_analytics: ^8.0.2
