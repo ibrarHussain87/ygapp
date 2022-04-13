@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -163,14 +163,14 @@ class FiberPageState extends State<FiberPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 2: 0,
+                              flex: widget.locality==international ? 3: 0,
                               child: Visibility(
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
                                 child:
-                                SearchableDropdown(
-
+                                SearchChoices.single(
+                                   displayClearIcon: false,
                                   isExpanded: true,
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
                                   items:  _countries
@@ -180,25 +180,19 @@ class FiberPageState extends State<FiberPage> {
                                             value.conName ??
                                                 Utils.checkNullString(false),
                                             textAlign: TextAlign
-                                                .center),
+                                                .center,style: TextStyle(fontSize: 10.sp),),
                                         value: value,
                                       ))
                                       .toList(),
                                   isCaseSensitiveSearch: false,
-//                                  searchHint: Text(
-//                                    'Search Country Here',
-//                                    style:TextStyle(fontSize: 11.sp),
-//                                  ),
                                   onChanged: (Countries? value) {
-                                    /*_createRequestModel!
-                                      .spc_origin_idfk =
-                                      value!.conId.toString();*/
                                     fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
-                                      fontSize: 11.sp,
+                                      fontSize: 10.sp,
                                       color: textColorGrey),
                                 ),
+
 //                                DropdownButtonFormField(
 //                                  isExpanded: true,
 //                                  decoration: const InputDecoration.collapsed(hintText: ''),
