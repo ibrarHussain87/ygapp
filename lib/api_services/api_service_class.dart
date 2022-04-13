@@ -27,6 +27,7 @@ import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
+import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
 import '../model/response/sync/sync_response.dart';
@@ -36,6 +37,7 @@ class ApiService {
   static Map<String, String> headerMap = {"Accept": "application/json"};
   static String BASE_URL = "http://yarnonline.net/dev/public/";
   static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
+  static String BASE_API_URL_STAGING = "http://yarnonline.net/staging/public/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String SPEC_USER_END_POINT = "/spec_user";
@@ -212,6 +214,29 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
 
       return SyncResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<FabricSyncResponse> syncFabricCall(SyncRequestModel requestModel) async {
+    try {
+      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+
+      String url = BASE_API_URL_STAGING + SYNC_END_POINT;
+
+      final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
+
+      return FabricSyncResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {

@@ -8,6 +8,7 @@ import '../api_services/api_service_class.dart';
 import '../app_database/app_database_instance.dart';
 import '../helper_utils/app_constants.dart';
 import '../helper_utils/shared_pref_util.dart';
+import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 
 class SyncProvider extends ChangeNotifier{
 
@@ -154,8 +155,32 @@ class SyncProvider extends ChangeNotifier{
               ]);
             });
           }
+        }),
+        ApiService.syncFabricCall(SyncRequestModel(categoryId: '3')).then((FabricSyncResponse response) {
+          if (response.status!){
+            Logger().e("Fabric Sync got successfully : "+response.toJson().toString());
+            AppDbInstance.getDbInstance().then((value) async {
+              await Future.wait([
+                value.fabricSettingDao.insertAllFabricSettings(response.data!.fabric!.setting!),
+                value.fabricFamilyDao.insertAllFabricFamily(response.data!.fabric!.family!),
+                value.fabricBlendsDao.insertAllFabricBlends(response.data!.fabric!.blends!),
+                value.fabricAppearanceDao.insertAllFabricAppearance(response.data!.fabric!.appearance!),
+                value.knittingTypesDao.insertAllKnittingTypes(response.data!.fabric!.knittingTypes!),
+                value.fabricPlyDao.insertAllFabricPly(response.data!.fabric!.ply!),
+                value.fabricColorTreatmentMethodDao.insertAllFabricFiberColorTreatmentMethod(response.data!.fabric!.colorTreatmentMethod!),
+                value.fabricDyingTechniqueDao.insertAllFabricDyingTechnique(response.data!.fabric!.dyingTechniques!),
+                value.fabricQualityDao.insertAllFabricQuality(response.data!.fabric!.quality!),
+                value.fabricGradesDao.insertAllFabricGrade(response.data!.fabric!.grades!),
+                value.fabricLoomDao.insertAllFabricLoom(response.data!.fabric!.loom!),
+                value.fabricSalvedgeDao.insertAllFabricSalvedge(response.data!.fabric!.salvedge!),
+                value.fabricWeaveDao.insertAllFabricWeave(response.data!.fabric!.weave!),
+                value.fabricLayyerDao.insertAllFabricLayyer(response.data!.fabric!.layyer!)
+              ]);
+            });
+          }
         })
       ]);
+
 
       SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, true);
     }
