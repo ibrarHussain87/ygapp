@@ -6,6 +6,7 @@ import 'package:yg_app/elements/network_icon_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
@@ -71,6 +72,10 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     }else if (widget.listItem is List<Family>) {
       name = widget.listItem!.cast<Family>()[index].famName;
       castingCheckPos = 2;
+    }else if (widget.listItem is List<FabricBlends>) {
+      var fabricBlend = widget.listItem!.cast<FabricBlends>()[index];
+      name = fabricBlend.blnAbrv ?? fabricBlend.blnName;
+      castingCheckPos = 3;
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -130,6 +135,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         }
       }else if(castingCheckPos == 2){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconSelected??""}';
+      }else if(castingCheckPos == 3){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconSelected??""}';
       }
     }else{
       if(castingCheckPos == 0){
@@ -142,6 +149,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         }
       }else if(castingCheckPos == 2){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconUnSelected??""}';
+      }else if(castingCheckPos == 3){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconUnselected??""}';
       }
     }
   }

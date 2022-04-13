@@ -559,6 +559,12 @@ class FabricFamily {
     data['fabric_family_sortid'] = fabricFamilySortid;
     return data;
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return fabricFamilyName ?? '';
+  }
 }
 
 @Entity(tableName: 'fabric_blends')
