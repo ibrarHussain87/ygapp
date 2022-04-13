@@ -101,6 +101,34 @@ class _$AppDatabase extends AppDatabase {
 
   StocklotDao? _stocklotDaoInstance;
 
+  FabricSettingDao? _fabricSettingDaoInstance;
+
+  FabricFamilyDao? _fabricFamilyDaoInstance;
+
+  FabricBlendsDao? _fabricBlendsDaoInstance;
+
+  FabricAppearanceDao? _fabricAppearanceDaoInstance;
+
+  KnittingTypesDao? _knittingTypesDaoInstance;
+
+  FabricPlyDao? _fabricPlyDaoInstance;
+
+  FabricColorTreatmentMethodDao? _fabricColorTreatmentMethodDaoInstance;
+
+  FabricDyingTechniqueDao? _fabricDyingTechniqueDaoInstance;
+
+  FabricQualityDao? _fabricQualityDaoInstance;
+
+  FabricGradesDao? _fabricGradesDaoInstance;
+
+  FabricLoomDao? _fabricLoomDaoInstance;
+
+  FabricSalvedgeDao? _fabricSalvedgeDaoInstance;
+
+  FabricWeaveDao? _fabricWeaveDaoInstance;
+
+  FabricLayyerDao? _fabricLayyerDaoInstance;
+
   YarnSettingDao? _yarnSettingsDaoInstance;
 
   YarnFamilyDao? _yarnFamilyDaoInstance;
@@ -201,6 +229,34 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_appearance` (`fabricAppearanceId` INTEGER, `fabricAppearanceName` TEXT, `fabricAppearanceSortid` TEXT, `fabricAppearanceIsActive` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricAppearanceId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `knitting_types` (`fabricKnittingTypeId` INTEGER, `fabricKnittingTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricKnittingTypeId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_ply` (`fabricPlyId` INTEGER, `fabricFamilyIdfk` TEXT, `fabricPlyType` TEXT, `fabricPlyName` TEXT, `fabricPlyDescription` TEXT, `fabricPlyIsActive` TEXT, `fabricPlySortid` TEXT, PRIMARY KEY (`fabricPlyId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fiber_color_treatment_method` (`fctmId` INTEGER, `fabricFamilyIdfk` TEXT, `fctmName` TEXT, `fctmDescription` TEXT, `fctmIsActive` TEXT, `fctmSortid` TEXT, PRIMARY KEY (`fctmId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_dying_techniques` (`fdtId` INTEGER, `fctmIdfk` TEXT, `fabricFamilyIdfk` TEXT, `fdtName` TEXT, `fdtIsActive` TEXT, `fdtSortid` TEXT, PRIMARY KEY (`fdtId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_quality` (`fabricQualityId` INTEGER, `fabricQualityName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricQualityId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_grades` (`fabricGradeId` INTEGER, `fabricGradeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricGradeId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_loom` (`fabricLoomId` INTEGER, `fabricLoomName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricLoomId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_salvedge` (`fabricSalvedgeId` INTEGER, `fabricSalvedgeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricSalvedgeId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_weave` (`fabricWeaveId` INTEGER, `fabricWeaveName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricWeaveId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_layyer` (`fabricLayyerId` INTEGER, `fabricLayyerName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricLayyerId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
@@ -350,6 +406,88 @@ class _$AppDatabase extends AppDatabase {
   @override
   StocklotDao get stocklotDao {
     return _stocklotDaoInstance ??= _$StocklotDao(database, changeListener);
+  }
+
+  @override
+  FabricSettingDao get fabricSettingDao {
+    return _fabricSettingDaoInstance ??=
+        _$FabricSettingDao(database, changeListener);
+  }
+
+  @override
+  FabricFamilyDao get fabricFamilyDao {
+    return _fabricFamilyDaoInstance ??=
+        _$FabricFamilyDao(database, changeListener);
+  }
+
+  @override
+  FabricBlendsDao get fabricBlendsDao {
+    return _fabricBlendsDaoInstance ??=
+        _$FabricBlendsDao(database, changeListener);
+  }
+
+  @override
+  FabricAppearanceDao get fabricAppearanceDao {
+    return _fabricAppearanceDaoInstance ??=
+        _$FabricAppearanceDao(database, changeListener);
+  }
+
+  @override
+  KnittingTypesDao get knittingTypesDao {
+    return _knittingTypesDaoInstance ??=
+        _$KnittingTypesDao(database, changeListener);
+  }
+
+  @override
+  FabricPlyDao get fabricPlyDao {
+    return _fabricPlyDaoInstance ??= _$FabricPlyDao(database, changeListener);
+  }
+
+  @override
+  FabricColorTreatmentMethodDao get fabricColorTreatmentMethodDao {
+    return _fabricColorTreatmentMethodDaoInstance ??=
+        _$FabricColorTreatmentMethodDao(database, changeListener);
+  }
+
+  @override
+  FabricDyingTechniqueDao get fabricDyingTechniqueDao {
+    return _fabricDyingTechniqueDaoInstance ??=
+        _$FabricDyingTechniqueDao(database, changeListener);
+  }
+
+  @override
+  FabricQualityDao get fabricQualityDao {
+    return _fabricQualityDaoInstance ??=
+        _$FabricQualityDao(database, changeListener);
+  }
+
+  @override
+  FabricGradesDao get fabricGradesDao {
+    return _fabricGradesDaoInstance ??=
+        _$FabricGradesDao(database, changeListener);
+  }
+
+  @override
+  FabricLoomDao get fabricLoomDao {
+    return _fabricLoomDaoInstance ??= _$FabricLoomDao(database, changeListener);
+  }
+
+  @override
+  FabricSalvedgeDao get fabricSalvedgeDao {
+    return _fabricSalvedgeDaoInstance ??=
+        _$FabricSalvedgeDao(database, changeListener);
+  }
+
+  @override
+  FabricWeaveDao get fabricWeaveDao {
+    return _fabricWeaveDaoInstance ??=
+        _$FabricWeaveDao(database, changeListener);
+  }
+
+  @override
+  FabricLayyerDao get fabricLayyerDao {
+    return _fabricLayyerDaoInstance ??=
+        _$FabricLayyerDao(database, changeListener);
   }
 
   @override
@@ -1923,6 +2061,1113 @@ class _$StocklotDao extends StocklotDao {
   Future<List<int>> insertAllStocklots(List<Stocklots> stocklots) {
     return _stocklotsInsertionAdapter.insertListAndReturnIds(
         stocklots, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricSettingDao extends FabricSettingDao {
+  _$FabricSettingDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricSettingInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_settings',
+            (FabricSetting item) => <String, Object?>{
+                  'fabricSettingId': item.fabricSettingId,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk,
+                  'showCount': item.showCount,
+                  'countMinMax': item.countMinMax,
+                  'showPly': item.showPly,
+                  'showBlend': item.showBlend,
+                  'showGsm': item.showGsm,
+                  'gsmCountMinMax': item.gsmCountMinMax,
+                  'showRatio': item.showRatio,
+                  'showKnittingType': item.showKnittingType,
+                  'showAppearance': item.showAppearance,
+                  'showColorTreatmentMethod': item.showColorTreatmentMethod,
+                  'showDyingMethod': item.showDyingMethod,
+                  'showColor': item.showColor,
+                  'showQuality': item.showQuality,
+                  'showGrade': item.showGrade,
+                  'showCertification': item.showCertification,
+                  'showWarpCount': item.showWarpCount,
+                  'warpCountMinMax': item.warpCountMinMax,
+                  'showWarpPly': item.showWarpPly,
+                  'showNoOfEndsWarp': item.showNoOfEndsWarp,
+                  'noOfEndsWarpMinMax': item.noOfEndsWarpMinMax,
+                  'showWeftCount': item.showWeftCount,
+                  'weftCountMinMax': item.weftCountMinMax,
+                  'showWeftPly': item.showWeftPly,
+                  'showNoOfPickWeft': item.showNoOfPickWeft,
+                  'noOfPickWeftMinMax': item.noOfPickWeftMinMax,
+                  'showWidth': item.showWidth,
+                  'widthMinMax': item.widthMinMax,
+                  'showWeave': item.showWeave,
+                  'showLoom': item.showLoom,
+                  'showSalvedge': item.showSalvedge,
+                  'showTuckinWidth': item.showTuckinWidth,
+                  'showTuckinWidthMinMax': item.showTuckinWidthMinMax,
+                  'showOnce': item.showOnce,
+                  'onceMinMax': item.onceMinMax,
+                  'showLayyer': item.showLayyer,
+                  'fabricSettingIsActive': item.fabricSettingIsActive,
+                  'fabricSettingSortid': item.fabricSettingSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricSetting> _fabricSettingInsertionAdapter;
+
+  @override
+  Future<List<FabricSetting>> findAllFabricSettings() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_settings',
+        mapper: (Map<String, Object?> row) => FabricSetting(
+            fabricSettingId: row['fabricSettingId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            showCount: row['showCount'] as String?,
+            countMinMax: row['countMinMax'] as String?,
+            showPly: row['showPly'] as String?,
+            showBlend: row['showBlend'] as String?,
+            showGsm: row['showGsm'] as String?,
+            gsmCountMinMax: row['gsmCountMinMax'] as String?,
+            showRatio: row['showRatio'] as String?,
+            showKnittingType: row['showKnittingType'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showDyingMethod: row['showDyingMethod'] as String?,
+            showColor: row['showColor'] as String?,
+            showQuality: row['showQuality'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showWarpCount: row['showWarpCount'] as String?,
+            warpCountMinMax: row['warpCountMinMax'] as String?,
+            showWarpPly: row['showWarpPly'] as String?,
+            showNoOfEndsWarp: row['showNoOfEndsWarp'] as String?,
+            noOfEndsWarpMinMax: row['noOfEndsWarpMinMax'] as String?,
+            showWeftCount: row['showWeftCount'] as String?,
+            weftCountMinMax: row['weftCountMinMax'] as String?,
+            showWeftPly: row['showWeftPly'] as String?,
+            showNoOfPickWeft: row['showNoOfPickWeft'] as String?,
+            noOfPickWeftMinMax: row['noOfPickWeftMinMax'] as String?,
+            showWidth: row['showWidth'] as String?,
+            widthMinMax: row['widthMinMax'] as String?,
+            showWeave: row['showWeave'] as String?,
+            showLoom: row['showLoom'] as String?,
+            showSalvedge: row['showSalvedge'] as String?,
+            showTuckinWidth: row['showTuckinWidth'] as String?,
+            showTuckinWidthMinMax: row['showTuckinWidthMinMax'] as String?,
+            showOnce: row['showOnce'] as String?,
+            onceMinMax: row['onceMinMax'] as String?,
+            showLayyer: row['showLayyer'] as String?,
+            fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
+            fabricSettingSortid: row['fabricSettingSortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricSetting>> findFamilyFabricSettings(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_settings where fabric_setting_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricSetting(
+            fabricSettingId: row['fabricSettingId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            showCount: row['showCount'] as String?,
+            countMinMax: row['countMinMax'] as String?,
+            showPly: row['showPly'] as String?,
+            showBlend: row['showBlend'] as String?,
+            showGsm: row['showGsm'] as String?,
+            gsmCountMinMax: row['gsmCountMinMax'] as String?,
+            showRatio: row['showRatio'] as String?,
+            showKnittingType: row['showKnittingType'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showDyingMethod: row['showDyingMethod'] as String?,
+            showColor: row['showColor'] as String?,
+            showQuality: row['showQuality'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showWarpCount: row['showWarpCount'] as String?,
+            warpCountMinMax: row['warpCountMinMax'] as String?,
+            showWarpPly: row['showWarpPly'] as String?,
+            showNoOfEndsWarp: row['showNoOfEndsWarp'] as String?,
+            noOfEndsWarpMinMax: row['noOfEndsWarpMinMax'] as String?,
+            showWeftCount: row['showWeftCount'] as String?,
+            weftCountMinMax: row['weftCountMinMax'] as String?,
+            showWeftPly: row['showWeftPly'] as String?,
+            showNoOfPickWeft: row['showNoOfPickWeft'] as String?,
+            noOfPickWeftMinMax: row['noOfPickWeftMinMax'] as String?,
+            showWidth: row['showWidth'] as String?,
+            widthMinMax: row['widthMinMax'] as String?,
+            showWeave: row['showWeave'] as String?,
+            showLoom: row['showLoom'] as String?,
+            showSalvedge: row['showSalvedge'] as String?,
+            showTuckinWidth: row['showTuckinWidth'] as String?,
+            showTuckinWidthMinMax: row['showTuckinWidthMinMax'] as String?,
+            showOnce: row['showOnce'] as String?,
+            onceMinMax: row['onceMinMax'] as String?,
+            showLayyer: row['showLayyer'] as String?,
+            fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
+            fabricSettingSortid: row['fabricSettingSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricSetting(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_settings where fabric_setting_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricSettings() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_settings');
+  }
+
+  @override
+  Future<void> insertFabricSetting(FabricSetting fabricSettings) async {
+    await _fabricSettingInsertionAdapter.insert(
+        fabricSettings, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricSettings(List<FabricSetting> fiberSettings) {
+    return _fabricSettingInsertionAdapter.insertListAndReturnIds(
+        fiberSettings, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricFamilyDao extends FabricFamilyDao {
+  _$FabricFamilyDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricFamilyInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_family',
+            (FabricFamily item) => <String, Object?>{
+                  'fabricFamilyId': item.fabricFamilyId,
+                  'fabricFamilyName': item.fabricFamilyName,
+                  'iconSelected': item.iconSelected,
+                  'iconUnselected': item.iconUnselected,
+                  'fabricFamilyType': item.fabricFamilyType,
+                  'fabricFamilyDescription': item.fabricFamilyDescription,
+                  'fabricFamilyActive': item.fabricFamilyActive,
+                  'fabricFamilySortid': item.fabricFamilySortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricFamily> _fabricFamilyInsertionAdapter;
+
+  @override
+  Future<List<FabricFamily>> findAllFabricFamily() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_family',
+        mapper: (Map<String, Object?> row) => FabricFamily(
+            fabricFamilyId: row['fabricFamilyId'] as int?,
+            fabricFamilyName: row['fabricFamilyName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            fabricFamilyType: row['fabricFamilyType'] as String?,
+            fabricFamilyDescription: row['fabricFamilyDescription'] as String?,
+            fabricFamilyActive: row['fabricFamilyActive'] as String?,
+            fabricFamilySortid: row['fabricFamilySortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricFamily>> findFamilyFabricFamily(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_family where fabric_family_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricFamily(
+            fabricFamilyId: row['fabricFamilyId'] as int?,
+            fabricFamilyName: row['fabricFamilyName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            fabricFamilyType: row['fabricFamilyType'] as String?,
+            fabricFamilyDescription: row['fabricFamilyDescription'] as String?,
+            fabricFamilyActive: row['fabricFamilyActive'] as String?,
+            fabricFamilySortid: row['fabricFamilySortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricFamily(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_family where fabric_family_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricFamilies() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_family');
+  }
+
+  @override
+  Future<void> insertFabricFamily(FabricFamily fabricFamily) async {
+    await _fabricFamilyInsertionAdapter.insert(
+        fabricFamily, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricFamily(List<FabricFamily> fabricFamily) {
+    return _fabricFamilyInsertionAdapter.insertListAndReturnIds(
+        fabricFamily, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricBlendsDao extends FabricBlendsDao {
+  _$FabricBlendsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricBlendsInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_blends',
+            (FabricBlends item) => <String, Object?>{
+                  'blnId': item.blnId,
+                  'blnCategoryIdfk': item.blnCategoryIdfk,
+                  'familyIdfk': item.familyIdfk,
+                  'blnName': item.blnName,
+                  'blnAbrv': item.blnAbrv,
+                  'minMax': item.minMax,
+                  'iconSelected': item.iconSelected,
+                  'iconUnselected': item.iconUnselected,
+                  'blnIsActive': item.blnIsActive,
+                  'blnSortid': item.blnSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricBlends> _fabricBlendsInsertionAdapter;
+
+  @override
+  Future<List<FabricBlends>> findAllFabricBlends() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_blends',
+        mapper: (Map<String, Object?> row) => FabricBlends(
+            blnId: row['blnId'] as int?,
+            blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnName: row['blnName'] as String?,
+            blnAbrv: row['blnAbrv'] as String?,
+            minMax: row['minMax'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricBlends>> findFabricBlend(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_blends where bln_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricBlends(
+            blnId: row['blnId'] as int?,
+            blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnName: row['blnName'] as String?,
+            blnAbrv: row['blnAbrv'] as String?,
+            minMax: row['minMax'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricBlend(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_blends where bln_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricBlends() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_blends');
+  }
+
+  @override
+  Future<void> insertFabricBlends(FabricBlends fabricBlends) async {
+    await _fabricBlendsInsertionAdapter.insert(
+        fabricBlends, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricBlends(List<FabricBlends> fabricBlends) {
+    return _fabricBlendsInsertionAdapter.insertListAndReturnIds(
+        fabricBlends, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricAppearanceDao extends FabricAppearanceDao {
+  _$FabricAppearanceDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricAppearanceInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_appearance',
+            (FabricAppearance item) => <String, Object?>{
+                  'fabricAppearanceId': item.fabricAppearanceId,
+                  'fabricAppearanceName': item.fabricAppearanceName,
+                  'fabricAppearanceSortid': item.fabricAppearanceSortid,
+                  'fabricAppearanceIsActive': item.fabricAppearanceIsActive,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricAppearance> _fabricAppearanceInsertionAdapter;
+
+  @override
+  Future<List<FabricAppearance>> findAllFabricAppearance() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_appearance',
+        mapper: (Map<String, Object?> row) => FabricAppearance(
+            fabricAppearanceId: row['fabricAppearanceId'] as int?,
+            fabricAppearanceName: row['fabricAppearanceName'] as String?,
+            fabricAppearanceSortid: row['fabricAppearanceSortid'] as String?,
+            fabricAppearanceIsActive:
+                row['fabricAppearanceIsActive'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricAppearance>> findFabricAppearance(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_appearance where fabric_appearance_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricAppearance(
+            fabricAppearanceId: row['fabricAppearanceId'] as int?,
+            fabricAppearanceName: row['fabricAppearanceName'] as String?,
+            fabricAppearanceSortid: row['fabricAppearanceSortid'] as String?,
+            fabricAppearanceIsActive:
+                row['fabricAppearanceIsActive'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricAppearance(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_appearance where fabric_appearance_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricAppearances() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_appearance');
+  }
+
+  @override
+  Future<void> insertFabricAppearance(FabricAppearance fabricAppearance) async {
+    await _fabricAppearanceInsertionAdapter.insert(
+        fabricAppearance, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricAppearance(
+      List<FabricAppearance> fabricAppearance) {
+    return _fabricAppearanceInsertionAdapter.insertListAndReturnIds(
+        fabricAppearance, OnConflictStrategy.replace);
+  }
+}
+
+class _$KnittingTypesDao extends KnittingTypesDao {
+  _$KnittingTypesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _knittingTypesInsertionAdapter = InsertionAdapter(
+            database,
+            'knitting_types',
+            (KnittingTypes item) => <String, Object?>{
+                  'fabricKnittingTypeId': item.fabricKnittingTypeId,
+                  'fabricKnittingTypeName': item.fabricKnittingTypeName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<KnittingTypes> _knittingTypesInsertionAdapter;
+
+  @override
+  Future<List<KnittingTypes>> findAllKnittingTypes() async {
+    return _queryAdapter.queryList('SELECT * FROM knitting_types',
+        mapper: (Map<String, Object?> row) => KnittingTypes(
+            fabricKnittingTypeId: row['fabricKnittingTypeId'] as int?,
+            fabricKnittingTypeName: row['fabricKnittingTypeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<KnittingTypes>> findKnittingType(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM knitting_types where fabric_knitting_type_id = ?1',
+        mapper: (Map<String, Object?> row) => KnittingTypes(
+            fabricKnittingTypeId: row['fabricKnittingTypeId'] as int?,
+            fabricKnittingTypeName: row['fabricKnittingTypeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteKnittingType(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from knitting_types where fabric_knitting_type_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteKnittingTypes() async {
+    await _queryAdapter.queryNoReturn('delete from knitting_types');
+  }
+
+  @override
+  Future<void> insertKnittingTypes(KnittingTypes knittingTypes) async {
+    await _knittingTypesInsertionAdapter.insert(
+        knittingTypes, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllKnittingTypes(List<KnittingTypes> knittingTypes) {
+    return _knittingTypesInsertionAdapter.insertListAndReturnIds(
+        knittingTypes, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricPlyDao extends FabricPlyDao {
+  _$FabricPlyDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricPlyInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_ply',
+            (FabricPly item) => <String, Object?>{
+                  'fabricPlyId': item.fabricPlyId,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk,
+                  'fabricPlyType': item.fabricPlyType,
+                  'fabricPlyName': item.fabricPlyName,
+                  'fabricPlyDescription': item.fabricPlyDescription,
+                  'fabricPlyIsActive': item.fabricPlyIsActive,
+                  'fabricPlySortid': item.fabricPlySortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricPly> _fabricPlyInsertionAdapter;
+
+  @override
+  Future<List<FabricPly>> findAllFabricPly() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_ply',
+        mapper: (Map<String, Object?> row) => FabricPly(
+            fabricPlyId: row['fabricPlyId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fabricPlyType: row['fabricPlyType'] as String?,
+            fabricPlyName: row['fabricPlyName'] as String?,
+            fabricPlyDescription: row['fabricPlyDescription'] as String?,
+            fabricPlyIsActive: row['fabricPlyIsActive'] as String?,
+            fabricPlySortid: row['fabricPlySortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricPly>> findFabricPly(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_ply where fabric_ply_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricPly(
+            fabricPlyId: row['fabricPlyId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fabricPlyType: row['fabricPlyType'] as String?,
+            fabricPlyName: row['fabricPlyName'] as String?,
+            fabricPlyDescription: row['fabricPlyDescription'] as String?,
+            fabricPlyIsActive: row['fabricPlyIsActive'] as String?,
+            fabricPlySortid: row['fabricPlySortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricPly(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_ply where fabric_ply_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricPlys() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_ply');
+  }
+
+  @override
+  Future<void> insertFabricPly(FabricPly fabricFabricPly) async {
+    await _fabricPlyInsertionAdapter.insert(
+        fabricFabricPly, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricPly(List<FabricPly> fabricFabricPly) {
+    return _fabricPlyInsertionAdapter.insertListAndReturnIds(
+        fabricFabricPly, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricColorTreatmentMethodDao extends FabricColorTreatmentMethodDao {
+  _$FabricColorTreatmentMethodDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricColorTreatmentMethodInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_color_treatment_method',
+            (FabricColorTreatmentMethod item) => <String, Object?>{
+                  'fctmId': item.fctmId,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk,
+                  'fctmName': item.fctmName,
+                  'fctmDescription': item.fctmDescription,
+                  'fctmIsActive': item.fctmIsActive,
+                  'fctmSortid': item.fctmSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricColorTreatmentMethod>
+      _fabricColorTreatmentMethodInsertionAdapter;
+
+  @override
+  Future<List<FabricColorTreatmentMethod>>
+      findAllFabricColorTreatmentMethod() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_color_treatment_method',
+        mapper: (Map<String, Object?> row) => FabricColorTreatmentMethod(
+            fctmId: row['fctmId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fctmName: row['fctmName'] as String?,
+            fctmDescription: row['fctmDescription'] as String?,
+            fctmIsActive: row['fctmIsActive'] as String?,
+            fctmSortid: row['fctmSortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricColorTreatmentMethod>> findFabricColorTreatmentMethod(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_color_treatment_method where fctm_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricColorTreatmentMethod(
+            fctmId: row['fctmId'] as int?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fctmName: row['fctmName'] as String?,
+            fctmDescription: row['fctmDescription'] as String?,
+            fctmIsActive: row['fctmIsActive'] as String?,
+            fctmSortid: row['fctmSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricFiberColorTreatmentMethod(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fiber_color_treatment_method where fctm_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricFiberColorTreatmentMethods() async {
+    await _queryAdapter
+        .queryNoReturn('delete from fiber_color_treatment_method');
+  }
+
+  @override
+  Future<void> insertFabricColorTreatmentMethod(
+      FabricColorTreatmentMethod fabricColorTreatmentMethod) async {
+    await _fabricColorTreatmentMethodInsertionAdapter.insert(
+        fabricColorTreatmentMethod, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricFiberColorTreatmentMethod(
+      List<FabricColorTreatmentMethod> fabricColorTreatmentMethod) {
+    return _fabricColorTreatmentMethodInsertionAdapter.insertListAndReturnIds(
+        fabricColorTreatmentMethod, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricDyingTechniqueDao extends FabricDyingTechniqueDao {
+  _$FabricDyingTechniqueDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricDyingTechniquesInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_dying_techniques',
+            (FabricDyingTechniques item) => <String, Object?>{
+                  'fdtId': item.fdtId,
+                  'fctmIdfk': item.fctmIdfk,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk,
+                  'fdtName': item.fdtName,
+                  'fdtIsActive': item.fdtIsActive,
+                  'fdtSortid': item.fdtSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricDyingTechniques>
+      _fabricDyingTechniquesInsertionAdapter;
+
+  @override
+  Future<List<FabricDyingTechniques>> findAllFabricDyingTechniques() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_dying_techniques',
+        mapper: (Map<String, Object?> row) => FabricDyingTechniques(
+            fdtId: row['fdtId'] as int?,
+            fctmIdfk: row['fctmIdfk'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fdtName: row['fdtName'] as String?,
+            fdtIsActive: row['fdtIsActive'] as String?,
+            fdtSortid: row['fdtSortid'] as String?));
+  }
+
+  @override
+  Future<List<FabricDyingTechniques>> findFabricDyingTechnique(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_dying_techniques where fdt_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricDyingTechniques(
+            fdtId: row['fdtId'] as int?,
+            fctmIdfk: row['fctmIdfk'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
+            fdtName: row['fdtName'] as String?,
+            fdtIsActive: row['fdtIsActive'] as String?,
+            fdtSortid: row['fdtSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricDyingTechnique(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_dying_techniques where fdt_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricDyingTechniques() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_dying_techniques');
+  }
+
+  @override
+  Future<void> insertFabricDyingTechnique(
+      FabricDyingTechniques fabricFabricDyingTechnique) async {
+    await _fabricDyingTechniquesInsertionAdapter.insert(
+        fabricFabricDyingTechnique, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricDyingTechnique(
+      List<FabricDyingTechniques> fabricFabricDyingTechnique) {
+    return _fabricDyingTechniquesInsertionAdapter.insertListAndReturnIds(
+        fabricFabricDyingTechnique, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricQualityDao extends FabricQualityDao {
+  _$FabricQualityDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricQualityInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_quality',
+            (FabricQuality item) => <String, Object?>{
+                  'fabricQualityId': item.fabricQualityId,
+                  'fabricQualityName': item.fabricQualityName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricQuality> _fabricQualityInsertionAdapter;
+
+  @override
+  Future<List<FabricQuality>> findAllFabricQuality() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_quality',
+        mapper: (Map<String, Object?> row) => FabricQuality(
+            fabricQualityId: row['fabricQualityId'] as int?,
+            fabricQualityName: row['fabricQualityName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricQuality>> findFabricQuality(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_quality where fabric_quality_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricQuality(
+            fabricQualityId: row['fabricQualityId'] as int?,
+            fabricQualityName: row['fabricQualityName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricQuality(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_quality where fabric_quality_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricQualities() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_quality');
+  }
+
+  @override
+  Future<void> insertFabricQuality(FabricQuality fabricFabricQuality) async {
+    await _fabricQualityInsertionAdapter.insert(
+        fabricFabricQuality, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricQuality(
+      List<FabricQuality> fabricFabricQuality) {
+    return _fabricQualityInsertionAdapter.insertListAndReturnIds(
+        fabricFabricQuality, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricGradesDao extends FabricGradesDao {
+  _$FabricGradesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricGradesInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_grades',
+            (FabricGrades item) => <String, Object?>{
+                  'fabricGradeId': item.fabricGradeId,
+                  'fabricGradeName': item.fabricGradeName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricGrades> _fabricGradesInsertionAdapter;
+
+  @override
+  Future<List<FabricGrades>> findAllFabricGrade() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_grades',
+        mapper: (Map<String, Object?> row) => FabricGrades(
+            fabricGradeId: row['fabricGradeId'] as int?,
+            fabricGradeName: row['fabricGradeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricGrades>> findFabricGrade(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_grades where fabric_grade_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricGrades(
+            fabricGradeId: row['fabricGradeId'] as int?,
+            fabricGradeName: row['fabricGradeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricGrade(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_grades where fabric_grade_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricGrades() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_grades');
+  }
+
+  @override
+  Future<void> insertFabricGrade(FabricGrades fabricFabricGrade) async {
+    await _fabricGradesInsertionAdapter.insert(
+        fabricFabricGrade, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricGrade(List<FabricGrades> fabricFabricGrade) {
+    return _fabricGradesInsertionAdapter.insertListAndReturnIds(
+        fabricFabricGrade, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricLoomDao extends FabricLoomDao {
+  _$FabricLoomDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricLoomInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_loom',
+            (FabricLoom item) => <String, Object?>{
+                  'fabricLoomId': item.fabricLoomId,
+                  'fabricLoomName': item.fabricLoomName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricLoom> _fabricLoomInsertionAdapter;
+
+  @override
+  Future<List<FabricLoom>> findAllFabricLoom() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_loom',
+        mapper: (Map<String, Object?> row) => FabricLoom(
+            fabricLoomId: row['fabricLoomId'] as int?,
+            fabricLoomName: row['fabricLoomName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricLoom>> findFabricLoom(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_loom where fabric_loom_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricLoom(
+            fabricLoomId: row['fabricLoomId'] as int?,
+            fabricLoomName: row['fabricLoomName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricLoom(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_loom where fabric_loom_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricLooms() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_loom');
+  }
+
+  @override
+  Future<void> insertFabricLoom(FabricLoom fabricFabricLoom) async {
+    await _fabricLoomInsertionAdapter.insert(
+        fabricFabricLoom, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricLoom(List<FabricLoom> fabricFabricLoom) {
+    return _fabricLoomInsertionAdapter.insertListAndReturnIds(
+        fabricFabricLoom, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricSalvedgeDao extends FabricSalvedgeDao {
+  _$FabricSalvedgeDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricSalvedgeInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_salvedge',
+            (FabricSalvedge item) => <String, Object?>{
+                  'fabricSalvedgeId': item.fabricSalvedgeId,
+                  'fabricSalvedgeName': item.fabricSalvedgeName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricSalvedge> _fabricSalvedgeInsertionAdapter;
+
+  @override
+  Future<List<FabricSalvedge>> findAllFabricSalvedge() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_salvedge',
+        mapper: (Map<String, Object?> row) => FabricSalvedge(
+            fabricSalvedgeId: row['fabricSalvedgeId'] as int?,
+            fabricSalvedgeName: row['fabricSalvedgeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricSalvedge>> findFabricSalvedge(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_salvedge where fabric_salvedge_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricSalvedge(
+            fabricSalvedgeId: row['fabricSalvedgeId'] as int?,
+            fabricSalvedgeName: row['fabricSalvedgeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricSalvedge(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_salvedge where fabric_salvedge_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricSalvedges() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_salvedge');
+  }
+
+  @override
+  Future<void> insertFabricSalvedge(FabricSalvedge fabricFabricSalvedge) async {
+    await _fabricSalvedgeInsertionAdapter.insert(
+        fabricFabricSalvedge, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricSalvedge(
+      List<FabricSalvedge> fabricFabricSalvedge) {
+    return _fabricSalvedgeInsertionAdapter.insertListAndReturnIds(
+        fabricFabricSalvedge, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricWeaveDao extends FabricWeaveDao {
+  _$FabricWeaveDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricWeaveInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_weave',
+            (FabricWeave item) => <String, Object?>{
+                  'fabricWeaveId': item.fabricWeaveId,
+                  'fabricWeaveName': item.fabricWeaveName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricWeave> _fabricWeaveInsertionAdapter;
+
+  @override
+  Future<List<FabricWeave>> findAllFabricWeave() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_weave',
+        mapper: (Map<String, Object?> row) => FabricWeave(
+            fabricWeaveId: row['fabricWeaveId'] as int?,
+            fabricWeaveName: row['fabricWeaveName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricWeave>> findFabricWeave(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_weave where fabric_weave_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricWeave(
+            fabricWeaveId: row['fabricWeaveId'] as int?,
+            fabricWeaveName: row['fabricWeaveName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricWeave(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_weave where fabric_weave_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricWeaves() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_weave');
+  }
+
+  @override
+  Future<void> insertFabricWeave(FabricWeave fabricFabricWeave) async {
+    await _fabricWeaveInsertionAdapter.insert(
+        fabricFabricWeave, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricWeave(List<FabricWeave> fabricFabricWeave) {
+    return _fabricWeaveInsertionAdapter.insertListAndReturnIds(
+        fabricFabricWeave, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricLayyerDao extends FabricLayyerDao {
+  _$FabricLayyerDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fabricLayyerInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_layyer',
+            (FabricLayyer item) => <String, Object?>{
+                  'fabricLayyerId': item.fabricLayyerId,
+                  'fabricLayyerName': item.fabricLayyerName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FabricLayyer> _fabricLayyerInsertionAdapter;
+
+  @override
+  Future<List<FabricLayyer>> findAllFabricLayyer() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_layyer',
+        mapper: (Map<String, Object?> row) => FabricLayyer(
+            fabricLayyerId: row['fabricLayyerId'] as int?,
+            fabricLayyerName: row['fabricLayyerName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<FabricLayyer>> findFabricLayyer(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_layyer where fabric_layyer_id = ?1',
+        mapper: (Map<String, Object?> row) => FabricLayyer(
+            fabricLayyerId: row['fabricLayyerId'] as int?,
+            fabricLayyerName: row['fabricLayyerName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricLayyer(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_layyer where fabric_layyer_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricLayyers() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_layyer');
+  }
+
+  @override
+  Future<void> insertFabricLayyer(FabricLayyer fabricFabricLayyer) async {
+    await _fabricLayyerInsertionAdapter.insert(
+        fabricFabricLayyer, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricLayyer(
+      List<FabricLayyer> fabricFabricLayyer) {
+    return _fabricLayyerInsertionAdapter.insertListAndReturnIds(
+        fabricFabricLayyer, OnConflictStrategy.replace);
   }
 }
 

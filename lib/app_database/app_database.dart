@@ -8,6 +8,7 @@ import 'package:yg_app/app_database/dao/city_state_dao.dart';
 import 'package:yg_app/app_database/dao/companies_dao.dart';
 import 'package:yg_app/app_database/dao/countries_dao.dart';
 import 'package:yg_app/app_database/dao/deliver_period_dao.dart';
+import 'package:yg_app/app_database/dao/fabric_dao/fabric_family_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_appearance_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_material_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_nature_dao.dart';
@@ -57,7 +58,21 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/sync/sync_response.dart';
+import 'dao/fabric_dao/fabric_appearance_dao.dart';
+import 'dao/fabric_dao/fabric_blends_dao.dart';
+import 'dao/fabric_dao/fabric_color_treatment_dao.dart';
+import 'dao/fabric_dao/fabric_dying_techniques_dao.dart';
+import 'dao/fabric_dao/fabric_grades_dao.dart';
+import 'dao/fabric_dao/fabric_layyer_dao.dart';
+import 'dao/fabric_dao/fabric_loom_dao.dart';
+import 'dao/fabric_dao/fabric_ply_dao.dart';
+import 'dao/fabric_dao/fabric_quality_dao.dart';
+import 'dao/fabric_dao/fabric_salvedge_dao.dart';
+import 'dao/fabric_dao/fabric_settings_dao.dart';
+import 'dao/fabric_dao/fabric_weave_dao.dart';
+import 'dao/fabric_dao/knitting_types_dao.dart';
 import 'dao/grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
 import 'package:build_daemon/constants.dart';
@@ -67,7 +82,8 @@ import 'dao/yarn_grades_dao.dart';
 part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
-  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,
+  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,FabricAppearance,KnittingTypes,FabricPly,
+  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,Stocklots,StocklotCategories])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
@@ -92,6 +108,21 @@ abstract class AppDatabase extends FloorDatabase {
   UnitDao get unitDao;
   StocklotCategoriesDao get stocklotCategoriesDao;
   StocklotDao get stocklotDao;
+
+  FabricSettingDao get fabricSettingDao;
+  FabricFamilyDao get fabricFamilyDao;
+  FabricBlendsDao get fabricBlendsDao;
+  FabricAppearanceDao get fabricAppearanceDao;
+  KnittingTypesDao get knittingTypesDao;
+  FabricPlyDao get fabricPlyDao;
+  FabricColorTreatmentMethodDao get fabricColorTreatmentMethodDao;
+  FabricDyingTechniqueDao get fabricDyingTechniqueDao;
+  FabricQualityDao get fabricQualityDao;
+  FabricGradesDao get fabricGradesDao;
+  FabricLoomDao get fabricLoomDao;
+  FabricSalvedgeDao get fabricSalvedgeDao;
+  FabricWeaveDao get fabricWeaveDao;
+  FabricLayyerDao get fabricLayyerDao;
 
   YarnSettingDao get yarnSettingsDao;
   YarnFamilyDao get yarnFamilyDao;
