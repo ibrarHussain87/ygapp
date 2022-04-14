@@ -258,17 +258,19 @@ class FabricSpecificationComponentState
                                       visible: Ui.showHide(_fabricSettings!.showWarpCount),
                                       child: Expanded(
                                         child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: TitleSmallTextWidget(title: ratio + '*')),
-                                            YgTextFormFieldWithoutRange(
-                                                errorText: ratio,
+                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
+                                            YgTextFormFieldWithRangeNonDecimal(
+                                                errorText: count,
+                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                minMax: _fabricSettings!.warpCountMinMax??'n/a',
                                                 onSaved: (input) {
                                                   _createRequestModel!.fs_warp_count = input;
                                                 })
                                           ],
-                                          crossAxisAlignment: CrossAxisAlignment.start,
                                         ),
                                       ),
                                     ),
@@ -279,20 +281,71 @@ class FabricSpecificationComponentState
                                           : 0,
                                     ),
                                     Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showCount),
+                                      visible: Ui.showHide(_fabricSettings!.showNoOfEndsWarp),
                                       child: Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: TitleSmallTextWidget(title: count + '*')),
+                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: count,
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                                minMax: _fabricSettings!.countMinMax!,
+                                                minMax: _fabricSettings!.noOfEndsWarpMinMax??'n/a',
                                                 onSaved: (input) {
-                                                  _createRequestModel!.fs_count = input;
+                                                  _createRequestModel!.fs_no_of_ends_warp = input;
+                                                })
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                //Show Weft count and No of Picks
+                                Row(
+                                  children: [
+                                    Visibility(
+                                      visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                      child: Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
+                                            YgTextFormFieldWithRangeNonDecimal(
+                                                errorText: count,
+                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                minMax: _fabricSettings!.weftCountMinMax??'n/a',
+                                                onSaved: (input) {
+                                                  _createRequestModel!.fs_weft_count = input;
+                                                })
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
+                                          Ui.showHide(_fabricSettings!.showCount))
+                                          ? 16.w
+                                          : 0,
+                                    ),
+                                    Visibility(
+                                      visible: Ui.showHide(_fabricSettings!.showNoOfPickWeft),
+                                      child: Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
+                                            YgTextFormFieldWithRangeNonDecimal(
+                                                errorText: count,
+                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                                minMax: _fabricSettings!.noOfPickWeftMinMax??'n/a',
+                                                onSaved: (input) {
+                                                  _createRequestModel!.fs_no_of_pick_weft = input;
                                                 })
                                           ],
                                         ),
@@ -345,7 +398,7 @@ class FabricSpecificationComponentState
 
                                         YgTextFormFieldWithRange(
                                             errorText: fiberLength,
-                                            minMax: _fabricSettings!.gsmCountMinMax!,
+                                            minMax: _fabricSettings!.gsmCountMinMax??'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
                                                   .fs_gsm_count =
