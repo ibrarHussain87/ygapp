@@ -14,6 +14,7 @@ import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
+import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
@@ -24,7 +25,8 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
-import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
@@ -378,12 +380,31 @@ class ApiService {
     }
   }
 
-  static jsonToFormData(
-      http.MultipartRequest request, Map<String, dynamic> data) {
-    for (var key in data.keys) {
-      request.fields[key] = data[key].toString();
+  static Future<StockLotSpecificationResponse> getStockLotSpecifications(
+      GetStockLotSpecRequestModel getRequestModel) async {
+    try {
+      String url = BASE_API_URL + GET_SPEC_END_POINT;
+
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      getRequestModel.spcUserIdfk = userID;
+      logger.e(getRequestModel.toJson());
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(getRequestModel.toJson()));
+      logger.e(response.data);
+      return StockLotSpecificationResponse.fromJson(response.data);
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
     }
-    return request;
   }
 
   static Future<ListBidResponse> getListBidders(
@@ -727,42 +748,4 @@ class ApiService {
     }
   }
 
-// static Future<dynamic> specificationRequest(
-//     String specId, String catId) async {
-//   try {
-//     var userToken =
-//     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-//     headerMap['Authorization'] = 'Bearer $userToken';
-//     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-//     Map<String, dynamic> data = {
-//       "user_id": userID.toString(),
-//       "specification_id": specId,
-//       "category_id": catId
-//     };
-//     String url = BASE_API_URL + "/copy_spec";
-//
-//     final response =
-//     await http.post(Uri.parse(url), headers: headerMap, body: data);
-//
-//     if(catId == "1"){
-//       return FiberSpecificationResponse.fromJson(
-//         json.decode(response.body),
-//       );
-//     }else{
-//       return GetYarnSpecificationResponse.fromJson(
-//         json.decode(response.body),
-//       );
-//     }
-//
-//
-//   } catch (e) {
-//     if (e is SocketException) {
-//       throw (no_internet_available_msg);
-//     } else if (e is TimeoutException) {
-//       throw (e.toString());
-//     } else {
-//       throw ("Something went wrong");
-//     }
-//   }
-// }
 }

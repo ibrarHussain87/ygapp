@@ -11,10 +11,14 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:intl/intl.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 class StockLotListItem extends StatefulWidget {
-  const StockLotListItem({Key? key}) : super(key: key);
+
+  final StockLotSpecification specification;
+  const StockLotListItem({Key? key,required this.specification}) : super(key: key);
 
   @override
   State<StockLotListItem> createState() => _StockLotListItemState();
@@ -143,7 +147,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                             horizontal: 5, vertical: 1),
                                         child: Center(
                                           child: TitleMediumBoldSmallTextWidget(
-                                            title: "Dummy"/*Utils.setFamilyData(
+                                            title: widget.specification.categoryId/*Utils.setFamilyData(
                                                 specification)*/,
                                             color: Colors.white,
                                             textSize: 12,
@@ -192,14 +196,14 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                           iconSize: 12,
                                         ),
                                         ShortDetailRenewedWidget(
-                                          title: "34"/*specification.weightCone*/ /*??
+                                          title: widget.specification.availablity/*specification.weightCone*/ /*??
                                               Utils.checkNullString(false)*/,
                                           imageIcon: IC_CONE_RENEWED,
                                           size: 10.sp,
                                           iconSize: 12,
                                         ),
                                         ShortDetailRenewedWidget(
-                                          title: /*specification.deliveryPeriod*/ "Price Term"/*??
+                                          title: /*specification.deliveryPeriod*/ widget.specification.priceTerm/*??
                                               Utils.checkNullString(false)*/,
                                           imageIcon: IC_VAN_RENEWED,
                                           size: 10.sp,
@@ -289,10 +293,10 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                     ),
                                     Text.rich(TextSpan(children: [
                                       TextSpan(
-                                        text: "Nov 23, 4:33 PM" /*DateFormat(
+                                        text: DateFormat(
                                                 "MMM dd, yyyy")
                                             .format(DateTime.parse(
-                                                specification.date ?? ""))*/,
+                                                widget.specification.date ?? "")),
                                         style: TextStyle(
                                             fontSize: 10.sp,
                                             color: lightBlueLabel),

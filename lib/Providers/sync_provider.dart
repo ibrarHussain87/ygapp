@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
-import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
 import '../api_services/api_service_class.dart';
 import '../app_database/app_database_instance.dart';
@@ -182,8 +182,6 @@ class SyncProvider extends ChangeNotifier{
           }
         })
       ]);
-
-
       SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, true);
     }
 

@@ -1,12 +1,11 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
-
-import '../common_response_models/city_state_response.dart';
-import '../common_response_models/countries_response.dart';
-import '../common_response_models/delievery_period.dart';
-import '../common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 
 class StockLotSyncResponse {
   bool? status;

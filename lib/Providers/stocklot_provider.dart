@@ -4,10 +4,12 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
-import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
 import '../app_database/app_database_instance.dart';
 import '../helper_utils/ui_utils.dart';
@@ -25,7 +27,7 @@ class StocklotProvider extends ChangeNotifier {
   final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
       GlobalKey<SingleSelectTileWidgetState>();
 
-  List<StocklotCategories>? stocklotAllCategories = [];
+  List<StocklotCategories> stocklotAllCategories = [];
   List<StocklotCategories>? stocklots = [];
   List<StocklotCategories>? stocklotCategories = [];
   List<Stocklots>? stocklotAllSubcategories = [];
@@ -36,6 +38,7 @@ class StocklotProvider extends ChangeNotifier {
   List<AvailabilityModel>? availabilityList = [];
   List<StocklotWasteModel>? stocklotWasteList = [];
   List<StocklotWasteModel>? filteredStocklotWasteList = [];
+  List<StockLotSpecification> listStockLotSpec = [];
   bool loading = false;
   bool ignoreClick = false;
   int selectedSubCategoryId = -1;
@@ -43,12 +46,13 @@ class StocklotProvider extends ChangeNotifier {
   int? categoryId = -1;
   int? subcategoryId = -1;
   bool expandStockLostWast = true;
+  String apiError = "";
   List<PickedFile> imageFiles = [];
   var stocklotRequestModel = StocklotRequestModel();
 
   getStocklotData() async {
     loading = true;
-    stocklotAllCategories!.clear();
+    stocklotAllCategories.clear();
     stocklots!.clear();
     stocklotAllSubcategories!.clear();
     unitsList!.clear();
@@ -59,7 +63,7 @@ class StocklotProvider extends ChangeNotifier {
     var dbInstance = await AppDbInstance.getDbInstance();
     stocklotAllCategories =
         await dbInstance.stocklotCategoriesDao.findAllStocklotCategories();
-    stocklots = stocklotAllCategories!
+    stocklots = stocklotAllCategories
         .where((element) => element.parentId == null)
         .toList();
     stocklotAllSubcategories = await dbInstance.stocklotDao.findAllStocklots();
@@ -73,6 +77,7 @@ class StocklotProvider extends ChangeNotifier {
     loading = false;
     notifyListeners();
   }
+
 
   createStockLot(context) async {
     loading = true;
@@ -110,7 +115,7 @@ class StocklotProvider extends ChangeNotifier {
   getCategories(String id) async {
     stocklotId = int.parse(id);
     stocklotCategories!.clear();
-    stocklotCategories = stocklotAllCategories!
+    stocklotCategories = stocklotAllCategories
         .where((element) => element.parentId == id)
         .toList();
     if (stocklotCategories != null) {
@@ -125,7 +130,7 @@ class StocklotProvider extends ChangeNotifier {
     stocklotWasteList!.clear();
     subcategoryId = -1;
     selectedSubCategoryId = -1;
-    stocklotSubcategories = stocklotAllCategories!
+    stocklotSubcategories = stocklotAllCategories
         .where((element) => element.parentId == id)
         .toList();
     notifyListeners();

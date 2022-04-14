@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
 
 @dao

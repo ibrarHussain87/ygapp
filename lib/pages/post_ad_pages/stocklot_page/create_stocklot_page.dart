@@ -13,7 +13,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 import 'package:yg_app/pages/post_ad_pages/stocklot_page/component/stocklot_specification_body.dart';
 import '../../../elements/add_picture_widget.dart';

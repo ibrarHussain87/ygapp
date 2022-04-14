@@ -74,8 +74,7 @@ class FiberListingComponentState extends State<FiberListingComponent> {
     return FutureBuilder<FiberSpecificationResponse>(
       future:fiberSpecificationsProvider.getFibers(),
       builder: (BuildContext context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
           return Container(
             child: snapshot.data!.data.specification.isNotEmpty
                 ? FiberListingBody(

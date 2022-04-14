@@ -60,7 +60,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
-import '../model/response/stocklot_sync/stocklot_sync_response.dart';
+import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
 import 'dao/fabric_dao/fabric_blends_dao.dart';
 import 'dao/fabric_dao/fabric_color_treatment_dao.dart';
