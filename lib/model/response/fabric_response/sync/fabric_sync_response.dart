@@ -655,6 +655,10 @@ class FabricAppearance {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+  @override
+  String toString() {
+    return fabricAppearanceName ?? '';
+  }
 }
 
 @Entity(tableName: 'knitting_types')
@@ -681,6 +685,11 @@ class KnittingTypes {
     data['fabric_knitting_type_name'] = fabricKnittingTypeName;
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
+  }
+
+  @override
+  String toString() {
+    return fabricKnittingTypeName ?? '';
   }
 }
 
@@ -725,6 +734,12 @@ class FabricPly {
     data['fabric_ply_sortid'] = fabricPlySortid;
     return data;
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return fabricPlyName??'';
+  }
 }
 
 @Entity(tableName: 'fiber_color_treatment_method')
@@ -763,6 +778,12 @@ class FabricColorTreatmentMethod {
     data['fctm_is_active'] = fctmIsActive;
     data['fctm_sortid'] = fctmSortid;
     return data;
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return fctmName ?? '';
   }
 }
 
@@ -803,6 +824,12 @@ class FabricDyingTechniques {
     data['fdt_sortid'] = fdtSortid;
     return data;
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return fdtName ?? '';
+  }
 }
 
 @Entity(tableName: 'fabric_quality')
@@ -828,6 +855,11 @@ class FabricQuality {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+
+  @override
+  String toString() {
+    return fabricQualityName ?? '';
+  }
 }
 
 @Entity(tableName: 'fabric_grades')
@@ -851,6 +883,11 @@ class FabricGrades {
     data['fabric_grade_name'] = fabricGradeName;
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
+  }
+
+  @override
+  String toString() {
+    return fabricGradeName??'';
   }
 }
 
