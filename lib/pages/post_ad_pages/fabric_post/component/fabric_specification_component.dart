@@ -703,6 +703,7 @@ class FabricSpecificationComponentState
                                                 value.fctmId.toString();
 
                                             if (_colorTreatmentIdList.contains(value.fctmId)) {
+                                                _showDyingMethod = true;
                                                 _notifier.value = true;
                                                 _selectedColorTreatMethodId = value.fctmId.toString();
                                             } else {
