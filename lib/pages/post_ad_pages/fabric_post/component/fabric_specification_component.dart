@@ -1066,6 +1066,15 @@ class FabricSpecificationComponentState
           .familyIdfk
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId??'';
+      /*if(_createRequestModel!.fs_ply_idfk == null){
+        _createRequestModel!.fs_ply_idfk = null;
+      }
+      if(_createRequestModel!.fs_blend_idfk == null){
+        _createRequestModel!.fs_blend_idfk = null;
+      }
+      if(_createRequestModel!.fs_quality_idfk == null){
+        _createRequestModel!.fs_quality_idfk = null;
+      }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
       widget.callback!(1);
     }
