@@ -851,7 +851,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               ],
                             ),
 
-                            //Available Quantity
+                            /*//Available Quantity
                             Visibility(
                               visible: true,
                               child: Column(
@@ -890,7 +890,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           roundedTextFieldDecoration('Available Quantity')),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Minimum Quantity
                             Visibility(
