@@ -913,6 +913,11 @@ class FabricLoom {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+
+  @override
+  String toString() {
+    return fabricLoomName??'';
+  }
 }
 
 @Entity(tableName: 'fabric_salvedge')
@@ -938,6 +943,11 @@ class FabricSalvedge {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+
+  @override
+  String toString() {
+    return fabricSalvedgeName??'';
+  }
 }
 
 @Entity(tableName: 'fabric_weave')
@@ -962,6 +972,11 @@ class FabricWeave {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+
+  @override
+  String toString() {
+    return fabricWeaveName??'';
+  }
 }
 
 @Entity(tableName: 'fabric_layyer')
@@ -985,6 +1000,11 @@ class FabricLayyer {
     data['fabric_layyer_name'] = fabricLayyerName;
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
+  }
+
+  @override
+  String toString() {
+    return fabricLayyerName??'';
   }
 }
 

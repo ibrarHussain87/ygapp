@@ -36,7 +36,7 @@ class PostFabricProvider extends ChangeNotifier{
     return fabricSetting!;
   }
 
-  setBlendId(int value){
+  setBlendId(int? value){
     blendId = value;
     notifyListeners();
   }

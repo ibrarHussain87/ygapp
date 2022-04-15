@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
@@ -67,6 +68,7 @@ class _FabricNatureMaterialComponentState
                     callback: (FabricFamily value) {
                       setState(() {
                         _selectedNature = value.fabricFamilyId.toString();
+                        Logger().e(_selectedNature);
                       });
                       /*BroadcastReceiver().publish<int>(materialIndexBroadcast,
                           arguments: widget.materialList
@@ -74,45 +76,53 @@ class _FabricNatureMaterialComponentState
                                   element.familyIdfk == value.fabricFamilyId.toString())
                               .toList().first
                               .blnId);*/
-                      var blend = widget.materialList
-                          .where((element) =>
-                      element.familyIdfk == value.fabricFamilyId.toString())
-                          .toList().first
-                          .blnId;
-                      if(blend!=null){
+                      if(_selectedNature != FABRIC_MIRCOFIBER_ID/*Microfiber*/){
+                        var blend = widget.materialList
+                            .where((element) =>
+                        element.familyIdfk == value.fabricFamilyId.toString())
+                            .toList().first
+                            .blnId;
+                        Logger().e(blend);
+                        //  if(blend!=null){
                         postFabricProvider.setBlendId(blend);
+                        //   }
+                        _catWithImageListState.currentState!.checkedIndex = 0;
+                      }else{
+                        postFabricProvider.setBlendId(null);
                       }
-                      _catWithImageListState.currentState!.checkedIndex = 0;
                     },
                     listOfItems: widget.natureList),
               ),
             )
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
-                child: const TitleTextWidget(
-                  title: 'Fabric Blends',
-                )),
-            CatWithImageListWidget(
-              key: _catWithImageListState,
-              listItem: widget.materialList
-                  .where((element) => element.familyIdfk == _selectedNature)
-                  .toList(),
-              onClickCallback: (index) {
-                /*BroadcastReceiver().publish<int>(materialIndexBroadcast,
-                    arguments: widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId);*/
-                var blend = widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId;
-                if(blend!=null){
-                  postFabricProvider.setBlendId(blend);
-                }
-              },
-            ),
-          ],
+        Visibility(
+          visible: _selectedNature != FABRIC_MIRCOFIBER_ID,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(
+                      top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
+                  child: const TitleTextWidget(
+                    title: 'Fabric Blends',
+                  )),
+              CatWithImageListWidget(
+                key: _catWithImageListState,
+                listItem: widget.materialList
+                    .where((element) => element.familyIdfk == _selectedNature)
+                    .toList(),
+                onClickCallback: (index) {
+                  /*BroadcastReceiver().publish<int>(materialIndexBroadcast,
+                      arguments: widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId);*/
+                  var blend = widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId;
+               //   if(blend!=null){
+                    postFabricProvider.setBlendId(blend);
+              //    }
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );

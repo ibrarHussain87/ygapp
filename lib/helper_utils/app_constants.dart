@@ -121,6 +121,7 @@ var offering = 'Offering';
 var requirement = 'Requiremnet';
 
 int YARN_CATEGORY_ID = 2;
+String FABRIC_MIRCOFIBER_ID = '104';
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";
 

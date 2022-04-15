@@ -59,6 +59,7 @@ class FabricSpecificationComponentState
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
+  String? familyId;
   DateTime selectedDate = DateTime.now();
   final TextEditingController _textEditingController = TextEditingController();
   FabricSetting? _fabricSettings;
@@ -79,6 +80,10 @@ class FabricSpecificationComponentState
   late List<FabricQuality> _qualityList;
   late List<FabricGrades> _gradeList;
   late List<FabricDyingTechniques> _dyingMethodList;
+  late List<FabricWeave> _weaveList;
+  late List<FabricLoom> _loomList;
+  late List<FabricSalvedge> _salvedgeList;
+  late List<FabricLayyer> _layyerList;
 
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
@@ -101,6 +106,10 @@ class FabricSpecificationComponentState
   final GlobalKey<SingleSelectTileWidgetState> _gradeKey = GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _certificationKey = GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _weaveKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _loomKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<SingleSelectTileWidgetState>();
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
@@ -112,6 +121,7 @@ class FabricSpecificationComponentState
               .first
               .blnId;
           postFabricProvider.setBlendId(_selectedMaterial!);
+          familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
         }));
     var dbInstance = await AppDbInstance.getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
@@ -124,6 +134,10 @@ class FabricSpecificationComponentState
     _qualityList = await dbInstance.fabricQualityDao.findAllFabricQuality();
     _gradeList = await dbInstance.fabricGradesDao.findAllFabricGrade();
     _dyingMethodList = await dbInstance.fabricDyingTechniqueDao.findAllFabricDyingTechniques();
+    _weaveList = await dbInstance.fabricWeaveDao.findAllFabricWeave();
+    _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
+    _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
+    _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
     AppDbInstance.getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
     AppDbInstance.getOriginsData()
@@ -151,9 +165,15 @@ class FabricSpecificationComponentState
   Widget build(BuildContext context) {
     super.build(context);
     final postFabricProvider = Provider.of<PostFabricProvider>(context);
-    _selectedMaterial = postFabricProvider.blendId;
-   // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    var familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
+    if(postFabricProvider.blendId != null){
+      _selectedMaterial = postFabricProvider.blendId;
+      // _createRequestModel = Provider.of<CreateRequestModel?>(context);
+      familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
+    }else{
+      _selectedMaterial = null;
+      // _createRequestModel = Provider.of<CreateRequestModel?>(context);
+      familyId = FABRIC_MIRCOFIBER_ID/*Microfiber*/;
+    }
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
       builder: (BuildContext context, snapshot) {
@@ -264,7 +284,7 @@ class FabricSpecificationComponentState
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
                                                 child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
                                             YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: count,
+                                                errorText: 'Warp Count',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.warpCountMinMax??'n/a',
                                                 onSaved: (input) {
@@ -290,7 +310,7 @@ class FabricSpecificationComponentState
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
                                                 child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
                                             YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: count,
+                                                errorText: 'No of Ends',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.noOfEndsWarpMinMax??'n/a',
                                                 onSaved: (input) {
@@ -315,7 +335,7 @@ class FabricSpecificationComponentState
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
                                                 child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
                                             YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: count,
+                                                errorText: 'Weft Count',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.weftCountMinMax??'n/a',
                                                 onSaved: (input) {
@@ -341,7 +361,7 @@ class FabricSpecificationComponentState
                                                 padding: EdgeInsets.only(left: 4.w, top: 8.w),
                                                 child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
                                             YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: count,
+                                                errorText: 'No of Picks',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.noOfPickWeftMinMax??'n/a',
                                                 onSaved: (input) {
@@ -352,6 +372,184 @@ class FabricSpecificationComponentState
                                       ),
                                     ),
                                   ],
+                                ),
+                                //Show Warp Ply and Weft ply
+                                Row(
+                                  children: [
+                                    Visibility(
+                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
+                                      child: Expanded(
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
+                                            YgTextFormFieldWithoutRange(
+                                                errorText: 'Warp Ply',
+                                                onSaved: (input) {
+                                                  _createRequestModel!.fs_warp_ply_idfk = input;
+                                                })
+                                          ],
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
+                                          Ui.showHide(_fabricSettings!.showCount))
+                                          ? 16.w
+                                          : 0,
+                                    ),
+                                    Visibility(
+                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
+                                      child: Expanded(
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
+                                            YgTextFormFieldWithoutRange(
+                                                errorText: 'Weft Ply',
+                                                onSaved: (input) {
+                                                  _createRequestModel!.fs_weft_ply_idfk = input;
+                                                })
+                                          ],
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // Width
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showWidth),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8.w),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'Width')),
+
+                                        YgTextFormFieldWithRange(
+                                            errorText: 'Width',
+                                            minMax: _fabricSettings!.widthMinMax??'n/a',
+                                            onSaved: (input) {
+                                              _createRequestModel!
+                                                  .fs_width =
+                                                  input;
+                                            }),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Weave
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showWeave),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Weave' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _weaveKey,
+                                          spanCount: 4,
+                                          listOfItems: _weaveList.where((element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricWeave value) {
+                                            _createRequestModel!.fs_weave_idfk =
+                                                value.fabricWeaveId.toString();
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Loom
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showLoom),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Loom' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _loomKey,
+                                          spanCount: 4,
+                                          listOfItems: _loomList.where((element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricLoom value) {
+                                            _createRequestModel!.fs_loom_idfk =
+                                                value.fabricLoomId.toString();
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Salvedge
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showSalvedge),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Salvedge' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _salvedgeKey,
+                                          spanCount: 4,
+                                          listOfItems: _salvedgeList.where((element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricSalvedge value) {
+                                            _createRequestModel!.fs_salvedge_idfk =
+                                                value.fabricSalvedgeId.toString();
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Tuckin Width
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showTuckinWidth),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
+                                      YgTextFormFieldWithoutRange(
+                                          errorText: 'Tuckin Width',
+                                          onSaved: (input) {
+                                            _createRequestModel!.fs_tuckin_width = input;
+                                          })
+                                    ],
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  ),
                                 ),
                                 //Show Ply
                                 Visibility(
@@ -381,7 +579,65 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                // GSM
+                                //Show Layyer
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showLayyer),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Layyer' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _layyerKey,
+                                          spanCount: 4,
+                                          listOfItems: _layyerList.where((element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricLayyer value) {
+                                            _createRequestModel!.fs_layyer_idfk =
+                                                value.fabricLayyerId.toString();
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Once
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showOnce),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8.w),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'Once')),
+
+                                        YgTextFormFieldWithRange(
+                                            errorText: 'Once',
+                                            minMax: _fabricSettings!.onceMinMax??'n/a',
+                                            onSaved: (input) {
+                                              _createRequestModel!
+                                                  .fs_once =
+                                                  input;
+                                            }),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show GSM
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showGsm),
                                   child: Padding(
@@ -393,11 +649,11 @@ class FabricSpecificationComponentState
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8.w),
-                                            child: TitleSmallTextWidget(
-                                                title: fiberLength)),
+                                            child: const TitleSmallTextWidget(
+                                                title: 'GSM')),
 
                                         YgTextFormFieldWithRange(
-                                            errorText: fiberLength,
+                                            errorText: 'GSM',
                                             minMax: _fabricSettings!.gsmCountMinMax??'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
@@ -685,7 +941,7 @@ class FabricSpecificationComponentState
                                           selectedIndex: -1,
                                           key: _certificationKey,
                                           spanCount: 4,
-                                          listOfItems: _certificationList!,
+                                          listOfItems: _certificationList,
                                           callback: (Certification value) {
                                             _createRequestModel!.fs_certification_idfk =
                                                 value.cerId.toString();
@@ -775,19 +1031,19 @@ class FabricSpecificationComponentState
     if (validationAllPage()) {
       _createRequestModel!.spc_category_idfk = "3";
 
-      _createRequestModel!.fs_blend_idfk = _selectedMaterial.toString();
+      _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';
       // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       //
       // _createRequestModel!.spc_user_idfk = userId;
 
-      _createRequestModel!.fs_family_idfk = _fabricBlendsList
+     /* _createRequestModel!.fs_family_idfk = _fabricBlendsList
           .where((element) =>
               element.blnId == _selectedMaterial)
           .toList()
           .first
           .familyIdfk
-          .toString();
-
+          .toString();*/
+      _createRequestModel!.fs_family_idfk = familyId??'';
       widget.callback!(1);
     }
   }
@@ -863,8 +1119,9 @@ class FabricSpecificationComponentState
       } else {
         return true;
       }
-    }*/
-    return false;
+    }
+    return false;*/
+    return true;
   }
 
   void handleReadOnlyInputClick(context) {

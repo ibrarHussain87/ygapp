@@ -6,13 +6,13 @@ import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/lab_parameter_body.dart';
 
+import 'fabric_packing_details_component.dart';
 import 'fabric_specification_component.dart';
 
 class FabricStepsSegments extends StatefulWidget {
 
   final Function? stepsCallback;
   final Map<int, String>? stepsMapping;
-  // final SyncFiberResponse syncFiberResponse;
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
@@ -41,17 +41,14 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
   final GlobalKey<PackagingDetailsState> _packingStateKey = GlobalKey<PackagingDetailsState>();
   final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
 
-  // late SyncFiberResponse _syncFiberResponse;
 
   @override
   void initState() {
-    // _syncFiberResponse = widget.syncFiberResponse;
     _pageController = PageController();
 
     _samplePages = [
       FabricSpecificationComponent(
         key: _fiberSpecificationState,
-        // syncFiberResponse: widget.syncFiberResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -65,22 +62,11 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
               curve: Curves.easeInOut);
         },
       ),
-      PackagingDetails(
+      FabricPackagingDetails(
         key: _packingStateKey,
-        // requestModel: _fiberRequestModel,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
-        /*lcType: widget.syncFiberResponse.data.fiber.lcType,
-        cityState: widget.syncFiberResponse.data.fiber.cityState,
-        countries: widget.syncFiberResponse.data.fiber.countries,
-        packing: widget.syncFiberResponse.data.fiber.packing,
-        paymentType: widget.syncFiberResponse.data.fiber.paymentType,
-        ports: widget.syncFiberResponse.data.fiber.ports,
-        priceTerms: widget.syncFiberResponse.data.fiber.priceTerms,
-        coneType: [],
-        deliveryPeriod: widget.syncFiberResponse.data.fiber.deliveryPeriod,
-        units: widget.syncFiberResponse.data.fiber.units,*/
       ),
     ];
 
