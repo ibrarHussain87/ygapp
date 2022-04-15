@@ -85,6 +85,7 @@ class _FabricNatureMaterialComponentState
                         Logger().e(blend);
                         //  if(blend!=null){
                         postFabricProvider.setBlendId(blend);
+                        postFabricProvider.updateFabricSegments();
                         //   }
                         _catWithImageListState.currentState!.checkedIndex = 0;
                       }else{
@@ -118,7 +119,8 @@ class _FabricNatureMaterialComponentState
                   var blend = widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId;
                //   if(blend!=null){
                     postFabricProvider.setBlendId(blend);
-              //    }
+                  postFabricProvider.updateFabricSegments();
+                  //    }
                 },
               ),
             ],

@@ -32,19 +32,10 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-class FabricPackagingDetails extends StatefulWidget {
-  // final SyncFiberResponse syncFiberResponse;
+import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 
-  /* final List<FPriceTerms>? priceTerms;
-  final List<Packing>? packing;
-  final List<DeliveryPeriod>? deliveryPeriod;
-  final List<PaymentType>? paymentType;
-  final List<Units>? units;
-  final List<LcType>? lcType;
-  final List<ConeType>? coneType;
-  final List<Countries> countries;
-  final List<Ports> ports;
-  final List<CityState> cityState;*/
+class FabricPackagingDetails extends StatefulWidget {
 
   final String? locality;
   final String? businessArea;
@@ -52,21 +43,9 @@ class FabricPackagingDetails extends StatefulWidget {
 
   const FabricPackagingDetails({
     Key? key,
-    // required this.requestModel,
-    // required this.syncFiberResponse,
     required this.locality,
     required this.businessArea,
     required this.selectedTab,
-    /*required this.priceTerms,
-      required this.packing,
-      required this.deliveryPeriod,
-      required this.paymentType,
-      required this.lcType,
-      required this.units,
-      required this.coneType,
-      required this.countries,
-      required this.ports,
-      required this.cityState*/
   }) : super(key: key);
 
   @override
@@ -81,7 +60,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
   // List<Packing> packingList = [];
   List<PickedFile> imageFiles = [];
-  CreateRequestModel? _createRequestModel;
+  FabricCreateRequestModel? _createRequestModel;
   bool noOfDays = false;
   final TextEditingController _coneWithController = TextEditingController();
   final TextEditingController _weigthPerBagController = TextEditingController();
@@ -142,8 +121,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
   @override
   void initState() {
-    //INITIAL VALUES
-    // Utils.disableClick = true;
+
+    final postFabricProvider =
+    Provider.of<PostFabricProvider>(context, listen: false);
     _getPackingDetailData();
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
@@ -163,7 +143,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
   @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel?>(context);
+    final postFabricProvider = Provider.of<PostFabricProvider>(context);
+    _createRequestModel = postFabricProvider.fabricCreateRequestModel;
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -228,8 +209,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //Weight of count calculation
                             Visibility(
-                              visible:
-                                  widget.businessArea == yarn ? true : false,
+                              visible:true,
                               child: Container(
                                 margin: EdgeInsets.only(top: 8.w),
                                 child: Column(
@@ -247,7 +227,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                     top: 8.w, left: 8.w),
                                                 child: TitleSmallTextWidget(
                                                     title:
-                                                        "Weight($unitCountSelected)/Bag")),
+                                                        "Weight/$unitCountSelected")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -286,13 +266,13 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                 validator: (input) {
                                                   if (input == null ||
                                                       input.isEmpty) {
-                                                    return "Weight($unitCountSelected)/Bag";
+                                                    return "Weight/$unitCountSelected";
                                                   }
                                                   return null;
                                                 },
                                                 decoration:
                                                     roundedTextFieldDecoration(
-                                                        "Weight($unitCountSelected)/Bag")),
+                                                        "Weight/$unitCountSelected")),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -394,35 +374,6 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               ),
                             ),
 
-                            //Show Cone type
-                            Visibility(
-                              visible:
-                                  widget.businessArea != yarn ? false : true,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "Cone Type")),
-                                  SingleSelectTileWidget(
-                                      spanCount: 3,
-                                      selectedIndex: -1,
-                                      listOfItems: _coneTypeList
-                                          .where((element) =>
-                                              element.familyId ==
-                                              _createRequestModel!
-                                                  .ys_family_idfk)
-                                          .toList(),
-                                      callback: (ConeType value) {
-                                        _createRequestModel!.cone_type_id =
-                                            value.yctId.toString();
-                                      }),
-                                ],
-                              ),
-                            ),
-
                             //Selling Region
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
@@ -500,7 +451,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   selectedCountryId =
                                                       value!.conId;
                                                   _createRequestModel!
-                                                          .spc_origin_idfk =
+                                                          .fs_origin_idfk =
                                                       value.conId.toString();
                                                 },
 
@@ -579,7 +530,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                       .requestFocus(
                                                           FocusNode());
                                                   _createRequestModel!
-                                                          .spc_port_idfk =
+                                                          .fs_port_idfk =
                                                       value!.prtId.toString();
                                                 },
 
@@ -657,7 +608,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               FocusScope.of(context)
                                                   .requestFocus(FocusNode());
                                               _createRequestModel!
-                                                      .spc_city_state_idfk =
+                                                      .fs_city_state_idfk =
                                                   value!.countryId.toString();
                                             },
 
@@ -723,8 +674,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             _showPaymentType = false;
                                             _showLcType = false;
                                             _createRequestModel!
-                                                .payment_type_idfk = null;
-                                            _createRequestModel!.lc_type_idfk =
+                                                .fpb_payment_type_idfk = null;
+                                            _createRequestModel!.fpb_lc_type_idfk =
                                                 null;
                                           }
                                         });
@@ -756,7 +707,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //Payment Type
                             Visibility(
-                                visible: _showPaymentType ?? false,
+                                visible: true,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -771,7 +722,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         listOfItems: _paymentTypeList,
                                         callback: (PaymentType value) {
                                           _createRequestModel!
-                                              .payment_type_idfk = value.payId;
+                                              .fpb_payment_type_idfk = value.payId;
 
                                           setState(() {
                                             if (value.payId == "1") {
@@ -779,7 +730,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             } else {
                                               _showLcType = false;
                                               _createRequestModel!
-                                                  .lc_type_idfk = null;
+                                                  .fpb_lc_type_idfk = null;
                                             }
                                           });
                                         }),
@@ -803,7 +754,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       listOfItems: _lcTypeList,
                                       callback: (LcType value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.lc_type_idfk =
+                                          _createRequestModel!.fpb_lc_type_idfk =
                                               value.lcId.toString();
                                         }
                                       }),
@@ -900,6 +851,47 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               ],
                             ),
 
+                            //Available Quantity
+                            Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: const TitleSmallTextWidget(title: 'Available Quantity')),
+                                  TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.fbp_available_quantity =
+                                              input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return 'Available Quantity';
+                                        }
+                                        return null;
+                                      },
+                                      decoration:
+                                          roundedTextFieldDecoration('Available Quantity')),
+                                ],
+                              ),
+                            ),
+
                             //Minimum Quantity
                             Visibility(
                               visible: true,
@@ -941,51 +933,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               ),
                             ),
 
-                            //Required Quantity
-                            Visibility(
-                              visible: false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
-                                  TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      cursorColor: lightBlueTabs,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      cursorHeight: 16.w,
-                                      maxLines: 1,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]")),
-                                      ],
-                                      onSaved: (input) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.fbp_required_quantity =
-                                          input!;
-                                        }
-                                      },
-                                      validator: (input) {
-                                        if (input == null ||
-                                            input.isEmpty ||
-                                            int.parse(input) < 1) {
-                                          return minQty;
-                                        }
-                                        return null;
-                                      },
-                                      decoration:
-                                      roundedTextFieldDecoration("Required Quantity")),
-                                ],
-                              ),
-                            ),
-
                             //Packing
                             Visibility(
-                              visible:
-                                  widget.businessArea == "Fiber" ? true : false,
+                              visible: true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -999,7 +949,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       listOfItems: _packingList,
                                       callback: (Packing value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.packing_idfk =
+                                          _createRequestModel!.fpb_packing =
                                               value.pacId.toString();
                                         }
                                       }),
@@ -1078,7 +1028,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         onChanged: (int? value) {
                                           FocusScope.of(context)
                                               .requestFocus(FocusNode());
-                                          _createRequestModel!.spc_no_of_days =
+                                          _createRequestModel!.fs_no_of_days =
                                               value!.toString();
                                         },
 
@@ -1134,8 +1084,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                             ),
 
                             Visibility(
-                              visible:
-                                  widget.businessArea != yarn ? true : false,
+                              visible: true,
                               child: AddPictureWidget(
                                 imageCount: 1,
                                 callbackImages: (value) {
@@ -1186,16 +1135,16 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   void submitData(BuildContext context) {
     if (_createRequestModel != null) {
       if (widget.businessArea == yarn) {
-        _createRequestModel!.ys_local_international =
+        _createRequestModel!.fs_local_international =
             widget.locality!.toUpperCase();
       } else {
-        _createRequestModel!.spc_local_international =
+        _createRequestModel!.fs_local_international =
             widget.locality!.toUpperCase();
       }
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-      ApiService.createSpecification(_createRequestModel!,
+      ApiService.createFabricSpecification(_createRequestModel!,
               imageFiles.isNotEmpty ? imageFiles[0].path : "")
           .then((value) {
         ProgressDialogUtil.hideDialog();
@@ -1242,7 +1191,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    if (widget.locality == international) {
+    /*if (widget.locality == international) {
       _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
     }
     _createRequestModel!.is_offering = widget.selectedTab;
@@ -1255,11 +1204,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
         .spc_category_idfk).toList().first.untName;
     _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
-        _deliverPeriodList.first.dprId.toString();
+        _deliverPeriodList.first.dprId.toString();*/
   }
 
   bool validateAndSave() {
-    final form = globalFormKey.currentState;
+    /*final form = globalFormKey.currentState;
 
     if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
@@ -1281,6 +1230,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       //       const SnackBar(content: Text('Please Capture Image first')));
       // }
     }
-    return false;
+    return false;*/
+    return true;
   }
 }

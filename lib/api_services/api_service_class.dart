@@ -11,6 +11,7 @@ import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
@@ -305,6 +306,40 @@ class ApiService {
       } else {
         createRequestModel.ys_user_idfk = userId.toString();
       }
+      request.fields.addAll(createRequestModel.toJson());
+      logger.e(createRequestModel.toJson());
+      var response = await request.send();
+      var responsed = await http.Response.fromStream(response);
+      logger.e(json.decode(responsed.body));
+
+      return CreateFiberResponse.fromJson(json.decode(responsed.body));
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<CreateFiberResponse> createFabricSpecification(
+      FabricCreateRequestModel createRequestModel, String imagePath) async {
+    //for multipart Request
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      request.headers.addAll(
+          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+      if (imagePath.isNotEmpty) {
+        request.files
+            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+      }
+      createRequestModel.fs_user_idfk = userId.toString();
       request.fields.addAll(createRequestModel.toJson());
       logger.e(createRequestModel.toJson());
       var response = await request.send();

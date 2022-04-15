@@ -65,6 +65,8 @@ class FabricSpecificationComponentState
   FabricSetting? _fabricSettings;
   FabricCreateRequestModel? _createRequestModel;
 
+  late PostFabricProvider postFabricProvider;
+
   late List<FabricBlends> _fabricBlendsList;
   late List<FabricFamily> _fabricFamilyList;
   late List<FabricAppearance> _fabricAppearanceList;
@@ -164,7 +166,7 @@ class FabricSpecificationComponentState
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final postFabricProvider = Provider.of<PostFabricProvider>(context);
+    postFabricProvider = Provider.of<PostFabricProvider>(context);
     if(postFabricProvider.blendId != null){
       _selectedMaterial = postFabricProvider.blendId;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
@@ -1044,6 +1046,7 @@ class FabricSpecificationComponentState
           .familyIdfk
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId??'';
+      postFabricProvider.setRequestModel(_createRequestModel!);
       widget.callback!(1);
     }
   }

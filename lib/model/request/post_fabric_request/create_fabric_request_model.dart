@@ -37,6 +37,7 @@ class FabricCreateRequestModel {
   String? fs_apperance_idfk;
   String? fs_once;
   String? fs_layyer_idfk;
+  String? fs_origin_idfk;
   String? is_offering;
   String? fbp_price;
   String? fbp_count_unit_idfk;
@@ -52,6 +53,8 @@ class FabricCreateRequestModel {
   String? fbp_description;
   String? fbp_min_quantity;
   String? fbp_available_quantity;
+  String? fs_no_of_days;
+  String? fs_port_idfk;
   /*List<Pictures>? pictures;*/
 
   FabricCreateRequestModel(
@@ -92,6 +95,7 @@ class FabricCreateRequestModel {
         this.fs_apperance_idfk,
         this.fs_once,
         this.fs_layyer_idfk,
+        this.fs_origin_idfk,
         this.is_offering,
         this.fbp_price,
         this.fbp_count_unit_idfk,
@@ -107,6 +111,8 @@ class FabricCreateRequestModel {
         this.fbp_description,
         this.fbp_min_quantity,
         this.fbp_available_quantity,
+        this.fs_no_of_days,
+        this.fs_port_idfk,
         /*this.pictures*/
       });
 
@@ -148,6 +154,7 @@ class FabricCreateRequestModel {
       'fs_apperance_idfk': fs_apperance_idfk ?? "",
       'fs_once': fs_once ?? "",
       'fs_layyer_idfk': fs_layyer_idfk ?? "",
+      'fs_origin_idfk': fs_origin_idfk ?? "",
       'is_offering': is_offering ?? "",
       'fbp_price': fbp_price ?? "",
       'fbp_count_unit_idfk': fbp_count_unit_idfk ?? "",
@@ -163,6 +170,8 @@ class FabricCreateRequestModel {
       'fbp_description': fbp_description ?? "",
       'fbp_min_quantity': fbp_min_quantity ?? "",
       'fbp_available_quantity': fbp_available_quantity ?? "",
+      'fs_no_of_days': fs_no_of_days ?? "",
+      'fs_port_idfk': fs_port_idfk ?? "",
       /*'pictures': pictures?.map((e) => e.toJson()).toList(),*/
     };
 
