@@ -94,8 +94,8 @@ class StockLotPageState extends State<StockLotPage> {
                                     padding: const EdgeInsets.only(top: 2.0),
                                     child: SingleSelectTileRenewedWidget(
                                       spanCount: 2,
-                                      selectedIndex: -1,
-                                      listOfItems: stocklotProvider.stocklotAllCategories,
+                                      selectedIndex: 0,
+                                      listOfItems: stocklotProvider.stocklotCategories!,
                                       callback: (value) {
                                         setState(() {
                                           //HERE WILL BE API CALL
@@ -105,6 +105,28 @@ class StockLotPageState extends State<StockLotPage> {
                                   )),
                             ),
                           ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CatWithImageListWidget(listItem: stocklotProvider.stocklotCategories, onClickCallback: (value){}),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: SizedBox(
+                              height: 0.04 * MediaQuery.of(context).size.height,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: SingleSelectTileRenewedWidget(
+                                  spanCount: 2,
+                                  selectedIndex: 0,
+                                  listOfItems: stocklotProvider.stocklotSubcategories!,
+                                  callback: (value) {
+                                    setState(() {
+                                      //HERE WILL BE API CALL
+                                    });
+                                  },
+                                ),
+                              )),
                         ),
                       ],
                     ),

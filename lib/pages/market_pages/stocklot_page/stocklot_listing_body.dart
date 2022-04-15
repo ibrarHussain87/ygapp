@@ -5,7 +5,7 @@ import 'package:yg_app/Providers/stocklot_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item_renewed.dart';
-import 'package:yg_app/elements/list_items/stocklot_product_list_items_renewed.dart';
+import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';

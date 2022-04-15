@@ -20,6 +20,7 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 import '../Providers/fiber_specifications_provider.dart';
@@ -451,12 +452,12 @@ class Utils {
     controllerAvailQ.text = specification != null
         ? specification.available ?? ""
         : yarnSpecification!.available ?? "";
-    if(yarnSpecification != null){
+    if (yarnSpecification != null) {
       createRequestModel.ys_id = specification != null
           ? specification.spcId.toString()
           : yarnSpecification.ysId.toString();
     }
-    if(specification != null){
+    if (specification != null) {
       createRequestModel.spc_id = specification != null
           ? specification.spcId.toString()
           : yarnSpecification!.ysId.toString();
@@ -508,9 +509,9 @@ class Utils {
                             ),
                             const Center(
                                 child: TitleSmallBoldTextWidget(
-                                  title: "Update Product",
-                                  color: Colors.white,
-                                )),
+                              title: "Update Product",
+                              color: Colors.white,
+                            )),
                             Positioned(
                               child: GestureDetector(
                                   onTap: () {
@@ -536,22 +537,26 @@ class Utils {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    TitleMediumTextWidget(title: isSwitched ? strActive = "Active" : "InActive"),
+                                    TitleMediumTextWidget(
+                                        title: isSwitched
+                                            ? strActive = "Active"
+                                            : "InActive"),
                                     Switch(
                                       onChanged: (bool value) {
                                         setState(() {
                                           isSwitched = value;
                                         });
-                                        if(value){
+                                        if (value) {
                                           createRequestModel.spc_active = "1";
-                                        }else{
+                                        } else {
                                           createRequestModel.spc_active = "0";
-
                                         }
                                       },
                                       value: isSwitched,
@@ -572,7 +577,10 @@ class Utils {
                                         BorderRadius.all(Radius.circular(4.w)),
                                     color: searchBarWhiteBg),
                                 margin: EdgeInsets.only(
-                                    top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                                    top: 8.w,
+                                    right: 8.w,
+                                    bottom: 8.w,
+                                    left: 8.w),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -598,7 +606,8 @@ class Utils {
                                         onChanged: (value) {
                                           // _controllerUpdatePrice.text = value;
                                           if (value.isNotEmpty) {
-                                            createRequestModel.fbp_price = value;
+                                            createRequestModel.fbp_price =
+                                                value;
                                           }
                                         },
                                       ),
@@ -621,7 +630,10 @@ class Utils {
                                         BorderRadius.all(Radius.circular(4.w)),
                                     color: searchBarWhiteBg),
                                 margin: EdgeInsets.only(
-                                    top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                                    top: 8.w,
+                                    right: 8.w,
+                                    bottom: 8.w,
+                                    left: 8.w),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -669,7 +681,10 @@ class Utils {
                                         BorderRadius.all(Radius.circular(4.w)),
                                     color: searchBarWhiteBg),
                                 margin: EdgeInsets.only(
-                                    top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                                    top: 8.w,
+                                    right: 8.w,
+                                    bottom: 8.w,
+                                    left: 8.w),
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 child: DropdownButton(
                                   isExpanded: true,
@@ -689,7 +704,8 @@ class Utils {
                                     setState(() {
                                       deliveryPeriod = value!;
                                     });
-                                    createRequestModel.fbp_delivery_period_idfk =
+                                    createRequestModel
+                                            .fbp_delivery_period_idfk =
                                         value!.dprId.toString();
                                   },
                                   // value: widget.syncFiberResponse.data.fiber.countries.first,
@@ -711,7 +727,8 @@ class Utils {
                                 context,
                                 StylishDialogType.WARNING,
                                 "Confirm", () {
-                                  Logger().e(createRequestModel.toJson().toString());
+                              Logger()
+                                  .e(createRequestModel.toJson().toString());
                               ProgressDialogUtil.showDialog(
                                   context, "Please wait..");
                               ApiService.createSpecification(
@@ -734,13 +751,23 @@ class Utils {
                                   } else {
                                     log(value.message);
                                     Navigator.pop(context);
-                                    if(specification == null){
+                                    if (specification == null) {
                                       log('yarn s');
-                                      final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context,listen: false);
-                                      yarnSpecificationsProvider.getUpdatedYarnSpecificationsData();
-                                    }else{
-                                      final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context,listen: false);
-                                      fiberSpecificationsProvider.getUpdatedFiberSpecificationsData();
+                                      final yarnSpecificationsProvider =
+                                          Provider.of<
+                                                  YarnSpecificationsProvider>(
+                                              context,
+                                              listen: false);
+                                      yarnSpecificationsProvider
+                                          .getUpdatedYarnSpecificationsData();
+                                    } else {
+                                      final fiberSpecificationsProvider =
+                                          Provider.of<
+                                                  FiberSpecificationsProvider>(
+                                              context,
+                                              listen: false);
+                                      fiberSpecificationsProvider
+                                          .getUpdatedFiberSpecificationsData();
                                     }
                                   }
                                 } else {
@@ -795,10 +822,57 @@ class Utils {
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return 'Please enter mobile number';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
     }
     return null;
+  }
+
+  static stockLotSubCategoryTitle(StockLotSpecification specification) {
+    String? subCategory;
+    for (var element in specification.specDetails!) {
+      if (subCategory == null) {
+        subCategory = element.subCategory;
+      } else {
+        subCategory = "$subCategory,${element.subCategory}";
+      }
+    }
+
+    return subCategory;
+  }
+
+  static stockLotPriceRange(StockLotSpecification specification) {
+    String? priceRange;
+    int min = int.parse(specification.specDetails!.first.price!),
+        max = int.parse(specification.specDetails!.first.price!);
+    String? minUnit;
+    String? maxUnit;
+    for (var element in specification.specDetails!) {
+      if (int.parse(element.price!) < min) {
+        min = int.parse(element.price!);
+        if (element.priceUnit != null) {
+          minUnit = element.priceUnit!.split(" ").first;
+        }
+      } else {
+        if (element.priceUnit != null) {
+          minUnit = element.priceUnit!.split(" ").first;
+        }
+      }
+    }
+
+    for (var element in specification.specDetails!) {
+      if (int.parse(element.price!) > max) {
+        max = int.parse(element.price!);
+        if (element.priceUnit != null) {
+          maxUnit = element.priceUnit!.split(" ").first;
+        }
+      } else {
+        if (element.priceUnit != null) {
+          maxUnit = element.priceUnit!.split(" ").first;
+        }
+      }
+    }
+    priceRange = '$min ${minUnit??""} - $max ${maxUnit??""}';
+    return priceRange;
   }
 }
