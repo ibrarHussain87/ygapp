@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
@@ -150,6 +151,8 @@ class FabricSpecificationComponentState
         .then((value) => setState(() => _certificationList = value));
   }
 
+  final ValueNotifier<bool> _notifier = ValueNotifier(false);
+
   @override
   bool get wantKeepAlive => true;
 
@@ -161,6 +164,12 @@ class FabricSpecificationComponentState
     Provider.of<PostFabricProvider>(context, listen: false);
     _getFabricSyncedData(postFabricProvider);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _notifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -693,116 +702,129 @@ class FabricSpecificationComponentState
                                             _createRequestModel!.fs_color_treatment_method_idfk =
                                                 value.fctmId.toString();
 
-                                            /*if (_colorTreatmentIdList.contains(value.fctmId)) {
-                                              setState(() {
-                                                _showDyingMethod = true;
+                                            if (_colorTreatmentIdList.contains(value.fctmId)) {
+                                                _notifier.value = true;
                                                 _selectedColorTreatMethodId = value.fctmId.toString();
-                                              });
                                             } else {
-                                              setState(() {
                                                 _showDyingMethod = false;
+                                                _notifier.value = false;
                                                 _createRequestModel!.fs_dying_method_idfk = null;
                                                 _createRequestModel!.fs_color = null;
-                                              });
-                                            }*/
+                                            }
                                           },
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                //Show Color dying Method
-                                Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showColor),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: "Dying Method" + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _dyingMethodKey,
-                                          spanCount: 3,
-                                          listOfItems:_dyingMethodList.where((element) =>
-                                          element.fabricFamilyIdfk == familyId)
-                                              .toList() /*_yarnData!.dyingMethod!.where((element) {
-                                    if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
-                                      return element
-                                              .ydmColorTreatmentMethodIdfk ==
-                                          _createRequestModel
-                                              .ys_color_treatment_method_idfk
-                                              .toString();
-                                    } else {
-                                      return element.apperanceId ==
-                                          _selectedAppearenceId.toString();
-                                    }
-                                  }).toList()*/
-                                          ,
-                                          callback: (FabricDyingTechniques value) {
-                                            _createRequestModel!.fs_dying_method_idfk =
-                                                value.fdtId.toString();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                //Here Color Code is missing
-                                Visibility(
-                                    visible:Ui.showHide(_fabricSettings!.showColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
+                                //Color dying Method & Color
+                                ValueListenableBuilder(
+                                  valueListenable: _notifier,
+                                  builder: (context, value, child) {
+                                    return Visibility(
+                                      visible: _notifier.value,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          const Padding(
-                                            padding: EdgeInsets.only(left: 8.0),
-                                            child: TitleSmallTextWidget(title: "Select Color"),
-                                          ),
-                                          Card(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-                                            child: SizedBox(
-                                              width: 120.w,
-                                              child: TextFormField(
-                                                keyboardType: TextInputType.none,
-                                                controller: _textEditingController,
-                                                autofocus: false,
-                                                showCursor: false,
-                                                readOnly: true,
-                                                style: TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                onSaved: (input) =>
-                                                _createRequestModel!.fs_color = input!,
-                                                // validator: (input) {
-                                                //   if (input == null ||
-                                                //       input.isEmpty) {
-                                                //     return "Select Color Code";
-                                                //   }
-                                                //   return null;
-                                                // },
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(10.0),
-                                                        borderSide: BorderSide.none),
-                                                    contentPadding: const EdgeInsets.all(2.0),
-                                                    hintText: "Select Color",
-                                                    filled: true,
-                                                    fillColor: pickerColor),
-                                                onTap: () {
-                                                  _openDialogBox();
-                                                },
+                                          //Show Color dying Method
+                                          Visibility(
+                                            visible: true,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 8.w),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(left: 8.w),
+                                                      child: const TitleSmallTextWidget(
+                                                          title: "Dying Method" + '*')),
+                                                  SingleSelectTileWidget(
+                                                    selectedIndex: -1,
+                                                    key: _dyingMethodKey,
+                                                    spanCount: 3,
+                                                    listOfItems:_dyingMethodList.where((element) =>
+                                                    element.fabricFamilyIdfk == familyId)
+                                                        .toList() /*_yarnData!.dyingMethod!.where((element) {
+                                      if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
+                                        return element
+                                                .ydmColorTreatmentMethodIdfk ==
+                                            _createRequestModel
+                                                .ys_color_treatment_method_idfk
+                                                .toString();
+                                      } else {
+                                        return element.apperanceId ==
+                                            _selectedAppearenceId.toString();
+                                      }
+                                  }).toList()*/
+                                                    ,
+                                                    callback: (FabricDyingTechniques value) {
+                                                      _createRequestModel!.fs_dying_method_idfk =
+                                                          value.fdtId.toString();
+                                                    },
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
+                                          //Here Color Code is missing
+                                          Visibility(
+                                              visible: true,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 8.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      child: TitleSmallTextWidget(title: "Select Color"),
+                                                    ),
+                                                    Card(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(10.0),
+                                                      ),
+                                                      child: SizedBox(
+                                                        width: 120.w,
+                                                        child: TextFormField(
+                                                          keyboardType: TextInputType.none,
+                                                          controller: _textEditingController,
+                                                          autofocus: false,
+                                                          showCursor: false,
+                                                          readOnly: true,
+                                                          style: TextStyle(fontSize: 11.sp),
+                                                          textAlign: TextAlign.center,
+                                                          onSaved: (input) =>
+                                                          _createRequestModel!.fs_color = input!,
+                                                          // validator: (input) {
+                                                          //   if (input == null ||
+                                                          //       input.isEmpty) {
+                                                          //     return "Select Color Code";
+                                                          //   }
+                                                          //   return null;
+                                                          // },
+                                                          decoration: InputDecoration(
+                                                              border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(10.0),
+                                                                  borderSide: BorderSide.none),
+                                                              contentPadding: const EdgeInsets.all(2.0),
+                                                              hintText: "Select Color",
+                                                              filled: true,
+                                                              fillColor: pickerColor),
+                                                          onTap: () {
+                                                            _openDialogBox();
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
                                         ],
                                       ),
-                                    )),
+                                    );
+                                  },
+                                ),
                                 //Show Knitting Type
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showKnittingType),
@@ -813,7 +835,7 @@ class FabricSpecificationComponentState
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(left: 8.w),
-                                            child: TitleSmallTextWidget(title: usage + '*')),
+                                            child: const TitleSmallTextWidget(title: 'Knitting Type' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _knittingTypeKey,
@@ -1030,14 +1052,11 @@ class FabricSpecificationComponentState
   }
 
   void handleNextClick() {
+    _createRequestModel!.spc_category_idfk = "3";
+    _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';
     if (validationAllPage()) {
-      _createRequestModel!.spc_category_idfk = "3";
-
-      _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';
-      // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-      //
-      // _createRequestModel!.spc_user_idfk = userId;
-
+      /*_createRequestModel!.spc_category_idfk = "3";
+      _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';*/
      /* _createRequestModel!.fs_family_idfk = _fabricBlendsList
           .where((element) =>
               element.blnId == _selectedMaterial)
@@ -1052,15 +1071,6 @@ class FabricSpecificationComponentState
   }
 
   _resetData() {
-    /*setState(() {
-      _showDyingMethod = false;
-      _showPatternChar = false;
-      _selectedSpunTechId = null;
-      _selectedPatternId = null;
-      _selectedColorTreatMethodId = null;
-      _selectedAppearenceId = null;
-      _selectedPlyId = null;
-    });*/
     _showDyingMethod = false;
     _showPatternChar = false;
     _selectedSpunTechId = null;
@@ -1098,33 +1108,62 @@ class FabricSpecificationComponentState
   }
 
   bool validationAllPage() {
-    /*if (validateAndSave()) {
-      if (_createRequestModel!.spc_grade_idfk == null &&
-          Ui.showHide(_fabricSettings!.showGrade)) {
-        Ui.showSnackBar(context, 'Please Select Grade');
-        return false;
-      } else if (_createRequestModel!.spc_appearance_idfk == null &&
-          Ui.showHide(_fabricSettings!.showAppearance)) {
-        Ui.showSnackBar(context, 'Please Select Appearance');
-        return false;
-      } else if (_createRequestModel!.spc_brand_idfk == null &&
-          Ui.showHide(_fabricSettings!.showBrand)) {
-        Ui.showSnackBar(context, 'Please Select Brand');
-        return false;
-      } else if (_createRequestModel!.spc_origin_idfk == null &&
-          _fabricSettings!.showOrigin == "1") {
-        Ui.showSnackBar(context, 'Please Select Origin');
-        return false;
-      } else if (_createRequestModel!.spc_certificate_idfk == null &&
-          Ui.showHide(_fabricSettings!.showCertification)) {
-        Ui.showSnackBar(context, 'Please Select Certification');
-        return false;
-      } else {
-        return true;
+      if (validateAndSave()) {
+        if (_createRequestModel!.fs_blend_idfk == null &&
+            Ui.showHide(_fabricSettings!.showBlend)) {
+          Ui.showSnackBar(context, 'Please Select Blend');
+          return false;
+        } else if (_createRequestModel!.fs_ply_idfk == null &&
+            Ui.showHide(_fabricSettings!.showPly)) {
+          Ui.showSnackBar(context, 'Please Select Ply');
+          return false;
+        } else if (_createRequestModel!.fs_color_treatment_method_idfk == null &&
+            Ui.showHide(_fabricSettings!.showColorTreatmentMethod)) {
+          Ui.showSnackBar(context, 'Please Select Color Treatment Method');
+          return false;
+        }  else if (_createRequestModel!.fs_dying_method_idfk == null &&
+            _showDyingMethod) {
+          Ui.showSnackBar(context, 'Please Select Dying Method');
+          return false;
+        }else if (_createRequestModel!.fs_knitting_type_idfk == null &&
+            Ui.showHide(_fabricSettings!.showKnittingType)) {
+          Ui.showSnackBar(context, 'Please Select Knitting Type');
+          return false;
+        }else if (_createRequestModel!.fs_weave_idfk == null &&
+            Ui.showHide(_fabricSettings!.showWeave)) {
+          Ui.showSnackBar(context, 'Please Select Weave');
+          return false;
+        }else if (_createRequestModel!.fs_loom_idfk == null &&
+            Ui.showHide(_fabricSettings!.showLoom)) {
+          Ui.showSnackBar(context, 'Please Select Loom');
+          return false;
+        }else if (_createRequestModel!.fs_layyer_idfk == null &&
+            Ui.showHide(_fabricSettings!.showLayyer)) {
+          Ui.showSnackBar(context, 'Please Select Layyer');
+          return false;
+        } else if (_createRequestModel!.fs_quality_idfk == null &&
+            Ui.showHide(_fabricSettings!.showQuality)) {
+          Ui.showSnackBar(context, 'Please Select Quality');
+          return false;
+        }  else if (_createRequestModel!.fs_grade_idfk == null &&
+            Ui.showHide(_fabricSettings!.showGrade)) {
+          Ui.showSnackBar(context, 'Please Select Grade');
+          return false;
+        } else if (_createRequestModel!.fs_appearance_idfk == null &&
+            Ui.showHide(_fabricSettings!.showAppearance)) {
+          Ui.showSnackBar(context, 'Please Select Appearance');
+          return false;
+        } else if (_createRequestModel!.fs_certification_idfk == null &&
+            Ui.showHide(_fabricSettings!.showCertification)) {
+          Ui.showSnackBar(context, 'Please Select Certification');
+          return false;
+        } else {
+          _createRequestModel!.spc_category_idfk = "3";
+          return true;
+        }
       }
-    }
-    return false;*/
-    return true;
+    return false;
+  //  return true;
   }
 
   void handleReadOnlyInputClick(context) {

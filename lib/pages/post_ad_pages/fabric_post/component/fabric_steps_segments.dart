@@ -40,7 +40,7 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
   late List<Widget> _samplePages;
 
   final GlobalKey<FabricSpecificationComponentState> _fiberSpecificationState = GlobalKey<FabricSpecificationComponentState>();
-  final GlobalKey<PackagingDetailsState> _packingStateKey = GlobalKey<PackagingDetailsState>();
+  final GlobalKey<FabricPackagingDetailsState> _packingStateKey = GlobalKey<FabricPackagingDetailsState>();
   final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
 
 
@@ -79,7 +79,7 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
   Widget build(BuildContext context) {
     final postFabricProvider = Provider.of<PostFabricProvider>(context);
 
-    return postFabricProvider.updateSegments == true ? Column(
+    return /*postFabricProvider.updateSegments == true ? */Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
@@ -161,7 +161,7 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
           ),
         ),
       ],
-    ) : Container();
+    ) /*: Container()*/;
   }
 
   _moveToNextPage(value){

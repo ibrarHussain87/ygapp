@@ -47,8 +47,10 @@ class PostFabricProvider extends ChangeNotifier{
 
   updateFabricSegments(){
     updateSegments = true;
-    notifyListeners();
+   // notifyListeners();
   }
+
+
 
   getDbLists(){
 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -121,9 +122,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
   @override
   void initState() {
-
-    final postFabricProvider =
-    Provider.of<PostFabricProvider>(context, listen: false);
+    final postFabricProvider = Provider.of<PostFabricProvider>(context, listen: false);
     _getPackingDetailData();
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
@@ -145,6 +144,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   Widget build(BuildContext context) {
     final postFabricProvider = Provider.of<PostFabricProvider>(context);
     _createRequestModel = postFabricProvider.fabricCreateRequestModel;
+    Logger().e(_createRequestModel!.toJson().toString());
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -188,11 +188,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: _unitsList
-                                          .where((element) =>
+                                          /*.where((element) =>
                                               element.untCategoryIdfk ==
                                               _createRequestModel!
                                                   .spc_category_idfk)
-                                          .toList(),
+                                          .toList()*/,
                                       callback: (Units value) {
                                         setState(() {
                                           unitCountSelected = value.untName;
@@ -1191,35 +1191,35 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    /*if (widget.locality == international) {
-      _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
+    if (widget.locality == international) {
+      _createRequestModel!.fpb_lc_type_idfk = _lcTypeList.first.lcId.toString();
     }
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
     _createRequestModel!.fbp_count_unit_idfk =
-        _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
-            .spc_category_idfk).toList().first.untId.toString();
-    unitCountSelected ??= _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
-        .spc_category_idfk).toList().first.untName;
-    _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
+        _unitsList/*.where((element) => element.untCategoryIdfk==_createRequestModel!
+            .spc_category_idfk).toList()*/.first.untId.toString();
+    unitCountSelected ??= _unitsList/*.where((element) => element.untCategoryIdfk==_createRequestModel!
+        .spc_category_idfk).toList()*/.first.untName;
+    _createRequestModel!.fpb_packing = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
-        _deliverPeriodList.first.dprId.toString();*/
+        _deliverPeriodList.first.dprId.toString();
   }
 
   bool validateAndSave() {
-    /*final form = globalFormKey.currentState;
+    final form = globalFormKey.currentState;
 
     if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
       return false;
     }
 
-    if (_createRequestModel!.cone_type_id == null &&
+   /* if (_createRequestModel!.cone_type_id == null &&
         widget.businessArea == yarn) {
       Ui.showSnackBar(context, "Please select Cone Type");
       return false;
-    }
+    }*/
 
     if (form!.validate()) {
       // if (imageFiles.isNotEmpty) {
@@ -1230,7 +1230,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       //       const SnackBar(content: Text('Please Capture Image first')));
       // }
     }
-    return false;*/
-    return true;
+    return false;
+   // return true;
   }
 }
