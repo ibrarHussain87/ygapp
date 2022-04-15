@@ -32,16 +32,28 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+   GlobalKey<FormState> _brandsKey = GlobalKey<FormState>();
 
   late UpdateProfileRequestModel _updateProfileRequestModel;
   String userName = "";
   String countryName = "";
   String stateName = "";
   int stateId = 0;
+  int selectedValue = 1;
   List<String> roleList = ["Developer","Engineer","Manager","Director","CEO"];
+  List<TagModel> _tags=[];
+
+  var brandController=TextEditingController();
 
   @override
   void initState() {
+    _tags.addAll(
+        [
+          TagModel(id: "1", title: 'Khadi'),
+          TagModel(id: "1", title: 'Bonanza'),
+          TagModel(id: "1", title: 'Maria B'),
+          TagModel(id: "1", title: 'Gul Ahmed'),
+        ]);
     _updateProfileRequestModel = UpdateProfileRequestModel();
     super.initState();
   }
@@ -98,25 +110,48 @@ class _EditProfilePageState extends State<EditProfilePage> {
                    child: ProfileSegmentComponent(
                       callback: (value) {
                         setState(() {
-
+                           selectedValue=value;
                         });
                       },
                     ),),
-                    Form(
-                      key: globalFormKey,
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                            child: Center(
-                              child: Builder(builder: (BuildContext context2) {
-                                return buildUserDataColumn(snapshot, context2);
-                              }),
+
+
+                    if(selectedValue==1)
+              Form(
+              key: globalFormKey,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                    child: Center(
+                      child: Builder(builder: (BuildContext context2) {
+                        return buildUserDataColumn(snapshot, context2);
+                      }),
+                    ),
+                  ),
+                ),
+              ),
+            )
+                    else if(selectedValue==2)
+                    buildBusiness()
+                    else
+                      Form(
+                        key: globalFormKey,
+                        child: Expanded(
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                              child: Center(
+                                child: Builder(builder: (BuildContext context2) {
+                                  return buildBrands(snapshot, context2);
+                                }),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      )
+
+
                   ],
                 ),
               ),
@@ -127,6 +162,237 @@ class _EditProfilePageState extends State<EditProfilePage> {
         },
       ),
     );
+  }
+
+
+  buildBrands( AsyncSnapshot<User?> snapshot, BuildContext context2)
+  {
+    var userNotifier = context2.watch<UserNotifier>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Form(
+          key: _brandsKey,
+          child: Padding(
+            padding:
+            EdgeInsets.only(top: 30.w, bottom: 15.w, left: 8.w, right: 8.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Expanded(
+                  flex:3,
+                  child: TextFormField(
+                    // For changing initial value
+//                  key: Key(userNotifier.getUser().ntn_number.toString()),
+                  controller: brandController,
+                      keyboardType: TextInputType.text,
+                      cursorColor: Colors.black,
+                      onSaved: (input) =>
+                      _updateProfileRequestModel.company = input! /*'44'*/,
+                      validator: (input) {
+                        if (input == null || input.isEmpty) {
+                          return "Please enter brand name";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                          label:Text("Add Brand",style: TextStyle(color: brandFieldLabel,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+                          hintText: "Enter your brand name",
+                          hintStyle: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                          border: OutlineInputBorder(
+                              borderRadius:const BorderRadius.all(
+                                Radius.circular(5.0),
+                              ),
+                              borderSide: BorderSide(color: newColorGrey,width: 0.1))
+                      )
+                  ),
+                ),
+
+//              const Expanded(flex:1,child: Text("Button")),
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0),
+                  child: Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: ()=>{
+                      if (validateBrandInput()) {
+                        _addTags(TagModel(id:"",title:brandController.text))
+                  }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 16.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: addBtnColor,
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child:Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text(
+                              'Add',
+                              textAlign: TextAlign.center,
+                              style:  TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                              ),
+                            ),
+
+                          ],
+                        ),
+
+
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+
+
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Your Brands",textAlign: TextAlign.left,style: TextStyle(
+              fontSize: 22.0.w,
+              color: headingColor,
+              fontWeight: FontWeight.w700)),
+        ),
+
+        _tagIcon(),
+
+      ],
+    );
+  }
+
+  Widget _tagIcon() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _tagsWidget(),
+      ],
+    );
+  }
+
+
+  Widget _tagsWidget() {
+    return Flexible(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _tags.isNotEmpty
+              ? Column(children: [
+            Wrap(
+              alignment: WrapAlignment.start,
+              children: _tags
+                  .map((tagModel) => tagChip(
+                tagModel: tagModel,
+                onTap: () => _removeTag(tagModel),
+                action: 'Remove',
+              ))
+                  .toSet()
+                  .toList(),
+            ),
+          ])
+              : Container(),
+
+        ],
+      ),
+    );
+  }
+
+  _addTags(tagModel) async {
+    if (!_tags.contains(tagModel)) {
+      setState(() {
+        _tags.add(tagModel);
+      });
+    }
+  }
+
+
+  _removeTag(tagModel) async {
+    if (_tags.contains(tagModel)) {
+      setState(() {
+        _tags.remove(tagModel);
+      });
+    }
+  }
+
+  Widget tagChip({
+    tagModel,
+    onTap,
+    action,
+  }) {
+    return InkWell(
+        onTap: onTap,
+        child: Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 5.0,
+                horizontal: 5.0,
+              ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 8.0,
+                ),
+                decoration: BoxDecoration(
+                  color: tagsBackground,
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${tagModel.title}',
+                      style:  TextStyle(
+                        color: tagsTextColor,
+                        fontSize: 13.sp,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    Icon(
+                      Icons.clear,
+                      size: 16.0,
+                      color: tagsIconColor,
+                    ),
+                  ],
+                ),
+
+
+              ),
+            ),
+
+          ],
+        ));
+  }
+
+
+
+  buildBusiness()
+  {
+    const Center(
+        child:  Text("Business"));
+  }
+
+  bool validateBrandInput() {
+    final form = _brandsKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 
   Column buildUserDataColumn(
@@ -268,21 +534,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 validator: (value) => value == null ? '*' : null,
 
               ),
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter designation";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFormFieldDecProfile(
-//                      'Enter Here', "Designation")),
+
             ],
           ),
         ),
@@ -375,21 +627,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }),
 
 
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: snapshot.data!.user_country ?? '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter country";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFormFieldDecProfile(
-//                      'Enter Here', "Country")),
             ],
           ),
         ),
@@ -458,22 +695,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   }),
 
 
-
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: snapshot.data!.city_state_name ?? '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter state/district";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFormFieldDecProfile(
-//                      'Enter Here', "State/District")),
             ],
           ),
         ),
@@ -511,21 +732,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 validator: (value) => value == null ? '*' : null,
 
               ),
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: snapshot.data!.city_state_name ?? '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter city";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFormFieldDecProfile(
-//                      'Enter Here', "City")),
+
             ],
           ),
         ),
@@ -580,31 +787,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ],
           ),
         ),
-//        Padding(
-//          padding:
-//          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: [
-//
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter wechat";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFormFieldDecProfile(
-//                      'Enter Here', "Wechat")),
-//            ],
-//          ),
-//        ),
+
         Padding(
           padding:
           EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
@@ -785,4 +968,14 @@ extension EmailValidator on String {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
+}
+
+class TagModel {
+  String? id;
+  String? title;
+
+  TagModel({
+    @required this.id,
+    @required this.title,
+  });
 }

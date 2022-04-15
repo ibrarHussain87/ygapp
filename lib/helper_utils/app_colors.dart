@@ -17,6 +17,11 @@ var tabColors = HexColor.fromHex('#25398B');
 var tabBackground = HexColor.fromHex('#D6E1EA');
 var indicatorColor = HexColor.fromHex('#A7B5C2');
 var formFieldLabel = HexColor.fromHex('#728498');
+var brandFieldLabel = HexColor.fromHex('#5E7389');
+var tagsBackground = HexColor.fromHex('#E3ECFF');
+var tagsTextColor = HexColor.fromHex('#2E59B1');
+var tagsIconColor = HexColor.fromHex('#BAC5DC');
+var addBtnColor = HexColor.fromHex('#1AC646');
 
 
 //

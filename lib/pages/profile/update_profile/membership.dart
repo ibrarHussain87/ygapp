@@ -20,7 +20,7 @@ class _MembershipPageState extends State<MembershipPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int currentPageValue = 0;
   int previousPageValue = 0;
-  int currentImageBanner = 0;
+  int currentImageBanner = 1;
   PageController? controller;
   double _moveBar = 0.0;
   @override
@@ -86,6 +86,7 @@ class _MembershipPageState extends State<MembershipPage> {
                 height: height/1.6,
                 pagination: false,
                 reverse: false,
+                initialPage: 1,
                 enlargeMainPage: true,
                 enableInfiniteScroll: true,
                 activeIndicator: btnTextColor,

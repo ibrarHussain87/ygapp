@@ -66,6 +66,7 @@ class StockLotStepsSegmentState extends State<StockLotStepsSegment> {
           children: [
             Expanded(
               child: CupertinoSegmentedControl(
+
                 borderColor: Colors.grey.shade300,
                 selectedColor: lightBlueTabs,
                 pressedColor: Colors.transparent,

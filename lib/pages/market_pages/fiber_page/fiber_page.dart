@@ -180,7 +180,7 @@ class FiberPageState extends State<FiberPage> {
                                             value.conName ??
                                                 Utils.checkNullString(false),
                                             textAlign: TextAlign
-                                                .center,style: TextStyle(fontSize: 10.sp),),
+                                                .center,style: TextStyle(fontSize: 11.sp,   overflow: TextOverflow.ellipsis,),),
                                         value: value,
                                       ))
                                       .toList(),
@@ -189,8 +189,8 @@ class FiberPageState extends State<FiberPage> {
                                     fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
-                                      fontSize: 10.sp,
-                                      color: textColorGrey),
+                                      fontSize: 11.sp,
+                                      color: textColorGrey,overflow: TextOverflow.ellipsis,),
                                 ),
 
 //                                DropdownButtonFormField(

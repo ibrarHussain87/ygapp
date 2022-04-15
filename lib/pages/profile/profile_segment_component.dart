@@ -19,7 +19,19 @@ class ProfileSegmentComponent extends StatefulWidget {
 class ProfileSegmentComponentState
     extends State<ProfileSegmentComponent> {
   int selectedValue = 1;
+  late PageController _pageController;
+  late List<Widget> _samplePages;
 
+//  Edit profile page State
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = PageController();
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,7 +97,8 @@ class ProfileSegmentComponentState
 //        },
 //      ),
       CustomSlidingSegmentedControl<int>(
-        initialValue: 1,
+
+        initialValue: selectedValue,
         children: {
           1: Container(
 
@@ -124,7 +137,9 @@ class ProfileSegmentComponentState
               ),
             ),
           ),
+
         },
+
         decoration: BoxDecoration(
           color:tabBackground,
           borderRadius: BorderRadius.circular(8),
@@ -147,12 +162,22 @@ class ProfileSegmentComponentState
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInToLinear,
     onValueChanged: (value) {
-          setState(() {
-            selectedValue = value;
-          });
-          widget.callback(value == 1 ? 1 : 0);
+//          setState(() {
+//            selectedValue = value;
+//          });
+//          widget.callback(value == 1 ? 1 : 0);
+          _moveToNextPage(value);
         },
       ),
     );
+  }
+
+  _moveToNextPage(value) {
+    setState(() {
+      selectedValue = value as int;
+    });
+    widget.callback(value);
+    _pageController.animateToPage(selectedValue - 1,
+        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
   }
 }
