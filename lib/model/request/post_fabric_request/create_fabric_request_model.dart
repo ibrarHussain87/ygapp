@@ -53,8 +53,8 @@ class FabricCreateRequestModel {
   String? fbp_description;
   String? fbp_min_quantity;
   String? fbp_available_quantity;
-  String? fs_no_of_days;
-  String? fs_port_idfk;
+  String? fbp_no_of_days;
+  String? fbp_port_idfk;
   /*List<Pictures>? pictures;*/
 
   FabricCreateRequestModel(
@@ -111,8 +111,8 @@ class FabricCreateRequestModel {
         this.fbp_description,
         this.fbp_min_quantity,
         this.fbp_available_quantity,
-        this.fs_no_of_days,
-        this.fs_port_idfk,
+        this.fbp_no_of_days,
+        this.fbp_port_idfk,
         /*this.pictures*/
       });
 
@@ -170,8 +170,8 @@ class FabricCreateRequestModel {
       'fbp_description': fbp_description ?? "",
       'fbp_min_quantity': fbp_min_quantity ?? "",
       'fbp_available_quantity': fbp_available_quantity ?? "",
-      'fs_no_of_days': fs_no_of_days ?? "",
-      'fs_port_idfk': fs_port_idfk ?? "",
+      'fbp_no_of_days': fbp_no_of_days ?? "",
+      'fbp_port_idfk': fbp_port_idfk ?? "",
       /*'pictures': pictures?.map((e) => e.toJson()).toList(),*/
     };
 

@@ -152,6 +152,7 @@ class FabricSpecificationComponentState
   }
 
   final ValueNotifier<bool> _notifier = ValueNotifier(false);
+  final ValueNotifier<Color> _notifierColor = ValueNotifier(const Color(0xffffffff));
 
   @override
   bool get wantKeepAlive => true;
@@ -169,6 +170,7 @@ class FabricSpecificationComponentState
   @override
   void dispose() {
     _notifier.dispose();
+    _notifierColor.dispose();
     super.dispose();
   }
 
@@ -721,9 +723,9 @@ class FabricSpecificationComponentState
                                 //Color dying Method & Color
                                 ValueListenableBuilder(
                                   valueListenable: _notifier,
-                                  builder: (context, value, child) {
+                                  builder: (context,bool value, child) {
                                     return Visibility(
-                                      visible: _notifier.value,
+                                      visible: /*_notifier.value*/value,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.max,
@@ -826,6 +828,68 @@ class FabricSpecificationComponentState
                                     );
                                   },
                                 ),
+                                //Show Color
+                                Visibility(
+                                    visible: _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(left: 8.0),
+                                            child: TitleSmallTextWidget(title: "Color"),
+                                          ),
+                                          ValueListenableBuilder(
+                                            valueListenable: _notifierColor,
+                                            builder: (context,Color color,child){
+                                              return Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                child: SizedBox(
+                                                  width: 120.w,
+                                                  child: TextFormField(
+                                                    keyboardType: TextInputType.none,
+                                                    controller: _textEditingController,
+                                                    autofocus: false,
+                                                    showCursor: false,
+                                                    readOnly: true,
+                                                    style: TextStyle(fontSize: 11.sp),
+                                                    textAlign: TextAlign.center,
+                                                    onSaved: (input) {
+                                                      if( input==null || input.isEmpty){
+                                                        _createRequestModel!.fs_color = null;
+                                                      }else{
+                                                        _createRequestModel!.fs_color = input;
+                                                      }
+                                                    },
+                                                    // validator: (input) {
+                                                    //   if (input == null ||
+                                                    //       input.isEmpty) {
+                                                    //     return "Select Color Code";
+                                                    //   }
+                                                    //   return null;
+                                                    // },
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                            borderSide: BorderSide.none),
+                                                        contentPadding: const EdgeInsets.all(2.0),
+                                                        hintText: "Select Color",
+                                                        filled: true,
+                                                        fillColor: color),
+                                                    onTap: () {
+                                                      _openDialogBox();
+                                                    },
+                                                  ),
+                                                  ),
+                                                );
+                                            }
+                                          ),
+                                        ],
+                                      ),
+                                    )),
                                 //Show Knitting Type
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showKnittingType),
@@ -1035,7 +1099,8 @@ class FabricSpecificationComponentState
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
-                setState(() => pickerColor = pickerColor);
+              //  setState(() => pickerColor = pickerColor);
+                _notifierColor.value = pickerColor;
                 Navigator.of(context).pop();
               },
             ),
@@ -1046,10 +1111,13 @@ class FabricSpecificationComponentState
   }
 
   _changeColor(Color color) {
-    setState(() {
+    /*setState(() {
       pickerColor = color;
       _textEditingController.text = '#${pickerColor.value.toRadixString(16)}';
-    });
+    });*/
+    pickerColor = color;
+    _notifierColor.value = color;
+    _textEditingController.text = '#${pickerColor.value.toRadixString(16)}';
   }
 
   void handleNextClick() {
@@ -1158,6 +1226,10 @@ class FabricSpecificationComponentState
         }  else if (_createRequestModel!.fs_grade_idfk == null &&
             Ui.showHide(_fabricSettings!.showGrade)) {
           Ui.showSnackBar(context, 'Please Select Grade');
+          return false;
+        }else if (_createRequestModel!.fs_color == null &&
+            _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
+          Ui.showSnackBar(context, 'Please Select Color');
           return false;
         } else if (_createRequestModel!.fs_appearance_idfk == null &&
             Ui.showHide(_fabricSettings!.showAppearance)) {

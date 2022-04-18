@@ -530,7 +530,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                       .requestFocus(
                                                           FocusNode());
                                                   _createRequestModel!
-                                                          .fs_port_idfk =
+                                                          .fbp_port_idfk =
                                                       value!.prtId.toString();
                                                 },
 
@@ -1028,7 +1028,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         onChanged: (int? value) {
                                           FocusScope.of(context)
                                               .requestFocus(FocusNode());
-                                          _createRequestModel!.fs_no_of_days =
+                                          _createRequestModel!.fbp_no_of_days =
                                               value!.toString();
                                         },
 

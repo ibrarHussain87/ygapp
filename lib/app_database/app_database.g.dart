@@ -2169,7 +2169,7 @@ class _$FabricSettingDao extends FabricSettingDao {
   @override
   Future<List<FabricSetting>> findFamilyFabricSettings(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_settings where fabricSettingId = ?1',
+        'SELECT * FROM fabric_settings where fabricFamilyIdfk = ?1',
         mapper: (Map<String, Object?> row) => FabricSetting(
             fabricSettingId: row['fabricSettingId'] as int?,
             fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
