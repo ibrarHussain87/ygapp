@@ -18,6 +18,7 @@ import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_specification_response.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -275,6 +276,35 @@ class ApiService {
           data: json.encode(getRequestModel.toJson()));
 
       return GetYarnSpecificationResponse.fromJson(response.data);
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<FabricSpecificationResponse> getFabricSpecifications(
+      GetSpecificationRequestModel getRequestModel, String? locality) async {
+    try {
+      String url = BASE_API_URL + GET_SPEC_END_POINT;
+
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      // getRequestModel.userId = userID;
+      getRequestModel.locality = locality;
+
+      logger.e(json.encode(getRequestModel.toJson()));
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(getRequestModel.toJson()));
+
+      return FabricSpecificationResponse.fromJson(response.data);
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

@@ -14,6 +14,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
 
+import 'Providers/fabric_specifications_provider.dart';
 import 'Providers/fiber_specifications_provider.dart';
 import 'Providers/post_fabric_provider.dart';
 import 'Providers/stocklot_provider.dart';
@@ -45,6 +46,7 @@ class YgApp extends StatelessWidget {
     ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
     ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
     ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
+    ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
     ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
   ];
   @override

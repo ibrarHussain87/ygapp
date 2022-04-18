@@ -76,6 +76,10 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       var fabricBlend = widget.listItem!.cast<FabricBlends>()[index];
       name = fabricBlend.blnAbrv ?? fabricBlend.blnName;
       castingCheckPos = 3;
+    }else if (widget.listItem is List<FabricFamily>) {
+      var fabricFamily = widget.listItem!.cast<FabricFamily>()[index];
+      name = fabricFamily.fabricFamilyName ?? 'n/a';
+      castingCheckPos = 4;
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -137,6 +141,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconSelected??""}';
       }else if(castingCheckPos == 3){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconSelected??""}';
+      }else if(castingCheckPos == 4){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconSelected??""}';
       }
     }else{
       if(castingCheckPos == 0){
@@ -151,6 +157,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconUnSelected??""}';
       }else if(castingCheckPos == 3){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconUnselected??""}';
+      }else if(castingCheckPos == 4){
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconUnselected??""}';
       }
     }
   }

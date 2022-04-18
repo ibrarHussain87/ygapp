@@ -70,6 +70,7 @@ String cityState = 'City State';
 String todayPremium = "Today's Premium";
 String marketTrends = "Market Trends";
 String yarnCategory = 'Yarn Category';
+String fabricCategory = 'Fabric Category';
 String brand = 'Brand';
 String ratio = 'Ratio';
 String count = 'Count';
