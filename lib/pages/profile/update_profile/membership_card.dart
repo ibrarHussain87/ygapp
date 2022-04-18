@@ -137,7 +137,7 @@ Widget buildSuperMembershipWidget(
 
                             });
                       })),
-                  SizedBox(height: 20,)
+                  SizedBox(height: 10,)
 
                 ],
               ),
@@ -246,7 +246,7 @@ Widget buildFreeMembershipWidget(
                             });
                       })),
 
-                  SizedBox(height:20,),
+                  SizedBox(height:10,),
                 ],
               ),
             ),
@@ -364,7 +364,7 @@ Widget buildPremiumMembershipWidget(
                     ),
                   ),
 
-                  SizedBox(height: height/50,),
+                  SizedBox(height: height/60,),
                   SizedBox(
                       width: double.infinity,
                       height: height/15,
@@ -388,7 +388,7 @@ Widget buildPremiumMembershipWidget(
 
                             });
                       })),
-                  SizedBox(height: 20,)
+                  SizedBox(height: 10,)
                 ],
               ),
             ),

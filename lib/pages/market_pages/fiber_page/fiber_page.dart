@@ -39,7 +39,7 @@ class FiberPageState extends State<FiberPage> {
       GlobalKey<FiberListingComponentState>();
 
   final GlobalKey<FiberFamilyComponentState> familySateFiber = GlobalKey();
-  late List<Countries> _countries;
+   List<Countries>? _countries;
 
 
   @override
@@ -168,30 +168,53 @@ class FiberPageState extends State<FiberPage> {
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
-                                child:
-                                SearchChoices.single(
-                                   displayClearIcon: false,
+                                child:_countries!=null ? SearchChoices.single(
+                                  displayClearIcon: false,
                                   isExpanded: true,
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                  items:  _countries
-                                      .map((value) =>
+                                  items:_countries
+                                      ?.map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
-                                            value.conName ??
-                                                Utils.checkNullString(false),
-                                            textAlign: TextAlign
-                                                .center,style: TextStyle(fontSize: 11.sp,   overflow: TextOverflow.ellipsis,),),
+                                          value.conName ??
+                                              Utils.checkNullString(false),
+                                          textAlign: TextAlign
+                                              .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
                                         value: value,
-                                      ))
-                                      .toList(),
+                                      )).toList(),
                                   isCaseSensitiveSearch: false,
                                   onChanged: (Countries? value) {
                                     fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: textColorGrey,overflow: TextOverflow.ellipsis,),
-                                ),
+                                    fontSize: 12.sp,
+                                    color: textColorGrey,overflow: TextOverflow.ellipsis,),
+                                ) :
+                                DropdownButtonFormField<String>(
+                                  isExpanded: true,
+                                  decoration: const InputDecoration.collapsed(hintText: ''),
+                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
+                                  iconSize: 20,
+                                  items:  [
+
+                                    DropdownMenuItem(
+                                      child:Text(Utils.checkNullString(false),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,style: TextStyle(fontSize: 12.sp,overflow: TextOverflow.ellipsis,),),
+                                    ),
+                                  ],
+
+                                  onChanged: (newValue) {
+
+                                  },
+
+
+                                  validator: (value) => value == null ? 'Please select country name' : null,
+
+                                )
+
 
 //                                DropdownButtonFormField(
 //                                  isExpanded: true,

@@ -19,83 +19,28 @@ class ProfileSegmentComponent extends StatefulWidget {
 class ProfileSegmentComponentState
     extends State<ProfileSegmentComponent> {
   int selectedValue = 1;
-  late PageController _pageController;
-  late List<Widget> _samplePages;
 
 //  Edit profile page State
 
 
   @override
   void initState() {
-    // TODO: implement initState
-    _pageController = PageController();
 
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
       width: double.infinity,
-//      color: tabBackground,
+      height: 38,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: tabBackground
       ),
-      padding: EdgeInsets.only(top: 3.w,left: 3.w,right: 3.w,bottom: 3.w),
+      padding: const EdgeInsets.all(0),
       child:
-//      CupertinoSegmentedControl(
-//        borderColor: Colors.grey.shade300,
-//        selectedColor: lightBlueTabs,
-//        unselectedColor: tabBackground,
-//        pressedColor: Colors.transparent,
-//        groupValue: selectedValue,
-//        padding: const EdgeInsets.all(0),
-//        children: {
-//          1: Container(
-//
-//            padding: EdgeInsets.all(10.w),
-//            child: Text(
-//              personal,
-//              style: TextStyle(
-//                fontSize: 11.sp,
-//                color: selectedValue == 1
-//                    ? Colors.white
-//                    : textColorGrey,
-//              ),
-//            ),
-//          ),
-//          2: Container(
-//            padding: EdgeInsets.all(10.w),
-//            child: Text(
-//              business,
-//              style: TextStyle(
-//                fontSize: 11.sp,
-//                color: selectedValue == 2
-//                    ? Colors.white
-//                    : textColorGrey,
-//              ),
-//            ),
-//          ),
-//          3: Container(
-//            padding: EdgeInsets.all(10.w),
-//            child: Text(
-//              brands,
-//              style: TextStyle(
-//                fontSize: 11.sp,
-//                color: selectedValue == 3
-//                    ? Colors.white
-//                    : textColorGrey,
-//              ),
-//            ),
-//          ),
-//        },
-//        onValueChanged: (value) {
-//          setState(() {
-//            selectedValue = value as int;
-//          });
-//          widget.callback(value == 1 ? 1 : 0);
-//        },
-//      ),
       CustomSlidingSegmentedControl<int>(
 
         initialValue: selectedValue,
@@ -105,6 +50,7 @@ class ProfileSegmentComponentState
             padding: EdgeInsets.all(10.w),
             child: Text(
               personal,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
                 color: selectedValue == 1
@@ -114,9 +60,11 @@ class ProfileSegmentComponentState
             ),
           ),
           2: Container(
+
             padding: EdgeInsets.all(10.w),
             child: Text(
               business,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
                 color: selectedValue == 2
@@ -126,9 +74,11 @@ class ProfileSegmentComponentState
             ),
           ),
           3: Container(
+            width: width/5.5,
             padding: EdgeInsets.all(10.w),
             child: Text(
               brands,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
                 color: selectedValue == 3
@@ -177,7 +127,5 @@ class ProfileSegmentComponentState
       selectedValue = value as int;
     });
     widget.callback(value);
-    _pageController.animateToPage(selectedValue - 1,
-        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
   }
 }

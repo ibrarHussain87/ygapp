@@ -1,9 +1,12 @@
+import 'package:country_list_pick/country_list_pick.dart';
+import 'package:country_list_pick/country_selection_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -14,13 +17,13 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/profile/profile_segment_component.dart';
 import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
-import '../../main_page.dart';
-import '../../market_pages/common_components/offering_requirment__segment_component.dart';
+import '../../../elements/title_text_widget.dart';
+import '../../../helper_utils/util.dart';
+import '../../../model/response/common_response_models/countries_response.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -226,7 +229,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
+                          horizontal: 12.0,
                           vertical: 16.0,
                         ),
                         decoration: BoxDecoration(
@@ -313,6 +316,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   _addTags(tagModel) async {
     if (!_tags.contains(tagModel)) {
       setState(() {
+        if(brandController.text!=null){
+        brandController.clear();}
         _tags.add(tagModel);
       });
     }
@@ -382,8 +387,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   buildBusiness()
   {
-    const Center(
-        child:  Text("Business"));
+    return Container(
+      child: const Center(
+          child:  Text("Business")),
+    );
   }
 
   bool validateBrandInput() {
@@ -569,37 +576,119 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+//              CountryListPick(
+//                  appBar: AppBar(
+//                    leading: BackButton(
+//                        color: Colors.black
+//                    ),
+//                    titleSpacing: 0,
+//                    backgroundColor: Colors.white,
+//                    title: const Text('Choose a Country',style:TextStyle(color: Colors.black),),
+//                  ),
+//
+//                  // if you need custome picker use this
+////                   pickerBuilder: (context, CountryCode? countryCode){
+////                     return Row(
+////                       children: [
+////                         Image.asset(
+////                           countryCode?.flagUri ?? "",
+////                           package: 'country_list_pick',
+////                         ),
+////                         Text(countryCode?.code ?? ""),
+////                         Text(countryCode?.dialCode ?? ""),
+////                       ],
+////                     );
+////                   },
+//
+//                  // To disable option set to false
+//                  theme: CountryTheme(
+//                    isShowFlag: true,
+//                    isShowTitle: true,
+//                    isShowCode: true,
+//                    isDownIcon: true,
+//                    showEnglishName: true,
+//                  ),
+//                  // Set default value
+//                  initialSelection: '+92',
+//                  // or
+//                  // initialSelection: 'US'
+//                  onChanged: (CountryCode? code) {
+//                    print(code?.name);
+//                    print(code?.code);
+//                    print(code?.dialCode);
+//                    print(code?.flagUri);
+//                  },
+//                  // Whether to allow the widget to set a custom UI overlay
+//                  useUiOverlay: true,
+//                  // Whether the country list should be wrapped in a SafeArea
+//                  useSafeArea: false
+//              ),
+
 
     FutureBuilder<List<Countries>?>(
     future: AppDbInstance.getDbInstance()
         .then((value) => value.countriesDao.findAllCountries()),
     builder: (context, snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
-        return DropdownButtonFormField<String>(
-
-          decoration: dropDownProfile(
-              'Select', "Country") ,
-          isDense: true,
+        return
+//          DropdownButtonFormField<String>(
+//
+//          decoration: dropDownProfile(
+//              'Select', "Country") ,
+//          isDense: true,
+//          hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+//          isExpanded: true,
+//          iconSize: 20,
+//          items:snapshot.data?.map((location) {
+//            return DropdownMenuItem<String>(
+//              child: Text(location.conName ?? "Empty"),
+//              value: location.conName ?? "Empty",
+//
+//            );
+//          }).toList(),
+//
+//          onChanged: (newValue) {
+//            setState(() {
+//              countryName = newValue!;
+//            });
+//          },
+//
+//
+//          validator: (value) => value == null ? '*' : null,
+//
+//        );
+        SearchChoices.single(
+          displayClearIcon: false,
           hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
           isExpanded: true,
-          iconSize: 20,
-          items:snapshot.data?.map((location) {
-            return DropdownMenuItem<String>(
-              child: Text(location.conName ?? "Empty"),
-              value: location.conName ?? "Empty",
-
+          fieldPresentationFn: (Widget fieldWidget, {bool? selectionIsValid}) {
+            return Container(
+              child: InputDecorator(
+                decoration:dropDownProfile(
+              'Select', "Country") ,
+                child: fieldWidget,
+              ),
             );
-          }).toList(),
-
-          onChanged: (newValue) {
-            setState(() {
-              countryName = newValue!;
-            });
           },
-
-
-          validator: (value) => value == null ? '*' : null,
-
+          iconSize: 20,
+          items:  snapshot.data?.map((value) =>
+              DropdownMenuItem(
+                child: Text(
+                  value.conName ??
+                      Utils.checkNullString(false),
+                  textAlign: TextAlign
+                      .center,style: TextStyle(fontSize: 11.sp,   overflow: TextOverflow.ellipsis,),),
+                value: value,
+              ))
+              .toList(),
+          isCaseSensitiveSearch: false,
+          onChanged: (Countries? value) {
+            setState(() {
+              countryName = value?.conName ?? Utils.checkNullString(false);
+            });  },
+          style: TextStyle(
+            fontSize: 11.sp,
+            color: textColorGrey,),
         );
     }
     else {
