@@ -10,7 +10,12 @@ class SpecificationUserResponse {
   SpecificationUserResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
-    data = json['data'] != null ? SpecificationUser.fromJson(json['data']) : null;
+
+    if(json['data'] is List<dynamic>){
+      data = null;
+    }else {
+      data = SpecificationUser.fromJson(json['data']);
+    }
     message = json['message'];
   }
 

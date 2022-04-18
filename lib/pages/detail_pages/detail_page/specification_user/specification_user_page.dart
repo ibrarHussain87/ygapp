@@ -53,8 +53,7 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
       future: ApiService.getSpecificationUser(_specificationRequestModel),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null &&
-            snapshot.data!.data != null) {
+            snapshot.data != null) {
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
@@ -77,23 +76,26 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
                             )),
                       )),
                 ),
-                title: Text(snapshot.data!.data!.company??companyName,
+                title: Text(snapshot.data!.data!= null ? snapshot.data!.data!.company ?? companyName : "Contact Details",
                     style: TextStyle(
                         fontSize: 16.0.w,
                         color: appBarTextColor,
                         fontWeight: FontWeight.w400)),
               ),
-              body: SpecUserView(
+              body: snapshot.data!.data != null? SpecUserView(
                   specificationUser: snapshot.data!.data!,
                   specId: widget.specId,
-                  categoryId: widget.categoryId),
+                  categoryId: widget.categoryId) : const Center(
+                  child: TitleSmallTextWidget(title: "No data found!!")),
             ),
           );
         } else if (snapshot.hasError) {
-          return Container(
-            color: Colors.white,
-            child: Center(
-                child: TitleSmallTextWidget(title: snapshot.error.toString())),
+          return Material(
+            child: Container(
+              color: Colors.white,
+              child: Center(
+                  child: TitleSmallTextWidget(title: snapshot.error.toString())),
+            ),
           );
         } else {
           return Container(

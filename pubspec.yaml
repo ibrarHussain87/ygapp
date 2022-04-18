@@ -85,6 +85,7 @@ dependencies:
   firebase_core: ^1.1.0
   firebase_auth:
   firebase_messaging: ^11.2.5
+  group_list_view: ^1.1.1
 
 #  bubble_tab_indicator: ^0.1.6
 

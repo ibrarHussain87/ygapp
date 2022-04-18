@@ -230,9 +230,11 @@ class Fabric {
     }
     if (json['delivery_period'] != null) {
       deliveryPeriod = <DeliveryPeriod>[];
-      json['delivery_period'].forEach((v) {
-        deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
-      });
+      if(json['delivery_period'] is List) {
+        json['delivery_period'].forEach((v) {
+          deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
+        });
+      }
     }
     if (json['units'] != null) {
       units = <Units>[];

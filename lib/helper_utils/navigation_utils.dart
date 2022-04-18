@@ -15,18 +15,21 @@ import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 void openDetailsScreen(BuildContext context,
     {Specification? specification,
     YarnSpecification? yarnSpecification,
-    bool? isFromBid,bool? sendProposal}) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DetailRenewedPage(
-          specification: specification,
-          yarnSpecification: yarnSpecification,
-          isFromBid: isFromBid,
-          sendProposal: sendProposal,
-        ),
+    dynamic specObj,
+    bool? isFromBid,
+    bool? sendProposal}) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DetailRenewedPage(
+        specification: specification,
+        yarnSpecification: yarnSpecification,
+        specObj: specObj,
+        isFromBid: isFromBid,
+        sendProposal: sendProposal,
       ),
-    );
+    ),
+  );
 }
 
 void openProfileScreen(BuildContext context) {
@@ -104,11 +107,16 @@ void openMyBidsScreen(BuildContext context) {
   );
 }
 
-void openSpecificationUserScreen(BuildContext context,String specId,String categoryId,) {
+void openSpecificationUserScreen(
+  BuildContext context,
+  String specId,
+  String categoryId,
+) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => SpecificationUserPage(specId: specId, categoryId: categoryId),
+      builder: (context) =>
+          SpecificationUserPage(specId: specId, categoryId: categoryId),
     ),
   );
 }

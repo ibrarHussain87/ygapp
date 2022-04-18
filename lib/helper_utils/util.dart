@@ -875,4 +875,24 @@ class Utils {
     priceRange = '$min ${minUnit??""} - $max ${maxUnit??""}';
     return priceRange;
   }
+
+
+  static stockLotPriceMin(StockLotSpecification specification) {
+    int min = int.parse(specification.specDetails!.first.price!);
+    for (var element in specification.specDetails!) {
+      if (int.parse(element.price!) < min) {
+        min = int.parse(element.price!);
+      }
+    }
+    return min;
+  }
+
+  static stockLotPriceMax(StockLotSpecification specification) {
+    int max = int.parse(specification.specDetails!.first.price!);
+    for (var element in specification.specDetails!) {
+      if (int.parse(element.price!) > max) {
+        max = int.parse(element.price!);
+      }
+    }
+  }
 }

@@ -16,6 +16,7 @@ import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_body.da
 import '../../../elements/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
+import '../../../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
 class StockLotPage extends StatefulWidget {
   final String? locality;
@@ -29,6 +30,8 @@ class StockLotPage extends StatefulWidget {
 class StockLotPageState extends State<StockLotPage> {
   List<Countries> _countries = [];
   late StocklotProvider stocklotProvider;
+  StocklotCategories? stocklotCategories;
+
   @override
   void initState() {
     AppDbInstance.getOriginsData()
@@ -41,194 +44,230 @@ class StockLotPageState extends State<StockLotPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Builder(
-        builder: (context) {
-          stocklotProvider = Provider.of<StocklotProvider>(context);
-          return stocklotProvider.stocklots!.isNotEmpty? Scaffold(
-            backgroundColor: Colors.white,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                showBottomSheetOR(context, (value) {
-                  openStockLotPostPage(context, widget.locality, "StockLot", value);
-                });
-              },
-              child: const Icon(Icons.add),
-              backgroundColor: Colors.blueAccent,
-              heroTag: null,
-            ),
-            body: Container(
-              color: Colors.grey.shade100,
-              child: Material(
-                elevation: 5,
-                color: Colors.white,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
-                child: Column(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      child: Builder(builder: (context) {
+        stocklotProvider = Provider.of<StocklotProvider>(context);
+        return stocklotProvider.stocklots!.isNotEmpty
+            ? Scaffold(
+                backgroundColor: Colors.white,
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    showBottomSheetOR(context, (value) {
+                      openStockLotPostPage(
+                          context, widget.locality, "StockLot", value);
+                    });
+                  },
+                  child: const Icon(Icons.add),
+                  backgroundColor: Colors.blueAccent,
+                  heroTag: null,
+                ),
+                body: Container(
+                  color: Colors.grey.shade100,
+                  child: Material(
+                    elevation: 5,
+                    color: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25))),
+                    child: Column(
                       children: [
-                        SizedBox(
-                          height: 8.w,
-                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Visibility(
-                              visible: false,
-                              child: Padding(
-                                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                                  child: const TitleTextWidget(
-                                    title: 'Category',
-                                  )),
+                            SizedBox(
+                              height: 8.w,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
                               child: SizedBox(
-                                  height: 0.04 * MediaQuery.of(context).size.height,
+                                  height:
+                                      0.04 * MediaQuery.of(context).size.height,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 2.0),
                                     child: SingleSelectTileRenewedWidget(
                                       spanCount: 2,
-                                      selectedIndex: 0,
-                                      listOfItems: stocklotProvider.stocklotCategories!,
-                                      callback: (value) {
-                                        setState(() {
-                                          //HERE WILL BE API CALL
-                                        });
+                                      selectedIndex: -1,
+                                      listOfItems: stocklotProvider.stocklots!,
+                                      callback: (StocklotCategories value) {
+                                        stocklotProvider
+                                            .getCategories(value.id.toString());
+                                        stocklotProvider.stocklotId = value.id;
+                                        stocklotProvider.categoryId = -1;
+                                        stocklotProvider.subcategoryId = -1;
+                                        stocklotProvider.setShowCategory(true);
+                                        stocklotProvider.setShowSubCategory(false);
                                       },
                                     ),
                                   )),
                             ),
+                            Visibility(
+                              visible: stocklotProvider.showCategory,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CatWithImageListWidget(
+                                    listItem: stocklotProvider.stocklotCategories,
+                                    onClickCallback: (value) {
+                                      stocklotProvider.getSubcategories(
+                                          stocklotProvider.stocklotId.toString());
+                                      stocklotProvider.categoryId =
+                                          stocklotProvider
+                                              .stocklotCategories![value].id;
+                                      stocklotProvider.getSubcategories(
+                                          stocklotProvider
+                                              .stocklotCategories![value].id
+                                              .toString());
+                                      stocklotProvider.subcategoryId = -1;
+                                      stocklotProvider.setSubCatIndex(-1);
+                                      stocklotProvider.setShowSubCategory(true);
+                                    }),
+                              ),
+                            ),
+                            Visibility(
+                              visible: stocklotProvider.showSubCategory,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12.0),
+                                child: SizedBox(
+                                    height: 0.04 *
+                                        MediaQuery.of(context).size.height,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 2.0),
+                                      child: SingleSelectTileRenewedWidget(
+                                        key: stocklotProvider.subCategoryKey,
+                                        spanCount: 2,
+                                        selectedIndex: -1,
+                                        listOfItems: stocklotProvider
+                                            .stocklotSubcategories!,
+                                        callback: (StocklotCategories value) {
+                                          stocklotCategories = value;
+                                          stocklotProvider
+                                              .getFilteredStocklotWaste(
+                                                  value.id ?? -1);
+                                          stocklotProvider.subcategoryId =
+                                              value.id;
+                                        },
+                                      ),
+                                    )),
+                              ),
+                            ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CatWithImageListWidget(listItem: stocklotProvider.stocklotCategories, onClickCallback: (value){}),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: SizedBox(
-                              height: 0.04 * MediaQuery.of(context).size.height,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: SingleSelectTileRenewedWidget(
-                                  spanCount: 2,
-                                  selectedIndex: 0,
-                                  listOfItems: stocklotProvider.stocklotSubcategories!,
-                                  callback: (value) {
-                                    setState(() {
-                                      //HERE WILL BE API CALL
-                                    });
-                                  },
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: widget.locality == international ? 8 : 10,
-                                  child: OfferingRequirementSegmentComponent(
-                                    callback: (value) {},
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: widget.locality == international,
-                                  maintainState: false,
-                                  maintainSize: false,
-                                  child: Expanded(
-                                    child: Image.asset(
-                                      ic_products,
-                                      width: 12,
-                                      height: 12,
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: widget.locality == international
+                                          ? 8
+                                          : 10,
+                                      child:
+                                          OfferingRequirementSegmentComponent(
+                                        callback: (value) {
+                                          stocklotProvider.setIsOffering(value.toString());
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: widget.locality == international ? 2 : 0,
-                                  child: Visibility(
-                                    maintainSize: false,
-                                    maintainState: false,
-                                    visible: widget.locality == international,
-                                    child: DropdownButtonFormField(
-                                      isExpanded: true,
-                                      decoration: const InputDecoration.collapsed(
-                                          hintText: ''),
-                                      hint: const TitleExtraSmallBoldTextWidget(
-                                          title: 'Country'),
-                                      items: _countries
-                                          .map((value) => DropdownMenuItem(
-                                                child: Text(
-                                                    value.conName ??
-                                                        Utils.checkNullString(
-                                                            false),
-                                                    textAlign: TextAlign.center),
-                                                value: value,
-                                              ))
-                                          .toList(),
-                                      onChanged: (Countries? value) {
-                                        /*_createRequestModel!
+                                    Visibility(
+                                      visible: widget.locality == international,
+                                      maintainState: false,
+                                      maintainSize: false,
+                                      child: Expanded(
+                                        child: Image.asset(
+                                          ic_products,
+                                          width: 12,
+                                          height: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: widget.locality == international
+                                          ? 2
+                                          : 0,
+                                      child: Visibility(
+                                        maintainSize: false,
+                                        maintainState: false,
+                                        visible:
+                                            widget.locality == international,
+                                        child: DropdownButtonFormField(
+                                          isExpanded: true,
+                                          decoration:
+                                              const InputDecoration.collapsed(
+                                                  hintText: ''),
+                                          hint:
+                                              const TitleExtraSmallBoldTextWidget(
+                                                  title: 'Country'),
+                                          items: _countries
+                                              .map((value) => DropdownMenuItem(
+                                                    child: Text(
+                                                        value.conName ??
+                                                            Utils
+                                                                .checkNullString(
+                                                                    false),
+                                                        textAlign:
+                                                            TextAlign.center),
+                                                    value: value,
+                                                  ))
+                                              .toList(),
+                                          onChanged: (Countries? value) {
+                                            /*_createRequestModel!
                                           .spc_origin_idfk =
                                           value!.conId.toString();*/
-                                      },
-                                      style: TextStyle(
-                                          fontSize: 11.sp, color: textColorGrey),
+                                          },
+                                          style: TextStyle(
+                                              fontSize: 11.sp,
+                                              color: textColorGrey),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: false,
-                                  child: Center(
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () async {},
-                                      child: Card(
-                                          color: Colors.white,
-                                          elevation: 1,
-                                          child: Padding(
-                                              padding: EdgeInsets.all(4.w),
-                                              child: Icon(
-                                                Icons.filter_alt_sharp,
-                                                color: lightBlueTabs,
-                                                size: 16.w,
-                                              ))),
+                                    Visibility(
+                                      visible: false,
+                                      child: Center(
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () async {},
+                                          child: Card(
+                                              color: Colors.white,
+                                              elevation: 1,
+                                              child: Padding(
+                                                  padding: EdgeInsets.all(4.w),
+                                                  child: Icon(
+                                                    Icons.filter_alt_sharp,
+                                                    color: lightBlueTabs,
+                                                    size: 16.w,
+                                                  ))),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 8.w),
+                            child: StockLotListingBody(
+                              locality: widget.locality!,
                             ),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 8.w),
-                        child: StockLotListingBody(locality: widget.locality!,),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ) : Container(
-            color: Colors.white,
-            height: 100,
-          );
-        }
-      ),
+              )
+            : Container(
+                color: Colors.white,
+                height: 100,
+              );
+      }),
     );
   }
 }

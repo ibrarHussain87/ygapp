@@ -39,6 +39,8 @@ class StocklotProvider extends ChangeNotifier {
   List<StocklotWasteModel>? stocklotWasteList = [];
   List<StocklotWasteModel>? filteredStocklotWasteList = [];
   List<StockLotSpecification> listStockLotSpec = [];
+  List<StockLotSpecification> localSpecList = [];
+  List<StockLotSpecification> internationSpecList = [];
   bool loading = false;
   bool ignoreClick = false;
   int selectedSubCategoryId = -1;
@@ -49,6 +51,29 @@ class StocklotProvider extends ChangeNotifier {
   String apiError = "";
   List<PickedFile> imageFiles = [];
   var stocklotRequestModel = StocklotRequestModel();
+  String? isOffering = "1";
+  int selectedSubCategoryIndex = -1;
+  bool showSubCategory = false;
+  bool showCategory = false;
+
+  setSubCatIndex(int value){
+   if(subCategoryKey.currentState!= null) subCategoryKey.currentState!.checkedTile = value;
+  }
+
+  setIsOffering(String value){
+    isOffering = value;
+    notifyListeners();
+  }
+
+  setShowCategory(bool value){
+    showCategory = value;
+    notifyListeners();
+  }
+
+  setShowSubCategory(bool value){
+    showSubCategory = value;
+    notifyListeners();
+  }
 
   getStocklotData() async {
     loading = true;
@@ -77,7 +102,6 @@ class StocklotProvider extends ChangeNotifier {
     loading = false;
     notifyListeners();
   }
-
 
   createStockLot(context) async {
     loading = true;
@@ -113,7 +137,7 @@ class StocklotProvider extends ChangeNotifier {
   }
 
   getCategories(String id) async {
-    stocklotId = int.parse(id);
+    // stocklotId = int.parse(id);
     stocklotCategories!.clear();
     stocklotCategories = stocklotAllCategories
         .where((element) => element.parentId == id)
@@ -125,7 +149,7 @@ class StocklotProvider extends ChangeNotifier {
   }
 
   getSubcategories(String id) async {
-    categoryId = int.parse(id);
+    // categoryId = int.parse(id);
     stocklotSubcategories!.clear();
     stocklotWasteList!.clear();
     subcategoryId = -1;

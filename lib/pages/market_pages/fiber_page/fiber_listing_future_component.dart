@@ -28,12 +28,12 @@ class FiberListingComponentState extends State<FiberListingComponent> {
   void initState() {
     getRequestModel.isOffering = "1";
     getRequestModel.categoryId = "1";
-    final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context, listen: false);
-    fiberSpecificationsProvider.setRequestParams(getRequestModel, widget.locality!);
+    // final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context, listen: false);
+    // fiberSpecificationsProvider.setRequestParams(getRequestModel, widget.locality!);
     super.initState();
   }
 
- /* @override
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<FiberSpecificationResponse>(
       future:
@@ -66,41 +66,41 @@ class FiberListingComponentState extends State<FiberListingComponent> {
         }
       },
     );
-  }*/
-
-  @override
-  Widget build(BuildContext context) {
-    final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context);
-    return FutureBuilder<FiberSpecificationResponse>(
-      future:fiberSpecificationsProvider.getFibers(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-          return Container(
-            child: snapshot.data!.data.specification.isNotEmpty
-                ? FiberListingBody(
-              key: fiberListingBodyState,
-              specification: fiberSpecificationsProvider.fiberSpecificationResponse!.data.specification,
-            )
-                : const Center(
-              child: TitleSmallTextWidget(
-                title: 'No Data Found',
-              ),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-              child: TitleSmallTextWidget(title: snapshot.error.toString()));
-        } else {
-          return const Center(
-            child: SpinKitWave(
-              color: Colors.green,
-              size: 24.0,
-            ),
-          );
-        }
-      },
-    );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final fiberSpecificationsProvider = Provider.of<FiberSpecificationsProvider>(context);
+  //   return FutureBuilder<FiberSpecificationResponse>(
+  //     future:ApiService.getFiberSpecifications(fiberSpecificationsProvider.requestModel!, fiberSpecificationsProvider.locality),
+  //     builder: (BuildContext context, snapshot) {
+  //       if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+  //         return Container(
+  //           child: snapshot.data!.data.specification.isNotEmpty
+  //               ? FiberListingBody(
+  //             key: fiberListingBodyState,
+  //             specification: snapshot.data!.data.specification,
+  //           )
+  //               : const Center(
+  //             child: TitleSmallTextWidget(
+  //               title: 'No Data Found',
+  //             ),
+  //           ),
+  //         );
+  //       } else if (snapshot.hasError) {
+  //         return Center(
+  //             child: TitleSmallTextWidget(title: snapshot.error.toString()));
+  //       } else {
+  //         return const Center(
+  //           child: SpinKitWave(
+  //             color: Colors.green,
+  //             size: 24.0,
+  //           ),
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 
   refreshListing(GetSpecificationRequestModel filterRequestModel) {
     setState(() {

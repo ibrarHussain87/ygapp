@@ -33,67 +33,96 @@ class StockLotListingBody extends StatefulWidget {
 
 class StockLotListingBodyState extends State<StockLotListingBody> {
   late StocklotProvider stocklotProvider;
-  late GetStockLotSpecRequestModel getStockLotSpecRequestModel;
+  GetStockLotSpecRequestModel getStockLotSpecRequestModel =
+      GetStockLotSpecRequestModel();
 
   @override
   void initState() {
     super.initState();
-    stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
-
-    getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
-    getStockLotSpecRequestModel.localInternational = widget.locality;
-    getStockLotSpecRequestModel.categoryId = "5";
-    getStockLotSpecRequestModel.isOffering = "1";
   }
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (BuildContext context) {
-      return FutureBuilder<StockLotSpecificationResponse>(
-        future: ApiService.getStockLotSpecifications(
-            getStockLotSpecRequestModel),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data != null) {
-            return Container(
-              child: snapshot.data!.data!.specification!.isNotEmpty
-                  ? ListView.separated(
-                itemCount: snapshot.data!.data!.specification!.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    GestureDetector(
+    stocklotProvider = Provider.of<StocklotProvider>(context, listen: true);
+    getStockLotSpecRequestModel.localInternational = widget.locality;
+    getStockLotSpecRequestModel.categoryId = "5";
+    getStockLotSpecRequestModel.isOffering = stocklotProvider.isOffering;
+    getStockLotSpecRequestModel.stocklotCategoryId =
+        stocklotProvider.categoryId != -1
+            ? stocklotProvider.categoryId.toString()
+            : null;
+    getStockLotSpecRequestModel.stocklotSubCategoryId =
+        stocklotProvider.subcategoryId != -1
+            ? stocklotProvider.subcategoryId.toString()
+            : null;
+    return FutureBuilder<StockLotSpecificationResponse>(
+      future: ApiService.getStockLotSpecifications(getStockLotSpecRequestModel),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null) {
+          if (widget.locality == international) {
+            stocklotProvider.internationSpecList.clear();
+            if (snapshot.data!.data != null) {
+              stocklotProvider.internationSpecList
+                  .addAll(snapshot.data!.data!.specification!);
+            } else {
+              stocklotProvider.internationSpecList = [];
+            }
+          } else {
+            stocklotProvider.localSpecList.clear();
+            if (snapshot.data!.data != null) {
+              stocklotProvider.localSpecList
+                  .addAll(snapshot.data!.data!.specification!);
+            } else {
+              stocklotProvider.localSpecList = [];
+            }
+          }
+          return Container(
+            child: snapshot.data!.data != null
+                ? ListView.separated(
+                    itemCount: widget.locality == international
+                        ? stocklotProvider.internationSpecList.length
+                        : stocklotProvider.localSpecList.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        // openDetailsScreen(
-                        //     context,specification: specificationFiltered![index]);
+                        openDetailsScreen(context,
+                            specObj: widget.locality == international
+                                ? stocklotProvider.internationSpecList[index]
+                                : stocklotProvider.localSpecList[index]);
                       },
-                      child: StockLotListItem(specification: snapshot.data!.data!.specification![index],),
+                      child: StockLotListItem(
+                        specification: widget.locality == international
+                            ? stocklotProvider.internationSpecList[index]
+                            : stocklotProvider.localSpecList[index],
+                      ),
                     ),
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    height: 1,
-                    color: Colors.grey.shade400,
-                  );
-                },
-              ) : const Center(
-                child: TitleSmallTextWidget(
-                  title: 'No Data Found',
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-                child: TitleSmallTextWidget(title: snapshot.error.toString()));
-          } else {
-            return const Center(
-              child: SpinKitWave(
-                color: Colors.green,
-                size: 24.0,
-              ),
-            );
-          }
-        },
-      );
-    });
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 1,
+                        color: Colors.grey.shade400,
+                      );
+                    },
+                  )
+                : const Center(
+                    child: TitleSmallTextWidget(
+                      title: 'No Data Found',
+                    ),
+                  ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+              child: TitleSmallTextWidget(title: snapshot.error.toString()));
+        } else {
+          return const Center(
+            child: SpinKitWave(
+              color: Colors.green,
+              size: 24.0,
+            ),
+          );
+        }
+      },
+    );
   }
 }
