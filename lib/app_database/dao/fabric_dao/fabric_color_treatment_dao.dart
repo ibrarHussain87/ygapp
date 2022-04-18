@@ -6,7 +6,7 @@ abstract class FabricColorTreatmentMethodDao {
   @Query('SELECT * FROM fiber_color_treatment_method')
   Future<List<FabricColorTreatmentMethod>> findAllFabricColorTreatmentMethod();
 
-  @Query('SELECT * FROM fiber_color_treatment_method where fctm_id = :id')
+  @Query('SELECT * FROM fiber_color_treatment_method where fctmId = :id')
   Future<List<FabricColorTreatmentMethod>> findFabricColorTreatmentMethod(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -15,7 +15,7 @@ abstract class FabricColorTreatmentMethodDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllFabricFiberColorTreatmentMethod(List<FabricColorTreatmentMethod> fabricColorTreatmentMethod);
 
-  @Query("delete from fiber_color_treatment_method where fctm_id = :id")
+  @Query("delete from fiber_color_treatment_method where fctmId = :id")
   Future<void> deleteFabricFiberColorTreatmentMethod(int id);
 
   @Query("delete from fiber_color_treatment_method")

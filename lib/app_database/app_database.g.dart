@@ -2169,7 +2169,7 @@ class _$FabricSettingDao extends FabricSettingDao {
   @override
   Future<List<FabricSetting>> findFamilyFabricSettings(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_settings where fabricFamilyIdfk = ?1',
+        'SELECT * FROM fabric_settings where fabricSettingId = ?1',
         mapper: (Map<String, Object?> row) => FabricSetting(
             fabricSettingId: row['fabricSettingId'] as int?,
             fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
@@ -2217,7 +2217,7 @@ class _$FabricSettingDao extends FabricSettingDao {
   @override
   Future<void> deleteFabricSetting(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_settings where fabric_setting_id = ?1',
+        'delete from fabric_settings where fabricSettingId = ?1',
         arguments: [id]);
   }
 
@@ -2281,7 +2281,7 @@ class _$FabricFamilyDao extends FabricFamilyDao {
   @override
   Future<List<FabricFamily>> findFamilyFabricFamily(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_family where fabric_family_id = ?1',
+        'SELECT * FROM fabric_family where fabricFamilyId = ?1',
         mapper: (Map<String, Object?> row) => FabricFamily(
             fabricFamilyId: row['fabricFamilyId'] as int?,
             fabricFamilyName: row['fabricFamilyName'] as String?,
@@ -2297,7 +2297,7 @@ class _$FabricFamilyDao extends FabricFamilyDao {
   @override
   Future<void> deleteFabricFamily(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_family where fabric_family_id = ?1',
+        'delete from fabric_family where fabricFamilyId = ?1',
         arguments: [id]);
   }
 
@@ -2365,7 +2365,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
   @override
   Future<List<FabricBlends>> findFabricBlend(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_blends where bln_id = ?1',
+        'SELECT * FROM fabric_blends where blnId = ?1',
         mapper: (Map<String, Object?> row) => FabricBlends(
             blnId: row['blnId'] as int?,
             blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
@@ -2383,7 +2383,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
   @override
   Future<void> deleteFabricBlend(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_blends where bln_id = ?1',
+        'delete from fabric_blends where blnId = ?1',
         arguments: [id]);
   }
 
@@ -2442,7 +2442,7 @@ class _$FabricAppearanceDao extends FabricAppearanceDao {
   @override
   Future<List<FabricAppearance>> findFabricAppearance(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_appearance where fabric_appearance_id = ?1',
+        'SELECT * FROM fabric_appearance where fabricAppearanceId = ?1',
         mapper: (Map<String, Object?> row) => FabricAppearance(
             fabricAppearanceId: row['fabricAppearanceId'] as int?,
             fabricAppearanceName: row['fabricAppearanceName'] as String?,
@@ -2456,7 +2456,7 @@ class _$FabricAppearanceDao extends FabricAppearanceDao {
   @override
   Future<void> deleteFabricAppearance(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_appearance where fabric_appearance_id = ?1',
+        'delete from fabric_appearance where fabricAppearanceId = ?1',
         arguments: [id]);
   }
 
@@ -2511,7 +2511,7 @@ class _$KnittingTypesDao extends KnittingTypesDao {
   @override
   Future<List<KnittingTypes>> findKnittingType(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM knitting_types where fabric_knitting_type_id = ?1',
+        'SELECT * FROM knitting_types where fabricKnittingTypeId = ?1',
         mapper: (Map<String, Object?> row) => KnittingTypes(
             fabricKnittingTypeId: row['fabricKnittingTypeId'] as int?,
             fabricKnittingTypeName: row['fabricKnittingTypeName'] as String?,
@@ -2522,7 +2522,7 @@ class _$KnittingTypesDao extends KnittingTypesDao {
   @override
   Future<void> deleteKnittingType(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from knitting_types where fabric_knitting_type_id = ?1',
+        'delete from knitting_types where fabricKnittingTypeId = ?1',
         arguments: [id]);
   }
 
@@ -2584,7 +2584,7 @@ class _$FabricPlyDao extends FabricPlyDao {
   @override
   Future<List<FabricPly>> findFabricPly(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_ply where fabric_ply_id = ?1',
+        'SELECT * FROM fabric_ply where fabricPlyId = ?1',
         mapper: (Map<String, Object?> row) => FabricPly(
             fabricPlyId: row['fabricPlyId'] as int?,
             fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
@@ -2599,7 +2599,7 @@ class _$FabricPlyDao extends FabricPlyDao {
   @override
   Future<void> deleteFabricPly(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_ply where fabric_ply_id = ?1',
+        'delete from fabric_ply where fabricPlyId = ?1',
         arguments: [id]);
   }
 
@@ -2662,7 +2662,7 @@ class _$FabricColorTreatmentMethodDao extends FabricColorTreatmentMethodDao {
   Future<List<FabricColorTreatmentMethod>> findFabricColorTreatmentMethod(
       int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fiber_color_treatment_method where fctm_id = ?1',
+        'SELECT * FROM fiber_color_treatment_method where fctmId = ?1',
         mapper: (Map<String, Object?> row) => FabricColorTreatmentMethod(
             fctmId: row['fctmId'] as int?,
             fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?,
@@ -2676,7 +2676,7 @@ class _$FabricColorTreatmentMethodDao extends FabricColorTreatmentMethodDao {
   @override
   Future<void> deleteFabricFiberColorTreatmentMethod(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fiber_color_treatment_method where fctm_id = ?1',
+        'delete from fiber_color_treatment_method where fctmId = ?1',
         arguments: [id]);
   }
 
@@ -2740,7 +2740,7 @@ class _$FabricDyingTechniqueDao extends FabricDyingTechniqueDao {
   @override
   Future<List<FabricDyingTechniques>> findFabricDyingTechnique(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_dying_techniques where fdt_id = ?1',
+        'SELECT * FROM fabric_dying_techniques where fdtId = ?1',
         mapper: (Map<String, Object?> row) => FabricDyingTechniques(
             fdtId: row['fdtId'] as int?,
             fctmIdfk: row['fctmIdfk'] as String?,
@@ -2754,7 +2754,7 @@ class _$FabricDyingTechniqueDao extends FabricDyingTechniqueDao {
   @override
   Future<void> deleteFabricDyingTechnique(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_dying_techniques where fdt_id = ?1',
+        'delete from fabric_dying_techniques where fdtId = ?1',
         arguments: [id]);
   }
 
@@ -2810,7 +2810,7 @@ class _$FabricQualityDao extends FabricQualityDao {
   @override
   Future<List<FabricQuality>> findFabricQuality(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_quality where fabric_quality_id = ?1',
+        'SELECT * FROM fabric_quality where fabricQualityId = ?1',
         mapper: (Map<String, Object?> row) => FabricQuality(
             fabricQualityId: row['fabricQualityId'] as int?,
             fabricQualityName: row['fabricQualityName'] as String?,
@@ -2821,7 +2821,7 @@ class _$FabricQualityDao extends FabricQualityDao {
   @override
   Future<void> deleteFabricQuality(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_quality where fabric_quality_id = ?1',
+        'delete from fabric_quality where fabricQualityId = ?1',
         arguments: [id]);
   }
 
@@ -2876,7 +2876,7 @@ class _$FabricGradesDao extends FabricGradesDao {
   @override
   Future<List<FabricGrades>> findFabricGrade(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_grades where fabric_grade_id = ?1',
+        'SELECT * FROM fabric_grades where fabricGradeId = ?1',
         mapper: (Map<String, Object?> row) => FabricGrades(
             fabricGradeId: row['fabricGradeId'] as int?,
             fabricGradeName: row['fabricGradeName'] as String?,
@@ -2887,7 +2887,7 @@ class _$FabricGradesDao extends FabricGradesDao {
   @override
   Future<void> deleteFabricGrade(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_grades where fabric_grade_id = ?1',
+        'delete from fabric_grades where fabricGradeId = ?1',
         arguments: [id]);
   }
 
@@ -2941,7 +2941,7 @@ class _$FabricLoomDao extends FabricLoomDao {
   @override
   Future<List<FabricLoom>> findFabricLoom(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_loom where fabric_loom_id = ?1',
+        'SELECT * FROM fabric_loom where fabricLoomId = ?1',
         mapper: (Map<String, Object?> row) => FabricLoom(
             fabricLoomId: row['fabricLoomId'] as int?,
             fabricLoomName: row['fabricLoomName'] as String?,
@@ -2952,7 +2952,7 @@ class _$FabricLoomDao extends FabricLoomDao {
   @override
   Future<void> deleteFabricLoom(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_loom where fabric_loom_id = ?1',
+        'delete from fabric_loom where fabricLoomId = ?1',
         arguments: [id]);
   }
 
@@ -3006,7 +3006,7 @@ class _$FabricSalvedgeDao extends FabricSalvedgeDao {
   @override
   Future<List<FabricSalvedge>> findFabricSalvedge(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_salvedge where fabric_salvedge_id = ?1',
+        'SELECT * FROM fabric_salvedge where fabricSalvedgeId = ?1',
         mapper: (Map<String, Object?> row) => FabricSalvedge(
             fabricSalvedgeId: row['fabricSalvedgeId'] as int?,
             fabricSalvedgeName: row['fabricSalvedgeName'] as String?,
@@ -3017,7 +3017,7 @@ class _$FabricSalvedgeDao extends FabricSalvedgeDao {
   @override
   Future<void> deleteFabricSalvedge(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_salvedge where fabric_salvedge_id = ?1',
+        'delete from fabric_salvedge where fabricSalvedgeId = ?1',
         arguments: [id]);
   }
 
@@ -3072,7 +3072,7 @@ class _$FabricWeaveDao extends FabricWeaveDao {
   @override
   Future<List<FabricWeave>> findFabricWeave(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_weave where fabric_weave_id = ?1',
+        'SELECT * FROM fabric_weave where fabricWeaveId = ?1',
         mapper: (Map<String, Object?> row) => FabricWeave(
             fabricWeaveId: row['fabricWeaveId'] as int?,
             fabricWeaveName: row['fabricWeaveName'] as String?,
@@ -3083,7 +3083,7 @@ class _$FabricWeaveDao extends FabricWeaveDao {
   @override
   Future<void> deleteFabricWeave(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_weave where fabric_weave_id = ?1',
+        'delete from fabric_weave where fabricWeaveId = ?1',
         arguments: [id]);
   }
 
@@ -3137,7 +3137,7 @@ class _$FabricLayyerDao extends FabricLayyerDao {
   @override
   Future<List<FabricLayyer>> findFabricLayyer(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_layyer where fabric_layyer_id = ?1',
+        'SELECT * FROM fabric_layyer where fabricLayyerId = ?1',
         mapper: (Map<String, Object?> row) => FabricLayyer(
             fabricLayyerId: row['fabricLayyerId'] as int?,
             fabricLayyerName: row['fabricLayyerName'] as String?,
@@ -3148,7 +3148,7 @@ class _$FabricLayyerDao extends FabricLayyerDao {
   @override
   Future<void> deleteFabricLayyer(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from fabric_layyer where fabric_layyer_id = ?1',
+        'delete from fabric_layyer where fabricLayyerId = ?1',
         arguments: [id]);
   }
 

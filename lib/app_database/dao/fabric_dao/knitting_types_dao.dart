@@ -7,7 +7,7 @@ abstract class KnittingTypesDao {
   @Query('SELECT * FROM knitting_types')
   Future<List<KnittingTypes>> findAllKnittingTypes();
 
-  @Query('SELECT * FROM knitting_types where fabric_knitting_type_id = :id')
+  @Query('SELECT * FROM knitting_types where fabricKnittingTypeId = :id')
   Future<List<KnittingTypes>> findKnittingType(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -16,7 +16,7 @@ abstract class KnittingTypesDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllKnittingTypes(List<KnittingTypes> knittingTypes);
 
-  @Query("delete from knitting_types where fabric_knitting_type_id = :id")
+  @Query("delete from knitting_types where fabricKnittingTypeId = :id")
   Future<void> deleteKnittingType(int id);
 
   @Query("delete from knitting_types")
