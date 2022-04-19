@@ -13,7 +13,15 @@ class FabricSpecificationResponse {
   FabricSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+   // data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    var dataList = json['data'];
+    if (dataList is List<dynamic>) {
+      if (dataList.isEmpty) {
+        data = Data(specification: []);
+      }
+    } else {
+      data = Data.fromJson(json['data']);
+    }
     responseCode = json['response_code'];
     code = json['code'];
   }

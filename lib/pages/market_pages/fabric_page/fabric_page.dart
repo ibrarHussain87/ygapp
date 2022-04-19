@@ -10,6 +10,7 @@ import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/request/filter_request/fabric_filter_request.dart';
 import '../../../model/request/filter_request/filter_request.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import '../common_components/offering_requirment__segment_component.dart';
@@ -80,15 +81,15 @@ class FabricPageState extends State<FabricPage> {
                       const SizedBox(height: 8,),
                       FabricBlendFamily(
                         fabricFamilyCallback: (FabricFamily fabricFamily) {
-                          var model = GetSpecificationRequestModel();
-                          model.ysFamilyIdFk = [fabricFamily.fabricFamilyId!];
+                          var model = FabricSpecificationRequestModel();
+                          model.fs_family_idfk = [fabricFamily.fabricFamilyId!];
                           fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
                         blendCallback: (FabricBlends blend,int familyId) {
-                          var model = GetSpecificationRequestModel();
-                          model.ysBlendIdFk = [blend.blnId!];
-                          model.ysFamilyIdFk = [familyId];
+                          var model = FabricSpecificationRequestModel();
+                          model.fs_blend_idfk = [blend.blnId!];
+                          model.fs_family_idfk = [familyId];
                           fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
@@ -102,8 +103,8 @@ class FabricPageState extends State<FabricPage> {
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
                                   fabricSpecificationListState.currentState!
-                                      .searchData(GetSpecificationRequestModel(
-                                      isOffering: value.toString()));
+                                      .searchData(FabricSpecificationRequestModel(
+                                      is_offering: value.toString()));
                                 },
                               ),
                             ),

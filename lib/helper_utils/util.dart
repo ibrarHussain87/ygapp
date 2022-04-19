@@ -113,21 +113,87 @@ class Utils {
 
   static String setFabricFamilyData(FabricSpecification specification) {
     String familyData = "";
-    familyData = '${specification.fabricFamily}/${specification.fabricBlend}';
+    switch (specification.fabricFamilyId) {
+      case '101':
+        familyData =
+        '${getPlyString(specification.fabricPly??Utils.checkNullString(false))}/GSM/${specification.fabricBlend??Utils.checkNullString(false)}';
+        break;
+      case '102':
+        familyData =
+        'LOOM,${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}'
+            'x${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}xEndsxPicks}';
+        break;
+      case '103':
+        familyData = '${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}, OZ';
+        break;
+      case '104':
+        familyData = '${specification.count??Utils.checkNullString(false)}/GSM';
+        break;
+    }
     return familyData;
+  }
+
+  static String getPlyString(String fabricPly){
+    String ply='';
+    if(fabricPly.toLowerCase()=='single'){
+      ply = '1';
+    }else if(fabricPly.toLowerCase()=='double'){
+      ply = '2';
+    }
+    return ply;
   }
 
   static String setFabricTitle(FabricSpecification specification) {
     String titleData = "";
-    titleData = "${specification.count ?? Utils.checkNullString(false)}/${specification.fabricPly?? Utils.checkNullString(false)}x"
-        "${specification.count?? Utils.checkNullString(false)}/${specification.fabricPly?? Utils.checkNullString(false)}x"
-        "";
+    switch (specification.fabricFamilyId) {
+      case '101':
+        titleData = 'Blend Ratio,Knitting Type';
+        break;
+      case '102':
+        titleData = 'Weave Pattern,Weave Width,${specification.fabricBlend??Utils.checkNullString(false)}/Blend Ratio';
+        break;
+      case '103':
+        titleData = 'Denim Type,${specification.fabricApperance??Utils.checkNullString(false)}';
+        break;
+      case '104':
+        titleData = 'Layyer';
+        break;
+    }
     return titleData;
   }
 
   static String setFabricDetails(FabricSpecification specification) {
     String detailsData = "";
     detailsData = '${specification.fabricFamily}/${specification.fabricBlend}';
+    switch (specification.fabricFamilyId) {
+      case '101':
+        List<String?> list = [
+          specification.fabricApperance,
+          specification.fabricColorTreatmentMethod,
+          specification.fabricDyingTechnique
+        ];
+        detailsData = Utils.createStringFromList(list);
+        break;
+      case '102':
+        List<String?> list = [
+          specification.fabricApperance,
+          specification.fabricColorTreatmentMethod,
+          specification.fabricDyingTechnique
+        ];
+        detailsData = Utils.createStringFromList(list);
+        break;
+      case '103':
+        List<String?> list = [
+          specification.fabricApperance,
+          specification.fabricColorTreatmentMethod,
+          specification.fabricDyingTechnique
+        ];
+        detailsData = Utils.createStringFromList(list);
+        break;
+      case '104':
+        detailsData = '';
+        break;
+    }
     return detailsData;
   }
 
