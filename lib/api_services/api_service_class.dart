@@ -20,7 +20,6 @@ import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_bid_response.dart';
-import 'package:yg_app/model/response/create_specification_response.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
