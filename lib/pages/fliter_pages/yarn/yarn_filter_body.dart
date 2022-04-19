@@ -973,7 +973,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                   Expanded(
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          Navigator.pop(context, _getSpecificationRequestModel);
+                            Navigator.pop(context, _getSpecificationRequestModel);
                         },
                         color: textColorBlue,
                         btnText: 'Apply Filter'),

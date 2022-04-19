@@ -5,6 +5,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
+import 'package:yg_app/pages/fliter_pages/stocklot/stocklot_filter_page.dart';
 import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
@@ -175,6 +176,9 @@ class MarketPageState extends State<MarketPage>
                                         } else if (yarnPageState.currentState !=
                                             null) {
                                           _openYarnFilterPage();
+                                        }else if(_stocklotPageState.currentState !=
+                                            null){
+                                          _openStockLotFilterPage();
                                         }
                                       },
                                       child: /*Card(
@@ -357,6 +361,22 @@ class MarketPageState extends State<MarketPage>
           yarnPageState.currentState!
               .yarnSpecificationListState.currentState!
               .searchData(value);
+        }
+      }
+    });
+  }
+
+  _openStockLotFilterPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+          const StockLotFilterPage()),
+    ).then((value) {
+      //Getting result from filter
+      if (tabController!.index == 3) {
+        if (value != null) {
+          _stocklotPageState.currentState!.stocklotProvider.searchData(value);
         }
       }
     });

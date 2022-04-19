@@ -57,10 +57,12 @@ class StocklotProvider extends ChangeNotifier {
   int selectedSubCategoryIndex = -1;
   bool showSubCategory = false;
   bool showCategory = false;
+  GetStockLotSpecRequestModel getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
 
   setSubCatIndex(int value) {
-    if (subCategoryKey.currentState != null)
+    if (subCategoryKey.currentState != null) {
       subCategoryKey.currentState!.checkedTile = value;
+    }
   }
 
   setIsOffering(String value) {
@@ -75,6 +77,11 @@ class StocklotProvider extends ChangeNotifier {
 
   setShowSubCategory(bool value) {
     showSubCategory = value;
+    notifyListeners();
+  }
+
+   searchData(GetStockLotSpecRequestModel value){
+    getStockLotSpecRequestModel = value;
     notifyListeners();
   }
 

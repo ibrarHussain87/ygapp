@@ -74,7 +74,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  Expanded(
+                  Expanded  (
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Form(

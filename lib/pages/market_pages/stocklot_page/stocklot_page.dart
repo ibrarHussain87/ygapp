@@ -96,6 +96,10 @@ class StockLotPageState extends State<StockLotPage> {
                                         stocklotProvider.stocklotId = value.id;
                                         stocklotProvider.categoryId = -1;
                                         stocklotProvider.subcategoryId = -1;
+                                        stocklotProvider.getStockLotSpecRequestModel.avalibilityId = null;
+                                        stocklotProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                        stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId = null;
+                                        stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId = null;
                                         stocklotProvider.setShowCategory(true);
                                         stocklotProvider.setShowSubCategory(false);
                                       },
