@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
+import 'package:yg_app/helper_utils/alert_dialog.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
@@ -56,21 +58,22 @@ class StocklotProvider extends ChangeNotifier {
   bool showSubCategory = false;
   bool showCategory = false;
 
-  setSubCatIndex(int value){
-   if(subCategoryKey.currentState!= null) subCategoryKey.currentState!.checkedTile = value;
+  setSubCatIndex(int value) {
+    if (subCategoryKey.currentState != null)
+      subCategoryKey.currentState!.checkedTile = value;
   }
 
-  setIsOffering(String value){
+  setIsOffering(String value) {
     isOffering = value;
     notifyListeners();
   }
 
-  setShowCategory(bool value){
+  setShowCategory(bool value) {
     showCategory = value;
     notifyListeners();
   }
 
-  setShowSubCategory(bool value){
+  setShowSubCategory(bool value) {
     showSubCategory = value;
     notifyListeners();
   }
@@ -93,7 +96,8 @@ class StocklotProvider extends ChangeNotifier {
         .toList();
     stocklotAllSubcategories = await dbInstance.stocklotDao.findAllStocklots();
     unitsList = await dbInstance.unitDao.findAllUnit();
-    priceTermsList = await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
+    priceTermsList =
+        await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
     availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
@@ -114,7 +118,11 @@ class StocklotProvider extends ChangeNotifier {
       if (value != null && value.status!) {
         loading = false;
         ProgressDialogUtil.hideDialog();
-        Ui.showSnackBar(context, value.message.toString());
+
+        showGenericDialog("Success", value.message.toString(), context,
+            StylishDialogType.SUCCESS, "Close", () {});
+
+        // Ui.showSnackBar(context, value.message.toString());
         resetData();
         notifyListeners();
       }

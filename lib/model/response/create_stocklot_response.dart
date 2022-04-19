@@ -44,7 +44,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
-    spcCategoryIdfk = json['spc_category_idfk'];
+    spcCategoryIdfk = json['spc_category_idfk'].toString();
     subCategoryId = json['sub_category_id'];
     avabilityId = json['avability_id'];
     priceTermId = json['price_term_id'];
@@ -52,13 +52,13 @@ class Data {
       stocklotSpecificationDetails = <StocklotSpecificationDetails>[];
       json['stocklot_specification_details'].forEach((v) {
         stocklotSpecificationDetails!
-            .add(new StocklotSpecificationDetails.fromJson(v));
+            .add( StocklotSpecificationDetails.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['user_id'] = this.userId;
     data['spc_category_idfk'] = this.spcCategoryIdfk;
     data['sub_category_id'] = this.subCategoryId;
