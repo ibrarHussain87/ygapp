@@ -620,6 +620,11 @@ class FabricBlends {
     data['bln_sortid'] = blnSortid;
     return data;
   }
+
+  @override
+  String toString() {
+    return blnAbrv ?? blnName??'';
+  }
 }
 
 @Entity(tableName: 'fabric_appearance')

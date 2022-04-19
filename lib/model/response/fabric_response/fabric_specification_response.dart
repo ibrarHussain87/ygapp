@@ -58,7 +58,7 @@ class Data {
 class FabricSpecification {
   int? fsId;
   String? fsUserId;
-  Null? company;
+  String? company;
   String? fabricTitle;
   String? fabricDetails;
   String? locality;
