@@ -9,6 +9,7 @@ import 'package:yg_app/pages/fliter_pages/yarn/yarn_filter_body.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 import '../../helper_utils/app_images.dart';
+import '../market_pages/fabric_page/fabric_page.dart';
 import '../market_pages/stocklot_page/stocklot_page.dart';
 
 class MarketPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class MarketPageState extends State<MarketPage>
   List<String> tabsList = [
     'Fiber',
     'Yarn',
+    'Fabric',
     // 'Product Weaving',
     // 'Converstion (Leasing)',
     'Stock Lot'
@@ -32,8 +34,8 @@ class MarketPageState extends State<MarketPage>
 
   GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   GlobalKey<YarnPageState> yarnPageState = GlobalKey<YarnPageState>();
-  final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<
-      StockLotPageState>();
+  final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<StockLotPageState>();
+  final GlobalKey<FabricPageState> _fabricPageState = GlobalKey<FabricPageState>();
   TabController? tabController;
 
   @override
@@ -203,7 +205,7 @@ class MarketPageState extends State<MarketPage>
                           pinned: true,
                           snap: true,
                           bottom: TabBar(
-                            isScrollable: false,
+                            isScrollable: true,
                             controller: tabController,
                             unselectedLabelColor: textColorGreyLight,
                             labelColor: lightBlueTabs,
@@ -231,7 +233,10 @@ class MarketPageState extends State<MarketPage>
                       key: yarnPageState,
                       locality: widget.locality,
                     ),
-
+                    FabricPage(
+                      key: _fabricPageState,
+                      locality: widget.locality,
+                    ),
                     StockLotPage(
                       key: _stocklotPageState,
                       locality: widget.locality,

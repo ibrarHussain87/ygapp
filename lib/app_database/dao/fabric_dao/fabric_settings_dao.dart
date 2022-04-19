@@ -9,7 +9,7 @@ abstract class FabricSettingDao {
   /*@Query('SELECT * FROM fabric_settings where ysBlendIdfk = :id and fabric_family_idfk = :materialId')
   Future<List<FabricSetting>> findFamilyAndBlendFabricSettings(int id,int materialId);*/
 
-  @Query('SELECT * FROM fabric_settings where fabric_setting_id = :id')
+  @Query('SELECT * FROM fabric_settings where fabricFamilyIdfk = :id')
   Future<List<FabricSetting>> findFamilyFabricSettings(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
@@ -18,7 +18,7 @@ abstract class FabricSettingDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<List<int>> insertAllFabricSettings(List<FabricSetting> fiberSettings);
 
-  @Query("delete from fabric_settings where fabric_setting_id = :id")
+  @Query("delete from fabric_settings where fabricSettingId = :id")
   Future<void> deleteFabricSetting(int id);
 
   @Query("delete from fabric_settings")

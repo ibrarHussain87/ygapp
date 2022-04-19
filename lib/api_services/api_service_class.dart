@@ -12,6 +12,7 @@ import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
@@ -19,6 +20,8 @@ import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_bid_response.dart';
+import 'package:yg_app/model/response/create_specification_response.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/create_fiber_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -236,16 +239,14 @@ class ApiService {
     }
   }
 
-  static Future<FabricSyncResponse> syncFabricCall(
-      SyncRequestModel requestModel) async {
+  static Future<FabricSyncResponse> syncFabricCall(SyncRequestModel requestModel) async {
     try {
       var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
       String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: requestModel.toJson());
+      final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
 
       return FabricSyncResponse.fromJson(
         json.decode(response.body),
@@ -291,6 +292,35 @@ class ApiService {
     }
   }
 
+  static Future<FabricSpecificationResponse> getFabricSpecifications(
+      GetSpecificationRequestModel getRequestModel, String? locality) async {
+    try {
+      String url = BASE_API_URL + GET_SPEC_END_POINT;
+
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+      // getRequestModel.userId = userID;
+      getRequestModel.locality = locality;
+
+      logger.e(json.encode(getRequestModel.toJson()));
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(getRequestModel.toJson()));
+
+      return FabricSpecificationResponse.fromJson(response.data);
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
   static Future<CreateFiberResponse> createSpecification(
       CreateRequestModel createRequestModel, String imagePath) async {
     //for multipart Request
@@ -311,6 +341,40 @@ class ApiService {
       } else {
         createRequestModel.ys_user_idfk = userId.toString();
       }
+      request.fields.addAll(createRequestModel.toJson());
+      logger.e(createRequestModel.toJson());
+      var response = await request.send();
+      var responsed = await http.Response.fromStream(response);
+      logger.e(json.decode(responsed.body));
+
+      return CreateFiberResponse.fromJson(json.decode(responsed.body));
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<CreateFiberResponse> createFabricSpecification(
+      FabricCreateRequestModel createRequestModel, String imagePath) async {
+    //for multipart Request
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      request.headers.addAll(
+          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+      if (imagePath.isNotEmpty) {
+        request.files
+            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+      }
+      createRequestModel.fs_user_idfk = userId.toString();
       request.fields.addAll(createRequestModel.toJson());
       logger.e(createRequestModel.toJson());
       var response = await request.send();
@@ -366,9 +430,11 @@ class ApiService {
         );
         final result = json.decode(response.toString());
         return CreateStockLotResponse.fromJson(result);
+
       } catch (err) {
         throw (err.toString());
       }
+
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -737,6 +803,8 @@ class ApiService {
           json.decode(response.body),
         );
       }
+
+
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -748,4 +816,42 @@ class ApiService {
     }
   }
 
+  // static Future<dynamic> specificationRequest(
+  //     String specId, String catId) async {
+  //   try {
+  //     var userToken =
+  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+  //     headerMap['Authorization'] = 'Bearer $userToken';
+  //     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  //     Map<String, dynamic> data = {
+  //       "user_id": userID.toString(),
+  //       "specification_id": specId,
+  //       "category_id": catId
+  //     };
+  //     String url = BASE_API_URL + "/copy_spec";
+  //
+  //     final response =
+  //     await http.post(Uri.parse(url), headers: headerMap, body: data);
+  //
+  //     if(catId == "1"){
+  //       return FiberSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }else{
+  //       return GetYarnSpecificationResponse.fromJson(
+  //         json.decode(response.body),
+  //       );
+  //     }
+  //
+  //
+  //   } catch (e) {
+  //     if (e is SocketException) {
+  //       throw (no_internet_available_msg);
+  //     } else if (e is TimeoutException) {
+  //       throw (e.toString());
+  //     } else {
+  //       throw ("Something went wrong");
+  //     }
+  //   }
+  // }
 }

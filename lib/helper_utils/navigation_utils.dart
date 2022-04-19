@@ -12,6 +12,8 @@ import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
+import '../pages/post_ad_pages/fabric_post/fabric_post_page.dart';
+
 void openDetailsScreen(BuildContext context,
     {Specification? specification,
     YarnSpecification? yarnSpecification,
@@ -73,6 +75,19 @@ void openStockLotPostPage(BuildContext context, String? locality,
     context,
     MaterialPageRoute(
       builder: (context) => CreateStockLotPage(
+          locality: locality,
+          businessArea: businessArea,
+          selectedTab: selectedTab),
+    ),
+  );
+}
+
+void openFabricPostPage(BuildContext context, String? locality,
+    String? businessArea, String? selectedTab) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => FabricPostPage(
           locality: locality,
           businessArea: businessArea,
           selectedTab: selectedTab),

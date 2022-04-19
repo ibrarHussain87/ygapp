@@ -12,6 +12,7 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
@@ -31,6 +32,11 @@ class AppDbInstance {
   static Future<List<FiberMaterial>> getFiberMaterialData() {
     return getDbInstance()
         .then((value) => value.fiberMaterialDao.findAllFiberMaterials());
+  }
+
+  static Future<List<FabricBlends>> getFabricBlendsData() {
+    return getDbInstance()
+        .then((value) => value.fabricBlendsDao.findAllFabricBlends());
   }
 
   static Future<List<FiberNature>> getFiberNatureData() {

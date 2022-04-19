@@ -15,7 +15,9 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Providers/fabric_specifications_provider.dart';
 import 'Providers/fiber_specifications_provider.dart';
+import 'Providers/post_fabric_provider.dart';
 import 'Providers/stocklot_provider.dart';
 import 'Providers/yarn_specifications_provider.dart';
 import 'helper_utils/app_constants.dart';
@@ -37,37 +39,37 @@ Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FCM.initialize(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
+
 }
 
 class YgApp extends StatelessWidget {
   List<SingleChildWidget> providers = [
     ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
-    ChangeNotifierProvider<FiberSpecificationsProvider>(
-        create: (_) => FiberSpecificationsProvider()),
-    ChangeNotifierProvider<YarnSpecificationsProvider>(
-        create: (_) => YarnSpecificationsProvider()),
+    ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
+    ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
+    ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
+    ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
   ];
-
   @override
   Widget build(BuildContext context) {
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
     return MultiProvider(
-        providers: providers,
-        child: MaterialApp(
-          title: 'Splash Screen',
-          theme: ThemeData(
-              primaryColor: lightBlueTabs,
-              primarySwatch: Colors.green,
-              /*textTheme: GoogleFonts.metrophobicTextTheme(
-                Theme.of(context).textTheme,
-              )*/),
-          home: YgAppPage(),
-          debugShowCheckedModeBanner: false,
-        ));
+      providers: providers,
+      child: MaterialApp(
+        title: 'Splash Screen',
+        theme: ThemeData(
+            primaryColor: lightBlueTabs,
+            primarySwatch: Colors.green,
+            fontFamily: 'Metropolis'),
+        home: YgAppPage(),
+        debugShowCheckedModeBanner: false,
+      ),
+    );
   }
 }
 
@@ -91,6 +93,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
+
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {
       setState(() {
@@ -107,6 +110,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     }
     // FirebaseCrashlytics.instance.crash();
   }
+
 
   void _incrementCounter() {
     setState(() {
