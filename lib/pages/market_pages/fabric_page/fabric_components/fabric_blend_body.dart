@@ -29,6 +29,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
   int? selectedFamilyId;
   List<FabricFamily>? _fabricFamily;
   List<FabricBlends>? _fabricBlends;
+
   final GlobalKey<SingleSelectTileWidgetState> _fabricBlendKey =
   GlobalKey<SingleSelectTileWidgetState>();
 
@@ -72,7 +73,6 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                     SizedBox(
                       height: 0.055 * MediaQuery.of(context).size.height,
                       child:CatWithImageListWidget(
-                        key: _fabricBlendKey,
                         selectedItem: -1,
                         listItem: _fabricFamily,
                         onClickCallback: (value) {
@@ -103,6 +103,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
+                      key: _fabricBlendKey,
                       selectedIndex: -1,
                       spanCount: 2,
                       listOfItems: _fabricBlends!
