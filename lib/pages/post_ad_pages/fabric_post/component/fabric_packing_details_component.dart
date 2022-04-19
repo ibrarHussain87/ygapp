@@ -188,11 +188,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 4,
                                       listOfItems: _unitsList
-                                          /*.where((element) =>
+                                          .where((element) =>
                                               element.untCategoryIdfk ==
                                               _createRequestModel!
                                                   .spc_category_idfk)
-                                          .toList()*/,
+                                          .toList(),
                                       callback: (Units value) {
                                         setState(() {
                                           unitCountSelected = value.untName;
@@ -1198,10 +1198,10 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
     _createRequestModel!.fbp_count_unit_idfk =
-        _unitsList/*.where((element) => element.untCategoryIdfk==_createRequestModel!
-            .spc_category_idfk).toList()*/.first.untId.toString();
-    unitCountSelected ??= _unitsList/*.where((element) => element.untCategoryIdfk==_createRequestModel!
-        .spc_category_idfk).toList()*/.first.untName;
+        _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+            .spc_category_idfk).toList().first.untId.toString();
+    unitCountSelected ??= _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
+        .spc_category_idfk).toList().first.untName;
     _createRequestModel!.fpb_packing = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
         _deliverPeriodList.first.dprId.toString();

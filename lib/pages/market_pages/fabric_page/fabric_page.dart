@@ -29,7 +29,7 @@ class FabricPage extends StatefulWidget {
 class FabricPageState extends State<FabricPage> {
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  final GlobalKey<FabricSpecificationListFutureState> yarnSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
+  final GlobalKey<FabricSpecificationListFutureState> fabricSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
   late List<Countries> _countries;
 
   @override
@@ -82,14 +82,14 @@ class FabricPageState extends State<FabricPage> {
                         fabricFamilyCallback: (FabricFamily fabricFamily) {
                           var model = GetSpecificationRequestModel();
                           model.ysFamilyIdFk = [fabricFamily.fabricFamilyId!];
-                          yarnSpecificationListState.currentState!
+                          fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
                         blendCallback: (FabricBlends blend,int familyId) {
                           var model = GetSpecificationRequestModel();
                           model.ysBlendIdFk = [blend.blnId!];
                           model.ysFamilyIdFk = [familyId];
-                          yarnSpecificationListState.currentState!
+                          fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
                       ),
@@ -101,7 +101,7 @@ class FabricPageState extends State<FabricPage> {
                               flex: widget.locality==international ? 8: 10,
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
-                                  yarnSpecificationListState.currentState!
+                                  fabricSpecificationListState.currentState!
                                       .searchData(GetSpecificationRequestModel(
                                       isOffering: value.toString()));
                                 },
@@ -145,7 +145,7 @@ class FabricPageState extends State<FabricPage> {
                                       ))
                                       .toList(),
                                   onChanged: (Countries? value) {
-                                    yarnSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                                    fabricSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
                                       fontSize: 11.sp,
@@ -180,7 +180,7 @@ class FabricPageState extends State<FabricPage> {
                   child: Container(
                     margin: EdgeInsets.only(top: 8.w),
                     child: FabricSpecificationListFuture(
-                      key: yarnSpecificationListState,
+                      key: fabricSpecificationListState,
                       locality: widget.locality!,
                     ),
                   ),

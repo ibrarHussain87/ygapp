@@ -19,6 +19,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -108,6 +109,26 @@ class Utils {
     familyData = "20/S Cotton";
   }*/
     return familyData;
+  }
+
+  static String setFabricFamilyData(FabricSpecification specification) {
+    String familyData = "";
+    familyData = '${specification.fabricFamily}/${specification.fabricBlend}';
+    return familyData;
+  }
+
+  static String setFabricTitle(FabricSpecification specification) {
+    String titleData = "";
+    titleData = "${specification.count ?? Utils.checkNullString(false)}/${specification.fabricPly?? Utils.checkNullString(false)}x"
+        "${specification.count?? Utils.checkNullString(false)}/${specification.fabricPly?? Utils.checkNullString(false)}x"
+        "";
+    return titleData;
+  }
+
+  static String setFabricDetails(FabricSpecification specification) {
+    String detailsData = "";
+    detailsData = '${specification.fabricFamily}/${specification.fabricBlend}';
+    return detailsData;
   }
 
   static String setTitleData(YarnSpecification specification) {
