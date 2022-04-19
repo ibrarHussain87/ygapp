@@ -13,6 +13,7 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/spec_user_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
@@ -188,7 +189,7 @@ class _SpecUserViewState extends State<SpecUserView> {
             "Success",
             widget.categoryId == "1"
                 ? (value as FiberSpecificationResponse).message.toString()
-                : (value as GetYarnSpecificationResponse).message.toString(),
+                :widget.categoryId == "2"? (value as GetYarnSpecificationResponse).message.toString() :(value as StockLotSpecificationResponse).message.toString(),
             context,
             StylishDialogType.SUCCESS,
             "Close",
