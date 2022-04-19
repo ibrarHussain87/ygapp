@@ -8,7 +8,7 @@ import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 Widget listDetailItemWidget(
     BuildContext context, GridTileModel detailSpecification) {
   double width = MediaQuery.of(context).size.width;
-  return Container(
+  return SizedBox(
     width: width,
     child: Row(
       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -28,8 +29,8 @@ class YarnPage extends StatefulWidget {
 class YarnPageState extends State<YarnPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final GlobalKey<YarnSpecificationListFutureState> yarnSpecificationListState =
-      GlobalKey<YarnSpecificationListFutureState>();
-  late List<Countries> _countries;
+  GlobalKey<YarnSpecificationListFutureState>();
+  List<Countries> _countries = [];
 
   @override
   void initState() {
@@ -99,7 +100,7 @@ class YarnPageState extends State<YarnPage> {
                           yarnSpecificationListState.currentState!
                               .searchData(model);
                         },
-                        blendCallback: (Blends blend,int familyId) {
+                        blendCallback: (Blends blend, int familyId) {
                           var model = GetSpecificationRequestModel();
                           model.ysBlendIdFk = [blend.blnId!];
                           model.ysFamilyIdFk = [familyId];
@@ -112,17 +113,17 @@ class YarnPageState extends State<YarnPage> {
                         child: Row(
                           children: [
                             Expanded(
-                              flex: widget.locality==international ? 8: 10,
+                              flex: widget.locality == international ? 8 : 10,
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
                                   yarnSpecificationListState.currentState!
                                       .searchData(GetSpecificationRequestModel(
-                                          isOffering: value.toString()));
+                                      isOffering: value.toString()));
                                 },
                               ),
                             ),
                             Visibility(
-                              visible: widget.locality==international,
+                              visible: widget.locality == international,
                               maintainState: false,
                               maintainSize: false,
                               child: Expanded(
@@ -134,40 +135,89 @@ class YarnPageState extends State<YarnPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 2: 0,
+                              flex: widget.locality==international ? 3: 0,
                               child: Visibility(
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
-                                child: DropdownButtonFormField(
+                                child:_countries!=null ? SearchChoices.single(
+                                  displayClearIcon: false,
+                                  isExpanded: true,
+                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
+                                  items:_countries
+                                      .map((value) =>
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          value.conName ??
+                                              Utils.checkNullString(false),
+                                          textAlign: TextAlign
+                                              .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
+                                        value: value,
+                                      )).toList(),
+                                  isCaseSensitiveSearch: false,
+                                  onChanged: (Countries? value) {
+                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+
+                                  },
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: textColorGrey,overflow: TextOverflow.ellipsis,),
+                                ) :
+                                DropdownButtonFormField<String>(
                                   isExpanded: true,
                                   decoration: const InputDecoration.collapsed(hintText: ''),
                                   hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
-                                  items: _countries
-                                      .map((value) =>
-                                      DropdownMenuItem(
-                                        child: Expanded(
-                                          child: Text(
-                                              value.conName ??
-                                                  Utils.checkNullString(false),
-                                              textAlign: TextAlign.start,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,),
-                                        ),
-                                        value: value,
-                                      ))
-                                      .toList(),
-                                  onChanged: (Countries? value) {
-                                    /*_createRequestModel!
-                                        .spc_origin_idfk =
-                                        value!.conId.toString();*/
-                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                                  iconSize: 20,
+                                  items:  [
+
+                                    DropdownMenuItem(
+                                      child:Text(Utils.checkNullString(false),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
+                                    ),
+                                  ],
+
+                                  onChanged: (newValue) {
+
                                   },
-                                  style: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: textColorGrey),
-                                ),
+
+
+                                  validator: (value) => value == null ? 'Please select country name' : null,
+
+                                )
+
+
+//                                DropdownButtonFormField(
+//                                  isExpanded: true,
+//                                  decoration: const InputDecoration.collapsed(hintText: ''),
+//                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
+//                                  items: _countries
+//                                      .map((value) =>
+//                                      DropdownMenuItem(
+//                                        child: Expanded(
+//                                          child: Text(
+//                                              value.conName ??
+//                                                  Utils.checkNullString(false),
+//                                              textAlign: TextAlign.start,
+//                                            maxLines: 1,
+//                                            overflow: TextOverflow.fade,
+//                                            softWrap: false,),
+//                                        ),
+//                                        value: value,
+//                                      ))
+//                                      .toList(),
+//                                  onChanged: (Countries? value) {
+//                                    /*_createRequestModel!
+//                                        .spc_origin_idfk =
+//                                        value!.conId.toString();*/
+//                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+//                                  },
+//                                  style: TextStyle(
+//                                      fontSize: 11.sp,
+//                                      color: textColorGrey),
+//                                ),
                               ),
                             ),
                             Visibility(

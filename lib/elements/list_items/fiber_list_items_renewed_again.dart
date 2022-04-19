@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_normal_text_widget.dart';
-import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/list_widgets/rating_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
-import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
-import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -16,16 +10,10 @@ import 'package:yg_app/helper_utils/extensions.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
-import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
-import '../../api_services/api_service_class.dart';
-import '../../helper_utils/alert_dialog.dart';
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/navigation_utils.dart';
-import '../../helper_utils/progress_dialog_util.dart';
-import '../elevated_button_widget_2.dart';
 
 Widget buildFiberRenewedAgainWidget(
   Specification specification,

@@ -1,8 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/certification_response.dart';
-import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
-import '../../model/response/sync/sync_response.dart';
 
 @dao
 abstract class StocklotCategoriesDao{

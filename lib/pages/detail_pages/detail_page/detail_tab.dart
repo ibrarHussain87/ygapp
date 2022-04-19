@@ -21,15 +21,22 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:group_list_view/group_list_view.dart';
 
 class DetailTabPage extends StatefulWidget {
   final Specification? specification;
   final YarnSpecification? yarnSpecification;
+  final dynamic specObject;
   final bool? sendProposal;
 
-
-  const DetailTabPage({Key? key, this.specification, this.yarnSpecification,this.sendProposal})
+  const DetailTabPage(
+      {Key? key,
+      this.specification,
+      this.yarnSpecification,
+      this.specObject,
+      this.sendProposal})
       : super(key: key);
 
   @override
@@ -40,7 +47,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
   List<GridTileModel> _detailSpecification = [];
   List<GridTileModel> _labParameters = [];
   List<GridTileModel> _detailPackaging = [];
-  int? _bidPrice;
+  int? _bidPrice = 0;
   int? _bidPriceFixed;
   int? _bidQuantity;
   int? _bidQuantityFixed;
@@ -50,6 +57,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
   bool _showBidContainer = false;
   bool _isChanged = false;
   String? _userId;
+  int? stockLotMin;
+  int? stockLotMax;
+  Map<String, List<GridTileModel>> _stockLotItems = {};
   late BuildContext _context1;
   final priceController = TextEditingController();
   final quantityController = TextEditingController();
@@ -66,35 +76,50 @@ class _DetailTabPageState extends State<DetailTabPage> {
   void initState() {
     setState(() {
       if (widget.specification != null) {
-        _bidPrice = int.parse(widget.specification!.priceUnit!.split(" ").last);
-        _bidPriceFixed = _bidPrice;
-      } else {
-        Logger().e(widget.yarnSpecification!.priceUnit!);
-        _bidPrice = int.parse(widget.yarnSpecification!.priceUnit!
+        _bidPrice =
+            int.tryParse(widget.specification!.priceUnit!.split(" ").last);
+        _bidPriceFixed = _bidPrice ?? 0;
+      } else if (widget.yarnSpecification != null) {
+        _bidPrice = int.tryParse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
-        _bidPriceFixed = _bidPrice;
+        _bidPriceFixed = _bidPrice ?? 0;
+      } else {
+        stockLotMin =
+            Utils.stockLotPriceMin(widget.specObject as StockLotSpecification);
+
+        _bidPrice = stockLotMin;
+        _bidPriceFixed = _bidPrice ?? 0;
+        stockLotMax =
+            Utils.stockLotPriceMax(widget.specObject as StockLotSpecification);
       }
-      _bidQuantity = _isYarn()
-          ? int.parse(widget.yarnSpecification!.minQuantity!)
-          : int.parse(widget.specification!.minQuantity!);
 
-      _bidQuantityFixed = _isYarn()
-          ? int.parse(widget.yarnSpecification!.minQuantity!)
-          : int.parse(widget.specification!.minQuantity!);
+      if (widget.specObject == null) {
+        _bidQuantity = _isYarn()
+            ? int.tryParse(widget.yarnSpecification!.minQuantity ?? "0")
+            : int.tryParse(widget.specification!.minQuantity ?? "0");
 
-      _minBidQuantity = _isYarn()
-          ? int.parse(widget.yarnSpecification!.minQuantity!)
-          : int.parse(widget.specification!.minQuantity!);
+        _bidQuantityFixed = _isYarn()
+            ? int.tryParse(widget.yarnSpecification!.minQuantity ?? "0")
+            : int.tryParse(widget.specification!.minQuantity ?? "0");
 
-      if (!_isChanged) {
-        _tempBidQuantity = _isYarn()
-            ? int.parse(widget.yarnSpecification!.minQuantity!)
-            : int.parse(widget.specification!.minQuantity!);
-        _isChanged = true;
+        _minBidQuantity = _isYarn()
+            ? int.tryParse(widget.yarnSpecification!.minQuantity ?? "0")
+            : int.tryParse(widget.specification!.minQuantity ?? "0");
+
+        if (!_isChanged) {
+          _tempBidQuantity = _isYarn()
+              ? int.tryParse(widget.yarnSpecification!.minQuantity ?? "0")
+              : int.tryParse(widget.specification!.minQuantity ?? "0");
+          _isChanged = true;
+        }
       }
     });
 
-    widget.specification != null ? _fiberDetails() : _yarnDetails();
+    widget.specification != null
+        ? _fiberDetails()
+        : widget.yarnSpecification != null
+            ? _yarnDetails()
+            : _stockLotDetails();
 
     _getUserId().then((value) {
       _userId = value;
@@ -103,16 +128,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
           setState(() {
             _showBidContainer = true;
           });
-          if(widget.sendProposal ?? false){
+          if (widget.sendProposal ?? false) {
             showProposalBottomSheet(context);
           }
         }
-      } else {
+      } else if (widget.yarnSpecification != null) {
         if (value != widget.yarnSpecification!.ys_user_id) {
           setState(() {
             _showBidContainer = true;
           });
-          if(widget.sendProposal ?? false){
+          if (widget.sendProposal ?? false) {
+            showProposalBottomSheet(context);
+          }
+        }
+      } else {
+        if (value != (widget.specObject as StockLotSpecification).userId) {
+          setState(() {
+            _showBidContainer = true;
+          });
+          if (widget.sendProposal ?? false) {
             showProposalBottomSheet(context);
           }
         }
@@ -244,22 +278,59 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     SizedBox(
                       height: 8.w,
                     ),
-                    TitleTextWidget(
-                      title: 'Packing Details'.toUpperCase(),
-                      color: titleColor,
+                    Visibility(
+                      visible: widget.specObject == null ? true : false,
+                      child: Column(
+                        children: [
+                          TitleTextWidget(
+                            title: 'Packing Details'.toUpperCase(),
+                            color: titleColor,
+                          ),
+                          SizedBox(
+                            height: 12.w,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 12.w,
+                    Visibility(
+                      visible: widget.specObject == null ? true : false,
+                      child: ListView.separated(
+                        itemCount: _detailPackaging.length,
+                        shrinkWrap: true,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => listDetailItemWidget(
+                            context, _detailPackaging[index]),
+                      ),
                     ),
-                    ListView.separated(
-                      itemCount: _detailPackaging.length,
-                      shrinkWrap: true,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => listDetailItemWidget(
-                          context, _detailPackaging[index]),
+                    Visibility(
+                      visible: widget.specObject != null ? true : false,
+                      child: GroupListView(
+                        shrinkWrap: true,
+                        sectionsCount: _stockLotItems.keys.toList().length,
+                        countOfItemInSection: (int section) {
+                          return _stockLotItems.values.toList()[section].length;
+                        },
+                        itemBuilder: _itemBuilder,
+                        groupHeaderBuilder:
+                            (BuildContext context, int section) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: TitleTextWidget(
+                              title: _stockLotItems.keys
+                                  .toList()[section]
+                                  .toUpperCase(),
+                              color: titleColor,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
+                        sectionSeparatorBuilder: (context, section) =>
+                            SizedBox(height: 10),
+                      ),
                     ),
+
                     /*GridView.count(
                       crossAxisCount: 3,
                       childAspectRatio: 2.77,
@@ -273,7 +344,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             detail: _detailPackaging[index]._detail);
                       }),
                     ),*/
-                    Divider(),
+                    Visibility(
+                        visible: widget.specObject == null ? true : false,
+                        child: Divider()),
                     /* SizedBox(
                       height: 8.w,
                     ),*/
@@ -293,11 +366,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
                             height: 6.w,
                           ),
                           Text(
-                            widget.specification == null
+                            widget.yarnSpecification != null
                                 ? widget.yarnSpecification!.description ??
                                     Utils.checkNullString(false)
-                                : widget.specification!.description ??
-                                    Utils.checkNullString(false),
+                                : widget.specification != null
+                                    ? widget.specification!.description ??
+                                        Utils.checkNullString(false)
+                                    : "",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12.sp,
@@ -848,49 +923,70 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   color: btnColorLogin,
                   btnText: 'Place Bid'),
             ),*/
-            !_showBidContainer ?
-            ElevatedButtonWithoutIcon(
-                callback: () {
-                  widget.specification == null ?
-                  Utils.updateDialog(context, widget.yarnSpecification,null,):
-                  Utils.updateDialog(context, null,widget.specification,);
-                },
-                color: btnColorLogin,
-                btnText: 'Update'):
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ElevatedButtonWithoutIcon(
-                      callback: () {
-                        showProposalBottomSheet(context);
-                      },
-                      color: btnColorLogin,
-                      btnText: 'Send Proposal'),
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Expanded(
-                  child: ElevatedButtonWithoutIcon(
-                      callback: () {
-                        FocusScope.of(context).unfocus();
-                        widget.specification != null
-                            ? openSpecificationUserScreen(
-                                context,
-                                widget.specification!.spcId.toString(),
-                                widget.specification!.categoryId.toString())
-                            : openSpecificationUserScreen(
-                                context,
-                                widget.yarnSpecification!.ysId.toString(),
-                                /*widget.yarnSpecification!.category_id.toString()*/
-                                '2');
-                      },
-                      color: btnColorLogin,
-                      btnText: 'Contact'),
-                ),
-              ],
-            )
+            !_showBidContainer
+                ? ElevatedButtonWithoutIcon(
+                    callback: () {
+                      widget.specification == null
+                          ? Utils.updateDialog(
+                              context,
+                              widget.yarnSpecification,
+                              null,
+                            )
+                          : Utils.updateDialog(
+                              context,
+                              null,
+                              widget.specification,
+                            );
+                    },
+                    color: btnColorLogin,
+                    btnText: 'Update')
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: ElevatedButtonWithoutIcon(
+                            callback: () {
+                              showProposalBottomSheet(context);
+                            },
+                            color: btnColorLogin,
+                            btnText: 'Send Proposal'),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Expanded(
+                        child: ElevatedButtonWithoutIcon(
+                            callback: () {
+                              FocusScope.of(context).unfocus();
+                              widget.specification != null
+                                  ? openSpecificationUserScreen(
+                                      context,
+                                      widget.specification!.spcId.toString(),
+                                      widget.specification!.categoryId
+                                          .toString())
+                                  : widget.yarnSpecification != null
+                                      ? openSpecificationUserScreen(
+                                          context,
+                                          widget.yarnSpecification!.ysId
+                                              .toString(),
+                                          /*widget.yarnSpecification!.category_id.toString()*/
+                                          '2')
+                                      : openSpecificationUserScreen(
+                                          context,
+                                          (widget.specObject
+                                                  as StockLotSpecification)
+                                              .id
+                                              .toString(),
+                                          (widget.specObject
+                                                  as StockLotSpecification)
+                                              .stocklotCategoryId
+                                              .toString());
+                            },
+                            color: btnColorLogin,
+                            btnText: 'Contact'),
+                      ),
+                    ],
+                  )
           ],
         ),
       ),
@@ -899,20 +995,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
   bool getDescriptionVisibility() {
     bool visible = true;
-    if(widget.specification == null){
-      var specification = widget.specification as YarnSpecification;
-      if(specification.description == null){
+    if (widget.yarnSpecification != null) {
+      var specification = widget.yarnSpecification as YarnSpecification;
+      if (specification.description == null) {
         visible = false;
-      }else if(specification.description!.isEmpty){
+      } else if (specification.description!.isEmpty) {
         visible = false;
       }
-    }else{
+    } else if (widget.specification != null) {
       var specification = widget.specification as Specification;
-      if(specification.description == null){
+      if (specification.description == null) {
         visible = false;
-      }else if(specification.description!.isEmpty){
+      } else if (specification.description!.isEmpty) {
         visible = false;
       }
+    } else {
+      visible = false;
     }
     return visible;
   }
@@ -927,47 +1025,34 @@ class _DetailTabPageState extends State<DetailTabPage> {
         builder: (context) {
           return Padding(
             padding: MediaQuery.of(context).viewInsets,
-            child: StatefulBuilder(builder:
-                (BuildContext context,
-                    StateSetter setState) {
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
               return Container(
-                height: 0.5 *
-                    MediaQuery.of(context).size.height,
-                margin: EdgeInsets.only(
-                    left: 16.w, right: 16.w, top: 8.w),
+                height: 0.5 * MediaQuery.of(context).size.height,
+                margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   body: Stack(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.only(top: 5),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment:
-                              CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
-                              child:
-                                  SingleChildScrollView(
+                              child: SingleChildScrollView(
                                 child: Column(
-                                  mainAxisSize:
-                                      MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Center(
                                       child: Text(
                                         'Send Proposal',
                                         style: TextStyle(
-                                            color: Colors
-                                                .black,
-                                            fontSize:
-                                                16.sp,
-                                            fontWeight:
-                                                FontWeight
-                                                    .w600),
+                                            color: Colors.black,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                     SizedBox(
@@ -975,14 +1060,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Padding(
-                                            padding:
-                                                EdgeInsets
-                                                    .all(4
-                                                        .w),
+                                            padding: EdgeInsets.all(4.w),
                                             child: Center(
                                               /*child: TitleSmallTextWidget(
                                       title: 'Price'),
@@ -990,10 +1071,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                               child: Text(
                                                 'Price',
                                                 style: TextStyle(
-                                                    color: Colors
-                                                        .black,
-                                                    fontSize: 12
-                                                        .sp,
+                                                    color: Colors.black,
+                                                    fontSize: 12.sp,
                                                     fontWeight:
                                                         FontWeight.w700),
                                               ),
@@ -1001,44 +1080,39 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                         SizedBox(
                                           width: 250.w,
                                           child: Padding(
-                                            padding:
-                                                EdgeInsets
-                                                    .all(1
-                                                        .w),
+                                            padding: EdgeInsets.all(1.w),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
                                                 Expanded(
-                                                    child:
-                                                        GestureDetector(
+                                                    child: GestureDetector(
                                                   behavior:
                                                       HitTestBehavior.opaque,
-                                                  onTap:
-                                                      () {
-                                                    setState(
-                                                        () {
-                                                      if (_bidPrice! >=
-                                                          1) {
-                                                        _bidPrice = _bidPrice! - 1;
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (_bidPrice! >= 1) {
+                                                        _bidPrice =
+                                                            _bidPrice! - 1;
                                                       }
                                                     });
                                                   },
-                                                  child:
-                                                      Container(
+                                                  child: Container(
                                                     decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: lightBlueTabs,
-                                                          width: 1, //                   <--- border width here
+                                                          width:
+                                                              1, //                   <--- border width here
                                                         ),
-                                                        borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                    child:
-                                                        Padding(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    8.w))),
+                                                    child: Padding(
                                                       padding:
                                                           EdgeInsets.all(8.w),
-                                                      child:
-                                                          Center(
+                                                      child: Center(
                                                         child: TitleTextWidget(
                                                           title: '-1',
                                                           color: lightBlueTabs,
@@ -1049,79 +1123,111 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                 )),
                                                 /*fixed price 3 4 digit issue*/
                                                 const SizedBox(
-                                                  width:
-                                                      2,
+                                                  width: 2,
                                                 ),
                                                 Expanded(
-                                                    child:
-                                                        Padding(
+                                                    child: Padding(
                                                   padding: EdgeInsets.symmetric(
-                                                      vertical:
-                                                          0.w,
+                                                      vertical: 0.w,
                                                       horizontal: 3.w),
                                                   child: Center(
                                                       child: SizedBox(
-                                                    width:
-                                                        50.w,
+                                                    width: 50.w,
                                                     child:
                                                         FittedTextFieldContainer(
-                                                      child:
-                                                          TextField(
+                                                      child: TextField(
                                                         showCursor: false,
-                                                        keyboardType: TextInputType.number,
-                                                        textInputAction: TextInputAction.done,
-                                                        textAlign: TextAlign.center,
-                                                        inputFormatters: <TextInputFormatter>[
-                                                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        textInputAction:
+                                                            TextInputAction
+                                                                .done,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        inputFormatters: <
+                                                            TextInputFormatter>[
+                                                          FilteringTextInputFormatter
+                                                              .allow(RegExp(
+                                                                  r'[0-9]')),
                                                         ],
-                                                        controller: priceController..text = _bidPrice.toString().trim().isNotEmpty ? _bidPrice.toString() : '0',
+                                                        controller: priceController
+                                                          ..text = _bidPrice
+                                                                  .toString()
+                                                                  .trim()
+                                                                  .isNotEmpty
+                                                              ? _bidPrice
+                                                                  .toString()
+                                                              : '0',
                                                         onChanged: (value) {
                                                           if (value != '') {
-                                                            _bidPrice = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
-                                                            priceController.text = _bidPrice.toString().trim();
-                                                            priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+                                                            _bidPrice = int.parse(
+                                                                value.replaceAll(
+                                                                    RegExp(
+                                                                        r'^0+(?=.)'),
+                                                                    ''));
+                                                            priceController
+                                                                    .text =
+                                                                _bidPrice
+                                                                    .toString()
+                                                                    .trim();
+                                                            priceController
+                                                                    .selection =
+                                                                TextSelection.fromPosition(
+                                                                    TextPosition(
+                                                                        offset: priceController
+                                                                            .text
+                                                                            .length));
                                                           } else {
-                                                            priceController.text = '0';
-                                                            priceController.selection = TextSelection.fromPosition(TextPosition(offset: priceController.text.length));
+                                                            priceController
+                                                                .text = '0';
+                                                            priceController
+                                                                    .selection =
+                                                                TextSelection.fromPosition(
+                                                                    TextPosition(
+                                                                        offset: priceController
+                                                                            .text
+                                                                            .length));
                                                             _bidPrice = 0;
                                                           }
                                                         },
-                                                        decoration: const InputDecoration(border: InputBorder.none),
+                                                        decoration:
+                                                            const InputDecoration(
+                                                                border:
+                                                                    InputBorder
+                                                                        .none),
                                                       ),
                                                     ),
                                                   )),
                                                 )),
                                                 const SizedBox(
-                                                  width:
-                                                      2,
+                                                  width: 2,
                                                 ),
                                                 Expanded(
-                                                    child:
-                                                        GestureDetector(
+                                                    child: GestureDetector(
                                                   behavior:
                                                       HitTestBehavior.opaque,
-                                                  onTap:
-                                                      () {
-                                                    setState(
-                                                        () {
+                                                  onTap: () {
+                                                    setState(() {
                                                       _bidPrice =
                                                           _bidPrice! + 1;
                                                     });
                                                   },
-                                                  child:
-                                                      Container(
+                                                  child: Container(
                                                     decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: lightBlueTabs,
-                                                          width: 1, //                   <--- border width here
+                                                          width:
+                                                              1, //                   <--- border width here
                                                         ),
-                                                        borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                    child:
-                                                        Padding(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    8.w))),
+                                                    child: Padding(
                                                       padding:
                                                           EdgeInsets.all(8.w),
-                                                      child:
-                                                          Center(
+                                                      child: Center(
                                                         child: TitleTextWidget(
                                                           title: '+1',
                                                           color: lightBlueTabs,
@@ -1136,187 +1242,233 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                         )
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .center,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets
-                                                  .all(4
-                                                      .w),
-                                          child: Center(
-                                              /*child: TitleSmallTextWidget(
-                                      title: 'Quantity (Kg)')*/
-                                              child: Text(
-                                            'Quantity (Kg)',
-                                            style: TextStyle(
-                                                color: Colors
-                                                    .black,
-                                                fontSize:
-                                                    12.sp,
-                                                fontWeight:
-                                                    FontWeight
-                                                        .w700),
-                                          )),
-                                        ),
-                                        Container(
-                                          width: 250.w,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets
-                                                    .all(1
-                                                        .w),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child:
-                                                      GestureDetector(
-                                                    behavior:
-                                                        HitTestBehavior.opaque,
-                                                    onTap:
-                                                        () {
-                                                      setState(() {
-                                                        if (_bidQuantity! > _tempBidQuantity!) {
-                                                          _bidQuantity = _bidQuantity! - 1;
-                                                        }
-                                                      });
-                                                    },
-                                                    child:
-                                                        Container(
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: lightBlueTabs,
-                                                            width: 1, //                   <--- border width here
-                                                          ),
-                                                          borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                      child:
-                                                          Padding(
-                                                        padding: EdgeInsets.all(8.w),
-                                                        child: Center(
-                                                          child: TitleTextWidget(
-                                                            title: '-1',
-                                                            color: lightBlueTabs,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width:
-                                                      5,
-                                                ),
-                                                Expanded(
-                                                    child:
-                                                        Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical:
-                                                          0.w,
-                                                      horizontal: 3.w),
-                                                  child:
-                                                      Center(
-                                                    child:
-                                                        SizedBox(
-                                                      width:
-                                                          50.w,
-                                                      child:
-                                                          FittedTextFieldContainer(
-                                                        child: TextField(
-                                                          showCursor: false,
-                                                          keyboardType: TextInputType.number,
-                                                          textInputAction: TextInputAction.done,
-                                                          textAlign: TextAlign.center,
-                                                          inputFormatters: <TextInputFormatter>[
-                                                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                                          ],
-                                                          controller: quantityController..text = _bidQuantity.toString(),
-                                                          onChanged: (value) {
-                                                            if (value != '') {
-                                                              _bidQuantity = int.parse(value.replaceAll(RegExp(r'^0+(?=.)'), ''));
-                                                              quantityController.text = _bidQuantity.toString().trim();
-                                                              quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
-                                                            } else {
-                                                              quantityController.text = _minBidQuantity.toString().trim();
-                                                              quantityController.selection = TextSelection.fromPosition(TextPosition(offset: quantityController.text.length));
-                                                              _bidQuantity = _minBidQuantity;
-                                                            }
-                                                          },
-                                                          decoration: const InputDecoration(border: InputBorder.none),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                    Visibility(
+                                      visible: widget.specObject != null
+                                          ? false
+                                          : true,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 10.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.all(4.w),
+                                                child: Center(
+                                                    /*child: TitleSmallTextWidget(
+                                            title: 'Quantity (Kg)')*/
+                                                    child: Text(
+                                                  'Quantity (Kg)',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700),
                                                 )),
-                                                const SizedBox(
-                                                  width:
-                                                      5,
-                                                ),
-                                                Expanded(
-                                                    child:
-                                                        GestureDetector(
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  onTap:
-                                                      () {
-                                                    setState(
-                                                        () {
-                                                      _bidQuantity =
-                                                          _bidQuantity! + 1;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: lightBlueTabs,
-                                                            width: 1, //                   <--- border width here
+                                              ),
+                                              Container(
+                                                width: 250.w,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(1.w),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          behavior:
+                                                              HitTestBehavior
+                                                                  .opaque,
+                                                          onTap: () {
+                                                            setState(() {
+                                                              if (_bidQuantity! >
+                                                                  _tempBidQuantity!) {
+                                                                _bidQuantity =
+                                                                    _bidQuantity! -
+                                                                        1;
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color:
+                                                                          lightBlueTabs,
+                                                                      width:
+                                                                          1, //                   <--- border width here
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(8.w))),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.w),
+                                                              child: Center(
+                                                                child:
+                                                                    TitleTextWidget(
+                                                                  title: '-1',
+                                                                  color:
+                                                                      lightBlueTabs,
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ),
-                                                          borderRadius: BorderRadius.all(Radius.circular(8.w))),
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(8.w),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Expanded(
+                                                          child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 0.w,
+                                                                horizontal:
+                                                                    3.w),
                                                         child: Center(
-                                                          child: TitleTextWidget(
-                                                            title: '+1',
-                                                            color: lightBlueTabs,
+                                                          child: SizedBox(
+                                                            width: 50.w,
+                                                            child:
+                                                                FittedTextFieldContainer(
+                                                              child: TextField(
+                                                                showCursor:
+                                                                    false,
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                textInputAction:
+                                                                    TextInputAction
+                                                                        .done,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                inputFormatters: <
+                                                                    TextInputFormatter>[
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(RegExp(
+                                                                          r'[0-9]')),
+                                                                ],
+                                                                controller: quantityController
+                                                                  ..text =
+                                                                      _bidQuantity
+                                                                          .toString(),
+                                                                onChanged:
+                                                                    (value) {
+                                                                  if (value !=
+                                                                      '') {
+                                                                    _bidQuantity =
+                                                                        int.parse(value.replaceAll(
+                                                                            RegExp(r'^0+(?=.)'),
+                                                                            ''));
+                                                                    quantityController
+                                                                            .text =
+                                                                        _bidQuantity
+                                                                            .toString()
+                                                                            .trim();
+                                                                    quantityController
+                                                                            .selection =
+                                                                        TextSelection.fromPosition(TextPosition(
+                                                                            offset:
+                                                                                quantityController.text.length));
+                                                                  } else {
+                                                                    quantityController
+                                                                            .text =
+                                                                        _minBidQuantity
+                                                                            .toString()
+                                                                            .trim();
+                                                                    quantityController
+                                                                            .selection =
+                                                                        TextSelection.fromPosition(TextPosition(
+                                                                            offset:
+                                                                                quantityController.text.length));
+                                                                    _bidQuantity =
+                                                                        _minBidQuantity;
+                                                                  }
+                                                                },
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                        border:
+                                                                            InputBorder.none),
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       )),
-                                                ))
-                                              ],
-                                            ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                        behavior:
+                                                            HitTestBehavior
+                                                                .opaque,
+                                                        onTap: () {
+                                                          setState(() {
+                                                            _bidQuantity =
+                                                                _bidQuantity! +
+                                                                    1;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color:
+                                                                          lightBlueTabs,
+                                                                      width:
+                                                                          1, //                   <--- border width here
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(8.w))),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.w),
+                                                              child: Center(
+                                                                child:
+                                                                    TitleTextWidget(
+                                                                  title: '+1',
+                                                                  color:
+                                                                      lightBlueTabs,
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 12.w,
                                     ),
                                     Padding(
-                                        padding: EdgeInsets
-                                            .only(
-                                                left:
-                                                    0.w),
+                                        padding: EdgeInsets.only(left: 0.w),
                                         child: Align(
                                           alignment:
-                                              AlignmentDirectional
-                                                  .topStart,
+                                              AlignmentDirectional.topStart,
                                           child: Text(
                                             'Remarks',
                                             style: TextStyle(
-                                                color: Colors
-                                                    .black,
-                                                fontSize:
-                                                    12.sp,
-                                                fontWeight:
-                                                    FontWeight
-                                                        .w700),
+                                                color: Colors.black,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w700),
                                           ),
                                         )),
                                     SizedBox(
@@ -1324,36 +1476,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                     ),
                                     SizedBox(
                                       height: 5 * 22.w,
-                                      child:
-                                          TextFormField(
-                                              keyboardType:
-                                                  TextInputType
-                                                      .text,
-                                              maxLines: 5,
-                                              cursorColor:
-                                                  lightBlueTabs,
-                                              style: TextStyle(
-                                                  fontSize: 11
-                                                      .sp),
-                                              textAlign:
-                                                  TextAlign
-                                                      .start,
-                                              cursorHeight:
-                                                  16.w,
-                                              showCursor:
-                                                  false,
-                                              readOnly:
-                                                  false,
-                                              onSaved:
-                                                  (value) {},
-                                              onChanged:
-                                                  (value) {
-                                                _bidRemarks =
-                                                    value;
-                                              },
-                                              decoration:
-                                                  roundedDescriptionDecorationUpdated(
-                                                      "Enter your remarks")),
+                                      child: TextFormField(
+                                          keyboardType: TextInputType.text,
+                                          maxLines: 5,
+                                          cursorColor: lightBlueTabs,
+                                          style: TextStyle(fontSize: 11.sp),
+                                          textAlign: TextAlign.start,
+                                          cursorHeight: 16.w,
+                                          showCursor: false,
+                                          readOnly: false,
+                                          onSaved: (value) {},
+                                          onChanged: (value) {
+                                            _bidRemarks = value;
+                                          },
+                                          decoration:
+                                              roundedDescriptionDecorationUpdated(
+                                                  "Enter your remarks")),
                                     ),
                                   ],
                                 ),
@@ -1361,62 +1499,45 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               flex: 9,
                             ),
                             Expanded(
-                              child:
-                                  ElevatedButtonWithoutIcon(
-                                      callback: () {
-                                        FocusScope.of(
-                                                context)
-                                            .unfocus();
-                                        var logger =
-                                            Logger();
-                                        logger
-                                            .e(_bidPrice);
-                                        logger.e(
-                                            _bidQuantity);
-                                        if (_bidPrice!
-                                                .toInt() <=
-                                            0) {
-                                          //Ui.showSnackBar(context, "Please enter price");
-                                          Fluttertoast
-                                              .showToast(
-                                                  msg:
-                                                      "Please enter price");
-                                        } else if (_bidQuantity!
-                                                .toInt() <=
-                                            0) {
-                                          //Ui.showSnackBar(context, "Please enter quantity");
-                                          Fluttertoast
-                                              .showToast(
-                                                  msg:
-                                                      "Please enter quantity");
-                                        } else if (_bidQuantity!
-                                                .toInt() <
+                              child: ElevatedButtonWithoutIcon(
+                                  callback: () {
+                                    FocusScope.of(context).unfocus();
+                                    var logger = Logger();
+                                    logger.e(_bidPrice);
+                                    logger.e(_bidQuantity);
+                                    if (_bidPrice!.toInt() <= 0) {
+                                      //Ui.showSnackBar(context, "Please enter price");
+                                      Fluttertoast.showToast(
+                                          msg: "Please enter price");
+                                    } else if (widget.specObject == null &&
+                                        _bidQuantity == null) {
+                                      //Ui.showSnackBar(context, "Please enter quantity");
+                                      Fluttertoast.showToast(
+                                          msg: "Please enter quantity");
+                                    } else if (widget.specObject == null &&
+                                        _bidQuantity != null &&
+                                        _bidQuantity!.toInt() <
                                             _minBidQuantity!) {
-                                          /*Ui.showSnackBar(context,
+                                      /*Ui.showSnackBar(context,
                                             "Please enter minimum quantity ${_minBidQuantity}");*/
-                                          Fluttertoast
-                                              .showToast(
-                                                  msg:
-                                                      "Please enter minimum quantity $_minBidQuantity");
-                                        } else {
-                                          showGenericDialog(
-                                            'Send Proposal',
-                                            "Are you sure, you want to send proposal?",
-                                            context,
-                                            StylishDialogType
-                                                .WARNING,
-                                            'Yes',
-                                            () {
-                                              placeBid(
-                                                  context);
-                                            },
-                                          );
-                                        }
-                                      },
-                                      color:
-                                          btnColorLogin,
-                                      btnText:
-                                          'Send Proposal'),
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Please enter minimum quantity $_minBidQuantity");
+                                    } else {
+                                      showGenericDialog(
+                                        'Send Proposal',
+                                        "Are you sure, you want to send proposal?",
+                                        context,
+                                        StylishDialogType.WARNING,
+                                        'Yes',
+                                        () {
+                                          placeBid(context);
+                                        },
+                                      );
+                                    }
+                                  },
+                                  color: btnColorLogin,
+                                  btnText: 'Send Proposal'),
                             ),
                             SizedBox(
                               height: 4.h,
@@ -1427,13 +1548,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       Align(
                           alignment: Alignment.topRight,
                           child: GestureDetector(
-                            behavior:
-                            HitTestBehavior.opaque,
+                            behavior: HitTestBehavior.opaque,
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child:
-                            const Icon(Icons.close),
+                            child: const Icon(Icons.close),
                           )),
                     ],
                   ),
@@ -1447,12 +1566,20 @@ class _DetailTabPageState extends State<DetailTabPage> {
   void placeBid(BuildContext context) {
     ProgressDialogUtil.showDialog(context, "Please wait....");
     ApiService.createBid(
-            widget.specification == null
+            widget.yarnSpecification != null
                 ? 2.toString()
-                : widget.specification!.categoryId.toString(),
-            widget.specification == null
+                : widget.specification != null
+                    ? widget.specification!.categoryId.toString()
+                    : (widget.specObject as StockLotSpecification)
+                        .stocklotCategoryId
+                        .toString(),
+            widget.yarnSpecification != null
                 ? widget.yarnSpecification!.ysId.toString()
-                : widget.specification!.spcId.toString(),
+                : widget.specification != null
+                    ? widget.specification!.spcId.toString()
+                    : (widget.specObject as StockLotSpecification)
+                        .id
+                        .toString(),
             _bidPrice.toString(),
             _bidQuantity.toString(),
             _bidRemarks)
@@ -1543,7 +1670,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.certification!),
     ];
     var newSpecifications = _detailSpecification.toList();
-    _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+    _detailSpecification = newSpecifications
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
     // labParameters = [
     //   GridTileModel(
     //       'Unit Of Count',
@@ -1585,7 +1716,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.specification!.paymentType == null
               ? Utils.checkNullString(false)
               : widget.specification!.paymentType!),*/
-     /* GridTileModel(
+      /* GridTileModel(
           'LC Type',
           widget.specification!.lcType == null
               ? Utils.checkNullString(false)
@@ -1611,7 +1742,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.specification!.minQuantity!),
     ];
-    if(widget.specification!.locality!.toUpperCase() == international){
+    if (widget.specification!.locality!.toUpperCase() == international) {
       _detailPackaging.add(GridTileModel(
           'Port',
           widget.specification!.port == null
@@ -1619,8 +1750,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.specification!.port!));
     }
     var newPackingDetails = _detailPackaging.toList();
-    _detailPackaging = newPackingDetails.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
-
+    _detailPackaging = newPackingDetails
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
   }
 
   _yarnDetails() {
@@ -1707,7 +1841,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       .replaceAll(",", "")),*/
         ];
         var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+        _detailSpecification = newSpecifications
+            .where((element) =>
+                element._detail.isNotEmpty &&
+                element._detail.toUpperCase() != "N/A")
+            .toList();
         break;
       case '2':
         _detailSpecification = [
@@ -1760,7 +1898,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
         var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+        _detailSpecification = newSpecifications
+            .where((element) =>
+                element._detail.isNotEmpty &&
+                element._detail.toUpperCase() != "N/A")
+            .toList();
         break;
       case '3':
         _detailSpecification = [
@@ -1814,7 +1956,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
         var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+        _detailSpecification = newSpecifications
+            .where((element) =>
+                element._detail.isNotEmpty &&
+                element._detail.toUpperCase() != "N/A")
+            .toList();
         break;
       case '4':
         _detailSpecification = [
@@ -1858,7 +2004,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   Utils.checkNullString(false)),
         ];
         var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+        _detailSpecification = newSpecifications
+            .where((element) =>
+                element._detail.isNotEmpty &&
+                element._detail.toUpperCase() != "N/A")
+            .toList();
         break;
       case '5':
         _detailSpecification = [
@@ -1908,7 +2058,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
         ];
         var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+        _detailSpecification = newSpecifications
+            .where((element) =>
+                element._detail.isNotEmpty &&
+                element._detail.toUpperCase() != "N/A")
+            .toList();
         break;
     }
 
@@ -1980,10 +2134,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.yarnSpecification!.ys_tm!),
     ];
     var newLabParams = _labParameters.toList();
-    _labParameters = newLabParams.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+    _labParameters = newLabParams
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
 
     _detailPackaging = [
-
       GridTileModel(
           'Unit of Counting',
           widget.yarnSpecification!.unitCount == null
@@ -2046,9 +2203,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.minQuantity == null
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.minQuantity!),
-
     ];
-    if(widget.yarnSpecification!.locality!.toUpperCase() == international){
+    if (widget.yarnSpecification!.locality!.toUpperCase() == international) {
       _detailPackaging.add(GridTileModel(
           'Port',
           widget.yarnSpecification!.port == null
@@ -2056,12 +2212,103 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : widget.yarnSpecification!.port!));
     }
     var newPackingDetails = _detailPackaging.toList();
-    _detailPackaging = newPackingDetails.where((element) => element._detail.isNotEmpty && element._detail.toUpperCase()!="N/A").toList();
+    _detailPackaging = newPackingDetails
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
+  }
 
+  _stockLotDetails() {
+    _detailSpecification = [
+      GridTileModel(
+          'Category',
+          (widget.specObject as StockLotSpecification).category ??
+              Utils.checkNullString(false)),
+      GridTileModel(
+          'Availability',
+          (widget.specObject as StockLotSpecification).availablity != null
+              ? '${(widget.specObject as StockLotSpecification).availablity}'
+              : Utils.checkNullString(false)),
+      GridTileModel(
+          'Price Terms',
+          (widget.specObject as StockLotSpecification).priceTerm != null
+              ? '${(widget.specObject as StockLotSpecification).priceTerm} '
+              : Utils.checkNullString(false)),
+    ];
+    var newSpecifications = _detailSpecification.toList();
+    _detailSpecification = newSpecifications
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
+
+    for (var element
+        in (widget.specObject as StockLotSpecification).specDetails!) {
+      _detailPackaging = [];
+      _detailPackaging.add(GridTileModel(
+          'Quantity',
+          element.quantity != null
+              ? '${element.quantity} '
+              : Utils.checkNullString(false)));
+
+      _detailPackaging.add(GridTileModel(
+          'Price',
+          element.price != null
+              ? '${element.price} '
+              : Utils.checkNullString(false)));
+
+      _detailPackaging.add(GridTileModel(
+          'Price Unit',
+          element.priceUnit != null
+              ? '${element.priceUnit!.split(" ").first} '
+              : Utils.checkNullString(false)));
+
+      _stockLotItems[element.subCategory.toString()] = _detailPackaging;
+    }
+
+    var newPackingDetails = _detailPackaging.toList();
+    _detailPackaging = newPackingDetails
+        .where((element) =>
+            element._detail.isNotEmpty &&
+            element._detail.toUpperCase() != "N/A")
+        .toList();
   }
 
   Future<String?> _getUserId() async {
     return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  }
+
+  Widget _itemBuilder(BuildContext context, IndexPath index) {
+    GridTileModel details =
+        _stockLotItems.values.toList()[index.section][index.index];
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              details.title,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            flex: 6,
+          ),
+          Expanded(
+            child: Text(
+              details.detail,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400),
+            ),
+            flex: 4,
+          ),
+        ],
+      ),
+    );
   }
 }
 

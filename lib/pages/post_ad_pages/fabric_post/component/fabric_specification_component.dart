@@ -696,7 +696,7 @@ class FabricSpecificationComponentState
                                           selectedIndex: -1,
                                           key: _colorTreatmentMethodKey,
                                           spanCount: 3,
-                                          listOfItems: _colorTreatmentMethodList!
+                                          listOfItems: _colorTreatmentMethodList
                                               .where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),

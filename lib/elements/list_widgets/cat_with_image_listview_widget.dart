@@ -8,6 +8,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class CatWithImageListWidget extends StatefulWidget {
@@ -80,6 +81,9 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       var fabricFamily = widget.listItem!.cast<FabricFamily>()[index];
       name = fabricFamily.fabricFamilyName ?? 'n/a';
       castingCheckPos = 4;
+    }else{
+      name = widget.listItem!.cast<StocklotCategories>()[index].category!;
+      castingCheckPos =5;
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -103,7 +107,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               NetworkImageIconWidget(
-                imageUrl: getImageUrl(checked,castingCheckPos!,index)
+                imageUrl: getImageUrl(checked,castingCheckPos,index)
               ),
               SizedBox(
                 height: 2.h,
@@ -143,6 +147,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconSelected??""}';
       }else if(castingCheckPos == 4){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconSelected??""}';
+      }else{
+        return "";
       }
     }else{
       if(castingCheckPos == 0){
@@ -159,6 +165,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconUnselected??""}';
       }else if(castingCheckPos == 4){
         return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconUnselected??""}';
+      }else{
+        return "";
       }
     }
   }

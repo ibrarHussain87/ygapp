@@ -274,10 +274,8 @@ class MatchedResponseData {
   List<Specification>? fiber;
   List<YarnSpecification>? yarnSpecification;
 
-  MatchedResponseData({
-    this.fiber,
-    this.yarnSpecification
-  });
+  MatchedResponseData({this.fiber, this.yarnSpecification});
+
   MatchedResponseData.fromJson(Map<String, dynamic> json) {
     if (json['fiber'] != null) {
       final v = json['fiber'];
@@ -297,6 +295,7 @@ class MatchedResponseData {
       yarnSpecification = arr0;
     }
   }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     if (fiber != null) {
@@ -383,12 +382,20 @@ class MatchedResponse {
     this.data,
     this.message,
   });
+
   MatchedResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code']?.toInt();
-    data = (json['data'] != null) ? MatchedResponseData.fromJson(json['data']) : null;
+    if (json['data'] is List<dynamic>) {
+      data = null;
+    } else {
+      data = (json['data'] != null)
+          ? MatchedResponseData.fromJson(json['data'])
+          : null;
+    }
     message = json['message']?.toString();
   }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['status'] = status;

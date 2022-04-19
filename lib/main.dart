@@ -13,6 +13,7 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'Providers/fabric_specifications_provider.dart';
 import 'Providers/fiber_specifications_provider.dart';

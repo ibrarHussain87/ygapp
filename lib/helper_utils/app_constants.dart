@@ -121,6 +121,14 @@ var tm = 'TM';
 var offering = 'Offering';
 var requirement = 'Requiremnet';
 
+//
+var personal = 'Personal Info';
+var business = 'Business Info';
+var brands = 'Brands';
+//
+
+
+
 int YARN_CATEGORY_ID = 2;
 String FABRIC_MIRCOFIBER_ID = '104';
 const String no_internet_available_msg = "No Internet available.";

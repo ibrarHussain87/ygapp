@@ -1,5 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
+import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
+import 'package:yg_app/model/response/common_response_models/price_term.dart';
 
 import '../../common_response_models/brands_response.dart';
 import '../../common_response_models/city_state_response.dart';
@@ -8,7 +10,6 @@ import '../../common_response_models/countries_response.dart';
 import '../../common_response_models/delievery_period.dart';
 import '../../common_response_models/ports_response.dart';
 import '../../common_response_models/unit_of_count.dart';
-import '../../sync/sync_response.dart';
 
 class FabricSyncResponse {
   bool? status;
@@ -67,7 +68,7 @@ class Fabric {
   List<Countries>? countries;
   List<CityState>? cityState;
   List<Ports>? ports;
-  List<PaymentTypes>? paymentTypes;
+  List<PaymentType>? paymentTypes;
   List<FabricAppearance>? appearance;
   List<KnittingTypes>? knittingTypes;
   List<FabricPly>? ply;
@@ -79,7 +80,7 @@ class Fabric {
   List<FabricSalvedge>? salvedge;
   List<FabricWeave>? weave;
   List<FabricLayyer>? layyer;
-  List<PriceTerms>? priceTerms;
+  List<FPriceTerms>? priceTerms;
   List<DeliveryPeriod>? deliveryPeriod;
   List<Units>? units;
   List<Companies>? companies;
@@ -150,9 +151,9 @@ class Fabric {
       });
     }
     if (json['payment_types'] != null) {
-      paymentTypes = <PaymentTypes>[];
+      paymentTypes = <PaymentType>[];
       json['payment_types'].forEach((v) {
-        paymentTypes!.add(PaymentTypes.fromJson(v));
+        paymentTypes!.add(PaymentType.fromJson(v));
       });
     }
     if (json['appearance'] != null) {
@@ -222,16 +223,18 @@ class Fabric {
       });
     }
     if (json['price_terms'] != null) {
-      priceTerms = <PriceTerms>[];
+      priceTerms = <FPriceTerms>[];
       json['price_terms'].forEach((v) {
-        priceTerms!.add(PriceTerms.fromJson(v));
+        priceTerms!.add(FPriceTerms.fromJson(v));
       });
     }
     if (json['delivery_period'] != null) {
       deliveryPeriod = <DeliveryPeriod>[];
-      json['delivery_period'].forEach((v) {
-        deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
-      });
+      if(json['delivery_period'] is List) {
+        json['delivery_period'].forEach((v) {
+          deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
+        });
+      }
     }
     if (json['units'] != null) {
       units = <Units>[];

@@ -50,6 +50,6 @@ class Countries {
   @override
   String toString() {
     // TODO: implement toString
-    return conName??"";
+    return "$conName ($conCurrency)";
   }
 }

@@ -111,7 +111,7 @@ class FiberBidItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Metropolis',
+                              // fontFamily: 'Metropolis',
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,

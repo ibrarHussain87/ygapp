@@ -18,7 +18,7 @@ class AddPictureWidget extends StatefulWidget {
 
 class _AddPictureWidgetState extends State<AddPictureWidget> {
 
-  PickedFile? imageFile = null;
+  PickedFile? imageFile;
   List<PickedFile>? imageFiles = [];
   bool setButtonVisibility = true;
   bool listViewVisibility = false;

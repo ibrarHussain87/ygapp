@@ -7,6 +7,7 @@ class PaymentType {
     required this.payName,
     required this.payPriceTerrmIdfk,
     required this.payIsActive,
+    this.parentId,
     this.paySortid,
     this.createdAt,
     this.updatedAt,
@@ -15,8 +16,10 @@ class PaymentType {
   @PrimaryKey(autoGenerate: false)
   late final String? payId;
   String? payPriceTerrmIdfk;
+  String? ptrCountryIdfk;
   String? payName;
   String? payIsActive;
+  String? parentId;
   @ignore
   Null paySortid;
   @ignore
@@ -29,6 +32,8 @@ class PaymentType {
   PaymentType.fromJson(Map<String, dynamic> json){
     payId = json['pay_id'];
     payPriceTerrmIdfk = json['pay_price_terrm_idfk'];
+    ptrCountryIdfk = json['ptr_category_idfk'];
+    parentId = json['parent_id'];
     payName = json['pay_name'];
     payIsActive = json['pay_is_active'];
     paySortid = null;
@@ -41,7 +46,9 @@ class PaymentType {
     final _data = <String, dynamic>{};
     _data['pay_id'] = payId;
     _data['pay_price_terrm_idfk'] = payPriceTerrmIdfk;
+    _data['ptr_category_idfk'] = ptrCountryIdfk;
     _data['pay_name'] = payName;
+    _data['parent_id'] = this.parentId;
     _data['pay_is_active'] = payIsActive;
     _data['pay_sortid'] = paySortid;
     _data['created_at'] = createdAt;
