@@ -4,7 +4,6 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
-import 'package:search_choices/search_choices.dart';
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_colors.dart';
@@ -121,60 +120,35 @@ class FabricPageState extends State<FabricPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 3: 0,
+                              flex: widget.locality==international ? 2: 0,
                               child: Visibility(
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
-                                child: SearchChoices.single(
-                                  displayClearIcon: false,
+                                child: DropdownButtonFormField(
                                   isExpanded: true,
-                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                  items:_countries
+                                  decoration: const InputDecoration.collapsed(hintText: ''),
+                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
+                                  items: _countries
                                       .map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
                                           value.conName ??
                                               Utils.checkNullString(false),
-                                          textAlign: TextAlign
-                                              .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
+                                          textAlign: TextAlign.start,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,),
                                         value: value,
-                                      )).toList(),
-                                  isCaseSensitiveSearch: false,
+                                      ))
+                                      .toList(),
                                   onChanged: (Countries? value) {
                                     yarnSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: textColorGrey,overflow: TextOverflow.ellipsis,),
-                                )
-
-//                                DropdownButtonFormField(
-//                                  isExpanded: true,
-//                                  decoration: const InputDecoration.collapsed(hintText: ''),
-//                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
-//                                  items: _countries
-//                                      .map((value) =>
-//                                      DropdownMenuItem(
-//                                        child: Expanded(
-//                                          child: Text(
-//                                            value.conName ??
-//                                                Utils.checkNullString(false),
-//                                            textAlign: TextAlign.start,
-//                                            maxLines: 1,
-//                                            overflow: TextOverflow.fade,
-//                                            softWrap: false,),
-//                                        ),
-//                                        value: value,
-//                                      ))
-//                                      .toList(),
-//                                  onChanged: (Countries? value) {
-//                                    yarnSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
-//                                  },
-//                                  style: TextStyle(
-//                                      fontSize: 11.sp,
-//                                      color: textColorGrey),
-//                                ),
+                                      fontSize: 11.sp,
+                                      color: textColorGrey),
+                                ),
                               ),
                             ),
                             Visibility(

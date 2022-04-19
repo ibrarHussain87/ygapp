@@ -26,12 +26,14 @@ class YarnSpecificationListFutureState
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
   GlobalKey<YarnListBodyState> yarnListBodyState =
       GlobalKey<YarnListBodyState>();
+  late YarnSpecificationsProvider yarnSpecificationsProvider;
 
   @override
   void initState() {
+
+    yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context, listen: false);
     getRequestModel.locality = widget.locality;
     getRequestModel.categoryId = 2.toString();
-    final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context, listen: false);
     yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     super.initState();
   }
@@ -69,6 +71,7 @@ class YarnSpecificationListFutureState
     setState(() {
       data.categoryId = YARN_CATEGORY_ID.toString();
       getRequestModel = data;
+      yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     });
   }
 }
