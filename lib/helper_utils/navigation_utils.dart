@@ -10,6 +10,8 @@ import 'package:yg_app/pages/post_ad_pages/yarn_post/yarn_post_ad.dart';
 import 'package:yg_app/pages/profile/my_products/list_bids_page/bids_page.dart';
 import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
+import 'package:yg_app/pages/profile/update_profile/edit_profile.dart';
+import 'package:yg_app/pages/profile/update_profile/membership.dart';
 import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
 import '../pages/post_ad_pages/fabric_post/fabric_post_page.dart';

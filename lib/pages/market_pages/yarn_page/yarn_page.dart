@@ -145,7 +145,7 @@ class YarnPageState extends State<YarnPage> {
                                   isExpanded: true,
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
                                   items:_countries
-                                      ?.map((value) =>
+                                      .map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
                                           value.conName ??

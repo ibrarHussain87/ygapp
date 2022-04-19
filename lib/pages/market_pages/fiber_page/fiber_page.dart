@@ -171,7 +171,7 @@ class FiberPageState extends State<FiberPage> {
                                   isExpanded: true,
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
                                   items:_countries
-                                      ?.map((value) =>
+                                      .map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
                                           value.conName ??
