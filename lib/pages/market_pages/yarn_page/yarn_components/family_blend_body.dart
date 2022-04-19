@@ -31,6 +31,8 @@ class _BlendFamilyState extends State<BlendFamily> {
   int? selectedFamilyId;
   List<Family>? _yarnFamily;
   List<Blends>? _yarnBlends;
+  final GlobalKey<SingleSelectTileWidgetState> _blendKey =
+  GlobalKey<SingleSelectTileWidgetState>();
 
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {
@@ -88,6 +90,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                           var item = _yarnFamily![value];
                           queryFamilySettings(item.famId!);
                           widget.yarnFamilyCallback(item);
+                          if(_blendKey.currentState!= null) _blendKey.currentState!.checkedTile = -1;
                         },
                       ),
                     ),
@@ -126,7 +129,8 @@ class _BlendFamilyState extends State<BlendFamily> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
-                      selectedIndex: 0,
+                      key: _blendKey,
+                      selectedIndex: -1,
                       spanCount: 2,
                       listOfItems: _yarnBlends!
                           .where((element) =>

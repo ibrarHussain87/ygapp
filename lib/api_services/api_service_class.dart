@@ -797,8 +797,12 @@ class ApiService {
         return FiberSpecificationResponse.fromJson(
           json.decode(response.body),
         );
-      } else {
+      } else if(catId == '2'){
         return GetYarnSpecificationResponse.fromJson(
+          json.decode(response.body),
+        );
+      }else{
+        return StockLotSpecificationResponse.fromJson(
           json.decode(response.body),
         );
       }

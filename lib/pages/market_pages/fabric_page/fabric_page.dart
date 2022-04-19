@@ -132,15 +132,13 @@ class FabricPageState extends State<FabricPage> {
                                   items: _countries
                                       .map((value) =>
                                       DropdownMenuItem(
-                                        child: Expanded(
-                                          child: Text(
-                                            value.conName ??
-                                                Utils.checkNullString(false),
-                                            textAlign: TextAlign.start,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,),
-                                        ),
+                                        child: Text(
+                                          value.conName ??
+                                              Utils.checkNullString(false),
+                                          textAlign: TextAlign.start,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,),
                                         value: value,
                                       ))
                                       .toList(),
