@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -59,6 +60,35 @@ class FiberPageState extends State<FiberPage> {
   bodyContent() {
     return SafeArea(
       child: Scaffold(
+        /*floatingActionButton: SpeedDial(
+          icon: Icons.add,
+          openCloseDial: isDialOpen,
+          backgroundColor: Colors.blueAccent,
+          overlayColor: Colors.grey,
+          overlayOpacity: 0.5,
+          spacing: 3.w,
+          spaceBetweenChildren: 3.w,
+          closeManually: true,
+          children: [
+            SpeedDialChild(
+                label: requirement,
+                backgroundColor: Colors.blue,
+                onTap: () {
+                  setState(() {
+                    isDialOpen.value = false;
+                  });
+                  openFiberPostPage(context,widget.locality,'Fiber','0');
+                }),
+            SpeedDialChild(
+                label: offering,
+                onTap: () {
+                  setState(() {
+                    isDialOpen.value = false;
+                  });
+                  openFiberPostPage(context,widget.locality,'Fiber','1');
+                }),
+          ],
+        ),*/
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             showBottomSheetOR(context,(value){
@@ -131,38 +161,87 @@ class FiberPageState extends State<FiberPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 2: 0,
+                              flex: widget.locality==international ? 3: 0,
                               child: Visibility(
                                 maintainSize: false,
                                 maintainState: false,
                                 visible: widget.locality==international,
-                                child: DropdownButtonFormField(
+                                child:_countries!=null ? SearchChoices.single(
+                                  displayClearIcon: false,
                                   isExpanded: true,
-                                  decoration: const InputDecoration.collapsed(hintText: ''),
                                   hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                  items: _countries
-                                      .map((value) =>
+                                  items:_countries
+                                      ?.map((value) =>
                                       DropdownMenuItem(
                                         child: Text(
-                                            value.conName ??
-                                                Utils.checkNullString(false),
-                                            textAlign: TextAlign
-                                                .center),
+                                          value.conName ??
+                                              Utils.checkNullString(false),
+                                          textAlign: TextAlign
+                                              .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
                                         value: value,
-                                      ))
-                                      .toList(),
+                                      )).toList(),
+                                  isCaseSensitiveSearch: false,
                                   onChanged: (Countries? value) {
-                                    /*_createRequestModel!
-                                      .spc_origin_idfk =
-                                      value!.conId.toString();*/
                                     fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: textColorGrey),
-                                ),
+                                    fontSize: 12.sp,
+                                    color: textColorGrey,overflow: TextOverflow.ellipsis,),
+                                ) :
+                                DropdownButtonFormField<String>(
+                                  isExpanded: true,
+                                  decoration: const InputDecoration.collapsed(hintText: ''),
+                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
+                                  iconSize: 20,
+                                  items:  [
+
+                                    DropdownMenuItem(
+                                      child:Text(Utils.checkNullString(false),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,style: TextStyle(fontSize: 12.sp,overflow: TextOverflow.ellipsis,),),
+                                    ),
+                                  ],
+
+                                  onChanged: (newValue) {
+
+                                  },
+
+
+                                  validator: (value) => value == null ? 'Please select country name' : null,
+
+                                )
+
+
+//                                DropdownButtonFormField(
+//                                  isExpanded: true,
+//                                  decoration: const InputDecoration.collapsed(hintText: ''),
+//                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
+//                                  items: _countries
+//                                      .map((value) =>
+//                                      DropdownMenuItem(
+//                                        child: Text(
+//                                            value.conName ??
+//                                                Utils.checkNullString(false),
+//                                            textAlign: TextAlign
+//                                                .center),
+//                                        value: value,
+//                                      ))
+//                                      .toList(),
+//                                  onChanged: (Countries? value) {
+//                                    /*_createRequestModel!
+//                                      .spc_origin_idfk =
+//                                      value!.conId.toString();*/
+//                                    fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
+//                                  },
+//                                  style: TextStyle(
+//                                      fontSize: 11.sp,
+//                                      color: textColorGrey),
+//                                ),
                               ),
                             ),
+
                             Visibility(
                               visible: false,
                               child: Center(

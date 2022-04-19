@@ -285,7 +285,8 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(error.toString())));
         });
-      }else{
+      }
+      else{
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
       }

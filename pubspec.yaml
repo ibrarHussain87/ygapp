@@ -88,6 +88,9 @@ dependencies:
   group_list_view: ^1.1.1
 
 #  bubble_tab_indicator: ^0.1.6
+  search_choices: ^2.0.19
+  custom_sliding_segmented_control: ^1.5.2
+  country_list_pick: ^1.0.1+5
 
 dev_dependencies:
   flutter_test:

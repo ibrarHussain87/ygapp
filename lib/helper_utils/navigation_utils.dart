@@ -108,7 +108,8 @@ void openPersonalDetailsScreen(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => const UpdateProfilePage(),
+      builder: (context) => const EditProfilePage(),
+//      builder: (context) => const UpdateProfilePage(),
     ),
   );
 }
@@ -135,3 +136,15 @@ void openSpecificationUserScreen(
     ),
   );
 }
+
+///////////////
+void openMembershipScreen(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const MembershipPage(),
+    ),
+  );
+}
+
+//////////////////////

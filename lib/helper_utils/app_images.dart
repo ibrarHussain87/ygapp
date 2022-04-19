@@ -54,3 +54,8 @@ String IC_LOCATION_RENEWED = "images/ic_location_renewed.png";
 String FEATURED_VERTICAL = "images/img_featured_vertical.png";
 String FILTERED_RENEWED = "images/ic_filter_renewed.png";
 
+/////
+String black_tick = "images/black_tick.png";
+String white_tick = "images/white_tick.png";
+String divider_line = "images/line.png";
+
