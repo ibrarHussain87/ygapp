@@ -29,6 +29,8 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
   int? selectedFamilyId;
   List<FabricFamily>? _fabricFamily;
   List<FabricBlends>? _fabricBlends;
+  final GlobalKey<SingleSelectTileWidgetState> _fabricBlendKey =
+  GlobalKey<SingleSelectTileWidgetState>();
 
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {
@@ -70,12 +72,14 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                     SizedBox(
                       height: 0.055 * MediaQuery.of(context).size.height,
                       child:CatWithImageListWidget(
+                        key: _fabricBlendKey,
                         selectedItem: -1,
                         listItem: _fabricFamily,
                         onClickCallback: (value) {
                           var item = _fabricFamily![value];
                           queryFamilySettings(item.fabricFamilyId!);
                           widget.fabricFamilyCallback(item);
+                          if(_fabricBlendKey.currentState!= null) _fabricBlendKey.currentState!.checkedTile = -1;
                         },
                       ),
                     ),
@@ -99,7 +103,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
-                      selectedIndex: 0,
+                      selectedIndex: -1,
                       spanCount: 2,
                       listOfItems: _fabricBlends!
                           .where((element) =>

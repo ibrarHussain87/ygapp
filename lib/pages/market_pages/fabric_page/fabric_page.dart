@@ -10,6 +10,7 @@ import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/request/filter_request/fabric_filter_request.dart';
 import '../../../model/request/filter_request/filter_request.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import '../common_components/offering_requirment__segment_component.dart';
@@ -29,7 +30,7 @@ class FabricPage extends StatefulWidget {
 class FabricPageState extends State<FabricPage> {
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  final GlobalKey<FabricSpecificationListFutureState> yarnSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
+  final GlobalKey<FabricSpecificationListFutureState> fabricSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
   late List<Countries> _countries;
 
   @override
@@ -80,16 +81,16 @@ class FabricPageState extends State<FabricPage> {
                       const SizedBox(height: 8,),
                       FabricBlendFamily(
                         fabricFamilyCallback: (FabricFamily fabricFamily) {
-                          var model = GetSpecificationRequestModel();
-                          model.ysFamilyIdFk = [fabricFamily.fabricFamilyId!];
-                          yarnSpecificationListState.currentState!
+                          var model = FabricSpecificationRequestModel();
+                          model.fs_family_idfk = [fabricFamily.fabricFamilyId!];
+                          fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
                         blendCallback: (FabricBlends blend,int familyId) {
-                          var model = GetSpecificationRequestModel();
-                          model.ysBlendIdFk = [blend.blnId!];
-                          model.ysFamilyIdFk = [familyId];
-                          yarnSpecificationListState.currentState!
+                          var model = FabricSpecificationRequestModel();
+                          model.fs_blend_idfk = [blend.blnId!];
+                          model.fs_family_idfk = [familyId];
+                          fabricSpecificationListState.currentState!
                               .searchData(model);
                         },
                       ),
@@ -101,9 +102,9 @@ class FabricPageState extends State<FabricPage> {
                               flex: widget.locality==international ? 8: 10,
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
-                                  yarnSpecificationListState.currentState!
-                                      .searchData(GetSpecificationRequestModel(
-                                      isOffering: value.toString()));
+                                  fabricSpecificationListState.currentState!
+                                      .searchData(FabricSpecificationRequestModel(
+                                      is_offering: value.toString()));
                                 },
                               ),
                             ),
@@ -143,7 +144,7 @@ class FabricPageState extends State<FabricPage> {
                                       ))
                                       .toList(),
                                   onChanged: (Countries? value) {
-                                    yarnSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                                    fabricSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
                                   },
                                   style: TextStyle(
                                       fontSize: 11.sp,
@@ -178,7 +179,7 @@ class FabricPageState extends State<FabricPage> {
                   child: Container(
                     margin: EdgeInsets.only(top: 8.w),
                     child: FabricSpecificationListFuture(
-                      key: yarnSpecificationListState,
+                      key: fabricSpecificationListState,
                       locality: widget.locality!,
                     ),
                   ),

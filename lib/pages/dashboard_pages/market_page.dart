@@ -297,6 +297,17 @@ class MarketPageState extends State<MarketPage>
           .currentState!
           .filterListSearch(value);
     }
+    if (_fabricPageState
+        .currentState !=
+        null) {
+      _fabricPageState
+          .currentState!
+          .fabricSpecificationListState
+          .currentState!
+          .fabricListBodyState
+          .currentState!
+          .filterListSearch(value);
+    }
   }
 
   _openFiberFilterView() {

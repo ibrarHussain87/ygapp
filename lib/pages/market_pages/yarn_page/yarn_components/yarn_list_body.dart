@@ -21,6 +21,7 @@ class YarnListBody extends StatefulWidget {
 }
 
 class YarnListBodyState extends State<YarnListBody> {
+
   filterListSearch(value) {
     setState(() {
       _yarnFilteredSpecification = _specification!

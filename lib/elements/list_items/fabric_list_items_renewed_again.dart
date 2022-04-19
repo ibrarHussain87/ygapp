@@ -123,12 +123,12 @@ Widget buildFabricRenewedAgainWidget(
                                     color: blueContainerLight,
                                     constraints:
                                     const BoxConstraints(maxHeight: 14),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: 'Utils.setFamilyData(specification)',
+                                          title: Utils.setFabricFamilyData(specification),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -137,7 +137,7 @@ Widget buildFabricRenewedAgainWidget(
                                 const SizedBox(width: 2,),
                                 Expanded(
                                   child: TitleMediumTextWidget(
-                                    title: 'Utils.setTitleData(specification)',
+                                    title: Utils.setFabricTitle(specification),
                                     color: Colors.black87,
                                     weight: FontWeight.w600,
                                     size: 13,
@@ -147,7 +147,7 @@ Widget buildFabricRenewedAgainWidget(
                             ),
                             const SizedBox(height: 10,),
                             TitleSmallBoldTextWidget(
-                              title: 'Utils.setDetailsData(specification)',
+                              title: Utils.setFabricDetails(specification),
                               color: Colors.black87,
                               size: 11,
                               weight: FontWeight.w500,
@@ -160,7 +160,7 @@ Widget buildFabricRenewedAgainWidget(
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricBlend ?? "",
+                                      title: specification.fabricBlendAbrv ?? specification.fabricBlend??Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
@@ -168,7 +168,7 @@ Widget buildFabricRenewedAgainWidget(
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title:
-                                      specification.fabricQuality ?? "",
+                                      specification.fabricQuality ?? Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
@@ -176,7 +176,7 @@ Widget buildFabricRenewedAgainWidget(
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
                                       title:
-                                      specification.fabricGrade ?? "",
+                                      specification.fabricGrade ?? Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
