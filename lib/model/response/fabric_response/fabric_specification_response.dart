@@ -108,6 +108,7 @@ class FabricSpecification {
   String? once;
   String? fabricLayyerName;
   String? width;
+  String? fabricWeaveName;
   String? fabricKnittingTypeName;
   List<Pictures>? pictures;
   List<CertificationModel>? certifications;
@@ -159,6 +160,7 @@ class FabricSpecification {
         this.once,
         this.fabricLayyerName,
         this.width,
+        this.fabricWeaveName,
         this.fabricKnittingTypeName,
         this.pictures,
         this.certifications,
@@ -210,6 +212,7 @@ class FabricSpecification {
     once = json['once'];
     fabricLayyerName = json['fabric_layyer_name'];
     width = json['width'];
+    fabricWeaveName = json['fabric_weave_name'];
     fabricKnittingTypeName = json['fabric_knitting_type_name'];
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
@@ -271,6 +274,7 @@ class FabricSpecification {
     data['once'] = this.once;
     data['fabric_layyer_name'] = this.fabricLayyerName;
     data['width'] = this.width;
+    data['fabric_weave_name'] = this.fabricWeaveName;
     data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();

@@ -9,6 +9,7 @@ import '../../../../helper_utils/app_constants.dart';
 import '../../../../helper_utils/shared_pref_util.dart';
 
 class HistoryOfBidsPage extends StatefulWidget {
+
   final String specId;
   final String catId;
 
@@ -24,7 +25,6 @@ class _HistoryOfBidsPageState extends State<HistoryOfBidsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _getUserId().then((value) => setState(() => userId = value));
 
     super.initState();

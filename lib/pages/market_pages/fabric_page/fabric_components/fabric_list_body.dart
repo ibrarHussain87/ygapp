@@ -66,21 +66,9 @@ class FabricListBodyState extends State<FabricListBody> {
               return GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailRenewedPage(
-                          specification: null,
-                          yarnSpecification: _fabricFilteredSpecification![index],
-                          isFromBid: null,
-                        ),
-                      ),
-                    ).then((value) {
-                      setState(() {
-                        isResume = true;
-                      });
-                    });*/
-                    Fluttertoast.showToast(msg: 'Coming soon');
+                    openDetailsScreen(context,
+                        specObj: _fabricFilteredSpecification![index]);
+                   // Fluttertoast.showToast(msg: 'Coming soon');
                   },
                   child: buildFabricRenewedAgainWidget(
                     _fabricFilteredSpecification![index],

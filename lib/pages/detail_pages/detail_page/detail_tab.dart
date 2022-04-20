@@ -20,6 +20,7 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -44,6 +45,7 @@ class DetailTabPage extends StatefulWidget {
 }
 
 class _DetailTabPageState extends State<DetailTabPage> {
+
   List<GridTileModel> _detailSpecification = [];
   List<GridTileModel> _labParameters = [];
   List<GridTileModel> _detailPackaging = [];
@@ -83,6 +85,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
         _bidPrice = int.tryParse(widget.yarnSpecification!.priceUnit!
             .replaceAll(RegExp(r'[^0-9]'), ''));
         _bidPriceFixed = _bidPrice ?? 0;
+      }else if (widget.specObject is FabricSpecification) {
+        _bidPrice = int.tryParse((widget.specObject as FabricSpecification).priceUnit!
+            .replaceAll(RegExp(r'[^0-9]'), ''));
+        _bidPriceFixed = _bidPrice ?? 0;
       } else {
         stockLotMin =
             Utils.stockLotPriceMin(widget.specObject as StockLotSpecification);
@@ -112,6 +118,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
               : int.tryParse(widget.specification!.minQuantity ?? "0");
           _isChanged = true;
         }
+      }else if(widget.specObject is FabricSpecification){
+        var fabricSpec = (widget.specObject as FabricSpecification);
+        _bidQuantity = int.tryParse(fabricSpec.minQuantity ?? "0");
+
+        _bidQuantityFixed = int.tryParse(fabricSpec.minQuantity ?? "0");
+
+        _minBidQuantity = int.tryParse(fabricSpec.minQuantity ?? "0");
+
+        if (!_isChanged) {
+          _tempBidQuantity = int.tryParse(fabricSpec.minQuantity ?? "0");
+          _isChanged = true;
+        }
       }
     });
 
@@ -119,7 +137,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ? _fiberDetails()
         : widget.yarnSpecification != null
             ? _yarnDetails()
-            : _stockLotDetails();
+            : widget.specObject is StockLotSpecification
+            ? _stockLotDetails()
+            : _fabricDetails();
 
     _getUserId().then((value) {
       _userId = value;
@@ -134,6 +154,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
         }
       } else if (widget.yarnSpecification != null) {
         if (value != widget.yarnSpecification!.ys_user_id) {
+          setState(() {
+            _showBidContainer = true;
+          });
+          if (widget.sendProposal ?? false) {
+            showProposalBottomSheet(context);
+          }
+        }
+      } else if (widget.specObject is FabricSpecification) {
+        if (value != (widget.specObject as FabricSpecification).fsUserId) {
           setState(() {
             _showBidContainer = true;
           });
@@ -279,7 +308,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       height: 8.w,
                     ),
                     Visibility(
-                      visible: widget.specObject == null ? true : false,
+                      visible: widget.specObject is! StockLotSpecification,
                       child: Column(
                         children: [
                           TitleTextWidget(
@@ -293,7 +322,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       ),
                     ),
                     Visibility(
-                      visible: widget.specObject == null ? true : false,
+                      visible: widget.specObject is! StockLotSpecification,
                       child: ListView.separated(
                         itemCount: _detailPackaging.length,
                         shrinkWrap: true,
@@ -305,7 +334,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       ),
                     ),
                     Visibility(
-                      visible: widget.specObject != null ? true : false,
+                      visible: widget.specObject is StockLotSpecification,
                       child: GroupListView(
                         shrinkWrap: true,
                         sectionsCount: _stockLotItems.keys.toList().length,
@@ -345,7 +374,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       }),
                     ),*/
                     Visibility(
-                        visible: widget.specObject == null ? true : false,
+                        visible: widget.specObject is! StockLotSpecification,
                         child: Divider()),
                     /* SizedBox(
                       height: 8.w,
@@ -372,7 +401,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                 : widget.specification != null
                                     ? widget.specification!.description ??
                                         Utils.checkNullString(false)
-                                    : "",
+                                    : widget.specObject is FabricSpecification
+                            ? (widget.specObject as FabricSpecification).description ?? Utils.checkNullString(false)
+                                :"",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12.sp,
@@ -926,17 +957,19 @@ class _DetailTabPageState extends State<DetailTabPage> {
             !_showBidContainer
                 ? ElevatedButtonWithoutIcon(
                     callback: () {
-                      widget.specification == null
+                      widget.yarnSpecification != null
                           ? Utils.updateDialog(
                               context,
                               widget.yarnSpecification,
                               null,
                             )
-                          : Utils.updateDialog(
+                          : widget.yarnSpecification != null
+                      ? Utils.updateDialog(
                               context,
                               null,
                               widget.specification,
-                            );
+                            )
+                      : Fluttertoast.showToast(msg: 'update coming soon');
                     },
                     color: btnColorLogin,
                     btnText: 'Update')
@@ -1004,6 +1037,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
       }
     } else if (widget.specification != null) {
       var specification = widget.specification as Specification;
+      if (specification.description == null) {
+        visible = false;
+      } else if (specification.description!.isEmpty) {
+        visible = false;
+      }
+    }else if (widget.specObject is FabricSpecification) {
+      var specification = widget.specObject as FabricSpecification;
       if (specification.description == null) {
         visible = false;
       } else if (specification.description!.isEmpty) {
@@ -1243,9 +1283,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       ],
                                     ),
                                     Visibility(
-                                      visible: widget.specObject != null
-                                          ? false
-                                          : true,
+                                      visible: widget.specObject is! StockLotSpecification,
                                       child: Column(
                                         children: [
                                           SizedBox(
@@ -1514,7 +1552,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                       //Ui.showSnackBar(context, "Please enter quantity");
                                       Fluttertoast.showToast(
                                           msg: "Please enter quantity");
-                                    } else if (widget.specObject == null &&
+                                    } else if ((widget.specObject is! StockLotSpecification) &&
                                         _bidQuantity != null &&
                                         _bidQuantity!.toInt() <
                                             _minBidQuantity!) {
@@ -1570,16 +1608,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                 ? 2.toString()
                 : widget.specification != null
                     ? widget.specification!.categoryId.toString()
-                    : (widget.specObject as StockLotSpecification)
-                        .stocklotCategoryId
-                        .toString(),
+                    : widget.specObject is StockLotSpecification
+                    ? (widget.specObject as StockLotSpecification).stocklotCategoryId.toString()
+                :3.toString(),
             widget.yarnSpecification != null
                 ? widget.yarnSpecification!.ysId.toString()
                 : widget.specification != null
                     ? widget.specification!.spcId.toString()
-                    : (widget.specObject as StockLotSpecification)
-                        .id
-                        .toString(),
+                    : widget.specObject is StockLotSpecification
+                    ? (widget.specObject as StockLotSpecification).id.toString()
+                    : (widget.specObject as FabricSpecification).fsId.toString(),
             _bidPrice.toString(),
             _bidQuantity.toString(),
             _bidRemarks)
@@ -1754,6 +1792,56 @@ class _DetailTabPageState extends State<DetailTabPage> {
         .where((element) =>
             element._detail.isNotEmpty &&
             element._detail.toUpperCase() != "N/A")
+        .toList();
+  }
+
+  _fabricDetails() {
+    var fabricSpec = (widget.specObject as FabricSpecification);
+    _detailSpecification = [
+      GridTileModel('Fabric Family',fabricSpec.fabricFamily ?? Utils.checkNullString(false)),
+      GridTileModel('Fabric Blend', fabricSpec.fabricBlend ?? Utils.checkNullString(false)),
+      GridTileModel('Count', fabricSpec.count ?? Utils.checkNullString(false)),
+      GridTileModel('Ply', fabricSpec.fabricPly ?? Utils.checkNullString(false)),
+      GridTileModel('GSM', fabricSpec.gsmCount ?? Utils.checkNullString(false)),
+      GridTileModel('Loom', fabricSpec.fabricLoomName ?? Utils.checkNullString(false)),
+      GridTileModel('Width', fabricSpec.width ?? Utils.checkNullString(false)),
+      GridTileModel('Once', fabricSpec.once ?? Utils.checkNullString(false)),
+      GridTileModel('Layyer', fabricSpec.fabricLayyerName ?? Utils.checkNullString(false)),
+      GridTileModel('Weave', fabricSpec.fabricWeaveName ?? Utils.checkNullString(false)),
+      GridTileModel('No of Ends (Warp)', fabricSpec.noOfEndsWarp ?? Utils.checkNullString(false)),
+      GridTileModel('No of Pick (Weft)', fabricSpec.noOfPickWeft ?? Utils.checkNullString(false)),
+      GridTileModel('Knitting Type', fabricSpec.fabricKnittingTypeName ?? Utils.checkNullString(false)),
+      GridTileModel('Quality', fabricSpec.fabricQuality ?? Utils.checkNullString(false)),
+      GridTileModel('Color Treatment Method', fabricSpec.fabricColorTreatmentMethod ?? Utils.checkNullString(false)),
+      GridTileModel('Dying Technique', fabricSpec.fabricDyingTechnique ?? Utils.checkNullString(false)),
+      GridTileModel('Appearance', fabricSpec.fabricApperance ?? Utils.checkNullString(false)),
+      GridTileModel('Grade', fabricSpec.fabricGrade ?? Utils.checkNullString(false)),
+    ];
+    var newSpecifications = _detailSpecification.toList();
+    _detailSpecification = newSpecifications
+        .where((element) =>
+    element._detail.isNotEmpty &&
+        element._detail.toUpperCase() != "N/A")
+        .toList();
+
+    _detailPackaging = [
+      GridTileModel('Unit of Counting', fabricSpec.unitCount ?? Utils.checkNullString(false)),
+      GridTileModel('Seller Location', fabricSpec.locality ?? Utils.checkNullString(false)),
+      GridTileModel('Packing', fabricSpec.priceTerms ?? Utils.checkNullString(false)),
+      GridTileModel('Price', fabricSpec.priceUnit ?? Utils.checkNullString(false)),
+      GridTileModel('Available Quantity', fabricSpec.available ?? Utils.checkNullString(false)),
+      GridTileModel('Delivery Period', fabricSpec.deliveryPeriod ?? Utils.checkNullString(false)),
+      GridTileModel('Minimum Quantity', fabricSpec.minQuantity ?? Utils.checkNullString(false)),
+    ];
+    if (fabricSpec.locality!.toUpperCase() == international) {
+      _detailPackaging.add(GridTileModel(
+          'Port','fabricSpec.port' ?? Utils.checkNullString(false)));
+    }
+    var newPackingDetails = _detailPackaging.toList();
+    _detailPackaging = newPackingDetails
+        .where((element) =>
+    element._detail.isNotEmpty &&
+        element._detail.toUpperCase() != "N/A")
         .toList();
   }
 
