@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
 import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_body.dart';
+
+import '../../../../helper_utils/navigation_utils.dart';
 
 class MatchedPage extends StatefulWidget {
   final String catId;
@@ -42,6 +45,30 @@ class _MatchedPageState extends State<MatchedPage> {
               return Padding(
                 padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
                 child: YarnListBody(specification: snapshot.data!.data!.yarnSpecification!),
+              );
+            }else if(widget.catId == "5" && snapshot.data!.data!=null && snapshot.data!.data!.stockLotSpecification!=null){
+              return Padding(
+                padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
+                child: ListView.separated(
+                  itemCount: snapshot.data!.data!.stockLotSpecification!.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      openDetailsScreen(context,
+                          specObj:snapshot.data!.data!.stockLotSpecification![index]);
+                    },
+                    child: StockLotListItem(
+                      specification:snapshot.data!.data!.stockLotSpecification![index],
+                    ),
+                  ),
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      height: 1,
+                      color: Colors.grey.shade400,
+                    );
+                  },
+                ),
               );
             }else{
               return const Center(

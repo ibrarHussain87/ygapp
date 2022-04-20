@@ -62,6 +62,7 @@ class ApiService {
   static const String CREATE_BID_END_POINT = "/createBid";
   static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
   static const String GET_BANNERS_END_POINT = "/getBanners";
+  static const String UPDATE_SPECIFICATION = "/update-specification";
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {

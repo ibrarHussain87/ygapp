@@ -1,4 +1,5 @@
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 ///
@@ -273,8 +274,9 @@ class MatchedResponseData {
 
   List<Specification>? fiber;
   List<YarnSpecification>? yarnSpecification;
+  List<StockLotSpecification>? stockLotSpecification;
 
-  MatchedResponseData({this.fiber, this.yarnSpecification});
+  MatchedResponseData({this.fiber, this.yarnSpecification,this.stockLotSpecification});
 
   MatchedResponseData.fromJson(Map<String, dynamic> json) {
     if (json['fiber'] != null) {
@@ -293,6 +295,15 @@ class MatchedResponseData {
         arr0.add(YarnSpecification.fromJson(v));
       });
       yarnSpecification = arr0;
+    }
+
+    if (json['stocklot'] != null) {
+      final v = json['stocklot'];
+      final arr0 = <StockLotSpecification>[];
+      v.forEach((v) {
+        arr0.add(StockLotSpecification.fromJson(v));
+      });
+      stockLotSpecification = arr0;
     }
   }
 
@@ -313,6 +324,15 @@ class MatchedResponseData {
         arr0.add(v.toJson());
       });
       data['yarn'] = arr0;
+    }
+
+    if (stockLotSpecification != null) {
+      final v = stockLotSpecification;
+      final arr0 = [];
+      v!.forEach((v) {
+        arr0.add(v.toJson());
+      });
+      data['stocklot'] = arr0;
     }
     return data;
   }
