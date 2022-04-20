@@ -1004,7 +1004,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                               .toString(),
                                           /*widget.yarnSpecification!.category_id.toString()*/
                                           '2')
-                                      : openSpecificationUserScreen(
+                                      : widget.specObject is StockLotSpecification
+                              ? openSpecificationUserScreen(
                                           context,
                                           (widget.specObject
                                                   as StockLotSpecification)
@@ -1013,7 +1014,14 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           (widget.specObject
                                                   as StockLotSpecification)
                                               .stocklotCategoryId
-                                              .toString());
+                                              .toString())
+                                  :openSpecificationUserScreen(
+                                  context,
+                                  (widget.specObject
+                                  as FabricSpecification)
+                                      .fsId
+                                      .toString(),
+                                  '3');
                             },
                             color: btnColorLogin,
                             btnText: 'Contact'),
