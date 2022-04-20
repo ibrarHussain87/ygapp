@@ -240,12 +240,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     ),
 
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Customer Support",
-                                            image: ic_support),
-                                        const Divider()
-                                      ],
+                                    GestureDetector(
+                                      onTap:(){
+                                        openCustomerSupportScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "Customer Support",
+                                              image: ic_support),
+                                          const Divider()
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

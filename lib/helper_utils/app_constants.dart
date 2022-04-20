@@ -134,3 +134,25 @@ String FABRIC_MIRCOFIBER_ID = '104';
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";
 
+//
+var customer_support_main = 'How can we help you?';
+var live_chat = 'Connect live chat';
+var faq = 'FAQ\'s';
+var support_email = 'Email';
+var contact_us = 'Contact Us';
+
+// Share Sheet Strings
+var share_tweet = 'Share Tweet';
+var twitter_name = 'jhondoe';
+var twitter_user_name = '@jhondoe';
+var via_direct_message = 'via Direct Message';
+var send_via_direct_message = 'Send via Direct Message';
+var bookmark_text = 'Bookmark';
+var copy_link_text = 'Copy Link';
+var share_via_text = 'Share Via...';
+var whatsapp_text = 'Whatsapp';
+var message_text = 'Messages';
+var news_feed_text = 'News Feed';
+var gmail_text = 'Gmail';
+var telegram_text = 'Telegram';
+//

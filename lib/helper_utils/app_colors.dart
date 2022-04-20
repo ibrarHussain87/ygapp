@@ -6,7 +6,6 @@ var textColorGrey = HexColor.fromHex('#5C5C7B');
 ////
 var newColorGrey = HexColor.fromHex('#C3CCD3');
 var hintColorGrey = HexColor.fromHex('#ced3d7');
-//var hintColorGrey = HexColor.fromHex('#C7CCD2');
 var headingColor = HexColor.fromHex('#2E2F32');
 var subHeadingColor = HexColor.fromHex('#C6C6D0');
 var cardColor = HexColor.fromHex('#2267db');
@@ -22,6 +21,17 @@ var tagsBackground = HexColor.fromHex('#E3ECFF');
 var tagsTextColor = HexColor.fromHex('#2E59B1');
 var tagsIconColor = HexColor.fromHex('#BAC5DC');
 var addBtnColor = HexColor.fromHex('#1AC646');
+var text_color_customer = HexColor.fromHex('#2E59B1');
+var border_color_customer = HexColor.fromHex('#4977D6');
+var whatsapp_color_customer = HexColor.fromHex('#1bbd66');
+var whatsapp_color = HexColor.fromHex('#33cd49');
+var messanger_color_customer = HexColor.fromHex('#0077ff'); //0b86ee
+var message_color_customer = HexColor.fromHex('#1871e4');
+var telegram_color_customer = HexColor.fromHex('#32a8e5');
+var contact_color_customer = HexColor.fromHex('#7a6be8');
+var sub_head_color_share = HexColor.fromHex('#6b7479');
+var icon_color_share = HexColor.fromHex('#56656c');
+var divider_color_share = HexColor.fromHex('#eeeeee');
 
 
 //
