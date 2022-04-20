@@ -31,8 +31,8 @@ class _BlendFamilyState extends State<BlendFamily> {
   int? selectedFamilyId;
   List<Family>? _yarnFamily;
   List<Blends>? _yarnBlends;
-  final GlobalKey<SingleSelectTileWidgetState> _blendKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileRenewedWidgetState> _blendKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
 
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {

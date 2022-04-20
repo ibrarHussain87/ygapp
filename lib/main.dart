@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'Providers/fabric_specifications_provider.dart';
 import 'Providers/fiber_specifications_provider.dart';
+import 'Providers/filter_fabric_provider.dart';
 import 'Providers/post_fabric_provider.dart';
 import 'Providers/stocklot_provider.dart';
 import 'Providers/yarn_specifications_provider.dart';
@@ -49,6 +50,7 @@ class YgApp extends StatelessWidget {
     ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
     ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
     ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
+    ChangeNotifierProvider<FilterFabricProvider>(create: (_) => FilterFabricProvider()),
   ];
   @override
   Widget build(BuildContext context) {

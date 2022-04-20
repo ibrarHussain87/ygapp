@@ -30,8 +30,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
   List<FabricFamily>? _fabricFamily;
   List<FabricBlends>? _fabricBlends;
 
-  final GlobalKey<SingleSelectTileWidgetState> _fabricBlendKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileRenewedWidgetState> _fabricBlendKey = GlobalKey<SingleSelectTileRenewedWidgetState>();
 
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {
