@@ -116,18 +116,18 @@ class Utils {
     switch (specification.fabricFamilyId) {
       case '101':
         familyData =
-        '${getPlyString(specification.fabricPly??Utils.checkNullString(false))}/GSM/${specification.fabricBlend??Utils.checkNullString(false)}';
+        '${getPlyString(specification.fabricPly??Utils.checkNullString(false))}/${specification.gsmCount??Utils.checkNullString(false)}/${specification.fabricBlend??Utils.checkNullString(false)}';
         break;
       case '102':
         familyData =
-        'LOOM,${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}'
-            'x${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}xEndsxPicks}';
+        '${specification.fabricLoomName??Utils.checkNullString(false)},${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}'
+            'x${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}x${specification.noOfEndsWarp??Utils.checkNullString(false)}x${specification.noOfPickWeft??Utils.checkNullString(false)}';
         break;
       case '103':
         familyData = '${specification.count??Utils.checkNullString(false)}/${getPlyString(specification.fabricPly??Utils.checkNullString(false))}, OZ';
         break;
       case '104':
-        familyData = '${specification.count??Utils.checkNullString(false)}/GSM';
+        familyData = '${specification.count??Utils.checkNullString(false)}/${specification.gsmCount??Utils.checkNullString(false)}';
         break;
     }
     return familyData;
@@ -147,7 +147,7 @@ class Utils {
     String titleData = "";
     switch (specification.fabricFamilyId) {
       case '101':
-        titleData = 'Blend Ratio,Knitting Type';
+        titleData = 'Blend Ratio,${specification.fabricKnittingTypeName??Utils.checkNullString(false)}';
         break;
       case '102':
         titleData = 'Weave Pattern,Weave Width,${specification.fabricBlend??Utils.checkNullString(false)}/Blend Ratio';
@@ -156,7 +156,7 @@ class Utils {
         titleData = 'Denim Type,${specification.fabricApperance??Utils.checkNullString(false)}';
         break;
       case '104':
-        titleData = 'Layyer';
+        titleData = specification.fabricLayyerName??Utils.checkNullString(false);
         break;
     }
     return titleData;
