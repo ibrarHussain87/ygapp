@@ -109,6 +109,13 @@ class FabricSpecification {
   String? fabricLayyerName;
   String? width;
   String? fabricWeaveName;
+  String? warpCount;
+  String? weftCount;
+  String? fabricWarpPlyName;
+  String? fabricWeftPlyName;
+  String? fabricSalvedgeName;
+  String? tuckinWidth;
+  String? portName;
   String? fabricKnittingTypeName;
   List<Pictures>? pictures;
   List<CertificationModel>? certifications;
@@ -161,6 +168,13 @@ class FabricSpecification {
         this.fabricLayyerName,
         this.width,
         this.fabricWeaveName,
+        this.warpCount,
+        this.weftCount,
+        this.fabricWarpPlyName,
+        this.fabricWeftPlyName,
+        this.fabricSalvedgeName,
+        this.tuckinWidth,
+        this.portName,
         this.fabricKnittingTypeName,
         this.pictures,
         this.certifications,
@@ -213,6 +227,13 @@ class FabricSpecification {
     fabricLayyerName = json['fabric_layyer_name'];
     width = json['width'];
     fabricWeaveName = json['fabric_weave_name'];
+    warpCount = json['warp_count'];
+    weftCount = json['weft_count'];
+    fabricWarpPlyName = json['fabric_warp_ply_name'];
+    fabricWeftPlyName = json['fabric_weft_ply_name'];
+    fabricSalvedgeName = json['fabric_salvedge_name'];
+    tuckinWidth = json['tuckin_width'];
+    portName = json['port_name'];
     fabricKnittingTypeName = json['fabric_knitting_type_name'];
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
@@ -275,6 +296,13 @@ class FabricSpecification {
     data['fabric_layyer_name'] = this.fabricLayyerName;
     data['width'] = this.width;
     data['fabric_weave_name'] = this.fabricWeaveName;
+    data['warp_count'] = this.warpCount;
+    data['weft_count'] = this.weftCount;
+    data['fabric_warp_ply_name'] = this.fabricWarpPlyName;
+    data['fabric_weft_ply_name'] = this.fabricWeftPlyName;
+    data['fabric_salvedge_name'] = this.fabricSalvedgeName;
+    data['tuckin_width'] = this.tuckinWidth;
+    data['port_name'] = this.portName;
     data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
