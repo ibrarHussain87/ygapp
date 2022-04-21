@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -82,8 +81,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     Container(
                       width: MediaQuery.of(context).size.width*(1/3),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0,
-                        vertical: 15.0,
+                        horizontal: 12.0,
+                        vertical: 12.0,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: contact_color_customer,width: 0.5),
@@ -119,8 +118,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     Container(
                       width: MediaQuery.of(context).size.width*(1/3),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0,
-                        vertical: 15.0,
+                        horizontal: 12.0,
+                        vertical: 12.0,
                       ),
                       decoration: BoxDecoration(
 
@@ -144,8 +143,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                       child: Container(
                         width: MediaQuery.of(context).size.width*(1/3),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0,
-                          vertical: 15.0,
+                          horizontal: 12.0,
+                          vertical: 12.0,
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(color: messanger_color_customer,width: 0.5),
@@ -154,8 +153,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                         ),
                         child:Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(Icons.facebook_outlined,size: 25,color: Colors.white,),
+                          children:  [
+                            Image.asset(messenger,scale:2.5,),
                           ],
                         ),
 
@@ -579,7 +578,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                   child:Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child:Image.asset(facebook),
+                                    child:Image.asset(facebook,scale: 2,),
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
@@ -601,7 +600,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                   child:Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child:Image.asset(gmail),
+                                    child:Image.asset(gmail,scale: 2,),
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
@@ -623,7 +622,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                   child:Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child:Image.asset(telegram),
+                                    child:Image.asset(telegram,scale: 2,),
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
