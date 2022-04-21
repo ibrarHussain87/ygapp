@@ -72,77 +72,88 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       .stocklots!,
                                   selectedIndex: -1,
                                   callback: (StocklotCategories value) {
-
                                       stocklotProvider
                                           .getCategories(value.id.toString());
+                                      stocklotProvider.setShowCategory(true);
+                                      stocklotProvider.setShowSubCategory(true);
+                                      stocklotProvider.setSubCatIndex(-1);
+                                      stocklotProvider.setCatIndex(-1);
+                                      stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId = null;
+                                      stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId = null;
 
                                   },
                                 )
                               ],
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(
-                              left: 8.w,
-                              right: 8.w,
-                              top: 10.w,
+                          Visibility(
+                            visible: stocklotProvider.showCategory,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                left: 8.w,
+                                right: 8.w,
+                                top: 10.w,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const TitleMediumTextWidget(title: "Category"),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  IgnorePointer(
+                                    ignoring: stocklotProvider.ignoreClick,
+                                    child: SingleSelectTileWidget(
+                                      key: stocklotProvider.categoryKey,
+                                      spanCount: 3,
+                                      listOfItems:
+                                          stocklotProvider.stocklotCategories!,
+                                      selectedIndex: -1,
+                                      callback: (StocklotCategories value) {
+                                        // stocklotProvider.stocklotRequestModel
+                                        //     .subcategoryId = value.id.toString();
+                                        _getStockLotSpecRequestModel.categoryId = value.id.toString();
+                                        stocklotProvider.getSubcategories(
+                                            value.id.toString());
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                const TitleMediumTextWidget(title: "Category"),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                IgnorePointer(
-                                  ignoring: stocklotProvider.ignoreClick,
-                                  child: SingleSelectTileWidget(
-                                    key: stocklotProvider.categoryKey,
+                          ),
+                          Visibility(
+                            visible: stocklotProvider.showSubCategory,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: 8.w, right: 8.w, top: 10.w, bottom: 8.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const TitleMediumTextWidget(
+                                      title: "Sub Categories"),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  SingleSelectTileWidget(
+                                    key: stocklotProvider.subCategoryKey,
                                     spanCount: 3,
                                     listOfItems:
-                                        stocklotProvider.stocklotCategories!,
+                                        stocklotProvider.stocklotSubcategories!,
                                     selectedIndex: -1,
                                     callback: (StocklotCategories value) {
-                                      // stocklotProvider.stocklotRequestModel
-                                      //     .subcategoryId = value.id.toString();
-                                      _getStockLotSpecRequestModel.categoryId = value.id.toString();
-                                      stocklotProvider.getSubcategories(
-                                          value.id.toString());
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 8.w, right: 8.w, top: 10.w, bottom: 8.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                const TitleMediumTextWidget(
-                                    title: "Sub Categories"),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                SingleSelectTileWidget(
-                                  key: stocklotProvider.subCategoryKey,
-                                  spanCount: 3,
-                                  listOfItems:
-                                      stocklotProvider.stocklotSubcategories!,
-                                  selectedIndex: -1,
-                                  callback: (StocklotCategories value) {
-                                    stocklotProvider.getFilteredStocklotWaste(
-                                        value.id ?? -1);
-                                    _getStockLotSpecRequestModel.stocklotSubCategoryId = value.id.toString();
+                                      stocklotProvider.getFilteredStocklotWaste(
+                                          value.id ?? -1);
+                                      _getStockLotSpecRequestModel.stocklotSubCategoryId = value.id.toString();
 
-                                  },
-                                )
-                              ],
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Column(

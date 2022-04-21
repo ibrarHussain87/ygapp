@@ -51,81 +51,97 @@ class StockLotListingBodyState extends State<StockLotListingBody> {
         stocklotProvider.categoryId != -1
             ? stocklotProvider.categoryId.toString()
             : stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId;
-    getStockLotSpecRequestModel.stocklotSubCategoryId =
-        stocklotProvider.subcategoryId != -1
-            ? stocklotProvider.subcategoryId.toString()
-            : stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId;
 
-    getStockLotSpecRequestModel.avalibilityId = stocklotProvider.getStockLotSpecRequestModel.avalibilityId;
-    getStockLotSpecRequestModel.avalibilityId = stocklotProvider.getStockLotSpecRequestModel.priceTermId;
+    getStockLotSpecRequestModel.avalibilityId =
+        stocklotProvider.getStockLotSpecRequestModel.avalibilityId;
+    getStockLotSpecRequestModel.avalibilityId =
+        stocklotProvider.getStockLotSpecRequestModel.priceTermId;
     return FutureBuilder<StockLotSpecificationResponse>(
-      future: ApiService.getStockLotSpecifications(getStockLotSpecRequestModel),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          if (widget.locality == international) {
-            stocklotProvider.internationSpecList.clear();
-            if (snapshot.data!.data != null) {
-              stocklotProvider.internationSpecList
-                  .addAll(snapshot.data!.data!.specification!);
-            } else {
-              stocklotProvider.internationSpecList = [];
-            }
-          } else {
-            stocklotProvider.localSpecList.clear();
-            if (snapshot.data!.data != null) {
-              stocklotProvider.localSpecList
-                  .addAll(snapshot.data!.data!.specification!);
-            } else {
-              stocklotProvider.localSpecList = [];
-            }
-          }
-          return Container(
-            child: snapshot.data!.data != null
-                ? ListView.separated(
-                    itemCount: widget.locality == international
-                        ? stocklotProvider.internationSpecList.length
-                        : stocklotProvider.localSpecList.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        openDetailsScreen(context,
-                            specObj: widget.locality == international
-                                ? stocklotProvider.internationSpecList[index]
-                                : stocklotProvider.localSpecList[index]);
-                      },
-                      child: StockLotListItem(
-                        specification: widget.locality == international
-                            ? stocklotProvider.internationSpecList[index]
-                            : stocklotProvider.localSpecList[index],
-                      ),
-                    ),
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 1,
-                        color: Colors.grey.shade400,
-                      );
-                    },
-                  )
-                : const Center(
-                    child: TitleSmallTextWidget(
-                      title: 'No Data Found',
-                    ),
+            future: ApiService.getStockLotSpecifications(getStockLotSpecRequestModel),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.data != null) {
+                if (widget.locality == international) {
+                  stocklotProvider.internationSpecList.clear();
+                  if (snapshot.data!.data != null) {
+                    stocklotProvider.internationSpecList
+                        .addAll(snapshot.data!.data!.specification!);
+                  } else {
+                    stocklotProvider.internationSpecList = [];
+                  }
+                } else {
+                  stocklotProvider.localSpecList.clear();
+                  if (snapshot.data!.data != null) {
+                    stocklotProvider.localSpecList
+                        .addAll(snapshot.data!.data!.specification!);
+                  } else {
+                    stocklotProvider.localSpecList = [];
+                  }
+                }
+                return Container(
+                  child: snapshot.data!.data != null
+                      ? ListView.separated(
+                          itemCount: widget.locality == international
+                              ? stocklotProvider.internationSpecList.length
+                              : stocklotProvider.localSpecList.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) => GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              openDetailsScreen(context,
+                                  specObj: widget.locality == international
+                                      ? stocklotProvider
+                                          .internationSpecList[index]
+                                      : stocklotProvider.localSpecList[index]);
+                            },
+                            child: StockLotListItem(
+                              specification: widget.locality == international
+                                  ? stocklotProvider.internationSpecList[index]
+                                  : stocklotProvider.localSpecList[index],
+                            ),
+                          ),
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              height: 1,
+                              color: Colors.grey.shade400,
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: TitleSmallTextWidget(
+                            title: 'No Data Found',
+                          ),
+                        ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                    child:
+                        TitleSmallTextWidget(title: snapshot.error.toString()));
+              } else {
+                return const Center(
+                  child: SpinKitWave(
+                    color: Colors.green,
+                    size: 24.0,
                   ),
+                );
+              }
+            },
           );
-        } else if (snapshot.hasError) {
-          return Center(
-              child: TitleSmallTextWidget(title: snapshot.error.toString()));
-        } else {
-          return const Center(
-            child: SpinKitWave(
-              color: Colors.green,
-              size: 24.0,
-            ),
-          );
-        }
-      },
-    );
+  }
+
+  checkList(String locality){
+    if(locality == international){
+      if(stocklotProvider.internationSpecList.isNotEmpty) {
+        return true;
+      }else {
+        return false;
+      }
+    }else{
+      if(stocklotProvider.localSpecList.isNotEmpty) {
+        return true;
+      }else {
+        return false;
+      }
+    }
   }
 }

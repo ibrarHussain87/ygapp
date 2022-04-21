@@ -341,6 +341,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         countOfItemInSection: (int section) {
                           return _stockLotItems.values.toList()[section].length;
                         },
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: _itemBuilder,
                         groupHeaderBuilder:
                             (BuildContext context, int section) {

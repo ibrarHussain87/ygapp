@@ -9,12 +9,13 @@ class StocklotRequestModel {
   String? priceTermsId;
   String? countryId;
   String? currency;
+  String? description;
   String? availability;
   String? isOffering;
   String? locality;
   List<StocklotWasteModel>? stocklotWasteModelList;
 
-  StocklotRequestModel({this.user_id,this.spc_category_idfk,
+  StocklotRequestModel({this.user_id,this.spc_category_idfk,this.description,
     this.subcategoryId, this.priceTermsId,this.countryId, this.currency,this.availability,this.isOffering,this.locality,this.stocklotWasteModelList,});
 
   Map<String, dynamic> toJson() {
@@ -22,6 +23,7 @@ class StocklotRequestModel {
       'user_id': user_id!.trim(),
       'spc_category_idfk': spc_category_idfk!.trim(),
       'sub_category_id': subcategoryId!.trim(),
+      'description': description!.trim(),
       'price_term_id': priceTermsId!.trim(),
       'country_id': countryId!.trim(),
       'avability_id': availability!.trim(),

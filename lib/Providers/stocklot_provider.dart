@@ -58,11 +58,23 @@ class StocklotProvider extends ChangeNotifier {
   int selectedSubCategoryIndex = -1;
   bool showSubCategory = false;
   bool showCategory = false;
+  String? unitName;
   GetStockLotSpecRequestModel getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
+
+  setUnitName(String name){
+    unitName = name;
+    notifyListeners();
+  }
 
   setSubCatIndex(int value) {
     if (subCategoryKey.currentState != null) {
       subCategoryKey.currentState!.checkedTile = value;
+    }
+  }
+
+  setCatIndex(int value) {
+    if (categoryKey.currentState != null) {
+      categoryKey.currentState!.checkedTile = value;
     }
   }
 
@@ -84,6 +96,14 @@ class StocklotProvider extends ChangeNotifier {
    searchData(GetStockLotSpecRequestModel value){
     getStockLotSpecRequestModel = value;
     notifyListeners();
+  }
+
+  Future<StockLotSpecificationResponse> getStockLots(requestModel) async{
+    loading = true;
+    notifyListeners();
+    var response = await ApiService.getStockLotSpecifications(requestModel);
+    StockLotSpecificationResponse specificationResponse = response;
+    return specificationResponse;
   }
 
   getStocklotData() async {
@@ -241,6 +261,13 @@ class StocklotProvider extends ChangeNotifier {
     subcategoryId = -1;
     expandStockLostWast = true;
     imageFiles = [];
+    setShowCategory(true);
+    setShowSubCategory(true);
+    setSubCatIndex(-1);
+    setCatIndex(-1);
+    stocklotRequestModel.subcategoryId = null;
+    setCatIndex(-1);
+    setSubCatIndex(-1);
     stocklotRequestModel = StocklotRequestModel();
   }
 }
