@@ -16,6 +16,7 @@ import '../../../../model/response/list_bid_response.dart';
 import 'list_bidder_body.dart';
 
 class BidderListPage extends StatefulWidget {
+
   final String materialId;
   final int specId;
 

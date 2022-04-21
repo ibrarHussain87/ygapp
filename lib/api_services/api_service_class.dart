@@ -301,7 +301,7 @@ class ApiService {
       var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      getRequestModel.user_id = userID;
+     // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
 
       logger.e(json.encode(getRequestModel.toJson()));

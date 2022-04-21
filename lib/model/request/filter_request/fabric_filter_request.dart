@@ -55,8 +55,8 @@ class FabricSpecificationRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'user_id': user_id!.trim(),
-      'category_id': category_id!.trim(),
+      'user_id': user_id,
+      'category_id': category_id,
       'fs_family_idfk': fs_family_idfk,
       'fs_appearance_idfk': fs_appearance_idfk,
       'fs_blend_idfk': fs_blend_idfk,

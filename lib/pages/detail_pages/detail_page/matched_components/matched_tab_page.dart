@@ -9,6 +9,8 @@ import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_bo
 
 import '../../../../helper_utils/navigation_utils.dart';
 
+import '../../../market_pages/fabric_page/fabric_components/fabric_list_body.dart';
+
 class MatchedPage extends StatefulWidget {
   final String catId;
   final int specId;
@@ -69,6 +71,11 @@ class _MatchedPageState extends State<MatchedPage> {
                     );
                   },
                 ),
+              );
+            }else if(widget.catId == "3" && snapshot.data!.data!=null && snapshot.data!.data!.fabricSpecification!=null){
+              return Padding(
+                padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
+                child: FabricListBody(specification: snapshot.data!.data!.fabricSpecification!),
               );
             }else{
               return const Center(

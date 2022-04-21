@@ -8,6 +8,7 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -45,6 +46,8 @@ class _DetailPageState extends State<DetailRenewedPage> {
       return widget.yarnSpecification!.company ?? "";
     } else if (widget.specObj is StockLotSpecification) {
       return (widget.specObj as StockLotSpecification).company ?? "";
+    } else if (widget.specObj is FabricSpecification) {
+      return (widget.specObj as FabricSpecification).company ?? "";
     }
     return null;
   }
@@ -59,7 +62,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
   List<Widget>? _tabWidgetList;
 
   bool _isYarn() {
-    if (widget.specification == null) {
+    if (widget.yarnSpecification != null) {
       return true;
     } else {
       return false;
@@ -83,6 +86,12 @@ class _DetailPageState extends State<DetailRenewedPage> {
         }
       } else if (widget.specObj is StockLotSpecification) {
         if (userId != (widget.specObj as StockLotSpecification).userId) {
+          _creatorOrBidder(false);
+        } else {
+          _creatorOrBidder(true);
+        }
+      } else if (widget.specObj is FabricSpecification) {
+        if (userId != (widget.specObj as FabricSpecification).fsUserId) {
           _creatorOrBidder(false);
         } else {
           _creatorOrBidder(true);
@@ -191,8 +200,13 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                 ? widget.specification!.isVerified
                                 : widget.yarnSpecification != null
                                     ? widget.yarnSpecification!.is_verified
-                                    : (widget.specObj as StockLotSpecification)
-                                        .isVerified),
+                                    : widget.specObj is StockLotSpecification
+                                        ? (widget.specObj
+                                                as StockLotSpecification)
+                                            .isVerified
+                                        : (widget.specObj
+                                                as FabricSpecification)
+                                            .isVerified),
                             maintainSize: true,
                             maintainState: true,
                             maintainAnimation: true,
@@ -234,9 +248,14 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                               : widget.yarnSpecification != null
                                                   ? setFamilyData(
                                                       widget.yarnSpecification!)
-                                                  : (widget.specObj
-                                                          as StockLotSpecification)
-                                                      .category,
+                                                  : widget.specObj
+                                                          is StockLotSpecification
+                                                      ? (widget.specObj
+                                                              as StockLotSpecification)
+                                                          .category
+                                                      : Utils.setFabricFamilyData(
+                                                          (widget.specObj
+                                                              as FabricSpecification)),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -259,9 +278,14 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                           : widget.yarnSpecification != null
                                               ? setTitleData(
                                                   widget.yarnSpecification!)
-                                              : (widget.specObj
-                                                      as StockLotSpecification)
-                                                  .availablity,
+                                              : widget.specObj
+                                                      is StockLotSpecification
+                                                  ? (widget.specObj
+                                                          as StockLotSpecification)
+                                                      .availablity
+                                                  : Utils.setFabricTitle((widget
+                                                          .specObj
+                                                      as FabricSpecification)),
                                       color: Colors.black87,
                                       weight: FontWeight.w600,
                                       size: 13,
@@ -322,10 +346,14 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                                         widget
                                                             .yarnSpecification!
                                                             .date!))
-                                            : DateFormat("MMM dd, yyyy").format(
-                                                DateTime.parse((widget.specObj
-                                                        as StockLotSpecification)
-                                                    .date!)),
+                                            : widget.specObj
+                                                    is StockLotSpecification
+                                                ? DateFormat("MMM dd, yyyy")
+                                                    .format(DateTime.parse(
+                                                        (widget.specObj as StockLotSpecification).date!))
+                                                : DateFormat("MMM dd, yyyy")
+                                        .format(DateTime.parse(
+                                        (widget.specObj as FabricSpecification).date!)),
                                     style: TextStyle(
                                         fontSize: 9.sp, color: lightBlueLabel),
                                   )
@@ -397,16 +425,16 @@ class _DetailPageState extends State<DetailRenewedPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                widget.specObj != null
-                                    ? TitleMediumTextWidget(
-                                        title: Utils.stockLotPriceRange(widget
-                                            .specObj as StockLotSpecification),
-                                      )
+                                widget.specObj is StockLotSpecification
+                                    ? TitleMediumTextWidget(title: Utils.stockLotPriceRange(widget
+                                      .specObj as StockLotSpecification),)
                                     : Text.rich(TextSpan(children: [
                                         TextSpan(
                                           text: widget.specification != null
                                               ? '${widget.specification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
-                                              : '${widget.yarnSpecification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                              : widget.yarnSpecification != null
+                                              ? '${widget.yarnSpecification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
+                                              : '${(widget.specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 12.sp,
@@ -419,11 +447,9 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                                   .toString()
                                                   .replaceAll(
                                                       RegExp(r'[^0-9]'), '')
-                                              : widget
-                                                  .yarnSpecification!.priceUnit
-                                                  .toString()
-                                                  .replaceAll(
-                                                      RegExp(r'[^0-9]'), ''),
+                                              : widget.yarnSpecification != null
+                                              ? widget.yarnSpecification!.priceUnit.toString().replaceAll(RegExp(r'[^0-9]'), '')
+                                              : (widget.specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^0-9]'), ''),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 17.sp,
@@ -432,7 +458,10 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                         ),
                                         TextSpan(
                                           text:
-                                              "/ ${_isYarn() ? widget.yarnSpecification!.unitCount ?? "" : widget.specification!.unitCount ?? ""}",
+                                              "/ ${_isYarn() ? widget.yarnSpecification!.unitCount ?? ""
+                                                  : widget.specification != null
+                                          ? widget.specification!.unitCount ?? ""
+                                              : (widget.specObj as FabricSpecification).unitCount ?? ""}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 12.sp,
@@ -622,27 +651,31 @@ class _DetailPageState extends State<DetailRenewedPage> {
                   ? widget.specification!.categoryId!
                   : widget.yarnSpecification != null
                       ? "2"
-                      : (widget.specObj as StockLotSpecification)
-                          .stocklotCategoryId
-                          .toString(),
+                      : widget.specObj is StockLotSpecification
+                      ? (widget.specObj as StockLotSpecification).stocklotCategoryId.toString()
+                      : "3",
               specId: widget.specification != null
                   ? widget.specification!.spcId
                   : widget.yarnSpecification != null
                       ? widget.yarnSpecification!.ysId ?? 1
-                      : (widget.specObj as StockLotSpecification).id!),
+                      : widget.specObj is StockLotSpecification
+                      ? (widget.specObj as StockLotSpecification).id!
+                      : (widget.specObj as FabricSpecification).fsId!),
           BidderListPage(
               materialId: widget.specification != null
                   ? widget.specification!.categoryId!
                   : widget.yarnSpecification != null
                       ? "2"
-                      : (widget.specObj as StockLotSpecification)
-                          .stocklotCategoryId
-                          .toString(),
+                      : widget.specObj is StockLotSpecification
+                  ? (widget.specObj as StockLotSpecification).stocklotCategoryId.toString()
+                  : "3",
               specId: widget.specification != null
                   ? widget.specification!.spcId
                   : widget.yarnSpecification != null
                       ? widget.yarnSpecification!.ysId ?? 1
-                      : (widget.specObj as StockLotSpecification).id!)
+                      : widget.specObj is StockLotSpecification
+                  ? (widget.specObj as StockLotSpecification).id!
+                  : (widget.specObj as FabricSpecification).fsId!)
         ];
       });
     } else if (widget.isFromBid ?? false) {
@@ -657,10 +690,18 @@ class _DetailPageState extends State<DetailRenewedPage> {
           HistoryOfBidsPage(
               catId: widget.specification != null
                   ? widget.specification!.categoryId!
-                  : widget.yarnSpecification!.category_id!.toString(),
+                  : widget.yarnSpecification != null
+                  ? widget.yarnSpecification!.category_id!.toString()
+                  : widget.specObj is StockLotSpecification
+                  ? (widget.specObj as StockLotSpecification).stocklotCategoryId.toString()
+                  : "3",
               specId: widget.specification != null
                   ? widget.specification!.spcId.toString()
-                  : widget.yarnSpecification!.ysId.toString())
+                  : widget.yarnSpecification != null
+                  ? widget.yarnSpecification!.ysId.toString()
+                  : widget.specObj is StockLotSpecification
+                  ? (widget.specObj as StockLotSpecification).id.toString()
+                  : (widget.specObj as FabricSpecification).fsId!.toString())
         ];
       });
     } else {

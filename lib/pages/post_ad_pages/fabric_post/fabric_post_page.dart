@@ -46,8 +46,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
   @override
   void dispose() {
     //Dispose broadcast
-    BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
-    BroadcastReceiver().unsubscribe(requestModelBroadCast);
+    /*BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
+    BroadcastReceiver().unsubscribe(requestModelBroadCast);*/
     super.dispose();
   }
 
@@ -91,8 +91,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
               stepsCallback: (value) {
                 if (value is int) {
                   selectedSegment = value;
-                  BroadcastReceiver().publish<int>(segmentIndexBroadcast,
-                      arguments: selectedSegment);
+                  /*BroadcastReceiver().publish<int>(segmentIndexBroadcast,
+                      arguments: selectedSegment);*/
                 }
               },
             ),

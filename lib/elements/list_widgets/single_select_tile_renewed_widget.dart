@@ -22,10 +22,10 @@ class SingleSelectTileRenewedWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  SingleSelectTileWidgetState createState() => SingleSelectTileWidgetState();
+  SingleSelectTileRenewedWidgetState createState() => SingleSelectTileRenewedWidgetState();
 }
 
-class SingleSelectTileWidgetState extends State<SingleSelectTileRenewedWidget> {
+class SingleSelectTileRenewedWidgetState extends State<SingleSelectTileRenewedWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
