@@ -33,6 +33,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 
+import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/create_stocklot_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -61,6 +62,7 @@ class ApiService {
   static const String CREATE_BID_END_POINT = "/createBid";
   static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
   static const String GET_BANNERS_END_POINT = "/getBanners";
+  static const String UPDATE_SPECIFICATION = "/update-specification";
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {
@@ -292,14 +294,14 @@ class ApiService {
   }
 
   static Future<FabricSpecificationResponse> getFabricSpecifications(
-      GetSpecificationRequestModel getRequestModel, String? locality) async {
+      FabricSpecificationRequestModel getRequestModel, String? locality) async {
     try {
       String url = BASE_API_URL + GET_SPEC_END_POINT;
 
       var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      // getRequestModel.userId = userID;
+     // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
 
       logger.e(json.encode(getRequestModel.toJson()));

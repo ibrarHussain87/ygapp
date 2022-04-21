@@ -7,11 +7,13 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
+import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_body.dart';
 
 import '../../../../Providers/fabric_specifications_provider.dart';
+import '../../../../model/request/filter_request/fabric_filter_request.dart';
 import 'fabric_list_body.dart';
 
 class FabricSpecificationListFuture extends StatefulWidget {
@@ -26,14 +28,15 @@ class FabricSpecificationListFuture extends StatefulWidget {
 
 class FabricSpecificationListFutureState extends State<FabricSpecificationListFuture>{
 
-  GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
+  FabricSpecificationRequestModel getRequestModel = FabricSpecificationRequestModel();
   GlobalKey<FabricListBodyState> fabricListBodyState = GlobalKey<FabricListBodyState>();
+  late FabricSpecificationsProvider fabricSpecificationsProvider;
 
   @override
   void initState() {
     getRequestModel.locality = widget.locality;
-    getRequestModel.categoryId = 2.toString();
-    final fabricSpecificationsProvider = Provider.of<FabricSpecificationsProvider>(context, listen: false);
+    getRequestModel.category_id = 3.toString();
+    fabricSpecificationsProvider = Provider.of<FabricSpecificationsProvider>(context, listen: false);
     fabricSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     super.initState();
   }
@@ -67,10 +70,11 @@ class FabricSpecificationListFutureState extends State<FabricSpecificationListFu
     );
   }
 
-  searchData(GetSpecificationRequestModel data) {
+  searchData(FabricSpecificationRequestModel data) {
     setState(() {
-      data.categoryId = YARN_CATEGORY_ID.toString();
+      data.category_id = FABRIC_CATEGORY_ID.toString();
       getRequestModel = data;
+      fabricSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     });
   }
 }

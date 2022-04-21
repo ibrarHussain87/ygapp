@@ -6,15 +6,16 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 
+import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/response/yarn_response/yarn_specification_response.dart';
 
 class FabricSpecificationsProvider extends ChangeNotifier{
 
   FabricSpecificationResponse? fabricSpecificationResponse;
-  GetSpecificationRequestModel? requestModel;
+  FabricSpecificationRequestModel? requestModel;
   String? locality;
 
-  setRequestParams(GetSpecificationRequestModel getRequestModel, String loclity){
+  setRequestParams(FabricSpecificationRequestModel getRequestModel, String loclity){
     requestModel = getRequestModel;
     locality = loclity;
   }

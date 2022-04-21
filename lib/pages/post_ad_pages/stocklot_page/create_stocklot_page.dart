@@ -74,7 +74,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  Expanded(
+                  Expanded  (
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Form(
@@ -642,8 +642,12 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                         editWasteModel
                                                             .unitOfCount)
                                                 : 0,
-                                            listOfItems:
-                                                stocklotProvider.unitsList!,
+                                            listOfItems: stocklotProvider
+                                                .unitsList!
+                                                .where((element) =>
+                                                    element.untCategoryIdfk ==
+                                                    "5")
+                                                .toList(),
                                             callback: (Units value) {
                                               stocklotWaste.unitOfCount =
                                                   value.untName;

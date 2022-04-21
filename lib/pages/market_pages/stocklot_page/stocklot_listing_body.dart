@@ -50,11 +50,14 @@ class StockLotListingBodyState extends State<StockLotListingBody> {
     getStockLotSpecRequestModel.stocklotCategoryId =
         stocklotProvider.categoryId != -1
             ? stocklotProvider.categoryId.toString()
-            : null;
+            : stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId;
     getStockLotSpecRequestModel.stocklotSubCategoryId =
         stocklotProvider.subcategoryId != -1
             ? stocklotProvider.subcategoryId.toString()
-            : null;
+            : stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId;
+
+    getStockLotSpecRequestModel.avalibilityId = stocklotProvider.getStockLotSpecRequestModel.avalibilityId;
+    getStockLotSpecRequestModel.avalibilityId = stocklotProvider.getStockLotSpecRequestModel.priceTermId;
     return FutureBuilder<StockLotSpecificationResponse>(
       future: ApiService.getStockLotSpecifications(getStockLotSpecRequestModel),
       builder: (BuildContext context, snapshot) {

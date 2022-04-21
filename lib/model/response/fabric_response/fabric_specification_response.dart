@@ -13,7 +13,15 @@ class FabricSpecificationResponse {
   FabricSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+   // data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    var dataList = json['data'];
+    if (dataList is List<dynamic>) {
+      if (dataList.isEmpty) {
+        data = Data(specification: []);
+      }
+    } else {
+      data = Data.fromJson(json['data']);
+    }
     responseCode = json['response_code'];
     code = json['code'];
   }
@@ -58,7 +66,7 @@ class Data {
 class FabricSpecification {
   int? fsId;
   String? fsUserId;
-  Null? company;
+  String? company;
   String? fabricTitle;
   String? fabricDetails;
   String? locality;
@@ -93,6 +101,15 @@ class FabricSpecification {
   String? minQuantity;
   String? requiredQuantity;
   String? description;
+  String? gsmCount;
+  String? fabricLoomName;
+  String? noOfEndsWarp;
+  String? noOfPickWeft;
+  String? once;
+  String? fabricLayyerName;
+  String? width;
+  String? fabricWeaveName;
+  String? fabricKnittingTypeName;
   List<Pictures>? pictures;
   List<CertificationModel>? certifications;
   String? certificationStr;
@@ -136,6 +153,15 @@ class FabricSpecification {
         this.minQuantity,
         this.requiredQuantity,
         this.description,
+        this.gsmCount,
+        this.fabricLoomName,
+        this.noOfEndsWarp,
+        this.noOfPickWeft,
+        this.once,
+        this.fabricLayyerName,
+        this.width,
+        this.fabricWeaveName,
+        this.fabricKnittingTypeName,
         this.pictures,
         this.certifications,
         this.certificationStr,
@@ -179,6 +205,15 @@ class FabricSpecification {
     minQuantity = json['min_quantity'];
     requiredQuantity = json['required_quantity'];
     description = json['description'];
+    gsmCount = json['gsm_count'];
+    fabricLoomName = json['fabric_loom_name'];
+    noOfEndsWarp = json['no_of_ends_warp'];
+    noOfPickWeft = json['no_of_pick_weft'];
+    once = json['once'];
+    fabricLayyerName = json['fabric_layyer_name'];
+    width = json['width'];
+    fabricWeaveName = json['fabric_weave_name'];
+    fabricKnittingTypeName = json['fabric_knitting_type_name'];
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
       json['pictures'].forEach((v) {
@@ -232,6 +267,15 @@ class FabricSpecification {
     data['min_quantity'] = this.minQuantity;
     data['required_quantity'] = this.requiredQuantity;
     data['description'] = this.description;
+    data['gsm_count'] = this.gsmCount;
+    data['fabric_loom_name'] = this.fabricLoomName;
+    data['no_of_ends_warp'] = this.noOfEndsWarp;
+    data['no_of_pick_weft'] = this.noOfPickWeft;
+    data['once'] = this.once;
+    data['fabric_layyer_name'] = this.fabricLayyerName;
+    data['width'] = this.width;
+    data['fabric_weave_name'] = this.fabricWeaveName;
+    data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
     }

@@ -30,6 +30,8 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
   List<FabricFamily>? _fabricFamily;
   List<FabricBlends>? _fabricBlends;
 
+  final GlobalKey<SingleSelectTileRenewedWidgetState> _fabricBlendKey = GlobalKey<SingleSelectTileRenewedWidgetState>();
+
   _getYarnDataFromDb() {
     AppDbInstance.getDbInstance().then((value) async {
       await value.fabricFamilyDao.findAllFabricFamily().then((value) {
@@ -76,6 +78,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                           var item = _fabricFamily![value];
                           queryFamilySettings(item.fabricFamilyId!);
                           widget.fabricFamilyCallback(item);
+                          if(_fabricBlendKey.currentState!= null) _fabricBlendKey.currentState!.checkedTile = -1;
                         },
                       ),
                     ),
@@ -99,7 +102,8 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
                     child: SingleSelectTileRenewedWidget(
-                      selectedIndex: 0,
+                      key: _fabricBlendKey,
+                      selectedIndex: -1,
                       spanCount: 2,
                       listOfItems: _fabricBlends!
                           .where((element) =>
