@@ -177,6 +177,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
     _resetData();
     final filterFabricProvider =
         Provider.of<FilterFabricProvider>(context, listen: false);
+    filterFabricProvider.getSyncData();
     _getFabricSyncedData(filterFabricProvider);
     super.initState();
   }
@@ -652,7 +653,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricWeave value) {
-                                              _filterRequestModel!.fs_weave_idfk!.add(value.fabricWeaveId!);
+                                              _filterRequestModel!.fs_weave_idfk = [value.fabricWeaveId!];
                                             },
                                           ),
                                         ],
@@ -683,7 +684,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricLoom value) {
-                                              _filterRequestModel!.fs_loom_idfk!.add(value.fabricLoomId!);
+                                              _filterRequestModel!.fs_loom_idfk = [value.fabricLoomId!];
                                             },
                                           ),
                                         ],
@@ -714,7 +715,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricSalvedge value) {
-                                              _filterRequestModel!.fs_salvedge_idfk!.add(value.fabricSalvedgeId!);
+                                              _filterRequestModel!.fs_salvedge_idfk = [value.fabricSalvedgeId!];
                                             },
                                           ),
                                         ],
@@ -767,7 +768,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricPly value) {
-                                              _filterRequestModel!.fs_ply_idfk!.add(value.fabricPlyId!);
+                                              _filterRequestModel!.fs_ply_idfk = [value.fabricPlyId!];
                                             },
                                           ),
                                         ],
@@ -798,7 +799,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricLayyer value) {
-                                              _filterRequestModel!.fs_layyer_idfk!.add(value.fabricLayyerId!);
+                                              _filterRequestModel!.fs_layyer_idfk = [value.fabricLayyerId!];
                                             },
                                           ),
                                         ],
@@ -891,7 +892,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                 .toList(),
                                             callback: (FabricColorTreatmentMethod
                                                 value) {
-                                              _filterRequestModel!.fs_fctm_idfk!.add(value.fctmId!);
+                                              _filterRequestModel!.fs_fctm_idfk = [value.fctmId!];
 
                                               if (_colorTreatmentIdList
                                                   .contains(value.fctmId)) {
@@ -969,7 +970,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                       callback:
                                                           (FabricDyingTechniques
                                                               value) {
-                                                            _filterRequestModel!.fs_fdt_idfk!.add(value.fdtId!);
+                                                            _filterRequestModel!.fs_fdt_idfk = [value.fdtId!];
                                                       },
                                                     ),
                                                   ],
@@ -1164,7 +1165,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (KnittingTypes value) {
-                                              _filterRequestModel!.fs_knitting_type_idfk!.add(value.fabricKnittingTypeId!);
+                                              _filterRequestModel!.fs_knitting_type_idfk = [value.fabricKnittingTypeId!];
                                             },
                                           ),
                                         ],
@@ -1195,7 +1196,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricAppearance value) {
-                                              _filterRequestModel!.fs_appearance_idfk!.add(value.fabricAppearanceId!);
+                                              _filterRequestModel!.fs_appearance_idfk = [value.fabricAppearanceId!];
 
                                               /*if (value.fabricAppearanceId == 3) {
                                                 setState(() {
@@ -1239,7 +1240,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricQuality value) {
-                                              _filterRequestModel!.fs_quality_idfk!.add(value.fabricQualityId!);
+                                              _filterRequestModel!.fs_quality_idfk = [value.fabricQualityId!];
                                             },
                                           ),
                                         ],
@@ -1271,7 +1272,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                                     familyId)
                                                 .toList(),
                                             callback: (FabricGrades value) {
-                                              _filterRequestModel!.fs_grade_idfk!.add(value.fabricGradeId!);
+                                              _filterRequestModel!.fs_grade_idfk = [value.fabricGradeId!];
                                             },
                                           ),
                                         ],
@@ -1298,7 +1299,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                             spanCount: 4,
                                             listOfItems: _certificationList,
                                             callback: (Certification value) {
-                                              _filterRequestModel!.certification_id!.add(value.cerId);
+                                              _filterRequestModel!.certification_id = [value.cerId];
                                             },
                                           ),
                                         ],
@@ -1412,13 +1413,13 @@ class FabricFilterPageState extends State<FabricFilterPage>
   void handleFilterClick() async {
     _filterRequestModel!.category_id = "3";
     var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-    _filterRequestModel!.user_id = userId;
+   // _filterRequestModel!.user_id = userId;
     var selectedFamilyId = -1;
     if(_selectedMaterial != null){
-      _filterRequestModel!.fs_blend_idfk!.add(_selectedMaterial!);
+      _filterRequestModel!.fs_blend_idfk = [_selectedMaterial!];
     }
     if(familyId != null){
-      _filterRequestModel!.fs_family_idfk!.add(int.parse(familyId!));
+      _filterRequestModel!.fs_family_idfk = [int.parse(familyId!)];
     }
     Navigator.pop(context, _filterRequestModel);
   }
