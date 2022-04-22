@@ -157,3 +157,5 @@ var news_feed_text = 'News Feed';
 var gmail_text = 'Gmail';
 var telegram_text = 'Telegram';
 //
+
+var sheet_title = 'Add Nature Fabric';
