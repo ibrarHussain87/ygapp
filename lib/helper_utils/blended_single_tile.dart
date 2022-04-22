@@ -15,7 +15,7 @@ class BlendedTileWidget extends StatefulWidget {
   final List<dynamic> listOfItems;
   final List<TextEditingController> listController;
   final int? spanCount;
-  final int? selectedIndex;
+  final List<FabricBlends?> selectedIndex;
 
 
   const BlendedTileWidget(
@@ -25,7 +25,7 @@ class BlendedTileWidget extends StatefulWidget {
         required this.textFieldcallback,
         required this.listOfItems,
         required this.listController,
-        this.selectedIndex,
+        required this.selectedIndex,
       })
       : super(key: key);
 
@@ -40,15 +40,17 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
   var width;
 
   List<int> selectedIndex=[];
-  List<FabricBlends> title=[];
-  List<String> value=[];
+  List<FabricBlends?> title=[];
+  List<TextEditingController> value=[];
 
 
 
   @override
   void initState() {
 //    widget.listController.clear();
-    checkedTile = widget.selectedIndex ?? 0;
+//    checkedTile = widget.selectedIndex ?? 0;
+     title=widget.selectedIndex;
+     value=widget.listController;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
     } else if (widget.spanCount == 3) {
@@ -85,7 +87,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
-          if(selectedIndex.contains(index))
+          if(title.contains(widget.listOfItems[index]))
             {
               title.remove(widget.listOfItems[index]);
               selectedIndex.remove(index);
@@ -102,7 +104,6 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
       },
       child: Container(
         width: width,
-        height: 30,
         child: Row(
             children:[
               Container(
@@ -112,7 +113,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
                     border: Border.all(
                       color: Colors.transparent,
                     ),
-                    color: selectedIndex.contains(index)
+                    color: title.contains(widget.listOfItems[index])
                         ? lightBlueTabs.withOpacity(0.1)
                         : Colors.grey.shade200,
                     borderRadius: BorderRadius.all(Radius.circular(24.w))),
@@ -122,24 +123,43 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 11.sp,
-                        color: selectedIndex.contains(index) ? lightBlueTabs : Colors.black54),
+                        color: title.contains(widget.listOfItems[index]) ? lightBlueTabs : Colors.black54),
                   ),
                 ),
               ),
             SizedBox(width: 30,),
 
             Container(
+
                   width: width*0.4,
                   child: BlendTextFormFieldWithRangeNonDecimal(
                       errorText: "count",
                       // onChanged:(value) => globalFormKey.currentState!.reset(),
                       minMax: "0-100",
-                      validation: selectedIndex.contains(index),
+                      validation: title.contains(widget.listOfItems[index]),
                       textEditingController:widget.listController[index],
                       onSaved: (input) {
-                        if(widget.listController[index].text!=null){
-                        widget.textFieldcallback!(widget.listController[index]);}
-                      }),
+
+                        setState(() {
+                          if(value.contains(widget.listController[index]))
+                          {
+                            value[index]=widget.listController[index];
+
+                          }
+                          else
+                          {
+                            value.add(widget.listController[index]);
+
+                          }
+
+                        });
+                        widget.textFieldcallback!(value);
+
+                      }
+
+
+
+                      ),
                 ),
 
             ]

@@ -2,7 +2,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,7 +9,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -18,20 +16,13 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/blended_single_tile.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/helper_utils/util.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 import '../../../../Providers/post_fabric_provider.dart';
-import '../../../../elements/bottom_sheet.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
 import '../../../../helper_utils/nature_fabric_single_tile.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
@@ -132,7 +123,7 @@ class FabricSpecificationComponentState
   var checked=false;
   String pureValue="";
   String blendString="";
-  List<String> values=[];
+  List<TextEditingController> values=[];
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
@@ -193,6 +184,7 @@ class FabricSpecificationComponentState
 
   @override
   void dispose() {
+    _textEditingController.dispose();
     _notifier.dispose();
     _notifierBlendText.dispose();
     _notifierPureText.dispose();
@@ -1485,8 +1477,7 @@ class FabricSpecificationComponentState
     );
   }
   blendedSheet(BuildContext context, List<FabricBlends> blends) {
-    if(textFieldControllers.isNotEmpty){
-    textFieldControllers.clear();}
+    textFieldControllers=[];
     for (var i = 0; i < blends.length; i++) {
       textFieldControllers.add(TextEditingController());
     }
@@ -1525,20 +1516,35 @@ class FabricSpecificationComponentState
                               fontWeight: FontWeight.w700),),
                         const SizedBox(height: 10,),
                         BlendedTileWidget(
-                          selectedIndex: -1,
+                          selectedIndex:blendValue,
                           spanCount: 1,
                           listOfItems: blends,
                           listController:textFieldControllers,
                           callback: (List<FabricBlends> value) {
-                            blendValue=value;
+//                            if(blendValue.contains(value))
+//                              {
+//                                blendValue.remove(value);
+//                                blendValue=value;
+//                              }
+//                            else {
+                              blendValue = value;
+//                            }
 
                           },
-                          textFieldcallback: (TextEditingController value) {
-
-                            values.add(value.text);
+                          textFieldcallback: (List<TextEditingController> value) {
+                           values=value;
                            if (kDebugMode) {
-                             print("TextField Value"+values.toString());
 
+
+                             for(int i=0;i<value.length;i++)
+                             {
+//
+//                               if(value[i].text!=null) {
+//                                 values.add(value[i]);
+//                               }
+                               print(i.toString()+"TextField Value"+value[i].text);
+//
+                             }
                            }
 
 
@@ -1567,10 +1573,13 @@ class FabricSpecificationComponentState
                                                 side: BorderSide(color: Colors.transparent)))),
                                     onPressed: () {
                                       if(validateAndSaveBlend()){
+                                        blendString="";
+                                        print("Length of "+blendValue.length.toString());
                                         for(int i=0;i<blendValue.length;i++)
                                           {
 
-                                            blendString+=blendValue[i].blnAbrv.toString()+"("+values[i]+"),";
+
+                                            blendString+=blendValue[i].blnAbrv.toString()+"("+values[i].text+"),";
 
                                           }
                                          if (blendString.endsWith(",")) {
