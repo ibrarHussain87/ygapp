@@ -1485,6 +1485,8 @@ class FabricSpecificationComponentState
     );
   }
   blendedSheet(BuildContext context, List<FabricBlends> blends) {
+    if(textFieldControllers.isNotEmpty){
+    textFieldControllers.clear();}
     for (var i = 0; i < blends.length; i++) {
       textFieldControllers.add(TextEditingController());
     }
