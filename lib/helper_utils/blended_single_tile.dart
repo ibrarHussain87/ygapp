@@ -8,11 +8,12 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 
 import '../elements/yg_text_form_field.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
-
+// for blend tile widget (asad_m)
 class BlendedTileWidget extends StatefulWidget {
   final Function? callback;
   final Function? textFieldcallback;
   final List<dynamic> listOfItems;
+  final List<TextEditingController> listController;
   final int? spanCount;
   final int? selectedIndex;
 
@@ -23,6 +24,7 @@ class BlendedTileWidget extends StatefulWidget {
         required this.callback,
         required this.textFieldcallback,
         required this.listOfItems,
+        required this.listController,
         this.selectedIndex,
       })
       : super(key: key);
@@ -45,6 +47,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
 
   @override
   void initState() {
+//    widget.listController.clear();
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -132,8 +135,10 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
                       // onChanged:(value) => globalFormKey.currentState!.reset(),
                       minMax: "0-100",
                       validation: selectedIndex.contains(index),
+                      textEditingController:widget.listController[index],
                       onSaved: (input) {
-                        widget.textFieldcallback!(input);
+                        if(widget.listController[index].text!=null){
+                        widget.textFieldcallback!(widget.listController[index]);}
                       }),
                 ),
 

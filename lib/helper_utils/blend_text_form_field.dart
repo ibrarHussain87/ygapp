@@ -7,7 +7,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
 import 'package:yg_app/helper_utils/util.dart';
 
-
+// Blend text field and validation (asad_m)
 class BlendTextFormFieldWithRange extends StatelessWidget {
   final String errorText;
   final String minMax;
@@ -54,7 +54,7 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
   final String errorText;
   final String minMax;
   final Function onSaved;
-  // final Function onChanged;
+  final TextEditingController textEditingController;
   final bool validation;
 
   const BlendTextFormFieldWithRangeNonDecimal(
@@ -62,20 +62,22 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         required this.errorText,
         required this.minMax,
         required this.onSaved,
-        // required this.onChanged,
+        required this.textEditingController,
         required this.validation})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: textEditingController,
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
         style: TextStyle(fontSize: 11.sp),
         textAlign: TextAlign.center,
         cursorHeight: 16.w,
-        onSaved: (input) => onSaved(input),
+        onChanged: (input) => onSaved(input),
+//        onSaved: (input) => onSaved(input),
         // onChanged: (input) => onChanged(input),
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly

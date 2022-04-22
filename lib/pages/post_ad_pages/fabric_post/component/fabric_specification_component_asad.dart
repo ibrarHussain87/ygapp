@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
@@ -96,6 +97,8 @@ class FabricSpecificationComponentState
 
   // Nature of fabric List
   late List<String> _natureFabricList=["Pure","Blended"];
+  List<TextEditingController> textFieldControllers=[];
+  List<FabricBlends> blendValue=[];
 
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
@@ -125,14 +128,11 @@ class FabricSpecificationComponentState
 
  //Nature Fabric key (asad_m)
   final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _pureKey = GlobalKey<SingleSelectTileWidgetState>();
 
   var checked=false;
-
   String pureValue="";
-
+  String blendString="";
   List<String> values=[];
-
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
@@ -194,6 +194,8 @@ class FabricSpecificationComponentState
   @override
   void dispose() {
     _notifier.dispose();
+    _notifierBlendText.dispose();
+    _notifierPureText.dispose();
     _notifierColor.dispose();
     super.dispose();
   }
@@ -1431,11 +1433,12 @@ class FabricSpecificationComponentState
                         listOfItems: blends,
                         callback: (FabricBlends value) {
                           print("GOT THE VALUE:"+value.blnName.toString());
+                          pureValue=value.blnName.toString();
                           isSelected=true;
-                          _notifierPureText.value=value.blnName.toString();
+
 //                          setState(() {
 //                            isSelected=true;
-//                            pureValue=value.blnName.toString();
+
 //                          });
 
                         },
@@ -1462,8 +1465,9 @@ class FabricSpecificationComponentState
                                               BorderRadius.all(Radius.circular(8)),
                                               side: BorderSide(color: Colors.transparent)))),
                                   onPressed: () {
-                                   if(isSelected==true)
+                                   if(pureValue!="")
                                      {
+                                       _notifierPureText.value=pureValue.toString();
                                        Navigator.of(context).pop();
 
                                      }
@@ -1481,7 +1485,9 @@ class FabricSpecificationComponentState
     );
   }
   blendedSheet(BuildContext context, List<FabricBlends> blends) {
-
+    for (var i = 0; i < blends.length; i++) {
+      textFieldControllers.add(TextEditingController());
+    }
 
     showModalBottomSheet<int>(
       isScrollControlled:true,
@@ -1520,19 +1526,18 @@ class FabricSpecificationComponentState
                           selectedIndex: -1,
                           spanCount: 1,
                           listOfItems: blends,
+                          listController:textFieldControllers,
                           callback: (List<FabricBlends> value) {
-                            String commaSeparatedNames= value
-                                .map((item) => item.blnName)
-                                .toList()
-                                .join(",");
-
-                            _notifierBlendText.value=commaSeparatedNames.toString();
+                            blendValue=value;
 
                           },
-                          textFieldcallback: (String value) {
+                          textFieldcallback: (TextEditingController value) {
 
-                            values.add(value);
-                           print("textField Value"+values.toString());
+                            values.add(value.text);
+                           if (kDebugMode) {
+                             print("TextField Value"+values.toString());
+
+                           }
 
 
                           },
@@ -1560,7 +1565,22 @@ class FabricSpecificationComponentState
                                                 side: BorderSide(color: Colors.transparent)))),
                                     onPressed: () {
                                       if(validateAndSaveBlend()){
+                                        for(int i=0;i<blendValue.length;i++)
+                                          {
+
+                                            blendString+=blendValue[i].blnAbrv.toString()+"("+values[i]+"),";
+
+                                          }
+                                         if (blendString.endsWith(",")) {
+                                                 blendString = blendString.substring(0, blendString.length - 1);
+                                               }
+
+                                        if(blendString.toString()!=""){
+                                        _notifierBlendText.value=blendString.toString();
+
                                       Navigator.of(context).pop();}
+
+                                      }
                                     });
                               })),
                         ),
