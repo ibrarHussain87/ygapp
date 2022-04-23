@@ -7,6 +7,7 @@ import 'package:yg_app/helper_utils/blend_text_form_field.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../elements/yg_text_form_field.dart';
+import '../model/blend_model.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 // for blend tile widget (asad_m)
 class BlendedTileWidget extends StatefulWidget {
@@ -14,17 +15,17 @@ class BlendedTileWidget extends StatefulWidget {
   final Function? textFieldcallback;
   final List<dynamic> listOfItems;
   final List<TextEditingController> listController;
-  final int? spanCount;
   final List<FabricBlends?> selectedIndex;
+  final List<BlendModel> blendsValue;
 
 
   const BlendedTileWidget(
       {Key? key,
-        required this.spanCount,
         required this.callback,
         required this.textFieldcallback,
         required this.listOfItems,
         required this.listController,
+        required this.blendsValue,
         required this.selectedIndex,
       })
       : super(key: key);
@@ -34,31 +35,19 @@ class BlendedTileWidget extends StatefulWidget {
 }
 
 class BlendedTileWidgetState extends State<BlendedTileWidget> {
-  int? checkedTile;
-  late double aspectRatio;
   var looger = Logger();
   var width;
 
   List<int> selectedIndex=[];
   List<FabricBlends?> title=[];
-  List<TextEditingController> value=[];
+  List<BlendModel> blends=[];
 
 
 
   @override
   void initState() {
-//    widget.listController.clear();
-//    checkedTile = widget.selectedIndex ?? 0;
+     blends=widget.blendsValue ?? [];
      title=widget.selectedIndex;
-     value=widget.listController;
-    if (widget.spanCount == 2) {
-      aspectRatio = 4.5;
-    } else if (widget.spanCount == 3) {
-      aspectRatio = 2.9;
-    } else {
-      aspectRatio = 2.2;
-    }
-
     super.initState();
   }
 
@@ -91,11 +80,13 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
             {
               title.remove(widget.listOfItems[index]);
               selectedIndex.remove(index);
+              widget.listController[index].clear();
             }
           else
             {
               title.add(widget.listOfItems[index]);
               selectedIndex.add(index);
+
             }
 
         });
@@ -139,21 +130,23 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
                       validation: title.contains(widget.listOfItems[index]),
                       textEditingController:widget.listController[index],
                       onSaved: (input) {
+                       if(widget.listController[index].text.isNotEmpty && title.contains(widget.listOfItems[index]))
+                         {
 
-                        setState(() {
-                          if(value.contains(widget.listController[index]))
-                          {
-                            value[index]=widget.listController[index];
+                         if (blends.every((item) => item.id != index)) {
+                           blends.add(BlendModel(id: index, title: widget.listOfItems[index].toString(), value: widget.listController[index].text));
+                         }
+                         else
+                           {
+                             blends[index]=BlendModel(id: index, title: widget.listOfItems[index].toString(), value: widget.listController[index].text);
 
-                          }
-                          else
-                          {
-                            value.add(widget.listController[index]);
+                           }
 
-                          }
 
-                        });
-                        widget.textFieldcallback!(value);
+
+                         }
+
+                        widget.textFieldcallback!(blends);
 
                       }
 
@@ -169,9 +162,8 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
     );
   }
 
-  resetWidget(){
-    setState(() {
-      checkedTile = 0;
-    });
-  }
+
+
 }
+
+
