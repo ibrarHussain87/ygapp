@@ -484,7 +484,50 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),
-
+                                // Show Weave Pattern
+                                IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Visibility(
+                                        visible: true,
+                                        child: Expanded(
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: YgTextFormFieldWithoutRange(
+                                                        errorText: 'Weave Pattern',
+                                                        onSaved: (input) {
+                                                          // _createRequestModel!.fs_ratio = input;
+                                                        }),
+                                                  ),
+                                                  Container(
+                                                    color: Colors.white,
+                                                    width:16.w,
+                                                    child: const Center(child: Text('/')),
+                                                  ),
+                                                  Expanded(
+                                                    child: YgTextFormFieldWithoutRange(
+                                                        errorText: 'Weave Pattern',
+                                                        onSaved: (input) {
+                                                          // _createRequestModel!.fs_ratio = input;
+                                                        }),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 //Show Nature of Fabric (asad_mehmood)
                                 Visibility(
                                   visible: true,
