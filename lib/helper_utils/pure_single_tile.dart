@@ -6,17 +6,16 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../elements/yg_text_form_field.dart';
+import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 
-class NatureFabricTileWidget extends StatefulWidget {
+class PureTileWidget extends StatefulWidget {
   final Function? callback;
   final List<dynamic> listOfItems;
-  final int? spanCount;
-  final int? selectedIndex;
+  final FabricBlends? selectedIndex;
 
 
-  const NatureFabricTileWidget(
+  const PureTileWidget(
       {Key? key,
-        required this.spanCount,
         required this.callback,
         required this.listOfItems,
         this.selectedIndex,
@@ -24,27 +23,22 @@ class NatureFabricTileWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  NatureFabricTileWidgetState createState() => NatureFabricTileWidgetState();
+  PureTileWidgetState createState() => PureTileWidgetState();
 }
 
-class NatureFabricTileWidgetState extends State<NatureFabricTileWidget> {
-  int? checkedTile;
-  late double aspectRatio;
+class PureTileWidgetState extends State<PureTileWidget> {
+
   var looger = Logger();
   var width;
+
+  FabricBlends? title=FabricBlends();
 
 
 
   @override
   void initState() {
-    checkedTile = widget.selectedIndex ?? 0;
-    if (widget.spanCount == 2) {
-      aspectRatio = 4.5;
-    } else if (widget.spanCount == 3) {
-      aspectRatio = 2.9;
-    } else {
-      aspectRatio = 2.2;
-    }
+    title=widget.selectedIndex;
+
 
     super.initState();
   }
@@ -70,12 +64,21 @@ class NatureFabricTileWidgetState extends State<NatureFabricTileWidget> {
   }
 
   Widget buildGrid(int index) {
-    bool checked = index == checkedTile;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
-          checkedTile = index;
+          if(title==widget.listOfItems[index])
+          {
+            title=null;
+
+          }
+          else
+          {
+            title=widget.listOfItems[index];
+
+
+          }
         });
         widget.callback!(widget.listOfItems[index]);
         looger.e(widget.listOfItems[index].toString());
@@ -92,7 +95,7 @@ class NatureFabricTileWidgetState extends State<NatureFabricTileWidget> {
                   border: Border.all(
                     color: Colors.transparent,
                   ),
-                  color: checked
+                  color: title==widget.listOfItems[index]
                       ? lightBlueTabs.withOpacity(0.1)
                       : Colors.grey.shade200,
                   borderRadius: BorderRadius.all(Radius.circular(24.w))),
@@ -102,7 +105,7 @@ class NatureFabricTileWidgetState extends State<NatureFabricTileWidget> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 11.sp,
-                      color: checked ? lightBlueTabs : Colors.black54),
+                      color: title==widget.listOfItems[index] ? lightBlueTabs : Colors.black54),
                 ),
               ),
             ),
@@ -114,9 +117,5 @@ class NatureFabricTileWidgetState extends State<NatureFabricTileWidget> {
     );
   }
 
-  resetWidget(){
-    setState(() {
-      checkedTile = 0;
-    });
-  }
+
 }

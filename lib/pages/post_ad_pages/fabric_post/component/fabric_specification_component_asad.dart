@@ -24,7 +24,8 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 
 import '../../../../Providers/post_fabric_provider.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
-import '../../../../helper_utils/nature_fabric_single_tile.dart';
+import '../../../../helper_utils/pure_single_tile.dart';
+import '../../../../model/blend_model.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
 
@@ -86,10 +87,7 @@ class FabricSpecificationComponentState
   late List<FabricSalvedge> _salvedgeList;
   late List<FabricLayyer> _layyerList;
 
-  // Nature of fabric List
-  late List<String> _natureFabricList=["Pure","Blended"];
-  List<TextEditingController> textFieldControllers=[];
-  List<FabricBlends> blendValue=[];
+
 
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
@@ -119,11 +117,16 @@ class FabricSpecificationComponentState
 
  //Nature Fabric key (asad_m)
   final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<SingleSelectTileWidgetState>();
+  // Nature of fabric List
+  late List<String> _natureFabricList=["Pure","Blended"];
+  List<TextEditingController> textFieldControllers=[];
+  List<FabricBlends> blendValue=[];
+  FabricBlends pureValue=FabricBlends();
 
   var checked=false;
-  String pureValue="";
+//  String pureValue="";
   String blendString="";
-  List<TextEditingController> values=[];
+  List<BlendModel> values=[];
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
@@ -513,6 +516,7 @@ class FabricSpecificationComponentState
                                             else
                                               {
                                                 _notifierPureText.value="";
+
                                                 blendedSheet(context,_fabricBlendsList.where((element) =>
                                                 element.familyIdfk == familyId)
                                                     .toList());
@@ -1386,7 +1390,6 @@ class FabricSpecificationComponentState
   }
 
   pureSheet(BuildContext context, List<FabricBlends> blends) {
-    var isSelected=false;
 
     showModalBottomSheet<int>(
       isScrollControlled:true,
@@ -1399,7 +1402,6 @@ class FabricSpecificationComponentState
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-//                      const SizedBox(height: 15,),
                       Align(
                           alignment: Alignment.topRight,
                           child: Padding(
@@ -1419,21 +1421,12 @@ class FabricSpecificationComponentState
                             color: headingColor,
                             fontWeight: FontWeight.w700),),
                       const SizedBox(height: 10,),
-                      NatureFabricTileWidget(
-                        selectedIndex: -1,
-                        spanCount: 1,
+                      PureTileWidget(
+                        selectedIndex:pureValue,
                         listOfItems: blends,
                         callback: (FabricBlends value) {
-                          print("GOT THE VALUE:"+value.blnName.toString());
-                          pureValue=value.blnName.toString();
-                          isSelected=true;
-
-//                          setState(() {
-//                            isSelected=true;
-
-//                          });
-
-                        },
+                          pureValue=value;
+                          },
                       ),
 
                       Padding(
@@ -1477,9 +1470,11 @@ class FabricSpecificationComponentState
     );
   }
   blendedSheet(BuildContext context, List<FabricBlends> blends) {
-    textFieldControllers=[];
-    for (var i = 0; i < blends.length; i++) {
-      textFieldControllers.add(TextEditingController());
+  values.clear();
+    if(textFieldControllers.isEmpty) {
+      for (var i = 0; i < blends.length; i++) {
+        textFieldControllers.add(TextEditingController());
+      }
     }
 
     showModalBottomSheet<int>(
@@ -1495,7 +1490,6 @@ class FabricSpecificationComponentState
                     key: blendedFormKey,
                     child: Column(
                       children: [
-//                      const SizedBox(height: 15,),
                         Align(
                             alignment: Alignment.topRight,
                             child: Padding(
@@ -1517,35 +1511,18 @@ class FabricSpecificationComponentState
                         const SizedBox(height: 10,),
                         BlendedTileWidget(
                           selectedIndex:blendValue,
-                          spanCount: 1,
                           listOfItems: blends,
                           listController:textFieldControllers,
+                          blendsValue:values,
                           callback: (List<FabricBlends> value) {
-//                            if(blendValue.contains(value))
-//                              {
-//                                blendValue.remove(value);
-//                                blendValue=value;
-//                              }
-//                            else {
+
                               blendValue = value;
-//                            }
 
-                          },
-                          textFieldcallback: (List<TextEditingController> value) {
+                              },
+                          textFieldcallback: (List<BlendModel> value) {
+
                            values=value;
-                           if (kDebugMode) {
 
-
-                             for(int i=0;i<value.length;i++)
-                             {
-//
-//                               if(value[i].text!=null) {
-//                                 values.add(value[i]);
-//                               }
-                               print(i.toString()+"TextField Value"+value[i].text);
-//
-                             }
-                           }
 
 
                           },
@@ -1572,21 +1549,14 @@ class FabricSpecificationComponentState
                                                 BorderRadius.all(Radius.circular(8)),
                                                 side: BorderSide(color: Colors.transparent)))),
                                     onPressed: () {
+
                                       if(validateAndSaveBlend()){
                                         blendString="";
-                                        print("Length of "+blendValue.length.toString());
-                                        for(int i=0;i<blendValue.length;i++)
-                                          {
+                                        for(int i=0;i<values.length;i++) {
+                                          blendString+=values[i].title.toString()+"("+values[i].value.toString()+"),";
 
-
-                                            blendString+=blendValue[i].blnAbrv.toString()+"("+values[i].text+"),";
-
-                                          }
-                                         if (blendString.endsWith(",")) {
-                                                 blendString = blendString.substring(0, blendString.length - 1);
-                                               }
-
-                                        if(blendString.toString()!=""){
+                                        }
+                                            if(blendString.toString()!=""){
                                         _notifierBlendText.value=blendString.toString();
 
                                       Navigator.of(context).pop();}
