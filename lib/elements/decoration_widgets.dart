@@ -198,6 +198,10 @@ InputDecoration roundedTextFieldDecoration(String hint) {
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
       borderSide: BorderSide(color: Colors.red),
+    ),
+    disabledBorder:OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24.0.w),
+      borderSide: BorderSide(color: Colors.grey.shade300),
     )
   );
 }

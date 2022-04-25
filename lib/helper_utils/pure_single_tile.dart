@@ -48,12 +48,14 @@ class PureTileWidgetState extends State<PureTileWidget> {
     width=MediaQuery.of(context).size.width;
     return SizedBox(
       width:width ,
-      child: ListView.separated(
+      child: GridView.builder(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        separatorBuilder: (context, index) {
-          return Container(height: 8,);
-        },
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 8,
+            crossAxisCount: 2,
+            childAspectRatio: 4.5),
         scrollDirection: Axis.vertical,
         itemCount: widget.listOfItems.length,
         itemBuilder: (context, index) {

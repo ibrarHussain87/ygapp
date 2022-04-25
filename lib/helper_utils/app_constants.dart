@@ -159,3 +159,4 @@ var telegram_text = 'Telegram';
 //
 
 var sheet_title = 'Add Nature Fabric';
+var blend_message = "Blends percentage must be less than 100%";
