@@ -337,6 +337,7 @@ Widget buildFiberRenewedAgainWidget(
                                                   context,
                                                   null,
                                                   specification,
+                                                  null
                                                 );
                                               }else{
                                                 openDetailsScreen(

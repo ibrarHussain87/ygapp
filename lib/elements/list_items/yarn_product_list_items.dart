@@ -575,7 +575,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                       btnText: "Update",
                       textSize: 8.sp,
                       callback: () {
-                        Utils.updateDialog(context, widget.specification,null,);
+                        Utils.updateDialog(context, widget.specification,null,null);
                       },
                       color: Colors.green,
                     ),

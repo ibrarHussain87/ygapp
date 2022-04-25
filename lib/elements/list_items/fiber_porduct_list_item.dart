@@ -255,7 +255,7 @@ Widget buildFiberProductWidget(Specification specification, BuildContext context
                         btnText: "Update",
                         textSize: 8.sp,
                         callback: () {
-                          Utils.updateDialog(context, null,specification,);
+                          Utils.updateDialog(context, null,specification,null);
                         },
                         color: Colors.green,
                       ),

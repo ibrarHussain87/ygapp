@@ -962,14 +962,21 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               context,
                               widget.yarnSpecification,
                               null,
+                        null
                             )
                           : widget.yarnSpecification != null
                       ? Utils.updateDialog(
                               context,
                               null,
                               widget.specification,
+                        null
                             )
-                      : Fluttertoast.showToast(msg: 'update coming soon');
+                      : Utils.updateDialog(
+                          context,
+                          null,
+                          null,
+                          widget.specObject as FabricSpecification
+                      );
                     },
                     color: btnColorLogin,
                     btnText: 'Update')
