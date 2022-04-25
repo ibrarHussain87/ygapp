@@ -27,28 +27,40 @@ class CreateStockLotResponse {
 }
 
 class Data {
-  String? userId;
+  int? userId;
   String? spcCategoryIdfk;
   String? subCategoryId;
-  String? avabilityId;
+  String? avability;
   String? priceTermId;
+  String? isOffering;
+  String? locality;
+  String? isVerified;
+  String? isFeatured;
   List<StocklotSpecificationDetails>? stocklotSpecificationDetails;
 
   Data(
       {this.userId,
         this.spcCategoryIdfk,
         this.subCategoryId,
-        this.avabilityId,
+        this.avability,
         this.priceTermId,
+        this.isOffering,
+        this.locality,
+        this.isVerified,
+        this.isFeatured,
         this.stocklotSpecificationDetails});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     spcCategoryIdfk = json['spc_category_idfk'].toString();
     subCategoryId = json['sub_category_id'];
-    avabilityId = json['avability_id'];
+    avability = json['availablity'];
     priceTermId = json['price_term_id'];
-    if (json['stocklot_specification_details'] != null) {
+    isOffering = json['is_offering'];
+    locality = json['locality'];
+    isVerified = json['is_verified'];
+    isFeatured = json['is_featured'];
+    if (json['spec_details'] != null) {
       stocklotSpecificationDetails = <StocklotSpecificationDetails>[];
       json['stocklot_specification_details'].forEach((v) {
         stocklotSpecificationDetails!
@@ -62,8 +74,12 @@ class Data {
     data['user_id'] = this.userId;
     data['spc_category_idfk'] = this.spcCategoryIdfk;
     data['sub_category_id'] = this.subCategoryId;
-    data['avability_id'] = this.avabilityId;
+    data['avability_id'] = this.avability;
     data['price_term_id'] = this.priceTermId;
+    data['is_offering'] = this.isOffering;
+    data['is_verified'] = this.isVerified;
+    data['is_featured'] = this.isFeatured;
+    data['locality'] = this.locality;
     if (this.stocklotSpecificationDetails != null) {
       data['stocklot_specification_details'] =
           this.stocklotSpecificationDetails!.map((v) => v.toJson()).toList();
@@ -78,7 +94,7 @@ class StocklotSpecificationDetails {
   String? quantity;
   String? unitId;
   String? price;
-  String? description;
+  // String? description;
 
   StocklotSpecificationDetails(
       {this.specificationId,
@@ -86,7 +102,7 @@ class StocklotSpecificationDetails {
         this.quantity,
         this.unitId,
         this.price,
-        this.description});
+        /*this.description*/});
 
   StocklotSpecificationDetails.fromJson(Map<String, dynamic> json) {
     specificationId = json['specification_id'];
@@ -94,7 +110,7 @@ class StocklotSpecificationDetails {
     quantity = json['quantity'];
     unitId = json['unit_id'];
     price = json['price'];
-    description = json['description'];
+    // description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -104,7 +120,7 @@ class StocklotSpecificationDetails {
     data['quantity'] = this.quantity;
     data['unit_id'] = this.unitId;
     data['price'] = this.price;
-    data['description'] = this.description;
+    // data['description'] = this.description;
     return data;
   }
 }

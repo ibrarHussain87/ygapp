@@ -17,21 +17,21 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 
 import '../../../elements/list_items/fiber_list_items_renewed_again.dart';
 
-class StockLotListingBody extends StatefulWidget {
+class StockLotListingFuture extends StatefulWidget {
   // final List<Specification> specification;
 
   final String locality;
 
-  const StockLotListingBody(
+  const StockLotListingFuture(
       {Key? key, required this.locality /*required this.specification*/
       })
       : super(key: key);
 
   @override
-  StockLotListingBodyState createState() => StockLotListingBodyState();
+  StockLotListingFutureState createState() => StockLotListingFutureState();
 }
 
-class StockLotListingBodyState extends State<StockLotListingBody> {
+class StockLotListingFutureState extends State<StockLotListingFuture> {
   late StocklotProvider stocklotProvider;
   GetStockLotSpecRequestModel getStockLotSpecRequestModel =
       GetStockLotSpecRequestModel();
@@ -80,33 +80,33 @@ class StockLotListingBodyState extends State<StockLotListingBody> {
                 }
                 return Container(
                   child: snapshot.data!.data != null
-                      ? ListView.separated(
-                          itemCount: widget.locality == international
-                              ? stocklotProvider.internationSpecList.length
-                              : stocklotProvider.localSpecList.length,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              openDetailsScreen(context,
-                                  specObj: widget.locality == international
-                                      ? stocklotProvider
-                                          .internationSpecList[index]
-                                      : stocklotProvider.localSpecList[index]);
-                            },
-                            child: StockLotListItem(
-                              specification: widget.locality == international
-                                  ? stocklotProvider.internationSpecList[index]
-                                  : stocklotProvider.localSpecList[index],
-                            ),
-                          ),
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              height: 1,
-                              color: Colors.grey.shade400,
-                            );
-                          },
-                        )
+                      ?  ListView.separated(
+                    itemCount: widget.locality == international
+                        ? stocklotProvider.internationSpecList.length
+                        : stocklotProvider.localSpecList.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        openDetailsScreen(context,
+                            specObj: widget.locality == international
+                                ? stocklotProvider
+                                .internationSpecList[index]
+                                : stocklotProvider.localSpecList[index]);
+                      },
+                      child: StockLotListItem(
+                        specification: widget.locality == international
+                            ? stocklotProvider.internationSpecList[index]
+                            : stocklotProvider.localSpecList[index],
+                      ),
+                    ),
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 1,
+                        color: Colors.grey.shade400,
+                      );
+                    },
+                  )
                       : const Center(
                           child: TitleSmallTextWidget(
                             title: 'No Data Found',

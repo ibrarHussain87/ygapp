@@ -959,8 +959,36 @@ class Utils {
         }
       }
     }
-    priceRange = '$min ${minUnit??""} - $max ${maxUnit??""}';
-    return priceRange;
+
+    priceRange = '$min - $max/${maxUnit??""}';
+    return [
+      // TextSpan(
+      //   text:
+      //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+      //   style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 12.sp,
+      //       // fontFamily: 'Metropolis',
+      //       fontWeight: FontWeight.w500),
+      // ),
+      TextSpan(
+        text: '$min - $max'/*'1000'*/,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 17.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w600),
+      ),
+      TextSpan(
+        text:
+        "/${maxUnit??""}",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 12.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w500),
+      ),
+    ];
   }
 
 

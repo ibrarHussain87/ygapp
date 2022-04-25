@@ -970,10 +970,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               null,
                               widget.specification,
                             )
-                      : Fluttertoast.showToast(msg: 'update coming soon');
+                      : (widget.specObject is StockLotSpecification) ? Fluttertoast.showToast(msg: 'Delete coming soon') : Fluttertoast.showToast(msg: 'update coming soon');
                     },
-                    color: btnColorLogin,
-                    btnText: 'Update')
+                    color: (widget.specObject is StockLotSpecification) ? Colors.red.shade400 :btnColorLogin,
+                    btnText:(widget.specObject is StockLotSpecification) ? 'Delete' :'Update')
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

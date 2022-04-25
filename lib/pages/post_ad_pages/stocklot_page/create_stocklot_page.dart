@@ -197,9 +197,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       selectedIndex: -1,
                                       callback: (StocklotCategories value) {
                                         stocklotCategories = value;
-                                        setState(() {
-                                          subCategoryName = value.category.toString();
-                                        });
                                         stocklotProvider.getFilteredStocklotWaste(
                                             value.id ?? -1);
                                         var list = stocklotProvider
@@ -604,7 +601,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 stocklotProvider.stocklotRequestModel
                                         .stocklotWasteModelList =
                                     stocklotProvider.stocklotWasteList;
-                                stocklotProvider.createStockLot(context);
+                                stocklotProvider.createStockLot(context,(){
+                                  Navigator.of(context).pop();
+                                });
                               },
                             );
                           }
@@ -849,31 +848,29 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             ],
                                           ),
                                         ),
-                                        flex: 9,
+                                        flex: 7,
                                       ),
-                                      Expanded(
-                                        child: ElevatedButtonWithoutIcon(
-                                            callback: () {
-                                              if (stocklotWaste.unitOfCount!.isEmpty) {
-                                                Fluttertoast.showToast(
-                                                    msg: "Please select unit of count");
-                                              } else if (stocklotWaste.price!.isEmpty) {
-                                                Fluttertoast.showToast(
-                                                    msg: "Please enter price");
-                                              } else if (stocklotWaste
-                                                  .quantity!.isEmpty) {
-                                                Fluttertoast.showToast(
-                                                    msg: "Please enter Available Qty");
-                                              } else {
-                                                Navigator.pop(context);
-                                                stocklotProvider
-                                                    .addStocklotWaste(stocklotWaste);
-                                                stocklotProvider.disableClick();
-                                              }
-                                            },
-                                            color: btnColorLogin,
-                                            btnText: 'Add'),
-                                      ),
+                                      ElevatedButtonWithoutIcon(
+                                          callback: () {
+                                            if (stocklotWaste.unitOfCount!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please select unit of count");
+                                            } else if (stocklotWaste.price!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter price");
+                                            } else if (stocklotWaste
+                                                .quantity!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter Available Qty");
+                                            } else {
+                                              Navigator.pop(context);
+                                              stocklotProvider
+                                                  .addStocklotWaste(stocklotWaste);
+                                              stocklotProvider.disableClick();
+                                            }
+                                          },
+                                          color: btnColorLogin,
+                                          btnText: 'Add'),
                                       SizedBox(
                                         height: 4.h,
                                       )

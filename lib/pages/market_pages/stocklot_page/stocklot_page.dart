@@ -12,7 +12,7 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_body.dart';
+import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.dart';
 
 import '../../../elements/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_constants.dart';
@@ -32,10 +32,6 @@ class StockLotPageState extends State<StockLotPage> {
   List<Countries> _countries = [];
   late StocklotProvider stocklotProvider;
   StocklotCategories? stocklotCategories;
-  final GlobalKey<SingleSelectTileWidgetState> categoryKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
-      GlobalKey<SingleSelectTileWidgetState>();
 
   @override
   void initState() {
@@ -91,10 +87,6 @@ class StockLotPageState extends State<StockLotPage> {
                                   child: CatWithImageListWidget(
                                       listItem: stocklotProvider.stocklots!,
                                       onClickCallback: (value) {
-                                        if (categoryKey.currentState != null) {
-                                          categoryKey
-                                              .currentState!.checkedTile = -1;
-                                        }
                                         stocklotProvider.getCategories(
                                             stocklotProvider
                                                 .stocklots![value].id
@@ -113,26 +105,39 @@ class StockLotPageState extends State<StockLotPage> {
                                             .getStockLotSpecRequestModel
                                             .stocklotCategoryId = null;
                                         stocklotProvider.setShowCategory(true);
+                                        if(widget.locality == international) {
+                                          if (stocklotProvider.categoryListLocalKey
+                                              .currentState != null) {
+                                            stocklotProvider.categoryListLocalKey
+                                                .currentState!.checkedTile = -1;
+                                          }
+                                        }else{
+                                          if (stocklotProvider.categoryListInternationalKey
+                                              .currentState != null) {
+                                            stocklotProvider.categoryListInternationalKey
+                                                .currentState!.checkedTile = -1;
+                                          }
+                                        }
 
                                       })),
                             ),
                             Visibility(
-                              visible: stocklotProvider.showCategory,
+                              visible:stocklotProvider.showCategory,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   height:
-                                      0.04 * MediaQuery.of(context).size.height,
+                                  0.04 * MediaQuery.of(context).size.height,
                                   child: SingleSelectTileRenewedWidget(
-                                    key: categoryKey,
+                                    key: widget.locality == international?stocklotProvider.categoryListInternationalKey : stocklotProvider.categoryListLocalKey,
                                     spanCount: 2,
-                                    selectedIndex: -1,
+                                    selectedIndex: stocklotProvider.selectedIndex,
                                     listOfItems:
-                                        stocklotProvider.stocklotCategories!,
+                                    stocklotProvider.stocklotCategories!,
                                     callback: (StocklotCategories value) {
-                                      stocklotProvider.getSubcategories(
-                                          stocklotProvider.stocklotId
-                                              .toString());
+                                      // stocklotProvider.getSubcategories(
+                                      //     stocklotProvider.stocklotId
+                                      //         .toString());
                                       stocklotProvider.categoryId = value.id;
                                       stocklotProvider.getSubcategories(
                                           value.id.toString());
@@ -145,23 +150,22 @@ class StockLotPageState extends State<StockLotPage> {
                               visible: false,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: SizedBox(
                                     height: 0.04 *
                                         MediaQuery.of(context).size.height,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 2.0),
                                       child: SingleSelectTileRenewedWidget(
-                                        key: subCategoryKey,
                                         spanCount: 2,
                                         selectedIndex: -1,
                                         listOfItems: stocklotProvider
                                             .stocklotSubcategories!,
                                         callback: (StocklotCategories value) {
-                                          stocklotCategories = value;
-                                          stocklotProvider
-                                              .getFilteredStocklotWaste(
-                                                  value.id ?? -1);
+                                          // stocklotCategories = value;
+                                          // stocklotProvider
+                                          //     .getFilteredStocklotWaste(
+                                          //     value.id ?? -1);
                                           stocklotProvider.subcategoryId =
                                               value.id;
                                         },
@@ -271,7 +275,7 @@ class StockLotPageState extends State<StockLotPage> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(top: 8.w),
-                            child: StockLotListingBody(
+                            child: StockLotListingFuture(
                               locality: widget.locality!,
                             ),
                           ),

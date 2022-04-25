@@ -30,6 +30,11 @@ class StocklotProvider extends ChangeNotifier {
   final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
       GlobalKey<SingleSelectTileWidgetState>();
 
+  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListLocalKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
+  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListInternationalKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
+
   List<StocklotCategories> stocklotAllCategories = [];
   List<StocklotCategories>? stocklots = [];
   List<StocklotCategories>? stocklotCategories = [];
@@ -50,6 +55,7 @@ class StocklotProvider extends ChangeNotifier {
   int? stocklotId = -1;
   int? categoryId = -1;
   int? subcategoryId = -1;
+  int? selectedIndex = -1;
   bool expandStockLostWast = true;
   String apiError = "";
   List<PickedFile> imageFiles = [];
@@ -135,7 +141,7 @@ class StocklotProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createStockLot(context) async {
+  createStockLot(context,Function pop) async {
     loading = true;
     notifyListeners();
     if (loading) {
@@ -147,12 +153,18 @@ class StocklotProvider extends ChangeNotifier {
         loading = false;
         ProgressDialogUtil.hideDialog();
 
-        showGenericDialog("Success", value.message.toString(), context,
-            StylishDialogType.SUCCESS, "Close", () {});
+        showGenericDialogCancel("Success", value.message.toString(), context,
+            StylishDialogType.SUCCESS, "Close", () {
+
+            },(){
+              resetData();
+              notifyListeners();
+              pop();
+            });
 
         // Ui.showSnackBar(context, value.message.toString());
-        resetData();
-        notifyListeners();
+
+
       }
     }, onError: (error) {
       loading = false;
