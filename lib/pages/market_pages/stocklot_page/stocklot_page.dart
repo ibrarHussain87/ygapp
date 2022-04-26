@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/Providers/stocklot_provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
@@ -209,42 +210,64 @@ class StockLotPageState extends State<StockLotPage> {
                                     ),
                                     Expanded(
                                       flex: widget.locality == international
-                                          ? 2
+                                          ? 3
                                           : 0,
                                       child: Visibility(
                                         maintainSize: false,
                                         maintainState: false,
                                         visible:
                                             widget.locality == international,
-                                        child: DropdownButtonFormField(
+                                        child:SearchChoices.single(
+                                          displayClearIcon: false,
                                           isExpanded: true,
-                                          decoration:
-                                              const InputDecoration.collapsed(
-                                                  hintText: ''),
-                                          hint:
-                                              const TitleExtraSmallBoldTextWidget(
-                                                  title: 'Country'),
-                                          items: _countries
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                        value.conName ??
-                                                            Utils
-                                                                .checkNullString(
-                                                                    false),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
+                                          hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
+                                          items:_countries
+                                              .map((value) =>
+                                              DropdownMenuItem(
+                                                child: Text(
+                                                  value.conName ??
+                                                      Utils.checkNullString(false),
+                                                  textAlign: TextAlign
+                                                      .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
+                                                value: value,
+                                              )).toList(),
+                                          isCaseSensitiveSearch: false,
                                           onChanged: (Countries? value) {
-                                            /*_createRequestModel!
-                                          .spc_origin_idfk =
-                                          value!.conId.toString();*/
                                           },
                                           style: TextStyle(
-                                              fontSize: 11.sp,
-                                              color: textColorGrey),
-                                        ),
+                                            fontSize: 12.sp,
+                                            color: textColorGrey,overflow: TextOverflow.ellipsis,),
+                                        )
+
+//                                        DropdownButtonFormField(
+//                                          isExpanded: true,
+//                                          decoration:
+//                                              const InputDecoration.collapsed(
+//                                                  hintText: ''),
+//                                          hint:
+//                                              const TitleExtraSmallBoldTextWidget(
+//                                                  title: 'Country'),
+//                                          items: _countries
+//                                              .map((value) => DropdownMenuItem(
+//                                                    child: Text(
+//                                                        value.conName ??
+//                                                            Utils
+//                                                                .checkNullString(
+//                                                                    false),
+//                                                        textAlign:
+//                                                            TextAlign.center),
+//                                                    value: value,
+//                                                  ))
+//                                              .toList(),
+//                                          onChanged: (Countries? value) {
+//                                            /*_createRequestModel!
+//                                          .spc_origin_idfk =
+//                                          value!.conId.toString();*/
+//                                          },
+//                                          style: TextStyle(
+//                                              fontSize: 11.sp,
+//                                              color: textColorGrey),
+//                                        ),
                                       ),
                                     ),
                                     Visibility(

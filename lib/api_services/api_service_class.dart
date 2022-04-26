@@ -17,6 +17,7 @@ import 'package:yg_app/model/request/signup_request/signup_request.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
+import 'package:yg_app/model/request/update_fabric_request/update_fabric_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_bid_response.dart';
@@ -36,6 +37,7 @@ import 'package:yg_app/model/stocklot_waste_model.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/create_stocklot_response.dart';
+import '../model/response/fabric_response/fabric_update_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
@@ -58,6 +60,7 @@ class ApiService {
   static const String SYNC_END_POINT = "/sync";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
   static const String CREATE_END_POINT = "/createSpecification";
+  static const String UPDATE_FABRIC_END_POINT = "/update-specification";
   static const String LIST_BIDDERS_END_POINT = "/listBidders";
   static const String GET_MATCHED_END_POINT = "/getMatched";
   static const String CREATE_BID_END_POINT = "/createBid";
@@ -384,6 +387,40 @@ class ApiService {
       logger.e(json.decode(responsed.body));
 
       return CreateFiberResponse.fromJson(json.decode(responsed.body));
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+  static Future<FabricUpdateResponse> updateFabricSpecification(
+      UpdateFabricRequestModel updateFabricRequestModel, String imagePath) async {
+    //for multipart Request
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(BASE_API_URL + UPDATE_FABRIC_END_POINT));
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      request.headers.addAll(
+          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+      if (imagePath.isNotEmpty) {
+        request.files
+            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+      }
+      //createRequestModel.fs_user_idfk = userId.toString();
+      request.fields.addAll(updateFabricRequestModel.toJson());
+      logger.e(updateFabricRequestModel.toJson());
+      var response = await request.send();
+      var responsed = await http.Response.fromStream(response);
+      logger.e(json.decode(responsed.body));
+
+      return FabricUpdateResponse.fromJson(json.decode(responsed.body));
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

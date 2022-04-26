@@ -367,6 +367,7 @@ Widget buildYarnRenewedAgainWidget(
                                                   context,
                                                   specification,
                                                   null,
+                                                  null
                                                 );
                                               }else{
                                                 openDetailsScreen(

@@ -58,4 +58,13 @@ String FILTERED_RENEWED = "images/ic_filter_renewed.png";
 String black_tick = "images/black_tick.png";
 String white_tick = "images/white_tick.png";
 String divider_line = "images/line.png";
+String support = "images/support.png";
+String faqs = "images/faq.png";
+String email_icon = "images/email.png";
+String chat = "images/chat.png";
+String profile = "images/profile.png";
+String messenger = "images/messenger.png";
+String gmail = "images/gmail.png";
+String telegram = "images/telegram.png";
+String facebook = "images/facebook.png";
 

@@ -1,7 +1,7 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,26 +9,23 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/helper_utils/blended_single_tile.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/helper_utils/util.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../helper_utils/fabric_bottom_sheet.dart';
+import '../../../../helper_utils/pure_single_tile.dart';
+import '../../../../model/blend_model.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
 
@@ -42,11 +39,11 @@ class FabricSpecificationComponent extends StatefulWidget {
 
   const FabricSpecificationComponent(
       {Key? key,
-      // required this.syncFiberResponse,
-      required this.callback,
-      required this.locality,
-      required this.businessArea,
-      required this.selectedTab})
+        // required this.syncFiberResponse,
+        required this.callback,
+        required this.locality,
+        required this.businessArea,
+        required this.selectedTab})
       : super(key: key);
 
   @override
@@ -58,6 +55,8 @@ class FabricSpecificationComponentState
     with AutomaticKeepAliveClientMixin {
 
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  // from key (asad_m)
+  GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
   String? familyId;
@@ -88,6 +87,8 @@ class FabricSpecificationComponentState
   late List<FabricSalvedge> _salvedgeList;
   late List<FabricLayyer> _layyerList;
 
+
+
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
   bool _showDyingMethod = false;
@@ -114,18 +115,31 @@ class FabricSpecificationComponentState
   final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<SingleSelectTileWidgetState>();
 
+ //Nature Fabric key (asad_m)
+  final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<SingleSelectTileWidgetState>();
+  // Nature of fabric List
+  late List<String> _natureFabricList=["Pure","Blended"];
+  List<TextEditingController> textFieldControllers=[];
+  List<FabricBlends> blendValue=[];
+  FabricBlends pureValue=FabricBlends();
+
+  var checked=false;
+//  String pureValue="";
+  String blendString="";
+  List<BlendModel> values=[];
+
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
     AppDbInstance.getFabricBlendsData().then((value) => setState(() {
-          _fabricBlendsList = value;
-          _selectedMaterial = value
-              .where((element) => element.familyIdfk == postFabricProvider.firstFamilyId.toString())
-              .toList()
-              .first
-              .blnId;
-          postFabricProvider.setBlendId(_selectedMaterial!);
-          familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
-        }));
+      _fabricBlendsList = value;
+      _selectedMaterial = value
+          .where((element) => element.familyIdfk == postFabricProvider.firstFamilyId.toString())
+          .toList()
+          .first
+          .blnId;
+      postFabricProvider.setBlendId(_selectedMaterial!);
+      familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
+    }));
     var dbInstance = await AppDbInstance.getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     _fabricAppearanceList = await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
@@ -154,6 +168,10 @@ class FabricSpecificationComponentState
   final ValueNotifier<bool> _notifier = ValueNotifier(false);
   final ValueNotifier<Color> _notifierColor = ValueNotifier(const Color(0xffffffff));
 
+  // Pure text notifier (asad_m)
+  final ValueNotifier<String> _notifierPureText = ValueNotifier("");
+  final ValueNotifier<String> _notifierBlendText = ValueNotifier("");
+
   @override
   bool get wantKeepAlive => true;
 
@@ -169,7 +187,10 @@ class FabricSpecificationComponentState
 
   @override
   void dispose() {
+    _textEditingController.dispose();
     _notifier.dispose();
+    _notifierBlendText.dispose();
+    _notifierPureText.dispose();
     _notifierColor.dispose();
     super.dispose();
   }
@@ -212,7 +233,7 @@ class FabricSpecificationComponentState
                 Expanded(
                   child: Padding(
                     padding:
-                        EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                    EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,35 +484,7 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                //Show Weave
-                                Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showWeave),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(title: 'Weave' + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _weaveKey,
-                                          spanCount: 4,
-                                          listOfItems: _weaveList.where((element) =>
-                                          element.fabricFamilyIdfk == familyId)
-                                              .toList(),
-                                          callback: (FabricWeave value) {
-                                            _createRequestModel!.fs_weave_idfk =
-                                                value.fabricWeaveId.toString();
-
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                //Show Weave Pattern
+                                // Show Weave Pattern
                                 IntrinsicHeight(
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -535,6 +528,125 @@ class FabricSpecificationComponentState
                                     ],
                                   ),
                                 ),
+                                //Show Nature of Fabric (asad_mehmood)
+                                Visibility(
+                                  visible: true,
+//                                  visible: Ui.showHide(_fabricSettings!.showWeave),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Nature of Fabric' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _natureFabricKey,
+                                          spanCount: 2,
+//                                          listOfItems: _natureFabricList.where((element) =>
+//                                          element.fabricFamilyIdfk == familyId)
+//                                              .toList(),
+                                          listOfItems: _natureFabricList.toList(),
+                                          callback: (String value) {
+                                            if(value=="Pure")
+                                              {
+                                                _notifierBlendText.value="";
+                                                pureSheet(context,_fabricBlendsList.where((element) =>
+                                                element.familyIdfk == familyId)
+                                                    .toList());
+                                              }
+                                            else
+                                              {
+                                                _notifierPureText.value="";
+
+                                                blendedSheet(context,_fabricBlendsList.where((element) =>
+                                                element.familyIdfk == familyId)
+                                                    .toList());
+                                              }
+//                                            _createRequestModel!.fs_weave_idfk =
+//                                                value.fabricWeaveId.toString();
+
+                                          },
+                                        ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Expanded(
+                                                flex:1,
+                                                child: ValueListenableBuilder(
+                                                    valueListenable: _notifierPureText,
+                                                    builder: (context,String string,child){
+                                                      return Visibility(
+                                                          visible:string!="" ? true : false,
+                                                          child: Text(_notifierPureText.value,
+                                                            textAlign:TextAlign.center,
+                                                            style: TextStyle(fontSize: 10.sp,),));
+
+                                                    }
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 1,
+                                                child: ValueListenableBuilder(
+                                                    valueListenable: _notifierBlendText,
+                                                    builder: (context,String string,child){
+                                                      return Visibility(
+                                                          visible:string!="" ? true : false,
+                                                          child: Text(_notifierBlendText.value,
+                                                            textAlign:TextAlign.center,
+                                                            style: TextStyle(fontSize: 10.sp,),));
+
+                                                    }
+                                                ),
+                                              ),
+                                            ],
+
+
+                                          ),
+                                        ),
+
+
+
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+
+                                //Show Weave
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showWeave),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 8.w),
+                                            child: const TitleSmallTextWidget(title: 'Weave' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _weaveKey,
+                                          spanCount: 4,
+                                          listOfItems: _weaveList.where((element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricWeave value) {
+                                            _createRequestModel!.fs_weave_idfk =
+                                                value.fabricWeaveId.toString();
+
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
                                 //Show Loom
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showLoom),
@@ -749,14 +861,14 @@ class FabricSpecificationComponentState
                                                 value.fctmId.toString();
 
                                             if (_colorTreatmentIdList.contains(value.fctmId)) {
-                                                _showDyingMethod = true;
-                                                _notifier.value = true;
-                                                _selectedColorTreatMethodId = value.fctmId.toString();
+                                              _showDyingMethod = true;
+                                              _notifier.value = true;
+                                              _selectedColorTreatMethodId = value.fctmId.toString();
                                             } else {
-                                                _showDyingMethod = false;
-                                                _notifier.value = false;
-                                                _createRequestModel!.fs_dying_method_idfk = null;
-                                                _createRequestModel!.fs_color = null;
+                                              _showDyingMethod = false;
+                                              _notifier.value = false;
+                                              _createRequestModel!.fs_dying_method_idfk = null;
+                                              _createRequestModel!.fs_color = null;
                                             }
                                           },
                                         ),
@@ -885,51 +997,51 @@ class FabricSpecificationComponentState
                                             child: TitleSmallTextWidget(title: "Color"),
                                           ),
                                           ValueListenableBuilder(
-                                            valueListenable: _notifierColor,
-                                            builder: (context,Color color,child){
-                                              return Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                child: SizedBox(
-                                                  width: 120.w,
-                                                  child: TextFormField(
-                                                    keyboardType: TextInputType.none,
-                                                    controller: _textEditingController,
-                                                    autofocus: false,
-                                                    showCursor: false,
-                                                    readOnly: true,
-                                                    style: TextStyle(fontSize: 11.sp),
-                                                    textAlign: TextAlign.center,
-                                                    onSaved: (input) {
-                                                      if( input==null || input.isEmpty){
-                                                        _createRequestModel!.fs_color = null;
-                                                      }else{
-                                                        _createRequestModel!.fs_color = input;
-                                                      }
-                                                    },
-                                                    // validator: (input) {
-                                                    //   if (input == null ||
-                                                    //       input.isEmpty) {
-                                                    //     return "Select Color Code";
-                                                    //   }
-                                                    //   return null;
-                                                    // },
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(10.0),
-                                                            borderSide: BorderSide.none),
-                                                        contentPadding: const EdgeInsets.all(2.0),
-                                                        hintText: "Select Color",
-                                                        filled: true,
-                                                        fillColor: color),
-                                                    onTap: () {
-                                                      _openDialogBox();
-                                                    },
+                                              valueListenable: _notifierColor,
+                                              builder: (context,Color color,child){
+                                                return Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(10.0),
                                                   ),
+                                                  child: SizedBox(
+                                                    width: 120.w,
+                                                    child: TextFormField(
+                                                      keyboardType: TextInputType.none,
+                                                      controller: _textEditingController,
+                                                      autofocus: false,
+                                                      showCursor: false,
+                                                      readOnly: true,
+                                                      style: TextStyle(fontSize: 11.sp),
+                                                      textAlign: TextAlign.center,
+                                                      onSaved: (input) {
+                                                        if( input==null || input.isEmpty){
+                                                          _createRequestModel!.fs_color = null;
+                                                        }else{
+                                                          _createRequestModel!.fs_color = input;
+                                                        }
+                                                      },
+                                                      // validator: (input) {
+                                                      //   if (input == null ||
+                                                      //       input.isEmpty) {
+                                                      //     return "Select Color Code";
+                                                      //   }
+                                                      //   return null;
+                                                      // },
+                                                      decoration: InputDecoration(
+                                                          border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(10.0),
+                                                              borderSide: BorderSide.none),
+                                                          contentPadding: const EdgeInsets.all(2.0),
+                                                          hintText: "Select Color",
+                                                          filled: true,
+                                                          fillColor: color),
+                                                      onTap: () {
+                                                        _openDialogBox();
+                                                      },
+                                                    ),
                                                   ),
                                                 );
-                                            }
+                                              }
                                           ),
                                         ],
                                       ),
@@ -1143,7 +1255,7 @@ class FabricSpecificationComponentState
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
-              //  setState(() => pickerColor = pickerColor);
+                //  setState(() => pickerColor = pickerColor);
                 _notifierColor.value = pickerColor;
                 Navigator.of(context).pop();
               },
@@ -1170,7 +1282,7 @@ class FabricSpecificationComponentState
     if (validationAllPage()) {
       /*_createRequestModel!.spc_category_idfk = "3";
       _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';*/
-     /* _createRequestModel!.fs_family_idfk = _fabricBlendsList
+      /* _createRequestModel!.fs_family_idfk = _fabricBlendsList
           .where((element) =>
               element.blnId == _selectedMaterial)
           .toList()
@@ -1203,7 +1315,7 @@ class FabricSpecificationComponentState
     Logger().e(_createRequestModel!.toJson().toString());
     _createRequestModel = FabricCreateRequestModel();
     Logger().e(_createRequestModel!.toJson().toString());
-   /* _createRequestModel!.spc_grade_idfk = null;
+    /* _createRequestModel!.spc_grade_idfk = null;
     _createRequestModel!.spc_appearance_idfk = null;
     _createRequestModel!.spc_certificate_idfk = null;
     _createRequestModel!.spc_lot_number = null;
@@ -1229,84 +1341,284 @@ class FabricSpecificationComponentState
     return false;
   }
 
-  bool validationAllPage() {
-      if (validateAndSave()) {
-        if (_createRequestModel!.fs_blend_idfk == null &&
-            Ui.showHide(_fabricSettings!.showBlend)) {
-          Ui.showSnackBar(context, 'Please Select Blend');
-          return false;
-        } else if (_createRequestModel!.fs_ply_idfk == null &&
-            Ui.showHide(_fabricSettings!.showPly)) {
-          Ui.showSnackBar(context, 'Please Select Ply');
-          return false;
-        } else if (_createRequestModel!.fs_color_treatment_method_idfk == null &&
-            Ui.showHide(_fabricSettings!.showColorTreatmentMethod)) {
-          Ui.showSnackBar(context, 'Please Select Color Treatment Method');
-          return false;
-        }  else if (_createRequestModel!.fs_dying_method_idfk == null &&
-            _showDyingMethod) {
-          Ui.showSnackBar(context, 'Please Select Dying Method');
-          return false;
-        }else if (_createRequestModel!.fs_knitting_type_idfk == null &&
-            Ui.showHide(_fabricSettings!.showKnittingType)) {
-          Ui.showSnackBar(context, 'Please Select Knitting Type');
-          return false;
-        }else if (_createRequestModel!.fs_weave_idfk == null &&
-            Ui.showHide(_fabricSettings!.showWeave)) {
-          Ui.showSnackBar(context, 'Please Select Weave');
-          return false;
-        }else if (_createRequestModel!.fs_loom_idfk == null &&
-            Ui.showHide(_fabricSettings!.showLoom)) {
-          Ui.showSnackBar(context, 'Please Select Loom');
-          return false;
-        }else if (_createRequestModel!.fs_layyer_idfk == null &&
-            Ui.showHide(_fabricSettings!.showLayyer)) {
-          Ui.showSnackBar(context, 'Please Select Layyer');
-          return false;
-        } else if (_createRequestModel!.fs_quality_idfk == null &&
-            Ui.showHide(_fabricSettings!.showQuality)) {
-          Ui.showSnackBar(context, 'Please Select Quality');
-          return false;
-        }  else if (_createRequestModel!.fs_grade_idfk == null &&
-            Ui.showHide(_fabricSettings!.showGrade)) {
-          Ui.showSnackBar(context, 'Please Select Grade');
-          return false;
-        }else if (_createRequestModel!.fs_color == null &&
-            _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
-          Ui.showSnackBar(context, 'Please Select Color');
-          return false;
-        } else if (_createRequestModel!.fs_appearance_idfk == null &&
-            Ui.showHide(_fabricSettings!.showAppearance)) {
-          Ui.showSnackBar(context, 'Please Select Appearance');
-          return false;
-        } else if (_createRequestModel!.fs_certification_idfk == null &&
-            Ui.showHide(_fabricSettings!.showCertification)) {
-          Ui.showSnackBar(context, 'Please Select Certification');
-          return false;
-        } else {
-          _createRequestModel!.spc_category_idfk = "3";
-          return true;
-        }
-      }
+  // Blend form valiation (asad_m)
+  bool validateAndSaveBlend() {
+    final form = blendedFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
     return false;
-  //  return true;
+  }
+
+  bool validationAllPage() {
+    if (validateAndSave()) {
+      if (_createRequestModel!.fs_blend_idfk == null &&
+          Ui.showHide(_fabricSettings!.showBlend)) {
+        Ui.showSnackBar(context, 'Please Select Blend');
+        return false;
+      } else if (_createRequestModel!.fs_ply_idfk == null &&
+          Ui.showHide(_fabricSettings!.showPly)) {
+        Ui.showSnackBar(context, 'Please Select Ply');
+        return false;
+      } else if (_createRequestModel!.fs_color_treatment_method_idfk == null &&
+          Ui.showHide(_fabricSettings!.showColorTreatmentMethod)) {
+        Ui.showSnackBar(context, 'Please Select Color Treatment Method');
+        return false;
+      }  else if (_createRequestModel!.fs_dying_method_idfk == null &&
+          _showDyingMethod) {
+        Ui.showSnackBar(context, 'Please Select Dying Method');
+        return false;
+      }else if (_createRequestModel!.fs_knitting_type_idfk == null &&
+          Ui.showHide(_fabricSettings!.showKnittingType)) {
+        Ui.showSnackBar(context, 'Please Select Knitting Type');
+        return false;
+      }else if (_createRequestModel!.fs_weave_idfk == null &&
+          Ui.showHide(_fabricSettings!.showWeave)) {
+        Ui.showSnackBar(context, 'Please Select Weave');
+        return false;
+      }else if (_createRequestModel!.fs_loom_idfk == null &&
+          Ui.showHide(_fabricSettings!.showLoom)) {
+        Ui.showSnackBar(context, 'Please Select Loom');
+        return false;
+      }else if (_createRequestModel!.fs_layyer_idfk == null &&
+          Ui.showHide(_fabricSettings!.showLayyer)) {
+        Ui.showSnackBar(context, 'Please Select Layyer');
+        return false;
+      } else if (_createRequestModel!.fs_quality_idfk == null &&
+          Ui.showHide(_fabricSettings!.showQuality)) {
+        Ui.showSnackBar(context, 'Please Select Quality');
+        return false;
+      }  else if (_createRequestModel!.fs_grade_idfk == null &&
+          Ui.showHide(_fabricSettings!.showGrade)) {
+        Ui.showSnackBar(context, 'Please Select Grade');
+        return false;
+      }else if (_createRequestModel!.fs_color == null &&
+          _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
+        Ui.showSnackBar(context, 'Please Select Color');
+        return false;
+      } else if (_createRequestModel!.fs_appearance_idfk == null &&
+          Ui.showHide(_fabricSettings!.showAppearance)) {
+        Ui.showSnackBar(context, 'Please Select Appearance');
+        return false;
+      } else if (_createRequestModel!.fs_certification_idfk == null &&
+          Ui.showHide(_fabricSettings!.showCertification)) {
+        Ui.showSnackBar(context, 'Please Select Certification');
+        return false;
+      } else {
+        _createRequestModel!.spc_category_idfk = "3";
+        return true;
+      }
+    }
+    return false;
+    //  return true;
   }
 
   void handleReadOnlyInputClick(context) {
     showBottomSheet(
         context: context,
         builder: (BuildContext context) => Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2,
-              child: YearPicker(
-                selectedDate: DateTime(DateTime.now().year),
-                firstDate: DateTime(DateTime.now().year - 4),
-                lastDate: DateTime.now(),
-                onChanged: (val) {
-                  _textEditingController.text = val.year.toString();
-                  Navigator.pop(context);
-                },
-              ),
-            ));
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 2,
+          child: YearPicker(
+            selectedDate: DateTime(DateTime.now().year),
+            firstDate: DateTime(DateTime.now().year - 4),
+            lastDate: DateTime.now(),
+            onChanged: (val) {
+              _textEditingController.text = val.year.toString();
+              Navigator.pop(context);
+            },
+          ),
+        ));
   }
+
+  pureSheet(BuildContext context, List<FabricBlends> blends) {
+
+    showModalBottomSheet<int>(
+      isScrollControlled:true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return  StatefulBuilder(
+            builder: (BuildContext context, StateSetter state) {
+              return NatureFabricSheet(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 5, top: 8),
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(Icons.close),
+                            ),
+                          )),
+                      Text(sheet_title,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 20.0.sp,
+                            color: headingColor,
+                            fontWeight: FontWeight.w700),),
+                      const SizedBox(height: 10,),
+                      PureTileWidget(
+                        selectedIndex:pureValue,
+                        listOfItems: blends,
+                        callback: (FabricBlends value) {
+                          pureValue=value;
+                          },
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(16.w),
+                        child: SizedBox(
+                            width: double.infinity,
+                            child: Builder(builder: (BuildContext context1) {
+                              return ElevatedButton(
+                                  child: Text("Add",
+                                      style: TextStyle(
+                                          fontFamily: 'Metropolis', fontSize: 14.sp)),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                      MaterialStateProperty.all<Color>(Colors.white),
+                                      backgroundColor:
+                                      MaterialStateProperty.all<Color>(btnColorLogin),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                          const RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(8)),
+                                              side: BorderSide(color: Colors.transparent)))),
+                                  onPressed: () {
+                                   if(pureValue!="")
+                                     {
+                                       _notifierPureText.value=pureValue.toString();
+                                       Navigator.of(context).pop();
+
+                                     }
+
+
+                                  });
+                            })),
+                      ),
+                    ],
+                  ),
+                ),
+              );}
+        );
+      },
+    );
+  }
+  blendedSheet(BuildContext context, List<FabricBlends> blends) {
+  values.clear();
+    if(textFieldControllers.isEmpty) {
+      for (var i = 0; i < blends.length; i++) {
+        textFieldControllers.add(TextEditingController());
+      }
+    }
+
+    showModalBottomSheet<int>(
+      isScrollControlled:true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return  StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return NatureFabricSheet(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: blendedFormKey,
+                    child: Column(
+                      children: [
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5, top: 8),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(Icons.close),
+                              ),
+                            )),
+                        Text(sheet_title,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 20.0.sp,
+                              color: headingColor,
+                              fontWeight: FontWeight.w700),),
+                        const SizedBox(height: 10,),
+                        BlendedTileWidget(
+                          selectedIndex:blendValue,
+                          listOfItems: blends,
+                          listController:textFieldControllers,
+                          blendsValue:values,
+                          callback: (List<FabricBlends> value) {
+
+                              blendValue = value;
+
+                              },
+                          textFieldcallback: (List<BlendModel> value) {
+
+                           values=value;
+
+
+
+                          },
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: SizedBox(
+                              width: double.infinity,
+                              child: Builder(builder: (BuildContext context1) {
+                                return ElevatedButton(
+                                    child: Text("Add",
+                                        style: TextStyle(
+                                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                                    style: ButtonStyle(
+                                        foregroundColor:
+                                        MaterialStateProperty.all<Color>(Colors.white),
+                                        backgroundColor:
+                                        MaterialStateProperty.all<Color>(btnColorLogin),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                            const RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(8)),
+                                                side: BorderSide(color: Colors.transparent)))),
+                                    onPressed: () {
+
+                                      if(validateAndSaveBlend()){
+                                        blendString="";
+                                        for(int i=0;i<values.length;i++) {
+                                          blendString+=values[i].title.toString()+"("+values[i].value.toString()+"),";
+
+                                        }
+                                            if(blendString.toString()!=""){
+                                        _notifierBlendText.value=blendString.toString();
+
+                                      Navigator.of(context).pop();}
+
+                                      }
+                                    });
+                              })),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );}
+        );
+      },
+    );
+  }
+
+
 }
+
+

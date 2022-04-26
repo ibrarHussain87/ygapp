@@ -331,18 +331,19 @@ Widget buildFabricRenewedAgainWidget(
                                           left: 4.w, right: 4.w,),
                                         child: GestureDetector(
                                             onTap: () {
-                                              /*if (snapshot.data ==
+                                              if (snapshot.data ==
                                                   specification.fsUserId) {
                                                 Utils.updateDialog(
                                                   context,
-                                                  specification,
                                                   null,
+                                                  null,
+                                                  specification
                                                 );
                                               }else{
                                                 openDetailsScreen(
-                                                    context,yarnSpecification: specification,sendProposal: true);
-                                              }*/
-                                              Fluttertoast.showToast(msg: 'coming soon');
+                                                    context,specObj: specification,sendProposal: true);
+                                              }
+                                             // Fluttertoast.showToast(msg: 'coming soon');
                                             },
                                             child: SizedBox(
                                               width: 80,

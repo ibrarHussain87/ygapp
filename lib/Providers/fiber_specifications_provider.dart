@@ -27,7 +27,7 @@ class FiberSpecificationsProvider extends ChangeNotifier{
     }
   }
 
-  Future<FiberSpecificationResponse> getFibers() async{
+  Future<FiberSpecificationResponse> getFibers(String locality) async{
     var response = await ApiService.getFiberSpecifications(requestModel!, locality);
     fiberSpecificationResponse = response;
     return response;
