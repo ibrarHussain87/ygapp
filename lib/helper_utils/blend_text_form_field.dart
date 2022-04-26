@@ -56,6 +56,7 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
   final Function onSaved;
   final TextEditingController textEditingController;
   final bool validation;
+  final bool isEnabled;
 
   const BlendTextFormFieldWithRangeNonDecimal(
       {Key? key,
@@ -63,7 +64,9 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         required this.minMax,
         required this.onSaved,
         required this.textEditingController,
-        required this.validation})
+        required this.validation,
+        required this.isEnabled
+      })
       : super(key: key);
 
   @override
@@ -73,6 +76,7 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         controller: textEditingController,
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
+        enabled:isEnabled,
         cursorColor: lightBlueTabs,
         style: TextStyle(fontSize: 11.sp),
         textAlign: TextAlign.center,

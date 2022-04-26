@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -122,6 +123,8 @@ class FabricSpecificationComponentState
   List<TextEditingController> textFieldControllers=[];
   List<FabricBlends> blendValue=[];
   FabricBlends pureValue=FabricBlends();
+
+
 
   var checked=false;
 //  String pureValue="";
@@ -551,6 +554,8 @@ class FabricSpecificationComponentState
                                           callback: (String value) {
                                             if(value=="Pure")
                                               {
+                                                blendValue.clear();
+                                                textFieldControllers.clear();
                                                 _notifierBlendText.value="";
                                                 pureSheet(context,_fabricBlendsList.where((element) =>
                                                 element.familyIdfk == familyId)
@@ -558,8 +563,8 @@ class FabricSpecificationComponentState
                                               }
                                             else
                                               {
+                                                pureValue=FabricBlends();
                                                 _notifierPureText.value="";
-
                                                 blendedSheet(context,_fabricBlendsList.where((element) =>
                                                 element.familyIdfk == familyId)
                                                     .toList());
@@ -595,6 +600,8 @@ class FabricSpecificationComponentState
                                                     valueListenable: _notifierBlendText,
                                                     builder: (context,String string,child){
                                                       return Visibility(
+                                                        maintainState: false,
+                                                          maintainSize: false,
                                                           visible:string!="" ? true : false,
                                                           child: Text(_notifierBlendText.value,
                                                             textAlign:TextAlign.center,
@@ -1514,6 +1521,8 @@ class FabricSpecificationComponentState
   }
   blendedSheet(BuildContext context, List<FabricBlends> blends) {
   values.clear();
+  var result =0.0;
+
     if(textFieldControllers.isEmpty) {
       for (var i = 0; i < blends.length; i++) {
         textFieldControllers.add(TextEditingController());
@@ -1598,11 +1607,33 @@ class FabricSpecificationComponentState
                                         for(int i=0;i<values.length;i++) {
                                           blendString+=values[i].title.toString()+"("+values[i].value.toString()+"),";
 
+                                          result+=int.parse(values[i].value.toString());
+
                                         }
                                             if(blendString.toString()!=""){
-                                        _notifierBlendText.value=blendString.toString();
+                                            print("Percent(%):\t"+result.toString());
+                                              if(result>100)
+                                                {
+                                                  result=0.0;
+                                                  values.clear();
 
-                                      Navigator.of(context).pop();}
+                                                  Fluttertoast.showToast(
+                                                      msg:blend_message,
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.BOTTOM,
+                                                      timeInSecForIosWeb: 1);
+                                                }
+                                              else
+                                                {
+                                                  if (blendString.endsWith(",")) {
+                                                    blendString = blendString.substring(0, blendString.length - 1);
+                                                  }
+                                                  _notifierBlendText.value=blendString.toString();
+
+                                                  Navigator.of(context).pop();
+                                                }
+
+                                            }
 
                                       }
                                     });
