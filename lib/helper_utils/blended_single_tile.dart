@@ -46,7 +46,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
 
   @override
   void initState() {
-     blends=widget.blendsValue ?? [];
+     blends=widget.blendsValue;
      title=widget.selectedIndex;
     super.initState();
   }

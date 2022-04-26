@@ -972,7 +972,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               widget.specification,
                         null
                             )
-                      : (widget.specObject is StockLotSpecification) ? Fluttertoast.showToast(msg: 'Delete coming soon') : Fluttertoast.showToast(msg: 'update coming soon');
+                      : (widget.specObject is StockLotSpecification) ? Fluttertoast.showToast(msg: 'Delete coming soon')
                       : Utils.updateDialog(
                           context,
                           null,
@@ -1852,7 +1852,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     ];
     if (fabricSpec.locality!.toUpperCase() == international) {
       _detailPackaging.add(GridTileModel(
-          'Port','fabricSpec.port' ?? Utils.checkNullString(false)));
+          'Port','fabricSpec.port'));
     }
     var newPackingDetails = _detailPackaging.toList();
     _detailPackaging = newPackingDetails

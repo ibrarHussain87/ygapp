@@ -1438,7 +1438,6 @@ class Utils {
       ),
     ];
   }
-  /*static void updateDialog(
 
   static stockLotPriceMin(StockLotSpecification specification) {
     int min = int.parse(specification.specDetails!.first.price!);
