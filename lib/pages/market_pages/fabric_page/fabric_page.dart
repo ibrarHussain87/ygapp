@@ -32,7 +32,7 @@ class FabricPageState extends State<FabricPage> {
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final GlobalKey<FabricSpecificationListFutureState> fabricSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
-  late List<Countries> _countries;
+  List<Countries> _countries = [];
 
   @override
   void initState() {
