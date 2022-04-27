@@ -185,7 +185,7 @@ class StockLotSpecification {
     _id = json['id'];
     _userId = json['user_id'];
     _company = json['company'];
-    _stocklotCategoryId = json['stocklot_category_id'];
+    _stocklotCategoryId = json['spc_category_idfk'];
     _category = json['category'];
     _unit = json['unit'];
     _availablity = json['availablity'];
@@ -352,7 +352,7 @@ class SpecDetails {
 
   SpecDetails.fromJson(dynamic json) {
     _stocklotSubCategoryId = json['stocklot_sub_category_id'];
-    _subCategory = json['sub_category'];
+    _subCategory = json['stocklot_sub_category_name'];
     _quantity = json['quantity'];
     _unit = json['unit'];
     _price = json['price'];

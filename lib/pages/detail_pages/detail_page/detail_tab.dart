@@ -341,6 +341,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                         countOfItemInSection: (int section) {
                           return _stockLotItems.values.toList()[section].length;
                         },
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: _itemBuilder,
                         groupHeaderBuilder:
                             (BuildContext context, int section) {
@@ -962,17 +963,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               context,
                               widget.yarnSpecification,
                               null,
+                        null
                             )
                           : widget.yarnSpecification != null
                       ? Utils.updateDialog(
                               context,
                               null,
                               widget.specification,
+                        null
                             )
-                      : Fluttertoast.showToast(msg: 'update coming soon');
+                      : (widget.specObject is StockLotSpecification) ? Fluttertoast.showToast(msg: 'Delete coming soon')
+                      : Utils.updateDialog(
+                          context,
+                          null,
+                          null,
+                          widget.specObject as FabricSpecification
+                      );
                     },
-                    color: btnColorLogin,
-                    btnText: 'Update')
+                    color: (widget.specObject is StockLotSpecification) ? Colors.red.shade400 :btnColorLogin,
+                    btnText:(widget.specObject is StockLotSpecification) ? 'Delete' :'Update')
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1843,7 +1852,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     ];
     if (fabricSpec.locality!.toUpperCase() == international) {
       _detailPackaging.add(GridTileModel(
-          'Port','fabricSpec.port' ?? Utils.checkNullString(false)));
+          'Port','fabricSpec.port'));
     }
     var newPackingDetails = _detailPackaging.toList();
     _detailPackaging = newPackingDetails

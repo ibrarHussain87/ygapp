@@ -30,6 +30,11 @@ class StocklotProvider extends ChangeNotifier {
   final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
       GlobalKey<SingleSelectTileWidgetState>();
 
+  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListLocalKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
+  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListInternationalKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
+
   List<StocklotCategories> stocklotAllCategories = [];
   List<StocklotCategories>? stocklots = [];
   List<StocklotCategories>? stocklotCategories = [];
@@ -50,6 +55,7 @@ class StocklotProvider extends ChangeNotifier {
   int? stocklotId = -1;
   int? categoryId = -1;
   int? subcategoryId = -1;
+  int? selectedIndex = -1;
   bool expandStockLostWast = true;
   String apiError = "";
   List<PickedFile> imageFiles = [];
@@ -58,11 +64,23 @@ class StocklotProvider extends ChangeNotifier {
   int selectedSubCategoryIndex = -1;
   bool showSubCategory = false;
   bool showCategory = false;
+  String? unitName;
   GetStockLotSpecRequestModel getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
+
+  setUnitName(String name){
+    unitName = name;
+    notifyListeners();
+  }
 
   setSubCatIndex(int value) {
     if (subCategoryKey.currentState != null) {
       subCategoryKey.currentState!.checkedTile = value;
+    }
+  }
+
+  setCatIndex(int value) {
+    if (categoryKey.currentState != null) {
+      categoryKey.currentState!.checkedTile = value;
     }
   }
 
@@ -84,6 +102,14 @@ class StocklotProvider extends ChangeNotifier {
    searchData(GetStockLotSpecRequestModel value){
     getStockLotSpecRequestModel = value;
     notifyListeners();
+  }
+
+  Future<StockLotSpecificationResponse> getStockLots(requestModel) async{
+    loading = true;
+    notifyListeners();
+    var response = await ApiService.getStockLotSpecifications(requestModel);
+    StockLotSpecificationResponse specificationResponse = response;
+    return specificationResponse;
   }
 
   getStocklotData() async {
@@ -115,7 +141,7 @@ class StocklotProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createStockLot(context) async {
+  createStockLot(context,Function pop) async {
     loading = true;
     notifyListeners();
     if (loading) {
@@ -127,12 +153,18 @@ class StocklotProvider extends ChangeNotifier {
         loading = false;
         ProgressDialogUtil.hideDialog();
 
-        showGenericDialog("Success", value.message.toString(), context,
-            StylishDialogType.SUCCESS, "Close", () {});
+        showGenericDialogCancel("Success", value.message.toString(), context,
+            StylishDialogType.SUCCESS, "Close", () {
+
+            },(){
+              resetData();
+              notifyListeners();
+              pop();
+            });
 
         // Ui.showSnackBar(context, value.message.toString());
-        resetData();
-        notifyListeners();
+
+
       }
     }, onError: (error) {
       loading = false;
@@ -241,6 +273,13 @@ class StocklotProvider extends ChangeNotifier {
     subcategoryId = -1;
     expandStockLostWast = true;
     imageFiles = [];
+    setShowCategory(true);
+    setShowSubCategory(true);
+    setSubCatIndex(-1);
+    setCatIndex(-1);
+    stocklotRequestModel.subcategoryId = null;
+    setCatIndex(-1);
+    setSubCatIndex(-1);
     stocklotRequestModel = StocklotRequestModel();
   }
 }

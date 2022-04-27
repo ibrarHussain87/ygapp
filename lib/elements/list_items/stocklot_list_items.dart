@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:intl/intl.dart';
@@ -22,16 +24,63 @@ class StockLotListItem extends StatefulWidget {
 
 class _StockLotListItemState extends State<StockLotListItem> {
 
-  String priceStockLot(){
+  priceStockLot(){
     return widget.specification.specDetails!.isNotEmpty ?widget.specification.specDetails!
         .length >
         1
         ? Utils.stockLotPriceRange(
         widget.specification)
-        : "${widget.specification.specDetails!.first.price} ${widget.specification.specDetails!.first.priceUnit!= null?widget.specification.specDetails!.first.priceUnit!.split(" ").first : ""}":"Not available";
+        :  [
+      // TextSpan(
+      //   text:
+      //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+      //   style: TextStyle(
+      //       color: Colors.black,
+      //       fontSize: 12.sp,
+      //       // fontFamily: 'Metropolis',
+      //       fontWeight: FontWeight.w500),
+      // ),
+      TextSpan(
+        text: widget.specification.specDetails!.first.price/*'1000'*/,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 17.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w600),
+      ),
+      TextSpan(
+        text:
+        "/${widget.specification.specDetails!.first.priceUnit!= null?widget.specification.specDetails!.first.priceUnit!.split(" ").first : ""}",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 12.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w500),
+      ),
+    ] : [
+      TextSpan(
+        text: "",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 17.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w600),
+      ),
+      TextSpan(
+        text:
+        "",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 12.sp,
+            // fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w500),
+      ),
+    ];
+
+
   }
 
-  String? priceStockLotSpec;
+  late List<TextSpan> priceStockLotSpec;
 
   @override
   void initState() {
@@ -234,32 +283,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text.rich(TextSpan(children: [
-                                // TextSpan(
-                                //   text: '',
-                                //   style: TextStyle(
-                                //       color: Colors.black,
-                                //       fontSize: 12.sp,
-                                //       fontFamily: 'Metropolis',
-                                //       fontWeight: FontWeight.w500),
-                                // ),
-                                TextSpan(
-                                  text: priceStockLotSpec,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14.sp,
-                                      fontFamily: 'Metropolis',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                // TextSpan(
-                                //   text: "/PKR",
-                                //   style: TextStyle(
-                                //       color: Colors.black,
-                                //       fontSize: 10.sp,
-                                //       fontFamily: 'Metropolis',
-                                //       fontWeight: FontWeight.w500),
-                                // ),
-                              ])),
+                              Text.rich(TextSpan(children: priceStockLotSpec,)),
                               SizedBox(
                                 height: 1.h,
                               ),
@@ -345,29 +369,26 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                         ),
                                         child: GestureDetector(
                                             onTap: () {
-                                              // if (snapshot.data ==
-                                              //     specification.ys_user_id) {
-                                              //   Utils.updateDialog(
-                                              //     context,
-                                              //     specification,
-                                              //     null,
-                                              //   );
-                                              // } else {
-                                              //   openDetailsScreen(context,
-                                              //       yarnSpecification:
-                                              //           specification,
-                                              //       sendProposal: true);
-                                              // }
+                                              if (widget.specification.userId == snapshot.data) {
+                                                Fluttertoast.showToast(msg: "Delete coming soon...");
+                                              } else {
+                                                openDetailsScreen(context,
+                                                    specObj:
+                                                        widget.specification,
+                                                    sendProposal: true);
+                                              }
                                             },
                                             child: SizedBox(
                                               width: 80,
                                               height: 22,
                                               child: Center(
                                                 child: BidNowWidget(
+                                                  color: snapshot.data !=
+                                                      widget.specification.userId ?greenButtonColor : Colors.red.shade400 ,
                                                   title: snapshot.data !=
                                                           widget.specification.userId
                                                       ? 'Send Proposal':
-                                                      "Update",
+                                                      "Delete",
                                                   size: 10.sp,
                                                   padding: 5,
                                                 ),

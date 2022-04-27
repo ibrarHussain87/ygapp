@@ -49,6 +49,12 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
 
   late StocklotProvider stocklotProvider;
+  final GlobalKey<SingleSelectTileWidgetState> categoryKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> subCategoryKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+
+  String? subCategoryName;
 
   @override
   void initState() {
@@ -104,12 +110,17 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       spanCount: 3,
                                       listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
                                           .stocklots!,
-                                      selectedIndex: 0,
+                                      selectedIndex: -1,
                                       callback: (StocklotCategories value) {
                                         if (stocklotProvider
                                             .stocklotWasteList!.isEmpty) {
                                           stocklotProvider.getCategories(
                                               value.id.toString());
+                                          stocklotProvider.setShowCategory(true);
+                                          stocklotProvider.setShowSubCategory(false);
+                                          if(categoryKey.currentState!=null) categoryKey.currentState!.checkedTile = -1;
+                                          stocklotProvider.stocklotRequestModel.subcategoryId = null;
+                                          stocklotCategories = null;
                                         }
                                       },
                                     ),
@@ -117,83 +128,90 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                left: 8.w,
-                                right: 8.w,
-                                top: 10.w,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  const TitleMediumTextWidget(
-                                      title: "Category"),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: stocklotProvider.ignoreClick,
-                                    child: SingleSelectTileWidget(
-                                      key: stocklotProvider.categoryKey,
-                                      spanCount: 3,
-                                      listOfItems:
-                                          stocklotProvider.stocklotCategories!,
-                                      selectedIndex: -1,
-                                      callback: (StocklotCategories value) {
-                                        stocklotProvider.stocklotRequestModel
-                                                .subcategoryId =
-                                            value.id.toString();
-                                        if (stocklotProvider
-                                            .stocklotWasteList!.isEmpty) {
-                                          stocklotProvider.getSubcategories(
-                                              value.id.toString());
-                                        }
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
+                            Visibility(
+                              visible: stocklotProvider.showCategory,
+                              child: Container(
+                                padding: EdgeInsets.only(
                                   left: 8.w,
                                   right: 8.w,
                                   top: 10.w,
-                                  bottom: 8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  const TitleMediumTextWidget(
-                                      title: "Sub Categories"),
-                                  SizedBox(
-                                    height: 8.h,
-                                  ),
-                                  SingleSelectTileWidget(
-                                    key: stocklotProvider.subCategoryKey,
-                                    spanCount: 3,
-                                    listOfItems:
-                                        stocklotProvider.stocklotSubcategories!,
-                                    selectedIndex: -1,
-                                    callback: (StocklotCategories value) {
-                                      stocklotCategories = value;
-                                      stocklotProvider.getFilteredStocklotWaste(
-                                          value.id ?? -1);
-                                      var list = stocklotProvider
-                                          .stocklotWasteList!
-                                          .where((element) =>
-                                              element.id == value.id.toString())
-                                          .toList();
-                                      var editWasteModel =
-                                          list.isNotEmpty ? list.first : null;
-                                      showStocklotBottomSheet(value,
-                                          stocklotProvider, editWasteModel);
-                                    },
-                                  )
-                                ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    const TitleMediumTextWidget(
+                                        title: "Category"),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    IgnorePointer(
+                                      ignoring: stocklotProvider.ignoreClick,
+                                      child: SingleSelectTileWidget(
+                                        key: categoryKey,
+                                        spanCount: 3,
+                                        listOfItems:
+                                            stocklotProvider.stocklotCategories!,
+                                        selectedIndex: -1,
+                                        callback: (StocklotCategories value) {
+                                          stocklotProvider.setShowSubCategory(true);
+                                          stocklotProvider.stocklotRequestModel
+                                                  .subcategoryId =
+                                              value.id.toString();
+
+                                          if (stocklotProvider
+                                              .stocklotWasteList!.isEmpty) {
+                                            stocklotProvider.getSubcategories(
+                                                value.id.toString());
+                                          }
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: stocklotProvider.showSubCategory,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: 8.w,
+                                    right: 8.w,
+                                    top: 10.w,
+                                    bottom: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    const TitleMediumTextWidget(
+                                        title: "Sub Categories"),
+                                    SizedBox(
+                                      height: 8.h,
+                                    ),
+                                    SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems:
+                                          stocklotProvider.stocklotSubcategories!,
+                                      selectedIndex: -1,
+                                      callback: (StocklotCategories value) {
+                                        stocklotCategories = value;
+                                        stocklotProvider.getFilteredStocklotWaste(
+                                            value.id ?? -1);
+                                        var list = stocklotProvider
+                                            .stocklotWasteList!
+                                            .where((element) =>
+                                                element.id == value.id.toString())
+                                            .toList();
+                                        var editWasteModel =
+                                            list.isNotEmpty ? list.first : null;
+                                        showStocklotBottomSheet(value,
+                                            stocklotProvider, editWasteModel);
+                                      },
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             Visibility(
@@ -266,6 +284,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   .filteredStocklotWasteList!
                                                   .length,
                                               shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
                                               separatorBuilder:
                                                   (BuildContext context,
                                                           int index) =>
@@ -499,6 +518,42 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 ),
                               ],
                             ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(children: [
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.w, left: 8.w, bottom: 6),
+                                      child: TitleSmallNormalTextWidget(
+                                        title: descriptionStr,
+                                        size: 12,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 5 * 22.w,
+                                  child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      maxLines: 5,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.start,
+                                      cursorHeight: 16.w,
+                                      onSaved: (input) {
+                                        stocklotProvider.stocklotRequestModel.description = input;
+                                      },
+                                      onChanged: (input) {
+                                        stocklotProvider.stocklotRequestModel.description = input;
+                                      },
+                                      decoration:
+                                      borderDecoration(descriptionStr)),
+                                ),
+                              ],),
+                            ),
                             Visibility(
                               visible: true,
                               child: Padding(
@@ -515,6 +570,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 ),
                               ),
                             ),
+
                           ],
                         ),
                       ),
@@ -545,7 +601,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 stocklotProvider.stocklotRequestModel
                                         .stocklotWasteModelList =
                                     stocklotProvider.stocklotWasteList;
-                                stocklotProvider.createStockLot(context);
+                                stocklotProvider.createStockLot(context,(){
+                                  Navigator.of(context).pop();
+                                });
                               },
                             );
                           }
@@ -570,293 +628,271 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     if(list.isNotEmpty){
       return;
     }*/
+
+    String? unitName;
     var stocklotWaste = StocklotWasteModel(
         unitOfCount: editWasteModel != null
             ? editWasteModel.unitOfCount
-            : stocklotProvider.unitsList![0].untName,
+            : stocklotProvider.unitsList!.where((element) =>
+        element.untCategoryIdfk ==
+            "5").toList()[0].untName,
         name: editWasteModel != null ? editWasteModel.name : value.category,
         price: editWasteModel != null ? editWasteModel.price : '',
         quantity: editWasteModel != null ? editWasteModel.quantity : '',
-        description: editWasteModel != null ? editWasteModel.description : '',
+        // description: editWasteModel != null ? editWasteModel.description : '',
         id: editWasteModel != null ? editWasteModel.id : value.id.toString());
+    unitName =  editWasteModel != null
+        ? editWasteModel.unitOfCount
+        : stocklotProvider.unitsList!.where((element) =>
+    element.untCategoryIdfk ==
+        "5").toList().first.untName;
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (context) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                height: 0.53 * MediaQuery.of(context).size.height,
-                margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
-                child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  body: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        'Add Waste',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: TitleSmallNormalTextWidget(
-                                              title: unitCounting,
-                                              size: 12,
-                                            )),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        SingleSelectTileWidget(
-                                            spanCount: 4,
-                                            selectedIndex: editWasteModel !=
-                                                    null
-                                                ? stocklotProvider.unitsList!
-                                                    .indexWhere((element) =>
-                                                        element.untName ==
-                                                        editWasteModel
-                                                            .unitOfCount)
-                                                : 0,
-                                            listOfItems: stocklotProvider
-                                                .unitsList!
-                                                .where((element) =>
-                                                    element.untCategoryIdfk ==
-                                                    "5")
-                                                .toList(),
-                                            callback: (Units value) {
-                                              stocklotWaste.unitOfCount =
-                                                  value.untName;
-                                            }),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.w,
-                                                    left: 8.w,
-                                                    bottom: 6.w),
-                                                child:
-                                                    const TitleSmallNormalTextWidget(
-                                                  title: 'Price',
-                                                  size: 12,
-                                                )),
-                                            TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor: lightBlueTabs,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                cursorHeight: 16.w,
-                                                maxLines: 1,
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter
-                                                      .allow(RegExp("[0-9]")),
-                                                ],
-                                                initialValue:
-                                                    editWasteModel != null
-                                                        ? editWasteModel.price
-                                                        : '',
-                                                onSaved: (input) {
-                                                  stocklotWaste.price = input;
-                                                },
-                                                onChanged: (input) {
-                                                  stocklotWaste.price = input;
-                                                },
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty ||
-                                                      int.parse(input) < 1) {
-                                                    return priceUnits;
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    roundedTextFieldDecoration(
-                                                        'Price')),
-                                          ],
-                                        )),
-                                        SizedBox(width: 16.w),
-                                        Expanded(
-                                          child:
-                                              //Available Quantity
-                                              Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets,
+                  child: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return Container(
+                          height: 0.35 * MediaQuery.of(context).size.height,
+                          margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
+                          child: Scaffold(
+                            resizeToAvoidBottomInset: false,
+                            body: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 8.w,
-                                                      left: 8.w,
-                                                      bottom: 6.w),
-                                                  child:
-                                                      const TitleSmallNormalTextWidget(
-                                                    title: "Quantity",
-                                                    size: 12,
-                                                  )),
-                                              TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  cursorColor: lightBlueTabs,
+                                              Center(
+                                                child: Text(
+                                                  subCategoryName??"",
                                                   style: TextStyle(
-                                                      fontSize: 11.sp),
-                                                  textAlign: TextAlign.center,
-                                                  cursorHeight: 16.w,
-                                                  maxLines: 1,
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp("[0-9]")),
-                                                  ],
-                                                  initialValue:
-                                                      editWasteModel != null
-                                                          ? editWasteModel
-                                                              .quantity
-                                                          : '',
-                                                  onSaved: (input) {
-                                                    stocklotWaste.quantity =
-                                                        input;
-                                                  },
-                                                  onChanged: (input) {
-                                                    stocklotWaste.quantity =
-                                                        input;
-                                                  },
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty ||
-                                                        int.parse(input) < 1) {
-                                                      return "Quantity";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      roundedTextFieldDecoration(
-                                                          "Quantity")),
+                                                      color: Colors.black,
+                                                      fontSize: 16.sp,
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 8.w, left: 8.w),
+                                                      child: TitleSmallNormalTextWidget(
+                                                        title: unitCounting,
+                                                        size: 12,
+                                                      )),
+                                                  const SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  SingleSelectTileWidget(
+                                                      spanCount: 4,
+                                                      selectedIndex: editWasteModel !=
+                                                          null
+                                                          ? stocklotProvider.unitsList!
+                                                          .indexWhere((element) =>
+                                                      element.untName ==
+                                                          editWasteModel
+                                                              .unitOfCount)
+                                                          : 0,
+                                                      listOfItems: stocklotProvider
+                                                          .unitsList!
+                                                          .where((element) =>
+                                                      element.untCategoryIdfk ==
+                                                          "5")
+                                                          .toList(),
+                                                      callback: (Units value) {
+                                                        stocklotProvider.setUnitName(value.untName.toString());
+                                                        stocklotWaste.unitOfCount =
+                                                            value.untName;
+
+                                                        setState((){
+                                                          unitName = value.untName.toString();
+                                                        });
+                                                      }),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          Padding(
+                                                              padding: EdgeInsets.only(
+                                                                  top: 8.w,
+                                                                  left: 8.w,
+                                                                  bottom: 6.w),
+                                                              child:
+                                                              TitleSmallNormalTextWidget(
+                                                                title: 'Price ${unitName??""}',
+                                                                size: 12,
+                                                              )),
+                                                          TextFormField(
+                                                              keyboardType:
+                                                              TextInputType.number,
+                                                              cursorColor: lightBlueTabs,
+                                                              style:
+                                                              TextStyle(fontSize: 11.sp),
+                                                              textAlign: TextAlign.center,
+                                                              cursorHeight: 16.w,
+                                                              maxLines: 1,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .allow(RegExp("[0-9]")),
+                                                              ],
+                                                              initialValue:
+                                                              editWasteModel != null
+                                                                  ? editWasteModel.price
+                                                                  : '',
+                                                              onSaved: (input) {
+                                                                stocklotWaste.price = input;
+                                                              },
+                                                              onChanged: (input) {
+                                                                stocklotWaste.price = input;
+                                                              },
+                                                              validator: (input) {
+                                                                if (input == null ||
+                                                                    input.isEmpty ||
+                                                                    int.parse(input) < 1) {
+                                                                  return priceUnits;
+                                                                }
+                                                                return null;
+                                                              },
+                                                              decoration:
+                                                              roundedTextFieldDecoration(
+                                                                  'Price')),
+                                                        ],
+                                                      )),
+                                                  SizedBox(width: 16.w),
+                                                  Expanded(
+                                                    child:
+                                                    //Available Quantity
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                            padding: EdgeInsets.only(
+                                                                top: 8.w,
+                                                                left: 8.w,
+                                                                bottom: 6.w),
+                                                            child:
+                                                            const TitleSmallNormalTextWidget(
+                                                              title: "Available Qty",
+                                                              size: 12,
+                                                            )),
+                                                        TextFormField(
+                                                            keyboardType:
+                                                            TextInputType.number,
+                                                            cursorColor: lightBlueTabs,
+                                                            style: TextStyle(
+                                                                fontSize: 11.sp),
+                                                            textAlign: TextAlign.center,
+                                                            cursorHeight: 16.w,
+                                                            maxLines: 1,
+                                                            inputFormatters: [
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp("[0-9]")),
+                                                            ],
+                                                            initialValue:
+                                                            editWasteModel != null
+                                                                ? editWasteModel
+                                                                .quantity
+                                                                : '',
+                                                            onSaved: (input) {
+                                                              stocklotWaste.quantity =
+                                                                  input;
+                                                            },
+                                                            onChanged: (input) {
+                                                              stocklotWaste.quantity =
+                                                                  input;
+                                                            },
+                                                            validator: (input) {
+                                                              if (input == null ||
+                                                                  input.isEmpty ||
+                                                                  int.parse(input) < 1) {
+                                                                return "Available Qty";
+                                                              }
+                                                              return null;
+                                                            },
+                                                            decoration:
+                                                            roundedTextFieldDecoration(
+                                                                "Available Qty")),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w, left: 8.w, bottom: 6),
-                                          child: TitleSmallNormalTextWidget(
-                                            title: descriptionStr,
-                                            size: 12,
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      height: 5 * 22.w,
-                                      child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          maxLines: 5,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.start,
-                                          cursorHeight: 16.w,
-                                          initialValue: editWasteModel != null
-                                              ? editWasteModel.description
-                                              : '',
-                                          onSaved: (input) {
-                                            stocklotWaste.description = input;
+                                        flex: 7,
+                                      ),
+                                      ElevatedButtonWithoutIcon(
+                                          callback: () {
+                                            if (stocklotWaste.unitOfCount!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please select unit of count");
+                                            } else if (stocklotWaste.price!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter price");
+                                            } else if (stocklotWaste
+                                                .quantity!.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg: "Please enter Available Qty");
+                                            } else {
+                                              Navigator.pop(context);
+                                              stocklotProvider
+                                                  .addStocklotWaste(stocklotWaste);
+                                              stocklotProvider.disableClick();
+                                            }
                                           },
-                                          onChanged: (input) {
-                                            stocklotWaste.description = input;
-                                          },
-                                          decoration:
-                                              borderDecoration(descriptionStr)),
-                                    ),
-                                  ],
+                                          color: btnColorLogin,
+                                          btnText: 'Add'),
+                                      SizedBox(
+                                        height: 4.h,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              flex: 9,
+                                Align(
+                                    alignment: Alignment.topRight,
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Icon(Icons.close),
+                                    )),
+                              ],
                             ),
-                            Expanded(
-                              child: ElevatedButtonWithoutIcon(
-                                  callback: () {
-                                    if (stocklotWaste.unitOfCount!.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "Please select unit of count");
-                                    } else if (stocklotWaste.price!.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "Please enter price");
-                                    } else if (stocklotWaste
-                                        .quantity!.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "Please enter quantity");
-                                    } else if (stocklotWaste
-                                        .description!.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "Please enter description");
-                                    } else {
-                                      Navigator.pop(context);
-                                      stocklotProvider
-                                          .addStocklotWaste(stocklotWaste);
-                                      stocklotProvider.disableClick();
-                                    }
-                                  },
-                                  color: btnColorLogin,
-                                  btnText: 'Add'),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            )
-                          ],
-                        ),
-                      ),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(Icons.close),
-                          )),
-                    ],
-                  ),
-                ),
-              );
-            }),
-          );
+                          ),
+                        );
+                      }),
+                );
+          });
         });
   }
 
@@ -885,6 +921,11 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
     if (stocklotProvider.stocklotRequestModel.availability == null) {
       Ui.showSnackBar(context, "Please select availability");
+      return false;
+    }
+
+    if(stocklotProvider.stocklotRequestModel.description == null){
+      Ui.showSnackBar(context, "Please enter description");
       return false;
     }
 

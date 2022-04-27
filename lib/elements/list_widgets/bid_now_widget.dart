@@ -7,14 +7,15 @@ class BidNowWidget extends StatelessWidget {
   String title;
   double? size;
   double? padding;
+  Color? color;
 
-  BidNowWidget({Key? key,required this.title,this.size,this.padding}) : super(key: key);
+  BidNowWidget({Key? key,required this.title,this.size,this.padding,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: greenButtonColor,
+          color: color?? greenButtonColor,
           borderRadius:
           BorderRadius.all(Radius.circular(2.w))),
       child: Padding(

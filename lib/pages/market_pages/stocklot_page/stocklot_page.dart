@@ -6,13 +6,14 @@ import 'package:yg_app/Providers/stocklot_provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_body.dart';
+import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.dart';
 
 import '../../../elements/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_constants.dart';
@@ -80,76 +81,92 @@ class StockLotPageState extends State<StockLotPage> {
                               height: 8.w,
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                              child: SizedBox(
-                                  height:
-                                      0.04 * MediaQuery.of(context).size.height,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 2.0),
-                                    child: SingleSelectTileRenewedWidget(
-                                      spanCount: 2,
-                                      selectedIndex: -1,
-                                      listOfItems: stocklotProvider.stocklots!,
-                                      callback: (StocklotCategories value) {
-                                        stocklotProvider
-                                            .getCategories(value.id.toString());
-                                        stocklotProvider.stocklotId = value.id;
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4),
+                              child: Padding(
+                                  padding: const EdgeInsets.only(top: 2.0),
+                                  child: CatWithImageListWidget(
+                                      listItem: stocklotProvider.stocklots!,
+                                      onClickCallback: (value) {
+                                        stocklotProvider.getCategories(
+                                            stocklotProvider
+                                                .stocklots![value].id
+                                                .toString());
+                                        stocklotProvider.stocklotId =
+                                            stocklotProvider
+                                                .stocklots![value].id;
                                         stocklotProvider.categoryId = -1;
-                                        stocklotProvider.subcategoryId = -1;
-                                        stocklotProvider.getStockLotSpecRequestModel.avalibilityId = null;
-                                        stocklotProvider.getStockLotSpecRequestModel.priceTermId = null;
-                                        stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId = null;
-                                        stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId = null;
+                                        stocklotProvider
+                                            .getStockLotSpecRequestModel
+                                            .avalibilityId = null;
+                                        stocklotProvider
+                                            .getStockLotSpecRequestModel
+                                            .priceTermId = null;
+                                        stocklotProvider
+                                            .getStockLotSpecRequestModel
+                                            .stocklotCategoryId = null;
                                         stocklotProvider.setShowCategory(true);
-                                        stocklotProvider.setShowSubCategory(false);
-                                      },
-                                    ),
-                                  )),
+                                        if(widget.locality == international) {
+                                          if (stocklotProvider.categoryListLocalKey
+                                              .currentState != null) {
+                                            stocklotProvider.categoryListLocalKey
+                                                .currentState!.checkedTile = -1;
+                                          }
+                                        }else{
+                                          if (stocklotProvider.categoryListInternationalKey
+                                              .currentState != null) {
+                                            stocklotProvider.categoryListInternationalKey
+                                                .currentState!.checkedTile = -1;
+                                          }
+                                        }
+
+                                      })),
                             ),
                             Visibility(
-                              visible: stocklotProvider.showCategory,
+                              visible:stocklotProvider.showCategory,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: CatWithImageListWidget(
-                                    listItem: stocklotProvider.stocklotCategories,
-                                    onClickCallback: (value) {
+                                child: SizedBox(
+                                  height:
+                                  0.04 * MediaQuery.of(context).size.height,
+                                  child: SingleSelectTileRenewedWidget(
+                                    key: widget.locality == international?stocklotProvider.categoryListInternationalKey : stocklotProvider.categoryListLocalKey,
+                                    spanCount: 2,
+                                    selectedIndex: stocklotProvider.selectedIndex,
+                                    listOfItems:
+                                    stocklotProvider.stocklotCategories!,
+                                    callback: (StocklotCategories value) {
+                                      // stocklotProvider.getSubcategories(
+                                      //     stocklotProvider.stocklotId
+                                      //         .toString());
+                                      stocklotProvider.categoryId = value.id;
                                       stocklotProvider.getSubcategories(
-                                          stocklotProvider.stocklotId.toString());
-                                      stocklotProvider.categoryId =
-                                          stocklotProvider
-                                              .stocklotCategories![value].id;
-                                      stocklotProvider.getSubcategories(
-                                          stocklotProvider
-                                              .stocklotCategories![value].id
-                                              .toString());
-                                      stocklotProvider.subcategoryId = -1;
-                                      stocklotProvider.setSubCatIndex(-1);
-                                      stocklotProvider.setShowSubCategory(true);
-                                    }),
+                                          value.id.toString());
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                             Visibility(
-                              visible: stocklotProvider.showSubCategory,
+                              visible: false,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 12.0),
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: SizedBox(
                                     height: 0.04 *
                                         MediaQuery.of(context).size.height,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 2.0),
                                       child: SingleSelectTileRenewedWidget(
-                                        key: stocklotProvider.subCategoryKey,
                                         spanCount: 2,
                                         selectedIndex: -1,
                                         listOfItems: stocklotProvider
                                             .stocklotSubcategories!,
                                         callback: (StocklotCategories value) {
-                                          stocklotCategories = value;
-                                          stocklotProvider
-                                              .getFilteredStocklotWaste(
-                                                  value.id ?? -1);
+                                          // stocklotCategories = value;
+                                          // stocklotProvider
+                                          //     .getFilteredStocklotWaste(
+                                          //     value.id ?? -1);
                                           stocklotProvider.subcategoryId =
                                               value.id;
                                         },
@@ -174,7 +191,8 @@ class StockLotPageState extends State<StockLotPage> {
                                       child:
                                           OfferingRequirementSegmentComponent(
                                         callback: (value) {
-                                          stocklotProvider.setIsOffering(value.toString());
+                                          stocklotProvider
+                                              .setIsOffering(value.toString());
                                         },
                                       ),
                                     ),
@@ -280,7 +298,7 @@ class StockLotPageState extends State<StockLotPage> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(top: 8.w),
-                            child: StockLotListingBody(
+                            child: StockLotListingFuture(
                               locality: widget.locality!,
                             ),
                           ),
