@@ -19,11 +19,12 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
-import '../../helper_utils/app_images.dart';
-import '../../helper_utils/ui_utils.dart';
-import '../../model/response/common_response_models/countries_response.dart';
-import '../main_page.dart';
-import '../profile/profile_segment_component.dart';
+import 'package:yg_app/pages/auth_pages/signup/signup_segment_component.dart';
+import '../../../helper_utils/app_images.dart';
+import '../../../helper_utils/ui_utils.dart';
+import '../../../model/response/common_response_models/countries_response.dart';
+import '../../main_page.dart';
+import '../../profile/profile_segment_component.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -97,67 +98,80 @@ class _SignUpPageState extends State<SignUpPage> {
             body: Column(
               children: [
                 const SizedBox(height: 14.0,),
-                Padding(
-                  padding: EdgeInsets.only(left: 18.w, right: 18.w),
-                  child: ProfileSegmentComponent(
-                    callback: (value) {
-                      setState(() {
-                              selectedValue=value;
-                      });
+                Expanded(
+                  child: SignUpStepsSegments(
+                    // syncFiberResponse: data,
+                    selectedTab: "1",
+                    stepsCallback: (value) {
+                      if (value is int) {
+                        selectedValue = value;
+                        /*BroadcastReceiver().publish<int>(segmentIndexBroadcast,
+                      arguments: selectedSegment);*/
+                      }
                     },
-                      tab1:"Select Country",
-                      tab2:"Business Info",
-                      tab3:'Personal Info'
                   ),
-
                 ),
-
-                const SizedBox(height: 14.0,),
-                if(selectedValue==1)
-                  Form(
-                    key: globalFormKey,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                          child: Center(
-                            child: Builder(builder: (BuildContext context2) {
-                              return buildCountryPickerDropdownSoloExpanded(context2);
-                            }),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else if(selectedValue==2)
-                  Form(
-//                          key: bussinessFormKey,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                          child: Center(
-                            child: Builder(builder: (BuildContext context2) {
-                              return buildBusinessDataColumn(context2);
-                            }),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                        child: Center(
-                          child: Builder(builder: (BuildContext context2) {
-                            return buildUserDataColumn(context2);
-                          }),
-                        ),
-                      ),
-                    ),
-                  ),
+//                Padding(
+//                  padding: EdgeInsets.only(left: 18.w, right: 18.w),
+//                  child: ProfileSegmentComponent(
+//                    callback: (value) {
+//                      setState(() {
+//                              selectedValue=value;
+//                      });
+//                    },
+//                      tab1:"Select Country",
+//                      tab2:"Business Info",
+//                      tab3:'Personal Info'
+//                  ),
+//
+//                ),
+//
+//                const SizedBox(height: 14.0,),
+//                if(selectedValue==1)
+//                  Form(
+//                    key: globalFormKey,
+//                    child: Expanded(
+//                      child: SingleChildScrollView(
+//                        child: Padding(
+//                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
+//                          child: Center(
+//                            child: Builder(builder: (BuildContext context2) {
+//                              return buildCountryPickerDropdownSoloExpanded(context2);
+//                            }),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  )
+//                else if(selectedValue==2)
+//                  Form(
+////                          key: bussinessFormKey,
+//                    child: Expanded(
+//                      child: SingleChildScrollView(
+//                        child: Padding(
+//                          padding: EdgeInsets.only(left: 16.w, right: 16.w),
+//                          child: Center(
+//                            child: Builder(builder: (BuildContext context2) {
+//                              return buildBusinessDataColumn(context2);
+//                            }),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  )
+//                else
+//                  Expanded(
+//                    child: SingleChildScrollView(
+//                      child: Padding(
+//                        padding: EdgeInsets.only(left: 16.w, right: 16.w),
+//                        child: Center(
+//                          child: Builder(builder: (BuildContext context2) {
+//                            return buildUserDataColumn(context2);
+//                          }),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
               ],
             )));
   }
@@ -372,7 +386,18 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+//              IntlPhoneField(
+//                decoration: InputDecoration(
+//                  labelText: 'Phone Number',
+//                  border: OutlineInputBorder(
+//                    borderSide: BorderSide(),
+//                  ),
+//                ),
+//                initialCountryCode: 'IN',
+//                onChanged: (phone) {
+//                  print(phone.completeNumber);
+//                },
+//              ),
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
@@ -667,6 +692,15 @@ class _SignUpPageState extends State<SignUpPage> {
           const SnackBar(content: Text('Please accept Terms & Conditions')));
     }
     return false;
+  }
+
+
+  bool validationAllPage() {
+    if (validateAndSave()) {
+
+    }
+    return false;
+    //  return true;
   }
 
   void loginWithPhone() async {
