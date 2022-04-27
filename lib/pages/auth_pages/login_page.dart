@@ -13,7 +13,7 @@ import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
-import 'package:yg_app/pages/auth_pages/sign_up_page.dart';
+import 'package:yg_app/pages/auth_pages/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
 
 class LoginPage extends StatefulWidget {

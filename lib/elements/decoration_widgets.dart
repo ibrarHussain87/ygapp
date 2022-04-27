@@ -71,24 +71,13 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
       hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-//      prefixIcon: IconButton(
-//        padding: EdgeInsets.all(0.w),
-//        onPressed: (){
-//
-//        },
-//        icon: SvgPicture.asset(
-//          assetName,
-//          color: iconColor,
-//          fit: BoxFit.cover,
-//          height: 16,
-//          width: 16,
-//        ),
-//      ),
       border: OutlineInputBorder(
-          borderRadius:BorderRadius.all(
+          borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: newColorGrey)));
+          borderSide: BorderSide(color: newColorGrey)
+      )
+  );
 }
 
 InputDecoration dropDownProfile(String hintLabel,String title) {
