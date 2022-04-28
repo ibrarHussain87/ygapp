@@ -249,7 +249,7 @@ class FiberSpecificationComponentState
                                               //     decoration:
                                               //         roundedTextFieldDecoration(
                                               //             "${snapshot.data![0].lengthMinMax} mm")),
-                                              SizedBox(height:8.w ,),
+                                              SizedBox(height:12.w ,),
                                               YgTextFormFieldWithRange(
                                                 label: fiberLength,
                                                   errorText: fiberLength,
@@ -292,7 +292,7 @@ class FiberSpecificationComponentState
                                             children: [
 
                                               //modified by (asad_m)
-                                              SizedBox(height:8.w ,),
+                                              SizedBox(height:12.w ,),
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(
 //                                                      left: 8.w),
@@ -363,7 +363,7 @@ class FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               //modified by (asad_m)
-                                              SizedBox(height:8.w ,),
+                                              SizedBox(height:12.w ,),
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(
 //                                                      left: 8.w),
@@ -444,7 +444,7 @@ class FiberSpecificationComponentState
 //                                                    child: TitleSmallTextWidget(
 //                                                        title: trashStr)),
 
-                                                SizedBox(height:8.w ,),
+                                                SizedBox(height:12.w ,),
                                                 YgTextFormFieldWithRange(
                                                     errorText: trashStr,
                                                     label: trashStr,
@@ -512,7 +512,7 @@ class FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               //Modified by (asad_m)
-                                              SizedBox(height:8.w ,),
+                                              SizedBox(height:12.w ,),
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(
 //                                                      left: 8.w),
@@ -586,7 +586,7 @@ class FiberSpecificationComponentState
                                                 CrossAxisAlignment.start,
                                             children: [
                                               //Modified by (asad_m)
-                                              SizedBox(height:8.w ,),
+                                              SizedBox(height:12.w ,),
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(
 //                                                      left: 8.w),
@@ -652,7 +652,7 @@ class FiberSpecificationComponentState
                                     Visibility(
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 8.w),
+                                          padding: EdgeInsets.only(top: 14.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -758,7 +758,7 @@ class FiberSpecificationComponentState
                                       visible: Ui.showHide(_fiberSettings!.showProductionYear),
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 8.w),
+                                          padding: EdgeInsets.only(top: 14.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -815,7 +815,7 @@ class FiberSpecificationComponentState
                                   visible:
                                       Ui.showHide(_fiberSettings!.showOrigin),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
+                                    padding: EdgeInsets.only(top: 14.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -902,7 +902,7 @@ class FiberSpecificationComponentState
                                 Visibility(
                                   visible: false,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
+                                    padding: EdgeInsets.only(top: 14.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -987,7 +987,7 @@ class FiberSpecificationComponentState
                                   visible: Ui.showHide(
                                       _fiberSettings!.showLotNumber),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
+                                    padding: EdgeInsets.only(top: 14.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

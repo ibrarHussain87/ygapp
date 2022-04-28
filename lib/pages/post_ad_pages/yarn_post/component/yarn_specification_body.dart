@@ -1676,7 +1676,7 @@ class YarnSpecificationComponentState
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: count + '*')),
-                        SizedBox(height:8.w ,),
+                        SizedBox(height:12.w ,),
                         YgTextFormFieldWithRangeNonDecimal(
                             errorText: count,
                             label: count,
