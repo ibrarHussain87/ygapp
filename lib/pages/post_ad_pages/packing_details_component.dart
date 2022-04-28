@@ -1119,7 +1119,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems: _deliverPeriodList,
+                                    listOfItems: _deliverPeriodList.where((element) => element.dprCategoryIdfk == _createRequestModel!
+                                        .spc_category_idfk).toList(),
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
