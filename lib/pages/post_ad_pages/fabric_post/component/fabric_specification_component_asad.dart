@@ -57,7 +57,7 @@ class FabricSpecificationComponentState
 
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   // from key (asad_m)
-  GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
+    GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
   String? familyId;
@@ -1567,16 +1567,10 @@ class FabricSpecificationComponentState
                           listController:textFieldControllers,
                           blendsValue:values,
                           callback: (List<FabricBlends> value) {
-
                               blendValue = value;
-
                               },
                           textFieldcallback: (List<BlendModel> value) {
-
                            values=value;
-
-
-
                           },
                         ),
 
@@ -1605,9 +1599,9 @@ class FabricSpecificationComponentState
                                       if(validateAndSaveBlend()){
                                         blendString="";
                                         for(int i=0;i<values.length;i++) {
-                                          blendString+=values[i].title.toString()+"("+values[i].value.toString()+"),";
+                                          blendString+=values[i].title.toString()+"("+values[i].ratio.toString()+"),";
 
-                                          result+=int.parse(values[i].value.toString());
+                                          result+=int.parse(values[i].ratio.toString());
 
                                         }
                                             if(blendString.toString()!=""){

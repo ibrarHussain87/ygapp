@@ -9,6 +9,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import '../elements/yg_text_form_field.dart';
 import '../model/blend_model.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
+
 // for blend tile widget (asad_m)
 class BlendedTileWidget extends StatefulWidget {
   final Function? callback;
@@ -18,17 +19,15 @@ class BlendedTileWidget extends StatefulWidget {
   final List<FabricBlends?> selectedIndex;
   final List<BlendModel> blendsValue;
 
-
-  const BlendedTileWidget(
-      {Key? key,
-        required this.callback,
-        required this.textFieldcallback,
-        required this.listOfItems,
-        required this.listController,
-        required this.blendsValue,
-        required this.selectedIndex,
-      })
-      : super(key: key);
+  const BlendedTileWidget({
+    Key? key,
+    required this.callback,
+    required this.textFieldcallback,
+    required this.listOfItems,
+    required this.listController,
+    required this.blendsValue,
+    required this.selectedIndex,
+  }) : super(key: key);
 
   @override
   BlendedTileWidgetState createState() => BlendedTileWidgetState();
@@ -38,29 +37,29 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
   var looger = Logger();
   var width;
 
-  List<int> selectedIndex=[];
-  List<FabricBlends?> title=[];
-  List<BlendModel> blends=[];
-
-
+  List<int> selectedIndex = [];
+  List<FabricBlends?> title = [];
+  List<BlendModel> blends = [];
 
   @override
   void initState() {
-     blends=widget.blendsValue;
-     title=widget.selectedIndex;
+    blends = widget.blendsValue;
+    title = widget.selectedIndex;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    width=MediaQuery.of(context).size.width;
+    width = MediaQuery.of(context).size.width;
     return SizedBox(
-      width:width ,
+      width: width,
       child: ListView.separated(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         separatorBuilder: (context, index) {
-          return Container(height: 10,);
+          return Container(
+            height: 10,
+          );
         },
         scrollDirection: Axis.vertical,
         itemCount: widget.listOfItems.length,
@@ -72,99 +71,81 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
   }
 
   Widget buildGrid(int index) {
-    return Container(
+    return SizedBox(
       width: width,
-      child: Row(
-          children:[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                setState(() {
-                  if(title.contains(widget.listOfItems[index]))
-                  {
-                    title.remove(widget.listOfItems[index]);
-                    selectedIndex.remove(index);
-                    widget.listController[index].clear();
-                  }
-                  else
-                  {
-                    title.add(widget.listOfItems[index]);
-                    selectedIndex.add(index);
-
-                  }
-
-                });
-                widget.callback!(title);
-                looger.e(widget.listOfItems[index].toString());
-              },
-              child: Container(
-                height: 35,
-                width: width*0.4,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.transparent,
-                    ),
-                    color: title.contains(widget.listOfItems[index])
-                        ? lightBlueTabs.withOpacity(0.1)
-                        : Colors.grey.shade200,
-                    borderRadius: BorderRadius.all(Radius.circular(24.w))),
-                child: Center(
-                  child: Text(
-                    widget.listOfItems[index].toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 11.sp,
-                        color: title.contains(widget.listOfItems[index]) ? lightBlueTabs : Colors.black54),
-                  ),
+      child: Row(children: [
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            setState(() {
+              if (title.contains(widget.listOfItems[index])) {
+                title.remove(widget.listOfItems[index]);
+                selectedIndex.remove(index);
+                widget.listController[index].clear();
+              } else {
+                title.add(widget.listOfItems[index]);
+                selectedIndex.add(index);
+              }
+            });
+            widget.callback!(title);
+            looger.e(widget.listOfItems[index].toString());
+          },
+          child: Container(
+            height: 35,
+            width: width * 0.4,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.transparent,
                 ),
+                color: title.contains(widget.listOfItems[index])
+                    ? lightBlueTabs.withOpacity(0.1)
+                    : Colors.grey.shade200,
+                borderRadius: BorderRadius.all(Radius.circular(24.w))),
+            child: Center(
+              child: Text(
+                widget.listOfItems[index].toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 11.sp,
+                    color: title.contains(widget.listOfItems[index])
+                        ? lightBlueTabs
+                        : Colors.black54),
               ),
             ),
-          SizedBox(width: 30,),
+          ),
+        ),
+        const SizedBox(
+          width: 30,
+        ),
+        SizedBox(
+          width: width * 0.4,
+          child: BlendTextFormFieldWithRangeNonDecimal(
+              errorText: "count",
+              // onChanged:(value) => globalFormKey.currentState!.reset(),
+              minMax: "1-100",
+              validation: title.contains(widget.listOfItems[index]),
+              isEnabled: title.contains(widget.listOfItems[index]),
+              textEditingController: widget.listController[index],
+              onSaved: (input) {
+                if (widget.listController[index].text.isNotEmpty &&
+                    title.contains(widget.listOfItems[index])) {
+                  if (blends.every((item) => item.id != index)) {
+                    blends.add(BlendModel(
+                        id: index,
+                        title: widget.listOfItems[index].toString(),
+                        ratio: widget.listController[index].text));
+                  } else {
+                    blends[index] = BlendModel(
+                        id: index,
+                        title: widget.listOfItems[index].toString(),
+                        ratio: widget.listController[index].text);
+                  }
+                }
 
-          Container(
-
-                width: width*0.4,
-                child: BlendTextFormFieldWithRangeNonDecimal(
-                    errorText: "count",
-                    // onChanged:(value) => globalFormKey.currentState!.reset(),
-                    minMax: "1-100",
-                    validation: title.contains(widget.listOfItems[index]),
-                    isEnabled: title.contains(widget.listOfItems[index]),
-                    textEditingController:widget.listController[index],
-                    onSaved: (input) {
-                     if(widget.listController[index].text.isNotEmpty && title.contains(widget.listOfItems[index]))
-                       {
-
-                       if (blends.every((item) => item.id != index)) {
-                         blends.add(BlendModel(id: index, title: widget.listOfItems[index].toString(), value: widget.listController[index].text));
-                       }
-                       else
-                         {
-                           blends[index]=BlendModel(id: index, title: widget.listOfItems[index].toString(), value: widget.listController[index].text);
-
-                         }
-
-
-
-                       }
-
-                      widget.textFieldcallback!(blends);
-
-                    }
-
-
-
-                    ),
-              ),
-
-          ]
-
-      ),
+                widget.textFieldcallback!(blends);
+              }),
+        ),
+      ]),
     );
   }
-
-
-
 }
-
-

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/blend_bottom_sheet.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
@@ -40,10 +41,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
       GlobalKey<CatWithImageListWidgetState>();
 
   late CreateRequestModel _createRequestModel;
-  late YarnSetting _yarnSetting;
-  late String? selectedFamilyId;
-  late List<Family> _familyList;
-  late List<Blends> _blendsList;
+  YarnSetting _yarnSetting = YarnSetting();
+  String? selectedFamilyId;
+  List<Family> _familyList = [];
+  List<Blends> _blendsList=[];
 
   _getSyncedData() async {
     await AppDbInstance.getYarnFamilyData().then((value) => setState(() {
@@ -122,6 +123,14 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                           (element) => element.familyIdfk == selectedFamilyId)
                       .toList(),
                   onClickCallback: (value) {
+                    blendedSheet(context, _blendsList
+                        .where(
+                            (element) => element.familyIdfk == selectedFamilyId)
+                        .toList(), value,(blends){
+
+                      Navigator.pop(context);
+
+                    });
                     yarnStepStateKey.currentState!.onClickBlend(value);
                   },
                 ),
