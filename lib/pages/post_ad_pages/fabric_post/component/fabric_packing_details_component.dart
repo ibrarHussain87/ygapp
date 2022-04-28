@@ -182,11 +182,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
+                                          EdgeInsets.only(left: 0.w,top: 8,bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
                                           title: unitCounting)),
                                   SingleSelectTileWidget(
-                                      spanCount: 4,
+                                      spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
                                               element.untCategoryIdfk ==
@@ -224,7 +224,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           children: [
                                             Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
+                                                    top: 8.w, left: 8.w,bottom: 4),
                                                 child: TitleSmallTextWidget(
                                                     title:
                                                         "Weight/$unitCountSelected")),
@@ -283,7 +283,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           children: [
                                             Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
+                                                    top: 8.w, left: 8.w,bottom: 4),
                                                 child: TitleSmallTextWidget(
                                                     title: coneBags)),
                                             TextFormField(
@@ -338,7 +338,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
+                                                top: 8.w, left: 8.w,bottom: 4),
                                             child: TitleSmallTextWidget(
                                                 title: weightCones)),
                                         TextFormField(
@@ -382,8 +382,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 8.w, bottom: 2.w),
-                                      child: TitleSmallTextWidget(
+                                          left: 0.w,top: 8,bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
                                           title: sellingRegionStr)),
                                   SingleSelectTileWidget(
                                     spanCount: 2,
@@ -412,7 +412,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         children: [
                                           Padding(
                                               padding:
-                                                  EdgeInsets.only(left: 8.w),
+                                                  EdgeInsets.only(left: 8.w,bottom: 4),
                                               child: TitleSmallTextWidget(
                                                   title: country)),
                                           SizedBox(
@@ -488,7 +488,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         children: [
                                           Padding(
                                               padding:
-                                                  EdgeInsets.only(left: 8.w),
+                                                  EdgeInsets.only(left: 8.w,bottom: 4),
                                               child: TitleSmallTextWidget(
                                                   title: port)),
                                           SizedBox(
@@ -572,7 +572,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                          padding: EdgeInsets.only(left: 8.w),
+                                          padding: EdgeInsets.only(left: 8.w,bottom: 4),
                                           child: TitleSmallTextWidget(
                                               title: cityState)),
                                       SizedBox(
@@ -638,7 +638,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               children: [
                                 Padding(
                                     padding:
-                                        EdgeInsets.only(top: 8.w, left: 8.w),
+                                        EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
                                     child: TitleSmallTextWidget(
                                         title: priceTerms)),
                                 SizedBox(
@@ -712,9 +712,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
+                                        padding: EdgeInsets.only(left: 0.w,top: 8,bottom: 4),
+                                        child: TitleSmallBoldTextWidget(
                                             title: paymentType)),
                                     SingleSelectTileWidget(
                                         spanCount: 3,
@@ -745,11 +744,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(left: 0.w,top: 8,bottom: 4),
                                       child:
-                                          TitleSmallTextWidget(title: lcType)),
+                                          TitleSmallBoldTextWidget(title: lcType)),
                                   SingleSelectTileWidget(
-                                      spanCount: 4,
+                                      spanCount: 3,
                                       selectedIndex: -1,
                                       listOfItems: _lcTypeList,
                                       callback: (LcType value) {
@@ -771,7 +770,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w),
+                                            top: 8.w, left: 8.w,bottom: 4),
                                         child: TitleSmallTextWidget(
                                             title: priceUnits)),
                                     TextFormField(
@@ -900,7 +899,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
                                       child: TitleSmallTextWidget(title: minQty)),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
@@ -941,9 +940,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(left: 0.w,top: 8,bottom: 4),
                                       child:
-                                          TitleSmallTextWidget(title: packing)),
+                                          TitleSmallBoldTextWidget(title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       listOfItems: _packingList,
@@ -963,8 +962,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               children: [
                                 Padding(
                                     padding:
-                                        EdgeInsets.only(top: 8.w, left: 8.w),
-                                    child: TitleSmallTextWidget(
+                                        EdgeInsets.only(left: 0.w,top: 8,bottom: 4),
+                                    child: TitleSmallBoldTextWidget(
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
@@ -996,7 +995,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
                                       child: const TitleSmallTextWidget(
                                           title: "No of Days")),
                                   SizedBox(

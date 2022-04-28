@@ -57,16 +57,16 @@ class FamilyTileWidgetState extends State<FamilyTileWidget> {
               color: Colors.transparent,
             ),
             color: checked
-                ? lightBlueTabs.withOpacity(0.1)
-                : Colors.grey.shade200,
-            borderRadius: BorderRadius.all(Radius.circular(24.w))),
+                ? darkBlueChip
+                : lightBlueChip,
+            borderRadius: BorderRadius.all(Radius.circular(5.w))),
         child: Center(
           child: Text(
             widget.listItems![index].toString(),
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 11.sp,
-                color: checked ? lightBlueTabs : Colors.black54),
+                color: checked ? Colors.white : darkBlueChip),
           ),
         ),
       ),

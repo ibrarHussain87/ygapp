@@ -545,15 +545,19 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                         child: Expanded(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.w, top: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title:
-                                                              'Warp Ply' + '*')),
+                                              // modified by (asad_m)
+
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 4.w, top: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title:
+//                                                              'Warp Ply' + '*')),
+
                                               YgTextFormFieldWithoutRange(
                                                   errorText: 'Warp Ply',
+                                                  label: 'Warp Ply',
                                                   onSaved: (input) {
                                                     _filterRequestModel!
                                                         .fs_warp_ply_idfk = input;
@@ -578,15 +582,17 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                         child: Expanded(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.w, top: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title:
-                                                              'Weft Ply' + '*')),
+                                              //Modified by (asad_m)
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 4.w, top: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title:
+//                                                              'Weft Ply' + '*')),
                                               YgTextFormFieldWithoutRange(
                                                   errorText: 'Weft Ply',
+                                                  label: 'Weft Ply',
                                                   onSaved: (input) {
                                                     _filterRequestModel!
                                                         .fs_weft_ply_idfk = input;
@@ -646,7 +652,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _weaveKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _weaveList
                                                 .where((element) =>
                                                     element.fabricFamilyIdfk ==
@@ -677,7 +683,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _loomKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _loomList
                                                 .where((element) =>
                                                     element.fabricFamilyIdfk ==
@@ -708,7 +714,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _salvedgeKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _salvedgeList
                                                 .where((element) =>
                                                     element.fabricFamilyIdfk ==
@@ -761,7 +767,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _plyKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _plyList
                                                 .where((element) =>
                                                     element.fabricFamilyIdfk ==
@@ -792,7 +798,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _layyerKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _layyerList
                                                 .where((element) =>
                                                     element.fabricFamilyIdfk ==
@@ -1296,7 +1302,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             key: _certificationKey,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _certificationList,
                                             callback: (Certification value) {
                                               _filterRequestModel!.certification_id = [value.cerId];

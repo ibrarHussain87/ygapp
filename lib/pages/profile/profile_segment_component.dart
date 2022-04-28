@@ -7,8 +7,12 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 
 class ProfileSegmentComponent extends StatefulWidget {
   final Function callback;
+  final String tab1;
+  final String tab2;
+  final String tab3;
 
-  const ProfileSegmentComponent({Key? key, required this.callback})
+  const ProfileSegmentComponent({Key? key, required this.callback, required this.tab1
+    , required this.tab2,required this.tab3})
       : super(key: key);
 
   @override
@@ -47,9 +51,9 @@ class ProfileSegmentComponentState
         children: {
           1: Container(
 
-            padding: EdgeInsets.all(10.w),
+            padding: EdgeInsets.all(5.w),
             child: Text(
-              personal,
+              widget.tab1,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
@@ -61,9 +65,9 @@ class ProfileSegmentComponentState
           ),
           2: Container(
 
-            padding: EdgeInsets.all(10.w),
+            padding: EdgeInsets.all(5.w),
             child: Text(
-              business,
+              widget.tab2,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
@@ -74,10 +78,9 @@ class ProfileSegmentComponentState
             ),
           ),
           3: Container(
-            width: width/5.5,
-            padding: EdgeInsets.all(10.w),
+            padding: EdgeInsets.all(5.w),
             child: Text(
-              brands,
+              widget.tab3,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,

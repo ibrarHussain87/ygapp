@@ -1,5 +1,7 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:country_list_pick/country_selection_theme.dart';
+
+import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,6 +122,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                            selectedValue=value;
                         });
                       },
+                     tab1: personal,
+                     tab2: business,
+                     tab3: brands,
                     ),),
 
                     if(selectedValue==1)

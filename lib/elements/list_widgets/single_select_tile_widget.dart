@@ -24,7 +24,7 @@ class SingleSelectTileWidget extends StatefulWidget {
   SingleSelectTileWidgetState createState() => SingleSelectTileWidgetState();
 }
 
-class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
+/*class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
@@ -90,6 +90,142 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                 color: checked ? lightBlueTabs : Colors.black54),
           ),
         ),
+      ),
+    );
+  }
+
+  resetWidget(){
+    setState(() {
+      checkedTile = 0;
+    });
+  }
+}*/
+
+class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
+  int? checkedTile;
+  late double aspectRatio;
+  var looger = Logger();
+
+  @override
+  void initState() {
+    checkedTile = widget.selectedIndex ?? 0;
+    if (widget.spanCount == 2) {
+      aspectRatio = 4.5;
+    } else if (widget.spanCount == 3) {
+      aspectRatio = 2.9;
+    } else {
+      aspectRatio = 2.2;
+    }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: widget.spanCount! == 2 ? 16 : 6,
+          mainAxisSpacing: 8,
+          crossAxisCount: widget.spanCount!,
+          childAspectRatio: aspectRatio),
+      itemCount: widget.listOfItems.length,
+      itemBuilder: (context, index) {
+        return buildGrid(index);
+      },
+    );
+  }
+
+  Widget buildGrid(int index) {
+    bool checked = index == checkedTile;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          checkedTile = index;
+        });
+        widget.callback!(widget.listOfItems[index]);
+        looger.e(widget.listOfItems[index].toString());
+      },
+      child:  widget.listOfItems.length < 3
+          ? buildRoundedContainer(checked, index)
+          : buildSquareContainer(checked, index),
+    );
+  }
+
+  Container buildSquareContainer(bool checked, int index) {
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          color: checked
+              ? darkBlueChip
+              : lightBlueChip,
+          borderRadius: BorderRadius.all(Radius.circular(5.w))),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              widget.listOfItems[index].toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: checked ? Colors.white : darkBlueChip),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container buildRoundedContainer(bool checked, int index) {
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          color: checked
+              ? darkBlueChip
+              : lightBlueChip,
+          borderRadius: BorderRadius.all(Radius.circular(24.w))),
+      child: Row(
+        children: [
+          Visibility(
+            visible: checked,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4,bottom: 4,),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.check,color: darkBlueChip,),
+              ),
+            ),
+          ),
+          /*Visibility(
+            visible: checked,
+              child: const SizedBox(width: 5,)
+          ),*/
+          Expanded(
+            child: Text(
+              widget.listOfItems[index].toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: checked ? TextAlign.start:TextAlign.center,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: checked ? Colors.white : darkBlueChip),
+            ),
+          )
+        ],
       ),
     );
   }

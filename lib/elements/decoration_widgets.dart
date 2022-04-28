@@ -71,24 +71,13 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
       hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-//      prefixIcon: IconButton(
-//        padding: EdgeInsets.all(0.w),
-//        onPressed: (){
-//
-//        },
-//        icon: SvgPicture.asset(
-//          assetName,
-//          color: iconColor,
-//          fit: BoxFit.cover,
-//          height: 16,
-//          width: 16,
-//        ),
-//      ),
       border: OutlineInputBorder(
-          borderRadius:BorderRadius.all(
+          borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: newColorGrey)));
+          borderSide: BorderSide(color: newColorGrey)
+      )
+  );
 }
 
 InputDecoration dropDownProfile(String hintLabel,String title) {
@@ -111,7 +100,9 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
           borderRadius:BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: newColorGrey)));
+          borderSide: BorderSide(color: newColorGrey)
+      )
+  );
 }
 
 
@@ -174,6 +165,57 @@ OutlineInputBorder myfocusborder() {
         width: 3,
       ));
 }
+
+// created by (asad_m)
+
+InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
+  return InputDecoration(
+      hintStyle: TextStyle(fontSize: 11.sp,),
+      filled: true,
+      fillColor: Colors.white,
+      isDense: true,
+      contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style:TextStyle(
+              color: Colors.black87,
+              fontSize: 14.sp,
+              fontFamily: 'Metropolis',
+              fontWeight: FontWeight.w500),),
+           Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
+            fontFamily: 'Metropolis',
+               fontWeight: FontWeight.w500)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      hintText: hintLabel,
+//      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: lightBlueTabs),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      disabledBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      )
+  );
+}
+
+/////////////////////
 
 InputDecoration roundedTextFieldDecoration(String hint) {
   return InputDecoration(

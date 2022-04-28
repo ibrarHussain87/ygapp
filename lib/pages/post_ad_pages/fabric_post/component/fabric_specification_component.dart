@@ -243,11 +243,15 @@ class FabricSpecificationComponentState
                                       child: Expanded(
                                         child: Column(
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: TitleSmallTextWidget(title: ratio + '*')),
+                                            //modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: TitleSmallTextWidget(title: ratio + '*')),
+//
                                             YgTextFormFieldWithoutRange(
                                                 errorText: ratio,
+                                                label: ratio,
                                                 onSaved: (input) {
                                                   _createRequestModel!.fs_ratio = input;
                                                 })
@@ -268,11 +272,15 @@ class FabricSpecificationComponentState
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: TitleSmallTextWidget(title: count + '*')),
+                                            //Modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: TitleSmallTextWidget(title: count + '*')),
+
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: count,
+                                                label: count,
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.countMinMax!,
                                                 onSaved: (input) {
@@ -286,6 +294,7 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Warp count and No of Ends
                                 Row(
+
                                   children: [
                                     Visibility(
                                       visible: Ui.showHide(_fabricSettings!.showWarpCount),
@@ -293,11 +302,15 @@ class FabricSpecificationComponentState
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
+                                            //Modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
+//
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'Warp Count',
+                                                label: 'Warp Count',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.warpCountMinMax??'n/a',
                                                 onSaved: (input) {
@@ -319,11 +332,15 @@ class FabricSpecificationComponentState
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
+                                            //Modified By (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
+//
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'No of Ends',
+                                                label: 'No of Ends',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.noOfEndsWarpMinMax??'n/a',
                                                 onSaved: (input) {
@@ -344,11 +361,15 @@ class FabricSpecificationComponentState
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
+                                            //Modified By (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
+
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'Weft Count',
+                                                label: 'Weft Count',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.weftCountMinMax??'n/a',
                                                 onSaved: (input) {
@@ -370,11 +391,15 @@ class FabricSpecificationComponentState
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
+                                            // modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
+//
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'No of Picks',
+                                                label: 'No of Picks',
                                                 // onChanged:(value) => globalFormKey.currentState!.reset(),
                                                 minMax: _fabricSettings!.noOfPickWeftMinMax??'n/a',
                                                 onSaved: (input) {
@@ -394,11 +419,15 @@ class FabricSpecificationComponentState
                                       child: Expanded(
                                         child: Column(
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
+                                            // Modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
+//
                                             YgTextFormFieldWithoutRange(
                                                 errorText: 'Warp Ply',
+                                                label: 'Warp Ply',
                                                 onSaved: (input) {
                                                   _createRequestModel!.fs_warp_ply_idfk = input;
                                                 })
@@ -418,11 +447,15 @@ class FabricSpecificationComponentState
                                       child: Expanded(
                                         child: Column(
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
+                                            // modified by (asad_m)
+                                            SizedBox(height:8.w ,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
+//
                                             YgTextFormFieldWithoutRange(
                                                 errorText: 'Weft Ply',
+                                                label: 'Weft Ply',
                                                 onSaved: (input) {
                                                   _createRequestModel!.fs_weft_ply_idfk = input;
                                                 })
@@ -442,14 +475,17 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Width')),
+                                        // Modified by (asad_m)
+                                        SizedBox(height:8.w ,),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(
+//                                                left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'Width')),
 
                                         YgTextFormFieldWithRange(
                                             errorText: 'Width',
+                                            label: 'Width',
                                             minMax: _fabricSettings!.widthMinMax??'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
@@ -477,7 +513,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _weaveKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _weaveList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -501,14 +537,18 @@ class FabricSpecificationComponentState
                                         child: Expanded(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
+                                              // Modified by (asad_m)
+                                              SizedBox(height:8.w ,),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
+
                                               Row(
                                                 children: [
                                                   Expanded(
                                                     child: YgTextFormFieldWithoutRange(
                                                         errorText: 'Weave Pattern',
+                                                        label: 'Weave Pattern',
                                                         onSaved: (input) {
                                                           // _createRequestModel!.fs_ratio = input;
                                                         }),
@@ -521,6 +561,7 @@ class FabricSpecificationComponentState
                                                   Expanded(
                                                     child: YgTextFormFieldWithoutRange(
                                                         errorText: 'Weave Pattern',
+                                                        label:'Weave Pattern' ,
                                                         onSaved: (input) {
                                                           // _createRequestModel!.fs_ratio = input;
                                                         }),
@@ -549,7 +590,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _loomKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _loomList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -577,7 +618,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _salvedgeKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _salvedgeList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -596,11 +637,15 @@ class FabricSpecificationComponentState
                                   visible: Ui.showHide(_fabricSettings!.showTuckinWidth),
                                   child: Column(
                                     children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
+                                      // modified by (asad_m)
+                                      SizedBox(height:8.w ,),
+//                                      Padding(
+//                                          padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
+
                                       YgTextFormFieldWithoutRange(
                                           errorText: 'Tuckin Width',
+                                          label: 'Tuckin Width',
                                           onSaved: (input) {
                                             _createRequestModel!.fs_tuckin_width = input;
                                           })
@@ -622,7 +667,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _plyKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _plyList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -650,7 +695,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _layyerKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _layyerList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -673,14 +718,17 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Once')),
+                                        // Modified by (asad_m)
+                                        SizedBox(height:8.w ,),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(
+//                                                left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'Once')),
 
                                         YgTextFormFieldWithRange(
                                             errorText: 'Once',
+                                            label: 'Once',
                                             minMax: _fabricSettings!.onceMinMax??'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
@@ -703,14 +751,17 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'GSM')),
+                                        // modified by (asad_m)
+                                        SizedBox(height:8.w ,),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(
+//                                                left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'GSM')),
 
                                         YgTextFormFieldWithRange(
                                             errorText: 'GSM',
+                                            label: 'GSM',
                                             minMax: _fabricSettings!.gsmCountMinMax??'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
@@ -1073,7 +1124,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _certificationKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _certificationList,
                                           callback: (Certification value) {
                                             _createRequestModel!.fs_certification_idfk =

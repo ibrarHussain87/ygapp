@@ -134,7 +134,7 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
                           height: 4.h,
                         ),
                         SingleSelectTileWidget(
-                          spanCount: 4,
+                          spanCount: 3,
                           listOfItems: [
                             'Strips (Kanari)',
                             'Cut Piece',
@@ -167,7 +167,7 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
                             height: 4.h,
                           ),
                           SingleSelectTileWidget(
-                            spanCount: 4,
+                            spanCount: 3,
                             listOfItems: _stockLotList,
                             selectedIndex: -1,
                             callback: (value) {

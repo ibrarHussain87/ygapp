@@ -50,12 +50,16 @@ class _FiberNatureMaterialComponentState
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
-                child: const TitleTextWidget(
-                  title: 'Fiber Nature',
-                )),
+            Visibility(
+              visible: false,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
+                  child: const TitleTextWidget(
+                    title: 'Fiber Nature',
+                  )),
+            ),
+            const SizedBox(height: 10,),
             SingleSelectTileWidget(
                 spanCount: 2,
                 callback: (FiberNature value) {
@@ -80,12 +84,16 @@ class _FiberNatureMaterialComponentState
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
-                child: const TitleTextWidget(
-                  title: 'Fiber Material',
-                )),
+            Visibility(
+              visible: false,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
+                  child: const TitleTextWidget(
+                    title: 'Fiber Material',
+                  )),
+            ),
+            const SizedBox(height: 15,),
             CatWithImageListWidget(
               key: _catWithImageListState,
               listItem: widget.materialList

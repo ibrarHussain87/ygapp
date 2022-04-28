@@ -3,45 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/pages/auth_pages/signup/bussines_info.dart';
+import 'package:yg_app/pages/auth_pages/signup/personal_info.dart';
+import 'package:yg_app/pages/auth_pages/signup/select_country.dart';
 import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_specification_component_asad.dart';
 import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/lab_parameter_body.dart';
 
-import '../../../../Providers/post_fabric_provider.dart';
-import 'fabric_packing_details_component.dart';
+import '../../../../../Providers/post_fabric_provider.dart';
 
-class FabricStepsSegments extends StatefulWidget {
+class SignUpStepsSegments extends StatefulWidget {
 
   final Function? stepsCallback;
   final Map<int, String>? stepsMapping;
-  final String? locality;
-  final String? businessArea;
   final String? selectedTab;
 
-  const FabricStepsSegments(
+  const SignUpStepsSegments(
       {Key? key,
         // required this.syncFiberResponse,
         required this.stepsCallback,
-        required this.locality,
-        required this.businessArea,
         required this.selectedTab,
         this.stepsMapping})
       : super(key: key);
 
   @override
-  _FabricStepsSegmentsState createState() => _FabricStepsSegmentsState();
+  _SignUpStepsSegmentsState createState() => _SignUpStepsSegmentsState();
 }
 
-class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
+class _SignUpStepsSegmentsState extends State<SignUpStepsSegments> {
 
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
 
-  final GlobalKey<FabricSpecificationComponentState> _fiberSpecificationState = GlobalKey<FabricSpecificationComponentState>();
-  final GlobalKey<FabricPackagingDetailsState> _packingStateKey = GlobalKey<FabricPackagingDetailsState>();
-  final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
+  final GlobalKey<CountryComponentState> _countryState = GlobalKey<CountryComponentState>();
+  final GlobalKey<BusinessInfoComponentState> _packingStateKey = GlobalKey<BusinessInfoComponentState>();
+  final GlobalKey<PersonalInfoComponentState> _labParameterState = GlobalKey<PersonalInfoComponentState>();
 
 
   @override
@@ -49,10 +47,8 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
     _pageController = PageController();
 
     _samplePages = [
-      FabricSpecificationComponent(
-        key: _fiberSpecificationState,
-        locality: widget.locality,
-        businessArea: widget.businessArea,
+      CountryComponent(
+        key: _countryState,
         selectedTab: widget.selectedTab,
         callback: (value) {
           setState(() {
@@ -64,11 +60,32 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
               curve: Curves.easeInOut);
         },
       ),
-      FabricPackagingDetails(
+      BusinessInfoComponent(
         key: _packingStateKey,
-        locality: widget.locality,
-        businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
+        callback: (value) {
+          setState(() {
+            selectedValue++;
+          });
+          widget.stepsCallback!(value);
+          _pageController.animateToPage(selectedValue - 1,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
+        },
+      ),
+
+      PersonalInfoComponent(
+        key: _labParameterState,
+        selectedTab: widget.selectedTab,
+        callback: (value) {
+          setState(() {
+            selectedValue++;
+          });
+          widget.stepsCallback!(value);
+          _pageController.animateToPage(selectedValue - 1,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
+        },
       ),
     ];
 
@@ -87,14 +104,14 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
             Expanded(
               child: CupertinoSegmentedControl(
                 borderColor: Colors.grey.shade300,
-                selectedColor: darkBlueChip,
+                selectedColor: lightBlueTabs,
                 pressedColor: Colors.transparent,
                 groupValue: selectedValue,
                 children: {
                   1: Container(
                     padding: EdgeInsets.all(8.w),
                     child: Text(
-                      "Step 1",
+                      "Select Country",
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: selectedValue == 1
@@ -106,10 +123,22 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
                   2: Container(
                     padding: EdgeInsets.all(8.w),
                     child: Text(
-                      "Step 2",
+                      "Business Info",
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: selectedValue == 2
+                            ? Colors.white
+                            : textColorGrey,
+                      ),
+                    ),
+                  ),
+                  3: Container(
+                    padding: EdgeInsets.all(8.w),
+                    child: Text(
+                      "Personal Info",
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: selectedValue == 3
                             ? Colors.white
                             : textColorGrey,
                       ),
@@ -124,9 +153,9 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
                   }*/
                   switch (value) {
                     case 1:
-                      if (selectedValue == 2) {
-                        if (_packingStateKey.currentState != null &&
-                            _packingStateKey.currentState!
+                      if (selectedValue == 3) {
+                        if (_labParameterState.currentState != null &&
+                            _labParameterState.currentState!
                                 .validateAndSave()) {
                           _moveToNextPage(value);
                         }
@@ -139,9 +168,32 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
                                 .validationAllPage()) {
                           _moveToNextPage(value);
                         }*/
-                        if(_fiberSpecificationState.currentState != null){
-                          _fiberSpecificationState.currentState!.handleNextClick();
+                        if(_countryState.currentState != null){
+
+                          _countryState.currentState!.handleNextClick();
+                          print("Country"+widget.stepsCallback.toString());
                         }
+                        else
+                          {
+                            print("null");
+                          }
+                      }
+                      break;
+
+                      case 3:
+                      if (selectedValue == 2) {
+                        /*if (_fiberSpecificationState.currentState != null &&
+                            _fiberSpecificationState.currentState!
+                                .validationAllPage()) {
+                          _moveToNextPage(value);
+                        }*/
+                        if(_packingStateKey.currentState != null){
+                          _packingStateKey.currentState!.handleNextClick();
+                        }
+                        else
+                          {
+                            print("null");
+                          }
                       }
                       break;
                   }
