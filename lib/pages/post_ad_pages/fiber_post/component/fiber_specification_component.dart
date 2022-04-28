@@ -160,6 +160,7 @@ class FiberSpecificationComponentState
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+
                                 Visibility(
                                     visible: int.parse(
                                                 snapshot.data![0].showGrade) ==
@@ -174,8 +175,8 @@ class FiberSpecificationComponentState
                                         children: [
                                           Padding(
                                               padding:
-                                                  EdgeInsets.only(left: 8.w),
-                                              child: TitleSmallTextWidget(
+                                                  EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                              child: TitleSmallBoldTextWidget(
                                                   title: grades)),
                                           SingleSelectTileWidget(
                                             spanCount: 3,
@@ -627,8 +628,8 @@ class FiberSpecificationComponentState
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
                                                 title: 'Appearance')),
                                         SingleSelectTileWidget(
                                           spanCount: 2,
@@ -964,8 +965,8 @@ class FiberSpecificationComponentState
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
                                                 title: 'Certification')),
                                         SingleSelectTileWidget(
                                           spanCount: 3,

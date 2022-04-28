@@ -87,7 +87,7 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
             Expanded(
               child: CupertinoSegmentedControl(
                 borderColor: Colors.grey.shade300,
-                selectedColor: lightBlueTabs,
+                selectedColor: darkBlueChip,
                 pressedColor: Colors.transparent,
                 groupValue: selectedValue,
                 children: {

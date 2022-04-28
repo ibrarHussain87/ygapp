@@ -201,8 +201,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(
+                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
                                           title: unitCounting)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
@@ -431,8 +431,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 8.w, bottom: 2.w),
-                                      child: TitleSmallTextWidget(
+                                          left: 0.w,top: 4,bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
                                           title: sellingRegionStr)),
                                   SingleSelectTileWidget(
                                     spanCount: 2,
@@ -762,8 +762,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
+                                            left: 0.w,top: 4,bottom: 4),
+                                        child: TitleSmallBoldTextWidget(
                                             title: paymentType)),
                                     SingleSelectTileWidget(
                                         spanCount: 3,
@@ -794,9 +794,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
                                       child:
-                                          TitleSmallTextWidget(title: lcType)),
+                                      TitleSmallBoldTextWidget(title: lcType)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
@@ -981,7 +981,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
-
+                            const SizedBox(height: 6,),
                             //Packing
                             Visibility(
                               visible:
@@ -991,9 +991,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
+                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
                                       child:
-                                          TitleSmallTextWidget(title: packing)),
+                                      TitleSmallBoldTextWidget(title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       listOfItems: _packingList,
@@ -1006,15 +1006,15 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
-
+                            const SizedBox(height: 6,),
                             //Delivery Period
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                     padding:
-                                        EdgeInsets.only(top: 8.w, left: 8.w),
-                                    child: TitleSmallTextWidget(
+                                        EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                    child: TitleSmallBoldTextWidget(
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,

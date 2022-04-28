@@ -64,8 +64,9 @@ class TitleSmallTextWidget extends StatelessWidget {
   final String? title;
   final Color? color;
   final double? padding;
+  final double? size;
 
-  const TitleSmallTextWidget({Key? key, required this.title,this.color,this.padding}) : super(key: key);
+  const TitleSmallTextWidget({Key? key, required this.title,this.color,this.padding,this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class TitleSmallTextWidget extends StatelessWidget {
         title??Utils.checkNullString(false),
         style: TextStyle(
             color: color?? Colors.black87,
-            fontSize: 11.sp,
+            fontSize: size??11.sp,
             fontFamily: 'Metropolis',
             fontWeight: FontWeight.w500),
       ),

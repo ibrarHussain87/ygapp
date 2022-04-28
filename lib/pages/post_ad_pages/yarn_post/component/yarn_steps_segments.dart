@@ -115,7 +115,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               child: selectedFamily == "4"
                   ? CupertinoSegmentedControl(
                       borderColor: Colors.grey.shade300,
-                      selectedColor: lightBlueTabs,
+                      selectedColor: darkBlueChip,
                       pressedColor: Colors.transparent,
                       groupValue: selectedValue,
                       children: {
@@ -155,7 +155,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                     )
                   : CupertinoSegmentedControl(
                       borderColor: Colors.grey.shade300,
-                      selectedColor: lightBlueTabs,
+                      selectedColor: darkBlueChip,
                       pressedColor: Colors.transparent,
                       groupValue: selectedValue,
                       children: {

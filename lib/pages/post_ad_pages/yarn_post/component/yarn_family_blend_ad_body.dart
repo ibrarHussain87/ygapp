@@ -78,9 +78,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleTextWidget(title: yarnCategory),
+              Visibility(
+                  visible: false,
+                  child: TitleTextWidget(title: yarnCategory)
+              ),
               SizedBox(
-                height: 8.w,
+                height: 10.w,
               ),
               SizedBox(
                 height: 0.055 * MediaQuery.of(context).size.height,
@@ -99,7 +102,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                 ),
               ),
               SizedBox(
-                height: 8.w,
+                height: 15.w,
               ),
             ],
           ),
@@ -109,9 +112,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                  child: TitleTextWidget(title: blend)),
+              Visibility(
+                visible: false,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
+                    child: TitleTextWidget(title: blend)),
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CatWithImageListWidget(
@@ -129,6 +135,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             ],
           ),
         ),
+        const SizedBox(height: 20,),
         Expanded(
           child: Provider(
             create: (_) => _yarnSetting,
