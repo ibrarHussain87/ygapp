@@ -149,6 +149,7 @@ class PersonalInfoComponentState
                       print("Signup Model"+_signupRequestModel.countryId.toString());
                       print("Signup Model"+_signupRequestModel.company.toString());
                       print("Signup Model"+_signupRequestModel.email.toString());
+                      print("Signup Model"+_signupRequestModel.telephoneNumber.toString());
                       loginWithPhone();
                     }
                   }

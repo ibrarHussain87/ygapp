@@ -164,6 +164,56 @@ OutlineInputBorder myfocusborder() {
       ));
 }
 
+// created by (asad_m)
+
+InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
+  return InputDecoration(
+      hintStyle: TextStyle(fontSize: 11.sp,),
+      filled: true,
+      fillColor: Colors.white,
+      isDense: true,
+      contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style:TextStyle(
+              color: Colors.black87,
+              fontSize: 11.sp,
+              fontFamily: 'Metropolis',
+              fontWeight: FontWeight.w500),),
+           Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
+            fontFamily: 'Metropolis',)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      hintText: hintLabel,
+//      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: lightBlueTabs),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      disabledBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5.0.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      )
+  );
+}
+
+/////////////////////
+
 InputDecoration roundedTextFieldDecoration(String hint) {
   return InputDecoration(
     hintText: hint,
