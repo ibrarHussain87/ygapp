@@ -242,12 +242,13 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
-                                                child: TitleSmallTextWidget(
-                                                    title:
-                                                        "Weight($unitCountSelected)/Bag")),
+                                            SizedBox(height: 8.w,),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(
+//                                                    top: 8.w, left: 8.w),
+//                                                child: TitleSmallTextWidget(
+//                                                    title:
+//                                                        "Weight($unitCountSelected)/Bag")),
                                             TextFormField(
                                                 controller:
                                                     _weigthPerBagController,
@@ -291,8 +292,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   return null;
                                                 },
                                                 decoration:
-                                                    roundedTextFieldDecoration(
-                                                        "Weight($unitCountSelected)/Bag")),
+                                                    ygTextFieldDecoration(
+                                                        "Weight($unitCountSelected)/Bag","Weight($unitCountSelected)/Bag")),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -301,11 +302,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 8.w, left: 8.w),
-                                                child: TitleSmallTextWidget(
-                                                    title: coneBags)),
+//                                            Padding(
+//                                                padding: EdgeInsets.only(
+//                                                    top: 8.w, left: 8.w),
+//                                                child: TitleSmallTextWidget(
+//                                                    title: coneBags)),
+                                          SizedBox(height: 8.w,),
                                             TextFormField(
                                                 controller:
                                                     _conePerBagController,
@@ -346,8 +348,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   return null;
                                                 },
                                                 decoration:
-                                                    roundedTextFieldDecoration(
-                                                        coneBags)),
+                                                    ygTextFieldDecoration(
+                                                        coneBags,coneBags)),
                                           ],
                                         )),
                                       ],
@@ -356,11 +358,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 8.w, left: 8.w),
-                                            child: TitleSmallTextWidget(
-                                                title: weightCones)),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(
+//                                                top: 8.w, left: 8.w),
+//                                            child: TitleSmallTextWidget(
+//                                                title: weightCones)),
+                                      SizedBox(height: 8.w,),
                                         TextFormField(
                                             controller: _coneWithController,
                                             keyboardType: TextInputType.number,
@@ -385,8 +388,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               return null;
                                             },
                                             decoration:
-                                                roundedTextFieldDecoration(
-                                                    weightCones)),
+                                                ygTextFieldDecoration(
+                                                    weightCones,weightCones)),
                                       ],
                                     ),
                                   ],
@@ -459,11 +462,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 8.w),
-                                              child: TitleSmallTextWidget(
-                                                  title: country)),
+//                                          Padding(
+//                                              padding:
+//                                                  EdgeInsets.only(left: 8.w),
+//                                              child: TitleSmallTextWidget(
+//                                                  title: country)),
+                                        SizedBox(height: 8.w,),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -476,7 +480,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(
-                                                              24.w))),
+                                                              5.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text(
                                                     'Select Country'),
@@ -506,16 +510,37 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
+                                                  label: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(country,style:TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 14.sp,
+                                                          backgroundColor: Colors.white,
+                                                          fontFamily: 'Metropolis',
+                                                          fontWeight: FontWeight.w500),),
+                                                      Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                          fontFamily: 'Metropolis',
+                                                          backgroundColor: Colors.white,
+                                                          fontWeight: FontWeight.w500)),
+                                                    ],
+                                                  ),
+                                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
                                                   contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 16.w,
-                                                          right: 6.w,
-                                                          top: 0,
-                                                          bottom: 0),
+                                                  EdgeInsets.only(
+                                                      left: 16.w,
+                                                      right: 6.w,
+                                                      top: 0,
+                                                      bottom: 0),
                                                   border:
-                                                      const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide.none),
+                                                  const OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide
+                                                          .none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -535,11 +560,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 8.w),
-                                              child: TitleSmallTextWidget(
-                                                  title: port)),
+//                                          Padding(
+//                                              padding:
+//                                                  EdgeInsets.only(left: 8.w),
+//                                              child: TitleSmallTextWidget(
+//                                                  title: port)),
+                                        SizedBox(height: 8.w,),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -552,7 +578,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(
-                                                              24.w))),
+                                                              5.w))),
                                               child: DropdownButtonFormField(
                                                 hint: const Text('Select Port'),
                                                 items: _portsList
@@ -585,16 +611,37 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
+                                                  label: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(port,style:TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 14.sp,
+                                                          backgroundColor: Colors.white,
+                                                          fontFamily: 'Metropolis',
+                                                          fontWeight: FontWeight.w500),),
+                                                      Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                          fontFamily: 'Metropolis',
+                                                          backgroundColor: Colors.white,
+                                                          fontWeight: FontWeight.w500)),
+                                                    ],
+                                                  ),
+                                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
                                                   contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 16.w,
-                                                          right: 6.w,
-                                                          top: 0,
-                                                          bottom: 0),
+                                                  EdgeInsets.only(
+                                                      left: 16.w,
+                                                      right: 6.w,
+                                                      top: 0,
+                                                      bottom: 0),
                                                   border:
-                                                      const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide.none),
+                                                  const OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide
+                                                          .none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -620,10 +667,11 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 8.w),
-                                          child: TitleSmallTextWidget(
-                                              title: cityState)),
+//                                      Padding(
+//                                          padding: EdgeInsets.only(left: 8.w),
+//                                          child: TitleSmallTextWidget(
+//                                              title: cityState)),
+                                      SizedBox(height: 8.w,),
                                       SizedBox(
                                         height: 36.w,
                                         child: Container(
@@ -634,7 +682,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     1, //                   <--- border width here
                                               ),
                                               borderRadius: BorderRadius.all(
-                                                  Radius.circular(24.w))),
+                                                  Radius.circular(5.w))),
                                           child: DropdownButtonFormField(
                                             hint: Text('Select $cityState'),
                                             items: _cityStateList
@@ -663,13 +711,35 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                                             // value: widget.syncFiberResponse.data.fiber.brands.first,
                                             decoration: InputDecoration(
-                                              contentPadding: EdgeInsets.only(
+                                              label: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(cityState,style:TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 14.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight: FontWeight.w500),),
+                                                  Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                      fontFamily: 'Metropolis',
+                                                      fontWeight: FontWeight.w500)),
+                                                ],
+                                              ),
+                                              floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                              contentPadding:
+                                              EdgeInsets.only(
                                                   left: 16.w,
                                                   right: 6.w,
                                                   top: 0,
                                                   bottom: 0),
-                                              border: const OutlineInputBorder(
-                                                  borderSide: BorderSide.none),
+                                              border:
+                                              const OutlineInputBorder(
+                                                  borderSide:
+                                                  BorderSide
+                                                      .none),
                                             ),
                                             style: TextStyle(
                                                 fontSize: 11.sp,
@@ -685,11 +755,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 8.w, left: 8.w),
-                                    child: TitleSmallTextWidget(
-                                        title: priceTerms)),
+//                                Padding(
+//                                    padding:
+//                                        EdgeInsets.only(top: 8.w, left: 8.w),
+//                                    child: TitleSmallTextWidget(
+//                                        title: priceTerms)),
+                              SizedBox(height: 8.w,),
                                 SizedBox(
                                   height: 36.w,
                                   child: Container(
@@ -700,7 +771,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               1, //                   <--- border width here
                                         ),
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(24.w))),
+                                            Radius.circular(5.w))),
                                     child: DropdownButtonFormField(
                                       hint: const Text('Select Price Terms'),
                                       items: _getPriceTerms()
@@ -737,13 +808,38 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       //     : null,
                                       // value: widget.syncFiberResponse.data.fiber.brands.first,
                                       decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.only(
+                                        label: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(priceTerms,style:TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 14.sp,
+                                                backgroundColor: Colors.white,
+                                                fontFamily: 'Metropolis',
+                                                fontWeight: FontWeight.w500),),
+                                            Text("*", style: TextStyle(backgroundColor: Colors.white,color: Colors.red,fontSize: 16.sp,
+                                                fontFamily: 'Metropolis',
+                                                fontWeight: FontWeight.w500)),
+                                          ],
+                                        ),
+                                        floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                        contentPadding:
+                                        EdgeInsets.only(
                                             left: 16.w,
                                             right: 6.w,
                                             top: 0,
                                             bottom: 0),
-                                        border: const OutlineInputBorder(
-                                            borderSide: BorderSide.none),
+                                        border:
+                                        const OutlineInputBorder(
+
+                                            borderSide:
+                                            BorderSide
+                                                .none),
+
                                       ),
                                       style: TextStyle(
                                           fontSize: 11.sp,
@@ -818,11 +914,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 8.w, left: 8.w),
-                                        child: TitleSmallTextWidget(
-                                            title: priceUnits)),
+//                                    Padding(
+//                                        padding: EdgeInsets.only(
+//                                            top: 8.w, left: 8.w),
+//                                        child: TitleSmallTextWidget(
+//                                            title: priceUnits)),
+                                  SizedBox(height:8.w),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
@@ -848,8 +945,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           }
                                           return null;
                                         },
-                                        decoration: roundedTextFieldDecoration(
-                                            priceUnits)),
+                                        decoration: ygTextFieldDecoration(
+                                            priceUnits,priceUnits)),
                                   ],
                                 )),
                                 SizedBox(width: 16.w),
@@ -860,11 +957,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w, left: 8.w),
-                                          child: const TitleSmallTextWidget(
-                                              title: "Available Quantity")),
+                                      SizedBox(height: 8.w,),
+//                                      Padding(
+//                                          padding: EdgeInsets.only(
+//                                              top: 8.w, left: 8.w),
+//                                          child: const TitleSmallTextWidget(
+//                                              title: "Available Quantity")),
                                       TextFormField(
                                           keyboardType: TextInputType.number,
                                           cursorColor: lightBlueTabs,
@@ -892,8 +990,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             return null;
                                           },
                                           decoration:
-                                              roundedTextFieldDecoration(
-                                                  "Available Quantity")),
+                                              ygTextFieldDecoration(
+                                                  "Available Quantity","Available Qunatity")),
                                     ],
                                   ),
                                 ),
@@ -906,10 +1004,11 @@ class PackagingDetailsState extends State<PackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: TitleSmallTextWidget(title: minQty)),
+//                                  Padding(
+//                                      padding:
+//                                          EdgeInsets.only(top: 8.w, left: 8.w),
+//                                      child: TitleSmallTextWidget(title: minQty)),
+                                SizedBox(height:8.w),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -936,7 +1035,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         return null;
                                       },
                                       decoration:
-                                          roundedTextFieldDecoration(minQty)),
+                                          ygTextFieldDecoration(minQty,minQty)),
                                 ],
                               ),
                             ),
@@ -947,10 +1046,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                      padding:
-                                      EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
+//                                  Padding(
+//                                      padding:
+//                                      EdgeInsets.only(top: 8.w, left: 8.w),
+//                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
+//
+                                SizedBox(height:8.w),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -977,7 +1078,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         return null;
                                       },
                                       decoration:
-                                      roundedTextFieldDecoration("Required Quantity")),
+                                      ygTextFieldDecoration("Required Quantity","Required Quantity")),
                                 ],
                               ),
                             ),
@@ -1044,11 +1145,12 @@ class PackagingDetailsState extends State<PackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "No of Days")),
+//                                  Padding(
+//                                      padding:
+//                                          EdgeInsets.only(top: 8.w, left: 8.w),
+//                                      child: const TitleSmallTextWidget(
+//                                          title: "No of Days")),
+                                SizedBox(height: 8.w,),
                                   SizedBox(
                                     height: 36.w,
                                     child: Container(
@@ -1084,13 +1186,37 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                                         // value: widget.syncFiberResponse.data.fiber.brands.first,
                                         decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
+                                          label: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("No of Days",style:TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14.sp,
+                                                  backgroundColor: Colors.white,
+                                                  fontFamily: 'Metropolis',
+                                                  fontWeight: FontWeight.w500),),
+                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                  fontFamily: 'Metropolis',
+                                                  backgroundColor: Colors.white,
+                                                  fontWeight: FontWeight.w500)),
+                                            ],
+                                          ),
+                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                          contentPadding:
+                                          EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide.none),
+                                          border:
+                                          const OutlineInputBorder(
+                                              borderSide:
+                                              BorderSide
+                                                  .none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -1103,10 +1229,11 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Description
-                            Padding(
-                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: descriptionStr)),
+                            SizedBox(height: 8.w,),
+//                            Padding(
+//                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
+//                                child: TitleSmallTextWidget(
+//                                    title: descriptionStr)),
 
                             SizedBox(
                               height: 5 * 22.w,
@@ -1129,8 +1256,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   //   }
                                   //   return null;
                                   // },
-                                  decoration: roundedDescriptionDecoration(
-                                      descriptionStr)),
+                                  decoration: ygTextFieldDecoration(
+                                      descriptionStr,descriptionStr)),
                             ),
 
                             Visibility(

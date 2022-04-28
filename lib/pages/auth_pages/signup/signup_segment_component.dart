@@ -171,6 +171,7 @@ class _SignUpStepsSegmentsState extends State<SignUpStepsSegments> {
                         if(_countryState.currentState != null){
 
                           _countryState.currentState!.handleNextClick();
+                          print("Country"+widget.stepsCallback.toString());
                         }
                         else
                           {

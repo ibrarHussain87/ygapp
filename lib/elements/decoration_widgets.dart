@@ -100,7 +100,9 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
           borderRadius:BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: newColorGrey)));
+          borderSide: BorderSide(color: newColorGrey)
+      )
+  );
 }
 
 
