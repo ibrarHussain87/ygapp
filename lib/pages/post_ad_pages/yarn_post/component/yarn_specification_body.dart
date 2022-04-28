@@ -201,7 +201,7 @@ class YarnSpecificationComponentState
             SingleSelectTileWidget(
               selectedIndex: -1,
               key: _patternCharKey,
-              spanCount: 4,
+              spanCount: 3,
               listOfItems: _patternCharactristicList ?? [],
               callback: (PatternCharectristic value) {
                 _createRequestModel.ys_pattern_charectristic_idfk =
@@ -785,7 +785,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _plyKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _plyList!
                           .where((element) =>
                       element.familyId == _selectedFamilyId)
@@ -1238,7 +1238,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _spunTechKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _spunTechList!
                           .where((element) =>
                       element.familyId == _selectedFamilyId)
@@ -1321,7 +1321,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _certificateKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _certificationList!,
                       callback: (Certification value) {
                         _createRequestModel.ys_certification_idfk =
@@ -1704,7 +1704,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _plyKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _plyList!
                           .where((element) =>
                       element.familyId == _selectedFamilyId)
@@ -1835,7 +1835,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _spunTechKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _spunTechList!
                           .where((element) =>
                       element.familyId == _selectedFamilyId)
@@ -1976,7 +1976,7 @@ class YarnSpecificationComponentState
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _certificateKey,
-                      spanCount: 4,
+                      spanCount: 3,
                       listOfItems: _certificationList!,
                       callback: (Certification value) {
                         _createRequestModel.ys_certification_idfk =

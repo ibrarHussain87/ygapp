@@ -186,7 +186,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       child: TitleSmallTextWidget(
                                           title: unitCounting)),
                                   SingleSelectTileWidget(
-                                      spanCount: 4,
+                                      spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
                                               element.untCategoryIdfk ==
@@ -749,7 +749,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       child:
                                           TitleSmallTextWidget(title: lcType)),
                                   SingleSelectTileWidget(
-                                      spanCount: 4,
+                                      spanCount: 3,
                                       selectedIndex: -1,
                                       listOfItems: _lcTypeList,
                                       callback: (LcType value) {

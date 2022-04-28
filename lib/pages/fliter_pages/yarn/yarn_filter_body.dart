@@ -655,7 +655,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 child: TitleSmallTextWidget(title: ply)),
                             SingleSelectTileWidget(
                               selectedIndex: -1,
-                              spanCount: 4,
+                              spanCount: 3,
                               listOfItems: _plyList!
                                   .where((element) =>
                                       element.familyId == selectedFamilyId)
@@ -781,7 +781,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 child: TitleSmallTextWidget(title: spunTech)),
                             SingleSelectTileWidget(
                               selectedIndex: -1,
-                              spanCount: 4,
+                              spanCount: 3,
                               listOfItems: _spunTechList!
                                   .where((element) =>
                                       element.familyId == selectedFamilyId)

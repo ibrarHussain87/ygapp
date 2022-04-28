@@ -673,7 +673,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                   title: 'Certification')),
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
-                                            spanCount: 4,
+                                            spanCount: 3,
                                             listOfItems: _fiberCertifications!,
                                             callback: (Certification value) {
                                               _getSpecificationRequestModel!

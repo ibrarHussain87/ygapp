@@ -702,7 +702,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                     height: 8,
                                                   ),
                                                   SingleSelectTileWidget(
-                                                      spanCount: 4,
+                                                      spanCount: 3,
                                                       selectedIndex: editWasteModel !=
                                                           null
                                                           ? stocklotProvider.unitsList!

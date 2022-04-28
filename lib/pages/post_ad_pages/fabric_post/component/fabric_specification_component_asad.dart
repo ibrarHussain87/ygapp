@@ -670,7 +670,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _weaveKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _weaveList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -699,7 +699,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _loomKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _loomList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -727,7 +727,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _salvedgeKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _salvedgeList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -775,7 +775,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _plyKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _plyList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -803,7 +803,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _layyerKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _layyerList.where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
@@ -1231,7 +1231,7 @@ class FabricSpecificationComponentState
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _certificationKey,
-                                          spanCount: 4,
+                                          spanCount: 3,
                                           listOfItems: _certificationList,
                                           callback: (Certification value) {
                                             _createRequestModel!.fs_certification_idfk =
