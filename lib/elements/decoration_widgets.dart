@@ -179,11 +179,12 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
         children: [
           Text(title,style:TextStyle(
               color: Colors.black87,
-              fontSize: 11.sp,
+              fontSize: 14.sp,
               fontFamily: 'Metropolis',
               fontWeight: FontWeight.w500),),
            Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
-            fontFamily: 'Metropolis',)),
+            fontFamily: 'Metropolis',
+               fontWeight: FontWeight.w500)),
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
