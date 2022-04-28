@@ -61,14 +61,14 @@ class BusinessInfoComponentState
   final businessAreaFocus = FocusNode();
   final companyFocus = FocusNode();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  late SignUpRequestModel _signupRequestModel;
+  SignUpRequestModel? _signupRequestModel;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _signupRequestModel = SignUpRequestModel();
+//    _signupRequestModel = SignUpRequestModel();
     _resetData();
     super.initState();
   }
@@ -83,6 +83,10 @@ class BusinessInfoComponentState
   Widget build(BuildContext context) {
     super.build(context);
 
+    _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
+    if (kDebugMode) {
+      print("COuntry"+_signupRequestModel!.countryId.toString());
+    }
     return  Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -156,7 +160,7 @@ class BusinessInfoComponentState
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) =>
-                  _signupRequestModel.company = input!,
+                  _signupRequestModel?.company = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter company name";
@@ -181,7 +185,7 @@ class BusinessInfoComponentState
                   cursorColor: Colors.black,
                   initialValue: '',
                   onSaved: (input) =>
-                  _signupRequestModel.cityStateId = input!,
+                  _signupRequestModel?.cityStateId = input!,
                   validator: (input) {
                     if (input == null ||
                         input.isEmpty) {
@@ -264,11 +268,11 @@ class BusinessInfoComponentState
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (_signupRequestModel.company == null &&
+      if (_signupRequestModel?.company == null &&
           Ui.showHide("1")) {
         Ui.showSnackBar(context, 'Please enter phone number');
         return false;
-      } else if (_signupRequestModel.cityStateId == null &&
+      } else if (_signupRequestModel?.cityStateId == null &&
           Ui.showHide("1")) {
         Ui.showSnackBar(context, 'Please enter business area');
         return false;

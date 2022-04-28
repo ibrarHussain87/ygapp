@@ -1,7 +1,9 @@
 
 import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_picker_cupertino.dart';
 import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -56,7 +59,7 @@ class CountryComponentState
     with AutomaticKeepAliveClientMixin {
 
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  late SignUpRequestModel _signupRequestModel;
+  SignUpRequestModel? _signupRequestModel;
 
   String countryString="";
 
@@ -65,8 +68,6 @@ class CountryComponentState
 
   @override
   void initState() {
-    _signupRequestModel = SignUpRequestModel();
-    _signupRequestModel.countryId="1";
     _resetData();
     super.initState();
   }
@@ -81,6 +82,8 @@ class CountryComponentState
   Widget build(BuildContext context) {
     super.build(context);
 
+    _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
+//    _signupRequestModel?.countryId="AF";
     return  Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -109,7 +112,44 @@ class CountryComponentState
                           SizedBox(
                             height: 8.w,
                           ),
-                          buildCountryPickerDropdownSoloExpanded(context)
+                          Center(
+                            child: Column(
+                              children: [
+                                CountryPickerDropdown(
+
+                                  underline: InputDecorator(
+                                    decoration: dropDownProfile("Select Country", "Country"),
+                                  ),
+                                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                                  onValuePicked: (Country country) {
+                                    print("${country.isoCode}");
+
+                                    print("${_signupRequestModel?.countryId}");
+
+
+                                    _signupRequestModel?.countryId=country.isoCode;
+                                    print("${_signupRequestModel?.countryId}");
+                                  },
+                                  itemBuilder: (Country country) {
+                                    return Row(
+                                      children: <Widget>[
+                                        const SizedBox(width: 8.0),
+                                        CountryPickerUtils.getDefaultFlagImage(country),
+                                        const SizedBox(width: 8.0),
+                                        Expanded(child: Text(country.name)),
+                                      ],
+                                    );
+                                  },
+                                  itemHeight: null,
+                                  isExpanded: true,
+                                  //initialValue: 'TR',
+                                  icon: const Icon(Icons.arrow_drop_down_outlined),
+                                ),
+
+                              ],
+
+                            ),
+                          )
                         ],
                       ),
                     )
@@ -136,52 +176,30 @@ class CountryComponentState
     );
   }
 
+  void _openCupertinoCountryPicker() => showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CountryPickerCupertino(
+          pickerSheetHeight: 300.0,
+          onValuePicked: (Country country) =>
+              setState(() => _signupRequestModel?.countryId = country.isoCode),
+          itemFilter: (c) => ['AR', 'DE', 'GB', 'CN'].contains(c.isoCode),
+          priorityList: [
+            CountryPickerUtils.getCountryByIsoCode('TR'),
+            CountryPickerUtils.getCountryByIsoCode('US'),
+          ],
+        );
+      });
 
-  buildCountryPickerDropdownSoloExpanded(BuildContext context2) {
-    return Center(
-      child: Column(
-        children: [
-          CountryPickerDropdown(
-            underline: InputDecorator(
-              decoration: dropDownProfile("Select Country", "Country"),
-            ),
-            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-            onValuePicked: (Country country) {
-              print("${country.isoCode}");
-              countryString=country.isoCode;
-              _signupRequestModel.countryId="1";
-            },
-            itemBuilder: (Country country) {
-              return Row(
-                children: <Widget>[
-                  SizedBox(width: 8.0),
-                  CountryPickerUtils.getDefaultFlagImage(country),
-                  SizedBox(width: 8.0),
-                  Expanded(child: Text(country.name)),
-                ],
-              );
-            },
-            itemHeight: null,
-            isExpanded: true,
-            //initialValue: 'TR',
-            icon: Icon(Icons.arrow_drop_down_outlined),
-          ),
-
-        ],
-
-      ),
-    );
-  }
   void handleNextClick() {
-//    _createRequestModel!.spc_category_idfk = "3";
-//    _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';
-    if (validationAllPage()) {
+if (validationAllPage()) {
 
       widget.callback!(1);
     }
   }
 
   _resetData() {
+    _signupRequestModel?.countryId=null;
 
   }
 
@@ -197,8 +215,9 @@ class CountryComponentState
 
 
   bool validationAllPage() {
+    _signupRequestModel?.countryId ??= "AF";
     if (validateAndSave()) {
-      if (_signupRequestModel.countryId == null &&
+      if (_signupRequestModel?.countryId == null &&
           Ui.showHide("1")) {
         Ui.showSnackBar(context, 'Please select country');
         return false;

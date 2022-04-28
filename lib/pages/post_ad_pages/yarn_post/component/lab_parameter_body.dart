@@ -95,7 +95,7 @@ class LabParameterPageState extends State<LabParameterPage>
                       ),
                     ),
                     SizedBox(
-                      height: 8.w,
+                      height: 12.w,
                     ),
 
                     Form(
@@ -113,7 +113,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                         CrossAxisAlignment.start,
                                     children: [
                                       //Modified (asad_m)
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: '$actualYarnCount*'),
@@ -153,7 +153,7 @@ class LabParameterPageState extends State<LabParameterPage>
                               CrossAxisAlignment.start,
                               children: [
                                 //modified (asad_m)
-                                SizedBox(height:8.w ,),
+                                SizedBox(height:12.w ,),
 //                                Container(
 //                                  child:
 //                                  TitleSmallTextWidget(title: '$CLSP*'),
@@ -184,7 +184,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                         CrossAxisAlignment.start,
                                     children: [
                                       //modifed ((asad_m)
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
 //                                      Container(
 //                                        child:
 //                                            TitleSmallTextWidget(title: '$IpmKm*'),
@@ -221,7 +221,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: thinPlaces,
                                         label: thinPlaces,
@@ -255,7 +255,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: thickPlaces,
                                         label: thickPlaces,
@@ -285,7 +285,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: naps,
                                         label:naps,
@@ -317,7 +317,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: unifomity,
                                         label: unifomity,
@@ -351,7 +351,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: cv,
                                           label: cv,
@@ -383,7 +383,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: hairness,
                                           label: hairness,
@@ -414,7 +414,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: Rkm,
                                           label: Rkm,
@@ -445,7 +445,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: elongation,
                                           label: elongation,
@@ -479,7 +479,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                      SizedBox(height:8.w ,),
+                                      SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: tpi,
                                           label: tpi,
@@ -505,7 +505,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                  child: TitleSmallTextWidget(title: tm),
 //                                  margin: EdgeInsets.only(left: 8.w, top: 8.w),
 //                                ),
-                                SizedBox(height:8.w ,),
+                                SizedBox(height:12.w ,),
                                 YgTextFormFieldWithRangeNoValidation(
                                     errorText: tm,
                                     label: tm,

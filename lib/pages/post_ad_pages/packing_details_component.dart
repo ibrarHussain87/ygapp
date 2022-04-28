@@ -242,7 +242,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(height: 8.w,),
+                                            SizedBox(height: 12.w,),
 //                                            Padding(
 //                                                padding: EdgeInsets.only(
 //                                                    top: 8.w, left: 8.w),
@@ -307,7 +307,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                    top: 8.w, left: 8.w),
 //                                                child: TitleSmallTextWidget(
 //                                                    title: coneBags)),
-                                          SizedBox(height: 8.w,),
+                                          SizedBox(height: 12.w,),
                                             TextFormField(
                                                 controller:
                                                     _conePerBagController,
@@ -363,7 +363,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                top: 8.w, left: 8.w),
 //                                            child: TitleSmallTextWidget(
 //                                                title: weightCones)),
-                                      SizedBox(height: 8.w,),
+                                      SizedBox(height: 12.w,),
                                         TextFormField(
                                             controller: _coneWithController,
                                             keyboardType: TextInputType.number,
@@ -467,7 +467,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                  EdgeInsets.only(left: 8.w),
 //                                              child: TitleSmallTextWidget(
 //                                                  title: country)),
-                                        SizedBox(height: 8.w,),
+                                        SizedBox(height: 12.w,),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -565,7 +565,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                  EdgeInsets.only(left: 8.w),
 //                                              child: TitleSmallTextWidget(
 //                                                  title: port)),
-                                        SizedBox(height: 8.w,),
+                                        SizedBox(height: 12.w,),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -671,7 +671,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          padding: EdgeInsets.only(left: 8.w),
 //                                          child: TitleSmallTextWidget(
 //                                              title: cityState)),
-                                      SizedBox(height: 8.w,),
+                                      SizedBox(height: 12.w,),
                                       SizedBox(
                                         height: 36.w,
                                         child: Container(
@@ -760,7 +760,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                        EdgeInsets.only(top: 8.w, left: 8.w),
 //                                    child: TitleSmallTextWidget(
 //                                        title: priceTerms)),
-                              SizedBox(height: 8.w,),
+                              SizedBox(height: 12.w,),
                                 SizedBox(
                                   height: 36.w,
                                   child: Container(
@@ -919,7 +919,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                            top: 8.w, left: 8.w),
 //                                        child: TitleSmallTextWidget(
 //                                            title: priceUnits)),
-                                  SizedBox(height:8.w),
+                                  SizedBox(height:12.w),
                                     TextFormField(
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
@@ -957,7 +957,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 8.w,),
+                                      SizedBox(height: 12.w,),
 //                                      Padding(
 //                                          padding: EdgeInsets.only(
 //                                              top: 8.w, left: 8.w),
@@ -1008,7 +1008,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: TitleSmallTextWidget(title: minQty)),
-                                SizedBox(height:8.w),
+                                SizedBox(height:12.w),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -1051,7 +1051,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                      EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
 //
-                                SizedBox(height:8.w),
+                                SizedBox(height:12.w),
                                   TextFormField(
                                       keyboardType: TextInputType.number,
                                       cursorColor: lightBlueTabs,
@@ -1150,7 +1150,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: const TitleSmallTextWidget(
 //                                          title: "No of Days")),
-                                SizedBox(height: 8.w,),
+                                SizedBox(height: 12.w,),
                                   SizedBox(
                                     height: 36.w,
                                     child: Container(
@@ -1229,7 +1229,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Description
-                            SizedBox(height: 8.w,),
+                            SizedBox(height: 12.w,),
 //                            Padding(
 //                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
 //                                child: TitleSmallTextWidget(

@@ -318,14 +318,16 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 12.w, left: 8.w, bottom: 6.w),
-                                    child: TitleMediumTextWidget(
-                                      title: priceTerms,
-                                    )),
+//                                Padding(
+//                                    padding: EdgeInsets.only(
+//                                        top: 12.w, left: 8.w, bottom: 6.w),
+//                                    child: TitleMediumTextWidget(
+//                                      title: priceTerms,
+//                                    )),
                                 Padding(
                                   padding: EdgeInsets.only(
+                                    top:12.w,
+                                    bottom: 6.w,
                                     left: 8.w,
                                     right: 8.w,
                                   ),
@@ -339,7 +341,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 1, //                   <--- border width here
                                           ),
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(24.w))),
+                                              Radius.circular(5.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Price Terms'),
                                         items: stocklotProvider.priceTermsList
@@ -364,13 +366,37 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         //     : null,
                                         // value: widget.syncFiberResponse.data.fiber.brands.first,
                                         decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
+                                          label: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(priceTerms,style:TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14.sp,
+                                                  backgroundColor: Colors.white,
+                                                  fontFamily: 'Metropolis',
+                                                  fontWeight: FontWeight.w500),),
+                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                  fontFamily: 'Metropolis',
+                                                  backgroundColor: Colors.white,
+                                                  fontWeight: FontWeight.w500)),
+                                            ],
+                                          ),
+                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                          contentPadding:
+                                          EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide.none),
+                                          border:
+                                          const OutlineInputBorder(
+                                              borderSide:
+                                              BorderSide
+                                                  .none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -384,15 +410,17 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 8.w, left: 8.w, bottom: 6.w),
-                                    child: const TitleMediumTextWidget(
-                                      title: 'Currency',
-                                    )),
+//                                Padding(
+//                                    padding: EdgeInsets.only(
+//                                        top: 8.w, left: 8.w, bottom: 6.w),
+//                                    child: const TitleMediumTextWidget(
+//                                      title: 'Currency',
+//                                    )),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: 8.w,
+                                    top:12.w,
+                                    bottom: 6.w,
                                     right: 8.w,
                                   ),
                                   child: SizedBox(
@@ -405,7 +433,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 1, //                   <--- border width here
                                           ),
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(24.w))),
+                                              Radius.circular(5.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Currency'),
                                         items: stocklotProvider.countryList!
@@ -433,14 +461,38 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         //     ? 'field required'
                                         //     : null,
                                         // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
+                                        decoration:InputDecoration(
+                                          label: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("Currency",style:TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14.sp,
+                                                  backgroundColor: Colors.white,
+                                                  fontFamily: 'Metropolis',
+                                                  fontWeight: FontWeight.w500),),
+                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                  fontFamily: 'Metropolis',
+                                                  backgroundColor: Colors.white,
+                                                  fontWeight: FontWeight.w500)),
+                                            ],
+                                          ),
+                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                          contentPadding:
+                                          EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide.none),
+                                          border:
+                                          const OutlineInputBorder(
+                                              borderSide:
+                                              BorderSide
+                                                  .none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -454,15 +506,17 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 8.w, left: 8.w, bottom: 6.w),
-                                    child: const TitleMediumTextWidget(
-                                      title: 'Availability',
-                                    )),
+//                                Padding(
+//                                    padding: EdgeInsets.only(
+//                                        top: 8.w, left: 8.w, bottom: 6.w),
+//                                    child: const TitleMediumTextWidget(
+//                                      title: 'Availability',
+//                                    )),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: 8.w,
+                                    top:14.w,
+                                    bottom:6.w,
                                     right: 8.w,
                                   ),
                                   child: SizedBox(
@@ -475,7 +529,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 1, //                   <--- border width here
                                           ),
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(24.w))),
+                                              Radius.circular(5.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Availability'),
                                         items: stocklotProvider
@@ -501,13 +555,37 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         //     : null,
                                         // value: widget.syncFiberResponse.data.fiber.brands.first,
                                         decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.only(
+                                          label: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("Select Availability",style:TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 14.sp,
+                                                  backgroundColor: Colors.white,
+                                                  fontFamily: 'Metropolis',
+                                                  fontWeight: FontWeight.w500),),
+                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                  fontFamily: 'Metropolis',
+                                                  backgroundColor: Colors.white,
+                                                  fontWeight: FontWeight.w500)),
+                                            ],
+                                          ),
+                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                          contentPadding:
+                                          EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide.none),
+                                          border:
+                                          const OutlineInputBorder(
+                                              borderSide:
+                                              BorderSide
+                                                  .none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -524,33 +602,36 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.w, left: 8.w, bottom: 6),
-                                      child: TitleSmallNormalTextWidget(
-                                        title: descriptionStr,
-                                        size: 12,
-                                      )),
-                                ),
-                                SizedBox(
-                                  height: 5 * 22.w,
-                                  child: TextFormField(
-                                      keyboardType: TextInputType.text,
-                                      maxLines: 5,
-                                      cursorColor: lightBlueTabs,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.start,
-                                      cursorHeight: 16.w,
-                                      onSaved: (input) {
-                                        stocklotProvider.stocklotRequestModel.description = input;
-                                      },
-                                      onChanged: (input) {
-                                        stocklotProvider.stocklotRequestModel.description = input;
-                                      },
-                                      decoration:
-                                      borderDecoration(descriptionStr)),
+//                                Align(
+//                                  alignment: Alignment.topLeft,
+//                                  child: Padding(
+//                                      padding: EdgeInsets.only(
+//                                          top: 8.w, left: 8.w, bottom: 6),
+//                                      child: TitleSmallNormalTextWidget(
+//                                        title: descriptionStr,
+//                                        size: 12,
+//                                      )),
+//                                ),
+                                Padding(
+                                  padding:  EdgeInsets.only(top:14.w,bottom: 6),
+                                  child: SizedBox(
+                                    height: 5 * 22.w,
+                                    child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        maxLines: 5,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.start,
+                                        cursorHeight: 16.w,
+                                        onSaved: (input) {
+                                          stocklotProvider.stocklotRequestModel.description = input;
+                                        },
+                                        onChanged: (input) {
+                                          stocklotProvider.stocklotRequestModel.description = input;
+                                        },
+                                        decoration:
+                                        ygTextFieldDecoration(descriptionStr,descriptionStr)),
+                                  ),
                                 ),
                               ],),
                             ),

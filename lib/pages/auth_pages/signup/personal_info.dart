@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:logger/logger.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
@@ -51,7 +52,7 @@ class PersonalInfoComponentState
   final businessAreaFocus = FocusNode();
   final companyFocus = FocusNode();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  late SignUpRequestModel _signupRequestModel;
+  SignUpRequestModel? _signupRequestModel;
   bool _showPassword = false;
   bool _termsChecked = false;
   String userName = "";
@@ -84,7 +85,6 @@ class PersonalInfoComponentState
   }
   @override
   void initState() {
-    _signupRequestModel = SignUpRequestModel();
     super.initState();
   }
 
@@ -97,7 +97,10 @@ class PersonalInfoComponentState
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
+    if (kDebugMode) {
+      print("COuntry"+_signupRequestModel!.countryId.toString());
+    }
     return  Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -144,12 +147,14 @@ class PersonalInfoComponentState
                   FocusScope.of(context).unfocus();
                   if (validateAndSave()) {
                     if (_signupRequestModel
-                        .telephoneNumber !=
+                        ?.telephoneNumber !=
                         null) {
-                      print("Signup Model"+_signupRequestModel.countryId.toString());
-                      print("Signup Model"+_signupRequestModel.company.toString());
-                      print("Signup Model"+_signupRequestModel.email.toString());
-                      print("Signup Model"+_signupRequestModel.telephoneNumber.toString());
+                      if (kDebugMode) {
+                        print("Signup Model"+_signupRequestModel!.countryId.toString());
+                      }
+                      print("Signup Model"+_signupRequestModel!.company.toString());
+                      print("Signup Model"+_signupRequestModel!.email.toString());
+                      print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
                       loginWithPhone();
                     }
                   }
@@ -178,13 +183,13 @@ class PersonalInfoComponentState
               IntlPhoneField(
                 decoration: textFieldProfile(
                     '',telephoneNumberLabel),
-                initialCountryCode: 'US',
+                initialCountryCode:_signupRequestModel?.countryId ?? 'US',
                 disableLengthCheck: false,
                 onChanged: (phone){
                   Utils.validateMobile(phone.number);
                 },
                 onSaved: (input) =>
-                _signupRequestModel.telephoneNumber = input?.completeNumber,
+                _signupRequestModel!.telephoneNumber = input?.completeNumber,
                 validator: (input) {
                   if (input == null) {
                     return "Please enter number";
@@ -222,7 +227,7 @@ class PersonalInfoComponentState
               TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
-                  onSaved: (input) => _signupRequestModel.email = input!,
+                  onSaved: (input) => _signupRequestModel!.email = input!,
                   validator: (input) {
                     if (input == null ||
                         input.isEmpty ||
@@ -332,7 +337,7 @@ class PersonalInfoComponentState
                 cursorColor: Colors.black,
                 onSaved: (input) =>
                 _signupRequestModel
-                    .password = input!,
+                    ?.password = input!,
                 validator: (input) {
                   if (input == null ||
                       input.isEmpty ||
@@ -459,7 +464,7 @@ class PersonalInfoComponentState
 
   void loginWithPhone() async {
     auth.verifyPhoneNumber(
-      phoneNumber: _signupRequestModel.telephoneNumber!,
+      phoneNumber: _signupRequestModel!.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
           _signUpCall();
@@ -502,10 +507,10 @@ class PersonalInfoComponentState
           return Container(
               color: Colors.white,
               padding: MediaQuery.of(buildContext).viewInsets,
-              height: 350,
+              height: 370,
               width: MediaQuery.of(buildContext).size.width,
               child: ListView(children: <Widget>[
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 SizedBox(
                   height: 64,
                   child: ClipRRect(
@@ -534,7 +539,7 @@ class PersonalInfoComponentState
                         text: "Enter the code sent to ",
                         children: [
                           TextSpan(
-                              text: _signupRequestModel.telephoneNumber ??
+                              text: _signupRequestModel?.telephoneNumber ??
                                   "Enter your number",
                               style: const TextStyle(
                                   color: Colors.black,
@@ -760,10 +765,10 @@ class PersonalInfoComponentState
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         /*remove operator and added static data for parameter*/
-        _signupRequestModel.operator = '1';
-        _signupRequestModel.countryId = '1';
-        Logger().e(_signupRequestModel.toJson());
-        ApiService.signup(_signupRequestModel).then((value) {
+        _signupRequestModel?.operator = '1';
+        _signupRequestModel?.countryId = '1';
+        Logger().e(_signupRequestModel?.toJson());
+        ApiService.signup(_signupRequestModel!).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {
