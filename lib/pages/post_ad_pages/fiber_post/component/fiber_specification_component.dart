@@ -657,11 +657,11 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child: TitleSmallTextWidget(
-                                                      title: brand)),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child: TitleSmallTextWidget(
+//                                                      title: brand)),
                                               SizedBox(
                                                 height: 36.w,
                                                 child: Container(
@@ -675,7 +675,7 @@ class FiberSpecificationComponentState
                                                       borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
-                                                                  24.w))),
+                                                                  5.w))),
                                                   child:
                                                       DropdownButtonFormField(
                                                     hint: Text('Select $brand'),
@@ -700,6 +700,26 @@ class FiberSpecificationComponentState
 
                                                     // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                     decoration: InputDecoration(
+                                                     label: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          Text(brand,style:TextStyle(
+                                                              color: Colors.black87,
+                                                              fontSize: 14.sp,
+                                                              backgroundColor: Colors.white,
+                                                              fontFamily: 'Metropolis',
+                                                              fontWeight: FontWeight.w500),),
+                                                           Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                              fontFamily: 'Metropolis',
+                                                               backgroundColor: Colors.white,
+                                                              fontWeight: FontWeight.w500)),
+                                                        ],
+                                                      ),
+                                                      floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
                                                       contentPadding:
                                                           EdgeInsets.only(
                                                               left: 16.w,
@@ -743,13 +763,16 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title:
-                                                              'Production Year')),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title:
+//                                                              'Production Year')),
+
+
+
                                               TextFormField(
                                                 keyboardType:
                                                     TextInputType.none,
@@ -774,8 +797,8 @@ class FiberSpecificationComponentState
                                                   return null;
                                                 },
                                                 decoration:
-                                                    roundedTextFieldDecoration(
-                                                        'Production year'),
+                                                    ygTextFieldDecoration(
+                                                        'Production year','Production year'),
                                                 onTap: () {
                                                   handleReadOnlyInputClick(
                                                       context);
@@ -797,10 +820,11 @@ class FiberSpecificationComponentState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Origin')),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'Origin')),
+
                                         SizedBox(
                                           height: 36.w,
                                           child: Container(
@@ -811,7 +835,7 @@ class FiberSpecificationComponentState
                                                       1, //                   <--- border width here
                                                 ),
                                                 borderRadius: BorderRadius.all(
-                                                    Radius.circular(24.w))),
+                                                    Radius.circular(5.w))),
                                             child: DropdownButtonFormField(
                                               hint: const Text('Select Origin'),
                                               items: _countries
@@ -833,15 +857,37 @@ class FiberSpecificationComponentState
 
                                               // value: widget.syncFiberResponse.data.fiber.brands.first,
                                               decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.only(
+                                                label: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Text('Origin',style:TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 14.sp,
+                                                        fontFamily: 'Metropolis',
+                                                        backgroundColor: Colors.white,
+                                                        fontWeight: FontWeight.w500),),
+                                                    Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                        fontFamily: 'Metropolis',
+                                                        backgroundColor: Colors.white,
+                                                        fontWeight: FontWeight.w500)),
+                                                  ],
+                                                ),
+                                                floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                                contentPadding:
+                                                EdgeInsets.only(
                                                     left: 16.w,
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
                                                 border:
-                                                    const OutlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
+                                                const OutlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide
+                                                        .none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
@@ -861,10 +907,10 @@ class FiberSpecificationComponentState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'City State')),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'City State')),
                                         Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -873,7 +919,7 @@ class FiberSpecificationComponentState
                                                     1, //                   <--- border width here
                                               ),
                                               borderRadius: BorderRadius.all(
-                                                  Radius.circular(24.w))),
+                                                  Radius.circular(5.w))),
                                           child: SizedBox(
                                             height: 36.w,
                                             child: DropdownButtonFormField(
@@ -895,15 +941,37 @@ class FiberSpecificationComponentState
                                                     value!.id.toString();
                                               },
                                               decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.only(
+                                                label: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Text('City State',style:TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 14.sp,
+                                                        backgroundColor: Colors.white,
+                                                        fontFamily: 'Metropolis',
+                                                        fontWeight: FontWeight.w500),),
+                                                    Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                        fontFamily: 'Metropolis',
+                                                        backgroundColor: Colors.white,
+                                                        fontWeight: FontWeight.w500)),
+                                                  ],
+                                                ),
+                                                floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                                contentPadding:
+                                                EdgeInsets.only(
                                                     left: 16.w,
                                                     right: 6.w,
                                                     top: 0,
                                                     bottom: 0),
                                                 border:
-                                                    const OutlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
+                                                const OutlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide
+                                                        .none),
                                               ),
                                               style: TextStyle(
                                                   fontSize: 11.sp,
@@ -924,10 +992,10 @@ class FiberSpecificationComponentState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 8.w),
-                                            child: const TitleSmallTextWidget(
-                                                title: 'Lot Number')),
+//                                        Padding(
+//                                            padding: EdgeInsets.only(left: 8.w),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'Lot Number')),
                                         TextFormField(
                                             keyboardType: TextInputType.text,
                                             cursorColor: lightBlueTabs,
@@ -945,8 +1013,8 @@ class FiberSpecificationComponentState
                                               return null;
                                             },
                                             decoration:
-                                                roundedTextFieldDecoration(
-                                                    'Lot Number')),
+                                                ygTextFieldDecoration(
+                                                    'Lot Number','Lot Number')),
                                       ],
                                     ),
                                   ),

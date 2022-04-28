@@ -58,6 +58,8 @@ class CountryComponentState
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   late SignUpRequestModel _signupRequestModel;
 
+  String countryString="";
+
   @override
   bool get wantKeepAlive => true;
 
@@ -145,7 +147,8 @@ class CountryComponentState
             ),
             onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
             onValuePicked: (Country country) {
-              print("${country.name}");
+              print("${country.isoCode}");
+              countryString=country.isoCode;
               _signupRequestModel.countryId="1";
             },
             itemBuilder: (Country country) {
