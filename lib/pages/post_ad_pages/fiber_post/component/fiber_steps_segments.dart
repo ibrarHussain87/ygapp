@@ -95,7 +95,7 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
             Expanded(
               child: CupertinoSegmentedControl(
                 borderColor: Colors.grey.shade300,
-                selectedColor: lightBlueTabs,
+                selectedColor: darkBlueChip,
                 pressedColor: Colors.transparent,
                 groupValue: selectedValue,
                 children: {

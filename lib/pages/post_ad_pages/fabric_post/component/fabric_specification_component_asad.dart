@@ -576,8 +576,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Nature of Fabric' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Nature of Fabric' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _natureFabricKey,
@@ -669,8 +669,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Weave' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Weave' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _weaveKey,
@@ -698,8 +698,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Loom' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Loom' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _loomKey,
@@ -726,8 +726,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Salvedge' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Salvedge' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _salvedgeKey,
@@ -774,8 +774,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(title: ply + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(title: ply + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _plyKey,
@@ -802,8 +802,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Layyer' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Layyer' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _layyerKey,
@@ -895,8 +895,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
                                                 title: colorTreatmentMethod + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
@@ -946,8 +946,8 @@ class FabricSpecificationComponentState
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
-                                                      padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                                      child: const TitleSmallTextWidget(
+                                                      padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                                      child: const TitleSmallBoldTextWidget(
                                                           title: "Dying Method" + '*')),
                                                   SingleSelectTileWidget(
                                                     selectedIndex: -1,
@@ -987,7 +987,7 @@ class FabricSpecificationComponentState
                                                   children: [
                                                     const Padding(
                                                       padding: EdgeInsets.only(left: 8.0,bottom: 4),
-                                                      child: TitleSmallTextWidget(title: "Select Color"),
+                                                      child: TitleSmallBoldTextWidget(title: "Select Color"),
                                                     ),
                                                     Card(
                                                       shape: RoundedRectangleBorder(
@@ -1044,7 +1044,7 @@ class FabricSpecificationComponentState
                                         children: [
                                           const Padding(
                                             padding: EdgeInsets.only(left: 8.0,bottom: 4),
-                                            child: TitleSmallTextWidget(title: "Color"),
+                                            child: TitleSmallBoldTextWidget(title: "Color"),
                                           ),
                                           ValueListenableBuilder(
                                               valueListenable: _notifierColor,
@@ -1105,8 +1105,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: const TitleSmallTextWidget(title: 'Knitting Type' + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(title: 'Knitting Type' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _knittingTypeKey,
@@ -1134,8 +1134,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(title: apperance + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(title: apperance + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _appearanceKey,
@@ -1174,8 +1174,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(title: quality + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(title: quality + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _qualityKey,
@@ -1202,8 +1202,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(title: grades + '*')),
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(title: grades + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _gradeKey,
@@ -1229,8 +1229,8 @@ class FabricSpecificationComponentState
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 8.w,bottom: 4),
-                                            child: TitleSmallTextWidget(
+                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
                                                 title: certification + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,

@@ -53,12 +53,16 @@ class _FabricNatureMaterialComponentState
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
-                child: const TitleTextWidget(
-                  title: 'Fabric Family',
-                )),
+            Visibility(
+              visible: false,
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
+                  child: const TitleTextWidget(
+                    title: 'Fabric Family',
+                  )),
+            ),
+            const SizedBox(height: 10,),
             SizedBox(
               height: 0.04 * MediaQuery.of(context).size.height,
               child: Padding(
@@ -98,16 +102,20 @@ class _FabricNatureMaterialComponentState
           ],
         ),
         Visibility(
-          visible: /*_selectedNature != FABRIC_MIRCOFIBER_ID*/false,
+          visible: _selectedNature != FABRIC_MIRCOFIBER_ID,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                  padding: EdgeInsets.only(
-                      top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
-                  child: const TitleTextWidget(
-                    title: 'Fabric Blends',
-                  )),
+              Visibility(
+                visible: false,
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 16.w, /*left: 16.w,*/ right: 16.w, bottom: 16.w),
+                    child: const TitleTextWidget(
+                      title: 'Fabric Blends',
+                    )),
+              ),
+              const SizedBox(height: 15,),
               CatWithImageListWidget(
                 key: _catWithImageListState,
                 listItem: widget.materialList

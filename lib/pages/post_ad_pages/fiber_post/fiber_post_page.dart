@@ -125,6 +125,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
           FiberNatureMaterialComponent(
               natureList: _fiberNatureList,
               materialList: _fiberMaterialList),
+          const SizedBox(height: 20,),
           Expanded(
             child: FiberStepsSegments(
               // syncFiberResponse: data,

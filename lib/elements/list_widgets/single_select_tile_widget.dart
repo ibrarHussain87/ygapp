@@ -148,47 +148,84 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
         widget.callback!(widget.listOfItems[index]);
         looger.e(widget.listOfItems[index].toString());
       },
-      child: Container(
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.transparent,
+      child:  widget.listOfItems.length < 3
+          ? buildRoundedContainer(checked, index)
+          : buildSquareContainer(checked, index),
+    );
+  }
+
+  Container buildSquareContainer(bool checked, int index) {
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          color: checked
+              ? darkBlueChip
+              : lightBlueChip,
+          borderRadius: BorderRadius.all(Radius.circular(5.w))),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              widget.listOfItems[index].toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: checked ? Colors.white : darkBlueChip),
             ),
-            color: checked
-                ? darkBlueChip
-                : lightBlueChip,
-            borderRadius: BorderRadius.all(Radius.circular(24.w))),
-        child: Row(
-          children: [
-            Visibility(
-              visible: checked,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4,bottom: 4,),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.check,color: darkBlueChip,),
-                ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container buildRoundedContainer(bool checked, int index) {
+    return Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          color: checked
+              ? darkBlueChip
+              : lightBlueChip,
+          borderRadius: BorderRadius.all(Radius.circular(24.w))),
+      child: Row(
+        children: [
+          Visibility(
+            visible: checked,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4,bottom: 4,),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.check,color: darkBlueChip,),
               ),
             ),
-            /*Visibility(
-              visible: checked,
-                child: const SizedBox(width: 5,)
-            ),*/
-            Expanded(
-              child: Text(
-                widget.listOfItems[index].toString(),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                softWrap: false,
-                textAlign: checked ? TextAlign.start:TextAlign.center,
-                style: TextStyle(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w600,
-                    color: checked ? Colors.white : darkBlueChip),
-              ),
-            )
-          ],
-        ),
+          ),
+          /*Visibility(
+            visible: checked,
+              child: const SizedBox(width: 5,)
+          ),*/
+          Expanded(
+            child: Text(
+              widget.listOfItems[index].toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: checked ? TextAlign.start:TextAlign.center,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  color: checked ? Colors.white : darkBlueChip),
+            ),
+          )
+        ],
       ),
     );
   }
