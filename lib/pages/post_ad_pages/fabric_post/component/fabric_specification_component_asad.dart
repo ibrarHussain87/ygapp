@@ -259,6 +259,7 @@ class FabricSpecificationComponentState
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                const SizedBox(height: 4,),
                                 //Show Ratio and Count
                                 Row(
                                   children: [
@@ -314,6 +315,7 @@ class FabricSpecificationComponentState
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 4,),
                                 //Show Warp count and No of Ends
                                 Row(
                                   children: [
