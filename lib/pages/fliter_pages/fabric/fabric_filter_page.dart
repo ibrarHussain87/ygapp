@@ -545,15 +545,19 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                         child: Expanded(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.w, top: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title:
-                                                              'Warp Ply' + '*')),
+                                              // modified by (asad_m)
+
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 4.w, top: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title:
+//                                                              'Warp Ply' + '*')),
+
                                               YgTextFormFieldWithoutRange(
                                                   errorText: 'Warp Ply',
+                                                  label: 'Warp Ply',
                                                   onSaved: (input) {
                                                     _filterRequestModel!
                                                         .fs_warp_ply_idfk = input;
@@ -578,15 +582,17 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                         child: Expanded(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.w, top: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title:
-                                                              'Weft Ply' + '*')),
+                                              //Modified by (asad_m)
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 4.w, top: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title:
+//                                                              'Weft Ply' + '*')),
                                               YgTextFormFieldWithoutRange(
                                                   errorText: 'Weft Ply',
+                                                  label: 'Weft Ply',
                                                   onSaved: (input) {
                                                     _filterRequestModel!
                                                         .fs_weft_ply_idfk = input;

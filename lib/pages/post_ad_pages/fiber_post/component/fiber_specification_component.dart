@@ -207,11 +207,14 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child: TitleSmallTextWidget(
-                                                      title: fiberLength)),
+                                              //modified by (asad_m)
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child: TitleSmallTextWidget(
+//                                                      title: fiberLength)),
+
+
                                               // TextFormField(
                                               //     keyboardType:
                                               //         TextInputType.number,
@@ -245,8 +248,9 @@ class FiberSpecificationComponentState
                                               //     decoration:
                                               //         roundedTextFieldDecoration(
                                               //             "${snapshot.data![0].lengthMinMax} mm")),
-
+                                              SizedBox(height:8.w ,),
                                               YgTextFormFieldWithRange(
+                                                label: fiberLength,
                                                   errorText: fiberLength,
                                                   minMax: snapshot
                                                       .data![0].lengthMinMax,
@@ -285,13 +289,19 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child: TitleSmallTextWidget(
-                                                      title: micStr)),
+
+                                              //modified by (asad_m)
+                                              SizedBox(height:8.w ,),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child: TitleSmallTextWidget(
+//                                                      title: micStr)),
+
+
                                               YgTextFormFieldWithRange(
                                                   errorText: micStr,
+                                                  label: micStr,
                                                   minMax: snapshot
                                                       .data![0].micMinMax,
                                                   onSaved: (input) {
@@ -351,13 +361,16 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child: TitleSmallTextWidget(
-                                                      title: moistureStr)),
+                                              //modified by (asad_m)
+                                              SizedBox(height:8.w ,),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child: TitleSmallTextWidget(
+//                                                      title: moistureStr)),
                                               YgTextFormFieldWithRange(
                                                   errorText: moistureStr,
+                                                  label: moistureStr,
                                                   minMax: snapshot
                                                       .data![0].moiMinMax,
                                                   onSaved: (input) {
@@ -424,13 +437,16 @@ class FiberSpecificationComponentState
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 8.w),
-                                                    child: TitleSmallTextWidget(
-                                                        title: trashStr)),
+//                                                Padding(
+//                                                    padding: EdgeInsets.only(
+//                                                        left: 8.w),
+//                                                    child: TitleSmallTextWidget(
+//                                                        title: trashStr)),
+
+                                                SizedBox(height:8.w ,),
                                                 YgTextFormFieldWithRange(
                                                     errorText: trashStr,
+                                                    label: trashStr,
                                                     minMax: snapshot
                                                         .data![0].trashMinMax,
                                                     onSaved: (input) {
@@ -494,14 +510,18 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title: 'RD')),
+                                              //Modified by (asad_m)
+                                              SizedBox(height:8.w ,),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title: 'RD')),
+
                                               YgTextFormFieldWithRange(
                                                   errorText: 'RD',
+                                                  label: 'RD',
                                                   minMax: snapshot
                                                       .data![0].rdMinMax,
                                                   onSaved: (input) {
@@ -564,14 +584,18 @@ class FiberSpecificationComponentState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.w),
-                                                  child:
-                                                      const TitleSmallTextWidget(
-                                                          title: 'GPT')),
+                                              //Modified by (asad_m)
+                                              SizedBox(height:8.w ,),
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(
+//                                                      left: 8.w),
+//                                                  child:
+//                                                      const TitleSmallTextWidget(
+//                                                          title: 'GPT')),
+
                                               YgTextFormFieldWithRange(
                                                   errorText: "GPT",
+                                                  label: 'GPT',
                                                   minMax: snapshot
                                                       .data![0].gptMinMax,
                                                   onSaved: (input) {

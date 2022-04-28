@@ -11,7 +11,7 @@ import 'decoration_widgets.dart';
 class YgTextFormFieldWithRange extends StatelessWidget {
   final String errorText;
   final String minMax;
-//  final String label;
+  final String label;
   final Function onSaved;
   // final Function onChanged;
   final bool? validation;
@@ -20,7 +20,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
       {Key? key,
       required this.errorText,
       required this.minMax,
-//      required this.label,
+      required this.label,
       required this.onSaved,
       // required this.onChanged,
       this.validation})
@@ -48,7 +48,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
               errorText: "Range $minMax"),
           RequiredValidator(errorText: errorText),
         ]),
-        decoration: ygTextFieldDecoration(minMax,""));
+        decoration: ygTextFieldDecoration(minMax,label));
 //        decoration: roundedTextFieldDecoration(minMax));
   }
 }
@@ -56,7 +56,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
 class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
   final String errorText;
   final String minMax;
-//  final String label;
+  final String label;
   final Function onSaved;
   // final Function onChanged;
   final bool? validation;
@@ -65,7 +65,7 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
       {Key? key,
         required this.errorText,
         required this.minMax,
-//        required this.label,
+        required this.label,
         required this.onSaved,
         // required this.onChanged,
         this.validation})
@@ -94,18 +94,18 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
               errorText: "Range $minMax"),
           RequiredValidator(errorText: errorText),
         ]),
-        decoration: ygTextFieldDecoration(minMax,""));
+        decoration: ygTextFieldDecoration(minMax,label));
   }
 }
 
 class YgTextFormFieldWithoutRange extends StatelessWidget {
   final String errorText;
   final Function onSaved;
-//  final String label;
+  final String label;
 
   const YgTextFormFieldWithoutRange(
       {Key? key, required this.errorText, required this.onSaved,
-//        required this.label
+        required this.label
       })
       : super(key: key);
 
@@ -127,21 +127,21 @@ class YgTextFormFieldWithoutRange extends StatelessWidget {
         validator: MultiValidator([
           RequiredValidator(errorText: errorText),
         ]),
-        decoration: ygTextFieldDecoration(errorText,""));
+        decoration: ygTextFieldDecoration(errorText,label));
   }
 }
 
 class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
   final String errorText;
   final String minMax;
-//  final String label;
+  final String label;
   final Function onSaved;
 
   const YgTextFormFieldWithRangeNoValidation(
       {Key? key,
       required this.errorText,
       required this.minMax,
-//      required this.label,
+      required this.label,
       required this.onSaved,
       })
       : super(key: key);
@@ -164,6 +164,6 @@ class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
             min: Utils.splitMin(minMax),
             max: Utils.splitMax(minMax),
             errorText: "Range $minMax"),
-        decoration: ygTextFieldDecoration(minMax,""));
+        decoration: ygTextFieldDecoration(minMax,label));
   }
 }

@@ -112,13 +112,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: '$actualYarnCount*'),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+                                      //Modified (asad_m)
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: '$actualYarnCount*'),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRange(
+                                        label: actualYarnCount,
                                         errorText: actualYarnCount,
                                         onSaved: (input) => _createRequestModel
                                             .ys_actual_yarn_count = input!,
@@ -149,14 +151,16 @@ class LabParameterPageState extends State<LabParameterPage>
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child:
-                                  TitleSmallTextWidget(title: '$CLSP*'),
-                                  margin: EdgeInsets.only(
-                                      left: 8.w, top: 8.w),
-                                ),
+                                //modified (asad_m)
+//                                Container(
+//                                  child:
+//                                  TitleSmallTextWidget(title: '$CLSP*'),
+//                                  margin: EdgeInsets.only(
+//                                      left: 8.w, top: 8.w),
+//                                ),
                                 YgTextFormFieldWithRange(
                                   errorText: "CLSP",
+                                  label: 'CLSP',
                                   onSaved: (input) => _createRequestModel
                                       .ys_clsp = input!,
                                   // onChanged:(value) => globalFormKey.currentState!.reset(),
@@ -177,13 +181,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child:
-                                            TitleSmallTextWidget(title: '$IpmKm*'),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+                                      //modifed ((asad_m)
+//                                      Container(
+//                                        child:
+//                                            TitleSmallTextWidget(title: '$IpmKm*'),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRange(
+                                        label:IpmKm,
                                         errorText: "IPKM",
                                         onSaved: (input) => _createRequestModel
                                             .ys_ipm_km = input!,
@@ -206,14 +212,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                 child: Expanded(
                                   child: Column(
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: thinPlaces),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: thinPlaces),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: thinPlaces,
+                                        label: thinPlaces,
                                         onSaved: (input) => _createRequestModel
                                             .ys_thin_places = input!,
                                         minMax: _yarnSetting.thinPlacesMinMax!,
@@ -238,14 +245,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: thickPlaces),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: thickPlaces),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: thickPlaces,
+                                        label: thickPlaces,
                                         minMax: _yarnSetting.thickPlacesMinMax!,
                                         onSaved: (input) => _createRequestModel
                                             .ys_thick_places = input!,
@@ -266,14 +274,16 @@ class LabParameterPageState extends State<LabParameterPage>
                                 child: Expanded(
                                   child: Column(
                                     children: [
-                                      Container(
-                                        child:
-                                            TitleSmallTextWidget(title: naps),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child:
+//                                            TitleSmallTextWidget(title: naps),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
+
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: naps,
+                                        label:naps,
                                         minMax: _yarnSetting.napsMinMax!,
                                         onSaved: (input) => _createRequestModel
                                             .ys_naps = input!,
@@ -296,14 +306,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                 child: Expanded(
                                   child: Column(
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: unifomity),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: unifomity),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                         errorText: unifomity,
+                                        label: unifomity,
                                         minMax: _yarnSetting.uniformityMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel
@@ -329,13 +340,14 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(title: cv),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(title: cv),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: cv,
+                                          label: cv,
                                           minMax: _yarnSetting.cvMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel.ys_cv =
@@ -358,14 +370,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: hairness),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: hairness),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: hairness,
+                                          label: hairness,
                                           minMax: _yarnSetting.hairnessMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel.ys_hairness =
@@ -388,13 +401,14 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(title: Rkm),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(title: Rkm),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: Rkm,
+                                          label: Rkm,
                                           minMax: _yarnSetting.rkmMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel.ys_rkm =
@@ -416,14 +430,15 @@ class LabParameterPageState extends State<LabParameterPage>
                                 child: Expanded(
                                   child: Column(
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(
-                                            title: elongation),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(
+//                                            title: elongation),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: elongation,
+                                          label: elongation,
                                           minMax: _yarnSetting.elongationMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel
@@ -449,13 +464,14 @@ class LabParameterPageState extends State<LabParameterPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: TitleSmallTextWidget(title: tpi),
-                                        margin: EdgeInsets.only(
-                                            left: 8.w, top: 8.w),
-                                      ),
+//                                      Container(
+//                                        child: TitleSmallTextWidget(title: tpi),
+//                                        margin: EdgeInsets.only(
+//                                            left: 8.w, top: 8.w),
+//                                      ),
                                       YgTextFormFieldWithRangeNoValidation(
                                           errorText: tpi,
+                                          label: tpi,
                                           minMax: _yarnSetting.tpiMinMax!,
                                           onSaved: (input) =>
                                               _createRequestModel.ys_tpi =
@@ -474,12 +490,13 @@ class LabParameterPageState extends State<LabParameterPage>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: TitleSmallTextWidget(title: tm),
-                                  margin: EdgeInsets.only(left: 8.w, top: 8.w),
-                                ),
+//                                Container(
+//                                  child: TitleSmallTextWidget(title: tm),
+//                                  margin: EdgeInsets.only(left: 8.w, top: 8.w),
+//                                ),
                                 YgTextFormFieldWithRangeNoValidation(
                                     errorText: tm,
+                                    label: tm,
                                     minMax: _yarnSetting.tmMinMax!,
                                     onSaved: (input) =>
                                         _createRequestModel.ys_tm = input!,
