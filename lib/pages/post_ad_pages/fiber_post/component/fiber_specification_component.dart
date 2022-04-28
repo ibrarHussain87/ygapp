@@ -750,7 +750,7 @@ class FiberSpecificationComponentState
                                     ),
                                     SizedBox(
                                       width:
-                                          (snapshot.data![0].showBrand == "1")
+                                          (snapshot.data![0].showBrand == "1" && snapshot.data![0].showProductionYear == "1")
                                               ? 16.w
                                               : 0,
                                     ),
