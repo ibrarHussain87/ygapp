@@ -271,7 +271,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: TitleSmallTextWidget(title: ratio + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithoutRange(
                                                 errorText: ratio,
                                                 label: ratio,
@@ -299,7 +299,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: TitleSmallTextWidget(title: count + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: count,
                                                 label: count,
@@ -328,6 +328,7 @@ class FabricSpecificationComponentState
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
 //
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'Warp Count',
                                                 label:'Warp Count',
@@ -356,7 +357,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithRangeNonDecimal(
                                               label:'No of Ends',
                                                 errorText: 'No of Ends',
@@ -385,6 +386,7 @@ class FabricSpecificationComponentState
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
 //
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'Weft Count',
                                                 label: 'Weft Count',
@@ -414,7 +416,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithRangeNonDecimal(
                                                 errorText: 'No of Picks',
                                                 label: 'No of Picks',
@@ -441,7 +443,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithoutRange(
                                                 errorText: 'Warp Ply',
                                                 label: 'Warp Ply',
@@ -468,7 +470,7 @@ class FabricSpecificationComponentState
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
-
+                                            SizedBox(height:8.w ,),
                                             YgTextFormFieldWithoutRange(
                                                 errorText: 'Weft Ply',
                                                 label: 'Weft Ply',
@@ -497,7 +499,7 @@ class FabricSpecificationComponentState
 //                                                left: 8.w,bottom: 4),
 //                                            child: const TitleSmallTextWidget(
 //                                                title: 'Width')),
-
+                                        SizedBox(height:8.w ,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'Width',
                                             label: 'Width',
@@ -528,7 +530,7 @@ class FabricSpecificationComponentState
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
-
+                                              SizedBox(height:8.w ,),
                                               Row(
                                                 children: [
                                                   Expanded(
@@ -750,7 +752,7 @@ class FabricSpecificationComponentState
 //                                      Padding(
 //                                          padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
-//
+                                      SizedBox(height:8.w ,),
                                       YgTextFormFieldWithoutRange(
                                           errorText: 'Tuckin Width',
                                           label: 'Tuckin Width',
@@ -832,7 +834,7 @@ class FabricSpecificationComponentState
 //                                                left: 8.w,bottom: 4),
 //                                            child: const TitleSmallTextWidget(
 //                                                title: 'Once')),
-
+                                        SizedBox(height:8.w ,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'Once',
                                             label: 'Once',
@@ -865,7 +867,7 @@ class FabricSpecificationComponentState
 //                                                left: 8.w,bottom: 4),
 //                                            child: const TitleSmallTextWidget(
 //                                                title: 'GSM')),
-
+                                        SizedBox(height:8.w ,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'GSM',
                                             label: 'GSM',

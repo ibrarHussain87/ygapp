@@ -1147,9 +1147,10 @@ class YarnSpecificationComponentState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                            child: TitleSmallTextWidget(title: count + '*')),
+//                        Padding(
+//                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                            child: TitleSmallTextWidget(title: count + '*')),
+                        SizedBox(height:8.w ,),
                         YgTextFormFieldWithRangeNonDecimal(
                             errorText: count,
                             label: count,
@@ -1672,9 +1673,10 @@ class YarnSpecificationComponentState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                            child: TitleSmallTextWidget(title: count + '*')),
+//                        Padding(
+//                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
+//                            child: TitleSmallTextWidget(title: count + '*')),
+                        SizedBox(height:8.w ,),
                         YgTextFormFieldWithRangeNonDecimal(
                             errorText: count,
                             label: count,
