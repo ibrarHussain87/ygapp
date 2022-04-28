@@ -81,7 +81,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
           FabricNatureMaterialComponent(
               natureList: postFabricProvider.fabricFamilyList,
               materialList: postFabricProvider.fabricBlendsList),
-          const SizedBox(height: 8,),
+          const SizedBox(height: 20,),
           Expanded(
             child: FabricStepsSegments(
               // syncFiberResponse: data,

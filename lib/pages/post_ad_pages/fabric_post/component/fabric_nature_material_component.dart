@@ -98,7 +98,7 @@ class _FabricNatureMaterialComponentState
           ],
         ),
         Visibility(
-          visible: _selectedNature != FABRIC_MIRCOFIBER_ID,
+          visible: /*_selectedNature != FABRIC_MIRCOFIBER_ID*/false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

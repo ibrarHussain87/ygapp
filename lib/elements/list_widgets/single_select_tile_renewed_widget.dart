@@ -44,27 +44,8 @@ class SingleSelectTileRenewedWidgetState extends State<SingleSelectTileRenewedWi
     super.initState();
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: widget.spanCount! == 2 ? 16 : 6,
-          mainAxisSpacing: 8,
-          crossAxisCount: widget.spanCount!,
-          childAspectRatio: 6
-      ),
-      itemCount: widget.listOfItems.length,
-      itemBuilder: (context, index) {
-        return buildGrid(index);
-      },
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
-    /*checkedTile = widget.selectedIndex ?? 0;*/
     return SizedBox(
       height: 0.01 * MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -100,9 +81,9 @@ class SingleSelectTileRenewedWidgetState extends State<SingleSelectTileRenewedWi
                 color: Colors.transparent,
               ),
               color: checked
-                  ? Colors.grey.shade200
+                  ? darkBlueChip
                   : Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(3.w))),
+              borderRadius: BorderRadius.all(Radius.circular(5.w))),
           child: Center(
             child: Text(
               widget.listOfItems[index].toString(),
@@ -110,7 +91,7 @@ class SingleSelectTileRenewedWidgetState extends State<SingleSelectTileRenewedWi
               style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w500,
-                  color: checked ? Colors.black : Colors.grey),
+                  color: checked ? Colors.white : Colors.grey),
             ),
           ),
         ),
