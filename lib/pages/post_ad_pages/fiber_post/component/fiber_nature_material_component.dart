@@ -84,16 +84,20 @@ class _FiberNatureMaterialComponentState
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 8,right: 8,top: 15),
+                child: Divider()
+            ),
             Visibility(
               visible: false,
               child: Padding(
                   padding: EdgeInsets.only(
-                      top: 16.w, left: 16.w, right: 16.w, bottom: 16.w),
+                      top: 0.w, left: 16.w, right: 16.w, bottom: 16.w),
                   child: const TitleTextWidget(
                     title: 'Fiber Material',
                   )),
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(height: 8,),
             CatWithImageListWidget(
               key: _catWithImageListState,
               listItem: widget.materialList
@@ -107,6 +111,11 @@ class _FiberNatureMaterialComponentState
                 BroadcastReceiver().publish<int>(materialIndexBroadcast,
                     arguments: widget.materialList.where((element) => element.nature_id == _selectedNature).toList()[index].fbmId);
               },
+            ),
+            const SizedBox(height: 4,),
+            const Padding(
+                padding: EdgeInsets.only(left: 8,right: 8,),
+                child: Divider()
             ),
           ],
         ),

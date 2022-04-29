@@ -113,14 +113,19 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(
+                  padding: EdgeInsets.only(left: 16,right: 16),
+                  child: Divider()
+              ),
               Visibility(
                 visible: false,
                 child: Padding(
                     padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
                     child: TitleTextWidget(title: blend)),
               ),
+              const SizedBox(height: 8,),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                margin: EdgeInsets.symmetric(horizontal: 0.w),
                 child: CatWithImageListWidget(
                   selectedItem: -1,
                   key: _blendTileKey,
@@ -140,6 +145,11 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                     yarnStepStateKey.currentState!.onClickBlend(value);
                   },
                 ),
+              ),
+              const SizedBox(height: 4,),
+              const Padding(
+                  padding: EdgeInsets.only(left: 16,right: 16,),
+                  child: Divider()
               ),
             ],
           ),
