@@ -55,7 +55,7 @@ class Data {
     required this.fbpSpecificationsIdfk,
     required this.fbpCategoryIdfk,
   });
-  late final String? spcCategoryIdfk;
+  late final int? spcCategoryIdfk;
   late final String? spcUserIdfk;
   late final String? spcLocalInternational;
   late final String? spcFiberMaterialIdfk;

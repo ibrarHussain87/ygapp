@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
@@ -19,6 +22,11 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+
+import '../../../../api_services/api_service_class.dart';
+import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/navigation_utils.dart';
+import '../../../../helper_utils/progress_dialog_util.dart';
 
 class YarnSpecificationComponent extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
@@ -42,6 +50,9 @@ class YarnSpecificationComponent extends StatefulWidget {
 
 class YarnSpecificationComponentState
     extends State<YarnSpecificationComponent> with AutomaticKeepAliveClientMixin {
+
+  List<PickedFile> imageFiles = [];
+
   // ValueChanged<Color> callback
   _changeColor(Color color) {
     setState(() {
@@ -665,11 +676,24 @@ class YarnSpecificationComponentState
                   if (validationAllPage()) {
                     // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
                     // _createRequestModel.ys_usage_idfk = userId;
-                    widget.callback!(1);
+                    if(widget.selectedTab == offering_type){
+                      widget.callback!(1);
+                    }else{
+                      showGenericDialog(
+                        '',
+                        "Are you sure, you want to submit?",
+                        context,
+                        StylishDialogType.WARNING,
+                        'Yes',
+                            () {
+                          submitData(context);
+                        },
+                      );
+                    }
                   }
                 },
                 color: btnColorLogin,
-                btnText: "Next",
+                btnText: widget.selectedTab == offering_type ? "Next" : submit,
               ),
             ),
           ),
@@ -679,6 +703,65 @@ class YarnSpecificationComponentState
     )
         : Container();
   }
+
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      if (widget.businessArea == yarn) {
+        _createRequestModel!.ys_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.spc_local_international =
+            widget.locality!.toUpperCase();
+      }
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createSpecification(_createRequestModel!,
+          imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+                  () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+                () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+              () {},
+        );
+      });
+    }
+  }
+
 
   Widget setSpecificationParameters(String selectedFamilyId) {
     Widget widget = const Text('Error');
