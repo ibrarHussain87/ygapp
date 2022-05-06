@@ -49,7 +49,7 @@ class FabricPageState extends State<FabricPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              openFabricPostPage(context, widget.locality, "Fabric", value);
+              openFabricPostPage(context, widget.locality, value, "Fabric");
             });
           },
           child: const Icon(Icons.add),

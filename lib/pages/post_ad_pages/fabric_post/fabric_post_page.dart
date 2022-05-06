@@ -81,7 +81,10 @@ class _FabricPostPageState extends State<FabricPostPage> {
           FabricNatureMaterialComponent(
               natureList: postFabricProvider.fabricFamilyList,
               materialList: postFabricProvider.fabricBlendsList),
-          const SizedBox(height: 20,),
+          Visibility(
+            visible: widget.businessArea == offering_type,
+              child: const SizedBox(height: 20,)
+          ),
           Expanded(
             child: FabricStepsSegments(
               // syncFiberResponse: data,
