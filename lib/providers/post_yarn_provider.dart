@@ -5,6 +5,8 @@ import '../model/response/yarn_response/sync/yarn_sync_response.dart';
 class PostYarnProvider extends ChangeNotifier{
 
   List<dynamic> selectedBlends = [];
+  List<TextEditingController> textFieldControllers = [];
+
 
   late bool _isBlendSelected;
   bool get isBlendSelected => _isBlendSelected;
@@ -41,6 +43,7 @@ class PostYarnProvider extends ChangeNotifier{
       element.blendRatio = "";
       element.isSelected = false;
     }
+    textFieldControllers.clear();
     selectedBlends.clear();
     notifyListeners();
 

@@ -11,7 +11,6 @@ import 'package:yg_app/providers/post_yarn_provider.dart';
 import '../locators.dart';
 
 GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
-List<TextEditingController> textFieldControllers = [];
 
 blendedSheet(
     BuildContext context, List<dynamic> blends, int index, Function callback) {
@@ -44,7 +43,7 @@ blendedSheet(
                           _yarnPostProvider.isBlendSelected = false;
                           Navigator.pop(context);
                           _yarnPostProvider.resetData();
-                          textFieldControllers.clear();
+                          _yarnPostProvider.textFieldControllers.clear();
                         },
                         child: const Icon(Icons.close),
                       ),
@@ -65,7 +64,7 @@ blendedSheet(
                   child: BlendRatioWidget(
                     selectedIndex: index,
                     listOfItems: blends,
-                    listController:textFieldControllers,
+                    listController:_yarnPostProvider.textFieldControllers,
                     blendsValue: values,
                     callback: (value) {},
                     textFieldcallback: (value) {
@@ -172,13 +171,6 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
   @override
   void initState() {
     super.initState();
-
-    if (textFieldControllers.isEmpty) {
-      for (var i = 0; i < widget.listOfItems.length; i++) {
-        textFieldControllers.add(TextEditingController());
-      }
-    }
-
     _isChecked = List<bool>.filled(widget.listOfItems.length, false);
     _yarnPostProvider.addListener(updateUI);
     // blends = widget.blendsValue;
@@ -261,11 +253,9 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: BlendTextFormFieldWithRangeNonDecimal(
                   errorText: "count",
                   minMax: "1-100",
-                  validation: _yarnPostProvider.selectedBlends
-                      .contains(widget.listOfItems[index]),
-                  isEnabled: _yarnPostProvider.selectedBlends
-                      .contains(widget.listOfItems[index]),
-                  textEditingController: textFieldControllers[index],
+                  validation: _yarnPostProvider.blendList[index].isSelected??false,
+                  isEnabled: _yarnPostProvider.blendList[index].isSelected??false,
+                  textEditingController: _yarnPostProvider.textFieldControllers[index],
                   onSaved: (input) {
                     // _yarnPostProvider.blendList[index].blendRatio =
                     //     widget.listController[index].text;

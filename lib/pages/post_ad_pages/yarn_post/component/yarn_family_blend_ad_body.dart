@@ -106,6 +106,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                       selectedFamilyId = value.famId.toString();
                     });
                     _createRequestModel.ys_family_idfk = selectedFamilyId;
+                    _yarnPostProvider.resetData();
                     queryFamilySettings(value.famId!);
                     yarnStepStateKey.currentState!.onClickFamily(value.famId);
                   },
