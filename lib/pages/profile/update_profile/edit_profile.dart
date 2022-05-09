@@ -380,7 +380,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${tagModel.title}',
+                      '${tagModel.selectedBlends}',
                       style:  TextStyle(
                         color: tagsTextColor,
                         fontSize: 13.sp,

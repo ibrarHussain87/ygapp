@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class PostYarnProvider extends ChangeNotifier{
 
-  List<dynamic> title = [];
+  List<dynamic> selectedBlends = [];
 
-  void setSelectedBlend(value){
-    title.add(value);
+  set addSelectedBlend(value){
+    selectedBlends.add(value);
     notifyListeners();
   }
 
-  void removeSelectedBlend(value){
-    title.remove(value);
+  set removeSelectedBlend(value){
+    selectedBlends.remove(value);
     notifyListeners();
   }
 }

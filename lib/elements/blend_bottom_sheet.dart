@@ -167,9 +167,9 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
   @override
   void initState() {
     blends = widget.blendsValue;
-    _yarnPostProvider.title.add(widget.listOfItems[widget.selectedIndex]);
+    _yarnPostProvider.selectedBlends.add(widget.listOfItems[widget.selectedIndex]);
     _isChecked = List<bool>.filled(widget.listOfItems.length, false);
-    _isChecked[widget.selectedIndex] = _yarnPostProvider.title.contains(widget.listOfItems[widget.selectedIndex]);
+    _isChecked[widget.selectedIndex] = _yarnPostProvider.selectedBlends.contains(widget.listOfItems[widget.selectedIndex]);
     super.initState();
     _yarnPostProvider.addListener(updateUI);
   }
@@ -203,24 +203,24 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: Row(
                   children: [
                     Checkbox(
-                      value: _yarnPostProvider.title.contains(widget.listOfItems[index])
+                      value: _yarnPostProvider.selectedBlends.contains(widget.listOfItems[index])
                           ? true
                           : _isChecked[index],
                       onChanged: (newValue) {
                         setState(() {
                           _isChecked[index] = newValue!;
-                          if (_yarnPostProvider.title.contains(widget.listOfItems[index])) {
-                            _yarnPostProvider.removeSelectedBlend(widget.listOfItems[index]);
+                          if (_yarnPostProvider.selectedBlends.contains(widget.listOfItems[index])) {
+                            _yarnPostProvider.removeSelectedBlend = widget.listOfItems[index];
                             selectedIndex.remove(index);
                             widget.listController[index].clear();
                           } else {
-                            _yarnPostProvider.setSelectedBlend(widget.listOfItems[index]);
+                            _yarnPostProvider.addSelectedBlend = widget.listOfItems[index];
                             // title.add(widget.listOfItems[index]);
                             selectedIndex.add(index);
                           }
                         });
 
-                        widget.callback!(_yarnPostProvider.title);
+                        widget.callback!(_yarnPostProvider.selectedBlends);
                         looger.e(widget.listOfItems[index].toString());
                       },
                     ),
@@ -234,12 +234,12 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: BlendTextFormFieldWithRangeNonDecimal(
                   errorText: "count",
                   minMax: "1-100",
-                  validation: _yarnPostProvider.title.contains(widget.listOfItems[index]),
-                  isEnabled: _yarnPostProvider.title.contains(widget.listOfItems[index]),
+                  validation: _yarnPostProvider.selectedBlends.contains(widget.listOfItems[index]),
+                  isEnabled: _yarnPostProvider.selectedBlends.contains(widget.listOfItems[index]),
                   textEditingController: widget.listController[index],
                   onSaved: (input) {
                     if (widget.listController[index].text.isNotEmpty &&
-                        _yarnPostProvider.title.contains(widget.listOfItems[index])) {
+                        _yarnPostProvider.selectedBlends.contains(widget.listOfItems[index])) {
                       if (widget.listOfItems[index] is Blends) {
                         var blendModel = BlendModel(
                             id: widget.listOfItems.cast<Blends>()[index].blnId,
