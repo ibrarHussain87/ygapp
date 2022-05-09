@@ -230,7 +230,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
@@ -3613,7 +3613,11 @@ class _$YarnBlendDao extends YarnBlendDao {
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
                   'blnIsActive': item.blnIsActive,
-                  'blnSortid': item.blnSortid
+                  'blnSortid': item.blnSortid,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0),
+                  'blendRatio': item.blendRatio
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -3636,6 +3640,10 @@ class _$YarnBlendDao extends YarnBlendDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
             blnSortid: row['blnSortid'] as String?));
   }
 
@@ -3651,6 +3659,10 @@ class _$YarnBlendDao extends YarnBlendDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
             blnSortid: row['blnSortid'] as String?),
         arguments: [id]);
   }

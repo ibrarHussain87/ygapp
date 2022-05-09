@@ -18,10 +18,12 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../helper_utils/alert_dialog.dart';
@@ -56,6 +58,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   List<PickedFile> imageFiles = [];
   final GlobalKey<LabParameterPageState> _labParameterPage =
       GlobalKey<LabParameterPageState>();
+
+  final _yarnPostProvider = locator<PostYarnProvider>();
 
   // ValueChanged<Color> callback
   _changeColor(Color color) {
@@ -386,7 +390,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (_createRequestModel.ys_blend_idfk == null &&
+      if (!_yarnPostProvider.isBlendSelected &&
           Ui.showHide(_yarnSetting!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;

@@ -47,7 +47,7 @@ import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
-  static String BASE_URL = "http://yarnonline.net/staging/public/";
+    static String BASE_URL = "http://staging.yarnonline.net/";
 
   // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
