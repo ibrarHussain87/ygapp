@@ -26,6 +26,7 @@ import 'package:yg_app/model/response/common_response_models/city_state_response
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../elements/bottom_sheets/warp_bottom_sheet.dart';
 import '../../../../helper_utils/alert_dialog.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
 import '../../../../helper_utils/navigation_utils.dart';
@@ -322,64 +323,142 @@ class FabricSpecificationComponentState
                                   ],
                                 ),
                                 const SizedBox(height: 4,),
-                                //Show Warp count and No of Ends
-                                Row(
-                                  children: [
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showWarpCount),
-                                      child: Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            // Modified by (asad_m)
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
-//                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
-//
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: 'Warp Count',
-                                                label:'Warp Count',
-                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                                minMax: _fabricSettings!.warpCountMinMax??'n/a',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_warp_count = input;
-                                                })
-                                          ],
-                                        ),
+
+                                // New Wrap design (asad_m)
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showWarpCount),
+                                  child: Column(
+                                    children: [
+                                       SizedBox(height: 12.w,),
+//                                      const Divider(color: Colors.black12,),
+                                      Row(
+                                        children: [
+                                          Visibility(
+                                            visible: Ui.showHide(_fabricSettings!.showWarpCount),
+                                            child: Expanded(
+                                              flex: 2,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  // Modified by (asad_m)
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.black12),
+                                                        borderRadius: const BorderRadius.all(
+                                                            Radius.circular(6))),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.spaceBetween,
+                                                          mainAxisSize: MainAxisSize.max,
+                                                          children: [
+                                                            Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    top: 10.w,
+                                                                    left: 8.w,
+                                                                    bottom: 10.w),
+                                                                child: const TitleMediumTextWidget(
+                                                                  title: 'Warp',
+                                                                  color: Colors.black54,
+                                                                  weight: FontWeight.normal,
+                                                                )),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                // show sheet
+                                                                warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                              },
+                                                              child: Container(
+                                                                margin: const EdgeInsets.only(
+                                                                    top: 4, right: 6, bottom: 4),
+                                                                decoration: const BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                ),
+                                                                child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                  size: 24,
+                                                                  color: Colors.grey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
-                                          Ui.showHide(_fabricSettings!.showCount))
-                                          ? 16.w
-                                          : 0,
-                                    ),
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showNoOfEndsWarp),
-                                      child: Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            // modified by (asad_m)
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-//                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithRangeNonDecimal(
-                                              label:'No of Ends',
-                                                errorText: 'No of Ends',
-                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                                minMax: _fabricSettings!.noOfEndsWarpMinMax??'n/a',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_no_of_ends_warp = input;
-                                                })
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+
+
+                                //Show Warp count and No of Ends
+//                                Row(
+//                                  children: [
+//                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showWarpCount),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                          children: [
+//                                            // Modified by (asad_m)
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
+////                                                child: const TitleSmallTextWidget(title: 'Warp Count' + '*')),
+////
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithRangeNonDecimal(
+//                                                errorText: 'Warp Count',
+//                                                label:'Warp Count',
+//                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+//                                                minMax: _fabricSettings!.warpCountMinMax??'n/a',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_warp_count = input;
+//                                                })
+//                                          ],
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    SizedBox(
+//                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
+//                                          Ui.showHide(_fabricSettings!.showCount))
+//                                          ? 16.w
+//                                          : 0,
+//                                    ),
+//                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showNoOfEndsWarp),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                          children: [
+//                                            // modified by (asad_m)
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+////                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithRangeNonDecimal(
+//                                              label:'No of Ends',
+//                                                errorText: 'No of Ends',
+//                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+//                                                minMax: _fabricSettings!.noOfEndsWarpMinMax??'n/a',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_no_of_ends_warp = input;
+//                                                })
+//                                          ],
+//                                        ),
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
                                 //Show Weft count and No of Picks
                                 Row(
                                   children: [
@@ -442,33 +521,33 @@ class FabricSpecificationComponentState
                                 //Show Warp Ply and Weft ply
                                 Row(
                                   children: [
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
-                                      child: Expanded(
-                                        child: Column(
-                                          children: [
-                                           //Modifeid by (asad_m)
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
-//                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithoutRange(
-                                                errorText: 'Warp Ply',
-                                                label: 'Warp Ply',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_warp_ply_idfk = input;
-                                                })
-                                          ],
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
-                                          Ui.showHide(_fabricSettings!.showCount))
-                                          ? 16.w
-                                          : 0,
-                                    ),
+//                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          children: [
+//                                           //Modifeid by (asad_m)
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
+////                                                child: const TitleSmallTextWidget(title: 'Warp Ply' + '*')),
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithoutRange(
+//                                                errorText: 'Warp Ply',
+//                                                label: 'Warp Ply',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_warp_ply_idfk = input;
+//                                                })
+//                                          ],
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    SizedBox(
+//                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
+//                                          Ui.showHide(_fabricSettings!.showCount))
+//                                          ? 16.w
+//                                          : 0,
+//                                    ),
                                     Visibility(
                                       visible: Ui.showHide(_fabricSettings!.showWarpPly),
                                       child: Expanded(
@@ -1482,6 +1561,7 @@ class FabricSpecificationComponentState
   }
 
   bool validationAllPage() {
+    print("Model Value"+_createRequestModel!.fs_warp_ply_idfk.toString() );
     if (validateAndSave()) {
       if (_createRequestModel!.fs_blend_idfk == null &&
           Ui.showHide(_fabricSettings!.showBlend)) {
@@ -1535,7 +1615,23 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showCertification)) {
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
-      } else {
+      }
+      else if (_createRequestModel!.fs_warp_count == null &&
+          Ui.showHide(_fabricSettings!.showWarpCount)) {
+        Ui.showSnackBar(context, 'Please Enter Warp Count');
+        return false;
+      }
+      else if (_createRequestModel!.fs_warp_ply_idfk == null &&
+          Ui.showHide(_fabricSettings!.showWarpPly)) {
+        Ui.showSnackBar(context, 'Please Enter Warp Ply');
+        return false;
+      }
+      else if (_createRequestModel!.fs_no_of_ends_warp == null &&
+          Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
+        Ui.showSnackBar(context, 'Please Enter No of Ends');
+        return false;
+      }
+      else {
         _createRequestModel!.spc_category_idfk = "3";
         return true;
       }
