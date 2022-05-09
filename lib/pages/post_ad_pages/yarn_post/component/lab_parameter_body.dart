@@ -45,10 +45,13 @@ class LabParameterPage extends StatefulWidget {
 
 class LabParameterPageState extends State<LabParameterPage>
     with AutomaticKeepAliveClientMixin {
+
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late CreateRequestModel _createRequestModel;
   // late YarnSetting widget.newSettings;
+  ValueNotifier<bool> showOptionalParams = ValueNotifier(false);
+
 
   @override
   bool get wantKeepAlive => true;
@@ -57,6 +60,12 @@ class LabParameterPageState extends State<LabParameterPage>
   void initState() {
     // Utils.disableClick = true;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    showOptionalParams.dispose();
+    super.dispose();
   }
 
   @override
@@ -110,7 +119,7 @@ class LabParameterPageState extends State<LabParameterPage>
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
-                      //Actual Yarn Count && CLSP
+                      //Actual Yarn Count
                       Row(
                         children: [
                           Visibility(
@@ -151,7 +160,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
                         ],
                       ),
-
+                      // CLSP
                       Visibility(
                         visible: Ui.showHide(widget.newSettings.showClsp),
                         child: Column(
@@ -179,347 +188,357 @@ class LabParameterPageState extends State<LabParameterPage>
                         ),
                       ),
 
-                      //  IPI/KM && Thin Places
-                      Row(
-                        children: [
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showIpmKm),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  //modifed ((asad_m)
-                                  SizedBox(height:12.w ,),
+                      //  IPI/KM
+                      Visibility(
+                        visible: Ui.showHide(widget.newSettings.showIpmKm),
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            //modifed ((asad_m)
+                            SizedBox(height:12.w ,),
 //                                      Container(
 //                                        child:
 //                                            TitleSmallTextWidget(title: '$IpmKm*'),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  YgTextFormFieldWithRange(
-                                    label:IpmKm,
-                                    errorText: "IPKM",
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_ipm_km = input!,
-                                    // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                    minMax: widget.newSettings.ipmKmMinMax??"",
-                                  ),
-                                ],
-                              ),
+                            YgTextFormFieldWithRange(
+                              label:IpmKm,
+                              errorText: "IPKM",
+                              onSaved: (input) => _createRequestModel
+                                  .ys_ipm_km = input!,
+                              // onChanged:(value) => globalFormKey.currentState!.reset(),
+                              minMax: widget.newSettings.ipmKmMinMax??"",
                             ),
-                          ),
-                          SizedBox(
-                            width: Ui.showHide(widget.newSettings.showIpmKm) &&
-                                Ui.showHide(widget.newSettings.showThinPlaces)
-                                ? 16.w
-                                : 0,
-                          ),
-                          Visibility(
-                            visible:
-                            Ui.showHide(widget.newSettings.showThinPlaces),
-                            child: Expanded(
-                              child: Column(
-                                children: [
+                          ],
+                        ),
+                      ),
+
+
+                      Visibility(
+                        visible: true,
+                        maintainSize: false,
+                        maintainState: false,
+                        child: ValueListenableBuilder(
+                            valueListenable: showOptionalParams,
+                            builder: (BuildContext context, bool counterValue, child){
+                              return Container(
+                                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 8.w),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(6))),
+                                child: Container(
+                                    color: newColorGrey.withOpacity(0.3),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10.w,
+                                                    left: 8.w,
+                                                    bottom: 10.w),
+                                                child: const TitleMediumTextWidget(
+                                                  title: 'Optional Parameters',
+                                                )),
+                                            GestureDetector(
+                                              onTap: () {
+                                                showOptionalParams.value = !showOptionalParams.value;
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 4, right: 6, bottom: 4),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blueAccent.shade700
+                                                      .withOpacity(0.1),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  showOptionalParams.value == true
+                                                      ? Icons
+                                                      .keyboard_arrow_up_outlined
+                                                      : Icons
+                                                      .keyboard_arrow_down_outlined,
+                                                  size: 24,
+                                                  color: darkBlueChip,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Visibility(
+                                          visible: showOptionalParams.value,
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 6,right: 6,bottom: 10),
+                                              child: Column(
+                                                children: [
+                                                  const Divider(),
+                                                  // Thin Places
+                                                  Visibility(
+                                                    visible:
+                                                    Ui.showHide(widget.newSettings.showThinPlaces),
+                                                    child: Column(
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: thinPlaces),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: thinPlaces,
-                                    label: thinPlaces,
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_thin_places = input!,
-                                    minMax: widget.newSettings.thinPlacesMinMax??"",
-                                  ),
-                                ],
-                                crossAxisAlignment:
-                                CrossAxisAlignment.stretch,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: thinPlaces,
+                                                          label: thinPlaces,
+                                                          onSaved: (input) => _createRequestModel
+                                                              .ys_thin_places = input!,
+                                                          minMax: widget.newSettings.thinPlacesMinMax??"",
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.stretch,
+                                                    ),
+                                                  ),
 
-                      //Thick Places && Naps
-                      Row(
-                        children: [
-                          Visibility(
-                            visible:
-                            Ui.showHide(widget.newSettings.showtThickPlaces),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
+                                                  //Thick Places
+                                                  Visibility(
+                                                    visible:
+                                                    Ui.showHide(widget.newSettings.showtThickPlaces),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: thickPlaces),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: thickPlaces,
-                                    label: thickPlaces,
-                                    minMax: widget.newSettings.thickPlacesMinMax??"",
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_thick_places = input!,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: Ui.showHide(
-                                widget.newSettings.showtThickPlaces) &&
-                                Ui.showHide(widget.newSettings.showNaps)
-                                ? 16.w
-                                : 0,
-                          ),
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showNaps),
-                            child: Expanded(
-                              child: Column(
-                                children: [
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: thickPlaces,
+                                                          label: thickPlaces,
+                                                          minMax: widget.newSettings.thickPlacesMinMax??"",
+                                                          onSaved: (input) => _createRequestModel
+                                                              .ys_thick_places = input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  // Naps
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showNaps),
+                                                    child: Column(
+                                                      children: [
 //                                      Container(
 //                                        child:
 //                                            TitleSmallTextWidget(title: naps),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: naps,
-                                    label:naps,
-                                    minMax: widget.newSettings.napsMinMax??"",
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_naps = input!,
-                                  ),
-                                ],
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: naps,
+                                                          label:naps,
+                                                          minMax: widget.newSettings.napsMinMax??"",
+                                                          onSaved: (input) => _createRequestModel
+                                                              .ys_naps = input!,
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                    ),
+                                                  ),
 
-                      //UNIFORMITY && CV
-                      Row(
-                        children: [
-                          Visibility(
-                            visible:
-                            Ui.showHide(widget.newSettings.showUniformity),
-                            child: Expanded(
-                              child: Column(
-                                children: [
+                                                  //UNIFORMITY
+                                                  Visibility(
+                                                    visible:
+                                                    Ui.showHide(widget.newSettings.showUniformity),
+                                                    child: Column(
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: unifomity),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: unifomity,
-                                    label: unifomity,
-                                    minMax: widget.newSettings.uniformityMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel
-                                        .ys_uniformity = input!,
-                                  ),
-                                ],
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width:
-                            Ui.showHide(widget.newSettings.showUniformity) &&
-                                Ui.showHide(widget.newSettings.showCv)
-                                ? 16.w
-                                : 0,
-                          ),
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showCv),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: unifomity,
+                                                          label: unifomity,
+                                                          minMax: widget.newSettings.uniformityMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel
+                                                              .ys_uniformity = input!,
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                    ),
+                                                  ),
+                                                  // CV
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showCv),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(title: cv),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: cv,
-                                    label: cv,
-                                    minMax: widget.newSettings.cvMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel.ys_cv =
-                                    input!,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: cv,
+                                                          label: cv,
+                                                          minMax: widget.newSettings.cvMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel.ys_cv =
+                                                          input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
 
-                      //Hairness && RKM
-                      Row(
-                        children: [
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showHairness),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
+                                                  //Hairness
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showHairness),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: hairness),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: hairness,
-                                    label: hairness,
-                                    minMax: widget.newSettings.hairnessMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel.ys_hairness =
-                                    input!,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: Ui.showHide(widget.newSettings.showHairness) &&
-                                Ui.showHide(widget.newSettings.showRkm)
-                                ? 16.w
-                                : 0,
-                          ),
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showRkm),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: hairness,
+                                                          label: hairness,
+                                                          minMax: widget.newSettings.hairnessMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel.ys_hairness =
+                                                          input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  // RKM
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showRkm),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(title: Rkm),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: Rkm,
-                                    label: Rkm,
-                                    minMax: widget.newSettings.rkmMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel.ys_rkm =
-                                    input!,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: Rkm,
+                                                          label: Rkm,
+                                                          minMax: widget.newSettings.rkmMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel.ys_rkm =
+                                                          input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
 
-                      //Elongation and TPI
-                      Row(
-                        children: [
-                          Visibility(
-                            visible:
-                            Ui.showHide(widget.newSettings.showElongation),
-                            child: Expanded(
-                              child: Column(
-                                children: [
+                                                  //Elongation
+                                                  Visibility(
+                                                    visible:
+                                                    Ui.showHide(widget.newSettings.showElongation),
+                                                    child: Column(
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(
 //                                            title: elongation),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: elongation,
-                                    label: elongation,
-                                    minMax: widget.newSettings.elongationMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel
-                                        .ys_elongation = input!,
-                                  ),
-                                ],
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width:
-                            Ui.showHide(widget.newSettings.showElongation) &&
-                                Ui.showHide(widget.newSettings.showTpi)
-                                ? 16.w
-                                : 0,
-                          ),
-                          Visibility(
-                            visible: Ui.showHide(widget.newSettings.showTpi),
-                            child: Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: elongation,
+                                                          label: elongation,
+                                                          minMax: widget.newSettings.elongationMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel
+                                                              .ys_elongation = input!,
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                    ),
+                                                  ),
+                                                  // TPI
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showTpi),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
 //                                      Container(
 //                                        child: TitleSmallTextWidget(title: tpi),
 //                                        margin: EdgeInsets.only(
 //                                            left: 8.w, top: 8.w),
 //                                      ),
-                                  SizedBox(height:12.w ,),
-                                  YgTextFormFieldWithRangeNoValidation(
-                                    errorText: tpi,
-                                    label: tpi,
-                                    minMax: widget.newSettings.tpiMinMax??"",
-                                    onSaved: (input) =>
-                                    _createRequestModel.ys_tpi =
-                                    input!,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: tpi,
+                                                          label: tpi,
+                                                          minMax: widget.newSettings.tpiMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel.ys_tpi =
+                                                          input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
 
-                      //TM
-                      Visibility(
-                        visible: Ui.showHide(widget.newSettings.showTm),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                                                  //TM
+                                                  Visibility(
+                                                    visible: Ui.showHide(widget.newSettings.showTm),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
 //                                Container(
 //                                  child: TitleSmallTextWidget(title: tm),
 //                                  margin: EdgeInsets.only(left: 8.w, top: 8.w),
 //                                ),
-                            SizedBox(height:12.w ,),
-                            YgTextFormFieldWithRangeNoValidation(
-                              errorText: tm,
-                              label: tm,
-                              minMax: widget.newSettings.tmMinMax??"",
-                              onSaved: (input) =>
-                              _createRequestModel.ys_tm = input!,
-                            ),
-                          ],
+                                                        SizedBox(height:12.w ,),
+                                                        YgTextFormFieldWithRangeNoValidation(
+                                                          errorText: tm,
+                                                          label: tm,
+                                                          minMax: widget.newSettings.tmMinMax??"",
+                                                          onSaved: (input) =>
+                                                          _createRequestModel.ys_tm = input!,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              );
+                            }
                         ),
                       ),
 
