@@ -743,61 +743,59 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   void submitData(BuildContext context) {
-    if (_createRequestModel != null) {
-      if (widget.businessArea == yarn) {
-        _createRequestModel!.ys_local_international =
-            widget.locality!.toUpperCase();
-      } else {
-        _createRequestModel!.spc_local_international =
-            widget.locality!.toUpperCase();
-      }
+    if (widget.businessArea == yarn) {
+      _createRequestModel.ys_local_international =
+          widget.locality!.toUpperCase();
+    } else {
+      _createRequestModel.spc_local_international =
+          widget.locality!.toUpperCase();
+    }
 
-      ProgressDialogUtil.showDialog(context, 'Please wait...');
+    ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-      ApiService.createSpecification(_createRequestModel!,
-              imageFiles.isNotEmpty ? imageFiles[0].path : "")
-          .then((value) {
-        ProgressDialogUtil.hideDialog();
-        if (value.status) {
-          Fluttertoast.showToast(msg: value.message);
-          if (value.responseCode == 205) {
-            showGenericDialog(
-              '',
-              value.message.toString(),
-              context,
-              StylishDialogType.WARNING,
-              'Update',
-              () {
-                openMyAdsScreen(context);
-              },
-            );
-          } else {
-            Navigator.pop(context);
-          }
-        } else {
-          //Ui.showSnackBar(context, value.message);
+    ApiService.createSpecification(_createRequestModel,
+            imageFiles.isNotEmpty ? imageFiles[0].path : "")
+        .then((value) {
+      ProgressDialogUtil.hideDialog();
+      if (value.status) {
+        Fluttertoast.showToast(msg: value.message);
+        if (value.responseCode == 205) {
           showGenericDialog(
             '',
             value.message.toString(),
             context,
-            StylishDialogType.ERROR,
-            'Yes',
-            () {},
+            StylishDialogType.WARNING,
+            'Update',
+            () {
+              openMyAdsScreen(context);
+            },
           );
+        } else {
+          Navigator.pop(context);
         }
-      }).onError((error, stackTrace) {
-        ProgressDialogUtil.hideDialog();
-        //Ui.showSnackBar(context, error.toString());
+      } else {
+        //Ui.showSnackBar(context, value.message);
         showGenericDialog(
           '',
-          error.toString(),
+          value.message.toString(),
           context,
           StylishDialogType.ERROR,
           'Yes',
           () {},
         );
-      });
-    }
+      }
+    }).onError((error, stackTrace) {
+      ProgressDialogUtil.hideDialog();
+      //Ui.showSnackBar(context, error.toString());
+      showGenericDialog(
+        '',
+        error.toString(),
+        context,
+        StylishDialogType.ERROR,
+        'Yes',
+        () {},
+      );
+    });
   }
 
   Widget setSpecificationParameters(String selectedFamilyId) {

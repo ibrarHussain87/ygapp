@@ -111,8 +111,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 10.w,
+              const SizedBox(height: 4,),
+              const Padding(
+                  padding: EdgeInsets.only(left: 16,right: 16,),
+                  child: Divider()
               ),
               Visibility(
                 visible: false,
@@ -150,11 +152,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             ],
           ),
         ),
-        const SizedBox(height: 5,),
         Visibility(
           visible: widget.selectedTab == offering_type,
           child: const SizedBox(
-            height: 20,
+            height: 8,
           ),
         ),
         Expanded(
