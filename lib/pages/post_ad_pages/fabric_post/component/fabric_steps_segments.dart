@@ -9,6 +9,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/lab_parameter_body.dart';
 
 import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../helper_utils/app_constants.dart';
 import 'fabric_packing_details_component.dart';
 
 class FabricStepsSegments extends StatefulWidget {
@@ -82,73 +83,76 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
     return /*postFabricProvider.updateSegments == true ? */Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: CupertinoSegmentedControl(
-                borderColor: Colors.grey.shade300,
-                selectedColor: darkBlueChip,
-                pressedColor: Colors.transparent,
-                groupValue: selectedValue,
-                children: {
-                  1: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      "Step 1",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: selectedValue == 1
-                            ? Colors.white
-                            : textColorGrey,
+        Visibility(
+          visible: widget.businessArea == offering_type,
+          child: Row(
+            children: [
+              Expanded(
+                child: CupertinoSegmentedControl(
+                  borderColor: Colors.grey.shade300,
+                  selectedColor: darkBlueChip,
+                  pressedColor: Colors.transparent,
+                  groupValue: selectedValue,
+                  children: {
+                    1: Container(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        "Step 1",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: selectedValue == 1
+                              ? Colors.white
+                              : textColorGrey,
+                        ),
                       ),
                     ),
-                  ),
-                  2: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      "Step 2",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: selectedValue == 2
-                            ? Colors.white
-                            : textColorGrey,
+                    2: Container(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        "Step 2",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: selectedValue == 2
+                              ? Colors.white
+                              : textColorGrey,
+                        ),
                       ),
                     ),
-                  ),
-                },
-                onValueChanged: (value) {
-                  /*if(_fiberSpecificationState.currentState!.validationAllPage()){
-                    _moveToNextPage(value);
-                  }else if(_labParameterState.currentState!.validateAndSave()){
-                    _moveToNextPage(value);
-                  }*/
-                  switch (value) {
-                    case 1:
-                      if (selectedValue == 2) {
-                        if (_packingStateKey.currentState != null &&
-                            _packingStateKey.currentState!
-                                .validateAndSave()) {
-                          _moveToNextPage(value);
+                  },
+                  onValueChanged: (value) {
+                    /*if(_fiberSpecificationState.currentState!.validationAllPage()){
+                      _moveToNextPage(value);
+                    }else if(_labParameterState.currentState!.validateAndSave()){
+                      _moveToNextPage(value);
+                    }*/
+                    switch (value) {
+                      case 1:
+                        if (selectedValue == 2) {
+                          if (_packingStateKey.currentState != null &&
+                              _packingStateKey.currentState!
+                                  .validateAndSave()) {
+                            _moveToNextPage(value);
+                          }
                         }
-                      }
-                      break;
-                    case 2:
-                      if (selectedValue == 1) {
-                        /*if (_fiberSpecificationState.currentState != null &&
-                            _fiberSpecificationState.currentState!
-                                .validationAllPage()) {
-                          _moveToNextPage(value);
-                        }*/
-                        if(_fiberSpecificationState.currentState != null){
-                          _fiberSpecificationState.currentState!.handleNextClick();
+                        break;
+                      case 2:
+                        if (selectedValue == 1) {
+                          /*if (_fiberSpecificationState.currentState != null &&
+                              _fiberSpecificationState.currentState!
+                                  .validationAllPage()) {
+                            _moveToNextPage(value);
+                          }*/
+                          if(_fiberSpecificationState.currentState != null){
+                            _fiberSpecificationState.currentState!.handleNextClick();
+                          }
                         }
-                      }
-                      break;
-                  }
-                },
+                        break;
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         Expanded(
           child: PageView.builder(

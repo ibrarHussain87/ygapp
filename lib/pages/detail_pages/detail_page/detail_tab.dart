@@ -965,7 +965,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                               null,
                         null
                             )
-                          : widget.yarnSpecification != null
+                          : widget.specification != null
                       ? Utils.updateDialog(
                               context,
                               null,

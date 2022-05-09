@@ -5,6 +5,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_specification_body.dart';
 
+import '../../../../helper_utils/app_constants.dart';
 import '../../packing_details_component.dart';
 import 'lab_parameter_body.dart';
 
@@ -68,7 +69,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               curve: Curves.easeInOut);
         },
       ),
-      LabParameterPage(
+      /*LabParameterPage(
           callback: (value) {
             setState(() {
               selectedValue++;
@@ -82,7 +83,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
           // yarnSyncResponse: widget.yarnSyncResponse,
           locality: widget.locality,
           businessArea: widget.businessArea,
-          selectedTab: widget.selectedTab),
+          selectedTab: widget.selectedTab),*/
       PackagingDetails(
         key: _packingStateKey,
         locality: widget.locality,
@@ -109,167 +110,170 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: selectedFamily == "4"
-                  ? CupertinoSegmentedControl(
-                      borderColor: Colors.grey.shade300,
-                      selectedColor: darkBlueChip,
-                      pressedColor: Colors.transparent,
-                      groupValue: selectedValue,
-                      children: {
-                        1: Container(
-                          padding: EdgeInsets.all(8.w),
-                          child: Text(
-                            "Step 1",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: selectedValue == 1
-                                  ? Colors.white
-                                  : textColorGrey,
+        Visibility(
+          visible: widget.selectedTab == offering_type,
+          child: Row(
+            children: [
+              Expanded(
+                child: selectedFamily == "4"
+                    ? CupertinoSegmentedControl(
+                        borderColor: Colors.grey.shade300,
+                        selectedColor: darkBlueChip,
+                        pressedColor: Colors.transparent,
+                        groupValue: selectedValue,
+                        children: {
+                          1: Container(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(
+                              "Step 1",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: selectedValue == 1
+                                    ? Colors.white
+                                    : textColorGrey,
+                              ),
                             ),
                           ),
-                        ),
-                        2: Container(
-                          padding: EdgeInsets.all(8.w),
-                          child: Text(
-                            "Step 2",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: selectedValue == 2
-                                  ? Colors.white
-                                  : textColorGrey,
+                          2: Container(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(
+                              "Step 2",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: selectedValue == 2
+                                    ? Colors.white
+                                    : textColorGrey,
+                              ),
                             ),
                           ),
-                        ),
-                      },
-                      onValueChanged: (value) {
-                        if (yarnSpecificationComponentStateKey.currentState !=
-                                null &&
-                            yarnSpecificationComponentStateKey.currentState!
-                                .validationAllPage()) {
-                          _moveToNext(value);
-                        }
-                      },
-                    )
-                  : CupertinoSegmentedControl(
-                      borderColor: Colors.grey.shade300,
-                      selectedColor: darkBlueChip,
-                      pressedColor: Colors.transparent,
-                      groupValue: selectedValue,
-                      children: {
-                        1: Container(
-                          padding: EdgeInsets.all(8.w),
-                          child: Text(
-                            "Step 1",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: selectedValue == 1
-                                  ? Colors.white
-                                  : textColorGrey,
+                        },
+                        onValueChanged: (value) {
+                          if (yarnSpecificationComponentStateKey.currentState !=
+                                  null &&
+                              yarnSpecificationComponentStateKey.currentState!
+                                  .validationAllPage()) {
+                            _moveToNext(value);
+                          }
+                        },
+                      )
+                    : CupertinoSegmentedControl(
+                        borderColor: Colors.grey.shade300,
+                        selectedColor: darkBlueChip,
+                        pressedColor: Colors.transparent,
+                        groupValue: selectedValue,
+                        children: {
+                          1: Container(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(
+                              "Step 1",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: selectedValue == 1
+                                    ? Colors.white
+                                    : textColorGrey,
+                              ),
                             ),
                           ),
-                        ),
-                        2: Container(
-                          padding: EdgeInsets.all(8.w),
-                          child: Text(
-                            "Step 2",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: selectedValue == 2
-                                  ? Colors.white
-                                  : textColorGrey,
+                          2: Container(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(
+                              "Step 2",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: selectedValue == 2
+                                    ? Colors.white
+                                    : textColorGrey,
+                              ),
                             ),
                           ),
-                        ),
-                        3: Container(
-                          padding: EdgeInsets.all(8.w),
-                          child: Text(
-                            "Step 3",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              color: selectedValue == 3
-                                  ? Colors.white
-                                  : textColorGrey,
+                          /*3: Container(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(
+                              "Step 3",
+                              style: TextStyle(
+                                fontSize: 11.sp,
+                                color: selectedValue == 3
+                                    ? Colors.white
+                                    : textColorGrey,
+                              ),
                             ),
-                          ),
-                        ),
-                      },
-                      onValueChanged: (value) {
-                        switch (value) {
-                          case 1:
-                            if (selectedValue == 2) {
-                              if (_labParameterPage.currentState != null &&
-                                  _labParameterPage.currentState!
-                                      .validateAndSave()) {
-                                _moveToNext(value);
+                          ),*/
+                        },
+                        onValueChanged: (value) {
+                          switch (value) {
+                            case 1:
+                              if (selectedValue == 2) {
+                                if (_labParameterPage.currentState != null &&
+                                    _labParameterPage.currentState!
+                                        .validateAndSave()) {
+                                  _moveToNext(value);
+                                }
+                              } else if (selectedValue == 3) {
+                                if (_packingStateKey.currentState != null &&
+                                    _packingStateKey.currentState!
+                                        .validateAndSave()) {
+                                  _moveToNext(value);
+                                }
                               }
-                            } else if (selectedValue == 3) {
-                              if (_packingStateKey.currentState != null &&
-                                  _packingStateKey.currentState!
-                                      .validateAndSave()) {
-                                _moveToNext(value);
+                              break;
+                            case 2:
+                              if (selectedValue == 1) {
+                                if (yarnSpecificationComponentStateKey
+                                            .currentState !=
+                                        null &&
+                                    yarnSpecificationComponentStateKey
+                                        .currentState!
+                                        .validationAllPage()) {
+                                  _moveToNext(value);
+                                }
+                              } else if (selectedValue == 3) {
+                                if (_packingStateKey.currentState != null &&
+                                    _packingStateKey.currentState!
+                                        .validateAndSave()) {
+                                  _moveToNext(value);
+                                }
                               }
-                            }
-                            break;
-                          case 2:
-                            if (selectedValue == 1) {
-                              if (yarnSpecificationComponentStateKey
-                                          .currentState !=
-                                      null &&
-                                  yarnSpecificationComponentStateKey
-                                      .currentState!
-                                      .validationAllPage()) {
-                                _moveToNext(value);
+                              break;
+                            case 3:
+                              if (selectedValue == 2) {
+                                if (_labParameterPage.currentState != null &&
+                                    _labParameterPage.currentState!
+                                        .validateAndSave()) {
+                                  _moveToNext(value);
+                                }
+                              } else if (selectedValue == 1) {
+                                if (yarnSpecificationComponentStateKey
+                                            .currentState !=
+                                        null &&
+                                    yarnSpecificationComponentStateKey
+                                        .currentState!
+                                        .validationAllPage()) {
+                                  _moveToNext(value);
+                                }
                               }
-                            } else if (selectedValue == 3) {
-                              if (_packingStateKey.currentState != null &&
-                                  _packingStateKey.currentState!
-                                      .validateAndSave()) {
-                                _moveToNext(value);
-                              }
-                            }
-                            break;
-                          case 3:
-                            if (selectedValue == 2) {
-                              if (_labParameterPage.currentState != null &&
-                                  _labParameterPage.currentState!
-                                      .validateAndSave()) {
-                                _moveToNext(value);
-                              }
-                            } else if (selectedValue == 1) {
-                              if (yarnSpecificationComponentStateKey
-                                          .currentState !=
-                                      null &&
-                                  yarnSpecificationComponentStateKey
-                                      .currentState!
-                                      .validationAllPage()) {
-                                _moveToNext(value);
-                              }
-                            }
-                            break;
-                        }
-                        /*if (yarnSpecificationComponentStateKey.currentState !=
-                            null &&
-                            yarnSpecificationComponentStateKey.currentState!
-                                .validationAllPage()) {
-                          _moveToNext(value);
-                        }else if(_labParameterPage.currentState !=
-                            null &&
-                            _labParameterPage.currentState!
-                                .validateAndSave()){
-                          _moveToNext(value);
-                        }else if(_packingStateKey.currentState !=
-                            null &&
-                            _packingStateKey.currentState!
-                                .validateAndSave()){
-                          _moveToNext(value);
-                        }*/
-                      },
-                    ),
-            ),
-          ],
+                              break;
+                          }
+                          /*if (yarnSpecificationComponentStateKey.currentState !=
+                              null &&
+                              yarnSpecificationComponentStateKey.currentState!
+                                  .validationAllPage()) {
+                            _moveToNext(value);
+                          }else if(_labParameterPage.currentState !=
+                              null &&
+                              _labParameterPage.currentState!
+                                  .validateAndSave()){
+                            _moveToNext(value);
+                          }else if(_packingStateKey.currentState !=
+                              null &&
+                              _packingStateKey.currentState!
+                                  .validateAndSave()){
+                            _moveToNext(value);
+                          }*/
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
         Expanded(
           child: PageView.builder(
@@ -344,7 +348,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                   curve: Curves.easeInOut);
             },
           ),
-          LabParameterPage(
+          /*LabParameterPage(
               callback: (value) {
                 setState(() {
                   selectedValue++;
@@ -358,7 +362,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               // yarnSyncResponse: widget.yarnSyncResponse,
               locality: widget.locality,
               businessArea: widget.businessArea,
-              selectedTab: widget.selectedTab),
+              selectedTab: widget.selectedTab),*/
           PackagingDetails(
             locality: widget.locality,
             businessArea: widget.businessArea,

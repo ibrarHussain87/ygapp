@@ -142,10 +142,21 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                   },
                 ),
               ),
+              const SizedBox(height: 4,),
+              const Padding(
+                  padding: EdgeInsets.only(left: 16,right: 16,),
+                  child: Divider()
+              ),
             ],
           ),
         ),
         const SizedBox(height: 5,),
+        Visibility(
+          visible: widget.selectedTab == offering_type,
+          child: const SizedBox(
+            height: 20,
+          ),
+        ),
         Expanded(
           child: Provider(
             create: (_) => _yarnSetting,

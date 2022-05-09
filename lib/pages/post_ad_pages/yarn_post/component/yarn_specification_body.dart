@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
@@ -20,6 +23,13 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../../../../api_services/api_service_class.dart';
+import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/navigation_utils.dart';
+import '../../../../helper_utils/progress_dialog_util.dart';
+import 'lab_parameter_body.dart';
+import 'lab_parameter_body.dart';
+
 class YarnSpecificationComponent extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
   final String? locality;
@@ -27,12 +37,13 @@ class YarnSpecificationComponent extends StatefulWidget {
   final String? selectedTab;
   final Function? callback;
 
-  const YarnSpecificationComponent({Key? key,
-    this.callback,
-    // required this.yarnSyncResponse,
-    required this.locality,
-    required this.businessArea,
-    required this.selectedTab})
+  const YarnSpecificationComponent(
+      {Key? key,
+      this.callback,
+      // required this.yarnSyncResponse,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
@@ -40,8 +51,12 @@ class YarnSpecificationComponent extends StatefulWidget {
       YarnSpecificationComponentState();
 }
 
-class YarnSpecificationComponentState
-    extends State<YarnSpecificationComponent> with AutomaticKeepAliveClientMixin {
+class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
+    with AutomaticKeepAliveClientMixin {
+  List<PickedFile> imageFiles = [];
+  final GlobalKey<LabParameterPageState> _labParameterPage =
+      GlobalKey<LabParameterPageState>();
+
   // ValueChanged<Color> callback
   _changeColor(Color color) {
     setState(() {
@@ -84,13 +99,14 @@ class YarnSpecificationComponentState
           Expanded(
             child: Column(
               children: [
-                SizedBox(height:8.w ,),
+                SizedBox(
+                  height: 8.w,
+                ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Thickness")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
+                  onSaved: (input) => _createRequestModel
                       .ys_pattern_charectristic_thickness = input!,
                   errorText: "Thickness",
                   label: 'Thickness',
@@ -107,13 +123,14 @@ class YarnSpecificationComponentState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // modified by (asad_m)
-                SizedBox(height:8.w ,),
+                SizedBox(
+                  height: 8.w,
+                ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Length")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
+                  onSaved: (input) => _createRequestModel
                       .ys_length_pattern_charactristics = input!,
                   errorText: "Length",
                   label: 'Length',
@@ -131,12 +148,13 @@ class YarnSpecificationComponentState
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Pause")),
-                SizedBox(height:8.w ,),
+                SizedBox(
+                  height: 8.w,
+                ),
                 YgTextFormFieldWithoutRange(
                   errorText: "Pause",
-                  label:'Pause',
-                  onSaved: (input) =>
-                  _createRequestModel
+                  label: 'Pause',
+                  onSaved: (input) => _createRequestModel
                       .ys_pause_patteren_charactristics = input!,
                 ),
               ],
@@ -151,13 +169,14 @@ class YarnSpecificationComponentState
           Expanded(
             child: Column(
               children: [
-                SizedBox(height:8.w ,),
+                SizedBox(
+                  height: 8.w,
+                ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Grain")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
+                  onSaved: (input) => _createRequestModel
                       .ys_grain_patteren_charactristics = input!,
                   errorText: "Grain",
                   label: 'Grain',
@@ -173,13 +192,14 @@ class YarnSpecificationComponentState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height:8.w ,),
+                SizedBox(
+                  height: 8.w,
+                ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Rice")),
                 YgTextFormFieldWithoutRange(
-                  onSaved: (input) =>
-                  _createRequestModel
+                  onSaved: (input) => _createRequestModel
                       .ys_rice_patteren_charactristics = input!,
                   errorText: "Rice",
                   label: 'Rice',
@@ -196,7 +216,7 @@ class YarnSpecificationComponentState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                 child: TitleSmallTextWidget(title: patternChar)),
             SingleSelectTileWidget(
               selectedIndex: -1,
@@ -219,8 +239,8 @@ class YarnSpecificationComponentState
         Ui.showHide(_yarnSetting!.showColorTreatmentMethod)) {
       return _dyingMethodList!
           .where((element) =>
-      element.ydmColorTreatmentMethodIdfk ==
-          _selectedColorTreatMethodId)
+              element.ydmColorTreatmentMethodIdfk ==
+              _selectedColorTreatMethodId)
           .toList();
     } else {
       return _dyingMethodList!
@@ -233,7 +253,7 @@ class YarnSpecificationComponentState
     AppDbInstance.getDbInstance().then((value) async {
       value.yarnSettingsDao
           .findFamilyAndBlendYarnSettings(
-          _blendsList![id].blnId!, int.parse(_selectedFamilyId!))
+              _blendsList![id].blnId!, int.parse(_selectedFamilyId!))
           .then((value) {
         setState(() {
           _selectedBlendIndex = id;
@@ -524,35 +544,35 @@ class YarnSpecificationComponentState
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<SingleSelectTileWidgetState> _usageKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _certificateKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _plyKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _orientationKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _patternKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _patternCharKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _spunTechKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _twistDirectionKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
 
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
   final List<int> _plyIdList = [1, 5, 9, 13];
@@ -609,82 +629,182 @@ class YarnSpecificationComponentState
     }
     return _isGetSyncedData
         ? Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      key: _scaffoldKey,
-      body: _isGetSyncedData
-          ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: 16.w, left: 24.w, right: 24.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 0.w),
-                      child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          TitleTextWidget(
-                            title: specifications,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 2.w),
-                            child: Text(
-                              selectSpecifications,
-                              style: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Colors.grey.shade600),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            key: _scaffoldKey,
+            body: _isGetSyncedData
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 16.w, left: 24.w, right: 24.w),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 0.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TitleTextWidget(
+                                        title: specifications,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 2.w),
+                                        child: Text(
+                                          selectSpecifications,
+                                          style: TextStyle(
+                                              fontSize: 11.sp,
+                                              color: Colors.grey.shade600),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Form(
+                                  key: _globalFormKey,
+                                  child: setSpecificationParameters(
+                                      _selectedFamilyId!),
+                                ),
+
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                    Form(
-                      key: _globalFormKey,
-                      child: setSpecificationParameters(_selectedFamilyId!),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.w),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: ElevatedButtonWithIcon(
-                callback: () async {
-                  if (validationAllPage()) {
-                    // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-                    // _createRequestModel.ys_usage_idfk = userId;
-                    widget.callback!(1);
-                  }
-                },
-                color: btnColorLogin,
-                btnText: "Next",
-              ),
-            ),
-          ),
-        ],
-      )
-          : Container(),
-    )
+                      Visibility(
+                        visible: widget.selectedTab != offering_type,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.w),
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            child: ElevatedButtonWithIcon(
+                              callback: () async {
+                                if (widget.selectedTab == offering_type) {
+                                if (validationAllPage()) {
+                                  if(_labParameterPage.currentState != null){
+                                    if(_labParameterPage.currentState!.validateAndSave()){
+                                      widget.callback!(1);
+                                    }
+                                  }
+                                }
+                                } else {
+                                  if (validationAllPage()) {
+                                    showGenericDialog(
+                                      '',
+                                      "Are you sure, you want to submit?",
+                                      context,
+                                      StylishDialogType.WARNING,
+                                      'Yes',
+                                      () {
+                                        submitData(context);
+                                      },
+                                    );
+                                  }
+                                }
+                                /*if (validationAllPage()) {
+                                  // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+                                  // _createRequestModel.ys_usage_idfk = userId;
+                                  if (widget.selectedTab == offering_type) {
+                                    widget.callback!(1);
+                                  } else {
+                                    showGenericDialog(
+                                      '',
+                                      "Are you sure, you want to submit?",
+                                      context,
+                                      StylishDialogType.WARNING,
+                                      'Yes',
+                                      () {
+                                        submitData(context);
+                                      },
+                                    );
+                                  }
+                                }*/
+                              },
+                              color: btnColorLogin,
+                              btnText: widget.selectedTab == offering_type
+                                  ? "Next"
+                                  : submit,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
+          )
         : Container();
   }
 
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      if (widget.businessArea == yarn) {
+        _createRequestModel!.ys_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.spc_local_international =
+            widget.locality!.toUpperCase();
+      }
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createSpecification(_createRequestModel!,
+              imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+              () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+            () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+          () {},
+        );
+      });
+    }
+  }
+
   Widget setSpecificationParameters(String selectedFamilyId) {
-    Widget widget = const Text('Error');
+    Widget widget1 = const Text('Error');
     switch (selectedFamilyId) {
       case '4':
-        widget = Column(
+        widget1 = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -698,7 +818,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: yarnTexturedType + '*')),
                     SingleSelectTileWidget(
@@ -724,13 +844,15 @@ class YarnSpecificationComponentState
                   child: Expanded(
                     child: Column(
                       children: [
-                        SizedBox(height:8.w ,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w),
 //                            child: TitleSmallBoldTextWidget(title: dannier + '*')),
                         YgTextFormFieldWithRange(
                             onSaved: (input) =>
-                            _createRequestModel.ys_dty_filament = input!,
+                                _createRequestModel.ys_dty_filament = input!,
                             // onChanged:(value) => globalFormKey.currentState!.reset(),
                             minMax: _yarnSetting!.dannierMinMax!,
                             label: dannier,
@@ -742,7 +864,7 @@ class YarnSpecificationComponentState
                 ),
                 SizedBox(
                   width: (Ui.showHide(_yarnSetting!.showDannier) &&
-                      Ui.showHide(_yarnSetting!.showFilament))
+                          Ui.showHide(_yarnSetting!.showFilament))
                       ? 16.w
                       : 0,
                 ),
@@ -752,17 +874,19 @@ class YarnSpecificationComponentState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height:8.w ,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w),
 //                            child: TitleSmallTextWidget(title: filament + '*')),
                         YgTextFormFieldWithRange(
                           minMax: _yarnSetting!.filamentMinMax!,
                           onSaved: (input) =>
-                          _createRequestModel.ys_fdy_filament = input!,
+                              _createRequestModel.ys_fdy_filament = input!,
                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                           errorText: filament,
-                          label:filament ,
+                          label: filament,
                         ),
                       ],
                     ),
@@ -780,7 +904,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: ply + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -788,7 +912,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _plyList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (Ply value) {
                         _createRequestModel.ys_ply_idfk =
@@ -823,7 +947,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: const TitleSmallBoldTextWidget(
                             title: "Doubling Method" + '*')),
                     SingleSelectTileWidget(
@@ -852,7 +976,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: colorTreatmentMethod + '*')),
                     SingleSelectTileWidget(
@@ -861,7 +985,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _colorTreatmentMethodList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (ColorTreatmentMethod value) {
                         _createRequestModel.ys_color_treatment_method_idfk =
@@ -870,8 +994,8 @@ class YarnSpecificationComponentState
                         if (_colorTreatmentIdList.contains(value.yctmId)) {
                           setState(() {
                             _showDyingMethod = true;
-                            _selectedColorTreatMethodId = value.yctmId
-                                .toString();
+                            _selectedColorTreatMethodId =
+                                value.yctmId.toString();
                           });
                         } else {
                           setState(() {
@@ -889,15 +1013,16 @@ class YarnSpecificationComponentState
 
             //Show Color dying Method
             Visibility(
-              visible:
-              _showDyingMethod ? Ui.showHide(_yarnSetting!.showColor) : false,
+              visible: _showDyingMethod
+                  ? Ui.showHide(_yarnSetting!.showColor)
+                  : false,
               child: Padding(
                 padding: EdgeInsets.only(top: 8.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: const TitleSmallBoldTextWidget(
                             title: "Dying Method" + '*')),
                     SingleSelectTileWidget(
@@ -905,7 +1030,7 @@ class YarnSpecificationComponentState
                       key: _dyingMethodKey,
                       spanCount: 3,
                       listOfItems:
-                      _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
+                          _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
                                     if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                       return element
                                               .ydmColorTreatmentMethodIdfk ==
@@ -930,15 +1055,16 @@ class YarnSpecificationComponentState
 
             //Here Color Code is missing
             Visibility(
-                visible:
-                _showDyingMethod ? Ui.showHide(_yarnSetting!.showColor) : false,
+                visible: _showDyingMethod
+                    ? Ui.showHide(_yarnSetting!.showColor)
+                    : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(left: 0,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: "Select Color"),
                       ),
                       Card(
@@ -956,7 +1082,7 @@ class YarnSpecificationComponentState
                             style: TextStyle(fontSize: 11.sp),
                             textAlign: TextAlign.center,
                             onSaved: (input) =>
-                            _createRequestModel.ys_color_code = input!,
+                                _createRequestModel.ys_color_code = input!,
                             // validator: (input) {
                             //   if (input == null ||
                             //       input.isEmpty) {
@@ -991,15 +1117,17 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 0,top: 4,bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: apperance + '*')),
+                        padding:
+                            const EdgeInsets.only(left: 0, top: 4, bottom: 4),
+                        child:
+                            TitleSmallBoldTextWidget(title: apperance + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _appearanceKey,
                       spanCount: 3,
                       listOfItems: _appearanceList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (YarnAppearance value) {
                         _createRequestModel.ys_apperance_idfk =
@@ -1033,7 +1161,8 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 0,top: 4,bottom: 4),
+                        padding:
+                            const EdgeInsets.only(left: 0, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: quality + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1041,7 +1170,7 @@ class YarnSpecificationComponentState
                       spanCount: 2,
                       listOfItems: _getQuality()
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (Quality value) {
                         _createRequestModel.ys_quality_idfk =
@@ -1062,7 +1191,8 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 0,top: 4,bottom: 4),
+                        padding:
+                            const EdgeInsets.only(left: 0, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: grades + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1070,7 +1200,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _gradesList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (YarnGrades value) {
                         _createRequestModel.ys_grade_idfk =
@@ -1091,16 +1221,15 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: usage + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _usageKey,
                       spanCount: 2,
                       listOfItems: _usageList!
-                          .where(
-                              (element) =>
-                          element.ysFamilyId == _selectedFamilyId)
+                          .where((element) =>
+                              element.ysFamilyId == _selectedFamilyId)
                           .toList(),
                       callback: (Usage value) {
                         _createRequestModel.ys_usage_idfk =
@@ -1120,7 +1249,9 @@ class YarnSpecificationComponentState
                   child: Expanded(
                     child: Column(
                       children: [
-                        SizedBox(height:8.w ,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: ratio + '*')),
@@ -1137,7 +1268,7 @@ class YarnSpecificationComponentState
                 ),
                 SizedBox(
                   width: (Ui.showHide(_yarnSetting!.showRatio) &&
-                      Ui.showHide(_yarnSetting!.showCount))
+                          Ui.showHide(_yarnSetting!.showCount))
                       ? 16.w
                       : 0,
                 ),
@@ -1150,7 +1281,9 @@ class YarnSpecificationComponentState
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: count + '*')),
-                        SizedBox(height:8.w ,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
                         YgTextFormFieldWithRangeNonDecimal(
                             errorText: count,
                             label: count,
@@ -1175,15 +1308,16 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: orientation + '*')),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
+                        child:
+                            TitleSmallBoldTextWidget(title: orientation + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _orientationKey,
                       spanCount: 2,
                       listOfItems: _orientationList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (OrientationTable value) {
                         _createRequestModel.ys_orientation_idfk =
@@ -1204,7 +1338,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: twistDirection + '*')),
                     SingleSelectTileWidget(
@@ -1213,7 +1347,7 @@ class YarnSpecificationComponentState
                       spanCount: 2,
                       listOfItems: _twistDirectionList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (TwistDirection value) {
                         _createRequestModel.ys_twist_direction_idfk =
@@ -1234,7 +1368,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: spunTech + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1242,7 +1376,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _spunTechList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (SpunTechnique value) {
                         setState(() {
@@ -1266,7 +1400,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: pattern + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1274,7 +1408,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _getPattern()
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (PatternModel value) {
                         if (_patternIdList.contains(value.ypId)) {
@@ -1284,14 +1418,15 @@ class YarnSpecificationComponentState
 
                             _patternCharactristicList = _patternCharList!
                                 .where((element) =>
-                            element.ypcPatternIdfk == value.ypId.toString())
+                                    element.ypcPatternIdfk ==
+                                    value.ypId.toString())
                                 .toList();
                           });
                         } else {
                           setState(() {
                             _showPatternChar = false;
                             _createRequestModel.ys_pattern_charectristic_idfk =
-                            null;
+                                null;
                           });
                         }
                         _createRequestModel.ys_pattern_idfk =
@@ -1316,7 +1451,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: certification + '*')),
                     SingleSelectTileWidget(
@@ -1341,7 +1476,7 @@ class YarnSpecificationComponentState
         );
         break;
       default:
-        widget = Column(
+        widget1 = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -1355,7 +1490,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: yarnTexturedType + '*')),
                     SingleSelectTileWidget(
@@ -1385,12 +1520,11 @@ class YarnSpecificationComponentState
 //                            padding: EdgeInsets.only(left: 4.w),
 //                            child: TitleSmallTextWidget(title: dannier + '*')),
                         YgTextFormFieldWithRange(
-
                             onSaved: (input) =>
-                            _createRequestModel.ys_dty_filament = input!,
+                                _createRequestModel.ys_dty_filament = input!,
                             // onChanged:(value) => globalFormKey.currentState!.reset(),
                             minMax: _yarnSetting!.dannierMinMax!,
-                            label:dannier ,
+                            label: dannier,
                             errorText: dannier),
                       ],
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1399,7 +1533,7 @@ class YarnSpecificationComponentState
                 ),
                 SizedBox(
                   width: (Ui.showHide(_yarnSetting!.showDannier) &&
-                      Ui.showHide(_yarnSetting!.showFilament))
+                          Ui.showHide(_yarnSetting!.showFilament))
                       ? 16.w
                       : 0,
                 ),
@@ -1415,10 +1549,10 @@ class YarnSpecificationComponentState
                         YgTextFormFieldWithRange(
                           minMax: _yarnSetting!.filamentMinMax!,
                           onSaved: (input) =>
-                          _createRequestModel.ys_fdy_filament = input!,
+                              _createRequestModel.ys_fdy_filament = input!,
                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                           errorText: filament,
-                          label:filament ,
+                          label: filament,
                         ),
                       ],
                     ),
@@ -1436,16 +1570,15 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: usage + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _usageKey,
                       spanCount: 2,
                       listOfItems: _usageList!
-                          .where(
-                              (element) =>
-                          element.ysFamilyId == _selectedFamilyId)
+                          .where((element) =>
+                              element.ysFamilyId == _selectedFamilyId)
                           .toList(),
                       callback: (Usage value) {
                         _createRequestModel.ys_usage_idfk =
@@ -1466,15 +1599,16 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: apperance + '*')),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
+                        child:
+                            TitleSmallBoldTextWidget(title: apperance + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _appearanceKey,
                       spanCount: 3,
                       listOfItems: _appearanceList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (YarnAppearance value) {
                         _createRequestModel.ys_apperance_idfk =
@@ -1508,7 +1642,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: colorTreatmentMethod + '*')),
                     SingleSelectTileWidget(
@@ -1517,7 +1651,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _colorTreatmentMethodList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (ColorTreatmentMethod value) {
                         _createRequestModel.ys_color_treatment_method_idfk =
@@ -1526,8 +1660,8 @@ class YarnSpecificationComponentState
                         if (_colorTreatmentIdList.contains(value.yctmId)) {
                           setState(() {
                             _showDyingMethod = true;
-                            _selectedColorTreatMethodId = value.yctmId
-                                .toString();
+                            _selectedColorTreatMethodId =
+                                value.yctmId.toString();
                           });
                         } else {
                           setState(() {
@@ -1545,15 +1679,16 @@ class YarnSpecificationComponentState
 
             //Show Color dying Method
             Visibility(
-              visible:
-              _showDyingMethod ? Ui.showHide(_yarnSetting!.showColor) : false,
+              visible: _showDyingMethod
+                  ? Ui.showHide(_yarnSetting!.showColor)
+                  : false,
               child: Padding(
                 padding: EdgeInsets.only(top: 8.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: const TitleSmallBoldTextWidget(
                             title: "Dying Method" + '*')),
                     SingleSelectTileWidget(
@@ -1561,7 +1696,7 @@ class YarnSpecificationComponentState
                       key: _dyingMethodKey,
                       spanCount: 3,
                       listOfItems:
-                      _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
+                          _getDyingMethodList() /*_yarnData!.dyingMethod!.where((element) {
                                     if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                       return element
                                               .ydmColorTreatmentMethodIdfk ==
@@ -1586,8 +1721,9 @@ class YarnSpecificationComponentState
 
             //Here Color Code is missing
             Visibility(
-                visible:
-                _showDyingMethod ? Ui.showHide(_yarnSetting!.showColor) : false,
+                visible: _showDyingMethod
+                    ? Ui.showHide(_yarnSetting!.showColor)
+                    : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Column(
@@ -1612,7 +1748,7 @@ class YarnSpecificationComponentState
                             style: TextStyle(fontSize: 11.sp),
                             textAlign: TextAlign.center,
                             onSaved: (input) =>
-                            _createRequestModel.ys_color_code = input!,
+                                _createRequestModel.ys_color_code = input!,
                             // validator: (input) {
                             //   if (input == null ||
                             //       input.isEmpty) {
@@ -1646,12 +1782,14 @@ class YarnSpecificationComponentState
                   child: Expanded(
                     child: Column(
                       children: [
-                        SizedBox(height:8.w ,),
+                        SizedBox(
+                          height: 8.w,
+                        ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: ratio + '*')),
                         YgTextFormFieldWithoutRange(
-                          label: ratio,
+                            label: ratio,
                             errorText: ratio,
                             onSaved: (input) {
                               _createRequestModel.ys_ratio = input;
@@ -1663,7 +1801,7 @@ class YarnSpecificationComponentState
                 ),
                 SizedBox(
                   width: (Ui.showHide(_yarnSetting!.showRatio) &&
-                      Ui.showHide(_yarnSetting!.showCount))
+                          Ui.showHide(_yarnSetting!.showCount))
                       ? 16.w
                       : 0,
                 ),
@@ -1676,7 +1814,9 @@ class YarnSpecificationComponentState
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: count + '*')),
-                        SizedBox(height:12.w ,),
+                        SizedBox(
+                          height: 12.w,
+                        ),
                         YgTextFormFieldWithRangeNonDecimal(
                             errorText: count,
                             label: count,
@@ -1701,7 +1841,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: ply + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1709,7 +1849,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _plyList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (Ply value) {
                         _createRequestModel.ys_ply_idfk =
@@ -1744,7 +1884,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: const TitleSmallBoldTextWidget(
                             title: "Doubling Method" + '*')),
                     SingleSelectTileWidget(
@@ -1773,15 +1913,16 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: orientation + '*')),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
+                        child:
+                            TitleSmallBoldTextWidget(title: orientation + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _orientationKey,
                       spanCount: 2,
                       listOfItems: _orientationList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (OrientationTable value) {
                         _createRequestModel.ys_orientation_idfk =
@@ -1802,7 +1943,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: twistDirection + '*')),
                     SingleSelectTileWidget(
@@ -1811,7 +1952,7 @@ class YarnSpecificationComponentState
                       spanCount: 2,
                       listOfItems: _twistDirectionList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (TwistDirection value) {
                         _createRequestModel.ys_twist_direction_idfk =
@@ -1832,7 +1973,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: spunTech + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1840,7 +1981,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _spunTechList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (SpunTechnique value) {
                         setState(() {
@@ -1864,7 +2005,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: quality + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1872,7 +2013,7 @@ class YarnSpecificationComponentState
                       spanCount: 2,
                       listOfItems: _getQuality()
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (Quality value) {
                         _createRequestModel.ys_quality_idfk =
@@ -1893,7 +2034,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: pattern + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1901,7 +2042,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _getPattern()
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (PatternModel value) {
                         if (_patternIdList.contains(value.ypId)) {
@@ -1911,14 +2052,15 @@ class YarnSpecificationComponentState
 
                             _patternCharactristicList = _patternCharList!
                                 .where((element) =>
-                            element.ypcPatternIdfk == value.ypId.toString())
+                                    element.ypcPatternIdfk ==
+                                    value.ypId.toString())
                                 .toList();
                           });
                         } else {
                           setState(() {
                             _showPatternChar = false;
                             _createRequestModel.ys_pattern_charectristic_idfk =
-                            null;
+                                null;
                           });
                         }
                         _createRequestModel.ys_pattern_idfk =
@@ -1943,7 +2085,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(title: grades + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
@@ -1951,7 +2093,7 @@ class YarnSpecificationComponentState
                       spanCount: 3,
                       listOfItems: _gradesList!
                           .where((element) =>
-                      element.familyId == _selectedFamilyId)
+                              element.familyId == _selectedFamilyId)
                           .toList(),
                       callback: (YarnGrades value) {
                         _createRequestModel.ys_grade_idfk =
@@ -1972,7 +2114,7 @@ class YarnSpecificationComponentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                        padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                         child: TitleSmallBoldTextWidget(
                             title: certification + '*')),
                     SingleSelectTileWidget(
@@ -1993,14 +2135,32 @@ class YarnSpecificationComponentState
             SizedBox(
               height: 8.w,
             ),
+
+            SizedBox(
+              child: Visibility(
+                visible:
+                widget.selectedTab == offering_type,
+                child: LabParameterPage(
+                  callback: (value) {
+                    widget.callback!(1);
+                  },
+                  key: _labParameterPage,
+                  // yarnSyncResponse: widget.yarnSyncResponse,
+                  locality: widget.locality,
+                  businessArea: widget.businessArea,
+                  selectedTab: widget.selectedTab,
+                  newSettings: _yarnSetting!,
+                  specKey: widget.key!,
+                ),
+              ),
+            )
           ],
         );
         break;
     }
-    return widget;
+    return widget1;
   }
 
   @override
   bool get wantKeepAlive => true;
-
 }

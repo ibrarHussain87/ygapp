@@ -6,8 +6,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
@@ -24,7 +26,10 @@ import 'package:yg_app/model/response/common_response_models/city_state_response
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../helper_utils/alert_dialog.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
+import '../../../../helper_utils/navigation_utils.dart';
+import '../../../../helper_utils/progress_dialog_util.dart';
 import '../../../../helper_utils/pure_single_tile.dart';
 import '../../../../model/blend_model.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
@@ -123,6 +128,7 @@ class FabricSpecificationComponentState
   List<TextEditingController> textFieldControllers=[];
   List<FabricBlends> blendValue=[];
   FabricBlends pureValue=FabricBlends();
+  List<PickedFile> imageFiles = [];
 
 
 
@@ -1266,7 +1272,7 @@ class FabricSpecificationComponentState
                         handleNextClick();
                       },
                       color: btnColorLogin,
-                      btnText: "Next",
+                      btnText: widget.businessArea == offering_type ? "Next" : submit,
                     ),
                   ),
                 ),
@@ -1350,9 +1356,83 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      widget.callback!(1);
+      if(widget.businessArea == offering_type){
+        widget.callback!(1);
+      }else{
+        showGenericDialog(
+          '',
+          "Are you sure, you want to submit?",
+          context,
+          StylishDialogType.WARNING,
+          'Yes',
+              () {
+            submitData(context);
+          },
+        );
+      }
     }
   }
+
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      /*if (widget.businessArea == yarn) {
+        _createRequestModel!.fs_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.fs_local_international =
+            widget.locality!.toUpperCase();
+      }*/
+      _createRequestModel!.fs_local_international =
+          widget.locality!.toUpperCase();
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createFabricSpecification(_createRequestModel!,
+          imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+                  () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+                () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+              () {},
+        );
+      });
+    }
+  }
+
 
   _resetData() {
     _showDyingMethod = false;

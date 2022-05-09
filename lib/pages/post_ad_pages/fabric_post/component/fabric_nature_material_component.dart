@@ -106,6 +106,10 @@ class _FabricNatureMaterialComponentState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(
+                  padding: EdgeInsets.only(left: 8,right: 8,top: 15),
+                  child: Divider()
+              ),
               Visibility(
                 visible: false,
                 child: Padding(
@@ -115,21 +119,29 @@ class _FabricNatureMaterialComponentState
                       title: 'Fabric Blends',
                     )),
               ),
-              const SizedBox(height: 15,),
-              CatWithImageListWidget(
-                key: _catWithImageListState,
-                listItem: widget.materialList
-                    .where((element) => element.familyIdfk == _selectedNature)
-                    .toList(),
-                onClickCallback: (index) {
-                  /*BroadcastReceiver().publish<int>(materialIndexBroadcast,
-                      arguments: widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId);*/
-                  var blend = widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId;
-               //   if(blend!=null){
-                    postFabricProvider.setBlendId(blend);
-                  postFabricProvider.updateFabricSegments();
-                  //    }
-                },
+              const SizedBox(height: 8,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: CatWithImageListWidget(
+                  key: _catWithImageListState,
+                  listItem: widget.materialList
+                      .where((element) => element.familyIdfk == _selectedNature)
+                      .toList(),
+                  onClickCallback: (index) {
+                    /*BroadcastReceiver().publish<int>(materialIndexBroadcast,
+                        arguments: widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId);*/
+                    var blend = widget.materialList.where((element) => element.familyIdfk == _selectedNature).toList()[index].blnId;
+                 //   if(blend!=null){
+                      postFabricProvider.setBlendId(blend);
+                    postFabricProvider.updateFabricSegments();
+                    //    }
+                  },
+                ),
+              ),
+              const SizedBox(height: 4,),
+              const Padding(
+                  padding: EdgeInsets.only(left: 8,right: 8,),
+                  child: Divider()
               ),
             ],
           ),

@@ -1274,13 +1274,15 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
   void submitData(BuildContext context) {
     if (_createRequestModel != null) {
-      if (widget.businessArea == yarn) {
+      /*if (widget.businessArea == yarn) {
         _createRequestModel!.fs_local_international =
             widget.locality!.toUpperCase();
       } else {
         _createRequestModel!.fs_local_international =
             widget.locality!.toUpperCase();
-      }
+      }*/
+      _createRequestModel!.fs_local_international =
+          widget.locality!.toUpperCase();
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 

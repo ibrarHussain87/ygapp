@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -24,6 +27,10 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+
+import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/navigation_utils.dart';
+import '../../../../helper_utils/progress_dialog_util.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
   final Function? callback;
@@ -67,6 +74,7 @@ class FiberSpecificationComponentState
   late List<Countries> _countries;
   late List<CityState> _citySateList;
   late List<Certification> _certificationList;
+  List<PickedFile> imageFiles = [];
 
   _getFiberSyncedData() {
     AppDbInstance.getFiberMaterialData().then((value) => setState(() {
@@ -1073,7 +1081,7 @@ class FiberSpecificationComponentState
                         handleNextClick();
                       },
                       color: btnColorLogin,
-                      btnText: "Next",
+                      btnText: widget.selectedTab == offering_type ? "Next" : submit,
                     ),
                   ),
                 ),
@@ -1112,10 +1120,81 @@ class FiberSpecificationComponentState
           .first
           .nature_id
           .toString();
-
-      widget.callback!(1);
+      if(widget.selectedTab == offering_type){
+        widget.callback!(1);
+      }else{
+        showGenericDialog(
+          '',
+          "Are you sure, you want to submit?",
+          context,
+          StylishDialogType.WARNING,
+          'Yes',
+              () {
+            submitData(context);
+          },
+        );
+      }
     }
   }
+
+  void submitData(BuildContext context) {
+    if (_createRequestModel != null) {
+      if (widget.businessArea == yarn) {
+        _createRequestModel!.ys_local_international =
+            widget.locality!.toUpperCase();
+      } else {
+        _createRequestModel!.spc_local_international =
+            widget.locality!.toUpperCase();
+      }
+
+      ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+      ApiService.createSpecification(_createRequestModel!,
+          imageFiles.isNotEmpty ? imageFiles[0].path : "")
+          .then((value) {
+        ProgressDialogUtil.hideDialog();
+        if (value.status) {
+          Fluttertoast.showToast(msg: value.message);
+          if (value.responseCode == 205) {
+            showGenericDialog(
+              '',
+              value.message.toString(),
+              context,
+              StylishDialogType.WARNING,
+              'Update',
+                  () {
+                openMyAdsScreen(context);
+              },
+            );
+          } else {
+            Navigator.pop(context);
+          }
+        } else {
+          //Ui.showSnackBar(context, value.message);
+          showGenericDialog(
+            '',
+            value.message.toString(),
+            context,
+            StylishDialogType.ERROR,
+            'Yes',
+                () {},
+          );
+        }
+      }).onError((error, stackTrace) {
+        ProgressDialogUtil.hideDialog();
+        //Ui.showSnackBar(context, error.toString());
+        showGenericDialog(
+          '',
+          error.toString(),
+          context,
+          StylishDialogType.ERROR,
+          'Yes',
+              () {},
+        );
+      });
+    }
+  }
+
 
   _resetData() {
     _createRequestModel!.spc_grade_idfk = null;

@@ -131,6 +131,8 @@ var brands = 'Brands';
 
 int YARN_CATEGORY_ID = 2;
 int FABRIC_CATEGORY_ID = 3;
+String offering_type = '1';
+String requirement_type = '0';
 String FABRIC_MIRCOFIBER_ID = '104';
 const String no_internet_available_msg = "No Internet available.";
 const String check_internet_msg = "Please check your internet connection.";
