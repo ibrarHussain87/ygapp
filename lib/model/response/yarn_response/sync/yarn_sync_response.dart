@@ -1067,6 +1067,11 @@ class Usage {
   String? yuDescription;
   String? yuIsActive;
   String? yuSortid;
+  bool _isSelected = false;
+  bool get isSelected => _isSelected;
+  set isSelected(bool value) {
+    _isSelected = value;
+  }
 
   Usage.fromJson(Map<String, dynamic> json) {
     yuId = json['yu_id'];

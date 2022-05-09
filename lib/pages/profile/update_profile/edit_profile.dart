@@ -912,7 +912,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 return ElevatedButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                            /*fontFamily: 'Metropolis',*/ fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),

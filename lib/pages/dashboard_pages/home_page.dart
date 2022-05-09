@@ -135,7 +135,7 @@ class HomePageState extends State<HomePage> {
                 child: Container(
                   color: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  height: 0.5 * MediaQuery.of(context).size.height,
+                  height: 0.6 * MediaQuery.of(context).size.height,
                   child: MarketTrendWidget(),
                 ),
               )

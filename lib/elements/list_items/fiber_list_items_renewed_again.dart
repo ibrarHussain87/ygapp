@@ -61,7 +61,7 @@ Widget buildFiberRenewedAgainWidget(
                                       color: Colors.black,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                     ),
                                   ),
                                   width: size.width * 0.40,
@@ -79,7 +79,7 @@ Widget buildFiberRenewedAgainWidget(
                                           color: Colors.black,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: 'Metropolis',
+                                          /*fontFamily: 'Metropolis',*/
                                         ),
                                       ),
                                       SizedBox(width: 2.w,),
@@ -112,16 +112,15 @@ Widget buildFiberRenewedAgainWidget(
                               children: [
                                 Container(
                                     color: blueContainerLight,
-                                    constraints:
-                                    const BoxConstraints(maxHeight: 14),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 1),
-                                      child: Center(
+
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 1),
                                         child: TitleMediumBoldSmallTextWidget(
                                           title: '${specification.material}',
                                           color: Colors.white,
-                                          textSize: 12,
+                                          textSize: 11,
                                         ),
                                       ),
                                     )),
@@ -241,7 +240,7 @@ Widget buildFiberRenewedAgainWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w500),
                                 ),
                                 TextSpan(
@@ -251,7 +250,7 @@ Widget buildFiberRenewedAgainWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
@@ -260,7 +259,7 @@ Widget buildFiberRenewedAgainWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w500),
                                 ),
                               ])),

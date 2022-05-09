@@ -182,10 +182,10 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
           Text(title,style:TextStyle(
               color: Colors.black87,
               fontSize: 14.sp,
-              fontFamily: 'Metropolis',
+              /*fontFamily: 'Metropolis',*/
               fontWeight: FontWeight.w500),),
            Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
-            fontFamily: 'Metropolis',
+            /*fontFamily: 'Metropolis',*/
                fontWeight: FontWeight.w500)),
         ],
       ),
@@ -245,6 +245,37 @@ InputDecoration roundedTextFieldDecoration(String hint) {
       borderRadius: BorderRadius.circular(24.0.w),
       borderSide: BorderSide(color: Colors.grey.shade300),
     )
+  );
+}
+
+InputDecoration customCornerDecoration(String hint,double corners) {
+  return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(fontSize: 11.sp,),
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
+      isDense: true,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(corners.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(corners.w),
+        borderSide: BorderSide(color: lightBlueTabs),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(corners.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(corners.w),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      disabledBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(corners.w),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      )
   );
 }
 

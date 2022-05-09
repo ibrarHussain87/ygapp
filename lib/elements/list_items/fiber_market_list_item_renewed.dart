@@ -48,7 +48,7 @@ Widget buildFiberRenewedWidget(
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 6.sp,
-                      fontFamily: 'Metropolis',
+                      /*fontFamily: 'Metropolis',*/,
                       fontWeight: FontWeight.bold,
                     ),
                   )),
@@ -68,7 +68,7 @@ Widget buildFiberRenewedWidget(
                             color: Colors.black,
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Metropolis',
+                            /*fontFamily: 'Metropolis',*/
                           ),
                         ),
                         width: MediaQuery.of(context).size.width * 0.30,
@@ -272,7 +272,7 @@ Widget buildFiberRenewedWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w400),
                                 ),
                                 TextSpan(
@@ -282,7 +282,7 @@ Widget buildFiberRenewedWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
@@ -290,7 +290,7 @@ Widget buildFiberRenewedWidget(
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                       fontWeight: FontWeight.w400),
                                 ),
                               ])),
@@ -507,7 +507,7 @@ Widget buildFiberRenewedWidget(
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 6.sp,
-                          fontFamily: 'Metropolis',
+                          /*fontFamily: 'Metropolis',*/
                           fontWeight: FontWeight.bold,
                         ),
                       )),

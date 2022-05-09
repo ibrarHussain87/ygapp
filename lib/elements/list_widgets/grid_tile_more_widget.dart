@@ -44,7 +44,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
           crossAxisSpacing: 3,
           mainAxisSpacing: 16,
           crossAxisCount: widget.spanCount!,
-          childAspectRatio: 16 / 9),
+          childAspectRatio: 16 / 10),
       itemCount: 8,
       itemBuilder: (context, index) {
         return buildGrid(index);

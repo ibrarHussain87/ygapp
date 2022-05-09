@@ -7,10 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:yg_app/Providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,36 +40,36 @@ void main() async {
 
 Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ///Set preferred orientation to portrait
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  setupLocators();
   await FCM.initialize(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
+
 
 }
 
 class YgApp extends StatelessWidget {
-  List<SingleChildWidget> providers = [
-    ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
-    ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
-    ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
-    ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
-    ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
-    ChangeNotifierProvider<FilterFabricProvider>(create: (_) => FilterFabricProvider()),
-  ];
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
     return MultiProvider(
-      providers: providers,
+      providers: [
+        ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
+        ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
+        ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
+        ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
+        ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
+        ChangeNotifierProvider<FilterFabricProvider>(create: (_) => FilterFabricProvider()),
+        ChangeNotifierProvider(create: (_)=> locator<PostYarnProvider>())
+      ],
       child: MaterialApp(
         title: 'Splash Screen',
         theme: ThemeData(
             primaryColor: lightBlueTabs,
             primarySwatch: Colors.green,
-            fontFamily: 'Metropolis'),
+            /*/*fontFamily: 'Metropolis',*/*/
+            textTheme:
+            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),),
         home: YgAppPage(),
         debugShowCheckedModeBanner: false,
       ),

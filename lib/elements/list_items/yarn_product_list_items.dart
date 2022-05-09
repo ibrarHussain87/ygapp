@@ -96,7 +96,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                       style: TextStyle(
                         color: lightGreenLabel,
                         fontSize: 6.sp,
-                        fontFamily: 'Metropolis',
+                        /*fontFamily: 'Metropolis',*/
                         fontWeight: FontWeight.bold,
                       ),
                     )),
@@ -348,7 +348,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w400),
                             ),
                             TextSpan(
@@ -358,7 +358,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
@@ -366,7 +366,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w400),
                             ),
                           ])),
@@ -758,7 +758,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
                                         child: Text(value.dprName ?? "",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                                fontFamily: 'Metropolis')),
+                                                /*fontFamily: 'Metropolis',*/)),
                                         value: value,
                                       ))
                                   .toList(),

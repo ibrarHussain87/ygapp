@@ -74,7 +74,6 @@ class LabParameterPageState extends State<LabParameterPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Padding(
                       padding: EdgeInsets.only(left: 0.w),
                       child: Column(

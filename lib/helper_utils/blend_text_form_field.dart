@@ -72,7 +72,6 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
         controller: textEditingController,
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
@@ -98,7 +97,7 @@ class BlendTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         ]) : MultiValidator([
 
         ]),
-        decoration: roundedTextFieldDecoration(minMax));
+        decoration: customCornerDecoration(minMax,4.0));
   }
 }
 

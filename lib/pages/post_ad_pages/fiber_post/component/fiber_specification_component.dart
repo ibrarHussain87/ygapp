@@ -708,10 +708,10 @@ class FiberSpecificationComponentState
                                                               color: Colors.black87,
                                                               fontSize: 14.sp,
                                                               backgroundColor: Colors.white,
-                                                              fontFamily: 'Metropolis',
+                                                              /*fontFamily: 'Metropolis',*/
                                                               fontWeight: FontWeight.w500),),
                                                            Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                              fontFamily: 'Metropolis',
+                                                              /*fontFamily: 'Metropolis',*/
                                                                backgroundColor: Colors.white,
                                                               fontWeight: FontWeight.w500)),
                                                         ],
@@ -864,11 +864,11 @@ class FiberSpecificationComponentState
                                                     Text('Origin',style:TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 14.sp,
-                                                        fontFamily: 'Metropolis',
+                                                        /*fontFamily: 'Metropolis',*/
                                                         backgroundColor: Colors.white,
                                                         fontWeight: FontWeight.w500),),
                                                     Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                        fontFamily: 'Metropolis',
+                                                        /*fontFamily: 'Metropolis',*/
                                                         backgroundColor: Colors.white,
                                                         fontWeight: FontWeight.w500)),
                                                   ],
@@ -949,10 +949,10 @@ class FiberSpecificationComponentState
                                                         color: Colors.black87,
                                                         fontSize: 14.sp,
                                                         backgroundColor: Colors.white,
-                                                        fontFamily: 'Metropolis',
+                                                        /*fontFamily: 'Metropolis',*/
                                                         fontWeight: FontWeight.w500),),
                                                     Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                        fontFamily: 'Metropolis',
+                                                        /*fontFamily: 'Metropolis',*/
                                                         backgroundColor: Colors.white,
                                                         fontWeight: FontWeight.w500)),
                                                   ],

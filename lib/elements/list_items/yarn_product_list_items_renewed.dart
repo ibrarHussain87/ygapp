@@ -43,7 +43,7 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 6.sp,
-                    fontFamily: 'Metropolis',
+                    /*fontFamily: 'Metropolis',*/
                     fontWeight: FontWeight.bold,
                   ),
                 )),
@@ -236,7 +236,7 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w400),
                             ),
                             TextSpan(
@@ -244,7 +244,7 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w600),
                             ),
                             TextSpan(
@@ -253,7 +253,7 @@ Widget buildYarnProductWidgetTwo(YarnSpecification specification) {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.sp,
-                                  fontFamily: 'Metropolis',
+                                  /*fontFamily: 'Metropolis',*/
                                   fontWeight: FontWeight.w400),
                             ),
                           ])),

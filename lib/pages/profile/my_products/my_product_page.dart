@@ -253,7 +253,7 @@ class _MyProductPageState extends State<MyProductPage>
             style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'Metropolis'),
+                /*fontFamily: 'Metropolis',*/),
           ),
         ),
       ));

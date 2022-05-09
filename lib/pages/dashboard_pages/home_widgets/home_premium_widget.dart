@@ -28,7 +28,7 @@ class _HomePremiumWidgetState extends State<HomePremiumWidget> {
             margin: EdgeInsets.only(bottom: 4.w),
           ),
           SizedBox(
-              height: 0.08 * MediaQuery.of(context).size.height,
+              height: 0.09 * MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,

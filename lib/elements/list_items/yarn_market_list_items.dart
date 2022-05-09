@@ -43,7 +43,7 @@ Widget buildYarnWidget(YarnSpecification specification) {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 6.sp,
-                    fontFamily: 'Metropolis',
+                    /*fontFamily: 'Metropolis',*/
                     fontWeight: FontWeight.bold,
                   ),
                 )),

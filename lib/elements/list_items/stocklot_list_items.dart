@@ -37,7 +37,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
       //   style: TextStyle(
       //       color: Colors.black,
       //       fontSize: 12.sp,
-      //       // fontFamily: 'Metropolis',
+      //       // /*fontFamily: 'Metropolis',*/,
       //       fontWeight: FontWeight.w500),
       // ),
       TextSpan(
@@ -45,7 +45,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // fontFamily: 'Metropolis',
+            // /*fontFamily: 'Metropolis',*/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -54,7 +54,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            // fontFamily: 'Metropolis',
+            // /*fontFamily: 'Metropolis',*/,
             fontWeight: FontWeight.w500),
       ),
     ] : [
@@ -63,7 +63,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // fontFamily: 'Metropolis',
+            // /*fontFamily: 'Metropolis',*/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -72,7 +72,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            // fontFamily: 'Metropolis',
+            // /*fontFamily: 'Metropolis',*/,
             fontWeight: FontWeight.w500),
       ),
     ];
@@ -138,7 +138,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                       color: Colors.black,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Metropolis',
+                                      /*fontFamily: 'Metropolis',*/
                                     ),
                                   ),
                                   width: size.width * 0.40,
@@ -157,8 +157,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'Metropolis',
+                                          fontWeight: FontWeight.w600
+                                          /*fontFamily: 'Metropolis',*/,
                                         ),
                                       ),
                                       SizedBox(
@@ -200,8 +200,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                               children: [
                                 Container(
                                     color: blueContainerLight,
-                                    constraints:
-                                        const BoxConstraints(maxHeight: 14),
+                                    // constraints:
+                                    //     const BoxConstraints(maxHeight: 14),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 1),
