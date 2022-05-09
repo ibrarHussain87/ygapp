@@ -1772,62 +1772,101 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 )),
 
-            //Show Ratio and Count
-            Row(
-              children: [
-                Visibility(
-                  visible: Ui.showHide(_yarnSetting!.showRatio),
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 8.w,
-                        ),
+            const SizedBox(height: 8,),
+            // Show Ratio
+            Visibility(
+              visible: Ui.showHide(_yarnSetting!.showRatio),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 8.w,
+                  ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: ratio + '*')),
-                        YgTextFormFieldWithoutRange(
-                            label: ratio,
-                            errorText: ratio,
-                            onSaved: (input) {
-                              _createRequestModel.ys_ratio = input;
-                            })
-                      ],
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: (Ui.showHide(_yarnSetting!.showRatio) &&
-                          Ui.showHide(_yarnSetting!.showCount))
-                      ? 16.w
-                      : 0,
-                ),
-                Visibility(
-                  visible: Ui.showHide(_yarnSetting!.showCount),
-                  child: Expanded(
+                  YgTextFormFieldWithoutRange(
+                      label: ratio,
+                      errorText: ratio,
+                      onSaved: (input) {
+                        _createRequestModel.ys_ratio = input;
+                      })
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            // show bottom sheet
+            Visibility(
+              visible: false,
+              child: Container(
+                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(6))),
+                child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.w,
+                                    left: 8.w,
+                                    bottom: 10.w),
+                                child: const TitleMediumTextWidget(
+                                  title: 'Yarn Components',
+                                  color: Colors.black54,
+                                  weight: FontWeight.normal,
+                                )),
+                            GestureDetector(
+                              onTap: () {
+                                // show sheet
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    top: 4, right: 6, bottom: 4),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                  size: 24,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
+            ),
+            const SizedBox(height: 6,),
+            // Count
+            Visibility(
+              visible: Ui.showHide(_yarnSetting!.showCount),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: count + '*')),
-                        SizedBox(
-                          height: 12.w,
-                        ),
-                        YgTextFormFieldWithRangeNonDecimal(
-                            errorText: count,
-                            label: count,
-                            // onChanged:(value) => globalFormKey.currentState!.reset(),
-                            minMax: _yarnSetting!.countMinMax!,
-                            onSaved: (input) {
-                              _createRequestModel.ys_count = input;
-                            })
-                      ],
-                    ),
+                  SizedBox(
+                    height: 12.w,
                   ),
-                ),
-              ],
+                  YgTextFormFieldWithRangeNonDecimal(
+                      errorText: count,
+                      label: count,
+                      // onChanged:(value) => globalFormKey.currentState!.reset(),
+                      minMax: _yarnSetting!.countMinMax!,
+                      onSaved: (input) {
+                        _createRequestModel.ys_count = input;
+                      })
+                ],
+              ),
             ),
 
             //Show Ply
