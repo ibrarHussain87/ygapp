@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/bottom_sheets/yarn_specs_bottom_sheet.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -834,7 +835,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               ),
             ),
 
-            //Show Dannier and Show Filament
+            /*//Show Dannier and Show Filament
             Row(
               children: [
                 Visibility(
@@ -962,6 +963,60 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                     ),
                   ],
                 ),
+              ),
+            ),*/
+
+            // show bottom sheet
+            Visibility(
+              visible: true,
+              child: Container(
+                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(6))),
+                child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.w,
+                                    left: 8.w,
+                                    bottom: 10.w),
+                                child: const TitleMediumTextWidget(
+                                  title: 'Ply',
+                                  color: Colors.black54,
+                                  weight: FontWeight.normal,
+                                )),
+                            GestureDetector(
+                              onTap: () {
+                                // show sheet
+                                yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                    selectedFamilyId,_plyList!,_orientationList!,
+                                    _doublingMethodList!,_plyIdList);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    top: 4, right: 6, bottom: 4),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                  size: 24,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
               ),
             ),
 
@@ -1796,7 +1851,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             ),
             // show bottom sheet
             Visibility(
-              visible: false,
+              visible: true,
               child: Container(
                 margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
                 decoration: BoxDecoration(
@@ -1818,13 +1873,16 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                                     left: 8.w,
                                     bottom: 10.w),
                                 child: const TitleMediumTextWidget(
-                                  title: 'Yarn Components',
+                                  title: 'Ply',
                                   color: Colors.black54,
                                   weight: FontWeight.normal,
                                 )),
                             GestureDetector(
                               onTap: () {
                                 // show sheet
+                                yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                    selectedFamilyId,_plyList!,_orientationList!,
+                                _doublingMethodList!,_plyIdList);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(
@@ -1845,7 +1903,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               ),
             ),
             const SizedBox(height: 6,),
-            // Count
+            /*// Count
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showCount),
               child: Column(
@@ -1969,7 +2027,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ],
                 ),
               ),
-            ),
+            ),*/
 
             //Show Twist Direction
             Visibility(
