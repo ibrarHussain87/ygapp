@@ -69,7 +69,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               curve: Curves.easeInOut);
         },
       ),
-      LabParameterPage(
+      /*LabParameterPage(
           callback: (value) {
             setState(() {
               selectedValue++;
@@ -83,7 +83,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
           // yarnSyncResponse: widget.yarnSyncResponse,
           locality: widget.locality,
           businessArea: widget.businessArea,
-          selectedTab: widget.selectedTab),
+          selectedTab: widget.selectedTab),*/
       PackagingDetails(
         key: _packingStateKey,
         locality: widget.locality,
@@ -186,7 +186,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                               ),
                             ),
                           ),
-                          3: Container(
+                          /*3: Container(
                             padding: EdgeInsets.all(8.w),
                             child: Text(
                               "Step 3",
@@ -197,7 +197,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                                     : textColorGrey,
                               ),
                             ),
-                          ),
+                          ),*/
                         },
                         onValueChanged: (value) {
                           switch (value) {
@@ -348,7 +348,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
                   curve: Curves.easeInOut);
             },
           ),
-          LabParameterPage(
+          /*LabParameterPage(
               callback: (value) {
                 setState(() {
                   selectedValue++;
@@ -362,7 +362,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               // yarnSyncResponse: widget.yarnSyncResponse,
               locality: widget.locality,
               businessArea: widget.businessArea,
-              selectedTab: widget.selectedTab),
+              selectedTab: widget.selectedTab),*/
           PackagingDetails(
             locality: widget.locality,
             businessArea: widget.businessArea,
