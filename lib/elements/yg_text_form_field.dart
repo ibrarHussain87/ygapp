@@ -60,6 +60,7 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
   final Function onSaved;
   // final Function onChanged;
   final bool? validation;
+  final String? value;
 
   const YgTextFormFieldWithRangeNonDecimal(
       {Key? key,
@@ -68,12 +69,16 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         required this.label,
         required this.onSaved,
         // required this.onChanged,
-        this.validation})
+        this.validation,
+        this.value
+
+      })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        initialValue: value ?? '',
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
@@ -102,16 +107,18 @@ class YgTextFormFieldWithoutRange extends StatelessWidget {
   final String errorText;
   final Function onSaved;
   final String label;
+  final String? value;
 
   const YgTextFormFieldWithoutRange(
       {Key? key, required this.errorText, required this.onSaved,
-        required this.label
+        required this.label,this.value
       })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        initialValue: value ?? '',
         textInputAction: TextInputAction.next,
         keyboardType: TextInputType.number,
         cursorColor: lightBlueTabs,
