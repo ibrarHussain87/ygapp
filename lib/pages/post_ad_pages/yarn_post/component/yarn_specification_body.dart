@@ -692,7 +692,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         ),
                       ),
                       Visibility(
-                        visible: widget.selectedTab != offering_type,
+                        visible: widget.selectedTab == requirement_type || _selectedFamilyId == 4.toString(),
                         child: Padding(
                           padding: EdgeInsets.all(8.w),
                           child: SizedBox(
@@ -701,11 +701,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               callback: () async {
                                 if (widget.selectedTab == offering_type) {
                                 if (validationAllPage()) {
-                                  if(_labParameterPage.currentState != null){
-                                    if(_labParameterPage.currentState!.validateAndSave()){
-                                      widget.callback!(1);
-                                    }
-                                  }
+                                  widget.callback!(1);
                                 }
                                 } else {
                                   if (validationAllPage()) {
