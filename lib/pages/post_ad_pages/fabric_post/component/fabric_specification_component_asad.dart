@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/bottom_sheets/weft_bottom_sheet.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -399,6 +400,80 @@ class FabricSpecificationComponentState
                                     ],
                                   ),
                                 ),
+                                Visibility(
+                                  visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                  child: Column(
+                                    children: [
+                                       SizedBox(height: 12.w,),
+//                                      const Divider(color: Colors.black12,),
+                                      Row(
+                                        children: [
+                                          Visibility(
+                                            visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                            child: Expanded(
+                                              flex: 2,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  // Modified by (asad_m)
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.black12),
+                                                        borderRadius: const BorderRadius.all(
+                                                            Radius.circular(6))),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.spaceBetween,
+                                                          mainAxisSize: MainAxisSize.max,
+                                                          children: [
+                                                            Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    top: 10.w,
+                                                                    left: 8.w,
+                                                                    bottom: 10.w),
+                                                                child: const TitleMediumTextWidget(
+                                                                  title: 'Weft',
+                                                                  color: Colors.black54,
+                                                                  weight: FontWeight.normal,
+                                                                )),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                // show sheet
+                                                                weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                              },
+                                                              child: Container(
+                                                                margin: const EdgeInsets.only(
+                                                                    top: 4, right: 6, bottom: 4),
+                                                                decoration: const BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                ),
+                                                                child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                  size: 24,
+                                                                  color: Colors.grey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
 
 
                                 //Show Warp count and No of Ends
@@ -460,68 +535,68 @@ class FabricSpecificationComponentState
 //                                  ],
 //                                ),
                                 //Show Weft count and No of Picks
-                                Row(
-                                  children: [
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showWeftCount),
-                                      child: Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            //modified by (asad_m)
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
-//                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
-//
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: 'Weft Count',
-                                                label: 'Weft Count',
-                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                                minMax: _fabricSettings!.weftCountMinMax??'n/a',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_weft_count = input;
-                                                })
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
-                                          Ui.showHide(_fabricSettings!.showCount))
-                                          ? 16.w
-                                          : 0,
-                                    ),
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showNoOfPickWeft),
-                                      child: Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            //Modified by (asad_m)
-
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-//                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithRangeNonDecimal(
-                                                errorText: 'No of Picks',
-                                                label: 'No of Picks',
-                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                                minMax: _fabricSettings!.noOfPickWeftMinMax??'n/a',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_no_of_pick_weft = input;
-                                                })
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                //Show Warp Ply and Weft ply
-                                Row(
-                                  children: [
+//                                Row(
+//                                  children: [
 //                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showWeftCount),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                          children: [
+//                                            //modified by (asad_m)
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
+////                                                child: const TitleSmallTextWidget(title: 'Weft Count' + '*')),
+////
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithRangeNonDecimal(
+//                                                errorText: 'Weft Count',
+//                                                label: 'Weft Count',
+//                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+//                                                minMax: _fabricSettings!.weftCountMinMax??'n/a',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_weft_count = input;
+//                                                })
+//                                          ],
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    SizedBox(
+//                                      width: (Ui.showHide(_fabricSettings!.showRatio) &&
+//                                          Ui.showHide(_fabricSettings!.showCount))
+//                                          ? 16.w
+//                                          : 0,
+//                                    ),
+//                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showNoOfPickWeft),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                          children: [
+//                                            //Modified by (asad_m)
+//
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+////                                                child: const TitleSmallTextWidget(title: 'No of Picks' + '*')),
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithRangeNonDecimal(
+//                                                errorText: 'No of Picks',
+//                                                label: 'No of Picks',
+//                                                // onChanged:(value) => globalFormKey.currentState!.reset(),
+//                                                minMax: _fabricSettings!.noOfPickWeftMinMax??'n/a',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_no_of_pick_weft = input;
+//                                                })
+//                                          ],
+//                                        ),
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+                                //Show Warp Ply and Weft ply
+//                                Row(
+//                                  children: [
+//                                   Visibility(
 //                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
 //                                      child: Expanded(
 //                                        child: Column(
@@ -548,29 +623,29 @@ class FabricSpecificationComponentState
 //                                          ? 16.w
 //                                          : 0,
 //                                    ),
-                                    Visibility(
-                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
-                                      child: Expanded(
-                                        child: Column(
-                                          children: [
-                                            // modified by (asad_m)
-//                                            Padding(
-//                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
-//                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
-                                            SizedBox(height:12.w ,),
-                                            YgTextFormFieldWithoutRange(
-                                                errorText: 'Weft Ply',
-                                                label: 'Weft Ply',
-                                                onSaved: (input) {
-                                                  _createRequestModel!.fs_weft_ply_idfk = input;
-                                                })
-                                          ],
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+//                                    Visibility(
+//                                      visible: Ui.showHide(_fabricSettings!.showWarpPly),
+//                                      child: Expanded(
+//                                        child: Column(
+//                                          children: [
+//                                            // modified by (asad_m)
+////                                            Padding(
+////                                                padding: EdgeInsets.only(left: 4.w, top: 8.w),
+////                                                child: const TitleSmallTextWidget(title: 'Weft Ply' + '*')),
+//                                            SizedBox(height:12.w ,),
+//                                            YgTextFormFieldWithoutRange(
+//                                                errorText: 'Weft Ply',
+//                                                label: 'Weft Ply',
+//                                                onSaved: (input) {
+//                                                  _createRequestModel!.fs_weft_ply_idfk = input;
+//                                                })
+//                                          ],
+//                                          crossAxisAlignment: CrossAxisAlignment.start,
+//                                        ),
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
                                 // Width
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWidth),
@@ -1563,7 +1638,40 @@ class FabricSpecificationComponentState
   bool validationAllPage() {
     print("Model Value"+_createRequestModel!.fs_warp_ply_idfk.toString() );
     if (validateAndSave()) {
-      if (_createRequestModel!.fs_blend_idfk == null &&
+      // Wrap and Wreft Check
+     if (_createRequestModel!.fs_warp_count == null &&
+        Ui.showHide(_fabricSettings!.showWarpCount)) {
+      Ui.showSnackBar(context, 'Please Enter Warp Count');
+      return false;
+    }
+    else if (_createRequestModel!.fs_warp_ply_idfk == null &&
+        Ui.showHide(_fabricSettings!.showWarpPly)) {
+      Ui.showSnackBar(context, 'Please Enter Warp Ply');
+      return false;
+    }
+    else if (_createRequestModel!.fs_no_of_ends_warp == null &&
+        Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
+      Ui.showSnackBar(context, 'Please Enter No of Ends');
+      return false;
+    }
+
+     else if (_createRequestModel!.fs_weft_count == null &&
+         Ui.showHide(_fabricSettings!.showWeftCount)) {
+       Ui.showSnackBar(context, 'Please Enter Weft Count');
+       return false;
+     }
+     else if (_createRequestModel!.fs_weft_ply_idfk == null &&
+         Ui.showHide(_fabricSettings!.showWeftPly)) {
+       Ui.showSnackBar(context, 'Please Enter Weft Ply');
+       return false;
+     }
+     else if (_createRequestModel!.fs_no_of_pick_weft == null &&
+         Ui.showHide(_fabricSettings!.showNoOfPickWeft)) {
+       Ui.showSnackBar(context, 'Please Enter No of Picks');
+       return false;
+     }
+    //
+     else if (_createRequestModel!.fs_blend_idfk == null &&
           Ui.showHide(_fabricSettings!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
@@ -1616,21 +1724,7 @@ class FabricSpecificationComponentState
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
       }
-      else if (_createRequestModel!.fs_warp_count == null &&
-          Ui.showHide(_fabricSettings!.showWarpCount)) {
-        Ui.showSnackBar(context, 'Please Enter Warp Count');
-        return false;
-      }
-      else if (_createRequestModel!.fs_warp_ply_idfk == null &&
-          Ui.showHide(_fabricSettings!.showWarpPly)) {
-        Ui.showSnackBar(context, 'Please Enter Warp Ply');
-        return false;
-      }
-      else if (_createRequestModel!.fs_no_of_ends_warp == null &&
-          Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
-        Ui.showSnackBar(context, 'Please Enter No of Ends');
-        return false;
-      }
+
       else {
         _createRequestModel!.spc_category_idfk = "3";
         return true;
