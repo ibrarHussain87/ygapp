@@ -37,6 +37,16 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
   final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
   String? _selectedPlyId;
 
+  if(_createRequestModel!.ys_ply_idfk != null){
+    if (!_plyIdList.contains(_createRequestModel.ys_ply_idfk)) {
+      showDoublingMethod.value = true;
+      _selectedPlyId = _createRequestModel.ys_ply_idfk;
+    } else {
+      showDoublingMethod.value = false;
+      _createRequestModel.ys_doubling_method_idFk = null;
+    }
+  }
+
   showModalBottomSheet<int>(
 //    isScrollControlled: true,
     backgroundColor: Colors.transparent,
@@ -169,7 +179,8 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
                                           child: TitleSmallBoldTextWidget(title: ply + '*')),
                                       SingleSelectTileWidget(
-                                        selectedIndex: -1,
+                                        selectedIndex: _createRequestModel.ys_ply_idfk == null
+                                            ? -1 : _plyList.indexWhere((element) => element.plyId.toString() == _createRequestModel.ys_ply_idfk),
                                         spanCount: 3,
                                         listOfItems: _plyList.where((element) =>
                                         element.familyId == _selectedFamilyId)
@@ -209,7 +220,9 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                               child: const TitleSmallBoldTextWidget(
                                                   title: "Doubling Method" + '*')),
                                           SingleSelectTileWidget(
-                                            selectedIndex: -1,
+                                            selectedIndex: _createRequestModel.ys_doubling_method_idFk == null
+                                                ? -1 :  _doublingMethodList.where((element) => element.plyId == _selectedPlyId)
+                                                .toList().indexWhere((element) => element.dmId.toString() == _createRequestModel.ys_doubling_method_idFk),
                                             spanCount: 3,
                                             listOfItems: _doublingMethodList.where((element) => element.plyId == _selectedPlyId)
                                                 .toList(),
@@ -237,7 +250,10 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           child:
                                           TitleSmallBoldTextWidget(title: orientation + '*')),
                                       SingleSelectTileWidget(
-                                        selectedIndex: -1,
+                                        selectedIndex: _createRequestModel.ys_ply_idfk == null
+                                            ? -1 : _orientationList.where((element) =>
+                                        element.familyId == _selectedFamilyId)
+                                            .toList().indexWhere((element) => element.yoId.toString() == _createRequestModel.ys_ply_idfk),
                                         spanCount: 2,
                                         listOfItems: _orientationList.where((element) =>
                                         element.familyId == _selectedFamilyId)
