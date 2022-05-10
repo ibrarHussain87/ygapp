@@ -80,9 +80,9 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                           value: fabricCreateRequestModel!.fs_weft_count,
                                           label:'Weft Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: fabricSetting!.weftCountMinMax??'n/a',
+                                          minMax: fabricSetting.weftCountMinMax??'n/a',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_weft_count = input;
+                                            fabricCreateRequestModel.fs_weft_count = input;
                                           })
                                     ],
                                   ),
@@ -95,7 +95,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                           Row(
                             children: [
                               Visibility(
-                                visible: Ui.showHide(fabricSetting!.showWeftPly),
+                                visible: Ui.showHide(fabricSetting.showWeftPly),
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,11 +107,11 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 //
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithoutRange(
-                                          value: fabricCreateRequestModel!.fs_weft_ply_idfk ,
+                                          value: fabricCreateRequestModel.fs_weft_ply_idfk ,
                                           errorText: 'Weft Ply',
                                           label: 'Weft Ply',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_weft_ply_idfk = input;
+                                            fabricCreateRequestModel.fs_weft_ply_idfk = input;
                                           })
                                     ],
                                   ),
@@ -124,7 +124,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                           Row(
                             children: [
                               Visibility(
-                                visible: Ui.showHide(fabricSetting!.showNoOfPickWeft),
+                                visible: Ui.showHide(fabricSetting.showNoOfPickWeft),
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,13 +135,13 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 //                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNonDecimal(
-                                          value: fabricCreateRequestModel!.fs_no_of_pick_weft,
+                                          value: fabricCreateRequestModel.fs_no_of_pick_weft,
                                           label:'No of Picks',
                                           errorText: 'No of Picks',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: fabricSetting!.noOfPickWeftMinMax??'n/a',
+                                          minMax: fabricSetting.noOfPickWeftMinMax??'n/a',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_no_of_pick_weft = input;
+                                            fabricCreateRequestModel.fs_no_of_pick_weft = input;
                                           })
                                     ],
                                   ),

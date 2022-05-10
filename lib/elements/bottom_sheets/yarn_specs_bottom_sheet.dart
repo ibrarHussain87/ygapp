@@ -20,7 +20,6 @@ import '../../model/request/post_fabric_request/create_fabric_request_model.dart
 import '../list_widgets/single_select_tile_widget.dart';
 
 
-List<TextEditingController> textFieldControllers = [];
 GlobalKey<FormState> plyFormKey = GlobalKey<FormState>();
 
 yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
@@ -102,72 +101,80 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                               //Show Dannier
                               Visibility(
                                 visible: Ui.showHide(_yarnSetting!.showDannier),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 8.w,
-                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 8.w,
+                                      ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w),
 //                            child: TitleSmallBoldTextWidget(title: dannier + '*')),
-                                    YgTextFormFieldWithRangeNonDecimal(
-                                        onSaved: (input) =>
-                                        _createRequestModel!.ys_dty_filament = input!,
-                                        value: _createRequestModel!.ys_dty_filament,
-                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                        minMax: _yarnSetting.dannierMinMax!,
-                                        label: dannier,
-                                        errorText: dannier),
-                                  ],
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                      YgTextFormFieldWithRangeNonDecimal(
+                                          onSaved: (input) =>
+                                          _createRequestModel.ys_dty_filament = input!,
+                                          value: _createRequestModel.ys_dty_filament,
+                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                          minMax: _yarnSetting.dannierMinMax!,
+                                          label: dannier,
+                                          errorText: dannier),
+                                    ],
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  ),
                                 ),
                               ),
                               // Show Filament
                               Visibility(
                                 visible: Ui.showHide(_yarnSetting.showFilament),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 8.w,
-                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 8.w,
+                                      ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w),
 //                            child: TitleSmallTextWidget(title: filament + '*')),
-                                    YgTextFormFieldWithRangeNonDecimal(
-                                      minMax: _yarnSetting.filamentMinMax!,
-                                      onSaved: (input) =>
-                                      _createRequestModel.ys_fdy_filament = input!,
-                                      value: _createRequestModel.ys_fdy_filament,
-                                      // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                      errorText: filament,
-                                      label: filament,
-                                    ),
-                                  ],
+                                      YgTextFormFieldWithRangeNonDecimal(
+                                        minMax: _yarnSetting.filamentMinMax!,
+                                        onSaved: (input) =>
+                                        _createRequestModel.ys_fdy_filament = input!,
+                                        value: _createRequestModel.ys_fdy_filament,
+                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                        errorText: filament,
+                                        label: filament,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 8,),
                               // Count
                               Visibility(
                                 visible: Ui.showHide(_yarnSetting.showCount),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: count + '*')),
-                                    SizedBox(
-                                      height: 12.w,
-                                    ),
-                                    YgTextFormFieldWithRangeNonDecimal(
-                                        errorText: count,
-                                        label: count,
-                                        // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                        minMax: _yarnSetting.countMinMax!,
-                                        onSaved: (input) {
-                                          _createRequestModel.ys_count = input;
-                                        })
-                                  ],
+                                      SizedBox(
+                                        height: 12.w,
+                                      ),
+                                      YgTextFormFieldWithRangeNonDecimal(
+                                          errorText: count,
+                                          label: count,
+                                          // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                          minMax: _yarnSetting.countMinMax!,
+                                          onSaved: (input) {
+                                            _createRequestModel.ys_count = input;
+                                          })
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -184,7 +191,9 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           child: TitleSmallBoldTextWidget(title: ply + '*')),
                                       SingleSelectTileWidget(
                                         selectedIndex: _createRequestModel.ys_ply_idfk == null
-                                            ? -1 : _plyList.indexWhere((element) => element.plyId.toString() == _createRequestModel.ys_ply_idfk),
+                                            ? -1 : _plyList.where((element) =>
+                                        element.familyId == _selectedFamilyId)
+                                            .toList().indexWhere((element) => element.plyId.toString() == _createRequestModel.ys_ply_idfk),
                                         spanCount: 3,
                                         listOfItems: _plyList.where((element) =>
                                         element.familyId == _selectedFamilyId)
