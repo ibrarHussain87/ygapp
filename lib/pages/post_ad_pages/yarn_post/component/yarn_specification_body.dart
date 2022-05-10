@@ -977,54 +977,62 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             // show bottom sheet
             Visibility(
               visible: true,
-              child: Container(
-                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12),
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(6))),
+              child: GestureDetector(
+                onTap: () {
+                  // show sheet
+                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                      selectedFamilyId,_plyList!,_orientationList!,
+                      _doublingMethodList!,_plyIdList);
+                },
                 child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.w,
-                                    left: 8.w,
-                                    bottom: 10.w),
-                                child: const TitleMediumTextWidget(
-                                  title: 'Ply',
-                                  color: Colors.black54,
-                                  weight: FontWeight.normal,
-                                )),
-                            GestureDetector(
-                              onTap: () {
-                                // show sheet
-                                yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
-                                    selectedFamilyId,_plyList!,_orientationList!,
-                                    _doublingMethodList!,_plyIdList);
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 4, right: 6, bottom: 4),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                  size: 24,
-                                  color: Colors.grey,
+                  margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(6))),
+                  child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10.w,
+                                      left: 8.w,
+                                      bottom: 10.w),
+                                  child: const TitleMediumTextWidget(
+                                    title: 'Ply',
+                                    color: Colors.black54,
+                                    weight: FontWeight.normal,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  // show sheet
+                                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                      selectedFamilyId,_plyList!,_orientationList!,
+                                      _doublingMethodList!,_plyIdList);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 4, right: 6, bottom: 4),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                    size: 24,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                            ],
+                          ),
+                        ],
+                      )),
+                ),
               ),
             ),
 
@@ -1860,54 +1868,61 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             // show bottom sheet
             Visibility(
               visible: true,
-              child: Container(
-                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12),
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(6))),
+              child: GestureDetector(
+                onTap: (){
+                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                      selectedFamilyId,_plyList!,_orientationList!,
+                      _doublingMethodList!,_plyIdList);
+                },
                 child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.w,
-                                    left: 8.w,
-                                    bottom: 10.w),
-                                child: const TitleMediumTextWidget(
-                                  title: 'Ply',
-                                  color: Colors.black54,
-                                  weight: FontWeight.normal,
-                                )),
-                            GestureDetector(
-                              onTap: () {
-                                // show sheet
-                                yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
-                                    selectedFamilyId,_plyList!,_orientationList!,
-                                _doublingMethodList!,_plyIdList);
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 4, right: 6, bottom: 4),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                  size: 24,
-                                  color: Colors.grey,
+                  margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(6))),
+                  child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10.w,
+                                      left: 8.w,
+                                      bottom: 10.w),
+                                  child: const TitleMediumTextWidget(
+                                    title: 'Ply',
+                                    color: Colors.black54,
+                                    weight: FontWeight.normal,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  // show sheet
+                                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                      selectedFamilyId,_plyList!,_orientationList!,
+                                  _doublingMethodList!,_plyIdList);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 4, right: 6, bottom: 4),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                    size: 24,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                            ],
+                          ),
+                        ],
+                      )),
+                ),
               ),
             ),
             const SizedBox(height: 6,),

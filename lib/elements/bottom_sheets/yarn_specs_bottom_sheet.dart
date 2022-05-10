@@ -169,6 +169,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           errorText: count,
                                           label: count,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
+                                          value: _createRequestModel.ys_count,
                                           minMax: _yarnSetting.countMinMax!,
                                           onSaved: (input) {
                                             _createRequestModel.ys_count = input;

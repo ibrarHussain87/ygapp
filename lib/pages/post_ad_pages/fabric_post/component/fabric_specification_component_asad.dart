@@ -292,52 +292,57 @@ class FabricSpecificationComponentState
                                 // show bottom sheet
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showPly) || Ui.showHide(_fabricSettings!.showGsm),
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black12),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(6))),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      fabricPlySheet(context,_fabricSettings,_createRequestModel,()=>{},_plyList,familyId!);
+                                    },
                                     child: Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 10.w,
-                                                        left: 8.w,
-                                                        bottom: 10.w),
-                                                    child: const TitleMediumTextWidget(
-                                                      title: 'Ply',
-                                                      color: Colors.black54,
-                                                      weight: FontWeight.normal,
-                                                    )),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    // show sheet
-                                                    fabricPlySheet(context,_fabricSettings,_createRequestModel,()=>{},_plyList,familyId!);
-                                                  },
-                                                  child: Container(
-                                                    margin: const EdgeInsets.only(
-                                                        top: 4, right: 6, bottom: 4),
-                                                    decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                                      size: 24,
-                                                      color: Colors.grey,
+                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black12),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(6))),
+                                      child: Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.w,
+                                                          left: 8.w,
+                                                          bottom: 10.w),
+                                                      child: const TitleMediumTextWidget(
+                                                        title: 'Ply',
+                                                        color: Colors.black54,
+                                                        weight: FontWeight.normal,
+                                                      )),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      // show sheet
+                                                      fabricPlySheet(context,_fabricSettings,_createRequestModel,()=>{},_plyList,familyId!);
+                                                    },
+                                                    child: Container(
+                                                      margin: const EdgeInsets.only(
+                                                          top: 4, right: 6, bottom: 4),
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                        size: 24,
+                                                        color: Colors.grey,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
+                                    ),
                                   ),
                                 ),
                                 /*// Count
@@ -367,150 +372,160 @@ class FabricSpecificationComponentState
                                 // New Wrap design (asad_m)
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWarpCount),
-                                  child: Column(
-                                    children: [
-                                       SizedBox(height: 12.w,),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                    },
+                                    child: Column(
+                                      children: [
+                                         SizedBox(height: 12.w,),
 //                                      const Divider(color: Colors.black12,),
-                                      Row(
-                                        children: [
-                                          Visibility(
-                                            visible: Ui.showHide(_fabricSettings!.showWarpCount),
-                                            child: Expanded(
-                                              flex: 2,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  // Modified by (asad_m)
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(color: Colors.black12),
-                                                        borderRadius: const BorderRadius.all(
-                                                            Radius.circular(6))),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.spaceBetween,
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    top: 10.w,
-                                                                    left: 8.w,
-                                                                    bottom: 10.w),
-                                                                child: const TitleMediumTextWidget(
-                                                                  title: 'Warp',
-                                                                  color: Colors.black54,
-                                                                  weight: FontWeight.normal,
-                                                                )),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                // show sheet
-                                                                warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
-                                                              },
-                                                              child: Container(
-                                                                margin: const EdgeInsets.only(
-                                                                    top: 4, right: 6, bottom: 4),
-                                                                decoration: const BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                ),
-                                                                child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                                                  size: 24,
-                                                                  color: Colors.grey,
+                                        Row(
+                                          children: [
+                                            Visibility(
+                                              visible: Ui.showHide(_fabricSettings!.showWarpCount),
+                                              child: Expanded(
+                                                flex: 2,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    // Modified by (asad_m)
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black12),
+                                                          borderRadius: const BorderRadius.all(
+                                                              Radius.circular(6))),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            children: [
+                                                              Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: 10.w,
+                                                                      left: 8.w,
+                                                                      bottom: 10.w),
+                                                                  child: const TitleMediumTextWidget(
+                                                                    title: 'Warp',
+                                                                    color: Colors.black54,
+                                                                    weight: FontWeight.normal,
+                                                                  )),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  // show sheet
+                                                                  warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                                },
+                                                                child: Container(
+                                                                  margin: const EdgeInsets.only(
+                                                                      top: 4, right: 6, bottom: 4),
+                                                                  decoration: const BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                  ),
+                                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                    size: 24,
+                                                                    color: Colors.grey,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
 
 
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
 
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWeftCount),
-                                  child: Column(
-                                    children: [
-                                       SizedBox(height: 12.w,),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                    },
+                                    child: Column(
+                                      children: [
+                                         SizedBox(height: 12.w,),
 //                                      const Divider(color: Colors.black12,),
-                                      Row(
-                                        children: [
-                                          Visibility(
-                                            visible: Ui.showHide(_fabricSettings!.showWeftCount),
-                                            child: Expanded(
-                                              flex: 2,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  // Modified by (asad_m)
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(color: Colors.black12),
-                                                        borderRadius: const BorderRadius.all(
-                                                            Radius.circular(6))),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.spaceBetween,
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    top: 10.w,
-                                                                    left: 8.w,
-                                                                    bottom: 10.w),
-                                                                child: const TitleMediumTextWidget(
-                                                                  title: 'Weft',
-                                                                  color: Colors.black54,
-                                                                  weight: FontWeight.normal,
-                                                                )),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                // show sheet
-                                                                weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
-                                                              },
-                                                              child: Container(
-                                                                margin: const EdgeInsets.only(
-                                                                    top: 4, right: 6, bottom: 4),
-                                                                decoration: const BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                ),
-                                                                child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                                                  size: 24,
-                                                                  color: Colors.grey,
+                                        Row(
+                                          children: [
+                                            Visibility(
+                                              visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                              child: Expanded(
+                                                flex: 2,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    // Modified by (asad_m)
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black12),
+                                                          borderRadius: const BorderRadius.all(
+                                                              Radius.circular(6))),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            children: [
+                                                              Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: 10.w,
+                                                                      left: 8.w,
+                                                                      bottom: 10.w),
+                                                                  child: const TitleMediumTextWidget(
+                                                                    title: 'Weft',
+                                                                    color: Colors.black54,
+                                                                    weight: FontWeight.normal,
+                                                                  )),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  // show sheet
+                                                                  weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                                },
+                                                                child: Container(
+                                                                  margin: const EdgeInsets.only(
+                                                                      top: 4, right: 6, bottom: 4),
+                                                                  decoration: const BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                  ),
+                                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                    size: 24,
+                                                                    color: Colors.grey,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
 
 
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
 
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
 
