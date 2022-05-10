@@ -1766,9 +1766,15 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showGsm)) {
         Ui.showSnackBar(context, 'Please Select Gsm');
         return false;
-      }
-
-      else {
+      }else if (_createRequestModel!.fs_count == null &&
+          Ui.showHide(_fabricSettings!.showCount)) {
+        Ui.showSnackBar(context, 'Please Select Count');
+        return false;
+      }else if (_createRequestModel!.fs_once == null &&
+          Ui.showHide(_fabricSettings!.showOnce)) {
+        Ui.showSnackBar(context, 'Please Select Once');
+        return false;
+      } else {
         _createRequestModel!.spc_category_idfk = "3";
         return true;
       }
