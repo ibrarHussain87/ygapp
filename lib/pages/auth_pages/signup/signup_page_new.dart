@@ -48,7 +48,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 create: (_) => _signupRequestModel,
               child: Column(
               children: [
-                const SizedBox(height: 14.0,),
                 Expanded(
                   child: SignUpStepsSegments(
                     // syncFiberResponse: data,

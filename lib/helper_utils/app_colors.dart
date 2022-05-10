@@ -77,6 +77,12 @@ var bgWhiteMarketTrend = HexColor.fromHex('#F3F3F5');
 var greenClr = HexColor.fromHex('#42CE81');
 var redClr = HexColor.fromHex('#E45561');
 var updatedDateColor = HexColor.fromHex('#4781FB');
+var signInColor = HexColor.fromHex('#266BDC');
+var forgotPasswordColor = HexColor.fromHex('#1C3957');
+var signInBorderColor = HexColor.fromHex('#C3CCD3');
+var appBarColor1 = HexColor.fromHex('#25398B');
+var appBarColor2 = HexColor.fromHex('#2675EC');
+
 var lightBlueChip = const Color(0xFFE3ECFF);
 var darkBlueChip = const Color(0xFF2E59B1);
 
