@@ -38,7 +38,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
   String? _selectedPlyId;
 
   if(_createRequestModel!.ys_ply_idfk != null){
-    if (!_plyIdList.contains(_createRequestModel.ys_ply_idfk)) {
+    if (!_plyIdList.contains(int.parse(_createRequestModel.ys_ply_idfk!))) {
       showDoublingMethod.value = true;
       _selectedPlyId = _createRequestModel.ys_ply_idfk;
     } else {
@@ -48,7 +48,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
   }
 
   showModalBottomSheet<int>(
-//    isScrollControlled: true,
+    isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
@@ -57,12 +57,16 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
             return SingleChildScrollView(
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 15.0,right: 15.0),
 //              height: MediaQuery.of(context).size.height/1.5,
                 child: Form(
                   key: plyFormKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
 
                       Column(

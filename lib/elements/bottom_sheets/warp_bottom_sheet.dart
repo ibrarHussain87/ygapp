@@ -23,7 +23,7 @@ GlobalKey<FormState> wrapFormKey = GlobalKey<FormState>();
 warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestModel? fabricCreateRequestModel, Function callback)
 {
   showModalBottomSheet<int>(
-//    isScrollControlled: true,
+    isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
@@ -32,7 +32,9 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
             return SingleChildScrollView(
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 15.0,right: 15.0),
 //              height: MediaQuery.of(context).size.height/1.5,
                 child: Form(
                   key: wrapFormKey,

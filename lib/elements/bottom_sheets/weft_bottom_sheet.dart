@@ -10,12 +10,12 @@ import '../../model/request/post_fabric_request/create_fabric_request_model.dart
 
 
 List<TextEditingController> textFieldControllers = [];
-GlobalKey<FormState> wrapFormKey = GlobalKey<FormState>();
+GlobalKey<FormState> weftFormKey = GlobalKey<FormState>();
 
 weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestModel? fabricCreateRequestModel, Function callback)
 {
   showModalBottomSheet<int>(
-//    isScrollControlled: true,
+    isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
@@ -24,10 +24,12 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
             return SingleChildScrollView(
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 15.0,right: 15.0),
 //              height: MediaQuery.of(context).size.height/1.5,
                 child: Form(
-                  key: wrapFormKey,
+                  key: weftFormKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -191,7 +193,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 }
 
 bool validateAndSaveWeft() {
-  final form = wrapFormKey.currentState;
+  final form = weftFormKey.currentState;
   if (form!.validate()) {
     form.save();
     return true;
