@@ -81,7 +81,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                             ),
                           ),
                           const Divider(color: Colors.black12,),
-                          SizedBox(height:20.w ,),
+                          SizedBox(height:2.w ,),
                           Column(
                             children: [
 
@@ -110,7 +110,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                               ),
                               // Show Filament
                               Visibility(
-                                visible: Ui.showHide(_yarnSetting!.showFilament),
+                                visible: Ui.showHide(_yarnSetting.showFilament),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -135,7 +135,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                               const SizedBox(height: 8,),
                               // Count
                               Visibility(
-                                visible: Ui.showHide(_yarnSetting!.showCount),
+                                visible: Ui.showHide(_yarnSetting.showCount),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -151,7 +151,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                         // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         minMax: _yarnSetting.countMinMax!,
                                         onSaved: (input) {
-                                          _createRequestModel!.ys_count = input;
+                                          _createRequestModel.ys_count = input;
                                         })
                                   ],
                                 ),
@@ -278,8 +278,8 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                             side: BorderSide(
                                                 color: Colors.transparent)))),
                                 onPressed: () {
-                                  if (validationAllPage(_createRequestModel!,_yarnSetting,contextBuilder,showDoublingMethod.value)) {
-                                    showDoublingMethod.dispose();
+                                  if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,showDoublingMethod.value)) {
+                                    //showDoublingMethod.dispose();
                                     Navigator.of(context).pop();
                                   }
                                 });
