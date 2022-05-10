@@ -263,10 +263,10 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           child:
                                           TitleSmallBoldTextWidget(title: orientation + '*')),
                                       SingleSelectTileWidget(
-                                        selectedIndex: _createRequestModel.ys_ply_idfk == null
+                                        selectedIndex: _createRequestModel.ys_orientation_idfk == null
                                             ? -1 : _orientationList.where((element) =>
                                         element.familyId == _selectedFamilyId)
-                                            .toList().indexWhere((element) => element.yoId.toString() == _createRequestModel.ys_ply_idfk),
+                                            .toList().indexWhere((element) => element.yoId.toString() == _createRequestModel.ys_orientation_idfk),
                                         spanCount: 2,
                                         listOfItems: _orientationList.where((element) =>
                                         element.familyId == _selectedFamilyId)

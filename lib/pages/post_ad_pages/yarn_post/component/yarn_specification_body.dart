@@ -101,7 +101,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             child: Column(
               children: [
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
@@ -125,7 +125,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               children: [
                 // modified by (asad_m)
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
@@ -150,7 +150,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Pause")),
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
                 YgTextFormFieldWithoutRange(
                   errorText: "Pause",
@@ -218,7 +218,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           children: [
             Padding(
                 padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
-                child: TitleSmallTextWidget(title: patternChar)),
+                child: TitleSmallBoldTextWidget(title: patternChar)),
             SingleSelectTileWidget(
               selectedIndex: -1,
               key: _patternCharKey,
@@ -419,6 +419,18 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       } else if (_createRequestModel.ys_orientation_idfk == null &&
           Ui.showHide(_yarnSetting!.showOrientation)) {
         Ui.showSnackBar(context, 'Please Select Orientation');
+        return false;
+      }else if (_createRequestModel.ys_count == null &&
+          Ui.showHide(_yarnSetting!.showCount)) {
+        Ui.showSnackBar(context, 'Please Select Count');
+        return false;
+      }else if (_createRequestModel.ys_dty_filament == null &&
+          Ui.showHide(_yarnSetting!.showDannier)) {
+        Ui.showSnackBar(context, 'Please Select Dannier');
+        return false;
+      }else if (_createRequestModel.ys_fdy_filament == null &&
+          Ui.showHide(_yarnSetting!.showFilament)) {
+        Ui.showSnackBar(context, 'Please Select Filament');
         return false;
       } else if (_createRequestModel.ys_spun_technique_idfk == null &&
           Ui.showHide(_yarnSetting!.showSpunTechnique)) {
