@@ -7,6 +7,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:yg_app/providers/family_list_provider.dart';
+import 'package:yg_app/providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -60,7 +63,10 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
         ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
         ChangeNotifierProvider<FilterFabricProvider>(create: (_) => FilterFabricProvider()),
-        ChangeNotifierProvider(create: (_)=> locator<PostYarnProvider>())
+        ChangeNotifierProvider(create: (_)=> locator<PostYarnProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<FiberSpecificationProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<PostFiberProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<FamilyListProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',

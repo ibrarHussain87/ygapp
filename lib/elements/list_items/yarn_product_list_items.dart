@@ -48,7 +48,7 @@ class _BuildYarnProductWidgetState extends State<BuildYarnProductWidget> {
     _createRequestModel.ys_id = widget.specification.ysId.toString();
     _createRequestModel.spc_category_idfk = "2";
 
-    AppDbInstance.getDeliveryPeriod().then((value) {
+    AppDbInstance().getDeliveryPeriod().then((value) {
       setState(() {
         _deliveryPeriod = value
             .where((element) =>

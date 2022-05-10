@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<User?>(
-        future: AppDbInstance.getDbInstance().then((value) => value.userDao.getUser()),
+        future: AppDbInstance().getDbInstance().then((value) => value.userDao.getUser()),
         builder: (context,snapshot){
           if(snapshot.hasData && snapshot.data != null){
             return Scaffold(
@@ -273,14 +273,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
                           showLogoutDialog("Alert", "Are you sure you want to logout?", context, (){
-                            AppDbInstance.getDbInstance().then((value) {
+                            AppDbInstance().getDbInstance().then((value) {
                               value.userDao.deleteUserData();
                               value.yarnSettingsDao.deleteYarnSettings();
                               value.fiberSettingDao.deleteAll();
-                              value.fiberMaterialDao.deleteAll();
+                              value.fiberBlendsDao.deleteAll();
                               value.fiberSettingDao.deleteAll();
                               value.gradesDao.deleteAll();
-                              value.fiberNatureDao.deleteAll();
+                              value.fiberFamilyDao.deleteAll();
                               value.packingDao.deleteAll();
                               value.patternDao.deleteAll();
                               value.patternCharDao.deleteAll();

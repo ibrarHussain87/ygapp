@@ -36,7 +36,7 @@ class FabricPageState extends State<FabricPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
   }

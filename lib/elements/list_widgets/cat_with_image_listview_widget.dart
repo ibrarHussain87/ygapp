@@ -11,20 +11,20 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-class CatWithImageListWidget extends StatefulWidget {
+class BlendsWithImageListWidget extends StatefulWidget {
   final Function? onClickCallback;
   final List<dynamic>? listItem;
   final int? selectedItem;
 
-  const CatWithImageListWidget(
+  const BlendsWithImageListWidget(
       {Key? key, required this.listItem, required this.onClickCallback,this.selectedItem})
       : super(key: key);
 
   @override
-  CatWithImageListWidgetState createState() => CatWithImageListWidgetState();
+  BlendsWithImageListWidgetState createState() => BlendsWithImageListWidgetState();
 }
 
-class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
+class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
   late int checkedIndex;
   int _selectedSegmentIndex = 1;
   bool disableClick = false;
@@ -63,8 +63,8 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     bool checked = index == checkedIndex;
     String? name;
     int? castingCheckPos;
-    if (widget.listItem is List<FiberMaterial>) {
-      name = widget.listItem!.cast<FiberMaterial>()[index].fbmName;
+    if (widget.listItem is List<FiberBlends>) {
+      name = widget.listItem!.cast<FiberBlends>()[index].blnName;
       castingCheckPos = 0;
     } else if (widget.listItem is List<Blends>) {
       var blend = widget.listItem!.cast<Blends>()[index];
@@ -134,7 +134,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
     String url= "";
     if(checked == true){
       if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_selected??""}';
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberBlends>()[index].iconSelected??""}';
       }else if(castingCheckPos == 1){
         if(widget.listItem!.cast<Blends>()[index].iconSelected != null){
           return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconSelected!;
@@ -152,7 +152,7 @@ class CatWithImageListWidgetState extends State<CatWithImageListWidget> {
       }
     }else{
       if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberMaterial>()[index].icon_unselected??""}';
+        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberBlends>()[index].iconUnselected??""}';
       }else if(castingCheckPos == 1){
         if(widget.listItem!.cast<Blends>()[index].iconUnselected != null){
           return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconUnselected!;

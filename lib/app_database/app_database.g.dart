@@ -65,9 +65,9 @@ class _$AppDatabase extends AppDatabase {
 
   FiberSettingDao? _fiberSettingDaoInstance;
 
-  FiberNatureDao? _fiberNatureDaoInstance;
+  FiberFamilyDao? _fiberFamilyDaoInstance;
 
-  FiberMaterialDao? _fiberMaterialDaoInstance;
+  FiberBlendsDao? _fiberBlendsDaoInstance;
 
   FiberAppearanceDao? _fiberAppearanceDoaInstance;
 
@@ -188,7 +188,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_natures` (`id` INTEGER NOT NULL, `nature` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_family` (`fiberFamilyId` INTEGER NOT NULL, `fiberFamilyCategoryIdFk` TEXT, `fiberFamilyParentId` TEXT, `fiberFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fiberFamilyIsActive` TEXT, `fiberFamilySortId` TEXT, PRIMARY KEY (`fiberFamilyId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_appearance` (`aprId` INTEGER, `aprCategoryIdfk` TEXT, `aprName` TEXT, `aprIsActive` TEXT, PRIMARY KEY (`aprId`))');
         await database.execute(
@@ -196,7 +196,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_categories` (`catId` INTEGER NOT NULL, `catName` TEXT NOT NULL, `catIsActive` TEXT NOT NULL, PRIMARY KEY (`catId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_entity` (`fbmId` INTEGER NOT NULL, `fbmCategoryIdfk` TEXT, `nature_id` TEXT, `fbmName` TEXT, `icon_selected` TEXT, `icon_unselected` TEXT, `fbmIsActive` TEXT, PRIMARY KEY (`fbmId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnNature` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `blnRatioJson` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
         await database.execute(
@@ -224,7 +224,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showColorTreatmentMethod` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showProductionYear` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, `catName` TEXT NOT NULL, `matName` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showColorTreatmentMethod` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showProductionYear` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFiberMaterialIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, `show_actual_count` TEXT, `actual_count_min_max` TEXT, PRIMARY KEY (`ysId`))');
         await database.execute(
@@ -316,15 +316,15 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  FiberNatureDao get fiberNatureDao {
-    return _fiberNatureDaoInstance ??=
-        _$FiberNatureDao(database, changeListener);
+  FiberFamilyDao get fiberFamilyDao {
+    return _fiberFamilyDaoInstance ??=
+        _$FiberFamilyDao(database, changeListener);
   }
 
   @override
-  FiberMaterialDao get fiberMaterialDao {
-    return _fiberMaterialDaoInstance ??=
-        _$FiberMaterialDao(database, changeListener);
+  FiberBlendsDao get fiberBlendsDao {
+    return _fiberBlendsDaoInstance ??=
+        _$FiberBlendsDao(database, changeListener);
   }
 
   @override
@@ -715,9 +715,7 @@ class _$FiberSettingDao extends FiberSettingDao {
                   'showPriceTerms': item.showPriceTerms,
                   'showLotNumber': item.showLotNumber,
                   'showRatio': item.showRatio,
-                  'fbsIsActive': item.fbsIsActive,
-                  'catName': item.catName,
-                  'matName': item.matName
+                  'fbsIsActive': item.fbsIsActive
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -760,14 +758,12 @@ class _$FiberSettingDao extends FiberSettingDao {
             showPriceTerms: row['showPriceTerms'] as String,
             showLotNumber: row['showLotNumber'] as String,
             showRatio: row['showRatio'] as String,
-            fbsIsActive: row['fbsIsActive'] as String,
-            catName: row['catName'] as String,
-            matName: row['matName'] as String));
+            fbsIsActive: row['fbsIsActive'] as String));
   }
 
   @override
-  Future<List<FiberSettings>> findFiberSettings(int id) async {
-    return _queryAdapter.queryList(
+  Future<FiberSettings?> findFiberSettings(int id) async {
+    return _queryAdapter.query(
         'SELECT * FROM fiber_setting where fbsFiberMaterialIdfk = ?1',
         mapper: (Map<String, Object?> row) => FiberSettings(
             fbsId: row['fbsId'] as int,
@@ -798,9 +794,7 @@ class _$FiberSettingDao extends FiberSettingDao {
             showPriceTerms: row['showPriceTerms'] as String,
             showLotNumber: row['showLotNumber'] as String,
             showRatio: row['showRatio'] as String,
-            fbsIsActive: row['fbsIsActive'] as String,
-            catName: row['catName'] as String,
-            matName: row['matName'] as String),
+            fbsIsActive: row['fbsIsActive'] as String),
         arguments: [id]);
   }
 
@@ -828,64 +822,21 @@ class _$FiberSettingDao extends FiberSettingDao {
   }
 }
 
-class _$FiberNatureDao extends FiberNatureDao {
-  _$FiberNatureDao(this.database, this.changeListener)
+class _$FiberFamilyDao extends FiberFamilyDao {
+  _$FiberFamilyDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _fiberNatureInsertionAdapter = InsertionAdapter(
+        _fiberFamilyInsertionAdapter = InsertionAdapter(
             database,
-            'fiber_natures',
-            (FiberNature item) =>
-                <String, Object?>{'id': item.id, 'nature': item.nature});
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<FiberNature> _fiberNatureInsertionAdapter;
-
-  @override
-  Future<List<FiberNature>> findAllFiberNatures() async {
-    return _queryAdapter.queryList('SELECT * FROM fiber_natures',
-        mapper: (Map<String, Object?> row) =>
-            FiberNature(id: row['id'] as int, nature: row['nature'] as String));
-  }
-
-  @override
-  Future<List<FiberNature>> findFiberNatures(int id) async {
-    return _queryAdapter.queryList('SELECT * FROM fiber_natures where id = ?1',
-        mapper: (Map<String, Object?> row) =>
-            FiberNature(id: row['id'] as int, nature: row['nature'] as String),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from fiber_natures');
-  }
-
-  @override
-  Future<List<int>> insertAllFiberNatures(List<FiberNature> fiberNature) {
-    return _fiberNatureInsertionAdapter.insertListAndReturnIds(
-        fiberNature, OnConflictStrategy.replace);
-  }
-}
-
-class _$FiberMaterialDao extends FiberMaterialDao {
-  _$FiberMaterialDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _fiberMaterialInsertionAdapter = InsertionAdapter(
-            database,
-            'fiber_entity',
-            (FiberMaterial item) => <String, Object?>{
-                  'fbmId': item.fbmId,
-                  'fbmCategoryIdfk': item.fbmCategoryIdfk,
-                  'nature_id': item.nature_id,
-                  'fbmName': item.fbmName,
-                  'icon_selected': item.icon_selected,
-                  'icon_unselected': item.icon_unselected,
-                  'fbmIsActive': item.fbmIsActive
+            'fiber_family',
+            (FiberFamily item) => <String, Object?>{
+                  'fiberFamilyId': item.fiberFamilyId,
+                  'fiberFamilyCategoryIdFk': item.fiberFamilyCategoryIdFk,
+                  'fiberFamilyParentId': item.fiberFamilyParentId,
+                  'fiberFamilyName': item.fiberFamilyName,
+                  'iconSelected': item.iconSelected,
+                  'iconUnselected': item.iconUnselected,
+                  'fiberFamilyIsActive': item.fiberFamilyIsActive,
+                  'fiberFamilySortId': item.fiberFamilySortId
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -894,60 +845,144 @@ class _$FiberMaterialDao extends FiberMaterialDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<FiberMaterial> _fiberMaterialInsertionAdapter;
+  final InsertionAdapter<FiberFamily> _fiberFamilyInsertionAdapter;
 
   @override
-  Future<List<FiberMaterial>> findAllFiberMaterials() async {
-    return _queryAdapter.queryList('SELECT * FROM fiber_entity',
-        mapper: (Map<String, Object?> row) => FiberMaterial(
-            fbmId: row['fbmId'] as int,
-            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
-            nature_id: row['nature_id'] as String?,
-            fbmName: row['fbmName'] as String?,
-            icon_selected: row['icon_selected'] as String?,
-            icon_unselected: row['icon_unselected'] as String?,
-            fbmIsActive: row['fbmIsActive'] as String?));
+  Future<List<FiberFamily>> findAllFiberNatures() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_family',
+        mapper: (Map<String, Object?> row) => FiberFamily(
+            fiberFamilyId: row['fiberFamilyId'] as int,
+            fiberFamilyCategoryIdFk: row['fiberFamilyCategoryIdFk'] as String?,
+            fiberFamilyParentId: row['fiberFamilyParentId'] as String?,
+            fiberFamilyName: row['fiberFamilyName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            fiberFamilyIsActive: row['fiberFamilyIsActive'] as String?,
+            fiberFamilySortId: row['fiberFamilySortId'] as String?));
   }
 
   @override
-  Future<List<FiberMaterial>> findFiberMaterials(int id) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM fiber_entity where fbm_id = ?1',
-        mapper: (Map<String, Object?> row) => FiberMaterial(
-            fbmId: row['fbmId'] as int,
-            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
-            nature_id: row['nature_id'] as String?,
-            fbmName: row['fbmName'] as String?,
-            icon_selected: row['icon_selected'] as String?,
-            icon_unselected: row['icon_unselected'] as String?,
-            fbmIsActive: row['fbmIsActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<List<FiberMaterial>> findFiberMaterialsWithNature(int id) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM fiber_entity where nature_id = ?1',
-        mapper: (Map<String, Object?> row) => FiberMaterial(
-            fbmId: row['fbmId'] as int,
-            fbmCategoryIdfk: row['fbmCategoryIdfk'] as String?,
-            nature_id: row['nature_id'] as String?,
-            fbmName: row['fbmName'] as String?,
-            icon_selected: row['icon_selected'] as String?,
-            icon_unselected: row['icon_unselected'] as String?,
-            fbmIsActive: row['fbmIsActive'] as String?),
+  Future<List<FiberFamily>> findFiberNatures(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_family where id = ?1',
+        mapper: (Map<String, Object?> row) => FiberFamily(
+            fiberFamilyId: row['fiberFamilyId'] as int,
+            fiberFamilyCategoryIdFk: row['fiberFamilyCategoryIdFk'] as String?,
+            fiberFamilyParentId: row['fiberFamilyParentId'] as String?,
+            fiberFamilyName: row['fiberFamilyName'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            fiberFamilyIsActive: row['fiberFamilyIsActive'] as String?,
+            fiberFamilySortId: row['fiberFamilySortId'] as String?),
         arguments: [id]);
   }
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from fiber_entity');
+    await _queryAdapter.queryNoReturn('delete from fiber_family');
   }
 
   @override
-  Future<List<int>> insertAllFiberMaterials(
-      List<FiberMaterial> fiberMaterials) {
-    return _fiberMaterialInsertionAdapter.insertListAndReturnIds(
+  Future<List<int>> insertAllFiberNatures(List<FiberFamily> fiberNature) {
+    return _fiberFamilyInsertionAdapter.insertListAndReturnIds(
+        fiberNature, OnConflictStrategy.replace);
+  }
+}
+
+class _$FiberBlendsDao extends FiberBlendsDao {
+  _$FiberBlendsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _fiberBlendsInsertionAdapter = InsertionAdapter(
+            database,
+            'fiber_blends',
+            (FiberBlends item) => <String, Object?>{
+                  'blnId': item.blnId,
+                  'blnCategoryIdfk': item.blnCategoryIdfk,
+                  'familyIdfk': item.familyIdfk,
+                  'blnNature': item.blnNature,
+                  'blnName': item.blnName,
+                  'blnAbrv': item.blnAbrv,
+                  'minMax': item.minMax,
+                  'blnRatioJson': item.blnRatioJson,
+                  'iconSelected': item.iconSelected,
+                  'iconUnselected': item.iconUnselected,
+                  'blnIsActive': item.blnIsActive,
+                  'blnSortid': item.blnSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FiberBlends> _fiberBlendsInsertionAdapter;
+
+  @override
+  Future<List<FiberBlends>> findAllFiberBlends() async {
+    return _queryAdapter.queryList('SELECT * FROM fiber_blends',
+        mapper: (Map<String, Object?> row) => FiberBlends(
+            blnId: row['blnId'] as int?,
+            blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnNature: row['blnNature'] as String?,
+            blnName: row['blnName'] as String?,
+            blnAbrv: row['blnAbrv'] as String?,
+            minMax: row['minMax'] as String?,
+            blnRatioJson: row['blnRatioJson'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?));
+  }
+
+  @override
+  Future<List<FiberBlends>> findFiberBlend(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_blends where familyIdfk = ?1',
+        mapper: (Map<String, Object?> row) => FiberBlends(
+            blnId: row['blnId'] as int?,
+            blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnNature: row['blnNature'] as String?,
+            blnName: row['blnName'] as String?,
+            blnAbrv: row['blnAbrv'] as String?,
+            minMax: row['minMax'] as String?,
+            blnRatioJson: row['blnRatioJson'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<FiberBlends>> findFiberBlendWithNature(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fiber_blends where nature_id = ?1',
+        mapper: (Map<String, Object?> row) => FiberBlends(
+            blnId: row['blnId'] as int?,
+            blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
+            familyIdfk: row['familyIdfk'] as String?,
+            blnNature: row['blnNature'] as String?,
+            blnName: row['blnName'] as String?,
+            blnAbrv: row['blnAbrv'] as String?,
+            minMax: row['minMax'] as String?,
+            blnRatioJson: row['blnRatioJson'] as String?,
+            iconSelected: row['iconSelected'] as String?,
+            iconUnselected: row['iconUnselected'] as String?,
+            blnIsActive: row['blnIsActive'] as String?,
+            blnSortid: row['blnSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from fiber_blends');
+  }
+
+  @override
+  Future<List<int>> insertAllFiberBlends(List<FiberBlends> fiberMaterials) {
+    return _fiberBlendsInsertionAdapter.insertListAndReturnIds(
         fiberMaterials, OnConflictStrategy.replace);
   }
 }

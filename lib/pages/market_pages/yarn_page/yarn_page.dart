@@ -34,7 +34,7 @@ class YarnPageState extends State<YarnPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
   }

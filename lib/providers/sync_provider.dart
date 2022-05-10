@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
@@ -10,12 +9,12 @@ import '../helper_utils/app_constants.dart';
 import '../helper_utils/shared_pref_util.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 
-class SyncProvider extends ChangeNotifier{
+class SyncProvider extends ChangeNotifier {
 
   bool isDataSynced = false;
   bool loading = false;
 
-  syncAppData() async{
+  syncAppData() async {
     loading = true;
     isDataSynced = await _synData();
     loading = false;
@@ -27,55 +26,60 @@ class SyncProvider extends ChangeNotifier{
 
     if (!dataSynced) {
       await Future.wait([
-        ApiService.syncFiber().then((syncFiberResponse) {
+        ApiService.syncFiber(SyncRequestModel(categoryId: '1')).then((
+            syncFiberResponse) {
           if (syncFiberResponse.status) {
-            AppDbInstance.getDbInstance().then((value) async {
+            AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
-                value.fiberMaterialDao.insertAllFiberMaterials(
-                    syncFiberResponse.data.fiber.material),
+              value.fiberBlendsDao.insertAllFiberBlends(syncFiberResponse.data.fiber.fiberBlends),
 
-                value.fiberSettingDao.insertAllFiberSettings(
-                    syncFiberResponse.data.fiber.settings),
-                value.gradesDao
-                    .insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.fiberNatureDao.insertAllFiberNatures(
-                    syncFiberResponse.data.fiber.natures),
+              value.fiberSettingDao.insertAllFiberSettings(
+              syncFiberResponse.data.fiber.settings),
+              value.gradesDao
+                  .insertAllGrades(syncFiberResponse.data.fiber.grades),
+              value.fiberFamilyDao.insertAllFiberNatures(
+              syncFiberResponse.data.fiber.fiberFamily),
 
-                //insert Common objects for fiber
-                value.gradesDao
-                    .insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.brandsDao
-                    .insertAllBrands(syncFiberResponse.data.fiber.brands),
-                value.certificationDao.insertAllCertification(
-                    syncFiberResponse.data.fiber.certification),
-                value.cityStateDao
-                    .insertAllCityState(syncFiberResponse.data.fiber.cityState),
-                value.companiesDao
-                    .insertAllCompanies(syncFiberResponse.data.fiber.companies),
-                value.countriesDao
-                    .insertAllCountry(syncFiberResponse.data.fiber.countries),
-                value.deliveryPeriodDao.insertAllDeliveryPeriods(
-                    syncFiberResponse.data.fiber.deliveryPeriod),
-                value.lcTypeDao
-                    .insertAllLcType(syncFiberResponse.data.fiber.lcType),
-                value.paymentTypeDao.insertAllPaymentType(
-                    syncFiberResponse.data.fiber.paymentType),
-                value.portsDao
-                    .insertAllPorts(syncFiberResponse.data.fiber.ports),
-                value.priceTermsDao.insertAllFPriceTerms(
-                    syncFiberResponse.data.fiber.priceTerms),
-                value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
-                value.fiberAppearanceDoa.insertAllFiberAppearance(
-                    syncFiberResponse.data.fiber.apperance),
-                value.packingDao
-                    .insertAllPacking(syncFiberResponse.data.fiber.packing)
-              ]);
+              //insert Common objects for fiber
+              value.gradesDao
+                  .insertAllGrades(syncFiberResponse.data.fiber.grades),
+              value.brandsDao
+                  .insertAllBrands(syncFiberResponse.data.fiber.brands),
+              value.certificationDao.insertAllCertification(
+              syncFiberResponse.data.fiber.certification),
+              value.cityStateDao
+                  .insertAllCityState(syncFiberResponse.data.fiber.cityState),
+              value.companiesDao
+                  .insertAllCompanies(syncFiberResponse.data.fiber.companies),
+              value.countriesDao
+                  .insertAllCountry(syncFiberResponse.data.fiber.countries),
+              value.deliveryPeriodDao.insertAllDeliveryPeriods(
+              syncFiberResponse.data.fiber.deliveryPeriod),
+              value.lcTypeDao
+                  .insertAllLcType(syncFiberResponse.data.fiber.lcType),
+              value.paymentTypeDao.insertAllPaymentType(
+              syncFiberResponse.data.fiber.paymentType),
+              value.portsDao
+                  .insertAllPorts(syncFiberResponse.data.fiber.ports),
+              value.priceTermsDao.insertAllFPriceTerms(
+              syncFiberResponse.data.fiber.priceTerms),
+              value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
+              value.fiberAppearanceDoa.insertAllFiberAppearance(
+              syncFiberResponse.data.fiber.apperance),
+              value.packingDao
+                  .insertAllPacking(syncFiberResponse.data.fiber
+              .
+              packing
+              )
+              ]
+              );
             });
           }
         }),
-        ApiService.syncYarn().then((syncYarnResponse) {
+        ApiService.syncYarn(SyncRequestModel(categoryId: '2')).then((
+            syncYarnResponse) {
           if (syncYarnResponse.status!) {
-            AppDbInstance.getDbInstance().then((value) async {
+            AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
                 //Yarn
                 value.yarnSettingsDao
@@ -143,40 +147,65 @@ class SyncProvider extends ChangeNotifier{
             });
           }
         }),
-        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((StockLotSyncResponse response) {
-          if (response.status!){
-            Logger().e("Sync got successfully : "+response.toJson().toString());
-            AppDbInstance.getDbInstance().then((value) async {
+        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((
+            StockLotSyncResponse response) {
+          if (response.status!) {
+            Logger().e(
+                "Sync got successfully : " + response.toJson().toString());
+            AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
-                value.stocklotCategoriesDao.insertAllStocklotCategories(response.data!.stocklot!.stocklotCategories!),
-                if(response.data!.stocklot!.stocklots != null) value.stocklotDao.insertAllStocklots(response.data!.stocklot!.stocklots!),
-                value.availabilityDao.insertAllAvailability(response.data!.stocklot!.availabilityList!),
-                value.priceTermsDao.insertAllFPriceTerms(response.data!.stocklot!.priceTerms!),
-                value.lcTypeDao.insertAllLcType(response.data!.stocklot!.lcTypes!),
-                value.paymentTypeDao.insertAllPaymentType(response.data!.stocklot!.paymentTypes!)
+                value.stocklotCategoriesDao.insertAllStocklotCategories(
+                    response.data!.stocklot!.stocklotCategories!),
+                if(response.data!.stocklot!.stocklots != null) value.stocklotDao
+                    .insertAllStocklots(response.data!.stocklot!.stocklots!),
+                value.availabilityDao.insertAllAvailability(
+                    response.data!.stocklot!.availabilityList!),
+                value.priceTermsDao.insertAllFPriceTerms(
+                    response.data!.stocklot!.priceTerms!),
+                value.lcTypeDao.insertAllLcType(
+                    response.data!.stocklot!.lcTypes!),
+                value.paymentTypeDao.insertAllPaymentType(
+                    response.data!.stocklot!.paymentTypes!)
               ]);
             });
           }
         }),
-        ApiService.syncFabricCall(SyncRequestModel(categoryId: '3')).then((FabricSyncResponse response) {
-          if (response.status!){
-            Logger().e("Fabric Sync got successfully : "+response.toJson().toString());
-            AppDbInstance.getDbInstance().then((value) async {
+        ApiService.syncFabricCall(SyncRequestModel(categoryId: '3')).then((
+            FabricSyncResponse response) {
+          if (response.status!) {
+            Logger().e("Fabric Sync got successfully : " +
+                response.toJson().toString());
+            AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
-                value.fabricSettingDao.insertAllFabricSettings(response.data!.fabric!.setting!),
-                value.fabricFamilyDao.insertAllFabricFamily(response.data!.fabric!.family!),
-                value.fabricBlendsDao.insertAllFabricBlends(response.data!.fabric!.blends!),
-                value.fabricAppearanceDao.insertAllFabricAppearance(response.data!.fabric!.appearance!),
-                value.knittingTypesDao.insertAllKnittingTypes(response.data!.fabric!.knittingTypes!),
-                value.fabricPlyDao.insertAllFabricPly(response.data!.fabric!.ply!),
-                value.fabricColorTreatmentMethodDao.insertAllFabricFiberColorTreatmentMethod(response.data!.fabric!.colorTreatmentMethod!),
-                value.fabricDyingTechniqueDao.insertAllFabricDyingTechnique(response.data!.fabric!.dyingTechniques!),
-                value.fabricQualityDao.insertAllFabricQuality(response.data!.fabric!.quality!),
-                value.fabricGradesDao.insertAllFabricGrade(response.data!.fabric!.grades!),
-                value.fabricLoomDao.insertAllFabricLoom(response.data!.fabric!.loom!),
-                value.fabricSalvedgeDao.insertAllFabricSalvedge(response.data!.fabric!.salvedge!),
-                value.fabricWeaveDao.insertAllFabricWeave(response.data!.fabric!.weave!),
-                value.fabricLayyerDao.insertAllFabricLayyer(response.data!.fabric!.layyer!)
+                value.fabricSettingDao.insertAllFabricSettings(
+                    response.data!.fabric!.setting!),
+                value.fabricFamilyDao.insertAllFabricFamily(
+                    response.data!.fabric!.family!),
+                value.fabricBlendsDao.insertAllFabricBlends(
+                    response.data!.fabric!.blends!),
+                value.fabricAppearanceDao.insertAllFabricAppearance(
+                    response.data!.fabric!.appearance!),
+                value.knittingTypesDao.insertAllKnittingTypes(
+                    response.data!.fabric!.knittingTypes!),
+                value.fabricPlyDao.insertAllFabricPly(
+                    response.data!.fabric!.ply!),
+                value.fabricColorTreatmentMethodDao
+                    .insertAllFabricFiberColorTreatmentMethod(
+                    response.data!.fabric!.colorTreatmentMethod!),
+                value.fabricDyingTechniqueDao.insertAllFabricDyingTechnique(
+                    response.data!.fabric!.dyingTechniques!),
+                value.fabricQualityDao.insertAllFabricQuality(
+                    response.data!.fabric!.quality!),
+                value.fabricGradesDao.insertAllFabricGrade(
+                    response.data!.fabric!.grades!),
+                value.fabricLoomDao.insertAllFabricLoom(
+                    response.data!.fabric!.loom!),
+                value.fabricSalvedgeDao.insertAllFabricSalvedge(
+                    response.data!.fabric!.salvedge!),
+                value.fabricWeaveDao.insertAllFabricWeave(
+                    response.data!.fabric!.weave!),
+                value.fabricLayyerDao.insertAllFabricLayyer(
+                    response.data!.fabric!.layyer!)
               ]);
             });
           }
@@ -185,7 +214,7 @@ class SyncProvider extends ChangeNotifier{
       SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, true);
     }
 
-    /*  AppDbInstance.getDbInstance().then((value) async {
+    /*  AppDbInstance().getDbInstance().then((value) async {
 
       await Future.wait([
         value.fiberMaterialDao

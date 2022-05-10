@@ -35,7 +35,7 @@ class _BlendFamilyState extends State<BlendFamily> {
   GlobalKey<SingleSelectTileRenewedWidgetState>();
 
   _getYarnDataFromDb() {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       await value.yarnFamilyDao.findAllYarnFamily().then((value) {
         setState(() {
           _yarnFamily = value;
@@ -83,7 +83,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                           queryFamilySettings(value.famId!);
                           widget.yarnFamilyCallback(value);
                         },
-                      ),*/CatWithImageListWidget(
+                      ),*/BlendsWithImageListWidget(
                         selectedItem: -1,
                         listItem: _yarnFamily,
                         onClickCallback: (value) {
@@ -149,7 +149,7 @@ class _BlendFamilyState extends State<BlendFamily> {
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           selectedFamilyId = id;

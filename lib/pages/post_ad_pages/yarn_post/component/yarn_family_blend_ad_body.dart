@@ -39,8 +39,8 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
   final GlobalKey<FamilyTileWidgetState> _familyTileKey =
   GlobalKey<FamilyTileWidgetState>();
-  final GlobalKey<CatWithImageListWidgetState> _blendTileKey =
-  GlobalKey<CatWithImageListWidgetState>();
+  final GlobalKey<BlendsWithImageListWidgetState> _blendTileKey =
+  GlobalKey<BlendsWithImageListWidgetState>();
 
   late CreateRequestModel _createRequestModel;
   YarnSetting _yarnSetting = YarnSetting();
@@ -50,15 +50,15 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   final _yarnPostProvider = locator<PostYarnProvider>();
 
   _getSyncedData() async {
-    await AppDbInstance.getYarnFamilyData().then((value) =>
+    await AppDbInstance().getYarnFamilyData().then((value) =>
         setState(() {
           _familyList = value;
           selectedFamilyId =
               value.first.famId.toString();
         }));
-    await AppDbInstance.getYarnBlendData()
+    await AppDbInstance().getYarnBlendData()
         .then((value) =>  _yarnPostProvider.setBlendList = value);
-    await AppDbInstance.getYarnSettings().then((value) {
+    await AppDbInstance().getYarnSettings().then((value) {
       setState(() {
         _yarnSetting = value.first;
       });
@@ -192,7 +192,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           if (value.isNotEmpty) {

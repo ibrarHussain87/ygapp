@@ -27,8 +27,8 @@ class _MyProductPageState extends State<MyProductPage>
     // 'Stock Lot'
   ];
   TabController? tabController;
-  List<FiberNature> fiberNatureList = [];
-  List<FiberMaterial> fiberMaterialList = [];
+  List<FiberFamily> fiberNatureList = [];
+  List<FiberBlends> fiberMaterialList = [];
   List<Blends> yarnBlendsList = [];
   List<Family> yarnFamilyList = [];
   final GlobalKey<YarnProductPageState> yarnProductPageState =

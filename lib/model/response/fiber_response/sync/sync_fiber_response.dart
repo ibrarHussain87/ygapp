@@ -65,8 +65,8 @@ class FiberSyncData {
 class FiberModel {
   FiberModel({
     required this.categories,
-    required this.natures,
-    required this.material,
+    required this.fiberFamily,
+    required this.fiberBlends,
     required this.apperance,
     required this.brands,
     required this.countries,
@@ -80,8 +80,8 @@ class FiberModel {
   });
 
   late final List<FiberCategories> categories;
-  late final List<FiberNature> natures;
-  late final List<FiberMaterial> material;
+  late final List<FiberFamily> fiberFamily;
+  late final List<FiberBlends> fiberBlends;
   late final List<FiberAppearance> apperance;
   late final List<Countries> countries;
   late final List<Certification> certification;
@@ -103,11 +103,10 @@ class FiberModel {
     categories = List.from(json['categories'])
         .map((e) => FiberCategories.fromJson(e))
         .toList();
-    natures = List.from(json['nature'])
-        .map((e) => FiberNature.fromJson(e))
-        .toList();
-    material = List.from(json['material'])
-        .map((e) => FiberMaterial.fromJson(e))
+    fiberFamily =
+        List.from(json['family']).map((e) => FiberFamily.fromJson(e)).toList();
+    fiberBlends = List.from(json['blends'])
+        .map((e) => FiberBlends.fromJson(e))
         .toList();
     apperance = List.from(json['apperance'])
         .map((e) => FiberAppearance.fromJson(e))
@@ -142,7 +141,7 @@ class FiberModel {
         List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
     packing =
         List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
-    settings = List.from(json['settings'])
+    settings = List.from(json['setting'])
         .map((e) => FiberSettings.fromJson(e))
         .toList();
   }
@@ -150,7 +149,7 @@ class FiberModel {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['categories'] = categories.map((e) => e.toJson()).toList();
-    _data['material'] = material.map((e) => e.toJson()).toList();
+    _data['material'] = fiberBlends.map((e) => e.toJson()).toList();
     _data['apperance'] = apperance.map((e) => e.toJson()).toList();
     _data['brands'] = brands.map((e) => e.toJson()).toList();
     _data['countries'] = countries.map((e) => e.toJson()).toList();
@@ -209,84 +208,128 @@ class FiberCategories {
   }
 }
 
-@Entity(tableName: 'fiber_natures')
-class FiberNature {
-  FiberNature({
-    required this.id,
-    required this.nature,
+@Entity(tableName: 'fiber_family')
+class FiberFamily {
+  FiberFamily({
+    required this.fiberFamilyId,
+    required this.fiberFamilyCategoryIdFk,
+    required this.fiberFamilyParentId,
+    required this.fiberFamilyName,
+    required this.iconSelected,
+    required this.iconUnselected,
+    required this.fiberFamilyIsActive,
+    required this.fiberFamilySortId,
   });
 
   @PrimaryKey(autoGenerate: false)
-  late final int id;
-  late final String nature;
+  late final int fiberFamilyId;
+  String? fiberFamilyCategoryIdFk;
+  String? fiberFamilyParentId;
+  String? fiberFamilyName;
+  String? iconSelected;
+  String? iconUnselected;
+  String? fiberFamilyIsActive;
+  String? fiberFamilySortId;
 
-
-  FiberNature.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nature = json['nature'];
-
+  FiberFamily.fromJson(Map<String, dynamic> json) {
+    fiberFamilyId = json['fiber_family_id'];
+    fiberFamilyCategoryIdFk = json['fiber_family_category_idfk'];
+    fiberFamilyParentId = json['fiber_family_parent_id'];
+    fiberFamilyName = json['fiber_family_name'];
+    iconSelected = json['icon_selected'];
+    iconUnselected = json['icon_unselected'];
+    fiberFamilyIsActive = json['fiber_family_is_active'];
+    fiberFamilySortId = json['fiber_family_sortid'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['nature'] = nature;
+    _data['fiber_family_id'] = fiberFamilyId;
+    _data['fiber_family_category_idfk'] = fiberFamilyCategoryIdFk;
+    _data['fiber_family_parent_id'] = fiberFamilyParentId;
+    _data['fiber_family_name'] = fiberFamilyName;
+    _data['icon_selected'] = iconSelected;
+    _data['icon_unselected'] = iconUnselected;
+    _data['fiber_family_is_active'] = fiberFamilyIsActive;
+    _data['fiber_family_sortid'] = fiberFamilySortId;
+
     return _data;
   }
 
   @override
   String toString() {
     // TODO: implement toString
-    return nature;
+    return fiberFamilyName??"";
   }
 }
 
-@Entity(tableName: 'fiber_entity')
-class FiberMaterial {
-  FiberMaterial({
-    required this.fbmId,
-    required this.fbmCategoryIdfk,
-    required this.nature_id,
-    required this.fbmName,
-    required this.icon_selected,
-    required this.icon_unselected,
-    required this.fbmIsActive,
-    this.fbmSortid,
-  });
-
+@Entity(tableName: 'fiber_blends')
+class FiberBlends {
   @PrimaryKey(autoGenerate: false)
-  late final int fbmId;
-  String? fbmCategoryIdfk;
-  String? nature_id;
-  String? fbmName;
-  String? icon_selected;
-  String? icon_unselected;
-  String? fbmIsActive;
-  @ignore
-  late final Null fbmSortid;
 
-  FiberMaterial.fromJson(Map<String, dynamic> json) {
-    fbmId = json['fbm_id'];
-    fbmCategoryIdfk = json['fbm_category_idfk'];
-    nature_id = json['nature_id'];
-    fbmName = json['fbm_name'];
-    icon_selected = json['icon_selected'];
-    icon_unselected = json['icon_unselected'];
-    fbmIsActive = json['fbm_is_active'];
-    fbmSortid = null;
+  int? blnId;
+  String? blnCategoryIdfk;
+  String? familyIdfk;
+  String? blnNature;
+  String? blnName;
+  String? blnAbrv;
+  String? minMax;
+  String? blnRatioJson;
+  String? iconSelected;
+  String? iconUnselected;
+  String? blnIsActive;
+  String? blnSortid;
+
+  FiberBlends(
+      {this.blnId,
+        this.blnCategoryIdfk,
+        this.familyIdfk,
+        this.blnNature,
+        this.blnName,
+        this.blnAbrv,
+        this.minMax,
+        this.blnRatioJson,
+        this.iconSelected,
+        this.iconUnselected,
+        this.blnIsActive,
+        this.blnSortid});
+
+  FiberBlends.fromJson(Map<String, dynamic> json) {
+    blnId = json['bln_id'];
+    blnCategoryIdfk = json['bln_category_idfk'];
+    familyIdfk = json['family_idfk'];
+    blnNature = json['bln_nature'];
+    blnName = json['bln_name'];
+    blnAbrv = json['bln_abrv'];
+    minMax = json['min_max'];
+    blnRatioJson = json['bln_ratio_json'];
+    iconSelected = json['icon_selected'];
+    iconUnselected = json['icon_unselected'];
+    blnIsActive = json['bln_is_active'];
+    blnSortid = json['bln_sortid'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['fbm_id'] = fbmId;
-    _data['fbm_category_idfk'] = fbmCategoryIdfk;
-    _data['nature_id'] = nature_id;
-    _data['fbm_name'] = fbmName;
-    _data['icon_selected'] = icon_selected;
-    _data['icon_unselected'] = icon_unselected;
-    _data['fbm_is_active'] = fbmIsActive;
-    _data['fbm_sortid'] = fbmSortid;
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['bln_id'] = this.blnId;
+    data['bln_category_idfk'] = this.blnCategoryIdfk;
+    data['family_idfk'] = this.familyIdfk;
+    data['bln_nature'] = this.blnNature;
+    data['bln_name'] = this.blnName;
+    data['bln_abrv'] = this.blnAbrv;
+    data['min_max'] = this.minMax;
+    data['bln_ratio_json'] = this.blnRatioJson;
+    data['icon_selected'] = this.iconSelected;
+    data['icon_unselected'] = this.iconUnselected;
+    data['bln_is_active'] = this.blnIsActive;
+    data['bln_sortid'] = this.blnSortid;
+    return data;
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return blnAbrv??blnName??"";
   }
 }
 
@@ -380,8 +423,8 @@ class FiberSettings {
     required this.showRatio,
     required this.fbsIsActive,
     this.fbsSortid,
-    required this.catName,
-    required this.matName,
+    // required this.catName,
+    // required this.matName,
   });
 
   @PrimaryKey(autoGenerate: false)
@@ -416,13 +459,13 @@ class FiberSettings {
   late final String fbsIsActive;
   @ignore
   late final Null fbsSortid;
-  late final String catName;
-  late final String matName;
+  // late final String catName;
+  // late final String matName;
 
   FiberSettings.fromJson(Map<String, dynamic> json) {
     fbsId = json['fbs_id'];
     fbsCategoryIdfk = json['fbs_category_idfk'];
-    fbsFiberMaterialIdfk = json['fbs_fiber_material_idfk'];
+    fbsFiberMaterialIdfk = json['fbs_fiber_family_idfk'];
     showLength = json['show_length'];
     lengthMinMax = json['length_min_max'];
     showGrade = json['show_grade'];
@@ -450,8 +493,8 @@ class FiberSettings {
     showRatio = json['show_ratio'];
     fbsIsActive = json['fbs_is_active'];
     fbsSortid = null;
-    catName = json['cat_name'];
-    matName = json['mat_name'];
+    // catName = json['cat_name'];
+    // matName = json['mat_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -486,8 +529,8 @@ class FiberSettings {
     _data['show_ratio'] = showRatio;
     _data['fbs_is_active'] = fbsIsActive;
     _data['fbs_sortid'] = fbsSortid;
-    _data['cat_name'] = catName;
-    _data['mat_name'] = matName;
+    // _data['cat_name'] = catName;
+    // _data['mat_name'] = matName;
     return _data;
   }
 }

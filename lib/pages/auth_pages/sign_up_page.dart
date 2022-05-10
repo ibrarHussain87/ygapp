@@ -982,7 +982,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   .showSnackBar(SnackBar(content: Text(error.toString())));
             });
           } else if (value.success!) {
-            AppDbInstance.getDbInstance().then((db) async {
+            AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
             });
             SharedPreferenceUtil.addStringToSF(

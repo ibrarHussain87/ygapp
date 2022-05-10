@@ -9,10 +9,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_nature_material_component.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_nature_material_component.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
 
 import '../../../Providers/post_fabric_provider.dart';
 import 'component/fabric_steps_segments.dart';
