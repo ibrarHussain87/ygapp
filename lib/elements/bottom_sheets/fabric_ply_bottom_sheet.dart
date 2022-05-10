@@ -33,6 +33,7 @@ fabricPlySheet(
     )
 {
 
+  String? selectedPlyId;
 
   showModalBottomSheet<int>(
     isScrollControlled: true,
@@ -130,9 +131,9 @@ fabricPlySheet(
                                         element.fabricFamilyIdfk == familyId)
                                             .toList(),
                                         callback: (FabricPly value) {
-                                          _createRequestModel.fs_ply_idfk =
-                                              value.fabricPlyId.toString();
-
+                                          /*_createRequestModel.fs_ply_idfk =
+                                              value.fabricPlyId.toString();*/
+                                          selectedPlyId = value.fabricPlyId.toString();
                                         },
                                       ),
                                     ],
@@ -231,8 +232,9 @@ fabricPlySheet(
                                             side: BorderSide(
                                                 color: Colors.transparent)))),
                                 onPressed: () {
-                                  if (validationAllPage(_createRequestModel,_fabricSettings,contextBuilder)) {
+                                  if (validationAllPage(_createRequestModel,_fabricSettings,contextBuilder,selectedPlyId)) {
                                     //showDoublingMethod.dispose();
+                                    _createRequestModel.fs_ply_idfk = selectedPlyId;
                                     Navigator.of(context).pop();
                                   }
                                 });
@@ -259,9 +261,9 @@ bool validateAndSavePly() {
   return false;
 }
 
-bool validationAllPage(FabricCreateRequestModel createRequestModel, FabricSetting fabricSetting, BuildContext context) {
+bool validationAllPage(FabricCreateRequestModel createRequestModel, FabricSetting fabricSetting, BuildContext context, String? selectedPlyId) {
   if (validateAndSavePly()) {
-    if (createRequestModel.fs_ply_idfk == null &&
+    if ((selectedPlyId == null || selectedPlyId == '') &&
         Ui.showHide(fabricSetting.showPly)) {
       Fluttertoast.showToast(msg: 'Please Select Ply');
       return false;
