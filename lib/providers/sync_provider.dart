@@ -23,7 +23,7 @@ class SyncProvider extends ChangeNotifier {
 
   Future<bool> _synData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
-
+    Logger().e(dataSynced.toString());
     if (!dataSynced) {
       await Future.wait([
         ApiService.syncFiber(SyncRequestModel(categoryId: '1')).then((
