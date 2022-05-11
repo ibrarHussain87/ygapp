@@ -15,11 +15,10 @@ class BlendFamily extends StatefulWidget {
   final Function yarnFamilyCallback;
   final Function blendCallback;
 
-  const BlendFamily(
-      {Key? key,
-      // required this.yarnSyncResponse,
-      required this.yarnFamilyCallback,
-      required this.blendCallback})
+  const BlendFamily({Key? key,
+    // required this.yarnSyncResponse,
+    required this.yarnFamilyCallback,
+    required this.blendCallback})
       : super(key: key);
 
   @override
@@ -48,7 +47,10 @@ class _BlendFamilyState extends State<BlendFamily> {
       });
       await value.yarnSettingsDao
           .findFamilyYarnSettings(_yarnFamily!.first.famId!)
-          .then((value) => setState(() => _yarnSetting = value[0]));
+          .then((value) =>
+          setState(() {
+            _yarnSetting = value[0];
+          }));
     });
   }
 
@@ -64,19 +66,22 @@ class _BlendFamilyState extends State<BlendFamily> {
   Widget build(BuildContext context) {
     return (_yarnSetting != null && _yarnFamily != null && _yarnBlends != null)
         ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 8.w, right: 8.w),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Visibility(
-                        visible: false,
-                        child: TitleTextWidget(title: yarnCategory)),
-                    SizedBox(
-                      height: 0.055 * MediaQuery.of(context).size.height,
-                      child: /*FamilyTileWidget(
+              Visibility(
+                  visible: false,
+                  child: TitleTextWidget(title: yarnCategory)),
+              SizedBox(
+                height: 0.055 * MediaQuery
+                    .of(context)
+                    .size
+                    .height,
+                child: /*FamilyTileWidget(
                         selectedIndex: -1,
                         listItems: _yarnFamily,
                         callback: (Family value) {
@@ -84,31 +89,32 @@ class _BlendFamilyState extends State<BlendFamily> {
                           widget.yarnFamilyCallback(value);
                         },
                       ),*/BlendsWithImageListWidget(
-                        selectedItem: -1,
-                        listItem: _yarnFamily,
-                        onClickCallback: (value) {
-                          var item = _yarnFamily![value];
-                          queryFamilySettings(item.famId!);
-                          widget.yarnFamilyCallback(item);
-                          if(_blendKey.currentState!= null) _blendKey.currentState!.checkedTile = -1;
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8.w,
-                    ),
-                  ],
+                  selectedItem: -1,
+                  listItem: _yarnFamily,
+                  onClickCallback: (value) {
+                    var item = _yarnFamily![value];
+                    queryFamilySettings(item.famId!);
+                    widget.yarnFamilyCallback(item);
+                    if (_blendKey.currentState != null)
+                      _blendKey.currentState!.checkedTile = -1;
+                  },
                 ),
               ),
-              Visibility(
-                visible: false,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                    child: TitleTextWidget(title: blend)),
+              SizedBox(
+                height: 8.w,
               ),
-              Visibility(
-                visible: Ui.showHide(_yarnSetting!.showBlend),
-                child: /*CatWithImageListWidget(
+            ],
+          ),
+        ),
+        Visibility(
+          visible: false,
+          child: Padding(
+              padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
+              child: TitleTextWidget(title: blend)),
+        ),
+        Visibility(
+          visible: Ui.showHide(_yarnSetting!.showBlend),
+          child: /*CatWithImageListWidget(
                   selectedItem: -1,
                   listItem: _yarnBlends!
                       .where((element) =>
@@ -124,27 +130,30 @@ class _BlendFamilyState extends State<BlendFamily> {
                         selectedFamilyId);
                   },
                 ),*/
-                SizedBox(
-                  height: MediaQuery.of(context).size.height*0.05,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5,bottom: 5,left: 8),
-                    child: SingleSelectTileRenewedWidget(
-                      key: _blendKey,
-                      selectedIndex: -1,
-                      spanCount: 2,
-                      listOfItems: _yarnBlends!
-                          .where((element) =>
-                      element.familyIdfk == selectedFamilyId.toString())
-                          .toList(),
-                      callback: (value) {
-                        widget.blendCallback(value, selectedFamilyId);
-                      },
-                    ),
-                  ),
-                ),
+          SizedBox(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.05,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
+              child: SingleSelectTileRenewedWidget(
+                key: _blendKey,
+                selectedIndex: -1,
+                spanCount: 2,
+                listOfItems: _yarnBlends!
+                    .where((element) =>
+                element.familyIdfk == selectedFamilyId.toString())
+                    .toList(),
+                callback: (value) {
+                  widget.blendCallback(value, selectedFamilyId);
+                },
               ),
-            ],
-          )
+            ),
+          ),
+        ),
+      ],
+    )
         : Container();
   }
 

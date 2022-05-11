@@ -1061,7 +1061,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
     if (validationAllPage()) {
       _postFiberProvider.createRequestModel.spc_category_idfk = "1";
 
-      _postFiberProvider.createRequestModel.spc_fiber_material_idfk =
+      _postFiberProvider.createRequestModel.spc_fiber_family_idfk =
           _postFiberProvider.selectedBlendId.toString();
       // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       //
@@ -1155,7 +1155,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
     _postFiberProvider.createRequestModel.spc_moisture_idfk = null;
     _postFiberProvider.createRequestModel.spc_production_year = null;
     _postFiberProvider.createRequestModel.spc_nature_idfk = null;
-    _postFiberProvider.createRequestModel.spc_fiber_material_idfk = null;
+    _postFiberProvider.createRequestModel.spc_fiber_family_idfk = null;
     _postFiberProvider.createRequestModel.spc_origin_idfk = null;
     _textEditingController.text = "";
   }

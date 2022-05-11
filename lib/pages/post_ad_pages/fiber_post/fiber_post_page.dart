@@ -84,7 +84,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                           // key: _catWithImageListState,
                           listItem: _fiberPostProvider.fiberBlendsList,
                           onClickCallback: (index) {
-                            _fiberPostProvider.createRequestModel.spc_fiber_material_idfk =
+                            _fiberPostProvider.createRequestModel.spc_fiber_family_idfk =
                                 _fiberPostProvider.fiberBlendsList[index].blnId.toString();
                             _fiberPostProvider.fiberSettingSelectedBlend();
                           },
