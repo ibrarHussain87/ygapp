@@ -35,15 +35,27 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
 
   final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
   String? _selectedPlyId;
+  String? _selectedDoublingMethodId;
+  String? _selectedOrientationId;
+
 
   if(_createRequestModel!.ys_ply_idfk != null){
+    _selectedPlyId = _createRequestModel.ys_ply_idfk;
     if (!_plyIdList.contains(int.parse(_createRequestModel.ys_ply_idfk!))) {
       showDoublingMethod.value = true;
-      _selectedPlyId = _createRequestModel.ys_ply_idfk;
+      /*_selectedPlyId = _createRequestModel.ys_ply_idfk;*/
     } else {
       showDoublingMethod.value = false;
       _createRequestModel.ys_doubling_method_idFk = null;
     }
+  }
+
+  if(_createRequestModel.ys_doubling_method_idFk !=null){
+    _selectedDoublingMethodId = _createRequestModel.ys_doubling_method_idFk;
+  }
+
+  if(_createRequestModel.ys_orientation_idfk !=null){
+    _selectedOrientationId = _createRequestModel.ys_orientation_idfk;
   }
 
   showModalBottomSheet<int>(
@@ -200,11 +212,12 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                         element.familyId == _selectedFamilyId)
                                             .toList(),
                                         callback: (Ply value) {
-                                          _createRequestModel.ys_ply_idfk =
-                                              value.plyId.toString();
+                                          /*_createRequestModel.ys_ply_idfk =
+                                              value.plyId.toString();*/
+                                          _selectedPlyId = value.plyId.toString();
                                           if (!_plyIdList.contains(value.plyId)) {
                                               showDoublingMethod.value = true;
-                                              _selectedPlyId = value.plyId.toString();
+                                              /*_selectedPlyId = value.plyId.toString();*/
                                           } else {
                                               showDoublingMethod.value = false;
                                               _createRequestModel.ys_doubling_method_idFk = null;
@@ -241,8 +254,9 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                             listOfItems: _doublingMethodList.where((element) => element.plyId == _selectedPlyId)
                                                 .toList(),
                                             callback: (DoublingMethod value) {
-                                              _createRequestModel.ys_doubling_method_idFk =
-                                                  value.dmId.toString();
+                                              /*_createRequestModel.ys_doubling_method_idFk =
+                                                  value.dmId.toString();*/
+                                              _selectedDoublingMethodId = value.dmId.toString();
                                             },
                                           ),
                                         ],
@@ -273,8 +287,9 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                         element.familyId == _selectedFamilyId)
                                             .toList(),
                                         callback: (OrientationTable value) {
-                                          _createRequestModel.ys_orientation_idfk =
-                                              value.yoId.toString();
+                                          /*_createRequestModel.ys_orientation_idfk =
+                                              value.yoId.toString();*/
+                                          _selectedOrientationId = value.yoId.toString();
                                         },
                                       ),
                                     ],
@@ -308,8 +323,12 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                             side: BorderSide(
                                                 color: Colors.transparent)))),
                                 onPressed: () {
-                                  if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,showDoublingMethod.value)) {
+                                  if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,
+                                      showDoublingMethod.value,_selectedPlyId,_selectedDoublingMethodId,_selectedOrientationId)) {
                                     //showDoublingMethod.dispose();
+                                    _createRequestModel.ys_ply_idfk = _selectedPlyId;
+                                    _createRequestModel.ys_doubling_method_idFk = _selectedDoublingMethodId;
+                                    _createRequestModel.ys_orientation_idfk = _selectedOrientationId;
                                     callback.call();
                                     Navigator.of(context).pop();
                                   }
@@ -337,20 +356,21 @@ bool validateAndSavePly() {
   return false;
 }
 
-bool validationAllPage(CreateRequestModel createRequestModel, YarnSetting yarnSetting, BuildContext context, bool _showDoublingMethod) {
+bool validationAllPage(CreateRequestModel createRequestModel, YarnSetting yarnSetting, BuildContext context,
+    bool _showDoublingMethod, String? selectedPlyId, String? selectedDoublingMethodId, String? selectedOrientationId) {
   if (validateAndSavePly()) {
-    if (createRequestModel.ys_ply_idfk == null &&
+    if ((selectedPlyId == null || selectedPlyId == '') &&
         Ui.showHide(yarnSetting.showPly)) {
       Fluttertoast.showToast(msg: 'Please Select Ply');
     //  Ui.showSnackBar(context, 'Please Select Ply');
       return false;
-    } else if (createRequestModel.ys_doubling_method_idFk == null &&
+    } else if ((selectedDoublingMethodId == null || selectedDoublingMethodId == '') &&
         _showDoublingMethod &&
         Ui.showHide(yarnSetting.showDoublingMethod)) {
       Fluttertoast.showToast(msg: 'Please Select Doubling Method');
     //  Ui.showSnackBar(context, 'Please Select Doubling Method');
       return false;
-    } else if (createRequestModel.ys_orientation_idfk == null &&
+    } else if ((selectedOrientationId == null || selectedOrientationId == '') &&
         Ui.showHide(yarnSetting.showOrientation)) {
       Fluttertoast.showToast(msg: 'Please Select Orientation');
     //  Ui.showSnackBar(context, 'Please Select Orientation');
