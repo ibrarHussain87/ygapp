@@ -3,8 +3,8 @@ class GetStockLotSpecRequestModel {
   String? categoryId;
   String? isOffering;
   String? localInternational;
-  String? stocklotCategoryId;
-  String? stocklotSubCategoryId;
+  String? stocklotFamilyId;
+  // String? stocklotSubCategoryId;
   String? priceTermId;
   String? avalibilityId;
 
@@ -12,8 +12,8 @@ class GetStockLotSpecRequestModel {
       {this.spcUserIdfk,
       this.categoryId,
       this.isOffering,
-      this.stocklotCategoryId,
-      this.stocklotSubCategoryId,
+      this.stocklotFamilyId,
+      // this.stocklotSubCategoryId,
       this.localInternational,
       this.priceTermId,
       this.avalibilityId});
@@ -24,8 +24,8 @@ class GetStockLotSpecRequestModel {
       'category_id': categoryId!.trim(),
       'is_offering': isOffering!.trim(),
       'locality': localInternational!.trim(),
-      'stocklot_category_id': stocklotCategoryId,
-      'stocklot_sub_category_id': stocklotSubCategoryId,
+      'stocklot_family_idfk': stocklotFamilyId,
+      // 'stocklot_sub_category_id': stocklotSubCategoryId,
       'price_term_id': priceTermId,
       'avability_id': avalibilityId,
     };

@@ -82,7 +82,7 @@ class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
       name = fabricFamily.fabricFamilyName ?? 'n/a';
       castingCheckPos = 4;
     }else{
-      name = widget.listItem!.cast<StocklotCategories>()[index].category!;
+      name = widget.listItem!.cast<StockLotFamily>()[index].stocklotFamilyName!;
       castingCheckPos =5;
     }
     return GestureDetector(

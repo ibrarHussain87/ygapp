@@ -223,7 +223,7 @@ class ApiService {
 
   static Future<StockLotSyncResponse> syncCall(SyncRequestModel requestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
       String url = BASE_API_URL + SYNC_END_POINT;

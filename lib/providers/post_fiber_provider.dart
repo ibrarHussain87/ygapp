@@ -17,7 +17,11 @@ class PostFiberProvider extends ChangeNotifier {
   bool isLoading = true;
   bool isSettingLoaded = false;
   late String selectedFamilyId;
-  late String selectedBlendId;
+  String? _selectedBlendId;
+  String get selectedBlendId => _selectedBlendId!;
+  set selectedBlendId(String value){
+    _selectedBlendId = value;
+  }
 
   List<FiberAppearance> fiberAppearanceList= [];
   List<Grades> fiberGradesList = [];
@@ -98,7 +102,7 @@ class PostFiberProvider extends ChangeNotifier {
   fiberSettingSelectedBlend(){
     isLoading = true;
     AppDbInstance().getDbInstance().then((value) async{
-      fiberSettings = (await value.fiberSettingDao.findFiberSettings(int.parse("12")))!;
+      fiberSettings = (await value.fiberSettingDao.findFiberSettings(int.parse(selectedBlendId)))!;
       isLoading = false;
       notifyListeners();
     });

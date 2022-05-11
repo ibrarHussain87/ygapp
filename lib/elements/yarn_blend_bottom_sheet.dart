@@ -18,6 +18,12 @@ blendedSheet(
   List<BlendModel> values = [];
   final _yarnPostProvider = locator<PostYarnProvider>();
 
+  if(_yarnPostProvider.textFieldControllers.isEmpty) {
+    for (var i = 0; i < blends.length; i++) {
+      _yarnPostProvider.textFieldControllers.add(TextEditingController());
+    }
+  }
+
   showModalBottomSheet<int>(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,

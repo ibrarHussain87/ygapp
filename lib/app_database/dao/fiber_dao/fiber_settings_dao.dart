@@ -6,7 +6,7 @@ abstract class FiberSettingDao {
   @Query('SELECT * FROM fiber_setting')
   Future<List<FiberSettings>> findAllFiberSettings();
 
-  @Query('SELECT * FROM fiber_setting where fbsFiberMaterialIdfk = :id')
+  @Query('SELECT * FROM fiber_setting where fbsBlendIdfk = :id')
   Future<FiberSettings?> findFiberSettings(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)  Future<void> insertFiberSetting(FiberSettings fiberSettings);

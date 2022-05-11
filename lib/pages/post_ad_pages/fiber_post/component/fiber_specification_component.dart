@@ -138,7 +138,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                               children: [
 
                                 Visibility(
-                                    visible: int.parse(_postFiberProvider.fiberSettings.showGrade) ==
+                                    visible: int.parse(_postFiberProvider.fiberSettings.showGrade!) ==
                                             1
                                         ? true
                                         : false,
@@ -171,7 +171,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Visibility(
-                                      visible: int.parse(_postFiberProvider.fiberSettings.showLength) ==
+                                      visible: int.parse(_postFiberProvider.fiberSettings.showLength!) ==
                                               1
                                           ? true
                                           : false,
@@ -182,52 +182,11 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              //modified by (asad_m)
-//                                              Padding(
-//                                                  padding: EdgeInsets.only(
-//                                                      left: 8.w),
-//                                                  child: TitleSmallTextWidget(
-//                                                      title: fiberLength)),
-
-
-                                              // TextFormField(
-                                              //     keyboardType:
-                                              //         TextInputType.number,
-                                              //     cursorColor: lightBlueTabs,
-                                              //     style: TextStyle(
-                                              //         fontSize: 11.sp),
-                                              //     textAlign: TextAlign.center,
-                                              //     cursorHeight: 16.w,
-                                              //     inputFormatters: [
-                                              //       NumericalRangeFormatter(
-                                              //           min: StringUtils
-                                              //               .splitMin(snapshot
-                                              //                   .data![0]
-                                              //                   .lengthMinMax),
-                                              //           max: StringUtils
-                                              //               .splitMax(snapshot
-                                              //                   .data![0]
-                                              //                   .lengthMinMax))
-                                              //     ],
-                                              //     onSaved: (input) =>
-                                              //         _postFiberProvider.createRequestModel!
-                                              //                 .spc_fiber_length_idfk =
-                                              //             input!,
-                                              //     validator: (input) {
-                                              //       if (input == null ||
-                                              //           input.isEmpty) {
-                                              //         return fiberLength;
-                                              //       }
-                                              //       return null;
-                                              //     },
-                                              //     decoration:
-                                              //         roundedTextFieldDecoration(
-                                              //             "${_postFiberProvider.fiberSettings.lengthMinMax} mm")),
                                               SizedBox(height:12.w ,),
                                               YgTextFormFieldWithRange(
                                                 label: fiberLength,
                                                   errorText: fiberLength,
-                                                  minMax: _postFiberProvider.fiberSettings.lengthMinMax,
+                                                  minMax: _postFiberProvider.fiberSettings.lengthMinMax??"",
                                                   onSaved: (input) {
                                                     _postFiberProvider.createRequestModel
                                                             .spc_fiber_length_idfk =
@@ -251,7 +210,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                           : 0,
                                     ),
                                     Visibility(
-                                      visible: int.parse(_postFiberProvider.fiberSettings.showMicronaire) ==
+                                      visible: int.parse(_postFiberProvider.fiberSettings.showMicronaire!) ==
                                               1
                                           ? true
                                           : false,
@@ -262,58 +221,16 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-
-                                              //modified by (asad_m)
                                               SizedBox(height:12.w ,),
-//                                              Padding(
-//                                                  padding: EdgeInsets.only(
-//                                                      left: 8.w),
-//                                                  child: TitleSmallTextWidget(
-//                                                      title: micStr)),
-
-
                                               YgTextFormFieldWithRange(
                                                   errorText: micStr,
                                                   label: micStr,
-                                                  minMax: _postFiberProvider.fiberSettings.micMinMax,
+                                                  minMax: _postFiberProvider.fiberSettings.micMinMax??"",
                                                   onSaved: (input) {
                                                     _postFiberProvider.createRequestModel
                                                             .spc_micronaire_idfk =
                                                         input;
                                                   }),
-                                              /* TextFormField(
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  cursorColor: lightBlueTabs,
-                                                  style: TextStyle(
-                                                      fontSize: 11.sp),
-                                                  textAlign: TextAlign.center,
-                                                  cursorHeight: 16.w,
-                                                  inputFormatters: [
-                                                    NumericalRangeFormatter(
-                                                        min: StringUtils
-                                                            .splitMin(snapshot
-                                                                .data![0]
-                                                                .micMinMax),
-                                                        max: StringUtils
-                                                            .splitMax(snapshot
-                                                                .data![0]
-                                                                .micMinMax))
-                                                  ],
-                                                  onSaved: (input) =>
-                                                      _postFiberProvider.createRequestModel!
-                                                              .spc_micronaire_idfk =
-                                                          input!,
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty) {
-                                                      return micStr;
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      roundedTextFieldDecoration(
-                                                          '${_postFiberProvider.fiberSettings.micMinMax} mic')),*/
                                             ],
                                           ),
                                         ),
@@ -343,7 +260,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                               YgTextFormFieldWithRange(
                                                   errorText: moistureStr,
                                                   label: moistureStr,
-                                                  minMax: _postFiberProvider.fiberSettings.moiMinMax,
+                                                  minMax: _postFiberProvider.fiberSettings.moiMinMax??"",
                                                   onSaved: (input) {
                                                     _postFiberProvider.createRequestModel
                                                             .spc_moisture_idfk =
@@ -386,7 +303,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                           ),
                                         ),
                                       ),
-                                      visible: int.parse(_postFiberProvider.fiberSettings.showMoisture) ==
+                                      visible: int.parse(_postFiberProvider.fiberSettings.showMoisture!) ==
                                               1
                                           ? true
                                           : false,
@@ -417,7 +334,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                                 YgTextFormFieldWithRange(
                                                     errorText: trashStr,
                                                     label: trashStr,
-                                                    minMax: _postFiberProvider.fiberSettings.trashMinMax,
+                                                    minMax: _postFiberProvider.fiberSettings.trashMinMax??"",
                                                     onSaved: (input) {
                                                       _postFiberProvider.createRequestModel
                                                               .spc_trash_idfk =
@@ -460,7 +377,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                             ),
                                           ),
                                         ),
-                                        visible: int.parse(_postFiberProvider.fiberSettings.showTrash) ==
+                                        visible: int.parse(_postFiberProvider.fiberSettings.showTrash!) ==
                                                 1
                                             ? true
                                             : false),
@@ -490,7 +407,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                               YgTextFormFieldWithRange(
                                                   errorText: 'RD',
                                                   label: 'RD',
-                                                  minMax: _postFiberProvider.fiberSettings.rdMinMax,
+                                                  minMax: _postFiberProvider.fiberSettings.rdMinMax??"",
                                                   onSaved: (input) {
                                                     _postFiberProvider.createRequestModel
                                                         .spc_rd_idfk = input;
@@ -532,7 +449,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                         ),
                                       ),
                                       visible:
-                                          int.parse(_postFiberProvider.fiberSettings.showRd) ==
+                                          int.parse(_postFiberProvider.fiberSettings.showRd!) ==
                                                   1
                                               ? true
                                               : false,
@@ -563,7 +480,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                               YgTextFormFieldWithRange(
                                                   errorText: "GPT",
                                                   label: 'GPT',
-                                                  minMax: _postFiberProvider.fiberSettings.gptMinMax,
+                                                  minMax: _postFiberProvider.fiberSettings.gptMinMax??"",
                                                   onSaved: (input) {
                                                     _postFiberProvider.createRequestModel
                                                         .spc_gpt_idfk = input;
@@ -573,7 +490,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                         ),
                                       ),
                                       visible: int.parse(
-                                                  _postFiberProvider.fiberSettings.showGpt) ==
+                                                  _postFiberProvider.fiberSettings.showGpt!) ==
                                               1
                                           ? true
                                           : false,
@@ -581,7 +498,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                   ],
                                 ),
                                 Visibility(
-                                  visible: int.parse(_postFiberProvider.fiberSettings.showAppearance) ==
+                                  visible: int.parse(_postFiberProvider.fiberSettings.showAppearance!) ==
                                           1
                                       ? true
                                       : false,
@@ -706,7 +623,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                           ),
                                         ),
                                       ),
-                                      visible: int.parse(_postFiberProvider.fiberSettings.showBrand) ==
+                                      visible: int.parse(_postFiberProvider.fiberSettings.showBrand!) ==
                                               1
                                           ? true
                                           : false,
@@ -983,7 +900,7 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
                                   ),
                                 ),
                                 Visibility(
-                                  visible: int.parse(_postFiberProvider.fiberSettings.showCertification) ==
+                                  visible: int.parse(_postFiberProvider.fiberSettings.showCertification!) ==
                                           1
                                       ? true
                                       : false,
