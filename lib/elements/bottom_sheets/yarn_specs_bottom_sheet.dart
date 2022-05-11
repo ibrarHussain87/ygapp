@@ -310,6 +310,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                 onPressed: () {
                                   if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,showDoublingMethod.value)) {
                                     //showDoublingMethod.dispose();
+                                    callback.call();
                                     Navigator.of(context).pop();
                                   }
                                 });

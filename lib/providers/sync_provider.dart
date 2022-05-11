@@ -15,10 +15,12 @@ class SyncProvider extends ChangeNotifier {
   bool loading = false;
 
   syncAppData() async {
-    loading = true;
-    isDataSynced = await _synData();
-    loading = false;
-    notifyListeners();
+    if(!isDataSynced){
+      loading = true;
+      isDataSynced = await _synData();
+      loading = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> _synData() async {

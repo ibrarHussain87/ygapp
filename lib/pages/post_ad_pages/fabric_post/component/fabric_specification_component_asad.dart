@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,11 +28,13 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import '../../../../Providers/post_fabric_provider.dart';
 import '../../../../elements/bottom_sheets/fabric_ply_bottom_sheet.dart';
 import '../../../../elements/bottom_sheets/warp_bottom_sheet.dart';
+import '../../../../elements/decoration_widgets.dart';
 import '../../../../helper_utils/alert_dialog.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';
 import '../../../../helper_utils/pure_single_tile.dart';
+import '../../../../helper_utils/util.dart';
 import '../../../../model/blend_model.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -46,17 +47,17 @@ class FabricSpecificationComponent extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const FabricSpecificationComponent(
-      {Key? key,
-        // required this.syncFiberResponse,
-        required this.callback,
-        required this.locality,
-        required this.businessArea,
-        required this.selectedTab})
+  const FabricSpecificationComponent({Key? key,
+    // required this.syncFiberResponse,
+    required this.callback,
+    required this.locality,
+    required this.businessArea,
+    required this.selectedTab})
       : super(key: key);
 
   @override
-  FabricSpecificationComponentState createState() => FabricSpecificationComponentState();
+  FabricSpecificationComponentState createState() =>
+      FabricSpecificationComponentState();
 }
 
 class FabricSpecificationComponentState
@@ -64,8 +65,9 @@ class FabricSpecificationComponentState
     with AutomaticKeepAliveClientMixin {
 
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+
   // from key (asad_m)
-    GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   int? _selectedMaterial;
   String? familyId;
@@ -97,7 +99,6 @@ class FabricSpecificationComponentState
   late List<FabricLayyer> _layyerList;
 
 
-
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
   bool _showDyingMethod = false;
@@ -111,58 +112,86 @@ class FabricSpecificationComponentState
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
 
 
-  final GlobalKey<SingleSelectTileWidgetState> _plyKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _knittingTypeKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _qualityKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _gradeKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _certificationKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _weaveKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _loomKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _plyKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _knittingTypeKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<
+      SingleSelectTileWidgetState> _colorTreatmentMethodKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _qualityKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _gradeKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _certificationKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _weaveKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _loomKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<
+      SingleSelectTileWidgetState>();
 
- //Nature Fabric key (asad_m)
-  final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<SingleSelectTileWidgetState>();
+  //Nature Fabric key (asad_m)
+  final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+
   // Nature of fabric List
-  late List<String> _natureFabricList=["Pure","Blended"];
-  List<TextEditingController> textFieldControllers=[];
-  List<FabricBlends> blendValue=[];
-  FabricBlends pureValue=FabricBlends();
+  late List<String> _natureFabricList = ["Pure", "Blended"];
+  List<TextEditingController> textFieldControllers = [];
+  List<FabricBlends> blendValue = [];
+  FabricBlends pureValue = FabricBlends();
   List<PickedFile> imageFiles = [];
+  final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
+  final ValueNotifier<bool> _notifierWarpSheet = ValueNotifier(false);
+  final ValueNotifier<bool> _notifierWeftSheet = ValueNotifier(false);
 
 
+  var checked = false;
 
-  var checked=false;
 //  String pureValue="";
-  String blendString="";
-  List<BlendModel> values=[];
+  String blendString = "";
+  List<BlendModel> values = [];
 
 
-  _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
-    AppDbInstance().getFabricBlendsData().then((value) => setState(() {
-      _fabricBlendsList = value;
-      _selectedMaterial = value
-          .where((element) => element.familyIdfk == postFabricProvider.firstFamilyId.toString())
-          .toList()
-          .first
-          .blnId;
-      postFabricProvider.setBlendId(_selectedMaterial!);
-      familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
-    }));
+  _getFabricSyncedData(PostFabricProvider postFabricProvider) async {
+    AppDbInstance().getFabricBlendsData().then((value) =>
+        setState(() {
+          _fabricBlendsList = value;
+          _selectedMaterial = value
+              .where((element) =>
+          element.familyIdfk == postFabricProvider.firstFamilyId.toString())
+              .toList()
+              .first
+              .blnId;
+          postFabricProvider.setBlendId(_selectedMaterial!);
+          familyId = _fabricBlendsList
+              .where((element) => element.blnId == postFabricProvider.blendId)
+              .first
+              .familyIdfk;
+        }));
     var dbInstance = await AppDbInstance().getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
-    _fabricAppearanceList = await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
+    _fabricAppearanceList =
+    await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
     _fabricGradesList = await dbInstance.fabricGradesDao.findAllFabricGrade();
     _plyList = await dbInstance.fabricPlyDao.findAllFabricPly();
-    _knittingTypeList = await dbInstance.knittingTypesDao.findAllKnittingTypes();
-    _appearanceList = await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
-    _colorTreatmentMethodList = await dbInstance.fabricColorTreatmentMethodDao.findAllFabricColorTreatmentMethod();
+    _knittingTypeList =
+    await dbInstance.knittingTypesDao.findAllKnittingTypes();
+    _appearanceList =
+    await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
+    _colorTreatmentMethodList = await dbInstance.fabricColorTreatmentMethodDao
+        .findAllFabricColorTreatmentMethod();
     _qualityList = await dbInstance.fabricQualityDao.findAllFabricQuality();
     _gradeList = await dbInstance.fabricGradesDao.findAllFabricGrade();
-    _dyingMethodList = await dbInstance.fabricDyingTechniqueDao.findAllFabricDyingTechniques();
+    _dyingMethodList =
+    await dbInstance.fabricDyingTechniqueDao.findAllFabricDyingTechniques();
     _weaveList = await dbInstance.fabricWeaveDao.findAllFabricWeave();
     _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
@@ -178,7 +207,8 @@ class FabricSpecificationComponentState
   }
 
   final ValueNotifier<bool> _notifier = ValueNotifier(false);
-  final ValueNotifier<Color> _notifierColor = ValueNotifier(const Color(0xffffffff));
+  final ValueNotifier<Color> _notifierColor = ValueNotifier(
+      const Color(0xffffffff));
 
   // Pure text notifier (asad_m)
   final ValueNotifier<String> _notifierPureText = ValueNotifier("");
@@ -204,6 +234,9 @@ class FabricSpecificationComponentState
     _notifierBlendText.dispose();
     _notifierPureText.dispose();
     _notifierColor.dispose();
+    _notifierPlySheet.dispose();
+    _notifierWarpSheet.dispose();
+    _notifierWeftSheet.dispose();
     super.dispose();
   }
 
@@ -211,21 +244,24 @@ class FabricSpecificationComponentState
   Widget build(BuildContext context) {
     super.build(context);
     postFabricProvider = Provider.of<PostFabricProvider>(context);
-    if(postFabricProvider.blendId != null){
+    if (postFabricProvider.blendId != null) {
       _selectedMaterial = postFabricProvider.blendId;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
-    }else{
+      familyId = _fabricBlendsList
+          .where((element) => element.blnId == postFabricProvider.blendId)
+          .first
+          .familyIdfk;
+    } else {
       _selectedMaterial = null;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID/*Microfiber*/;
+      familyId = FABRIC_MIRCOFIBER_ID /*Microfiber*/;
     }
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          if (snapshot.data!= null) {
+          if (snapshot.data != null) {
             if (snapshot.data!.isNotEmpty) {
               _resetData();
               ApiService.logger.e(_createRequestModel!.toJson());
@@ -271,40 +307,88 @@ class FabricSpecificationComponentState
                                 const SizedBox(height: 4,),
                                 //Show Ratio
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showRatio),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showRatio),
                                   child: Column(
                                     children: [
                                       // Modified by (asad_m)
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: TitleSmallTextWidget(title: ratio + '*')),
-                                      SizedBox(height:12.w ,),
+                                      SizedBox(height: 12.w,),
                                       YgTextFormFieldWithoutRange(
                                           errorText: ratio,
                                           label: ratio,
                                           onSaved: (input) {
-                                            _createRequestModel!.fs_ratio = input;
+                                            _createRequestModel!.fs_ratio =
+                                                input;
                                           })
                                     ],
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                   ),
                                 ),
                                 // show bottom sheet
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showPly) || Ui.showHide(_fabricSettings!.showGsm),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showPly) ||
+                                      Ui.showHide(_fabricSettings!.showGsm),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        fabricPlySheet(context, _fabricSettings,
+                                            _createRequestModel, () {
+                                              _notifierPlySheet.value =
+                                              !_notifierPlySheet.value;
+                                            }, _plyList, familyId!);
+                                      },
+                                      child: ValueListenableBuilder(
+                                        valueListenable: _notifierPlySheet,
+                                        builder: (context, bool value, child){
+                                          return TextFormField(
+                                              key: Key(getPlyList(
+                                                  _createRequestModel!).toString()),
+                                              initialValue: getPlyList(
+                                                  _createRequestModel!) ??
+                                                  '',
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.number,
+                                              cursorColor: lightBlueTabs,
+                                              enabled: false,
+                                              style: TextStyle(fontSize: 11.sp),
+                                              textAlign: TextAlign.center,
+                                              cursorHeight: 16.w,
+                                              decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /*Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showPly) ||
+                                      Ui.showHide(_fabricSettings!.showGsm),
                                   child: GestureDetector(
-                                    onTap: (){
-                                      fabricPlySheet(context,_fabricSettings,_createRequestModel,()=>{},_plyList,familyId!);
+                                    onTap: () {
+                                      fabricPlySheet(context, _fabricSettings,
+                                          _createRequestModel, () {
+                                            _notifierPlySheet.value =
+                                            !_notifierPlySheet.value;
+                                          }, _plyList, familyId!);
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                                      margin: EdgeInsets.only(
+                                          left: 0.w, right: 0.w, top: 10.w),
                                       decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.black12),
+                                          border: Border.all(
+                                              color: Colors.black12),
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(6))),
                                       child: Container(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .start,
                                             children: [
                                               Row(
                                                 mainAxisAlignment:
@@ -316,23 +400,47 @@ class FabricSpecificationComponentState
                                                           top: 10.w,
                                                           left: 8.w,
                                                           bottom: 10.w),
-                                                      child: const TitleMediumTextWidget(
-                                                        title: 'Ply',
-                                                        color: Colors.black54,
-                                                        weight: FontWeight.normal,
-                                                      )),
+                                                      child: ValueListenableBuilder(
+                                                        valueListenable: _notifierPlySheet,
+                                                        builder: (context,
+                                                            bool value, child) {
+                                                          return TitleMediumTextWidget(
+                                                            title: 'Ply${getPlyList(
+                                                                _createRequestModel!) ??
+                                                                ''}',
+                                                            color: Colors
+                                                                .black54,
+                                                            weight: FontWeight
+                                                                .normal,
+                                                          );
+                                                        },
+                                                      )
+                                                  ),
                                                   GestureDetector(
                                                     onTap: () {
                                                       // show sheet
-                                                      fabricPlySheet(context,_fabricSettings,_createRequestModel,()=>{},_plyList,familyId!);
+                                                      fabricPlySheet(context,
+                                                          _fabricSettings,
+                                                          _createRequestModel, () =>
+                                                          {
+                                                            _notifierPlySheet
+                                                                .value =
+                                                            !_notifierPlySheet
+                                                                .value
+                                                          }, _plyList,
+                                                          familyId!);
                                                     },
                                                     child: Container(
-                                                      margin: const EdgeInsets.only(
-                                                          top: 4, right: 6, bottom: 4),
+                                                      margin: const EdgeInsets
+                                                          .only(
+                                                          top: 4,
+                                                          right: 6,
+                                                          bottom: 4),
                                                       decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
-                                                      child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                      child: const Icon(Icons
+                                                          .keyboard_arrow_down_outlined,
                                                         size: 24,
                                                         color: Colors.grey,
                                                       ),
@@ -344,7 +452,7 @@ class FabricSpecificationComponentState
                                           )),
                                     ),
                                   ),
-                                ),
+                                ),*/
                                 /*// Count
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showCount),
@@ -367,67 +475,144 @@ class FabricSpecificationComponentState
                                     ],
                                   ),
                                 ),*/
-                                const SizedBox(height: 4,),
-
-                                // New Wrap design (asad_m)
+                                /*const SizedBox(height: 4,),*/
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showWarpCount),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWarpCount),
                                   child: GestureDetector(
                                     onTap: (){
-                                      warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                      warpSheet(context, _fabricSettings,
+                                          _createRequestModel, (){
+                                            _notifierWarpSheet.value = !_notifierWarpSheet.value;
+                                          });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: ValueListenableBuilder(
+                                        valueListenable: _notifierWarpSheet,
+                                        builder: (context, bool value, child){
+                                          return TextFormField(
+                                              key: Key(getWarpList(
+                                                  _createRequestModel!).toString()),
+                                              initialValue: getWarpList(
+                                                  _createRequestModel!) ?? '',
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.number,
+                                              cursorColor: lightBlueTabs,
+                                              enabled: false,
+                                              style: TextStyle(fontSize: 11.sp),
+                                              textAlign: TextAlign.center,
+                                              cursorHeight: 16.w,
+                                              decoration: ygTextFieldDecoration('Enter Warp','Warp'));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // New Wrap design (asad_m)
+                                /*Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWarpCount),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      warpSheet(context, _fabricSettings,
+                                          _createRequestModel, () {
+                                            _notifierWarpSheet.value =
+                                            !_notifierWarpSheet.value;
+                                          });
                                     },
                                     child: Column(
                                       children: [
-                                         SizedBox(height: 12.w,),
+                                        SizedBox(height: 12.w,),
 //                                      const Divider(color: Colors.black12,),
                                         Row(
                                           children: [
                                             Visibility(
-                                              visible: Ui.showHide(_fabricSettings!.showWarpCount),
+                                              visible: Ui.showHide(
+                                                  _fabricSettings!
+                                                      .showWarpCount),
                                               child: Expanded(
                                                 flex: 2,
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
                                                   children: [
                                                     // Modified by (asad_m)
                                                     Container(
-                                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                      margin: EdgeInsets.only(
+                                                          left: 0.w,
+                                                          right: 0.w,
+                                                          top: 2.w),
                                                       decoration: BoxDecoration(
-                                                          border: Border.all(color: Colors.black12),
-                                                          borderRadius: const BorderRadius.all(
-                                                              Radius.circular(6))),
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black12),
+                                                          borderRadius: const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  6))),
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Row(
                                                             mainAxisAlignment:
-                                                            MainAxisAlignment.spaceBetween,
-                                                            mainAxisSize: MainAxisSize.max,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            mainAxisSize: MainAxisSize
+                                                                .max,
                                                             children: [
+
                                                               Padding(
-                                                                  padding: EdgeInsets.only(
+                                                                  padding: EdgeInsets
+                                                                      .only(
                                                                       top: 10.w,
                                                                       left: 8.w,
-                                                                      bottom: 10.w),
-                                                                  child: const TitleMediumTextWidget(
-                                                                    title: 'Warp',
-                                                                    color: Colors.black54,
-                                                                    weight: FontWeight.normal,
+                                                                      bottom: 10
+                                                                          .w),
+                                                                  child: ValueListenableBuilder(
+                                                                      valueListenable: _notifierWarpSheet,
+                                                                      builder: (context, bool value, child) {
+                                                                        return TitleMediumTextWidget(
+                                                                          title: 'Warp${getWarpList(
+                                                                              _createRequestModel!) ??
+                                                                              ''}',
+                                                                          color: Colors
+                                                                              .black54,
+                                                                          weight: FontWeight
+                                                                              .normal,
+                                                                        );
+                                                                      }
                                                                   )),
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   // show sheet
-                                                                  warpSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                                  warpSheet(
+                                                                      context,
+                                                                      _fabricSettings,
+                                                                      _createRequestModel, () {
+                                                                    _notifierWarpSheet
+                                                                        .value =
+                                                                    !_notifierWarpSheet
+                                                                        .value;
+                                                                  });
                                                                 },
                                                                 child: Container(
-                                                                  margin: const EdgeInsets.only(
-                                                                      top: 4, right: 6, bottom: 4),
+                                                                  margin: const EdgeInsets
+                                                                      .only(
+                                                                      top: 4,
+                                                                      right: 6,
+                                                                      bottom: 4),
                                                                   decoration: const BoxDecoration(
-                                                                    shape: BoxShape.circle,
+                                                                    shape: BoxShape
+                                                                        .circle,
                                                                   ),
-                                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                  child: const Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_down_outlined,
                                                                     size: 24,
-                                                                    color: Colors.grey,
+                                                                    color: Colors
+                                                                        .grey,
                                                                   ),
                                                                 ),
                                                               ),
@@ -448,65 +633,137 @@ class FabricSpecificationComponentState
                                       ],
                                     ),
                                   ),
-                                ),
+                                ),*/
+                                SizedBox(height: 12.w,),
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWeftCount),
                                   child: GestureDetector(
                                     onTap: (){
-                                      weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                      weftSheet(context, _fabricSettings,
+                                          _createRequestModel, (){
+                                            _notifierWeftSheet.value = !_notifierWeftSheet.value;
+                                          });
+                                    },
+                                    child: ValueListenableBuilder(
+                                      valueListenable: _notifierWeftSheet,
+                                      builder: (context, bool value, child){
+                                        return TextFormField(
+                                            key: Key(getWeftList(
+                                                _createRequestModel!).toString()),
+                                            initialValue: getWeftList(
+                                                _createRequestModel!) ?? '',
+                                            textInputAction: TextInputAction.done,
+                                            keyboardType: TextInputType.number,
+                                            cursorColor: lightBlueTabs,
+                                            enabled: false,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            cursorHeight: 16.w,
+                                            decoration: ygTextFieldDecoration('Enter Weft','Weft'));
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                /*Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWeftCount),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      weftSheet(context, _fabricSettings,
+                                          _createRequestModel, (){
+                                            _notifierWeftSheet.value = ! _notifierWeftSheet.value;
+                                          });
                                     },
                                     child: Column(
                                       children: [
-                                         SizedBox(height: 12.w,),
+                                        SizedBox(height: 12.w,),
 //                                      const Divider(color: Colors.black12,),
                                         Row(
                                           children: [
                                             Visibility(
-                                              visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                              visible: Ui.showHide(
+                                                  _fabricSettings!
+                                                      .showWeftCount),
                                               child: Expanded(
                                                 flex: 2,
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
                                                   children: [
                                                     // Modified by (asad_m)
                                                     Container(
-                                                      margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                                                      margin: EdgeInsets.only(
+                                                          left: 0.w,
+                                                          right: 0.w,
+                                                          top: 2.w),
                                                       decoration: BoxDecoration(
-                                                          border: Border.all(color: Colors.black12),
-                                                          borderRadius: const BorderRadius.all(
-                                                              Radius.circular(6))),
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black12),
+                                                          borderRadius: const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  6))),
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Row(
                                                             mainAxisAlignment:
-                                                            MainAxisAlignment.spaceBetween,
-                                                            mainAxisSize: MainAxisSize.max,
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            mainAxisSize: MainAxisSize
+                                                                .max,
                                                             children: [
+
                                                               Padding(
-                                                                  padding: EdgeInsets.only(
+                                                                  padding: EdgeInsets
+                                                                      .only(
                                                                       top: 10.w,
                                                                       left: 8.w,
-                                                                      bottom: 10.w),
-                                                                  child: const TitleMediumTextWidget(
-                                                                    title: 'Weft',
-                                                                    color: Colors.black54,
-                                                                    weight: FontWeight.normal,
+                                                                      bottom: 10
+                                                                          .w),
+                                                                  child: ValueListenableBuilder(
+                                                                      valueListenable: _notifierWeftSheet,
+                                                                      builder: (context, bool value, child) {
+                                                                        return TitleMediumTextWidget(
+                                                                          title: 'Weft${getWeftList(
+                                                                              _createRequestModel!) ??
+                                                                              ''}',
+                                                                          color: Colors
+                                                                              .black54,
+                                                                          weight: FontWeight
+                                                                              .normal,
+                                                                        );
+                                                                      }
                                                                   )),
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   // show sheet
-                                                                  weftSheet(context,_fabricSettings,_createRequestModel,()=>{});
+                                                                  weftSheet(
+                                                                      context,
+                                                                      _fabricSettings,
+                                                                      _createRequestModel, ()
+                                                                  {
+                                                                    _notifierWeftSheet.value = ! _notifierWeftSheet.value;
+                                                                  });
                                                                 },
                                                                 child: Container(
-                                                                  margin: const EdgeInsets.only(
-                                                                      top: 4, right: 6, bottom: 4),
+                                                                  margin: const EdgeInsets
+                                                                      .only(
+                                                                      top: 4,
+                                                                      right: 6,
+                                                                      bottom: 4),
                                                                   decoration: const BoxDecoration(
-                                                                    shape: BoxShape.circle,
+                                                                    shape: BoxShape
+                                                                        .circle,
                                                                   ),
-                                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                                  child: const Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_down_outlined,
                                                                     size: 24,
-                                                                    color: Colors.grey,
+                                                                    color: Colors
+                                                                        .grey,
                                                                   ),
                                                                 ),
                                                               ),
@@ -527,7 +784,7 @@ class FabricSpecificationComponentState
                                       ],
                                     ),
                                   ),
-                                ),
+                                ),*/
 
 
                                 //Show Warp count and No of Ends
@@ -702,7 +959,8 @@ class FabricSpecificationComponentState
 //                                ),
                                 // Width
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showWidth),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWidth),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
@@ -715,11 +973,12 @@ class FabricSpecificationComponentState
 //                                                left: 8.w,bottom: 4),
 //                                            child: const TitleSmallTextWidget(
 //                                                title: 'Width')),
-                                        SizedBox(height:12.w ,),
+                                        SizedBox(height: 12.w,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'Width',
                                             label: 'Width',
-                                            minMax: _fabricSettings!.widthMinMax??'n/a',
+                                            minMax: _fabricSettings!
+                                                .widthMinMax ?? 'n/a',
                                             onSaved: (input) {
                                               _createRequestModel!
                                                   .fs_width =
@@ -735,7 +994,8 @@ class FabricSpecificationComponentState
                                 // Show Weave Pattern
                                 IntrinsicHeight(
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .stretch,
                                     children: [
                                       Visibility(
                                         visible: true,
@@ -746,7 +1006,7 @@ class FabricSpecificationComponentState
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
-                                              SizedBox(height:12.w ,),
+                                              SizedBox(height: 12.w,),
                                               Row(
                                                 children: [
                                                   Expanded(
@@ -759,8 +1019,9 @@ class FabricSpecificationComponentState
                                                   ),
                                                   Container(
                                                     color: Colors.white,
-                                                    width:16.w,
-                                                    child: const Center(child: Text('/')),
+                                                    width: 16.w,
+                                                    child: const Center(
+                                                        child: Text('/')),
                                                   ),
                                                   Expanded(
                                                     child: YgTextFormFieldWithoutRange(
@@ -773,7 +1034,8 @@ class FabricSpecificationComponentState
                                                 ],
                                               )
                                             ],
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .start,
                                           ),
                                         ),
                                       ),
@@ -787,11 +1049,15 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Nature of Fabric' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Nature of Fabric' +
+                                                    '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _natureFabricKey,
@@ -799,25 +1065,30 @@ class FabricSpecificationComponentState
 //                                          listOfItems: _natureFabricList.where((element) =>
 //                                          element.fabricFamilyIdfk == familyId)
 //                                              .toList(),
-                                          listOfItems: _natureFabricList.toList(),
+                                          listOfItems: _natureFabricList
+                                              .toList(),
                                           callback: (String value) {
-                                            if(value=="Pure")
-                                              {
-                                                blendValue.clear();
-                                                textFieldControllers.clear();
-                                                _notifierBlendText.value="";
-                                                pureSheet(context,_fabricBlendsList.where((element) =>
-                                                element.familyIdfk == familyId)
-                                                    .toList());
-                                              }
-                                            else
-                                              {
-                                                pureValue=FabricBlends();
-                                                _notifierPureText.value="";
-                                                blendedSheet(context,_fabricBlendsList.where((element) =>
-                                                element.familyIdfk == familyId)
-                                                    .toList());
-                                              }
+                                            if (value == "Pure") {
+                                              blendValue.clear();
+                                              textFieldControllers.clear();
+                                              _notifierBlendText.value = "";
+                                              pureSheet(context,
+                                                  _fabricBlendsList.where((
+                                                      element) =>
+                                                  element.familyIdfk ==
+                                                      familyId)
+                                                      .toList());
+                                            }
+                                            else {
+                                              pureValue = FabricBlends();
+                                              _notifierPureText.value = "";
+                                              blendedSheet(context,
+                                                  _fabricBlendsList.where((
+                                                      element) =>
+                                                  element.familyIdfk ==
+                                                      familyId)
+                                                      .toList());
+                                            }
 //                                            _createRequestModel!.fs_weave_idfk =
 //                                                value.fabricWeaveId.toString();
 
@@ -825,21 +1096,30 @@ class FabricSpecificationComponentState
                                         ),
 
                                         Padding(
-                                          padding: const EdgeInsets.only(top:5.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceAround,
                                             children: [
                                               Expanded(
-                                                flex:1,
+                                                flex: 1,
                                                 child: ValueListenableBuilder(
                                                     valueListenable: _notifierPureText,
-                                                    builder: (context,String string,child){
+                                                    builder: (context,
+                                                        String string, child) {
                                                       return Visibility(
-                                                          visible:string!="" ? true : false,
-                                                          child: Text(_notifierPureText.value,
-                                                            textAlign:TextAlign.center,
-                                                            style: TextStyle(fontSize: 10.sp,),));
-
+                                                          visible: string != ""
+                                                              ? true
+                                                              : false,
+                                                          child: Text(
+                                                            _notifierPureText
+                                                                .value,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 10
+                                                                  .sp,),));
                                                     }
                                                 ),
                                               ),
@@ -847,15 +1127,22 @@ class FabricSpecificationComponentState
                                                 flex: 1,
                                                 child: ValueListenableBuilder(
                                                     valueListenable: _notifierBlendText,
-                                                    builder: (context,String string,child){
+                                                    builder: (context,
+                                                        String string, child) {
                                                       return Visibility(
-                                                        maintainState: false,
+                                                          maintainState: false,
                                                           maintainSize: false,
-                                                          visible:string!="" ? true : false,
-                                                          child: Text(_notifierBlendText.value,
-                                                            textAlign:TextAlign.center,
-                                                            style: TextStyle(fontSize: 10.sp,),));
-
+                                                          visible: string != ""
+                                                              ? true
+                                                              : false,
+                                                          child: Text(
+                                                            _notifierBlendText
+                                                                .value,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 10
+                                                                  .sp,),));
                                                     }
                                                 ),
                                               ),
@@ -866,8 +1153,6 @@ class FabricSpecificationComponentState
                                         ),
 
 
-
-
                                       ],
                                     ),
                                   ),
@@ -876,26 +1161,30 @@ class FabricSpecificationComponentState
 
                                 //Show Weave
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showWeave),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWeave),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Weave' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Weave' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _weaveKey,
                                           spanCount: 3,
-                                          listOfItems: _weaveList.where((element) =>
+                                          listOfItems: _weaveList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricWeave value) {
                                             _createRequestModel!.fs_weave_idfk =
                                                 value.fabricWeaveId.toString();
-
                                           },
                                         ),
                                       ],
@@ -905,26 +1194,30 @@ class FabricSpecificationComponentState
 
                                 //Show Loom
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showLoom),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showLoom),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Loom' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Loom' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _loomKey,
                                           spanCount: 3,
-                                          listOfItems: _loomList.where((element) =>
+                                          listOfItems: _loomList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricLoom value) {
                                             _createRequestModel!.fs_loom_idfk =
                                                 value.fabricLoomId.toString();
-
                                           },
                                         ),
                                       ],
@@ -933,26 +1226,32 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Salvedge
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showSalvedge),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showSalvedge),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Salvedge' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Salvedge' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _salvedgeKey,
                                           spanCount: 3,
-                                          listOfItems: _salvedgeList.where((element) =>
+                                          listOfItems: _salvedgeList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricSalvedge value) {
-                                            _createRequestModel!.fs_salvedge_idfk =
-                                                value.fabricSalvedgeId.toString();
-
+                                            _createRequestModel!
+                                                .fs_salvedge_idfk =
+                                                value.fabricSalvedgeId
+                                                    .toString();
                                           },
                                         ),
                                       ],
@@ -961,22 +1260,25 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Tuckin Width
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showTuckinWidth),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showTuckinWidth),
                                   child: Column(
                                     children: [
                                       //Modified by (asad_m)
 //                                      Padding(
 //                                          padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
-                                      SizedBox(height:12.w ,),
+                                      SizedBox(height: 12.w,),
                                       YgTextFormFieldWithoutRange(
                                           errorText: 'Tuckin Width',
                                           label: 'Tuckin Width',
                                           onSaved: (input) {
-                                            _createRequestModel!.fs_tuckin_width = input;
+                                            _createRequestModel!
+                                                .fs_tuckin_width = input;
                                           })
                                     ],
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                   ),
                                 ),
                                 /*//Show Ply
@@ -1009,26 +1311,31 @@ class FabricSpecificationComponentState
                                 ),*/
                                 //Show Layyer
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showLayyer),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showLayyer),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Layyer' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Layyer' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _layyerKey,
                                           spanCount: 3,
-                                          listOfItems: _layyerList.where((element) =>
+                                          listOfItems: _layyerList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricLayyer value) {
-                                            _createRequestModel!.fs_layyer_idfk =
+                                            _createRequestModel!
+                                                .fs_layyer_idfk =
                                                 value.fabricLayyerId.toString();
-
                                           },
                                         ),
                                       ],
@@ -1102,16 +1409,20 @@ class FabricSpecificationComponentState
                                 ),*/
                                 //Show Color Treatment Method
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showColorTreatmentMethod),
+                                  visible: Ui.showHide(_fabricSettings!
+                                      .showColorTreatmentMethod),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
                                             child: TitleSmallBoldTextWidget(
-                                                title: colorTreatmentMethod + '*')),
+                                                title: colorTreatmentMethod +
+                                                    '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _colorTreatmentMethodKey,
@@ -1120,19 +1431,25 @@ class FabricSpecificationComponentState
                                               .where((element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
-                                          callback: (FabricColorTreatmentMethod value) {
-                                            _createRequestModel!.fs_color_treatment_method_idfk =
+                                          callback: (
+                                              FabricColorTreatmentMethod value) {
+                                            _createRequestModel!
+                                                .fs_color_treatment_method_idfk =
                                                 value.fctmId.toString();
 
-                                            if (_colorTreatmentIdList.contains(value.fctmId)) {
+                                            if (_colorTreatmentIdList.contains(
+                                                value.fctmId)) {
                                               _showDyingMethod = true;
                                               _notifier.value = true;
-                                              _selectedColorTreatMethodId = value.fctmId.toString();
+                                              _selectedColorTreatMethodId =
+                                                  value.fctmId.toString();
                                             } else {
                                               _showDyingMethod = false;
                                               _notifier.value = false;
-                                              _createRequestModel!.fs_dying_method_idfk = null;
-                                              _createRequestModel!.fs_color = null;
+                                              _createRequestModel!
+                                                  .fs_dying_method_idfk = null;
+                                              _createRequestModel!.fs_color =
+                                              null;
                                             }
                                           },
                                         ),
@@ -1143,32 +1460,42 @@ class FabricSpecificationComponentState
                                 //Color dying Method & Color
                                 ValueListenableBuilder(
                                   valueListenable: _notifier,
-                                  builder: (context,bool value, child) {
+                                  builder: (context, bool value, child) {
                                     return Visibility(
                                       visible: /*_notifier.value*/value,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
                                         children: [
                                           //Show Color dying Method
                                           Visibility(
                                             visible: true,
                                             child: Padding(
-                                              padding: EdgeInsets.only(top: 8.w),
+                                              padding: EdgeInsets.only(
+                                                  top: 8.w),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .start,
                                                 children: [
                                                   Padding(
-                                                      padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                                      padding: EdgeInsets.only(
+                                                          left: 0.w,
+                                                          top: 4,
+                                                          bottom: 4),
                                                       child: const TitleSmallBoldTextWidget(
-                                                          title: "Dying Method" + '*')),
+                                                          title: "Dying Method" +
+                                                              '*')),
                                                   SingleSelectTileWidget(
                                                     selectedIndex: -1,
                                                     key: _dyingMethodKey,
                                                     spanCount: 3,
-                                                    listOfItems:_dyingMethodList.where((element) =>
-                                                    element.fabricFamilyIdfk == familyId)
+                                                    listOfItems: _dyingMethodList
+                                                        .where((element) =>
+                                                    element.fabricFamilyIdfk ==
+                                                        familyId)
                                                         .toList() /*_yarnData!.dyingMethod!.where((element) {
                                       if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                         return element
@@ -1182,9 +1509,12 @@ class FabricSpecificationComponentState
                                       }
                                   }).toList()*/
                                                     ,
-                                                    callback: (FabricDyingTechniques value) {
-                                                      _createRequestModel!.fs_dying_method_idfk =
-                                                          value.fdtId.toString();
+                                                    callback: (
+                                                        FabricDyingTechniques value) {
+                                                      _createRequestModel!
+                                                          .fs_dying_method_idfk =
+                                                          value.fdtId
+                                                              .toString();
                                                     },
                                                   ),
                                                 ],
@@ -1195,30 +1525,40 @@ class FabricSpecificationComponentState
                                           Visibility(
                                               visible: true,
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 8.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
                                                   children: [
                                                     const Padding(
-                                                      padding: EdgeInsets.only(left: 8.0,bottom: 4),
-                                                      child: TitleSmallBoldTextWidget(title: "Select Color"),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0, bottom: 4),
+                                                      child: TitleSmallBoldTextWidget(
+                                                          title: "Select Color"),
                                                     ),
                                                     Card(
                                                       shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10.0),
+                                                        borderRadius: BorderRadius
+                                                            .circular(10.0),
                                                       ),
                                                       child: SizedBox(
                                                         width: 120.w,
                                                         child: TextFormField(
-                                                          keyboardType: TextInputType.none,
+                                                          keyboardType: TextInputType
+                                                              .none,
                                                           controller: _textEditingController,
                                                           autofocus: false,
                                                           showCursor: false,
                                                           readOnly: true,
-                                                          style: TextStyle(fontSize: 11.sp),
-                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 11.sp),
+                                                          textAlign: TextAlign
+                                                              .center,
                                                           onSaved: (input) =>
-                                                          _createRequestModel!.fs_color = input!,
+                                                          _createRequestModel!
+                                                              .fs_color =
+                                                          input!,
                                                           // validator: (input) {
                                                           //   if (input == null ||
                                                           //       input.isEmpty) {
@@ -1228,9 +1568,13 @@ class FabricSpecificationComponentState
                                                           // },
                                                           decoration: InputDecoration(
                                                               border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  borderSide: BorderSide.none),
-                                                              contentPadding: const EdgeInsets.all(2.0),
+                                                                  borderRadius: BorderRadius
+                                                                      .circular(
+                                                                      10.0),
+                                                                  borderSide: BorderSide
+                                                                      .none),
+                                                              contentPadding: const EdgeInsets
+                                                                  .all(2.0),
                                                               hintText: "Select Color",
                                                               filled: true,
                                                               fillColor: pickerColor),
@@ -1250,38 +1594,51 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Color
                                 Visibility(
-                                    visible: _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID,
+                                    visible: _fabricSettings!
+                                        .fabricFamilyIdfk ==
+                                        FABRIC_MIRCOFIBER_ID,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
                                         children: [
                                           const Padding(
-                                            padding: EdgeInsets.only(left: 8.0,bottom: 4),
-                                            child: TitleSmallBoldTextWidget(title: "Color"),
+                                            padding: EdgeInsets.only(
+                                                left: 8.0, bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
+                                                title: "Color"),
                                           ),
                                           ValueListenableBuilder(
                                               valueListenable: _notifierColor,
-                                              builder: (context,Color color,child){
+                                              builder: (context, Color color,
+                                                  child) {
                                                 return Card(
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10.0),
+                                                    borderRadius: BorderRadius
+                                                        .circular(10.0),
                                                   ),
                                                   child: SizedBox(
                                                     width: 120.w,
                                                     child: TextFormField(
-                                                      keyboardType: TextInputType.none,
+                                                      keyboardType: TextInputType
+                                                          .none,
                                                       controller: _textEditingController,
                                                       autofocus: false,
                                                       showCursor: false,
                                                       readOnly: true,
-                                                      style: TextStyle(fontSize: 11.sp),
-                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 11.sp),
+                                                      textAlign: TextAlign
+                                                          .center,
                                                       onSaved: (input) {
-                                                        if( input==null || input.isEmpty){
-                                                          _createRequestModel!.fs_color = null;
-                                                        }else{
-                                                          _createRequestModel!.fs_color = input;
+                                                        if (input == null ||
+                                                            input.isEmpty) {
+                                                          _createRequestModel!
+                                                              .fs_color = null;
+                                                        } else {
+                                                          _createRequestModel!
+                                                              .fs_color = input;
                                                         }
                                                       },
                                                       // validator: (input) {
@@ -1293,9 +1650,13 @@ class FabricSpecificationComponentState
                                                       // },
                                                       decoration: InputDecoration(
                                                           border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(10.0),
-                                                              borderSide: BorderSide.none),
-                                                          contentPadding: const EdgeInsets.all(2.0),
+                                                              borderRadius: BorderRadius
+                                                                  .circular(
+                                                                  10.0),
+                                                              borderSide: BorderSide
+                                                                  .none),
+                                                          contentPadding: const EdgeInsets
+                                                              .all(2.0),
                                                           hintText: "Select Color",
                                                           filled: true,
                                                           fillColor: color),
@@ -1312,15 +1673,19 @@ class FabricSpecificationComponentState
                                     )),
                                 //Show Knitting Type
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showKnittingType),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showKnittingType),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(title: 'Knitting Type' + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Knitting Type' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _knittingTypeKey,
@@ -1328,11 +1693,14 @@ class FabricSpecificationComponentState
                                           listOfItems: _knittingTypeList
                                               .where(
                                                   (element) =>
-                                              element.fabricFamilyIdfk == familyId)
+                                              element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (KnittingTypes value) {
-                                            _createRequestModel!.fs_knitting_type_idfk =
-                                                value.fabricKnittingTypeId.toString();
+                                            _createRequestModel!
+                                                .fs_knitting_type_idfk =
+                                                value.fabricKnittingTypeId
+                                                    .toString();
                                           },
                                         ),
                                       ],
@@ -1341,25 +1709,32 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Appearance
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showAppearance),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showAppearance),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: TitleSmallBoldTextWidget(title: apperance + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
+                                                title: apperance + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _appearanceKey,
                                           spanCount: 3,
-                                          listOfItems: _appearanceList.where((element) =>
+                                          listOfItems: _appearanceList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricAppearance value) {
-                                            _createRequestModel!.fs_appearance_idfk =
-                                                value.fabricAppearanceId.toString();
+                                            _createRequestModel!
+                                                .fs_appearance_idfk =
+                                                value.fabricAppearanceId
+                                                    .toString();
 
                                             /*if (value.fabricAppearanceId == 3) {
                                               setState(() {
@@ -1381,15 +1756,19 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Quality
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showQuality),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showQuality),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: TitleSmallBoldTextWidget(title: quality + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
+                                                title: quality + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _qualityKey,
@@ -1399,8 +1778,10 @@ class FabricSpecificationComponentState
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricQuality value) {
-                                            _createRequestModel!.fs_quality_idfk =
-                                                value.fabricQualityId.toString();
+                                            _createRequestModel!
+                                                .fs_quality_idfk =
+                                                value.fabricQualityId
+                                                    .toString();
                                           },
                                         ),
                                       ],
@@ -1409,20 +1790,26 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Grade
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showGrade),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showGrade),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
+                                    padding: EdgeInsets.only(
+                                        top: 8.w, bottom: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                            child: TitleSmallBoldTextWidget(title: grades + '*')),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: TitleSmallBoldTextWidget(
+                                                title: grades + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _gradeKey,
                                           spanCount: 3,
-                                          listOfItems: _gradeList.where((element) =>
+                                          listOfItems: _gradeList.where((
+                                              element) =>
                                           element.fabricFamilyIdfk == familyId)
                                               .toList(),
                                           callback: (FabricGrades value) {
@@ -1436,14 +1823,17 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Certification
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showCertification),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showCertification),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
                                             child: TitleSmallBoldTextWidget(
                                                 title: certification + '*')),
                                         SingleSelectTileWidget(
@@ -1452,7 +1842,8 @@ class FabricSpecificationComponentState
                                           spanCount: 3,
                                           listOfItems: _certificationList,
                                           callback: (Certification value) {
-                                            _createRequestModel!.fs_certification_idfk =
+                                            _createRequestModel!
+                                                .fs_certification_idfk =
                                                 value.cerId.toString();
                                           },
                                         ),
@@ -1480,14 +1871,17 @@ class FabricSpecificationComponentState
                         handleNextClick();
                       },
                       color: btnColorLogin,
-                      btnText: widget.businessArea == offering_type ? "Next" : submit,
+                      btnText: widget.businessArea == offering_type
+                          ? "Next"
+                          : submit,
                     ),
                   ),
                 ),
               ],
             ),
           );
-        } /*else if (snapshot.hasError) {
+        }
+        /*else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         }*/ else {
@@ -1542,7 +1936,8 @@ class FabricSpecificationComponentState
 
   void handleNextClick() {
     _createRequestModel!.spc_category_idfk = "3";
-    _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';
+    _createRequestModel!.fs_blend_idfk =
+    _selectedMaterial != null ? _selectedMaterial.toString() : '';
     if (validationAllPage()) {
       /*_createRequestModel!.spc_category_idfk = "3";
       _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';*/
@@ -1553,7 +1948,7 @@ class FabricSpecificationComponentState
           .first
           .familyIdfk
           .toString();*/
-      _createRequestModel!.fs_family_idfk = familyId??'';
+      _createRequestModel!.fs_family_idfk = familyId ?? '';
       /*if(_createRequestModel!.fs_ply_idfk == null){
         _createRequestModel!.fs_ply_idfk = null;
       }
@@ -1564,9 +1959,9 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      if(widget.businessArea == offering_type){
+      if (widget.businessArea == offering_type) {
         widget.callback!(1);
-      }else{
+      } else {
         showGenericDialog(
           '',
           "Are you sure, you want to submit?",
@@ -1690,42 +2085,42 @@ class FabricSpecificationComponentState
   }
 
   bool validationAllPage() {
-    print("Model Value"+_createRequestModel!.fs_warp_ply_idfk.toString() );
+    print("Model Value" + _createRequestModel!.fs_warp_ply_idfk.toString());
     if (validateAndSave()) {
       // Wrap and Wreft Check
-     if (_createRequestModel!.fs_warp_count == null &&
-        Ui.showHide(_fabricSettings!.showWarpCount)) {
-      Ui.showSnackBar(context, 'Please Enter Warp Count');
-      return false;
-    }
-    else if (_createRequestModel!.fs_warp_ply_idfk == null &&
-        Ui.showHide(_fabricSettings!.showWarpPly)) {
-      Ui.showSnackBar(context, 'Please Enter Warp Ply');
-      return false;
-    }
-    else if (_createRequestModel!.fs_no_of_ends_warp == null &&
-        Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
-      Ui.showSnackBar(context, 'Please Enter No of Ends');
-      return false;
-    }
+      if (_createRequestModel!.fs_warp_count == null &&
+          Ui.showHide(_fabricSettings!.showWarpCount)) {
+        Ui.showSnackBar(context, 'Please Enter Warp Count');
+        return false;
+      }
+      else if (_createRequestModel!.fs_warp_ply_idfk == null &&
+          Ui.showHide(_fabricSettings!.showWarpPly)) {
+        Ui.showSnackBar(context, 'Please Enter Warp Ply');
+        return false;
+      }
+      else if (_createRequestModel!.fs_no_of_ends_warp == null &&
+          Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
+        Ui.showSnackBar(context, 'Please Enter No of Ends');
+        return false;
+      }
 
-     else if (_createRequestModel!.fs_weft_count == null &&
-         Ui.showHide(_fabricSettings!.showWeftCount)) {
-       Ui.showSnackBar(context, 'Please Enter Weft Count');
-       return false;
-     }
-     else if (_createRequestModel!.fs_weft_ply_idfk == null &&
-         Ui.showHide(_fabricSettings!.showWeftPly)) {
-       Ui.showSnackBar(context, 'Please Enter Weft Ply');
-       return false;
-     }
-     else if (_createRequestModel!.fs_no_of_pick_weft == null &&
-         Ui.showHide(_fabricSettings!.showNoOfPickWeft)) {
-       Ui.showSnackBar(context, 'Please Enter No of Picks');
-       return false;
-     }
-    //
-     else if (_createRequestModel!.fs_blend_idfk == null &&
+      else if (_createRequestModel!.fs_weft_count == null &&
+          Ui.showHide(_fabricSettings!.showWeftCount)) {
+        Ui.showSnackBar(context, 'Please Enter Weft Count');
+        return false;
+      }
+      else if (_createRequestModel!.fs_weft_ply_idfk == null &&
+          Ui.showHide(_fabricSettings!.showWeftPly)) {
+        Ui.showSnackBar(context, 'Please Enter Weft Ply');
+        return false;
+      }
+      else if (_createRequestModel!.fs_no_of_pick_weft == null &&
+          Ui.showHide(_fabricSettings!.showNoOfPickWeft)) {
+        Ui.showSnackBar(context, 'Please Enter No of Picks');
+        return false;
+      }
+      //
+      else if (_createRequestModel!.fs_blend_idfk == null &&
           Ui.showHide(_fabricSettings!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
@@ -1737,23 +2132,23 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showColorTreatmentMethod)) {
         Ui.showSnackBar(context, 'Please Select Color Treatment Method');
         return false;
-      }  else if (_createRequestModel!.fs_dying_method_idfk == null &&
+      } else if (_createRequestModel!.fs_dying_method_idfk == null &&
           _showDyingMethod) {
         Ui.showSnackBar(context, 'Please Select Dying Method');
         return false;
-      }else if (_createRequestModel!.fs_knitting_type_idfk == null &&
+      } else if (_createRequestModel!.fs_knitting_type_idfk == null &&
           Ui.showHide(_fabricSettings!.showKnittingType)) {
         Ui.showSnackBar(context, 'Please Select Knitting Type');
         return false;
-      }else if (_createRequestModel!.fs_weave_idfk == null &&
+      } else if (_createRequestModel!.fs_weave_idfk == null &&
           Ui.showHide(_fabricSettings!.showWeave)) {
         Ui.showSnackBar(context, 'Please Select Weave');
         return false;
-      }else if (_createRequestModel!.fs_loom_idfk == null &&
+      } else if (_createRequestModel!.fs_loom_idfk == null &&
           Ui.showHide(_fabricSettings!.showLoom)) {
         Ui.showSnackBar(context, 'Please Select Loom');
         return false;
-      }else if (_createRequestModel!.fs_layyer_idfk == null &&
+      } else if (_createRequestModel!.fs_layyer_idfk == null &&
           Ui.showHide(_fabricSettings!.showLayyer)) {
         Ui.showSnackBar(context, 'Please Select Layyer');
         return false;
@@ -1761,11 +2156,11 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showQuality)) {
         Ui.showSnackBar(context, 'Please Select Quality');
         return false;
-      }  else if (_createRequestModel!.fs_grade_idfk == null &&
+      } else if (_createRequestModel!.fs_grade_idfk == null &&
           Ui.showHide(_fabricSettings!.showGrade)) {
         Ui.showSnackBar(context, 'Please Select Grade');
         return false;
-      }else if (_createRequestModel!.fs_color == null &&
+      } else if (_createRequestModel!.fs_color == null &&
           _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
         Ui.showSnackBar(context, 'Please Select Color');
         return false;
@@ -1777,15 +2172,15 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showCertification)) {
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
-      }else if (_createRequestModel!.fs_gsm_count == null &&
+      } else if (_createRequestModel!.fs_gsm_count == null &&
           Ui.showHide(_fabricSettings!.showGsm)) {
         Ui.showSnackBar(context, 'Please Select Gsm');
         return false;
-      }else if (_createRequestModel!.fs_count == null &&
+      } else if (_createRequestModel!.fs_count == null &&
           Ui.showHide(_fabricSettings!.showCount)) {
         Ui.showSnackBar(context, 'Please Select Count');
         return false;
-      }else if (_createRequestModel!.fs_once == null &&
+      } else if (_createRequestModel!.fs_once == null &&
           Ui.showHide(_fabricSettings!.showOnce)) {
         Ui.showSnackBar(context, 'Please Select Once');
         return false;
@@ -1801,29 +2196,39 @@ class FabricSpecificationComponentState
   void handleReadOnlyInputClick(context) {
     showBottomSheet(
         context: context,
-        builder: (BuildContext context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          child: YearPicker(
-            selectedDate: DateTime(DateTime.now().year),
-            firstDate: DateTime(DateTime.now().year - 4),
-            lastDate: DateTime.now(),
-            onChanged: (val) {
-              _textEditingController.text = val.year.toString();
-              Navigator.pop(context);
-            },
-          ),
-        ));
+        builder: (BuildContext context) =>
+            Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 2,
+              child: YearPicker(
+                selectedDate: DateTime(DateTime
+                    .now()
+                    .year),
+                firstDate: DateTime(DateTime
+                    .now()
+                    .year - 4),
+                lastDate: DateTime.now(),
+                onChanged: (val) {
+                  _textEditingController.text = val.year.toString();
+                  Navigator.pop(context);
+                },
+              ),
+            ));
   }
 
   pureSheet(BuildContext context, List<FabricBlends> blends) {
-
     showModalBottomSheet<int>(
-      isScrollControlled:true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return  StatefulBuilder(
+        return StatefulBuilder(
             builder: (BuildContext context, StateSetter state) {
               return NatureFabricSheet(
                 child: SingleChildScrollView(
@@ -1849,11 +2254,11 @@ class FabricSpecificationComponentState
                             fontWeight: FontWeight.w700),),
                       const SizedBox(height: 10,),
                       PureTileWidget(
-                        selectedIndex:pureValue,
+                        selectedIndex: pureValue,
                         listOfItems: blends,
                         callback: (FabricBlends value) {
-                          pureValue=value;
-                          },
+                          pureValue = value;
+                        },
                       ),
 
                       Padding(
@@ -1864,54 +2269,58 @@ class FabricSpecificationComponentState
                               return ElevatedButton(
                                   child: Text("Add",
                                       style: TextStyle(
-                                          fontFamily: 'Metropolis', fontSize: 14.sp)),
+                                          fontFamily: 'Metropolis',
+                                          fontSize: 14.sp)),
                                   style: ButtonStyle(
                                       foregroundColor:
-                                      MaterialStateProperty.all<Color>(Colors.white),
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
                                       backgroundColor:
-                                      MaterialStateProperty.all<Color>(btnColorLogin),
+                                      MaterialStateProperty.all<Color>(
+                                          btnColorLogin),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                           const RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(8)),
-                                              side: BorderSide(color: Colors.transparent)))),
+                                              BorderRadius.all(
+                                                  Radius.circular(8)),
+                                              side: BorderSide(
+                                                  color: Colors.transparent)))),
                                   onPressed: () {
-                                   if(pureValue!="")
-                                     {
-                                       _notifierPureText.value=pureValue.toString();
-                                       Navigator.of(context).pop();
-
-                                     }
-
-
+                                    if (pureValue != "") {
+                                      _notifierPureText.value =
+                                          pureValue.toString();
+                                      Navigator.of(context).pop();
+                                    }
                                   });
                             })),
                       ),
                     ],
                   ),
                 ),
-              );}
+              );
+            }
         );
       },
     );
   }
-  blendedSheet(BuildContext context, List<FabricBlends> blends) {
-  values.clear();
-  var result =0.0;
 
-    if(textFieldControllers.isEmpty) {
+  blendedSheet(BuildContext context, List<FabricBlends> blends) {
+    values.clear();
+    var result = 0.0;
+
+    if (textFieldControllers.isEmpty) {
       for (var i = 0; i < blends.length; i++) {
         textFieldControllers.add(TextEditingController());
       }
     }
 
     showModalBottomSheet<int>(
-      isScrollControlled:true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return  StatefulBuilder(
+        return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return NatureFabricSheet(
                 child: SingleChildScrollView(
@@ -1939,15 +2348,15 @@ class FabricSpecificationComponentState
                               fontWeight: FontWeight.w700),),
                         const SizedBox(height: 10,),
                         BlendedTileWidget(
-                          selectedIndex:blendValue,
+                          selectedIndex: blendValue,
                           listOfItems: blends,
-                          listController:textFieldControllers,
-                          blendsValue:values,
+                          listController: textFieldControllers,
+                          blendsValue: values,
                           callback: (List<FabricBlends> value) {
-                              blendValue = value;
-                              },
+                            blendValue = value;
+                          },
                           textFieldcallback: (List<BlendModel> value) {
-                           values=value;
+                            values = value;
                           },
                         ),
 
@@ -1959,53 +2368,61 @@ class FabricSpecificationComponentState
                                 return ElevatedButton(
                                     child: Text("Add",
                                         style: TextStyle(
-                                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                                            fontFamily: 'Metropolis',
+                                            fontSize: 14.sp)),
                                     style: ButtonStyle(
                                         foregroundColor:
-                                        MaterialStateProperty.all<Color>(Colors.white),
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.white),
                                         backgroundColor:
-                                        MaterialStateProperty.all<Color>(btnColorLogin),
+                                        MaterialStateProperty.all<Color>(
+                                            btnColorLogin),
                                         shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                             const RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.all(Radius.circular(8)),
-                                                side: BorderSide(color: Colors.transparent)))),
+                                                BorderRadius.all(
+                                                    Radius.circular(8)),
+                                                side: BorderSide(color: Colors
+                                                    .transparent)))),
                                     onPressed: () {
+                                      if (validateAndSaveBlend()) {
+                                        blendString = "";
+                                        for (int i = 0; i <
+                                            values.length; i++) {
+                                          blendString +=
+                                              values[i].title.toString() + "(" +
+                                                  values[i].ratio.toString() +
+                                                  "),";
 
-                                      if(validateAndSaveBlend()){
-                                        blendString="";
-                                        for(int i=0;i<values.length;i++) {
-                                          blendString+=values[i].title.toString()+"("+values[i].ratio.toString()+"),";
-
-                                          result+=int.parse(values[i].ratio.toString());
-
+                                          result += int.parse(
+                                              values[i].ratio.toString());
                                         }
-                                            if(blendString.toString()!=""){
-                                            print("Percent(%):\t"+result.toString());
-                                              if(result>100)
-                                                {
-                                                  result=0.0;
-                                                  values.clear();
+                                        if (blendString.toString() != "") {
+                                          print("Percent(%):\t" +
+                                              result.toString());
+                                          if (result > 100) {
+                                            result = 0.0;
+                                            values.clear();
 
-                                                  Fluttertoast.showToast(
-                                                      msg:blend_message,
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.BOTTOM,
-                                                      timeInSecForIosWeb: 1);
-                                                }
-                                              else
-                                                {
-                                                  if (blendString.endsWith(",")) {
-                                                    blendString = blendString.substring(0, blendString.length - 1);
-                                                  }
-                                                  _notifierBlendText.value=blendString.toString();
-
-                                                  Navigator.of(context).pop();
-                                                }
-
+                                            Fluttertoast.showToast(
+                                                msg: blend_message,
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1);
+                                          }
+                                          else {
+                                            if (blendString.endsWith(",")) {
+                                              blendString =
+                                                  blendString.substring(0,
+                                                      blendString.length - 1);
                                             }
+                                            _notifierBlendText.value =
+                                                blendString.toString();
 
+                                            Navigator.of(context).pop();
+                                          }
+                                        }
                                       }
                                     });
                               })),
@@ -2014,10 +2431,58 @@ class FabricSpecificationComponentState
                     ),
                   ),
                 ),
-              );}
+              );
+            }
         );
       },
     );
+  }
+
+  String? getPlyList(FabricCreateRequestModel createRequestModel) {
+    List<String?> list = [];
+    list.add(createRequestModel.fs_count);
+    if (_createRequestModel!.fs_ply_idfk != null) {
+      list.add(_plyList
+          .where((element) =>
+      element.fabricPlyId.toString() == createRequestModel.fs_ply_idfk)
+          .toList()
+          .first
+          .fabricPlyName);
+    }
+    list.add(createRequestModel.fs_gsm_count);
+    list.add(createRequestModel.fs_once);
+    var responseString = Utils.createStringFromList(list);
+    if (responseString.isNotEmpty) {
+      return Utils.createStringFromList(list);
+    } else {
+      return '';
+    }
+  }
+
+  String? getWarpList(FabricCreateRequestModel createRequestModel) {
+    List<String?> list = [];
+    list.add(createRequestModel.fs_warp_count);
+    list.add(createRequestModel.fs_warp_ply_idfk);
+    list.add(createRequestModel.fs_no_of_ends_warp);
+    var responseString = Utils.createStringFromList(list);
+    if (responseString.isNotEmpty) {
+      return '${Utils.createStringFromList(list)}';
+    } else {
+      return '';
+    }
+  }
+
+  String? getWeftList(FabricCreateRequestModel createRequestModel) {
+    List<String?> list = [];
+    list.add(createRequestModel.fs_weft_count);
+    list.add(createRequestModel.fs_weft_ply_idfk);
+    list.add(createRequestModel.fs_no_of_pick_weft);
+    var responseString = Utils.createStringFromList(list);
+    if (responseString.isNotEmpty) {
+      return Utils.createStringFromList(list);
+    } else {
+      return '';
+    }
   }
 
 
