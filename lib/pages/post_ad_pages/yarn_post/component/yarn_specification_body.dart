@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/bottom_sheets/yarn_specs_bottom_sheet.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -104,7 +105,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             child: Column(
               children: [
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
@@ -128,7 +129,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               children: [
                 // modified by (asad_m)
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
@@ -153,7 +154,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Pause")),
                 SizedBox(
-                  height: 8.w,
+                  height: 15.w,
                 ),
                 YgTextFormFieldWithoutRange(
                   errorText: "Pause",
@@ -221,7 +222,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           children: [
             Padding(
                 padding: EdgeInsets.only(left: 0.w, top: 4, bottom: 4),
-                child: TitleSmallTextWidget(title: patternChar)),
+                child: TitleSmallBoldTextWidget(title: patternChar)),
             SingleSelectTileWidget(
               selectedIndex: -1,
               key: _patternCharKey,
@@ -422,6 +423,18 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       } else if (_createRequestModel.ys_orientation_idfk == null &&
           Ui.showHide(_yarnSetting!.showOrientation)) {
         Ui.showSnackBar(context, 'Please Select Orientation');
+        return false;
+      }else if (_createRequestModel.ys_count == null &&
+          Ui.showHide(_yarnSetting!.showCount)) {
+        Ui.showSnackBar(context, 'Please Select Count');
+        return false;
+      }else if (_createRequestModel.ys_dty_filament == null &&
+          Ui.showHide(_yarnSetting!.showDannier)) {
+        Ui.showSnackBar(context, 'Please Select Dannier');
+        return false;
+      }else if (_createRequestModel.ys_fdy_filament == null &&
+          Ui.showHide(_yarnSetting!.showFilament)) {
+        Ui.showSnackBar(context, 'Please Select Filament');
         return false;
       } else if (_createRequestModel.ys_spun_technique_idfk == null &&
           Ui.showHide(_yarnSetting!.showSpunTechnique)) {
@@ -683,7 +696,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         ),
                       ),
                       Visibility(
-                        visible: widget.selectedTab != offering_type,
+                        visible: widget.selectedTab == requirement_type || _selectedFamilyId == 4.toString(),
                         child: Padding(
                           padding: EdgeInsets.all(8.w),
                           child: SizedBox(
@@ -692,11 +705,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               callback: () async {
                                 if (widget.selectedTab == offering_type) {
                                 if (validationAllPage()) {
-                                  if(_labParameterPage.currentState != null){
-                                    if(_labParameterPage.currentState!.validateAndSave()){
-                                      widget.callback!(1);
-                                    }
-                                  }
+                                  widget.callback!(1);
                                 }
                                 } else {
                                   if (validationAllPage()) {
@@ -838,7 +847,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               ),
             ),
 
-            //Show Dannier and Show Filament
+            /*//Show Dannier and Show Filament
             Row(
               children: [
                 Visibility(
@@ -965,6 +974,68 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       },
                     ),
                   ],
+                ),
+              ),
+            ),*/
+
+            // show bottom sheet
+            Visibility(
+              visible: true,
+              child: GestureDetector(
+                onTap: () {
+                  // show sheet
+                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                      selectedFamilyId,_plyList!,_orientationList!,
+                      _doublingMethodList!,_plyIdList);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(6))),
+                  child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10.w,
+                                      left: 8.w,
+                                      bottom: 10.w),
+                                  child: const TitleMediumTextWidget(
+                                    title: 'Ply',
+                                    color: Colors.black54,
+                                    weight: FontWeight.normal,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  // show sheet
+                                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                      selectedFamilyId,_plyList!,_orientationList!,
+                                      _doublingMethodList!,_plyIdList);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 4, right: 6, bottom: 4),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                    size: 24,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ),
@@ -1800,56 +1871,66 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             ),
             // show bottom sheet
             Visibility(
-              visible: false,
-              child: Container(
-                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black12),
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(6))),
+              visible: true,
+              child: GestureDetector(
+                onTap: (){
+                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                      selectedFamilyId,_plyList!,_orientationList!,
+                      _doublingMethodList!,_plyIdList);
+                },
                 child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.w,
-                                    left: 8.w,
-                                    bottom: 10.w),
-                                child: const TitleMediumTextWidget(
-                                  title: 'Yarn Components',
-                                  color: Colors.black54,
-                                  weight: FontWeight.normal,
-                                )),
-                            GestureDetector(
-                              onTap: () {
-                                // show sheet
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 4, right: 6, bottom: 4),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.keyboard_arrow_down_outlined,
-                                  size: 24,
-                                  color: Colors.grey,
+                  margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 10.w),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(6))),
+                  child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10.w,
+                                      left: 8.w,
+                                      bottom: 10.w),
+                                  child: const TitleMediumTextWidget(
+                                    title: 'Ply',
+                                    color: Colors.black54,
+                                    weight: FontWeight.normal,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  // show sheet
+                                  yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
+                                      selectedFamilyId,_plyList!,_orientationList!,
+                                  _doublingMethodList!,_plyIdList);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 4, right: 6, bottom: 4),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                    size: 24,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                            ],
+                          ),
+                        ],
+                      )),
+                ),
               ),
             ),
             const SizedBox(height: 6,),
-            // Count
+            /*// Count
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showCount),
               child: Column(
@@ -1973,7 +2054,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ],
                 ),
               ),
-            ),
+            ),*/
 
             //Show Twist Direction
             Visibility(
