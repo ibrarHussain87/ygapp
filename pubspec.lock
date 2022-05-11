@@ -531,6 +531,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  flutter_countdown_timer:
+    dependency: "direct main"
+    description:
+      name: flutter_countdown_timer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   flutter_form_builder:
     dependency: "direct main"
     description:
@@ -1295,6 +1302,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
+  timer_button:
+    dependency: "direct main"
+    description:
+      name: timer_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   timezone:
     dependency: transitive
     description:

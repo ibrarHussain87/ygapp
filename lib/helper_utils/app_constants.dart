@@ -171,4 +171,8 @@ var businessDetail = "Business Details";
 var businessText = "Enter your business details, for the \n purpose of industry regulation";
 var personalDetail = "Personal Details";
 var personalText = "Enter your personal details, to \n complete the registration";
+var forgetPasswordText = "Number Details";
+var forgetPasswordDetails = "Enter your number, to \n get a OTP on your number.";
+var updatePasswordText = "Password Details";
+var updatePasswordDetails = "Enter the new password, to \n update your password.";
 
