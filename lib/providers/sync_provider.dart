@@ -66,10 +66,7 @@ class SyncProvider extends ChangeNotifier {
               value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
               value.fiberAppearanceDoa.insertAllFiberAppearance(
               syncFiberResponse.data.fiber.apperance),
-              value.packingDao
-                  .insertAllPacking(syncFiberResponse.data.fiber
-              .
-              packing
+              value.packingDao.insertAllPacking(syncFiberResponse.data.fiber.packing
               )
               ]
               );
