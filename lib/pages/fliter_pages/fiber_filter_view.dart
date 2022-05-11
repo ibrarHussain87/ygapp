@@ -100,8 +100,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
         for (var element in _listOfSettings!) {
           _fiberSettings = value!;
 
-          if (element.fbsFiberMaterialIdfk ==
-              _fiberSettings.fbsFiberMaterialIdfk) {
+          if (element.fbsFiberFamilyIdfk ==
+              _fiberSettings.fbsFiberFamilyIdfk) {
             isSettingInList = true;
             break;
           } else {
@@ -111,8 +111,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
         isSettingInList
             ? _listOfSettings!.removeWhere((element) =>
-        element.fbsFiberMaterialIdfk ==
-            _fiberSettings.fbsFiberMaterialIdfk)
+        element.fbsFiberFamilyIdfk ==
+            _fiberSettings.fbsFiberFamilyIdfk)
         // ? listOfSettings.toSet().toList()
             : _listOfSettings!.add(_fiberSettings);
       } else {

@@ -8,8 +8,8 @@ class PostYarnProvider extends ChangeNotifier{
   List<TextEditingController> textFieldControllers = [];
 
 
-  late bool _isBlendSelected;
-  bool get isBlendSelected => _isBlendSelected;
+  bool? _isBlendSelected;
+  bool get isBlendSelected => _isBlendSelected??false;
   set isBlendSelected(value){
     _isBlendSelected = value;
     notifyListeners();

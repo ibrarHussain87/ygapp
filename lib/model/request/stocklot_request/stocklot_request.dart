@@ -22,7 +22,7 @@ class StocklotRequestModel {
     Map<String, dynamic> map = {
       'user_id': user_id!.trim(),
       'spc_category_idfk': spc_category_idfk!.trim(),
-      'sub_category_id': subcategoryId!.trim(),
+      'stocklot_family_idfk': subcategoryId!.trim(),
       'description': description!.trim(),
       'price_term_id': priceTermsId!.trim(),
       'country_id': countryId!.trim(),

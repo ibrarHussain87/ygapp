@@ -155,9 +155,9 @@ class SyncProvider extends ChangeNotifier {
             AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
                 value.stocklotCategoriesDao.insertAllStocklotCategories(
-                    response.data!.stocklot!.stocklotCategories!),
-                if(response.data!.stocklot!.stocklots != null) value.stocklotDao
-                    .insertAllStocklots(response.data!.stocklot!.stocklots!),
+                    response.data!.stocklot!.stocklots!),
+                // if(response.data!.stocklot!.stocklots != null) value.stocklotDao
+                //     .insertAllStocklots(response.data!.stocklot!.stocklots!),
                 value.availabilityDao.insertAllAvailability(
                     response.data!.stocklot!.availabilityList!),
                 value.priceTermsDao.insertAllFPriceTerms(

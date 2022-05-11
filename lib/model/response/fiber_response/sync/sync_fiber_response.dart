@@ -395,7 +395,8 @@ class FiberSettings {
   FiberSettings({
     required this.fbsId,
     required this.fbsCategoryIdfk,
-    required this.fbsFiberMaterialIdfk,
+    required this.fbsFiberFamilyIdfk,
+    required this.fbsBlendIdfk,
     required this.showLength,
     required this.lengthMinMax,
     required this.showGrade,
@@ -428,44 +429,46 @@ class FiberSettings {
   });
 
   @PrimaryKey(autoGenerate: false)
-  late final int fbsId;
-  late final String fbsCategoryIdfk;
-  late final String fbsFiberMaterialIdfk;
-  late final String showLength;
-  late final String lengthMinMax;
-  late final String showGrade;
-  late final String showMicronaire;
-  late final String micMinMax;
-  late final String showMoisture;
-  late final String moiMinMax;
-  late final String showTrash;
-  late final String trashMinMax;
-  late final String showRd;
-  late final String rdMinMax;
-  late final String showGpt;
-  late final String gptMinMax;
-  late final String showAppearance;
-  late final String showColorTreatmentMethod;
-  late final String showBrand;
-  late final String showProductionYear;
-  late final String showOrigin;
-  late final String showCertification;
-  late final String showCountUnit;
-  late final String showDeliveryPeriod;
-  late final String showAvailableForMarket;
-  late final String showPriceTerms;
-  late final String showLotNumber;
-  late final String showRatio;
-  late final String fbsIsActive;
+  int? fbsId;
+  String? fbsCategoryIdfk;
+  String? fbsFiberFamilyIdfk;
+  String? fbsBlendIdfk;
+  String? showLength;
+  String? lengthMinMax;
+  String? showGrade;
+  String? showMicronaire;
+  String? micMinMax;
+  String? showMoisture;
+  String? moiMinMax;
+  String? showTrash;
+  String? trashMinMax;
+  String? showRd;
+  String? rdMinMax;
+  String? showGpt;
+  String? gptMinMax;
+  String? showAppearance;
+  String? showColorTreatmentMethod;
+  String? showBrand;
+  String? showProductionYear;
+  String? showOrigin;
+  String? showCertification;
+  String? showCountUnit;
+  String? showDeliveryPeriod;
+  String? showAvailableForMarket;
+  String? showPriceTerms;
+  String? showLotNumber;
+  String? showRatio;
+  String? fbsIsActive;
   @ignore
-  late final Null fbsSortid;
+  String? fbsSortid;
   // late final String catName;
   // late final String matName;
 
   FiberSettings.fromJson(Map<String, dynamic> json) {
     fbsId = json['fbs_id'];
     fbsCategoryIdfk = json['fbs_category_idfk'];
-    fbsFiberMaterialIdfk = json['fbs_fiber_family_idfk'];
+    fbsFiberFamilyIdfk = json['fbs_fiber_family_idfk'];
+    fbsBlendIdfk = json['fbs_blend_idfk'];
     showLength = json['show_length'];
     lengthMinMax = json['length_min_max'];
     showGrade = json['show_grade'];
@@ -501,7 +504,8 @@ class FiberSettings {
     final _data = <String, dynamic>{};
     _data['fbs_id'] = fbsId;
     _data['fbs_category_idfk'] = fbsCategoryIdfk;
-    _data['fbs_fiber_material_idfk'] = fbsFiberMaterialIdfk;
+    _data['fbs_fiber_family_idfk'] = fbsFiberFamilyIdfk;
+    _data['fbs_blend_idfk'] = fbsBlendIdfk;
     _data['show_length'] = showLength;
     _data['length_min_max'] = lengthMinMax;
     _data['show_grade'] = showGrade;

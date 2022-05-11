@@ -1001,8 +1001,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 for (var element in listOfSettings) {
                   _yarnSetting = value[0];
 
-                  if (element.ysFiberMaterialIdfk ==
-                      _yarnSetting.ysFiberMaterialIdfk) {
+                  if (element.ysFamilyIdfk ==
+                      _yarnSetting.ysFamilyIdfk) {
                     isSettingInList = true;
                     break;
                   } else {
@@ -1012,8 +1012,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                 isSettingInList
                     ? listOfSettings.removeWhere((element) =>
-                        element.ysFiberMaterialIdfk ==
-                        _yarnSetting.ysFiberMaterialIdfk)
+                        element.ysFamilyIdfk ==
+                        _yarnSetting.ysFamilyIdfk)
                     // ? listOfSettings.toSet().toList()
                     : listOfSettings.add(_yarnSetting);
               } else {
@@ -1040,8 +1040,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               for (var element in listOfSettings) {
                 _yarnSetting = value[0];
 
-                if (element.ysFiberMaterialIdfk ==
-                    _yarnSetting.ysFiberMaterialIdfk) {
+                if (element.ysFamilyIdfk ==
+                    _yarnSetting.ysFamilyIdfk) {
                   isSettingInList = true;
                   break;
                 } else {
@@ -1051,8 +1051,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
               isSettingInList
                   ? listOfSettings.removeWhere((element) =>
-                      element.ysFiberMaterialIdfk ==
-                      _yarnSetting.ysFiberMaterialIdfk)
+                      element.ysFamilyIdfk ==
+                      _yarnSetting.ysFamilyIdfk)
                   // ? listOfSettings.toSet().toList()
                   : listOfSettings.add(_yarnSetting);
             } else {

@@ -47,10 +47,10 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
     getStockLotSpecRequestModel.localInternational = widget.locality;
     getStockLotSpecRequestModel.categoryId = "5";
     getStockLotSpecRequestModel.isOffering = stocklotProvider.isOffering;
-    getStockLotSpecRequestModel.stocklotCategoryId =
+    getStockLotSpecRequestModel.stocklotFamilyId =
         stocklotProvider.categoryId != -1
             ? stocklotProvider.categoryId.toString()
-            : stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId;
+            : stocklotProvider.getStockLotSpecRequestModel.stocklotFamilyId;
 
     getStockLotSpecRequestModel.avalibilityId =
         stocklotProvider.getStockLotSpecRequestModel.avalibilityId;

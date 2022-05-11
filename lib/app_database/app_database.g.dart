@@ -97,9 +97,7 @@ class _$AppDatabase extends AppDatabase {
 
   UnitDao? _unitDaoInstance;
 
-  StocklotCategoriesDao? _stocklotCategoriesDaoInstance;
-
-  StocklotDao? _stocklotDaoInstance;
+  StocklotFamilyDao? _stocklotCategoriesDaoInstance;
 
   AvailabilityDao? _availabilityDaoInstance;
 
@@ -224,9 +222,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER NOT NULL, `fbsCategoryIdfk` TEXT NOT NULL, `fbsFiberMaterialIdfk` TEXT NOT NULL, `showLength` TEXT NOT NULL, `lengthMinMax` TEXT NOT NULL, `showGrade` TEXT NOT NULL, `showMicronaire` TEXT NOT NULL, `micMinMax` TEXT NOT NULL, `showMoisture` TEXT NOT NULL, `moiMinMax` TEXT NOT NULL, `showTrash` TEXT NOT NULL, `trashMinMax` TEXT NOT NULL, `showRd` TEXT NOT NULL, `rdMinMax` TEXT NOT NULL, `showGpt` TEXT NOT NULL, `gptMinMax` TEXT NOT NULL, `showAppearance` TEXT NOT NULL, `showColorTreatmentMethod` TEXT NOT NULL, `showBrand` TEXT NOT NULL, `showProductionYear` TEXT NOT NULL, `showOrigin` TEXT NOT NULL, `showCertification` TEXT NOT NULL, `showCountUnit` TEXT NOT NULL, `showDeliveryPeriod` TEXT NOT NULL, `showAvailableForMarket` TEXT NOT NULL, `showPriceTerms` TEXT NOT NULL, `showLotNumber` TEXT NOT NULL, `showRatio` TEXT NOT NULL, `fbsIsActive` TEXT NOT NULL, PRIMARY KEY (`fbsId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_setting` (`fbsId` INTEGER, `fbsCategoryIdfk` TEXT, `fbsFiberFamilyIdfk` TEXT, `fbsBlendIdfk` TEXT, `showLength` TEXT, `lengthMinMax` TEXT, `showGrade` TEXT, `showMicronaire` TEXT, `micMinMax` TEXT, `showMoisture` TEXT, `moiMinMax` TEXT, `showTrash` TEXT, `trashMinMax` TEXT, `showRd` TEXT, `rdMinMax` TEXT, `showGpt` TEXT, `gptMinMax` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showBrand` TEXT, `showProductionYear` TEXT, `showOrigin` TEXT, `showCertification` TEXT, `showCountUnit` TEXT, `showDeliveryPeriod` TEXT, `showAvailableForMarket` TEXT, `showPriceTerms` TEXT, `showLotNumber` TEXT, `showRatio` TEXT, `fbsIsActive` TEXT, PRIMARY KEY (`fbsId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFiberMaterialIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, `show_actual_count` TEXT, `actual_count_min_max` TEXT, PRIMARY KEY (`ysId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_settings` (`ysId` INTEGER, `ysBlendIdfk` TEXT, `ysFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showOrigin` TEXT, `showDannier` TEXT, `dannierMinMax` TEXT, `showFilament` TEXT, `filamentMinMax` TEXT, `showBlend` TEXT, `showPly` TEXT, `showSpunTechnique` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showDoublingMethod` TEXT, `showCertification` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showAppearance` TEXT, `showQlt` TEXT, `qltMinMax` TEXT, `showClsp` TEXT, `clspMinMax` TEXT, `showUniformity` TEXT, `uniformityMinMax` TEXT, `showCv` TEXT, `cvMinMax` TEXT, `showThinPlaces` TEXT, `thinPlacesMinMax` TEXT, `showtThickPlaces` TEXT, `thickPlacesMinMax` TEXT, `showNaps` TEXT, `napsMinMax` TEXT, `showIpmKm` TEXT, `ipmKmMinMax` TEXT, `showHairness` TEXT, `hairnessMinMax` TEXT, `showRkm` TEXT, `rkmMinMax` TEXT, `showElongation` TEXT, `elongationMinMax` TEXT, `showTpi` TEXT, `tpiMinMax` TEXT, `showTm` TEXT, `tmMinMax` TEXT, `showDty` TEXT, `dtyMinMax` TEXT, `showFdy` TEXT, `fdyMinMax` TEXT, `showRatio` TEXT, `showTexturized` TEXT, `showUsage` TEXT, `showPattern` TEXT, `showPatternCharectristic` TEXT, `showOrientation` TEXT, `showTwistDirection` TEXT, `ysIsActive` TEXT, `ysSortid` TEXT, `show_actual_count` TEXT, `actual_count_min_max` TEXT, PRIMARY KEY (`ysId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
@@ -294,9 +292,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_types_table` (`ytId` INTEGER, `ytBlendIdfk` TEXT, `ytName` TEXT, `dannierRange` TEXT, `filamentRange` TEXT, `ytIsActive` TEXT, `ytSortid` TEXT, PRIMARY KEY (`ytId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `stocklots_table` (`id` INTEGER, `categoryId` TEXT, `parentId` TEXT, `name` TEXT, `isActive` TEXT, PRIMARY KEY (`id`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `stocklot_categories_table` (`id` INTEGER, `parentId` TEXT, `category` TEXT, `isActive` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `stocklots_family` (`stocklotFamilyId` INTEGER, `stocklotFamilyParentId` TEXT, `stocklotFamilyName` TEXT, `stocklotFamilyActive` TEXT, `stocklotFamilySortid` TEXT, PRIMARY KEY (`stocklotFamilyId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -402,14 +398,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  StocklotCategoriesDao get stocklotCategoriesDao {
+  StocklotFamilyDao get stocklotCategoriesDao {
     return _stocklotCategoriesDaoInstance ??=
-        _$StocklotCategoriesDao(database, changeListener);
-  }
-
-  @override
-  StocklotDao get stocklotDao {
-    return _stocklotDaoInstance ??= _$StocklotDao(database, changeListener);
+        _$StocklotFamilyDao(database, changeListener);
   }
 
   @override
@@ -689,7 +680,8 @@ class _$FiberSettingDao extends FiberSettingDao {
             (FiberSettings item) => <String, Object?>{
                   'fbsId': item.fbsId,
                   'fbsCategoryIdfk': item.fbsCategoryIdfk,
-                  'fbsFiberMaterialIdfk': item.fbsFiberMaterialIdfk,
+                  'fbsFiberFamilyIdfk': item.fbsFiberFamilyIdfk,
+                  'fbsBlendIdfk': item.fbsBlendIdfk,
                   'showLength': item.showLength,
                   'lengthMinMax': item.lengthMinMax,
                   'showGrade': item.showGrade,
@@ -730,71 +722,75 @@ class _$FiberSettingDao extends FiberSettingDao {
   Future<List<FiberSettings>> findAllFiberSettings() async {
     return _queryAdapter.queryList('SELECT * FROM fiber_setting',
         mapper: (Map<String, Object?> row) => FiberSettings(
-            fbsId: row['fbsId'] as int,
-            fbsCategoryIdfk: row['fbsCategoryIdfk'] as String,
-            fbsFiberMaterialIdfk: row['fbsFiberMaterialIdfk'] as String,
-            showLength: row['showLength'] as String,
-            lengthMinMax: row['lengthMinMax'] as String,
-            showGrade: row['showGrade'] as String,
-            showMicronaire: row['showMicronaire'] as String,
-            micMinMax: row['micMinMax'] as String,
-            showMoisture: row['showMoisture'] as String,
-            moiMinMax: row['moiMinMax'] as String,
-            showTrash: row['showTrash'] as String,
-            trashMinMax: row['trashMinMax'] as String,
-            showRd: row['showRd'] as String,
-            rdMinMax: row['rdMinMax'] as String,
-            showGpt: row['showGpt'] as String,
-            gptMinMax: row['gptMinMax'] as String,
-            showAppearance: row['showAppearance'] as String,
-            showColorTreatmentMethod: row['showColorTreatmentMethod'] as String,
-            showBrand: row['showBrand'] as String,
-            showProductionYear: row['showProductionYear'] as String,
-            showOrigin: row['showOrigin'] as String,
-            showCertification: row['showCertification'] as String,
-            showCountUnit: row['showCountUnit'] as String,
-            showDeliveryPeriod: row['showDeliveryPeriod'] as String,
-            showAvailableForMarket: row['showAvailableForMarket'] as String,
-            showPriceTerms: row['showPriceTerms'] as String,
-            showLotNumber: row['showLotNumber'] as String,
-            showRatio: row['showRatio'] as String,
-            fbsIsActive: row['fbsIsActive'] as String));
+            fbsId: row['fbsId'] as int?,
+            fbsCategoryIdfk: row['fbsCategoryIdfk'] as String?,
+            fbsFiberFamilyIdfk: row['fbsFiberFamilyIdfk'] as String?,
+            fbsBlendIdfk: row['fbsBlendIdfk'] as String?,
+            showLength: row['showLength'] as String?,
+            lengthMinMax: row['lengthMinMax'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showMicronaire: row['showMicronaire'] as String?,
+            micMinMax: row['micMinMax'] as String?,
+            showMoisture: row['showMoisture'] as String?,
+            moiMinMax: row['moiMinMax'] as String?,
+            showTrash: row['showTrash'] as String?,
+            trashMinMax: row['trashMinMax'] as String?,
+            showRd: row['showRd'] as String?,
+            rdMinMax: row['rdMinMax'] as String?,
+            showGpt: row['showGpt'] as String?,
+            gptMinMax: row['gptMinMax'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showBrand: row['showBrand'] as String?,
+            showProductionYear: row['showProductionYear'] as String?,
+            showOrigin: row['showOrigin'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showCountUnit: row['showCountUnit'] as String?,
+            showDeliveryPeriod: row['showDeliveryPeriod'] as String?,
+            showAvailableForMarket: row['showAvailableForMarket'] as String?,
+            showPriceTerms: row['showPriceTerms'] as String?,
+            showLotNumber: row['showLotNumber'] as String?,
+            showRatio: row['showRatio'] as String?,
+            fbsIsActive: row['fbsIsActive'] as String?));
   }
 
   @override
   Future<FiberSettings?> findFiberSettings(int id) async {
     return _queryAdapter.query(
-        'SELECT * FROM fiber_setting where fbsFiberMaterialIdfk = ?1',
+        'SELECT * FROM fiber_setting where fbsBlendIdfk = ?1',
         mapper: (Map<String, Object?> row) => FiberSettings(
-            fbsId: row['fbsId'] as int,
-            fbsCategoryIdfk: row['fbsCategoryIdfk'] as String,
-            fbsFiberMaterialIdfk: row['fbsFiberMaterialIdfk'] as String,
-            showLength: row['showLength'] as String,
-            lengthMinMax: row['lengthMinMax'] as String,
-            showGrade: row['showGrade'] as String,
-            showMicronaire: row['showMicronaire'] as String,
-            micMinMax: row['micMinMax'] as String,
-            showMoisture: row['showMoisture'] as String,
-            moiMinMax: row['moiMinMax'] as String,
-            showTrash: row['showTrash'] as String,
-            trashMinMax: row['trashMinMax'] as String,
-            showRd: row['showRd'] as String,
-            rdMinMax: row['rdMinMax'] as String,
-            showGpt: row['showGpt'] as String,
-            gptMinMax: row['gptMinMax'] as String,
-            showAppearance: row['showAppearance'] as String,
-            showColorTreatmentMethod: row['showColorTreatmentMethod'] as String,
-            showBrand: row['showBrand'] as String,
-            showProductionYear: row['showProductionYear'] as String,
-            showOrigin: row['showOrigin'] as String,
-            showCertification: row['showCertification'] as String,
-            showCountUnit: row['showCountUnit'] as String,
-            showDeliveryPeriod: row['showDeliveryPeriod'] as String,
-            showAvailableForMarket: row['showAvailableForMarket'] as String,
-            showPriceTerms: row['showPriceTerms'] as String,
-            showLotNumber: row['showLotNumber'] as String,
-            showRatio: row['showRatio'] as String,
-            fbsIsActive: row['fbsIsActive'] as String),
+            fbsId: row['fbsId'] as int?,
+            fbsCategoryIdfk: row['fbsCategoryIdfk'] as String?,
+            fbsFiberFamilyIdfk: row['fbsFiberFamilyIdfk'] as String?,
+            fbsBlendIdfk: row['fbsBlendIdfk'] as String?,
+            showLength: row['showLength'] as String?,
+            lengthMinMax: row['lengthMinMax'] as String?,
+            showGrade: row['showGrade'] as String?,
+            showMicronaire: row['showMicronaire'] as String?,
+            micMinMax: row['micMinMax'] as String?,
+            showMoisture: row['showMoisture'] as String?,
+            moiMinMax: row['moiMinMax'] as String?,
+            showTrash: row['showTrash'] as String?,
+            trashMinMax: row['trashMinMax'] as String?,
+            showRd: row['showRd'] as String?,
+            rdMinMax: row['rdMinMax'] as String?,
+            showGpt: row['showGpt'] as String?,
+            gptMinMax: row['gptMinMax'] as String?,
+            showAppearance: row['showAppearance'] as String?,
+            showColorTreatmentMethod:
+                row['showColorTreatmentMethod'] as String?,
+            showBrand: row['showBrand'] as String?,
+            showProductionYear: row['showProductionYear'] as String?,
+            showOrigin: row['showOrigin'] as String?,
+            showCertification: row['showCertification'] as String?,
+            showCountUnit: row['showCountUnit'] as String?,
+            showDeliveryPeriod: row['showDeliveryPeriod'] as String?,
+            showAvailableForMarket: row['showAvailableForMarket'] as String?,
+            showPriceTerms: row['showPriceTerms'] as String?,
+            showLotNumber: row['showLotNumber'] as String?,
+            showRatio: row['showRatio'] as String?,
+            fbsIsActive: row['fbsIsActive'] as String?),
         arguments: [id]);
   }
 
@@ -1985,17 +1981,18 @@ class _$UnitDao extends UnitDao {
   }
 }
 
-class _$StocklotCategoriesDao extends StocklotCategoriesDao {
-  _$StocklotCategoriesDao(this.database, this.changeListener)
+class _$StocklotFamilyDao extends StocklotFamilyDao {
+  _$StocklotFamilyDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _stocklotCategoriesInsertionAdapter = InsertionAdapter(
+        _stockLotFamilyInsertionAdapter = InsertionAdapter(
             database,
-            'stocklot_categories_table',
-            (StocklotCategories item) => <String, Object?>{
-                  'id': item.id,
-                  'parentId': item.parentId,
-                  'category': item.category,
-                  'isActive': item.isActive
+            'stocklots_family',
+            (StockLotFamily item) => <String, Object?>{
+                  'stocklotFamilyId': item.stocklotFamilyId,
+                  'stocklotFamilyParentId': item.stocklotFamilyParentId,
+                  'stocklotFamilyName': item.stocklotFamilyName,
+                  'stocklotFamilyActive': item.stocklotFamilyActive,
+                  'stocklotFamilySortid': item.stocklotFamilySortid
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -2004,125 +2001,68 @@ class _$StocklotCategoriesDao extends StocklotCategoriesDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<StocklotCategories>
-      _stocklotCategoriesInsertionAdapter;
+  final InsertionAdapter<StockLotFamily> _stockLotFamilyInsertionAdapter;
 
   @override
-  Future<List<StocklotCategories>> findAllStocklotCategories() async {
-    return _queryAdapter.queryList('SELECT * FROM stocklot_categories_table',
-        mapper: (Map<String, Object?> row) => StocklotCategories(
-            id: row['id'] as int?,
-            parentId: row['parentId'] as String?,
-            category: row['category'] as String?,
-            isActive: row['isActive'] as String?));
+  Future<List<StockLotFamily>> findAllStocklotCategories() async {
+    return _queryAdapter.queryList('SELECT * FROM stocklots_family',
+        mapper: (Map<String, Object?> row) => StockLotFamily(
+            stocklotFamilyId: row['stocklotFamilyId'] as int?,
+            stocklotFamilyParentId: row['stocklotFamilyParentId'] as String?,
+            stocklotFamilyName: row['stocklotFamilyName'] as String?,
+            stocklotFamilyActive: row['stocklotFamilyActive'] as String?,
+            stocklotFamilySortid: row['stocklotFamilySortid'] as String?));
   }
 
   @override
-  Future<StocklotCategories?> findStocklotCategoriesWithId(int id) async {
+  Future<List<StockLotFamily>> findParentStocklot() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM stocklots_family where stocklotFamilyParentId IS NULL',
+        mapper: (Map<String, Object?> row) => StockLotFamily(
+            stocklotFamilyId: row['stocklotFamilyId'] as int?,
+            stocklotFamilyParentId: row['stocklotFamilyParentId'] as String?,
+            stocklotFamilyName: row['stocklotFamilyName'] as String?,
+            stocklotFamilyActive: row['stocklotFamilyActive'] as String?,
+            stocklotFamilySortid: row['stocklotFamilySortid'] as String?));
+  }
+
+  @override
+  Future<StockLotFamily?> findStocklotCategoriesWithId(int id) async {
     return _queryAdapter.query(
-        'SELECT * FROM stocklot_categories_table where id = ?1',
-        mapper: (Map<String, Object?> row) => StocklotCategories(
-            id: row['id'] as int?,
-            parentId: row['parentId'] as String?,
-            category: row['category'] as String?,
-            isActive: row['isActive'] as String?),
+        'SELECT * FROM stocklots_family where stocklotFamilyParentId = ?1',
+        mapper: (Map<String, Object?> row) => StockLotFamily(
+            stocklotFamilyId: row['stocklotFamilyId'] as int?,
+            stocklotFamilyParentId: row['stocklotFamilyParentId'] as String?,
+            stocklotFamilyName: row['stocklotFamilyName'] as String?,
+            stocklotFamilyActive: row['stocklotFamilyActive'] as String?,
+            stocklotFamilySortid: row['stocklotFamilySortid'] as String?),
         arguments: [id]);
   }
 
   @override
   Future<void> deleteStocklotCategories(int id) async {
     await _queryAdapter.queryNoReturn(
-        'delete from stocklot_categories_table where id = ?1',
+        'delete from stocklots_family where stocklotFamilyParentId = ?1',
         arguments: [id]);
   }
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from stocklot_categories_table');
+    await _queryAdapter.queryNoReturn('delete from stocklots_family');
   }
 
   @override
   Future<void> insertStocklotCategories(
-      StocklotCategories stocklotCategories) async {
-    await _stocklotCategoriesInsertionAdapter.insert(
+      StockLotFamily stocklotCategories) async {
+    await _stockLotFamilyInsertionAdapter.insert(
         stocklotCategories, OnConflictStrategy.replace);
   }
 
   @override
   Future<List<int>> insertAllStocklotCategories(
-      List<StocklotCategories> stocklotCategories) {
-    return _stocklotCategoriesInsertionAdapter.insertListAndReturnIds(
+      List<StockLotFamily> stocklotCategories) {
+    return _stockLotFamilyInsertionAdapter.insertListAndReturnIds(
         stocklotCategories, OnConflictStrategy.replace);
-  }
-}
-
-class _$StocklotDao extends StocklotDao {
-  _$StocklotDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _stocklotsInsertionAdapter = InsertionAdapter(
-            database,
-            'stocklots_table',
-            (Stocklots item) => <String, Object?>{
-                  'id': item.id,
-                  'categoryId': item.categoryId,
-                  'parentId': item.parentId,
-                  'name': item.name,
-                  'isActive': item.isActive
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<Stocklots> _stocklotsInsertionAdapter;
-
-  @override
-  Future<List<Stocklots>> findAllStocklots() async {
-    return _queryAdapter.queryList('SELECT * FROM stocklots_table',
-        mapper: (Map<String, Object?> row) => Stocklots(
-            id: row['id'] as int?,
-            categoryId: row['categoryId'] as String?,
-            parentId: row['parentId'] as String?,
-            name: row['name'] as String?,
-            isActive: row['isActive'] as String?));
-  }
-
-  @override
-  Future<Stocklots?> findStocklotsWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM stocklots_table where id = ?1',
-        mapper: (Map<String, Object?> row) => Stocklots(
-            id: row['id'] as int?,
-            categoryId: row['categoryId'] as String?,
-            parentId: row['parentId'] as String?,
-            name: row['name'] as String?,
-            isActive: row['isActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteStocklots(int id) async {
-    await _queryAdapter.queryNoReturn(
-        'delete from stocklots_table where id = ?1',
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from stocklots_table');
-  }
-
-  @override
-  Future<void> insertStocklots(Stocklots stocklots) async {
-    await _stocklotsInsertionAdapter.insert(
-        stocklots, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllStocklots(List<Stocklots> stocklots) {
-    return _stocklotsInsertionAdapter.insertListAndReturnIds(
-        stocklots, OnConflictStrategy.replace);
   }
 }
 
@@ -3325,7 +3265,7 @@ class _$YarnSettingDao extends YarnSettingDao {
             (YarnSetting item) => <String, Object?>{
                   'ysId': item.ysId,
                   'ysBlendIdfk': item.ysBlendIdfk,
-                  'ysFiberMaterialIdfk': item.ysFiberMaterialIdfk,
+                  'ysFamilyIdfk': item.ysFamilyIdfk,
                   'showCount': item.showCount,
                   'countMinMax': item.countMinMax,
                   'showOrigin': item.showOrigin,
@@ -3401,7 +3341,7 @@ class _$YarnSettingDao extends YarnSettingDao {
         mapper: (Map<String, Object?> row) => YarnSetting(
             ysId: row['ysId'] as int?,
             ysBlendIdfk: row['ysBlendIdfk'] as String?,
-            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?,
+            ysFamilyIdfk: row['ysFamilyIdfk'] as String?,
             showCount: row['showCount'] as String?,
             countMinMax: row['countMinMax'] as String?,
             showOrigin: row['showOrigin'] as String?,
@@ -3469,19 +3409,19 @@ class _$YarnSettingDao extends YarnSettingDao {
   Future<List<YarnSetting>> findFamilyAndBlendYarnSettings(
       int id, int materialId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM yarn_settings where ysBlendIdfk = ?1 and ysFiberMaterialIdfk = ?2',
-        mapper: (Map<String, Object?> row) => YarnSetting(ysId: row['ysId'] as int?, ysBlendIdfk: row['ysBlendIdfk'] as String?, ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?, showCount: row['showCount'] as String?, countMinMax: row['countMinMax'] as String?, showOrigin: row['showOrigin'] as String?, showDannier: row['showDannier'] as String?, dannierMinMax: row['dannierMinMax'] as String?, showFilament: row['showFilament'] as String?, filamentMinMax: row['filamentMinMax'] as String?, showBlend: row['showBlend'] as String?, showPly: row['showPly'] as String?, showSpunTechnique: row['showSpunTechnique'] as String?, showQuality: row['showQuality'] as String?, showGrade: row['showGrade'] as String?, showDoublingMethod: row['showDoublingMethod'] as String?, showCertification: row['showCertification'] as String?, showColorTreatmentMethod: row['showColorTreatmentMethod'] as String?, showDyingMethod: row['showDyingMethod'] as String?, showColor: row['showColor'] as String?, showAppearance: row['showAppearance'] as String?, showQlt: row['showQlt'] as String?, qltMinMax: row['qltMinMax'] as String?, showClsp: row['showClsp'] as String?, clspMinMax: row['clspMinMax'] as String?, showUniformity: row['showUniformity'] as String?, uniformityMinMax: row['uniformityMinMax'] as String?, showCv: row['showCv'] as String?, cvMinMax: row['cvMinMax'] as String?, showThinPlaces: row['showThinPlaces'] as String?, thinPlacesMinMax: row['thinPlacesMinMax'] as String?, showtThickPlaces: row['showtThickPlaces'] as String?, thickPlacesMinMax: row['thickPlacesMinMax'] as String?, showNaps: row['showNaps'] as String?, napsMinMax: row['napsMinMax'] as String?, showIpmKm: row['showIpmKm'] as String?, ipmKmMinMax: row['ipmKmMinMax'] as String?, showHairness: row['showHairness'] as String?, hairnessMinMax: row['hairnessMinMax'] as String?, showRkm: row['showRkm'] as String?, rkmMinMax: row['rkmMinMax'] as String?, showElongation: row['showElongation'] as String?, elongationMinMax: row['elongationMinMax'] as String?, showTpi: row['showTpi'] as String?, tpiMinMax: row['tpiMinMax'] as String?, showTm: row['showTm'] as String?, tmMinMax: row['tmMinMax'] as String?, showDty: row['showDty'] as String?, dtyMinMax: row['dtyMinMax'] as String?, showFdy: row['showFdy'] as String?, fdyMinMax: row['fdyMinMax'] as String?, showRatio: row['showRatio'] as String?, showTexturized: row['showTexturized'] as String?, showUsage: row['showUsage'] as String?, showPattern: row['showPattern'] as String?, showPatternCharectristic: row['showPatternCharectristic'] as String?, showOrientation: row['showOrientation'] as String?, showTwistDirection: row['showTwistDirection'] as String?, ysIsActive: row['ysIsActive'] as String?, ysSortid: row['ysSortid'] as String?, show_actual_count: row['show_actual_count'] as String?, actual_count_min_max: row['actual_count_min_max'] as String?),
+        'SELECT * FROM yarn_settings where ysBlendIdfk = ?1 and ysFamilyIdfk = ?2',
+        mapper: (Map<String, Object?> row) => YarnSetting(ysId: row['ysId'] as int?, ysBlendIdfk: row['ysBlendIdfk'] as String?, ysFamilyIdfk: row['ysFamilyIdfk'] as String?, showCount: row['showCount'] as String?, countMinMax: row['countMinMax'] as String?, showOrigin: row['showOrigin'] as String?, showDannier: row['showDannier'] as String?, dannierMinMax: row['dannierMinMax'] as String?, showFilament: row['showFilament'] as String?, filamentMinMax: row['filamentMinMax'] as String?, showBlend: row['showBlend'] as String?, showPly: row['showPly'] as String?, showSpunTechnique: row['showSpunTechnique'] as String?, showQuality: row['showQuality'] as String?, showGrade: row['showGrade'] as String?, showDoublingMethod: row['showDoublingMethod'] as String?, showCertification: row['showCertification'] as String?, showColorTreatmentMethod: row['showColorTreatmentMethod'] as String?, showDyingMethod: row['showDyingMethod'] as String?, showColor: row['showColor'] as String?, showAppearance: row['showAppearance'] as String?, showQlt: row['showQlt'] as String?, qltMinMax: row['qltMinMax'] as String?, showClsp: row['showClsp'] as String?, clspMinMax: row['clspMinMax'] as String?, showUniformity: row['showUniformity'] as String?, uniformityMinMax: row['uniformityMinMax'] as String?, showCv: row['showCv'] as String?, cvMinMax: row['cvMinMax'] as String?, showThinPlaces: row['showThinPlaces'] as String?, thinPlacesMinMax: row['thinPlacesMinMax'] as String?, showtThickPlaces: row['showtThickPlaces'] as String?, thickPlacesMinMax: row['thickPlacesMinMax'] as String?, showNaps: row['showNaps'] as String?, napsMinMax: row['napsMinMax'] as String?, showIpmKm: row['showIpmKm'] as String?, ipmKmMinMax: row['ipmKmMinMax'] as String?, showHairness: row['showHairness'] as String?, hairnessMinMax: row['hairnessMinMax'] as String?, showRkm: row['showRkm'] as String?, rkmMinMax: row['rkmMinMax'] as String?, showElongation: row['showElongation'] as String?, elongationMinMax: row['elongationMinMax'] as String?, showTpi: row['showTpi'] as String?, tpiMinMax: row['tpiMinMax'] as String?, showTm: row['showTm'] as String?, tmMinMax: row['tmMinMax'] as String?, showDty: row['showDty'] as String?, dtyMinMax: row['dtyMinMax'] as String?, showFdy: row['showFdy'] as String?, fdyMinMax: row['fdyMinMax'] as String?, showRatio: row['showRatio'] as String?, showTexturized: row['showTexturized'] as String?, showUsage: row['showUsage'] as String?, showPattern: row['showPattern'] as String?, showPatternCharectristic: row['showPatternCharectristic'] as String?, showOrientation: row['showOrientation'] as String?, showTwistDirection: row['showTwistDirection'] as String?, ysIsActive: row['ysIsActive'] as String?, ysSortid: row['ysSortid'] as String?, show_actual_count: row['show_actual_count'] as String?, actual_count_min_max: row['actual_count_min_max'] as String?),
         arguments: [id, materialId]);
   }
 
   @override
   Future<List<YarnSetting>> findFamilyYarnSettings(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM yarn_settings where ysFiberMaterialIdfk = ?1',
+        'SELECT * FROM yarn_settings where ysFamilyIdfk = ?1',
         mapper: (Map<String, Object?> row) => YarnSetting(
             ysId: row['ysId'] as int?,
             ysBlendIdfk: row['ysBlendIdfk'] as String?,
-            ysFiberMaterialIdfk: row['ysFiberMaterialIdfk'] as String?,
+            ysFamilyIdfk: row['ysFamilyIdfk'] as String?,
             showCount: row['showCount'] as String?,
             countMinMax: row['countMinMax'] as String?,
             showOrigin: row['showOrigin'] as String?,

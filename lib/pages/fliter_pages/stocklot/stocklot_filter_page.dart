@@ -71,16 +71,14 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                   listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
                                       .stocklots!,
                                   selectedIndex: -1,
-                                  callback: (StocklotCategories value) {
+                                  callback: (StockLotFamily value) {
                                       stocklotProvider
-                                          .getCategories(value.id.toString());
+                                          .getCategories(value.stocklotFamilyId.toString());
                                       stocklotProvider.setShowCategory(true);
                                       stocklotProvider.setShowSubCategory(true);
                                       stocklotProvider.setSubCatIndex(-1);
                                       stocklotProvider.setCatIndex(-1);
-                                      stocklotProvider.getStockLotSpecRequestModel.stocklotCategoryId = null;
-                                      stocklotProvider.getStockLotSpecRequestModel.stocklotSubCategoryId = null;
-
+                                      stocklotProvider.getStockLotSpecRequestModel.stocklotFamilyId = null;
                                   },
                                 )
                               ],
@@ -111,12 +109,12 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       listOfItems:
                                           stocklotProvider.stocklotCategories!,
                                       selectedIndex: -1,
-                                      callback: (StocklotCategories value) {
+                                      callback: (StockLotFamily value) {
                                         // stocklotProvider.stocklotRequestModel
                                         //     .subcategoryId = value.id.toString();
-                                        _getStockLotSpecRequestModel.categoryId = value.id.toString();
+                                        _getStockLotSpecRequestModel.categoryId = value.stocklotFamilyId.toString();
                                         stocklotProvider.getSubcategories(
-                                            value.id.toString());
+                                            value.stocklotFamilyId.toString());
                                       },
                                     ),
                                   )
@@ -145,10 +143,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                     listOfItems:
                                         stocklotProvider.stocklotSubcategories!,
                                     selectedIndex: -1,
-                                    callback: (StocklotCategories value) {
+                                    callback: (StockLotFamily value) {
                                       stocklotProvider.getFilteredStocklotWaste(
-                                          value.id ?? -1);
-                                      _getStockLotSpecRequestModel.stocklotSubCategoryId = value.id.toString();
+                                          value.stocklotFamilyId ?? -1);
+                                      _getStockLotSpecRequestModel.stocklotFamilyId = value.stocklotFamilyId.toString();
 
                                     },
                                   )

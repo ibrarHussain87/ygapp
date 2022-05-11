@@ -86,6 +86,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                           onClickCallback: (index) {
                             _fiberPostProvider.createRequestModel.spc_fiber_family_idfk =
                                 _fiberPostProvider.fiberBlendsList[index].blnId.toString();
+                            _fiberPostProvider.selectedBlendId = _fiberPostProvider.fiberBlendsList[index].blnId.toString();
                             _fiberPostProvider.fiberSettingSelectedBlend();
                           },
                         ),
