@@ -40,9 +40,9 @@ class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
 
   Widget buildListBody(int index) {
     bool isSelected = selectedIndex.contains(index);
-    List<FiberMaterial> castedList = [];
-    if (widget.listItem is List<FiberMaterial>) {
-      castedList = widget.listItem!.cast<FiberMaterial>();
+    List<FiberBlends> castedList = [];
+    if (widget.listItem is List<FiberBlends>) {
+      castedList = widget.listItem!.cast<FiberBlends>();
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -61,15 +61,15 @@ class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
           children: [
             NetworkImageIconWidget(
               imageUrl: isSelected
-                  ? '${ApiService.BASE_URL}${castedList[index].icon_selected??""}'
-                  : '${ApiService.BASE_URL}${castedList[index].icon_unselected??""}',
+                  ? '${ApiService.BASE_URL}${castedList[index].iconSelected??""}'
+                  : '${ApiService.BASE_URL}${castedList[index].iconUnselected??""}',
             ),
             SizedBox(
               height: 2.h,
             ),
             Expanded(
               child: Text(
-                castedList[index].fbmName??Utils.checkNullString(false),
+                castedList[index].blnName??Utils.checkNullString(false),
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

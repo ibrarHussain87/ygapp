@@ -19,10 +19,12 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../helper_utils/alert_dialog.dart';
@@ -57,6 +59,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   List<PickedFile> imageFiles = [];
   final GlobalKey<LabParameterPageState> _labParameterPage =
       GlobalKey<LabParameterPageState>();
+
+  final _yarnPostProvider = locator<PostYarnProvider>();
 
   // ValueChanged<Color> callback
   _changeColor(Color color) {
@@ -251,7 +255,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   queryBlendSettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao
           .findFamilyAndBlendYarnSettings(
               _blendsList![id].blnId!, int.parse(_selectedFamilyId!))
@@ -280,7 +284,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           _selectedFamilyId = id.toString();
@@ -387,7 +391,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (_createRequestModel.ys_blend_idfk == null &&
+      if (!_yarnPostProvider.isBlendSelected &&
           Ui.showHide(_yarnSetting!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
@@ -497,37 +501,37 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   _getSyncedData() async {
-    await AppDbInstance.getYarnFamilyData()
+    await AppDbInstance().getYarnFamilyData()
         .then((value) => setState(() => _familyList = value));
-    await AppDbInstance.getYarnBlendData()
+    await AppDbInstance().getYarnBlendData()
         .then((value) => setState(() => _blendsList = value));
-    await AppDbInstance.getYarnAppearance()
+    await AppDbInstance().getYarnAppearance()
         .then((value) => _appearanceList = value);
-    await AppDbInstance.getYarnTypeData()
+    await AppDbInstance().getYarnTypeData()
         .then((value) => setState(() => _yarnTypesList = value));
-    await AppDbInstance.getYarnUsage()
+    await AppDbInstance().getYarnUsage()
         .then((value) => setState(() => _usageList = value));
-    await AppDbInstance.getColorTreatmentMethodData()
+    await AppDbInstance().getColorTreatmentMethodData()
         .then((value) => setState(() => _colorTreatmentMethodList = value));
-    await AppDbInstance.getYarnDyingMethod()
+    await AppDbInstance().getYarnDyingMethod()
         .then((value) => setState(() => _dyingMethodList = value));
-    await AppDbInstance.getYarnPly()
+    await AppDbInstance().getYarnPly()
         .then((value) => setState(() => _plyList = value));
-    await AppDbInstance.getDoublingMethod()
+    await AppDbInstance().getDoublingMethod()
         .then((value) => _doublingMethodList = value);
-    await AppDbInstance.getOrientationData()
+    await AppDbInstance().getOrientationData()
         .then((value) => _orientationList = value);
-    await AppDbInstance.getSpunTech().then((value) => _spunTechList = value);
-    await AppDbInstance.getYarnQuality().then((value) => _qualityList = value);
-    await AppDbInstance.getPattern().then((value) => _patternList = value);
-    await AppDbInstance.getTwistDirections()
+    await AppDbInstance().getSpunTech().then((value) => _spunTechList = value);
+    await AppDbInstance().getYarnQuality().then((value) => _qualityList = value);
+    await AppDbInstance().getPattern().then((value) => _patternList = value);
+    await AppDbInstance().getTwistDirections()
         .then((value) => _twistDirectionList = value);
-    await AppDbInstance.getPatternCharacteristics()
+    await AppDbInstance().getPatternCharacteristics()
         .then((value) => _patternCharList = value);
-    await AppDbInstance.getCertificationsData()
+    await AppDbInstance().getCertificationsData()
         .then((value) => _certificationList = value);
-    await AppDbInstance.getYarnGradesDao().then((value) => _gradesList = value);
-    await AppDbInstance.getYarnSettings().then((value) {
+    await AppDbInstance().getYarnGradesDao().then((value) => _gradesList = value);
+    await AppDbInstance().getYarnSettings().then((value) {
       _yarnSettingsList = value;
       _selectedFamilyId = _familyList!.first.famId.toString();
       queryFamilySettings(int.parse(_selectedFamilyId!));

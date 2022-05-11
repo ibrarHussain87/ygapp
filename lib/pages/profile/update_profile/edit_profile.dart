@@ -74,7 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     return SafeArea(
       child: FutureBuilder<User?>(
-        future: AppDbInstance.getDbInstance()
+        future: AppDbInstance().getDbInstance()
             .then((value) => value.userDao.getUser()),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
@@ -656,7 +656,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
               FutureBuilder<List<Countries>?>(
-                  future: AppDbInstance.getDbInstance()
+                  future: AppDbInstance().getDbInstance()
                       .then((value) => value.countriesDao.findAllCountries()),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data != null) {
@@ -758,7 +758,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
               FutureBuilder<List<CityState>?>(
-                  future: AppDbInstance.getDbInstance()
+                  future: AppDbInstance().getDbInstance()
                       .then((value) => value.cityStateDao.findAllCityState()),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data != null) {
@@ -1050,7 +1050,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
     FutureBuilder<List<Countries>?>(
-    future: AppDbInstance.getDbInstance()
+    future: AppDbInstance().getDbInstance()
         .then((value) => value.countriesDao.findAllCountries()),
     builder: (context, snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
@@ -1152,7 +1152,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
 
           FutureBuilder<List<CityState>?>(
-                  future: AppDbInstance.getDbInstance()
+                  future: AppDbInstance().getDbInstance()
                       .then((value) => value.cityStateDao.findAllCityState()),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data != null) {
@@ -1435,7 +1435,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     .showSnackBar(SnackBar(content: Text(error.toString())));
               });
             } else if (value.success!) {
-              AppDbInstance.getDbInstance().then((db) async {
+              AppDbInstance().getDbInstance().then((db) async {
                 await db.userDao.insertUser(value.data!.user!);
               });
               SharedPreferenceUtil.addStringToSF(

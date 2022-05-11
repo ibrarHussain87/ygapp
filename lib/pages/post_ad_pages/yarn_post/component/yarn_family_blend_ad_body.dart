@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/blend_bottom_sheet.dart';
+import 'package:yg_app/elements/yarn_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/yarn_selected_blend_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
+import 'package:yg_app/providers/post_yarn_provider.dart';
 
 class FamilyBlendAdsBody extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
@@ -18,12 +21,11 @@ class FamilyBlendAdsBody extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const FamilyBlendAdsBody(
-      {Key? key,
-      // required this.yarnSyncResponse,
-      required this.selectedTab,
-      required this.locality,
-      required this.businessArea})
+  const FamilyBlendAdsBody({Key? key,
+    // required this.yarnSyncResponse,
+    required this.selectedTab,
+    required this.locality,
+    required this.businessArea})
       : super(key: key);
 
   @override
@@ -33,28 +35,30 @@ class FamilyBlendAdsBody extends StatefulWidget {
 class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   //Globel Keys
   GlobalKey<YarnStepsSegmentsState> yarnStepStateKey =
-      GlobalKey<YarnStepsSegmentsState>();
+  GlobalKey<YarnStepsSegmentsState>();
 
   final GlobalKey<FamilyTileWidgetState> _familyTileKey =
-      GlobalKey<FamilyTileWidgetState>();
-  final GlobalKey<CatWithImageListWidgetState> _blendTileKey =
-      GlobalKey<CatWithImageListWidgetState>();
+  GlobalKey<FamilyTileWidgetState>();
+  final GlobalKey<BlendsWithImageListWidgetState> _blendTileKey =
+  GlobalKey<BlendsWithImageListWidgetState>();
 
   late CreateRequestModel _createRequestModel;
   YarnSetting _yarnSetting = YarnSetting();
   String? selectedFamilyId;
   List<Family> _familyList = [];
-  List<Blends> _blendsList=[];
+
+  final _yarnPostProvider = locator<PostYarnProvider>();
 
   _getSyncedData() async {
-    await AppDbInstance.getYarnFamilyData().then((value) => setState(() {
+    await AppDbInstance().getYarnFamilyData().then((value) =>
+        setState(() {
           _familyList = value;
           selectedFamilyId =
               value.first.famId.toString();
         }));
-    await AppDbInstance.getYarnBlendData()
-        .then((value) => setState(() => _blendsList = value));
-    await AppDbInstance.getYarnSettings().then((value) {
+    await AppDbInstance().getYarnBlendData()
+        .then((value) =>  _yarnPostProvider.setBlendList = value);
+    await AppDbInstance().getYarnSettings().then((value) {
       setState(() {
         _yarnSetting = value.first;
       });
@@ -67,6 +71,8 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
     _getSyncedData();
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +93,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                 height: 10.w,
               ),
               SizedBox(
-                height: 0.055 * MediaQuery.of(context).size.height,
+                height: 0.055 * MediaQuery
+                    .of(context)
+                    .size
+                    .height,
                 child: FamilyTileWidget(
                   key: _familyTileKey,
                   listItems: _familyList,
@@ -97,6 +106,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                       selectedFamilyId = value.famId.toString();
                     });
                     _createRequestModel.ys_family_idfk = selectedFamilyId;
+                    _yarnPostProvider.resetData();
                     queryFamilySettings(value.famId!);
                     yarnStepStateKey.currentState!.onClickFamily(value.famId);
                   },
@@ -113,7 +123,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             children: [
               const SizedBox(height: 4,),
               const Padding(
-                  padding: EdgeInsets.only(left: 16,right: 16,),
+                  padding: EdgeInsets.only(left: 16, right: 16,),
                   child: Divider()
               ),
               Visibility(
@@ -124,21 +134,18 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 8.w),
-                child: CatWithImageListWidget(
-                  selectedItem: -1,
+                child: YarnSelectedBlendWidget(
                   key: _blendTileKey,
-                  listItem: _blendsList
+                  listItem: _yarnPostProvider.blendList
                       .where(
                           (element) => element.familyIdfk == selectedFamilyId)
                       .toList(),
                   onClickCallback: (value) {
-                    blendedSheet(context, _blendsList
+                    blendedSheet(context, _yarnPostProvider.blendList
                         .where(
                             (element) => element.familyIdfk == selectedFamilyId)
-                        .toList(), value,(blends){
-
+                        .toList(), value, (blends) {
                       Navigator.pop(context);
-
                     });
                     yarnStepStateKey.currentState!.onClickBlend(value);
                   },
@@ -146,7 +153,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
               ),
               const SizedBox(height: 4,),
               const Padding(
-                  padding: EdgeInsets.only(left: 16,right: 16,),
+                  padding: EdgeInsets.only(left: 16, right: 16,),
                   child: Divider()
               ),
             ],
@@ -185,7 +192,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           if (value.isNotEmpty) {

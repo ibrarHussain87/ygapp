@@ -122,7 +122,7 @@ class StocklotProvider extends ChangeNotifier {
     countryList!.clear();
     stocklotWasteList!.clear();
     ignoreClick = false;
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     stocklotAllCategories =
         await dbInstance.stocklotCategoriesDao.findAllStocklotCategories();
     stocklots = stocklotAllCategories

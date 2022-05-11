@@ -59,7 +59,7 @@ class YarnProductPageState extends State<YarnProductPage>
 
   @override
   void initState() {
-    AppDbInstance.getDbInstance().then((db) async {
+    AppDbInstance().getDbInstance().then((db) async {
       await db.yarnFamilyDao.findAllYarnFamily().then((value) => setState(() {
             yarnFamilyList = value;
           }));
@@ -146,7 +146,7 @@ class YarnProductPageState extends State<YarnProductPage>
                             : false,
                         child: SizedBox(
                           height: 48.w,
-                          child: CatWithImageListWidget(
+                          child: BlendsWithImageListWidget(
                             listItem: yarnBlendList
                                 .where((element) =>
                                     element.familyIdfk == famId.toString())
@@ -216,7 +216,7 @@ class YarnProductPageState extends State<YarnProductPage>
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           if (value.isNotEmpty) {

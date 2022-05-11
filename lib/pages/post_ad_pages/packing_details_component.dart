@@ -20,6 +20,7 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -31,6 +32,7 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/post_fiber_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -102,6 +104,8 @@ class PackagingDetailsState extends State<PackagingDetails>
   late List<Ports> _portsList;
   late List<ConeType> _coneTypeList;
 
+  final _fiberPostProvider = locator<PostFiberProvider>();
+
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
       return _priceTermList
@@ -114,29 +118,29 @@ class PackagingDetailsState extends State<PackagingDetails>
   }
 
   _getPackingDetailData() async {
-    await AppDbInstance.getPriceTerms()
+    await AppDbInstance().getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
-    await AppDbInstance.getPacking().then((value) => setState(() {
+    await AppDbInstance().getPacking().then((value) => setState(() {
           _packingList = value;
           _packingList = _packingList
               .where((element) => element.pacIsActive == "1")
               .toList();
         }));
-    await AppDbInstance.getDeliveryPeriod()
+    await AppDbInstance().getDeliveryPeriod()
         .then((value) => setState(() => _deliverPeriodList = value));
-    await AppDbInstance.getPaymentType()
+    await AppDbInstance().getPaymentType()
         .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance.getLcType()
+    await AppDbInstance().getLcType()
         .then((value) => setState(() => _lcTypeList = value));
-    await AppDbInstance.getUnits()
+    await AppDbInstance().getUnits()
         .then((value) => setState(() => _unitsList = value));
-    await AppDbInstance.getOriginsData()
+    await AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countriesList = value));
-    await AppDbInstance.getCityState()
+    await AppDbInstance().getCityState()
         .then((value) => setState(() => _cityStateList = value));
-    await AppDbInstance.getPorts()
+    await AppDbInstance().getPorts()
         .then((value) => setState(() => _portsList = value));
-    await AppDbInstance.getConeTypes()
+    await AppDbInstance().getConeTypes()
         .then((value) => setState(() => _coneTypeList = value));
   }
 
@@ -164,6 +168,7 @@ class PackagingDetailsState extends State<PackagingDetails>
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
+    _createRequestModel ??= _fiberPostProvider.createRequestModel;
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,

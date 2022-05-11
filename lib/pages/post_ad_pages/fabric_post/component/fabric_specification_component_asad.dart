@@ -142,7 +142,7 @@ class FabricSpecificationComponentState
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider)async {
-    AppDbInstance.getFabricBlendsData().then((value) => setState(() {
+    AppDbInstance().getFabricBlendsData().then((value) => setState(() {
       _fabricBlendsList = value;
       _selectedMaterial = value
           .where((element) => element.familyIdfk == postFabricProvider.firstFamilyId.toString())
@@ -152,7 +152,7 @@ class FabricSpecificationComponentState
       postFabricProvider.setBlendId(_selectedMaterial!);
       familyId = _fabricBlendsList.where((element) => element.blnId == postFabricProvider.blendId).first.familyIdfk;
     }));
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     _fabricAppearanceList = await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
     _fabricGradesList = await dbInstance.fabricGradesDao.findAllFabricGrade();
@@ -167,13 +167,13 @@ class FabricSpecificationComponentState
     _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
-    AppDbInstance.getFiberBrandsData()
+    AppDbInstance().getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
-    AppDbInstance.getCityState()
+    AppDbInstance().getCityState()
         .then((value) => setState(() => _citySateList = value));
-    AppDbInstance.getCertificationsData()
+    AppDbInstance().getCertificationsData()
         .then((value) => setState(() => _certificationList = value));
   }
 

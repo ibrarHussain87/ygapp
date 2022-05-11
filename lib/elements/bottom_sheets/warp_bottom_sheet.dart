@@ -88,9 +88,9 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                           value: fabricCreateRequestModel!.fs_warp_count,
                                           label:'Warp Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: fabricSetting!.warpCountMinMax??'n/a',
+                                          minMax: fabricSetting.warpCountMinMax??'n/a',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_warp_count = input;
+                                            fabricCreateRequestModel.fs_warp_count = input;
                                           })
                                     ],
                                   ),
@@ -103,7 +103,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                           Row(
                             children: [
                               Visibility(
-                                visible: Ui.showHide(fabricSetting!.showWarpPly),
+                                visible: Ui.showHide(fabricSetting.showWarpPly),
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,11 +115,11 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 //
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithoutRange(
-                                          value: fabricCreateRequestModel!.fs_warp_ply_idfk ,
+                                          value: fabricCreateRequestModel.fs_warp_ply_idfk ,
                                           errorText: 'Warp Ply',
                                           label: 'Warp Ply',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_warp_ply_idfk = input;
+                                            fabricCreateRequestModel.fs_warp_ply_idfk = input;
                                           })
                                     ],
                                   ),
@@ -132,7 +132,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                           Row(
                             children: [
                               Visibility(
-                                visible: Ui.showHide(fabricSetting!.showNoOfEndsWarp),
+                                visible: Ui.showHide(fabricSetting.showNoOfEndsWarp),
                                 child: Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,13 +143,13 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 //                                                child: const TitleSmallTextWidget(title: 'No of Ends' + '*')),
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNonDecimal(
-                                          value: fabricCreateRequestModel!.fs_no_of_ends_warp,
+                                          value: fabricCreateRequestModel.fs_no_of_ends_warp,
                                           label:'No of Ends',
                                           errorText: 'No of Ends',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                          minMax: fabricSetting!.noOfEndsWarpMinMax??'n/a',
+                                          minMax: fabricSetting.noOfEndsWarpMinMax??'n/a',
                                           onSaved: (input) {
-                                            fabricCreateRequestModel!.fs_no_of_ends_warp = input;
+                                            fabricCreateRequestModel.fs_no_of_ends_warp = input;
                                           })
                                     ],
                                   ),

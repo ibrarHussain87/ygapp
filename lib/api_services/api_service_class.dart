@@ -47,16 +47,16 @@ import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
-  static String BASE_URL = "http://yarnonline.net/staging/public/";
+    static String BASE_URL = "http://staging.yarnonline.net/";
 
   // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
-  static String BASE_API_URL = "http://staging.yarnonline.net/api";
+  static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String SPEC_USER_END_POINT = "/spec_user";
-  static const String SYNC_FIBER_END_POINT = "/syncFiber";
-  static const String SYNC_YARN_END_POINT = "/syncYarn";
+  // static const String SYNC_FIBER_END_POINT = "/sync";
+  // static const String SYNC_YARN_END_POINT = "/syncYarn";
   static const String SYNC_END_POINT = "/sync";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
   static const String CREATE_END_POINT = "/createSpecification";
@@ -146,14 +146,15 @@ class ApiService {
     }
   }
 
-  static Future<SyncFiberResponse> syncFiber() async {
+  static Future<SyncFiberResponse> syncFiber(SyncRequestModel syncRequestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
       headerMap['Authorization'] = 'Bearer $userToken';
 
-      String url = BASE_API_URL + SYNC_FIBER_END_POINT;
+      String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url), headers: headerMap);
+      final response = await http.post(Uri.parse(url), headers: headerMap,body: syncRequestModel.toJson());
 
       return SyncFiberResponse.fromJson(
         json.decode(response.body),
@@ -197,14 +198,14 @@ class ApiService {
     }
   }
 
-  static Future<YarnSyncResponse> syncYarn() async {
+  static Future<YarnSyncResponse> syncYarn(SyncRequestModel syncRequestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
-      String url = BASE_API_URL + SYNC_YARN_END_POINT;
+      String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url), headers: headerMap);
+      final response = await http.post(Uri.parse(url), headers: headerMap,body: syncRequestModel.toJson());
 
       return YarnSyncResponse.fromJson(
         json.decode(response.body),

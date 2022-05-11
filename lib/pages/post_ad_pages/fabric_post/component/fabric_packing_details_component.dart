@@ -94,29 +94,29 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _getPackingDetailData() async {
-    await AppDbInstance.getPriceTerms()
+    await AppDbInstance().getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
-    await AppDbInstance.getPacking().then((value) => setState(() {
+    await AppDbInstance().getPacking().then((value) => setState(() {
           _packingList = value;
           _packingList = _packingList
               .where((element) => element.pacIsActive == "1")
               .toList();
         }));
-    await AppDbInstance.getDeliveryPeriod()
+    await AppDbInstance().getDeliveryPeriod()
         .then((value) => setState(() => _deliverPeriodList = value));
-    await AppDbInstance.getPaymentType()
+    await AppDbInstance().getPaymentType()
         .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance.getLcType()
+    await AppDbInstance().getLcType()
         .then((value) => setState(() => _lcTypeList = value));
-    await AppDbInstance.getUnits()
+    await AppDbInstance().getUnits()
         .then((value) => setState(() => _unitsList = value));
-    await AppDbInstance.getOriginsData()
+    await AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countriesList = value));
-    await AppDbInstance.getCityState()
+    await AppDbInstance().getCityState()
         .then((value) => setState(() => _cityStateList = value));
-    await AppDbInstance.getPorts()
+    await AppDbInstance().getPorts()
         .then((value) => setState(() => _portsList = value));
-    await AppDbInstance.getConeTypes()
+    await AppDbInstance().getConeTypes()
         .then((value) => setState(() => _coneTypeList = value));
   }
 

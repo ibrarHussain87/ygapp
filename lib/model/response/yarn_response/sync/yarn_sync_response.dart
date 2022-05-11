@@ -1067,11 +1067,11 @@ class Usage {
   String? yuDescription;
   String? yuIsActive;
   String? yuSortid;
-  bool _isSelected = false;
-  bool get isSelected => _isSelected;
-  set isSelected(bool value) {
-    _isSelected = value;
-  }
+  // bool _isSelected = false;
+  // bool get isSelected => _isSelected;
+  // set isSelected(bool value) {
+  //   _isSelected = value;
+  // }
 
   Usage.fromJson(Map<String, dynamic> json) {
     yuId = json['yu_id'];
@@ -1112,6 +1112,8 @@ class Blends {
   String? iconUnselected;
   String? blnIsActive;
   String? blnSortid;
+  bool? isSelected = false;
+  String? blendRatio = '';
 
   Blends(
       {this.blnId,
@@ -1122,6 +1124,8 @@ class Blends {
         this.iconSelected,
         this.iconUnselected,
         this.blnIsActive,
+        this.isSelected,
+        this.blendRatio,
         this.blnSortid});
 
   Blends.fromJson(Map<String, dynamic> json) {

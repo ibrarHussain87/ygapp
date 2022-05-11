@@ -15,13 +15,13 @@ class FamilyListProvider extends ChangeNotifier{
   getFamilyListData() async{
     loading = true;
     familyList!.clear();
-    var dbInstance = await AppDbInstance.getDbInstance();
-    var fiberList = await dbInstance.fiberMaterialDao.findAllFiberMaterials();
-    var yarnList = await dbInstance.yarnFamilyDao.findAllYarnFamily();
+    var dbInstance = await AppDbInstance().getDbInstance();
+    var fiberList = await dbInstance.fiberBlendsDao.findAllFiberBlends();
+    var yarnList = await dbInstance.yarnBlendDao.findAllYarnBlends();
     if(fiberList.isNotEmpty  && fiberList.length >= 4){
       fiberList = fiberList.take(4).toList();
       for (var element in fiberList) {
-        familyList!.add(FamilyData(element.fbmId, element.icon_selected??"", element.icon_unselected!, element.fbmName!));
+        familyList!.add(FamilyData(element.blnId!, element.iconSelected??"", element.iconUnselected!, element.blnName??""));
       }
 
     }
@@ -29,7 +29,7 @@ class FamilyListProvider extends ChangeNotifier{
     if(yarnList.isNotEmpty && yarnList.length >= 4){
       yarnList = yarnList.take(4).toList()..shuffle();
       for (var element in yarnList) {
-        familyList!.add(FamilyData(element.famId!, element.iconSelected!, element.iconUnSelected!, element.famName!));
+        familyList!.add(FamilyData(element.blnId!, element.iconSelected??"", element.iconUnselected??"", element.blnName??element.bln_abrv??""));
       }
     }
     loading = false;

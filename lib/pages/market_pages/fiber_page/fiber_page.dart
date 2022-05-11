@@ -43,7 +43,7 @@ class FiberPageState extends State<FiberPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
   }
@@ -128,9 +128,9 @@ class FiberPageState extends State<FiberPage> {
                         padding: const EdgeInsets.only(left: 16,right: 16),
                         child: FiberFamilyComponent(
                           key: familySateFiber,
-                          callback: (FiberMaterial value) {
+                          callback: (FiberBlends value) {
                             fiberListingState.currentState!.refreshListing(
-                                GetSpecificationRequestModel(fiberMaterialId: [value.fbmId]));
+                                GetSpecificationRequestModel(fiberMaterialId: [value.blnId!]));
                           },
                         ),
                       ),

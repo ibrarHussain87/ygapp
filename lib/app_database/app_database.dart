@@ -82,7 +82,7 @@ import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
 
-@Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
+@Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,Stocklots,StocklotCategories])
@@ -90,8 +90,8 @@ abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
   FiberSettingDao get fiberSettingDao;
-  FiberNatureDao get fiberNatureDao;
-  FiberMaterialDao get fiberMaterialDao;
+  FiberFamilyDao get fiberFamilyDao;
+  FiberBlendsDao get fiberBlendsDao;
   FiberAppearanceDao get fiberAppearanceDoa;
 
   GradesDao get gradesDao;

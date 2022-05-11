@@ -36,7 +36,7 @@ class StockLotPageState extends State<StockLotPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
@@ -85,7 +85,7 @@ class StockLotPageState extends State<StockLotPage> {
                                   horizontal: 12.0, vertical: 4),
                               child: Padding(
                                   padding: const EdgeInsets.only(top: 2.0),
-                                  child: CatWithImageListWidget(
+                                  child: BlendsWithImageListWidget(
                                       listItem: stocklotProvider.stocklots!,
                                       onClickCallback: (value) {
                                         stocklotProvider.getCategories(
