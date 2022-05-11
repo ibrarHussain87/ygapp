@@ -67,4 +67,12 @@ String messenger = "images/messenger.png";
 String gmail = "images/gmail.png";
 String telegram = "images/telegram.png";
 String facebook = "images/facebook.png";
+String newLogoImage = "images/new_logo.png";
+String au = "images/au.png";
+String bd = "images/bn.png";
+String pk = "images/pk.png";
+String us = "images/us.png";
+String af = "images/af.png";
+String ar = "images/ar.png";
+
 

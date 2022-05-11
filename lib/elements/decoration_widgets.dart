@@ -12,6 +12,32 @@ InputDecoration textFormFieldDec(String hintLabel) {
           borderSide: BorderSide(color: textColorGrey)));
 }
 
+// New decoration design for login
+InputDecoration textFormFieldSignIn(String hintLabel,String title) {
+  return InputDecoration(
+//    labelText: title,
+
+      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title,style: TextStyle(color: formFieldLabel),),
+//          const Text("*", style: TextStyle(color: Colors.red)),
+        ],
+      ),
+      floatingLabelBehavior:FloatingLabelBehavior.always ,
+      hintText: hintLabel,
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+      border: OutlineInputBorder(
+          borderRadius:const BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+          borderSide: BorderSide(color: signInBorderColor)
+      )
+  );
+}
+
 InputDecoration textFormFieldDecSignup(String hintLabel,String assetName) {
   return InputDecoration(
       hintText: "Enter Here",

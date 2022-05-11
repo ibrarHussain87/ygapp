@@ -102,102 +102,106 @@ class _SignUpStepsSegmentsState extends State<SignUpStepsSegments> {
         Row(
           children: [
             Expanded(
-              child: CupertinoSegmentedControl(
-                borderColor: Colors.grey.shade300,
-                selectedColor: lightBlueTabs,
-                pressedColor: Colors.transparent,
-                groupValue: selectedValue,
-                children: {
-                  1: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      "Select Country",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: selectedValue == 1
-                            ? Colors.white
-                            : textColorGrey,
+              child: Visibility(
+                visible:false,
+                maintainSize: false,
+                child: CupertinoSegmentedControl(
+                  borderColor: Colors.grey.shade300,
+                  selectedColor: lightBlueTabs,
+                  pressedColor: Colors.transparent,
+                  groupValue: selectedValue,
+                  children: {
+                    1: Container(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        "Select Country",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: selectedValue == 1
+                              ? Colors.white
+                              : textColorGrey,
+                        ),
                       ),
                     ),
-                  ),
-                  2: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      "Business Info",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: selectedValue == 2
-                            ? Colors.white
-                            : textColorGrey,
+                    2: Container(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        "Business Info",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: selectedValue == 2
+                              ? Colors.white
+                              : textColorGrey,
+                        ),
                       ),
                     ),
-                  ),
-                  3: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      "Personal Info",
-                      style: TextStyle(
-                        fontSize: 11.sp,
-                        color: selectedValue == 3
-                            ? Colors.white
-                            : textColorGrey,
+                    3: Container(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        "Personal Info",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: selectedValue == 3
+                              ? Colors.white
+                              : textColorGrey,
+                        ),
                       ),
                     ),
-                  ),
-                },
-                onValueChanged: (value) {
-                  /*if(_fiberSpecificationState.currentState!.validationAllPage()){
-                    _moveToNextPage(value);
-                  }else if(_labParameterState.currentState!.validateAndSave()){
-                    _moveToNextPage(value);
-                  }*/
-                  switch (value) {
-                    case 1:
-                      if (selectedValue == 3) {
-                        if (_labParameterState.currentState != null &&
-                            _labParameterState.currentState!
-                                .validateAndSave()) {
-                          _moveToNextPage(value);
-                        }
-                      }
-                      break;
-                    case 2:
-                      if (selectedValue == 1) {
-                        /*if (_fiberSpecificationState.currentState != null &&
-                            _fiberSpecificationState.currentState!
-                                .validationAllPage()) {
-                          _moveToNextPage(value);
-                        }*/
-                        if(_countryState.currentState != null){
-
-                          _countryState.currentState!.handleNextClick();
-                          print("Country"+widget.stepsCallback.toString());
-                        }
-                        else
-                          {
-                            print("null");
+                  },
+                  onValueChanged: (value) {
+                    /*if(_fiberSpecificationState.currentState!.validationAllPage()){
+                      _moveToNextPage(value);
+                    }else if(_labParameterState.currentState!.validateAndSave()){
+                      _moveToNextPage(value);
+                    }*/
+                    switch (value) {
+                      case 1:
+                        if (selectedValue == 3) {
+                          if (_labParameterState.currentState != null &&
+                              _labParameterState.currentState!
+                                  .validateAndSave()) {
+                            _moveToNextPage(value);
                           }
-                      }
-                      break;
-
-                      case 3:
-                      if (selectedValue == 2) {
-                        /*if (_fiberSpecificationState.currentState != null &&
-                            _fiberSpecificationState.currentState!
-                                .validationAllPage()) {
-                          _moveToNextPage(value);
-                        }*/
-                        if(_packingStateKey.currentState != null){
-                          _packingStateKey.currentState!.handleNextClick();
                         }
-                        else
-                          {
-                            print("null");
+                        break;
+                      case 2:
+                        if (selectedValue == 1) {
+                          /*if (_fiberSpecificationState.currentState != null &&
+                              _fiberSpecificationState.currentState!
+                                  .validationAllPage()) {
+                            _moveToNextPage(value);
+                          }*/
+                          if(_countryState.currentState != null){
+
+                            _countryState.currentState!.handleNextClick();
+                            print("Country"+widget.stepsCallback.toString());
                           }
-                      }
-                      break;
-                  }
-                },
+                          else
+                            {
+                              print("null");
+                            }
+                        }
+                        break;
+
+                        case 3:
+                        if (selectedValue == 2) {
+                          /*if (_fiberSpecificationState.currentState != null &&
+                              _fiberSpecificationState.currentState!
+                                  .validationAllPage()) {
+                            _moveToNextPage(value);
+                          }*/
+                          if(_packingStateKey.currentState != null){
+                            _packingStateKey.currentState!.handleNextClick();
+                          }
+                          else
+                            {
+                              print("null");
+                            }
+                        }
+                        break;
+                    }
+                  },
+                ),
               ),
             ),
           ],

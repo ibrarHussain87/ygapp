@@ -17,6 +17,7 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -174,7 +175,8 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
                 MaterialPageRoute(builder: (context) => const MainPage()));
           } else {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const LoginPage()));
+                MaterialPageRoute(builder: (context) => const SignInPage()));
+//                MaterialPageRoute(builder: (context) => const LoginPage()));
           }
         } else {
           showInternetDialog(

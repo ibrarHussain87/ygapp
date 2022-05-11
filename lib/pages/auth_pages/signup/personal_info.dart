@@ -104,6 +104,40 @@ class PersonalInfoComponentState
     return  Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[appBarColor2,appBarColor1])),
+        ),
+
+        /*leading: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                        padding: EdgeInsets.all(12.w),
+                        child: Card(
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 4.w),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.black,
+                                size: 12.w,
+                              )),
+                        )),
+                  ),*/
+        title: Text('Registration',
+            style: TextStyle(
+                fontSize: 16.0.w,
+                color: Colors.white,
+                fontWeight: FontWeight.w400)),
+      ),
 //      key: scaffoldKey,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,59 +145,101 @@ class PersonalInfoComponentState
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: Padding(
-              padding:
-              EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    Form(
-                      key: globalFormKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 8.w,
-                          ),
-                          buildUserDataColumn(context)
-                        ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 50.w, left: 18.w, right: 18.w),
+                    child: Text(
+                      personalDetail,
+                      style: TextStyle(
+                          color: signInColor,
+                          fontSize: 28.sp,
+                          fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 4.w, bottom: 8.w, left: 18.w, right: 18.w),
+                    child: Text(
+                      personalText,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: textColorGrey,
+                        fontSize: 12.sp,
+                        /*fontFamily: 'Metropolis',*/
+                        fontWeight: FontWeight.w400,
+                        height: 1.5.h,
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Form(
+                    key: globalFormKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 15.w,
+                        ),
+                        buildUserDataColumn(context),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 40.w, bottom: 8.w, left: 18.w, right: 18.w),
+                          child: SizedBox(
+                              height: 50.w,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                  child:  Text("Register",
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                      )),
+
+                                  style: ButtonStyle(
+
+                                      foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                      backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          btnColorLogin),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              side: BorderSide(
+                                                  color: Colors.transparent)))),
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    if (validateAndSave()) {
+                                      if (_signupRequestModel
+                                          ?.telephoneNumber !=
+                                          null) {
+                                        if (kDebugMode) {
+                                          print("Signup Model"+_signupRequestModel!.countryId.toString());
+                                        }
+                                        print("Signup Model"+_signupRequestModel!.company.toString());
+                                        print("Signup Model"+_signupRequestModel!.email.toString());
+                                        print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
+                                        loginWithPhone();
+                                      }
+                                    }
+                                  })),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8.w),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: ElevatedButtonWithIcon(
-                callback: () async {
-                  FocusScope.of(context).unfocus();
-                  if (validateAndSave()) {
-                    if (_signupRequestModel
-                        ?.telephoneNumber !=
-                        null) {
-                      if (kDebugMode) {
-                        print("Signup Model"+_signupRequestModel!.countryId.toString());
-                      }
-                      print("Signup Model"+_signupRequestModel!.company.toString());
-                      print("Signup Model"+_signupRequestModel!.email.toString());
-                      print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
-                      loginWithPhone();
-                    }
-                  }
-                },
-                color: btnColorLogin,
-                btnText: "Sign Up",
-              ),
-            ),
-          ),
+
         ],
       ),
     );
@@ -175,8 +251,8 @@ class PersonalInfoComponentState
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          padding: EdgeInsets.only(
+              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -217,35 +293,35 @@ class PersonalInfoComponentState
           ),
         ),
 
+//        Padding(
+//             padding: EdgeInsets.only(
+//              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+//          child: Column(
+//            crossAxisAlignment: CrossAxisAlignment.start,
+//            children: [
+//
+//              TextFormField(
+//                  keyboardType: TextInputType.emailAddress,
+//                  cursorColor: Colors.black,
+//                  onSaved: (input) => _signupRequestModel!.email = input!,
+//                  validator: (input) {
+//                    if (input == null ||
+//                        input.isEmpty ||
+//                        !input.isValidEmail()) {
+//                      return "Please check your email";
+//                    }
+//                    return null;
+//                  },
+//                  decoration: textFieldProfile(
+//                      '',emailLabel)),
+//            ],
+//          ),
+//        ),
+
+
         Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  cursorColor: Colors.black,
-                  onSaved: (input) => _signupRequestModel!.email = input!,
-                  validator: (input) {
-                    if (input == null ||
-                        input.isEmpty ||
-                        !input.isValidEmail()) {
-                      return "Please check your email";
-                    }
-                    return null;
-                  },
-                  decoration: textFieldProfile(
-                      '',emailLabel)),
-            ],
-          ),
-        ),
-
-
-        Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          padding: EdgeInsets.only(
+              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -321,8 +397,8 @@ class PersonalInfoComponentState
 
 
         Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          padding: EdgeInsets.only(
+              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -399,48 +475,51 @@ class PersonalInfoComponentState
           ),
         ),
 
-        Row(
-          children: [
-            Checkbox(
-                value: _termsChecked,
-                onChanged: (val) {
-                  setState(() {
-                    _termsChecked = val!;
-                  });
-                }),
-            RichText(
-              text: TextSpan(
-                // Note: Styles for TextSpans must be explicitly defined.
-                // Child text spans will inherit styles from parent
-                style: TextStyle(
-                  fontFamily: 'Metropolis',
-                  fontSize: 14.0.sp,
-                  color: Colors.black,
+        Padding(
+          padding: EdgeInsets.only(
+              top: 10.w, bottom: 8.w, left: 5.w),
+          child: Row(
+            children: [
+              Checkbox(
+                activeColor: signInColor,
+                  value: _termsChecked,
+                  onChanged: (val) {
+                    setState(() {
+                      _termsChecked = val!;
+                    });
+                  }),
+              RichText(
+                text: TextSpan(
+                  // Note: Styles for TextSpans must be explicitly defined.
+                  // Child text spans will inherit styles from parent
+                  style: TextStyle(
+                    fontFamily: 'Metropolis',
+                    fontSize: 14.0.sp,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'I agree to ',
+                        style: TextStyle(
+                            fontFamily:
+                            'Metropolis',
+                            fontSize: 12.sp,
+                            color:
+                            textColorGrey)),
+                    TextSpan(
+                        text:
+                        'terms & conditions',
+                        style: TextStyle(
+                            fontFamily:
+                            'Metropolis',
+                            fontSize: 12.sp,
+                            color:
+                            textColorGrey)),
+                  ],
                 ),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'I Agree to ',
-                      style: TextStyle(
-                          fontFamily:
-                          'Metropolis',
-                          fontSize: 12.sp,
-                          color:
-                          textColorGrey)),
-                  TextSpan(
-                      text:
-                      'Terms & Conditions',
-                      style: TextStyle(
-                          fontFamily:
-                          'Metropolis',
-                          fontSize: 12.sp,
-                          fontWeight:
-                          FontWeight.bold,
-                          color:
-                          Colors.black87)),
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
 
       ],
@@ -463,6 +542,8 @@ class PersonalInfoComponentState
 
 
   void loginWithPhone() async {
+
+    ProgressDialogUtil.showDialog(context, 'Please wait...');
     auth.verifyPhoneNumber(
       phoneNumber: _signupRequestModel!.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -471,6 +552,7 @@ class PersonalInfoComponentState
         });
       },
       verificationFailed: (FirebaseAuthException e) {
+        ProgressDialogUtil.hideDialog();
         print(e.message);
         Fluttertoast.showToast(
             msg: e.message.toString(),
@@ -478,7 +560,9 @@ class PersonalInfoComponentState
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
       },
+
       codeSent: (String verificationId, int? resendToken) {
+        ProgressDialogUtil.hideDialog();
         verificationID = verificationId;
         Fluttertoast.showToast(
             msg: "Otp sent successfully",
@@ -488,7 +572,9 @@ class PersonalInfoComponentState
         setState(() {});
         otpDialogBox(context);
       },
+
       codeAutoRetrievalTimeout: (String verificationId) {
+
         Ui.showSnackBar(context, "SMS retrieval timeout");
       },
     );
@@ -767,6 +853,8 @@ class PersonalInfoComponentState
         /*remove operator and added static data for parameter*/
         _signupRequestModel?.operator = '1';
         _signupRequestModel?.countryId = '1';
+        _signupRequestModel?.email = 'anonymous@gmail.com';
+        _signupRequestModel?.name = 'Anonymous';
         Logger().e(_signupRequestModel?.toJson());
         ApiService.signup(_signupRequestModel!).then((value) {
           Logger().e(value.toJson());
