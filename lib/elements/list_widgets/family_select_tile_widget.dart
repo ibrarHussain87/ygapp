@@ -2,9 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../../app_database/app_database_instance.dart';
+import '../../helper_utils/app_constants.dart';
 import '../../locators.dart';
 import '../../providers/post_yarn_provider.dart';
+import '../bottom_sheets/family_blends_bottom_sheet.dart';
+import '../title_text_widget.dart';
 
 class FamilySelectTileWidget extends StatefulWidget {
   final Function? callback;
@@ -31,14 +39,12 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
-  // List<Blends> _blendsList=[];
-  // final _postYarnProvider = locator<PostYarnProvider>();
+  final _postYarnProvider = locator<PostYarnProvider>();
 
   @override
   void initState() {
-    // AppDbInstance().getYarnBlendData()
-    //     .then((value) => setState(() => _blendsList = value));
-    // _postYarnProvider.yarnBlendsList = _blendsList;
+    print("Index"+widget.selectedIndex.toString());
+
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -95,6 +101,10 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
           border: Border.all(
             color: Colors.transparent,
           ),
+//          color: checked
+//              ? darkBlueChip
+//              : lightBlueChip,
+//          borderRadius: BorderRadius.all(Radius.circular(5.w))
       ),
       child: Column(
         children: [
@@ -118,7 +128,6 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
               Expanded(
                 child:GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
                     widget.callback!(widget.listOfItems[index]);
                   },
                   child: const Icon(Icons.arrow_forward_ios_outlined,
