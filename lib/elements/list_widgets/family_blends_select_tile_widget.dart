@@ -80,6 +80,7 @@ class FamilyBlendsSelectTileWidgetState
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        print("Tap");
         setState(() {
           checkedTile = index;
         });
@@ -131,6 +132,7 @@ class FamilyBlendsSelectTileWidgetState
 //        }
 
         widget.selectedValue!(index);
+        widget.callback!(widget.listOfItems[index]);
       },
       child: Center(
         child: SizedBox(
