@@ -24,7 +24,7 @@ class GetStockLotSpecRequestModel {
       'category_id': categoryId!.trim(),
       'is_offering': isOffering!.trim(),
       'locality': localInternational!.trim(),
-      'stocklot_family_idfk': stocklotFamilyId,
+      'stocklot_family_idfk[]': stocklotFamilyId,
       // 'stocklot_sub_category_id': stocklotSubCategoryId,
       'price_term_id': priceTermId,
       'avability_id': avalibilityId,

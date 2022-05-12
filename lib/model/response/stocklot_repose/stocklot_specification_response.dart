@@ -152,6 +152,7 @@ class StockLotSpecification {
     String? userId,
     String? company,
     String? stocklotCategoryId,
+    String? stocklotParentFamilyName,
     String? category,
     dynamic unit,
     String? availablity,
@@ -168,6 +169,7 @@ class StockLotSpecification {
     _userId = userId;
     _company = company;
     _stocklotCategoryId = stocklotCategoryId;
+    _stocklotParentFamilyName = stocklotParentFamilyName;
     _category = category;
     _unit = unit;
     _availablity = availablity;
@@ -186,6 +188,7 @@ class StockLotSpecification {
     _userId = json['user_id'];
     _company = json['company'];
     _stocklotCategoryId = json['spc_category_idfk'];
+    _stocklotParentFamilyName = json['stocklot_parent_family_name'];
     _category = json['category'];
     _unit = json['unit'];
     _availablity = json['availablity'];
@@ -213,6 +216,7 @@ class StockLotSpecification {
   String? _userId;
   String? _company;
   String? _stocklotCategoryId;
+  String? _stocklotParentFamilyName;
   String? _category;
   dynamic _unit;
   String? _availablity;
@@ -230,6 +234,7 @@ class StockLotSpecification {
     String? userId,
     String? company,
     String? stocklotCategoryId,
+    String? stocklotParentFamilyName,
     String? category,
     dynamic unit,
     String? availablity,
@@ -247,6 +252,7 @@ class StockLotSpecification {
         userId: userId ?? _userId,
         company: company ?? _company,
         stocklotCategoryId: stocklotCategoryId ?? _stocklotCategoryId,
+        stocklotParentFamilyName: stocklotParentFamilyName ?? _stocklotParentFamilyName,
         category: category ?? _category,
         unit: unit ?? _unit,
         availablity: availablity ?? _availablity,
@@ -267,6 +273,7 @@ class StockLotSpecification {
   String? get company => _company;
 
   String? get stocklotCategoryId => _stocklotCategoryId;
+  String? get stocklotParentFamilyName => _stocklotParentFamilyName;
 
   String? get category => _category;
 
@@ -296,6 +303,7 @@ class StockLotSpecification {
     map['user_id'] = _userId;
     map['company'] = _company;
     map['stocklot_category_id'] = _stocklotCategoryId;
+    map['stocklot_parent_family_name'] = _stocklotParentFamilyName;
     map['category'] = _category;
     map['unit'] = _unit;
     map['availablity'] = _availablity;
