@@ -133,6 +133,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                       selectedIndex=checkedIndex;
                     } , (value){
                       dropdownValue.value=value.toString();
+                      Navigator.of(context).pop();
                     }, listOfItems,selectedIndex);
      },
                     child: Container(

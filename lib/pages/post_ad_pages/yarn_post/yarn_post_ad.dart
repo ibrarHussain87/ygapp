@@ -28,12 +28,12 @@ class YarnPostAdPage extends StatefulWidget {
 
 class _YarnPostAdPageState extends State<YarnPostAdPage> {
   CreateRequestModel? _createRequestModel;
-  Future<YarnSyncResponse>? _syncFuture;
+//  Future<YarnSyncResponse>? _syncFuture;
 
   @override
   void initState() {
     _createRequestModel = CreateRequestModel();
-    _syncFuture = ApiService.syncYarn();
+//    _syncFuture = ApiService.syncYarn();
     super.initState();
   }
 
