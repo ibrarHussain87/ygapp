@@ -15,15 +15,17 @@ class SyncProvider extends ChangeNotifier {
   bool loading = false;
 
   syncAppData() async {
-    loading = true;
-    isDataSynced = await _synData();
-    loading = false;
-    notifyListeners();
+    if(!isDataSynced){
+      loading = true;
+      isDataSynced = await _synData();
+      loading = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> _synData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
-
+    Logger().e(dataSynced.toString());
     if (!dataSynced) {
       await Future.wait([
         ApiService.syncFiber(SyncRequestModel(categoryId: '1')).then((
@@ -66,10 +68,7 @@ class SyncProvider extends ChangeNotifier {
               value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
               value.fiberAppearanceDoa.insertAllFiberAppearance(
               syncFiberResponse.data.fiber.apperance),
-              value.packingDao
-                  .insertAllPacking(syncFiberResponse.data.fiber
-              .
-              packing
+              value.packingDao.insertAllPacking(syncFiberResponse.data.fiber.packing
               )
               ]
               );

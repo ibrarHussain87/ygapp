@@ -32,7 +32,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
 
   final GlobalKey<SingleSelectTileRenewedWidgetState> _fabricBlendKey = GlobalKey<SingleSelectTileRenewedWidgetState>();
 
-  _getYarnDataFromDb() {
+  _getFabricDataFromDb() {
     AppDbInstance().getDbInstance().then((value) async {
       await value.fabricFamilyDao.findAllFabricFamily().then((value) {
         setState(() {
@@ -51,7 +51,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
 
   @override
   void initState() {
-    _getYarnDataFromDb();
+    _getFabricDataFromDb();
     super.initState();
   }
 

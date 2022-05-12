@@ -13,8 +13,10 @@ class CreateFiberResponse {
   CreateFiberResponse.fromJson(Map<String, dynamic> json){
     status = json['status'];
     responseCode = json['response_code'];
-    data = Data.fromJson(json['data']);
     message = json['message'];
+    if(json['data'] != null){
+      data = Data.fromJson(json['data']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -55,7 +57,7 @@ class Data {
     required this.fbpSpecificationsIdfk,
     required this.fbpCategoryIdfk,
   });
-  late final int? spcCategoryIdfk;
+  late final String? spcCategoryIdfk;
   late final String? spcUserIdfk;
   late final String? spcLocalInternational;
   late final String? spcFiberMaterialIdfk;

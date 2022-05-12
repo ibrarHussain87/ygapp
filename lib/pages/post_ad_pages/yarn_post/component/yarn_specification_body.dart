@@ -27,9 +27,11 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
+import '../../../../elements/decoration_widgets.dart';
 import '../../../../helper_utils/alert_dialog.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';
+import '../../../../helper_utils/util.dart';
 import 'lab_parameter_body.dart';
 import 'lab_parameter_body.dart';
 
@@ -61,6 +63,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       GlobalKey<LabParameterPageState>();
 
   final _yarnPostProvider = locator<PostYarnProvider>();
+  final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
+
 
   // ValueChanged<Color> callback
   _changeColor(Color color) {
@@ -637,6 +641,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   @override
+  void dispose() {
+    _notifierPlySheet.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!_isInit) {
       _createRequestModel = Provider.of<CreateRequestModel>(context);
@@ -981,6 +991,40 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             // show bottom sheet
             Visibility(
               visible: true,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: GestureDetector(
+                  onTap: (){
+                    yarnSpecsSheet(context,_yarnSetting,_createRequestModel,(){
+                      _notifierPlySheet.value = !_notifierPlySheet.value;
+                    },
+                        selectedFamilyId,_plyList!,_orientationList!,
+                        _doublingMethodList!,_plyIdList);
+                  },
+                  child: ValueListenableBuilder(
+                    valueListenable: _notifierPlySheet,
+                    builder: (context, bool value, child){
+                      return TextFormField(
+                          key: Key(getPlyList(
+                              _createRequestModel).toString()),
+                          initialValue: getPlyList(
+                              _createRequestModel) ??
+                              '',
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
+                          cursorColor: lightBlueTabs,
+                          enabled: false,
+                          style: TextStyle(fontSize: 11.sp),
+                          textAlign: TextAlign.center,
+                          cursorHeight: 16.w,
+                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                    },
+                  ),
+                ),
+              ),
+            ),
+            /*Visibility(
+              visible: true,
               child: GestureDetector(
                 onTap: () {
                   // show sheet
@@ -1038,7 +1082,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       )),
                 ),
               ),
-            ),
+            ),*/
 
             //Show Color Treatment Method
             Visibility(
@@ -1872,6 +1916,40 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             // show bottom sheet
             Visibility(
               visible: true,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: GestureDetector(
+                  onTap: (){
+                    yarnSpecsSheet(context,_yarnSetting,_createRequestModel,(){
+                    _notifierPlySheet.value = !_notifierPlySheet.value;
+                    },
+                        selectedFamilyId,_plyList!,_orientationList!,
+                        _doublingMethodList!,_plyIdList);
+                  },
+                  child: ValueListenableBuilder(
+                    valueListenable: _notifierPlySheet,
+                    builder: (context, bool value, child){
+                      return TextFormField(
+                          key: Key(getPlyList(
+                              _createRequestModel).toString()),
+                          initialValue: getPlyList(
+                              _createRequestModel) ??
+                              '',
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
+                          cursorColor: lightBlueTabs,
+                          enabled: false,
+                          style: TextStyle(fontSize: 11.sp),
+                          textAlign: TextAlign.center,
+                          cursorHeight: 16.w,
+                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                    },
+                  ),
+                ),
+              ),
+            ),
+            /*Visibility(
+              visible: true,
               child: GestureDetector(
                 onTap: (){
                   yarnSpecsSheet(context,_yarnSetting,_createRequestModel,()=>{},
@@ -1928,7 +2006,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       )),
                 ),
               ),
-            ),
+            ),*/
             const SizedBox(height: 6,),
             /*// Count
             Visibility(
@@ -2285,4 +2363,41 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   @override
   bool get wantKeepAlive => true;
+
+  String? getPlyList(CreateRequestModel createRequestModel) {
+    List<String?> list = [];
+    list.add(createRequestModel.ys_count);
+    list.add(createRequestModel.ys_dty_filament);
+    list.add(createRequestModel.ys_fdy_filament);
+    if (_createRequestModel.ys_ply_idfk != null) {
+      list.add(_plyList!
+          .where((element) =>
+      element.plyId.toString() == createRequestModel.ys_ply_idfk)
+          .toList()
+          .first
+          .plyName);
+    }
+    if (_createRequestModel.ys_doubling_method_idFk != null) {
+      list.add(_doublingMethodList!
+          .where((element) =>
+      element.dmId.toString() == createRequestModel.ys_doubling_method_idFk)
+          .toList()
+          .first
+          .dmName);
+    }
+    if (_createRequestModel.ys_orientation_idfk != null) {
+      list.add(_orientationList!
+          .where((element) =>
+      element.yoId.toString() == createRequestModel.ys_orientation_idfk)
+          .toList()
+          .first
+          .yoName);
+    }
+    var responseString = Utils.createStringFromList(list);
+    if (responseString.isNotEmpty) {
+      return Utils.createStringFromList(list);
+    } else {
+      return '';
+    }
+  }
 }

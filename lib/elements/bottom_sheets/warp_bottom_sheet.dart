@@ -183,10 +183,8 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                                 color: Colors.transparent)))),
                                 onPressed: () {
                                   if (validateAndSaveWrap()) {
-
-
+                                    callback.call();
                                     Navigator.of(context).pop();
-
                                   }
                                 });
                           })),
