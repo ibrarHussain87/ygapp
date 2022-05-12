@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class PostYarnProvider extends ChangeNotifier{
 

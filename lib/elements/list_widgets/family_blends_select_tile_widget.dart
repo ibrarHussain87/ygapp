@@ -23,28 +23,29 @@ class FamilyBlendsSelectTileWidget extends StatefulWidget {
   final int? spanCount;
   final int? selectedIndex;
 
-  const FamilyBlendsSelectTileWidget(
-      {Key? key,
-        required this.spanCount,
-        required this.callback,
-        required this.selectedValue,
-        required this.listOfItems,
-        this.selectedIndex,
-      })
-      : super(key: key);
+  const FamilyBlendsSelectTileWidget({
+    Key? key,
+    required this.spanCount,
+    required this.callback,
+    required this.selectedValue,
+    required this.listOfItems,
+    this.selectedIndex,
+  }) : super(key: key);
 
   @override
-  FamilyBlendsSelectTileWidgetState createState() => FamilyBlendsSelectTileWidgetState();
+  FamilyBlendsSelectTileWidgetState createState() =>
+      FamilyBlendsSelectTileWidgetState();
 }
 
-class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidget> {
+class FamilyBlendsSelectTileWidgetState
+    extends State<FamilyBlendsSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
 
   @override
   void initState() {
-    print("Index"+widget.selectedIndex.toString());
+    print("Index" + widget.selectedIndex.toString());
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -59,7 +60,7 @@ class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidg
 
   @override
   Widget build(BuildContext context) {
-    return  GridView.builder(
+    return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -69,12 +70,10 @@ class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidg
           childAspectRatio: aspectRatio),
       itemCount: widget.listOfItems.length,
       itemBuilder: (context, index) {
-        return  buildGrid(index);
+        return buildGrid(index);
       },
     );
   }
-
-
 
   Widget buildGrid(int index) {
     bool checked = index == checkedTile;
@@ -93,32 +92,31 @@ class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidg
     );
   }
 
-
   Widget buildListBody(int index) {
     bool checked = index == checkedTile;
     String? name;
     int? castingCheckPos;
-    if (widget.listOfItems is List<FiberMaterial>) {
-      name = widget.listOfItems!.cast<FiberMaterial>()[index].fbmName;
+    if (widget.listOfItems is List<FiberFamily>) {
+      name = widget.listOfItems.cast<FiberFamily>()[index].fiberFamilyName;
       castingCheckPos = 0;
     } else if (widget.listOfItems is List<Blends>) {
-      var blend = widget.listOfItems!.cast<Blends>()[index];
+      var blend = widget.listOfItems.cast<Blends>()[index];
       name = blend.bln_abrv ?? blend.blnName;
       castingCheckPos = 1;
-    }else if (widget.listOfItems is List<Family>) {
-      name = widget.listOfItems!.cast<Family>()[index].famName;
+    } else if (widget.listOfItems is List<Family>) {
+      name = widget.listOfItems.cast<Family>()[index].famName;
       castingCheckPos = 2;
-    }else if (widget.listOfItems is List<FabricBlends>) {
-      var fabricBlend = widget.listOfItems!.cast<FabricBlends>()[index];
+    } else if (widget.listOfItems is List<FabricBlends>) {
+      var fabricBlend = widget.listOfItems.cast<FabricBlends>()[index];
       name = fabricBlend.blnAbrv ?? fabricBlend.blnName;
       castingCheckPos = 3;
-    }else if (widget.listOfItems is List<FabricFamily>) {
-      var fabricFamily = widget.listOfItems!.cast<FabricFamily>()[index];
+    } else if (widget.listOfItems is List<FabricFamily>) {
+      var fabricFamily = widget.listOfItems.cast<FabricFamily>()[index];
       name = fabricFamily.fabricFamilyName ?? 'n/a';
       castingCheckPos = 4;
-    }else{
-      name = widget.listOfItems!.cast<StocklotCategories>()[index].category!;
-      castingCheckPos =5;
+    } else {
+      name = widget.listOfItems.cast<StockLotFamily>()[index].stocklotFamilyName!;
+      castingCheckPos = 5;
     }
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -143,8 +141,7 @@ class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidg
             mainAxisSize: MainAxisSize.min,
             children: [
               NetworkImageIconWidget(
-                  imageUrl: getImageUrl(checked,castingCheckPos,index)
-              ),
+                  imageUrl: getImageUrl(checked, castingCheckPos, index)),
               SizedBox(
                 height: 2.h,
               ),
@@ -166,51 +163,52 @@ class FamilyBlendsSelectTileWidgetState extends State<FamilyBlendsSelectTileWidg
     );
   }
 
-  String? getImageUrl(bool checked,int castingCheckPos,index) {
-    String url= "";
-    if(checked == true){
-      if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FiberMaterial>()[index].icon_selected??""}';
-      }else if(castingCheckPos == 1){
-        if(widget.listOfItems!.cast<Blends>()[index].iconSelected != null){
-          return ApiService.BASE_URL + widget.listOfItems!.cast<Blends>()[index].iconSelected!;
-        }else{
+  String? getImageUrl(bool checked, int castingCheckPos, index) {
+    String url = "";
+    if (checked == true) {
+      if (castingCheckPos == 0) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FiberFamily>()[index].iconSelected ?? ""}';
+      } else if (castingCheckPos == 1) {
+        if (widget.listOfItems.cast<Blends>()[index].iconSelected != null) {
+          return ApiService.BASE_URL +
+              widget.listOfItems.cast<Blends>()[index].iconSelected!;
+        } else {
           return "";
         }
-      }else if(castingCheckPos == 2){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<Family>()[index].iconSelected??""}';
-      }else if(castingCheckPos == 3){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FabricBlends>()[index].iconSelected??""}';
-      }else if(castingCheckPos == 4){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FabricFamily>()[index].iconSelected??""}';
-      }else{
+      } else if (castingCheckPos == 2) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<Family>()[index].iconSelected ?? ""}';
+      } else if (castingCheckPos == 3) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricBlends>()[index].iconSelected ?? ""}';
+      } else if (castingCheckPos == 4) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricFamily>()[index].iconSelected ?? ""}';
+      } else {
         return "";
       }
-    }else{
-      if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FiberMaterial>()[index].icon_unselected??""}';
-      }else if(castingCheckPos == 1){
-        if(widget.listOfItems!.cast<Blends>()[index].iconUnselected != null){
-          return ApiService.BASE_URL + widget.listOfItems!.cast<Blends>()[index].iconUnselected!;
-        }else{
+    } else {
+      if (castingCheckPos == 0) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FiberFamily>()[index].iconUnselected ?? ""}';
+      } else if (castingCheckPos == 1) {
+        if (widget.listOfItems.cast<Blends>()[index].iconUnselected != null) {
+          return ApiService.BASE_URL +
+              widget.listOfItems.cast<Blends>()[index].iconUnselected!;
+        } else {
           return "";
         }
-      }else if(castingCheckPos == 2){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<Family>()[index].iconUnSelected??""}';
-      }else if(castingCheckPos == 3){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FabricBlends>()[index].iconUnselected??""}';
-      }else if(castingCheckPos == 4){
-        return '${ApiService.BASE_URL}${widget.listOfItems!.cast<FabricFamily>()[index].iconUnselected??""}';
-      }else{
+      } else if (castingCheckPos == 2) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<Family>()[index].iconUnSelected ?? ""}';
+      } else if (castingCheckPos == 3) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricBlends>()[index].iconUnselected ?? ""}';
+      } else if (castingCheckPos == 4) {
+        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricFamily>()[index].iconUnselected ?? ""}';
+      } else {
         return "";
       }
     }
   }
 
-  resetWidget(){
+  resetWidget() {
     setState(() {
       checkedTile = 0;
-
     });
   }
 }

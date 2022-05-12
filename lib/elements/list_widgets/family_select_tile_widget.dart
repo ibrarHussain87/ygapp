@@ -45,7 +45,7 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
   @override
   void initState() {
     print("Index"+widget.selectedIndex.toString());
-    AppDbInstance.getYarnBlendData()
+    AppDbInstance().getYarnBlendData()
         .then((value) => setState(() => _blendsList = value));
     _postYarnProvider.yarnBlendsList=_blendsList;
     checkedTile = widget.selectedIndex ?? 0;
