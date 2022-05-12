@@ -32,7 +32,7 @@ class FabricNatureMaterialComponent extends StatefulWidget {
 class _FabricNatureMaterialComponentState
     extends State<FabricNatureMaterialComponent> {
   String? _selectedNature;
-  final GlobalKey<CatWithImageListWidgetState> _catWithImageListState = GlobalKey<CatWithImageListWidgetState>();
+  final GlobalKey<BlendsWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendsWithImageListWidgetState>();
 
   @override
   void initState() {
@@ -122,7 +122,7 @@ class _FabricNatureMaterialComponentState
               const SizedBox(height: 8,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: CatWithImageListWidget(
+                child: BlendsWithImageListWidget(
                   key: _catWithImageListState,
                   listItem: widget.materialList
                       .where((element) => element.familyIdfk == _selectedNature)

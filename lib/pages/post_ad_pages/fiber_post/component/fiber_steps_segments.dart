@@ -40,17 +40,13 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
   final GlobalKey<PackagingDetailsState> _packingStateKey = GlobalKey<PackagingDetailsState>();
   final GlobalKey<LabParameterPageState> _labParameterState = GlobalKey<LabParameterPageState>();
 
-  // late SyncFiberResponse _syncFiberResponse;
 
   @override
   void initState() {
-    // _syncFiberResponse = widget.syncFiberResponse;
     _pageController = PageController();
-
     _samplePages = [
       FiberSpecificationComponent(
         key: _fiberSpecificationState,
-        // syncFiberResponse: widget.syncFiberResponse,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
@@ -66,24 +62,15 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
       ),
       PackagingDetails(
         key: _packingStateKey,
-        // requestModel: _fiberRequestModel,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
-        /*lcType: widget.syncFiberResponse.data.fiber.lcType,
-        cityState: widget.syncFiberResponse.data.fiber.cityState,
-        countries: widget.syncFiberResponse.data.fiber.countries,
-        packing: widget.syncFiberResponse.data.fiber.packing,
-        paymentType: widget.syncFiberResponse.data.fiber.paymentType,
-        ports: widget.syncFiberResponse.data.fiber.ports,
-        priceTerms: widget.syncFiberResponse.data.fiber.priceTerms,
-        coneType: [],
-        deliveryPeriod: widget.syncFiberResponse.data.fiber.deliveryPeriod,
-        units: widget.syncFiberResponse.data.fiber.units,*/
       ),
     ];
 
     super.initState();
+
+
   }
 
   @override
@@ -128,11 +115,6 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                     ),
                   },
                   onValueChanged: (value) {
-                    /*if(_fiberSpecificationState.currentState!.validationAllPage()){
-                      _moveToNextPage(value);
-                    }else if(_labParameterState.currentState!.validateAndSave()){
-                      _moveToNextPage(value);
-                    }*/
                     switch (value) {
                       case 1:
                         if (selectedValue == 2) {
@@ -145,11 +127,6 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                         break;
                       case 2:
                         if (selectedValue == 1) {
-                          /*if (_fiberSpecificationState.currentState != null &&
-                              _fiberSpecificationState.currentState!
-                                  .validationAllPage()) {
-                            _moveToNextPage(value);
-                          }*/
                           if(_fiberSpecificationState.currentState != null){
                             _fiberSpecificationState.currentState!.handleNextClick();
                           }

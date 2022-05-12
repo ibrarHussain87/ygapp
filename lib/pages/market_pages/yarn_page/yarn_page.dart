@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
+import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
 import 'package:yg_app/providers/post_yarn_provider.dart';
-import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -42,7 +42,7 @@ class YarnPageState extends State<YarnPage> {
   List<Blends> _blendsList=[];
   @override
   void initState() {
-     AppDbInstance.getYarnFamilyData().then((value) => setState(() {
+     AppDbInstance().getYarnFamilyData().then((value) => setState(() {
       _familyList = value;
       selectedFamilyId =
           value.first.famId.toString();
@@ -52,7 +52,7 @@ class YarnPageState extends State<YarnPage> {
          .then((value) => setState(() => _blendsList = value));
      _postYarnProvider.addYarnBlends=_blendsList;
 
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
 //    _postYarnProvider.addListener(() {updateUI();});

@@ -6,7 +6,7 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
 import '../../../app_database/app_database_instance.dart';
-import '../../../elements/offering_requirment_bottom_sheet.dart';
+import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
@@ -36,7 +36,7 @@ class FabricPageState extends State<FabricPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
   }

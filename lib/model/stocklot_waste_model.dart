@@ -11,7 +11,7 @@ class StocklotWasteModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'category_id': id!.trim(),
+      'stocklot_family_idfk': id!.trim(),
       // 'description': description!.trim(),
       // 'name': name!.trim(),
       'quantity': quantity!.trim(),

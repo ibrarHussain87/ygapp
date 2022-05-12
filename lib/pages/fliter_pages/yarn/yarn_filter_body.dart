@@ -101,35 +101,35 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   }
 
   _getSyncedData() async {
-    await AppDbInstance.getYarnFamilyData()
+    await AppDbInstance().getYarnFamilyData()
         .then((value) => setState(() => _familyList = value));
-    await AppDbInstance.getYarnBlendData()
+    await AppDbInstance().getYarnBlendData()
         .then((value) => setState(() => _blendsList = value));
-    await AppDbInstance.getYarnAppearance().then((value) => _appearanceList = value);
-    await AppDbInstance.getYarnTypeData()
+    await AppDbInstance().getYarnAppearance().then((value) => _appearanceList = value);
+    await AppDbInstance().getYarnTypeData()
         .then((value) => setState(() => _yarnTypesList = value));
-    await AppDbInstance.getYarnUsage()
+    await AppDbInstance().getYarnUsage()
         .then((value) => setState(() => _usageList = value));
-    await AppDbInstance.getColorTreatmentMethodData()
+    await AppDbInstance().getColorTreatmentMethodData()
         .then((value) => setState(() => _colorTreatmentMethodList = value));
-    await AppDbInstance.getYarnDyingMethod()
+    await AppDbInstance().getYarnDyingMethod()
         .then((value) => setState(() => _dyingMethodList = value));
-    await AppDbInstance.getYarnPly()
+    await AppDbInstance().getYarnPly()
         .then((value) => setState(() => _plyList = value));
-    await AppDbInstance.getDoublingMethod()
+    await AppDbInstance().getDoublingMethod()
         .then((value) => _doublingMethodList = value);
-    await AppDbInstance.getOrientationData()
+    await AppDbInstance().getOrientationData()
         .then((value) => _orientationList = value);
-    await AppDbInstance.getSpunTech().then((value) => _spunTechList = value);
-    await AppDbInstance.getYarnQuality().then((value) => _qualityList = value);
-    await AppDbInstance.getPattern().then((value) => _patternList = value);
-    await AppDbInstance.getTwistDirections().then((value) => _twistDirectionList = value);
-    await AppDbInstance.getPatternCharacteristics()
+    await AppDbInstance().getSpunTech().then((value) => _spunTechList = value);
+    await AppDbInstance().getYarnQuality().then((value) => _qualityList = value);
+    await AppDbInstance().getPattern().then((value) => _patternList = value);
+    await AppDbInstance().getTwistDirections().then((value) => _twistDirectionList = value);
+    await AppDbInstance().getPatternCharacteristics()
         .then((value) => _patternCharList = value);
-    await AppDbInstance.getCertificationsData()
+    await AppDbInstance().getCertificationsData()
         .then((value) => _certificationList = value);
-    await AppDbInstance.getYarnGradesDao().then((value) => _gradesList = value);
-    await AppDbInstance.getYarnSettings().then((value) {
+    await AppDbInstance().getYarnGradesDao().then((value) => _gradesList = value);
+    await AppDbInstance().getYarnSettings().then((value) {
       _yarnSettingsList = value;
       selectedFamilyId = "1";
       _getSpecificationRequestModel = GetSpecificationRequestModel();
@@ -308,7 +308,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 child: TitleTextWidget(title: blend)),
                             Container(
                               margin: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: CatWithImageListWidget(
+                              child: BlendsWithImageListWidget(
                                 listItem: _blendsList!
                                     .where((element) =>
                                         element.familyIdfk == selectedFamilyId)
@@ -988,7 +988,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   }
 
   _querySetting(int id) {
-    AppDbInstance.getDbInstance().then(
+    AppDbInstance().getDbInstance().then(
         (db) => db.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
               late bool isSettingInList;
               late YarnSetting _yarnSetting;
@@ -1001,8 +1001,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 for (var element in listOfSettings) {
                   _yarnSetting = value[0];
 
-                  if (element.ysFiberMaterialIdfk ==
-                      _yarnSetting.ysFiberMaterialIdfk) {
+                  if (element.ysFamilyIdfk ==
+                      _yarnSetting.ysFamilyIdfk) {
                     isSettingInList = true;
                     break;
                   } else {
@@ -1012,8 +1012,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                 isSettingInList
                     ? listOfSettings.removeWhere((element) =>
-                        element.ysFiberMaterialIdfk ==
-                        _yarnSetting.ysFiberMaterialIdfk)
+                        element.ysFamilyIdfk ==
+                        _yarnSetting.ysFamilyIdfk)
                     // ? listOfSettings.toSet().toList()
                     : listOfSettings.add(_yarnSetting);
               } else {
@@ -1025,7 +1025,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   }
 
   _querySettingWithBlend(int id, int blend) {
-    AppDbInstance.getDbInstance().then((db) => db.yarnSettingsDao
+    AppDbInstance().getDbInstance().then((db) => db.yarnSettingsDao
             .findFamilyAndBlendYarnSettings(blend, id)
             .then((value) {
           if (value.isNotEmpty) {
@@ -1040,8 +1040,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               for (var element in listOfSettings) {
                 _yarnSetting = value[0];
 
-                if (element.ysFiberMaterialIdfk ==
-                    _yarnSetting.ysFiberMaterialIdfk) {
+                if (element.ysFamilyIdfk ==
+                    _yarnSetting.ysFamilyIdfk) {
                   isSettingInList = true;
                   break;
                 } else {
@@ -1051,8 +1051,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
               isSettingInList
                   ? listOfSettings.removeWhere((element) =>
-                      element.ysFiberMaterialIdfk ==
-                      _yarnSetting.ysFiberMaterialIdfk)
+                      element.ysFamilyIdfk ==
+                      _yarnSetting.ysFamilyIdfk)
                   // ? listOfSettings.toSet().toList()
                   : listOfSettings.add(_yarnSetting);
             } else {

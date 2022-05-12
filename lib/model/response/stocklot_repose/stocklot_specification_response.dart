@@ -351,8 +351,8 @@ class SpecDetails {
   }
 
   SpecDetails.fromJson(dynamic json) {
-    _stocklotSubCategoryId = json['stocklot_sub_category_id'];
-    _subCategory = json['stocklot_sub_category_name'];
+    _stocklotSubCategoryId = json['stocklot_family_idfk'];
+    _subCategory = json['stocklot_family_name'];
     _quantity = json['quantity'];
     _unit = json['unit'];
     _price = json['price'];

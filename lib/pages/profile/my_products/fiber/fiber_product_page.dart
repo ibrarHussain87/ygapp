@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/fiber_porduct_list_item.dart';
-import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -45,8 +45,8 @@ class FiberProductPageState extends State<FiberProductPage> {
     });
   }
 
-  List<FiberNature> fiberNatureList = [];
-  List<FiberMaterial> fiberMaterialList = [];
+  List<FiberFamily> fiberNatureList = [];
+  List<FiberBlends> fiberMaterialList = [];
   List<Specification?>? _specification;
   List<Specification?>? _filteredSpecification;
   String isOffering = "1";
@@ -57,13 +57,13 @@ class FiberProductPageState extends State<FiberProductPage> {
     _specification = widget.specification;
     _filteredSpecification = _specification!.where((element) => element!.is_offering == isOffering).toList();
 
-    AppDbInstance.getDbInstance().then((db) async {
-      await db.fiberNatureDao
+    AppDbInstance().getDbInstance().then((db) async {
+      await db.fiberFamilyDao
           .findAllFiberNatures()
           .then((value) => setState(() {
                 fiberNatureList = value;
               }));
-      await db.fiberMaterialDao.findAllFiberMaterials().then((value) {
+      await db.fiberBlendsDao.findAllFiberBlends().then((value) {
         setState(() {
           fiberMaterialList = value;
         });
@@ -116,8 +116,8 @@ class FiberProductPageState extends State<FiberProductPage> {
                   ),
                 ),
 
-                FiberFamilyComponent(callback: (FiberMaterial? value){
-                  _filterMaterial(value!.fbmName.toString());
+                FiberFamilyComponent(callback: (FiberBlends? value){
+                  _filterMaterial(value!.blnName.toString());
 
                 })
                 /*NatureFamilyBodyComponent(

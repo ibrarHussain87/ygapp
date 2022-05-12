@@ -953,7 +953,7 @@ class Utils {
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     }
 
-    AppDbInstance.getDeliveryPeriod().then((value1) {
+    AppDbInstance().getDeliveryPeriod().then((value1) {
       if (specification != null) {
         var period = specification.deliveryPeriod;
         deliveryPeriod =

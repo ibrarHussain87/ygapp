@@ -23,7 +23,7 @@ class FilterFabricProvider extends ChangeNotifier{
 
   Future<void> getSyncData() async{
     fabricCreateRequestModel = FabricCreateRequestModel();
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     fabricBlendsList = await dbInstance.fabricBlendsDao.findAllFabricBlends();
     firstFamilyId = fabricFamilyList.first.fabricFamilyId;
@@ -35,7 +35,7 @@ class FilterFabricProvider extends ChangeNotifier{
   }
 
   Future<List<FabricSetting>> getFabricSettingsData(String familyId) async{
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     fabricSetting = await dbInstance.fabricSettingDao.findFamilyFabricSettings(int.parse(familyId));
     return fabricSetting!;
   }

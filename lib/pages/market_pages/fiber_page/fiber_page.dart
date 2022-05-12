@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:search_choices/search_choices.dart';
-import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
@@ -43,7 +43,7 @@ class FiberPageState extends State<FiberPage> {
 
   @override
   void initState() {
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
   }
@@ -128,9 +128,9 @@ class FiberPageState extends State<FiberPage> {
                         padding: const EdgeInsets.only(left: 16,right: 16),
                         child: FiberFamilyComponent(
                           key: familySateFiber,
-                          callback: (FiberMaterial value) {
+                          callback: (FiberBlends value) {
                             fiberListingState.currentState!.refreshListing(
-                                GetSpecificationRequestModel(fiberMaterialId: [value.fbmId]));
+                                GetSpecificationRequestModel(fiberMaterialId: [value.blnId!]));
                           },
                         ),
                       ),

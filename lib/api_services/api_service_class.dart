@@ -47,16 +47,17 @@ import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
-  static String BASE_URL = "http://yarnonline.net/staging/public/";
+  static String BASE_URL = "http://staging.yarnonline.net/";
 
   // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
-  static String BASE_API_URL = "http://staging.yarnonline.net/api";
+  static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String SPEC_USER_END_POINT = "/spec_user";
-  static const String SYNC_FIBER_END_POINT = "/syncFiber";
-  static const String SYNC_YARN_END_POINT = "/syncYarn";
+
+  // static const String SYNC_FIBER_END_POINT = "/sync";
+  // static const String SYNC_YARN_END_POINT = "/syncYarn";
   static const String SYNC_END_POINT = "/sync";
   static const String GET_SPEC_END_POINT = "/getSpecifications";
   static const String CREATE_END_POINT = "/createSpecification";
@@ -146,14 +147,18 @@ class ApiService {
     }
   }
 
-  static Future<SyncFiberResponse> syncFiber() async {
+  static Future<SyncFiberResponse> syncFiber(
+      SyncRequestModel syncRequestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
       headerMap['Authorization'] = 'Bearer $userToken';
 
-      String url = BASE_API_URL + SYNC_FIBER_END_POINT;
+      String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url), headers: headerMap);
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: syncRequestModel.toJson());
 
       return SyncFiberResponse.fromJson(
         json.decode(response.body),
@@ -197,14 +202,17 @@ class ApiService {
     }
   }
 
-  static Future<YarnSyncResponse> syncYarn() async {
+  static Future<YarnSyncResponse> syncYarn(
+      SyncRequestModel syncRequestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
-      String url = BASE_API_URL + SYNC_YARN_END_POINT;
+      String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url), headers: headerMap);
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: syncRequestModel.toJson());
 
       return YarnSyncResponse.fromJson(
         json.decode(response.body),
@@ -220,9 +228,11 @@ class ApiService {
     }
   }
 
-  static Future<StockLotSyncResponse> syncCall(SyncRequestModel requestModel) async {
+  static Future<StockLotSyncResponse> syncCall(
+      SyncRequestModel requestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
       String url = BASE_API_URL + SYNC_END_POINT;
@@ -244,14 +254,17 @@ class ApiService {
     }
   }
 
-  static Future<FabricSyncResponse> syncFabricCall(SyncRequestModel requestModel) async {
+  static Future<FabricSyncResponse> syncFabricCall(
+      SyncRequestModel requestModel) async {
     try {
-      var userToken = SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
 
       String url = BASE_API_URL + SYNC_END_POINT;
 
-      final response = await http.post(Uri.parse(url), headers: headerMap,body: requestModel.toJson());
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
 
       return FabricSyncResponse.fromJson(
         json.decode(response.body),
@@ -302,10 +315,11 @@ class ApiService {
     try {
       String url = BASE_API_URL + GET_SPEC_END_POINT;
 
-      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-     // getRequestModel.user_id = userID;
+      // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
 
       logger.e(json.encode(getRequestModel.toJson()));
@@ -328,31 +342,52 @@ class ApiService {
 
   static Future<CreateFiberResponse> createSpecification(
       CreateRequestModel createRequestModel, String imagePath) async {
-    //for multipart Request
     try {
-      var request = http.MultipartRequest(
-          'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-      request.headers.addAll(
-          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
-      if (imagePath.isNotEmpty) {
-        request.files
-            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
-      }
-      if (createRequestModel.spc_category_idfk == "1") {
-        createRequestModel.spc_user_idfk = userId.toString();
-      } else {
-        createRequestModel.ys_user_idfk = userId.toString();
-      }
-      request.fields.addAll(createRequestModel.toJson());
-      logger.e(createRequestModel.toJson());
-      var response = await request.send();
-      var responsed = await http.Response.fromStream(response);
-      logger.e(json.decode(responsed.body));
+        if (createRequestModel.spc_category_idfk == "1") {
+          createRequestModel.spc_user_idfk = userId.toString();
+        } else {
+          createRequestModel.ys_user_idfk = userId.toString();
+        }
+      try {
+        ///[1] CREATING INSTANCE
+        var dioRequest = dio.Dio();
+        dioRequest.options.baseUrl = BASE_API_URL;
 
-      return CreateFiberResponse.fromJson(json.decode(responsed.body));
+        //[2] ADDING TOKEN
+        dioRequest.options.headers = {
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        };
+
+        //[3] ADDING EXTRA INFO
+        var formData = dio.FormData.fromMap(createRequestModel.toJson());
+
+        if(imagePath != "") {
+          //[4] ADD IMAGE TO UPLOAD
+          var file = await dio.MultipartFile.fromFile(
+            imagePath,
+            filename: imagePath
+                .split("/")
+                .last,
+          );
+          formData.files.add(MapEntry('fpc_picture[]', file));
+        }
+
+
+
+        //[5] SEND TO SERVER
+        var response = await dioRequest.post(
+          CREATE_END_POINT,
+          data: formData,
+        );
+        final result = json.decode(response.toString());
+        return CreateFiberResponse.fromJson(result);
+      } catch (err) {
+        throw (err.toString());
+      }
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -362,6 +397,41 @@ class ApiService {
         throw ("Something went wrong");
       }
     }
+
+    //for multipart Request
+    // try {
+    //   var request = http.MultipartRequest(
+    //       'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
+    //   var userToken =
+    //       await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+    //   var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    //   request.headers.addAll(
+    //       {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+    //   if (imagePath.isNotEmpty) {
+    //     request.files
+    //         .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+    //   }
+    //   if (createRequestModel.spc_category_idfk == "1") {
+    //     createRequestModel.spc_user_idfk = userId.toString();
+    //   } else {
+    //     createRequestModel.ys_user_idfk = userId.toString();
+    //   }
+    //   request.fields.addAll(createRequestModel.toJson());
+    //   logger.e(createRequestModel.toJson());
+    //   var response = await request.send();
+    //   var responsed = await http.Response.fromStream(response);
+    //   logger.e(json.decode(responsed.body));
+    //
+    //   return CreateFiberResponse.fromJson(json.decode(responsed.body));
+    // } catch (e) {
+    //   if (e is SocketException) {
+    //     throw (no_internet_available_msg);
+    //   } else if (e is TimeoutException) {
+    //     throw (e.toString());
+    //   } else {
+    //     throw ("Something went wrong");
+    //   }
+    // }
   }
 
   static Future<CreateFiberResponse> createFabricSpecification(
@@ -371,7 +441,7 @@ class ApiService {
       var request = http.MultipartRequest(
           'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
       var userToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       request.headers.addAll(
           {"Accept": "application/json", "Authorization": "Bearer $userToken"});
@@ -399,13 +469,14 @@ class ApiService {
   }
 
   static Future<FabricUpdateResponse> updateFabricSpecification(
-      UpdateFabricRequestModel updateFabricRequestModel, String imagePath) async {
+      UpdateFabricRequestModel updateFabricRequestModel,
+      String imagePath) async {
     //for multipart Request
     try {
       var request = http.MultipartRequest(
           'POST', Uri.parse(BASE_API_URL + UPDATE_FABRIC_END_POINT));
       var userToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       request.headers.addAll(
           {"Accept": "application/json", "Authorization": "Bearer $userToken"});
@@ -469,11 +540,9 @@ class ApiService {
         );
         final result = json.decode(response.toString());
         return CreateStockLotResponse.fromJson(result);
-
       } catch (err) {
         throw (err.toString());
       }
-
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -491,7 +560,7 @@ class ApiService {
       String url = BASE_API_URL + GET_SPEC_END_POINT;
 
       var userToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       getRequestModel.spcUserIdfk = userID;
@@ -837,17 +906,15 @@ class ApiService {
         return FiberSpecificationResponse.fromJson(
           json.decode(response.body),
         );
-      } else if(catId == '2'){
+      } else if (catId == '2') {
         return GetYarnSpecificationResponse.fromJson(
           json.decode(response.body),
         );
-      }else{
+      } else {
         return StockLotSpecificationResponse.fromJson(
           json.decode(response.body),
         );
       }
-
-
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -859,42 +926,42 @@ class ApiService {
     }
   }
 
-  // static Future<dynamic> specificationRequest(
-  //     String specId, String catId) async {
-  //   try {
-  //     var userToken =
-  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-  //     headerMap['Authorization'] = 'Bearer $userToken';
-  //     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-  //     Map<String, dynamic> data = {
-  //       "user_id": userID.toString(),
-  //       "specification_id": specId,
-  //       "category_id": catId
-  //     };
-  //     String url = BASE_API_URL + "/copy_spec";
-  //
-  //     final response =
-  //     await http.post(Uri.parse(url), headers: headerMap, body: data);
-  //
-  //     if(catId == "1"){
-  //       return FiberSpecificationResponse.fromJson(
-  //         json.decode(response.body),
-  //       );
-  //     }else{
-  //       return GetYarnSpecificationResponse.fromJson(
-  //         json.decode(response.body),
-  //       );
-  //     }
-  //
-  //
-  //   } catch (e) {
-  //     if (e is SocketException) {
-  //       throw (no_internet_available_msg);
-  //     } else if (e is TimeoutException) {
-  //       throw (e.toString());
-  //     } else {
-  //       throw ("Something went wrong");
-  //     }
-  //   }
-  // }
+// static Future<dynamic> specificationRequest(
+//     String specId, String catId) async {
+//   try {
+//     var userToken =
+//     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+//     headerMap['Authorization'] = 'Bearer $userToken';
+//     var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+//     Map<String, dynamic> data = {
+//       "user_id": userID.toString(),
+//       "specification_id": specId,
+//       "category_id": catId
+//     };
+//     String url = BASE_API_URL + "/copy_spec";
+//
+//     final response =
+//     await http.post(Uri.parse(url), headers: headerMap, body: data);
+//
+//     if(catId == "1"){
+//       return FiberSpecificationResponse.fromJson(
+//         json.decode(response.body),
+//       );
+//     }else{
+//       return GetYarnSpecificationResponse.fromJson(
+//         json.decode(response.body),
+//       );
+//     }
+//
+//
+//   } catch (e) {
+//     if (e is SocketException) {
+//       throw (no_internet_available_msg);
+//     } else if (e is TimeoutException) {
+//       throw (e.toString());
+//     } else {
+//       throw ("Something went wrong");
+//     }
+//   }
+// }
 }

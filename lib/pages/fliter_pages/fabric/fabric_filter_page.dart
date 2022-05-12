@@ -90,7 +90,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
 
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
   //String? _selectedNature;
-  final GlobalKey<CatWithImageListWidgetState> _catWithImageListState = GlobalKey<CatWithImageListWidgetState>();
+  final GlobalKey<BlendsWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendsWithImageListWidgetState>();
 
   final GlobalKey<SingleSelectTileWidgetState> _plyKey =
       GlobalKey<SingleSelectTileWidgetState>();
@@ -118,7 +118,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
       GlobalKey<SingleSelectTileWidgetState>();
 
   _getFabricSyncedData(FilterFabricProvider filterFabricProvider) async {
-    AppDbInstance.getFabricBlendsData().then((value) => setState(() {
+    AppDbInstance().getFabricBlendsData().then((value) => setState(() {
           _fabricBlendsList = value;
           _selectedMaterial = value
               .where((element) =>
@@ -133,7 +133,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
               .first
               .familyIdfk;
     }));
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     _fabricAppearanceList =
         await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
@@ -154,13 +154,13 @@ class FabricFilterPageState extends State<FabricFilterPage>
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
    // _selectedNature = /*"1"*/_fabricFamilyList.first.fabricFamilyId.toString();
-    AppDbInstance.getFiberBrandsData()
+    AppDbInstance().getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
-    AppDbInstance.getOriginsData()
+    AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
-    AppDbInstance.getCityState()
+    AppDbInstance().getCityState()
         .then((value) => setState(() => _citySateList = value));
-    AppDbInstance.getCertificationsData()
+    AppDbInstance().getCertificationsData()
         .then((value) => setState(() => _certificationList = value));
   }
 
@@ -285,7 +285,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                   child: const TitleTextWidget(
                                     title: 'Fabric Blends',
                                   )),
-                              CatWithImageListWidget(
+                              BlendsWithImageListWidget(
                                 key: _catWithImageListState,
                                 selectedItem: _fabricBlendsList.indexWhere((element) => element.blnId == _selectedMaterial),
                                 listItem: _fabricBlendsList

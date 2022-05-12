@@ -34,7 +34,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
   GetSpecificationRequestModel? _getSpecificationRequestModel;
 
-  List<FiberMaterial>? _fiberMaterials;
+  List<FiberBlends>? _fiberMaterials;
   List<FiberAppearance>? _fiberAppearances;
   List<Grades>? _fiberGrades;
   List<Certification>? _fiberCertifications;
@@ -87,7 +87,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   double maxGpt = 0.0;
 
   _querySetting(int id) {
-    AppDbInstance.getDbInstance()
+    AppDbInstance().getDbInstance()
         .then((db) => db.fiberSettingDao.findFiberSettings(id).then((value) {
       late bool isSettingInList;
       late FiberSettings _fiberSettings;
@@ -98,10 +98,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
       }
       if (_listOfSettings!.isNotEmpty) {
         for (var element in _listOfSettings!) {
-          _fiberSettings = value[0];
+          _fiberSettings = value!;
 
-          if (element.fbsFiberMaterialIdfk ==
-              _fiberSettings.fbsFiberMaterialIdfk) {
+          if (element.fbsFiberFamilyIdfk ==
+              _fiberSettings.fbsFiberFamilyIdfk) {
             isSettingInList = true;
             break;
           } else {
@@ -111,12 +111,12 @@ class _FiberFilterViewState extends State<FiberFilterView> {
 
         isSettingInList
             ? _listOfSettings!.removeWhere((element) =>
-        element.fbsFiberMaterialIdfk ==
-            _fiberSettings.fbsFiberMaterialIdfk)
+        element.fbsFiberFamilyIdfk ==
+            _fiberSettings.fbsFiberFamilyIdfk)
         // ? listOfSettings.toSet().toList()
             : _listOfSettings!.add(_fiberSettings);
       } else {
-        _listOfSettings!.add(value[0]);
+        _listOfSettings!.add(value!);
       }
       _minMaxConfiguration();
       _showHideConfiguration();
@@ -290,9 +290,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
   }
 
   _getSyncedFiberData() {
-    AppDbInstance.getDbInstance().then((value) async {
-      await value.fiberMaterialDao
-          .findFiberMaterialsWithNature(1)
+    AppDbInstance().getDbInstance().then((value) async {
+      await value.fiberBlendsDao
+          .findFiberBlendWithNature(1)
           .then((value) => setState(() => _fiberMaterials = value));
       await value.gradesDao
           .findGradeWithCatId(1)
@@ -311,9 +311,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
           .then((value) => setState(() => _fiberPacking = value));
 
       await value.fiberSettingDao
-          .findFiberSettings(_fiberMaterials!.first.fbmId)
+          .findFiberSettings(_fiberMaterials!.first.blnId!)
           .then((value) => setState(() {
-        _listOfSettings = [value[0]];
+        _listOfSettings = [value!];
         _minMaxConfiguration();
       }));
     });
@@ -360,17 +360,16 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   child: FiberFamilyComponent(
-                                    selectedIndex: -1,
-                                      callback: (FiberMaterial value) {
-                                    _querySetting(value.fbmId);
-                                    var natureId1 = value.nature_id;
+                                      callback: (FiberBlends value) {
+                                    _querySetting(value.blnId!);
+                                    var natureId1 = value.familyIdfk;
                                     var selectedNature = int.parse(natureId1!)-1;
                                     _getSpecificationRequestModel!.natureId = selectedNature.toString();
-                                    _getSpecificationRequestModel!.fiberMaterialId = [value.fbmId];
+                                    _getSpecificationRequestModel!.fiberMaterialId = [value.blnId!];
                                     _getSpecificationRequestModel!
                                             .fiberMaterialId =
                                         _filterList(
-                                            _listOfMaterials, (value).fbmId);
+                                            _listOfMaterials, (value).blnId!);
                                   }),
                                 ),
                                 //Show Grade
@@ -616,7 +615,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                       onChanged:
                                                           (Countries? value) {
                                                         List<int> originList = [
-                                                          value!.conId
+                                                          value!.conId!
                                                         ];
                                                         _getSpecificationRequestModel!
                                                                 .originId =

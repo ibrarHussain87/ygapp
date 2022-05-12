@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_nature_material_component.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
+import 'package:yg_app/providers/post_fiber_provider.dart';
 
 class FiberPostPage extends StatefulWidget {
   final String? locality;
@@ -27,28 +23,26 @@ class FiberPostPage extends StatefulWidget {
 }
 
 class _FiberPostPageState extends State<FiberPostPage> {
-  CreateRequestModel? _createRequestModel;
 
-  late List<FiberMaterial> _fiberMaterialList;
-  late List<FiberNature> _fiberNatureList;
-
-  _getFiberSyncedData(){
-    AppDbInstance.getFiberMaterialData().then((value) => setState(() => _fiberMaterialList = value));
-    AppDbInstance.getFiberNatureData().then((value) => setState(() => _fiberNatureList = value));
-  }
+  final _fiberPostProvider = locator<PostFiberProvider>();
 
   @override
   void initState() {
-    _createRequestModel = CreateRequestModel();
-    _getFiberSyncedData();
     super.initState();
+    _fiberPostProvider.addListener(() {
+      updateUI();
+    });
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _fiberPostProvider.getFiberSyncedData();
+    });
+  }
+
+  updateUI() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
-    //Dispose broadcast
-    BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
-    BroadcastReceiver().unsubscribe(requestModelBroadCast);
     super.dispose();
   }
 
@@ -56,98 +50,78 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: /*FutureBuilder<SyncFiberResponse>(
-          future: ApiService.syncFiber(),
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.data != null) {
-              return */Provider(
-                  create: (_) => _createRequestModel, child: getView())
-            /*} else if (snapshot.hasError) {
-              return Center(
-                  child:
-                      TitleSmallTextWidget(title: snapshot.error.toString()));
-            } else {
-              return const Center(
-                child: SpinKitWave(
-                  color: Colors.green,
-                  size: 24.0,
+          backgroundColor: Colors.white,
+          body: !_fiberPostProvider.isLoading ? Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 8.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10,),
+                        SingleSelectTileWidget(
+                            spanCount: 2,
+                            callback: (FiberFamily value) {
+                              _fiberPostProvider.createRequestModel.spc_nature_idfk = value.fiberFamilyId.toString();
+                              _fiberPostProvider.getFiberBlends(value.fiberFamilyId);
+                            },
+                            listOfItems: _fiberPostProvider.fiberFamilyList)
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(left: 8,right: 8,top: 15),
+                            child: Divider()
+                        ),
+                        BlendsWithImageListWidget(
+                          // key: _catWithImageListState,
+                          listItem: _fiberPostProvider.fiberBlendsList,
+                          onClickCallback: (index) {
+                            _fiberPostProvider.createRequestModel.spc_fiber_family_idfk =
+                                _fiberPostProvider.fiberBlendsList[index].blnId.toString();
+                            _fiberPostProvider.selectedBlendId = _fiberPostProvider.fiberBlendsList[index].blnId.toString();
+                            _fiberPostProvider.fiberSettingSelectedBlend();
+                          },
+                        ),
+                        const Padding(
+                            padding: EdgeInsets.only(left: 8,right: 8,),
+                            child: Divider()
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            }*/
-          //},
-        ),
-      );
-  }
-
- /* Widget insertIntoDB(SyncFiberResponse? data) {
-    return FutureBuilder<List<int>>(
-      future: AppDbInstance.getDbInstance().then((value) async {
-        await value.gradesDao.insertAllGrades(data!.data.fiber.grades);
-        await value.fiberMaterialDao
-            .insertAllFiberMaterials(data.data.fiber.material);
-        await value.fiberNatureDao
-            .insertAllFiberNatures(data.data.fiber.natures);
-        return value.fiberSettingDao
-            .insertAllFiberSettings(data.data.fiber.settings);
-      }),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          return Provider(
-              create: (_) => _createRequestModel, child: getView(data!));
-        } else if (snapshot.hasError) {
-          return Center(
-              child: TitleSmallTextWidget(title: snapshot.error.toString()));
-        } else {
-          return const Center(
-            child: SpinKitWave(
-              color: Colors.green,
-              size: 24.0,
+                Visibility(
+                  visible: widget.selectedTab == offering_type,
+                  child: const SizedBox(
+                    height: 8,
+                  ),
+                ),
+                Expanded(
+                  child: FiberStepsSegments(
+                    // syncFiberResponse: data,
+                    locality: widget.locality,
+                    businessArea: widget.businessArea,
+                    selectedTab: widget.selectedTab,
+                    stepsCallback: (value) {
+                      // if (value is int) {
+                      //   selectedSegment = value;
+                      //   BroadcastReceiver().publish<int>(segmentIndexBroadcast,
+                      //       arguments: selectedSegment);
+                      // }
+                    },
+                  ),
+                ),
+              ],
             ),
-          );
-        }
-      },
-    );
-  }*/
-
-  Widget getView() {
-    int selectedSegment = 1;
-
-    return Padding(
-      padding: EdgeInsets.only(left: 8.w, right: 8.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FiberNatureMaterialComponent(
-              natureList: _fiberNatureList,
-              materialList: _fiberMaterialList),
-          Visibility(
-            visible: widget.selectedTab == offering_type,
-            child: const SizedBox(
-              height: 20,
-            ),
-          ),
-          Expanded(
-            child: FiberStepsSegments(
-              // syncFiberResponse: data,
-              locality: widget.locality,
-              businessArea: widget.businessArea,
-              selectedTab: widget.selectedTab,
-              stepsCallback: (value) {
-                if (value is int) {
-                  selectedSegment = value;
-                  BroadcastReceiver().publish<int>(segmentIndexBroadcast,
-                      arguments: selectedSegment);
-                }
-              },
-            ),
-          ),
-        ],
-      ),
+          ):Container()),
     );
   }
 }

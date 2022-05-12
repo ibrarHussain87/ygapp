@@ -1,3 +1,5 @@
+import 'package:yg_app/model/blend_model.dart';
+
 class CreateRequestModel {
   String? spc_category_idfk;
   String? spc_id;
@@ -7,7 +9,7 @@ class CreateRequestModel {
   String? ys_local_international;
 
   //Fiber Keys
-  String? spc_fiber_material_idfk;
+  String? spc_fiber_family_idfk;
   String? spc_nature_idfk;
   String? spc_fiber_length_idfk;
   String? spc_grade_idfk;
@@ -22,6 +24,7 @@ class CreateRequestModel {
   String? spc_brand_idfk;
   String? spc_no_of_days;
   String? spc_active;
+  List<BlendModel>? formation;
 
   //Packing Details keys
   String? is_offering;
@@ -69,6 +72,7 @@ class CreateRequestModel {
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
+  List<BlendModel>? ys_formation;
 
   // String? ys_color_idfk;
   String? ys_color_code;
@@ -109,7 +113,7 @@ class CreateRequestModel {
       this.spc_user_idfk,
       this.spc_local_international,
       this.ys_local_international,
-      this.spc_fiber_material_idfk,
+      this.spc_fiber_family_idfk,
       this.spc_nature_idfk,
       this.spc_fiber_length_idfk,
       this.spc_grade_idfk,
@@ -125,6 +129,7 @@ class CreateRequestModel {
       this.spc_lot_number,
       this.spc_appearance_idfk,
       this.spc_brand_idfk,
+      this.formation,
       this.is_offering,
       this.spc_origin_idfk,
       this.spc_port_idfk,
@@ -167,6 +172,7 @@ class CreateRequestModel {
       this.ys_certification_idfk,
       this.ys_color_treatment_method_idfk,
       this.ys_dying_method_idfk,
+        this.ys_formation,
       // this.ys_color_idfk,
       this.ys_apperance_idfk,
       this.ys_actual_yarn_count,
@@ -191,15 +197,15 @@ class CreateRequestModel {
       this.ys_origin_idfk,
       this.ys_title});
 
-  Map<String, String> toJson() {
-    Map<String, String> map = {
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
       'spc_category_idfk': spc_category_idfk ?? "",
       'ys_id': ys_id ?? "",
       'spc_id': spc_id ?? "",
       'spc_user_idfk': spc_user_idfk ?? "",
       'spc_local_international': spc_local_international ?? "",
       'ys_local_international': ys_local_international ?? "",
-      'spc_fiber_material_idfk': spc_fiber_material_idfk ?? "",
+      'spc_fiber_family_idfk': spc_fiber_family_idfk ?? "",
       'spc_nature_idfk': spc_nature_idfk ?? "",
       'spc_fiber_length': spc_fiber_length_idfk ?? "",
       'spc_grade_idfk': spc_grade_idfk ?? "",
@@ -218,6 +224,7 @@ class CreateRequestModel {
       'spc_origin_idfk': spc_origin_idfk ?? "",
       'spc_port_idfk': spc_port_idfk ?? "",
       'spc_city_state_idfk': spc_city_state_idfk ?? "",
+      'formation': formation ?? [],
       'certification_id ': spc_certificate_idfk ?? "",
       'fbp_price': fbp_price ?? "",
       'packing_idfk': packing_idfk ?? "",
@@ -235,6 +242,7 @@ class CreateRequestModel {
       'fpb_packing': fpb_packing ?? "",
       'fpb_payment_type_idfk': fpb_payment_type_idfk ?? "",
       'fpb_lc_type_idfk': fpb_lc_type_idfk ?? "",
+      'ys_formation':ys_formation??[],
 
       //Yarn Keys
       'ys_family_idfk': ys_family_idfk ?? "",

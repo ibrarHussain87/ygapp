@@ -55,8 +55,8 @@ class Data {
 }
 
 class Stocklot {
-  List<StocklotCategories>? stocklotCategories;
-  List<Stocklots>? stocklots;
+  // List<StocklotCategories>? stocklotCategories;
+  List<StockLotFamily>? stocklots;
   List<Countries>? countries;
   List<CityState>? cityState;
   List<FPriceTerms>? priceTerms;
@@ -67,7 +67,8 @@ class Stocklot {
   List<DeliveryPeriod>? deliveryPeriod;
 
   Stocklot(
-      {this.stocklotCategories,
+      {
+      //   this.stocklotCategories,
       this.stocklots,
       this.countries,
       this.cityState,
@@ -79,16 +80,16 @@ class Stocklot {
       this.deliveryPeriod});
 
   Stocklot.fromJson(Map<String, dynamic> json) {
-    if (json['Stocklot_categories'] != null) {
-      stocklotCategories = <StocklotCategories>[];
-      json['Stocklot_categories'].forEach((v) {
-        stocklotCategories!.add(StocklotCategories.fromJson(v));
-      });
-    }
-    if (json['stocklots'] != null) {
-      stocklots = <Stocklots>[];
-      json['stocklots'].forEach((v) {
-        stocklots!.add(Stocklots.fromJson(v));
+    // if (json['Stocklot_categories'] != null) {
+    //   stocklotCategories = <StocklotCategories>[];
+    //   json['Stocklot_categories'].forEach((v) {
+    //     stocklotCategories!.add(StocklotCategories.fromJson(v));
+    //   });
+    // }
+    if (json['family'] != null) {
+      stocklots = <StockLotFamily>[];
+      json['family'].forEach((v) {
+        stocklots!.add(StockLotFamily.fromJson(v));
       });
     }
     if (json['countries'] != null) {
@@ -145,12 +146,12 @@ class Stocklot {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.stocklotCategories != null) {
-      data['Stocklot_categories'] =
-          this.stocklotCategories!.map((v) => v.toJson()).toList();
-    }
+    // if (this.stocklotCategories != null) {
+    //   data['Stocklot_categories'] =
+    //       this.stocklotCategories!.map((v) => v.toJson()).toList();
+    // }
     if (this.stocklots != null) {
-      data['stocklots'] = this.stocklots!.map((v) => v.toJson()).toList();
+      data['family'] = this.stocklots!.map((v) => v.toJson()).toList();
     }
     if (this.countries != null) {
       data['countries'] = this.countries!.map((v) => v.toJson()).toList();
@@ -179,85 +180,80 @@ class Stocklot {
   }
 }
 
-@Entity(tableName: 'stocklot_categories_table')
-class StocklotCategories {
+// @Entity(tableName: 'stocklot_categories_table')
+// class StocklotCategories {
+//   @PrimaryKey(autoGenerate: false)
+//   int? id;
+//   String? parentId;
+//   String? category;
+//   String? isActive;
+//   @ignore
+//   Null? sortid;
+//
+//   StocklotCategories(
+//       {this.id, this.parentId, this.category, this.isActive, this.sortid});
+//
+//   StocklotCategories.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     parentId = json['parent_id'];
+//     category = json['category'];
+//     isActive = json['is_active'];
+//     sortid = json['sortid'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = Map<String, dynamic>();
+//     data['id'] = this.id;
+//     data['parent_id'] = this.parentId;
+//     data['category'] = this.category;
+//     data['is_active'] = this.isActive;
+//     data['sortid'] = this.sortid;
+//     return data;
+//   }
+//
+//   @override
+//   String toString() {
+//     return category ?? "";
+//   }
+// }
+
+@Entity(tableName: 'stocklots_family')
+class StockLotFamily {
   @PrimaryKey(autoGenerate: false)
-  int? id;
-  String? parentId;
-  String? category;
-  String? isActive;
-  @ignore
-  Null? sortid;
+  int? stocklotFamilyId;
+  String? stocklotFamilyParentId;
+  String? stocklotFamilyName;
+  String? stocklotFamilyActive;
+  String? stocklotFamilySortid;
 
-  StocklotCategories(
-      {this.id, this.parentId, this.category, this.isActive, this.sortid});
+  StockLotFamily(
+      {this.stocklotFamilyId,
+        this.stocklotFamilyParentId,
+        this.stocklotFamilyName,
+        this.stocklotFamilyActive,
+        this.stocklotFamilySortid});
 
-  StocklotCategories.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    parentId = json['parent_id'];
-    category = json['category'];
-    isActive = json['is_active'];
-    sortid = json['sortid'];
+  StockLotFamily.fromJson(Map<String, dynamic> json) {
+    stocklotFamilyId = json['stocklot_family_id'];
+    stocklotFamilyParentId = json['stocklot_family_parent_id'];
+    stocklotFamilyName = json['stocklot_family_name'];
+    stocklotFamilyActive = json['stocklot_family_active'];
+    stocklotFamilySortid = json['stocklot_family_sortid'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['category'] = this.category;
-    data['is_active'] = this.isActive;
-    data['sortid'] = this.sortid;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['stocklot_family_id'] = this.stocklotFamilyId;
+    data['stocklot_family_parent_id'] = this.stocklotFamilyParentId;
+    data['stocklot_family_name'] = this.stocklotFamilyName;
+    data['stocklot_family_active'] = this.stocklotFamilyActive;
+    data['stocklot_family_sortid'] = this.stocklotFamilySortid;
     return data;
   }
-
   @override
   String toString() {
-    return category ?? "";
-  }
-}
-
-@Entity(tableName: 'stocklots_table')
-class Stocklots {
-  @PrimaryKey(autoGenerate: false)
-  int? id;
-  String? categoryId;
-  String? parentId;
-  String? name;
-  String? isActive;
-  @ignore
-  Null? sortid;
-
-  Stocklots(
-      {this.id,
-      this.categoryId,
-      this.parentId,
-      this.name,
-      this.isActive,
-      this.sortid});
-
-  Stocklots.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    categoryId = json['category_id'];
-    parentId = json['parent_id'];
-    name = json['name'];
-    isActive = json['is_active'];
-    sortid = json['sortid'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_id'] = this.categoryId;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['is_active'] = this.isActive;
-    data['sortid'] = this.sortid;
-    return data;
-  }
-
-  @override
-  String toString() {
-    return name ?? "";
+    // TODO: implement toString
+    return stocklotFamilyName??"";
   }
 }
 

@@ -10,12 +10,12 @@ class CreateStockLotResponse {
   CreateStockLotResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['response_code'] = this.responseCode;
     if (this.data != null) {
@@ -62,7 +62,7 @@ class Data {
     isFeatured = json['is_featured'];
     if (json['spec_details'] != null) {
       stocklotSpecificationDetails = <StocklotSpecificationDetails>[];
-      json['stocklot_specification_details'].forEach((v) {
+      json['spec_details'].forEach((v) {
         stocklotSpecificationDetails!
             .add( StocklotSpecificationDetails.fromJson(v));
       });
@@ -89,24 +89,27 @@ class Data {
 }
 
 class StocklotSpecificationDetails {
-  String? specificationId;
-  String? categoryId;
+  String? stocklotFamilyId;
+  String? stocklotFamilyName;
+  // String? categoryId;
   String? quantity;
   String? unitId;
   String? price;
   // String? description;
 
   StocklotSpecificationDetails(
-      {this.specificationId,
-        this.categoryId,
+      {this.stocklotFamilyId,
+        this.stocklotFamilyName,
+        // this.categoryId,
         this.quantity,
         this.unitId,
         this.price,
         /*this.description*/});
 
   StocklotSpecificationDetails.fromJson(Map<String, dynamic> json) {
-    specificationId = json['specification_id'];
-    categoryId = json['category_id'];
+    stocklotFamilyId = json['stocklot_family_idfk'];
+    stocklotFamilyName = json['stocklot_family_idfk'];
+    // categoryId = json['category_id'];
     quantity = json['quantity'];
     unitId = json['unit_id'];
     price = json['price'];
@@ -115,8 +118,9 @@ class StocklotSpecificationDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['specification_id'] = this.specificationId;
-    data['category_id'] = this.categoryId;
+    data['stocklot_family_idfk'] = this.stocklotFamilyId;
+    data['stocklot_family_name'] = this.stocklotFamilyName;
+    // data['category_id'] = this.categoryId;
     data['quantity'] = this.quantity;
     data['unit_id'] = this.unitId;
     data['price'] = this.price;

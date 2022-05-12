@@ -43,7 +43,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   final GlobalKey<StockLotSpecificationBodyState> stockLotSpecificationKey =
       GlobalKey<StockLotSpecificationBodyState>();
-  StocklotCategories? stocklotCategories;
+  StockLotFamily? stocklotCategories;
 
   // Countries? countryModel;
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
@@ -111,11 +111,11 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ stocklotProvider
                                           .stocklots!,
                                       selectedIndex: -1,
-                                      callback: (StocklotCategories value) {
+                                      callback: (StockLotFamily value) {
                                         if (stocklotProvider
                                             .stocklotWasteList!.isEmpty) {
                                           stocklotProvider.getCategories(
-                                              value.id.toString());
+                                              value.stocklotFamilyId.toString());
                                           stocklotProvider.setShowCategory(true);
                                           stocklotProvider.setShowSubCategory(false);
                                           if(categoryKey.currentState!=null) categoryKey.currentState!.checkedTile = -1;
@@ -154,16 +154,16 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                         listOfItems:
                                             stocklotProvider.stocklotCategories!,
                                         selectedIndex: -1,
-                                        callback: (StocklotCategories value) {
+                                        callback: (StockLotFamily value) {
                                           stocklotProvider.setShowSubCategory(true);
                                           stocklotProvider.stocklotRequestModel
                                                   .subcategoryId =
-                                              value.id.toString();
+                                              value.stocklotFamilyId.toString();
 
                                           if (stocklotProvider
                                               .stocklotWasteList!.isEmpty) {
                                             stocklotProvider.getSubcategories(
-                                                value.id.toString());
+                                                value.stocklotFamilyId.toString());
                                           }
                                         },
                                       ),
@@ -195,14 +195,14 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       listOfItems:
                                           stocklotProvider.stocklotSubcategories!,
                                       selectedIndex: -1,
-                                      callback: (StocklotCategories value) {
+                                      callback: (StockLotFamily value) {
                                         stocklotCategories = value;
                                         stocklotProvider.getFilteredStocklotWaste(
-                                            value.id ?? -1);
+                                            value.stocklotFamilyId ?? -1);
                                         var list = stocklotProvider
                                             .stocklotWasteList!
                                             .where((element) =>
-                                                element.id == value.id.toString())
+                                                element.id == value.stocklotFamilyId.toString())
                                             .toList();
                                         var editWasteModel =
                                             list.isNotEmpty ? list.first : null;
@@ -454,7 +454,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             stocklotProvider
                                                     .stocklotRequestModel
                                                     .currency =
-                                                value.conCurrency.toString();
+                                                value.countryCurrencySymbol.toString();
                                           }
                                         },
                                         // validator: (value) => value == null
@@ -702,7 +702,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     });
   }
 
-  void showStocklotBottomSheet(StocklotCategories value,
+  void showStocklotBottomSheet(StockLotFamily value,
       StocklotProvider stocklotProvider, StocklotWasteModel? editWasteModel) {
     /*stocklotProvider.getFilteredStocklotWaste(value.id??-1);*/
     /*var list = stocklotProvider.stocklotWasteList!.where((element) => element.id == value.id.toString()).toList();
@@ -717,11 +717,11 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
             : stocklotProvider.unitsList!.where((element) =>
         element.untCategoryIdfk ==
             "5").toList()[0].untName,
-        name: editWasteModel != null ? editWasteModel.name : value.category,
+        name: editWasteModel != null ? editWasteModel.name : value.stocklotFamilyName,
         price: editWasteModel != null ? editWasteModel.price : '',
         quantity: editWasteModel != null ? editWasteModel.quantity : '',
         // description: editWasteModel != null ? editWasteModel.description : '',
-        id: editWasteModel != null ? editWasteModel.id : value.id.toString());
+        id: editWasteModel != null ? editWasteModel.id : value.stocklotFamilyId.toString());
     unitName =  editWasteModel != null
         ? editWasteModel.unitOfCount
         : stocklotProvider.unitsList!.where((element) =>

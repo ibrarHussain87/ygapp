@@ -692,7 +692,7 @@ class YarnSetting {
   @PrimaryKey(autoGenerate: false)
   int? ysId;
   String? ysBlendIdfk;
-  String? ysFiberMaterialIdfk;
+  String? ysFamilyIdfk;
   String? showCount;
   String? countMinMax;
   String? showOrigin;
@@ -756,7 +756,7 @@ class YarnSetting {
   YarnSetting(
       {this.ysId,
       this.ysBlendIdfk,
-      this.ysFiberMaterialIdfk,
+      this.ysFamilyIdfk,
       this.showCount,
       this.countMinMax,
       this.showOrigin,
@@ -820,7 +820,7 @@ class YarnSetting {
   YarnSetting.fromJson(Map<String, dynamic> json) {
     ysId = json['ys_id'];
     ysBlendIdfk = json['ys_blend_idfk'];
-    ysFiberMaterialIdfk = json['ys_fiber_material_idfk'];
+    ysFamilyIdfk = json['ys_family_idfk'];
     showCount = json['show_count'];
     countMinMax = json['count_min_max'];
     showOrigin = json['show_origin'];
@@ -886,7 +886,7 @@ class YarnSetting {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ys_id'] = this.ysId;
     data['ys_blend_idfk'] = this.ysBlendIdfk;
-    data['ys_fiber_material_idfk'] = this.ysFiberMaterialIdfk;
+    data['ys_family_idfk'] = this.ysFamilyIdfk;
     data['show_count'] = this.showCount;
     data['count_min_max'] = this.countMinMax;
     data['show_origin'] = this.showOrigin;
@@ -1067,11 +1067,11 @@ class Usage {
   String? yuDescription;
   String? yuIsActive;
   String? yuSortid;
-  bool _isSelected = false;
-  bool get isSelected => _isSelected;
-  set isSelected(bool value) {
-    _isSelected = value;
-  }
+  // bool _isSelected = false;
+  // bool get isSelected => _isSelected;
+  // set isSelected(bool value) {
+  //   _isSelected = value;
+  // }
 
   Usage.fromJson(Map<String, dynamic> json) {
     yuId = json['yu_id'];
@@ -1112,6 +1112,8 @@ class Blends {
   String? iconUnselected;
   String? blnIsActive;
   String? blnSortid;
+  bool? isSelected = false;
+  String? blendRatio = '';
 
   Blends(
       {this.blnId,
@@ -1122,6 +1124,8 @@ class Blends {
         this.iconSelected,
         this.iconUnselected,
         this.blnIsActive,
+        this.isSelected,
+        this.blendRatio,
         this.blnSortid});
 
   Blends.fromJson(Map<String, dynamic> json) {

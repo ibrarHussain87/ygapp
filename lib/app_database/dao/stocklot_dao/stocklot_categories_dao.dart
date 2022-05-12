@@ -3,22 +3,25 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_syn
 
 
 @dao
-abstract class StocklotCategoriesDao{
-  @Query('SELECT * FROM stocklot_categories_table')
-  Future<List<StocklotCategories>> findAllStocklotCategories();
+abstract class StocklotFamilyDao{
+  @Query('SELECT * FROM stocklots_family')
+  Future<List<StockLotFamily>> findAllStocklotCategories();
 
-  @Query('SELECT * FROM stocklot_categories_table where id = :id')
-  Future<StocklotCategories?> findStocklotCategoriesWithId(int id);
+  @Query('SELECT * FROM stocklots_family where stocklotFamilyParentId IS NULL')
+  Future<List<StockLotFamily>> findParentStocklot();
+
+  @Query('SELECT * FROM stocklots_family where stocklotFamilyParentId = :id')
+  Future<StockLotFamily?> findStocklotCategoriesWithId(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertStocklotCategories(StocklotCategories stocklotCategories);
+  Future<void> insertStocklotCategories(StockLotFamily stocklotCategories);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<List<int>> insertAllStocklotCategories(List<StocklotCategories> stocklotCategories);
+  Future<List<int>> insertAllStocklotCategories(List<StockLotFamily> stocklotCategories);
 
-  @Query("delete from stocklot_categories_table where id = :id")
+  @Query("delete from stocklots_family where stocklotFamilyParentId = :id")
   Future<void> deleteStocklotCategories(int id);
 
-  @Query("delete from stocklot_categories_table")
+  @Query("delete from stocklots_family")
   Future<void> deleteAll();
 }

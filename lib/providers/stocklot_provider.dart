@@ -35,11 +35,11 @@ class StocklotProvider extends ChangeNotifier {
   final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListInternationalKey =
   GlobalKey<SingleSelectTileRenewedWidgetState>();
 
-  List<StocklotCategories> stocklotAllCategories = [];
-  List<StocklotCategories>? stocklots = [];
-  List<StocklotCategories>? stocklotCategories = [];
-  List<Stocklots>? stocklotAllSubcategories = [];
-  List<StocklotCategories>? stocklotSubcategories = [];
+  List<StockLotFamily> stocklotAllCategories = [];
+  List<StockLotFamily>? stocklots = [];
+  List<StockLotFamily>? stocklotCategories = [];
+  List<StockLotFamily>? stocklotAllSubcategories = [];
+  List<StockLotFamily>? stocklotSubcategories = [];
   List<Units>? unitsList = [];
   List<FPriceTerms> priceTermsList = [];
   List<Countries>? countryList = [];
@@ -122,20 +122,20 @@ class StocklotProvider extends ChangeNotifier {
     countryList!.clear();
     stocklotWasteList!.clear();
     ignoreClick = false;
-    var dbInstance = await AppDbInstance.getDbInstance();
+    var dbInstance = await AppDbInstance().getDbInstance();
     stocklotAllCategories =
         await dbInstance.stocklotCategoriesDao.findAllStocklotCategories();
     stocklots = stocklotAllCategories
-        .where((element) => element.parentId == null)
+        .where((element) => element.stocklotFamilyParentId == null)
         .toList();
-    stocklotAllSubcategories = await dbInstance.stocklotDao.findAllStocklots();
+    stocklotAllSubcategories = await dbInstance.stocklotCategoriesDao.findAllStocklotCategories();
     unitsList = await dbInstance.unitDao.findAllUnit();
     priceTermsList =
         await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
     availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
-      getCategories(stocklots!.first.id.toString());
+      getCategories(stocklots!.first.stocklotFamilyId.toString());
     }
     loading = false;
     notifyListeners();
@@ -188,10 +188,10 @@ class StocklotProvider extends ChangeNotifier {
     // stocklotId = int.parse(id);
     stocklotCategories!.clear();
     stocklotCategories = stocklotAllCategories
-        .where((element) => element.parentId == id)
+        .where((element) => element.stocklotFamilyParentId == id)
         .toList();
     if (stocklotCategories != null) {
-      getSubcategories(stocklotCategories!.first.id.toString());
+      getSubcategories(stocklotCategories!.first.stocklotFamilyId.toString());
     }
     notifyListeners();
   }
@@ -203,7 +203,7 @@ class StocklotProvider extends ChangeNotifier {
     subcategoryId = -1;
     selectedSubCategoryId = -1;
     stocklotSubcategories = stocklotAllCategories
-        .where((element) => element.parentId == id)
+        .where((element) => element.stocklotFamilyParentId == id)
         .toList();
     notifyListeners();
   }

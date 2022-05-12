@@ -175,10 +175,8 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                                 color: Colors.transparent)))),
                                 onPressed: () {
                                   if (validateAndSaveWeft()) {
-
-
+                                    callback.call();
                                     Navigator.of(context).pop();
-
                                   }
                                 });
                           })),

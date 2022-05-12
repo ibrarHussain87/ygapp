@@ -32,8 +32,8 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
 
   final GlobalKey<SingleSelectTileRenewedWidgetState> _fabricBlendKey = GlobalKey<SingleSelectTileRenewedWidgetState>();
 
-  _getYarnDataFromDb() {
-    AppDbInstance.getDbInstance().then((value) async {
+  _getFabricDataFromDb() {
+    AppDbInstance().getDbInstance().then((value) async {
       await value.fabricFamilyDao.findAllFabricFamily().then((value) {
         setState(() {
           _fabricFamily = value;
@@ -51,7 +51,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
 
   @override
   void initState() {
-    _getYarnDataFromDb();
+    _getFabricDataFromDb();
     super.initState();
   }
 
@@ -71,7 +71,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                         child: TitleTextWidget(title: fabricCategory)),
                     SizedBox(
                       height: 0.055 * MediaQuery.of(context).size.height,
-                      child:CatWithImageListWidget(
+                      child:BlendsWithImageListWidget(
                         selectedItem: -1,
                         listItem: _fabricFamily,
                         onClickCallback: (value) {
@@ -122,7 +122,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.fabricSettingDao.findFamilyFabricSettings(id).then((value) {
         setState(() {
           selectedFamilyId = id;

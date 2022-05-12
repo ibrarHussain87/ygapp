@@ -259,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
         ApiService.login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
-            AppDbInstance.getDbInstance().then((db) async {
+            AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
             });
 

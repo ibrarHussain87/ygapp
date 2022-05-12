@@ -19,7 +19,6 @@ import 'package:yg_app/app_database/dao/port_dao.dart';
 import 'package:yg_app/app_database/dao/price_terms_dao.dart';
 import 'package:yg_app/app_database/dao/stocklot_dao/availability_dao.dart';
 import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_categories_dao.dart';
-import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_dao.dart';
 import 'package:yg_app/app_database/dao/unit_dao.dart';
 import 'package:yg_app/app_database/dao/user_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/color_treatment_method_dao.dart';
@@ -82,16 +81,16 @@ import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
 
-@Database(version: APP_DATABASE_VERSION,entities: [User,FiberNature,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberMaterial,Brands,Countries,
+@Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
-ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,Stocklots,StocklotCategories])
+ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
   FiberSettingDao get fiberSettingDao;
-  FiberNatureDao get fiberNatureDao;
-  FiberMaterialDao get fiberMaterialDao;
+  FiberFamilyDao get fiberFamilyDao;
+  FiberBlendsDao get fiberBlendsDao;
   FiberAppearanceDao get fiberAppearanceDoa;
 
   GradesDao get gradesDao;
@@ -107,8 +106,7 @@ abstract class AppDatabase extends FloorDatabase {
   PortsDao get portsDao;
   PriceTermsDao get priceTermsDao;
   UnitDao get unitDao;
-  StocklotCategoriesDao get stocklotCategoriesDao;
-  StocklotDao get stocklotDao;
+  StocklotFamilyDao get stocklotCategoriesDao;
   AvailabilityDao get availabilityDao;
 
 

@@ -28,12 +28,12 @@ class YarnPostAdPage extends StatefulWidget {
 
 class _YarnPostAdPageState extends State<YarnPostAdPage> {
   CreateRequestModel? _createRequestModel;
-//  Future<YarnSyncResponse>? _syncFuture;
+  // Future<YarnSyncResponse>? _syncFuture;
 
   @override
   void initState() {
     _createRequestModel = CreateRequestModel();
-//    _syncFuture = ApiService.syncYarn();
+    // _syncFuture = ApiService.syncYarn();
     super.initState();
   }
 
@@ -74,7 +74,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
 
   Widget insertIntoDB(YarnSyncResponse? data) {
     return FutureBuilder<List<int>>(
-      future: AppDbInstance.getDbInstance().then((value) async {
+      future: AppDbInstance().getDbInstance().then((value) async {
         await value.yarnGradesDao.insertAllGrades(data!.data.yarn.grades!);
         await value.yarnFamilyDao.insertAllYarnFamily(data.data.yarn.family!);
         await value.yarnBlendDao.insertAllYarnBlend(data.data.yarn.blends!);

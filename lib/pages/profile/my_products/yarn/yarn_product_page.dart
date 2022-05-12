@@ -4,7 +4,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/yarn_product_list_items.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
-import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -59,7 +59,7 @@ class YarnProductPageState extends State<YarnProductPage>
 
   @override
   void initState() {
-    AppDbInstance.getDbInstance().then((db) async {
+    AppDbInstance().getDbInstance().then((db) async {
       await db.yarnFamilyDao.findAllYarnFamily().then((value) => setState(() {
             yarnFamilyList = value;
           }));
@@ -146,7 +146,7 @@ class YarnProductPageState extends State<YarnProductPage>
                             : false,
                         child: SizedBox(
                           height: 48.w,
-                          child: CatWithImageListWidget(
+                          child: BlendsWithImageListWidget(
                             listItem: yarnBlendList
                                 .where((element) =>
                                     element.familyIdfk == famId.toString())
@@ -216,7 +216,7 @@ class YarnProductPageState extends State<YarnProductPage>
   }
 
   queryFamilySettings(int id) {
-    AppDbInstance.getDbInstance().then((value) async {
+    AppDbInstance().getDbInstance().then((value) async {
       value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
         setState(() {
           if (value.isNotEmpty) {

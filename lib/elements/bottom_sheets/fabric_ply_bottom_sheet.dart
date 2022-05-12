@@ -34,6 +34,9 @@ fabricPlySheet(
 {
 
   String? selectedPlyId;
+  if(_createRequestModel!.fs_ply_idfk !=null){
+    selectedPlyId = _createRequestModel.fs_ply_idfk;
+  }
 
   showModalBottomSheet<int>(
     isScrollControlled: true,
@@ -235,6 +238,7 @@ fabricPlySheet(
                                   if (validationAllPage(_createRequestModel,_fabricSettings,contextBuilder,selectedPlyId)) {
                                     //showDoublingMethod.dispose();
                                     _createRequestModel.fs_ply_idfk = selectedPlyId;
+                                    callback.call();
                                     Navigator.of(context).pop();
                                   }
                                 });
