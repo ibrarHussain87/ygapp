@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
-import 'package:yg_app/elements/bottom_sheets/spec_bottom_sheet.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
@@ -10,34 +10,35 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import '../../helper_utils/app_constants.dart';
 import '../title_text_widget.dart';
 
-class SingleSelectTileWidget extends StatefulWidget {
+class SpecSelectTileWidget extends StatefulWidget {
   final Function? callback;
+  final Function? selectedValue;
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
 
-  const SingleSelectTileWidget(
+  const SpecSelectTileWidget(
       {Key? key,
-      required this.spanCount,
-      required this.callback,
-      required this.listOfItems,
-      this.selectedIndex,
+        required this.spanCount,
+        required this.callback,
+        required this.selectedValue,
+        required this.listOfItems,
+        this.selectedIndex,
       })
       : super(key: key);
 
   @override
-  SingleSelectTileWidgetState createState() => SingleSelectTileWidgetState();
+  SpecSelectTileWidgetState createState() => SpecSelectTileWidgetState();
 }
 
-class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
+class SpecSelectTileWidgetState extends State<SpecSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
-  final ValueNotifier<String> dropdownValue = ValueNotifier('');
 
-  int selectedIndex=-1;
   @override
   void initState() {
+    print("Index"+widget.selectedIndex.toString());
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -52,7 +53,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.listOfItems.length<5 ? GridView.builder(
+    return  GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -64,7 +65,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
       itemBuilder: (context, index) {
         return  buildGrid(index);
       },
-    ) : buildDropDownContainer(widget.listOfItems);
+    );
   }
 
 
@@ -78,6 +79,8 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           checkedTile = index;
         });
         widget.callback!(widget.listOfItems[index]);
+        widget.selectedValue!(checkedTile);
+
         looger.e(widget.listOfItems[index].toString());
       },
       child:  widget.listOfItems.length < 3
@@ -86,76 +89,6 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
     );
   }
 
-  Container buildDropDownContainer(List listOfItems) {
-    return Container(
-      width: double.maxFinite,
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black12),
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(6))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: 5.w,
-                          left: 8.w,
-                          bottom: 5.w),
-                      child: ValueListenableBuilder(
-                          valueListenable: dropdownValue,
-                          builder: (context,String showDoublingMethod,child){
-                            return Padding(
-                              padding: EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TitleMediumTextWidget(
-                                    title:dropdownValue.value!=''?dropdownValue.value.toString():'Select',
-                                    color: Colors.black54,
-                                    weight: FontWeight.normal,
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                      ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                    specsSheet(context,(int checkedIndex){
-                      selectedIndex=checkedIndex;
-                    } , (value){
-                      dropdownValue.value=value.toString();
-                    }, listOfItems,selectedIndex);
-     },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                          top: 5, right: 6, bottom: 4),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.keyboard_arrow_down_outlined,
-                        size: 24,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-        ],
-      ),
-    );
-  }
 
   Container buildSquareContainer(bool checked, int index) {
     return Container(
