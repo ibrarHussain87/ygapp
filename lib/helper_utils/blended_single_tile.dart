@@ -132,12 +132,12 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
                   if (blends.every((item) => item.id != index)) {
                     blends.add(BlendModel(
                         id: index,
-                        title: widget.listOfItems[index].toString(),
+                        relatedBlnId: widget.listOfItems[index].toString(),
                         ratio: widget.listController[index].text));
                   } else {
                     blends[index] = BlendModel(
                         id: index,
-                        title: widget.listOfItems[index].toString(),
+                        relatedBlnId: widget.listOfItems[index].toString(),
                         ratio: widget.listController[index].text);
                   }
                 }

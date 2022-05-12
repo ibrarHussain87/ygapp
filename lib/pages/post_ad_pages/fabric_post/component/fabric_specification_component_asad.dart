@@ -1976,7 +1976,7 @@ class FabricSpecificationComponentState
                                       if(validateAndSaveBlend()){
                                         blendString="";
                                         for(int i=0;i<values.length;i++) {
-                                          blendString+=values[i].title.toString()+"("+values[i].ratio.toString()+"),";
+                                          blendString+=values[i].relatedBlnId.toString()+"("+values[i].ratio.toString()+"),";
 
                                           result+=int.parse(values[i].ratio.toString());
 

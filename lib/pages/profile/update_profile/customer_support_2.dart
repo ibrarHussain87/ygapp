@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';

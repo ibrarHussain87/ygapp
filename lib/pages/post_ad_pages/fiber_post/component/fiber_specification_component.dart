@@ -20,6 +20,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
+import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
@@ -978,8 +979,8 @@ class FiberSpecificationComponentState extends State<FiberSpecificationComponent
     if (validationAllPage()) {
       _postFiberProvider.createRequestModel.spc_category_idfk = "1";
 
-      _postFiberProvider.createRequestModel.spc_fiber_family_idfk =
-          _postFiberProvider.selectedBlendId.toString();
+      _postFiberProvider.createRequestModel.spc_fiber_family_idfk = _postFiberProvider.selectedBlendId.toString();
+      _postFiberProvider.createRequestModel.formation = [BlendModel(id: int.parse(_postFiberProvider.selectedBlendId), relatedBlnId: null, ratio: "100")];
       // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       //
       // _postFiberProvider.createRequestModel!.spc_user_idfk = userId;

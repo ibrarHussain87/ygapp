@@ -61,6 +61,7 @@ class Specification {
   Specification({
     required this.spcId,
     required this.spc_user_id,
+    this.formation,
     required this.company,
     required this.categoryId,
     this.businessArea,
@@ -101,6 +102,7 @@ class Specification {
   String? nature_id;
   String? spc_user_id;
   String? company;
+  List<Formation>? formation;
   String? categoryId;
   String? businessArea;
   String? locality;
@@ -140,6 +142,7 @@ class Specification {
     nature_id = json['nature_id'];
     company = json['company'];
     spc_user_id = json['spc_user_id'];
+    // formation = json['formation'];
     categoryId = json['category_id'];
     businessArea = json['business_area'];
     locality = json['locality'];
@@ -171,6 +174,13 @@ class Specification {
     isVerified = json['is_verified'];
     description = json['description'];
     date = json['date'];
+
+    if (json['formation'] != null) {
+      formation = <Formation>[];
+      json['formation'].forEach((v) {
+        formation!.add(Formation.fromJson(v));
+      });
+    }
     if (json['pictures'] != null) {
       pictures =
           List.from(json['pictures']).map((e) => Pictures.fromJson(e)).toList();
@@ -218,6 +228,9 @@ class Specification {
     _data['is_verified'] = isVerified;
     _data['description'] = description;
     _data['date'] = date;
+    if (this.formation != null) {
+      _data['formation'] = this.formation!.map((v) => v.toJson()).toList();
+    }
     if (pictures != null) {
       _data['pictures'] = pictures!.map((e) => e.toJson()).toList();
     }
@@ -225,6 +238,63 @@ class Specification {
       _data['certifications'] = certifications!.map((e) => e.toJson()).toList();
     }
     return _data;
+  }
+}
+
+class Formation {
+  int? formationId;
+  String? categoryIdfk;
+  String? categoryFamilyIdfk;
+  String? specificationIdfk;
+  String? blendIdfk;
+  String? relatedBlendIdfk;
+  String? formationRatio;
+  String? createdAt;
+  String? createdBy;
+  String? updatedAt;
+  String? updatedBy;
+
+  Formation(
+      {this.formationId,
+        this.categoryIdfk,
+        this.categoryFamilyIdfk,
+        this.specificationIdfk,
+        this.blendIdfk,
+        this.relatedBlendIdfk,
+        this.formationRatio,
+        this.createdAt,
+        this.createdBy,
+        this.updatedAt,
+        this.updatedBy});
+
+  Formation.fromJson(Map<String, dynamic> json) {
+    formationId = json['formation_id'];
+    categoryIdfk = json['category_idfk'];
+    categoryFamilyIdfk = json['category_family_idfk'];
+    specificationIdfk = json['specification_idfk'];
+    blendIdfk = json['blend_idfk'];
+    relatedBlendIdfk = json['related_blend_idfk'];
+    formationRatio = json['formation_ratio'];
+    createdAt = json['created_at'];
+    createdBy = json['created_by'];
+    updatedAt = json['updated_at'];
+    updatedBy = json['updated_by'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['formation_id'] = this.formationId;
+    data['category_idfk'] = this.categoryIdfk;
+    data['category_family_idfk'] = this.categoryFamilyIdfk;
+    data['specification_idfk'] = this.specificationIdfk;
+    data['blend_idfk'] = this.blendIdfk;
+    data['related_blend_idfk'] = this.relatedBlendIdfk;
+    data['formation_ratio'] = this.formationRatio;
+    data['created_at'] = this.createdAt;
+    data['created_by'] = this.createdBy;
+    data['updated_at'] = this.updatedAt;
+    data['updated_by'] = this.updatedBy;
+    return data;
   }
 }
 

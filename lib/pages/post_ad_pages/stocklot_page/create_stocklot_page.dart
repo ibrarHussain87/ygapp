@@ -454,7 +454,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             stocklotProvider
                                                     .stocklotRequestModel
                                                     .currency =
-                                                value.conCurrency.toString();
+                                                value.countryCurrencySymbol.toString();
                                           }
                                         },
                                         // validator: (value) => value == null
