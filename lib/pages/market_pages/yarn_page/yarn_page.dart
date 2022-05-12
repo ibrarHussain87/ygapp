@@ -48,7 +48,7 @@ class YarnPageState extends State<YarnPage> {
           value.first.famId.toString();
     }));
 
-     AppDbInstance.getYarnBlendData()
+     AppDbInstance().getYarnBlendData()
          .then((value) => setState(() => _blendsList = value));
      _postYarnProvider.addYarnBlends=_blendsList;
 
