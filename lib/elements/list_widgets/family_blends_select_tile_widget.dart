@@ -121,15 +121,6 @@ class FamilyBlendsSelectTileWidgetState
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-//        if(!disableClick){
-//          setState(() {
-//            if (_selectedSegmentIndex == 1) {
-//              checkedIndex = index;
-//              isGlobalParam = false;
-//            }
-//          });
-//        }
-
         widget.selectedValue!(index);
       },
       child: Center(
