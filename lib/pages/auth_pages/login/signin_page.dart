@@ -16,6 +16,8 @@ import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/pages/auth_pages/signup/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
 
+import '../../../helper_utils/navigation_utils.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -51,107 +53,111 @@ class _SignInPageState extends State<SignInPage> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 40.w, bottom: 40.w),
-                    child: Image.asset(
-                      newLogoImage,
-                      width: 90.w,
-                      height: 90.h,
-                    ),
-                  ),
-                  Text(
-                    signIn,
-                    style: TextStyle(
-                        color: signInColor,
-                        fontSize: 28.sp,
-                        fontFamily: 'Metropolis',
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.w),
-                    child: Text(
-                      loginDescription,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: textColorGrey,
-                        fontSize: 10.sp,
-                        /*fontFamily: 'Metropolis',*/
-                        fontWeight: FontWeight.w400,
-                        height: 1.5.h,
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 40.w, bottom: 40.w),
+                      child: Image.asset(
+                        newLogoImage,
+                        width: 90.w,
+                        height: 90.h,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.w),
-                    child: Center(
-                      child: Form(
-                        key: globalFormKey,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-                              child: TextFormField(
+                    Text(
+                      signIn,
+                      style: TextStyle(
+                          color: signInColor,
+                          fontSize: 28.sp,
+                          fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.w),
+                      child: Text(
+                        loginDescription,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: textColorGrey,
+                          fontSize: 10.sp,
+                          /*fontFamily: 'Metropolis',*/
+                          fontWeight: FontWeight.w400,
+                          height: 1.5.h,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: Center(
+                        child: Form(
+                          key: globalFormKey,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+                                child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.next,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
+                                      LengthLimitingTextInputFormatter(
+                                          25),
+                                    ],
+                                    cursorColor: Colors.black,
+                                    onSaved: (input) =>
+                                    _loginRequestModel.email = input!,
+                                    validator: (input) {
+                                      if (input == null || input.isEmpty) {
+                                        return "Please enter username";
+                                      }
+                                      return null;
+                                    },
+                                    decoration: textFormFieldSignIn(userName,userName)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 12.w, bottom: 8.w, left: 8.w, right: 8.w),
+                                child: TextFormField(
+                                  obscureText: !_showPassword,
                                   keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.next,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
-                                    LengthLimitingTextInputFormatter(
-                                        25),
-                                  ],
                                   cursorColor: Colors.black,
                                   onSaved: (input) =>
-                                  _loginRequestModel.email = input!,
+                                  _loginRequestModel.password = input!,
                                   validator: (input) {
-                                    if (input == null || input.isEmpty) {
-                                      return "Please enter username";
+                                    if (input == null ||
+                                        input.isEmpty ||
+                                        input.length < 8) {
+                                      return "Password must be at least 8 characters long";
                                     }
                                     return null;
                                   },
-                                  decoration: textFormFieldSignIn(userName,userName)),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 12.w, bottom: 8.w, left: 8.w, right: 8.w),
-                              child: TextFormField(
-                                obscureText: !_showPassword,
-                                keyboardType: TextInputType.text,
-                                cursorColor: Colors.black,
-                                onSaved: (input) =>
-                                _loginRequestModel.password = input!,
-                                validator: (input) {
-                                  if (input == null ||
-                                      input.isEmpty ||
-                                      input.length < 8) {
-                                    return "Password must be at least 8 characters long";
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                  label: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("Password",style: TextStyle(color: formFieldLabel),),
+                                  decoration: InputDecoration(
+                                    contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                    label: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text("Password",style: TextStyle(color: formFieldLabel),),
 //                                    const Text("*", style: TextStyle(color: Colors.red)),
-                                    ],
-                                  ),
-                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
-                                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-                                  border: OutlineInputBorder(
-                                      borderRadius:const BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                      borderSide: BorderSide(color: signInBorderColor)
-                                  ),
-                                  hintText: "Enter Here",
+                                      ],
+                                    ),
+                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                    hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                    border: OutlineInputBorder(
+                                        borderRadius:const BorderRadius.all(
+                                          Radius.circular(5.0),
+                                        ),
+                                        borderSide: BorderSide(color: signInBorderColor)
+                                    ),
+                                    hintText: "Enter Here",
 //                  prefixIcon: IconButton(
 //                    onPressed: () {},
 //                    icon: SvgPicture.asset(
@@ -162,95 +168,102 @@ class _SignInPageState extends State<SignInPage> {
 //                      width: 16,
 //                    ),
 //                  ),
-                                  suffixIcon: GestureDetector(
-                                    behavior:
-                                    HitTestBehavior.opaque,
-                                    onTap: () {
-                                      _togglevisibility();
+                                    suffixIcon: GestureDetector(
+                                      behavior:
+                                      HitTestBehavior.opaque,
+                                      onTap: () {
+                                        _togglevisibility();
+                                      },
+                                      child: Icon(
+                                        _showPassword
+                                            ? Icons.visibility
+                                            : Icons
+                                            .visibility_off,
+                                        color: textColorGrey,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 0, bottom: 8.w, left: 8.w, right: 8.w),
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: ()=>{
+                                      openForgotPasswordScreen(context)
                                     },
-                                    child: Icon(
-                                      _showPassword
-                                          ? Icons.visibility
-                                          : Icons
-                                          .visibility_off,
-                                      color: textColorGrey,
-                                      size: 18,
+                                    child: Text(
+                                      forgetPassword,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: forgotPasswordColor,
+                                        fontSize: 12.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.5.h,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 0, bottom: 8.w, left: 8.w, right: 8.w),
-                                child: Text(
-                                  forgetPassword,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: forgotPasswordColor,
-                                    fontSize: 12.sp,
-                                    /*fontFamily: 'Metropolis',*/
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5.h,
-                                  ),
-                                ),
+                              SizedBox(
+                                height: 30.h,
                               ),
-                            ),
-                            SizedBox(
-                              height: 30.h,
-                            ),
-                            SizedBox(
-                              height: 50.w,
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                    child:Row(
-                                      children: [
-                                        Expanded(child: Center(child:
-                                        Text("Sign in",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              /*fontFamily: 'Metropolis',*/
-                                            )),),flex: 9,),
-                                        const Icon(
-                                          Icons.arrow_forward_sharp,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
+                              SizedBox(
+                                height: 50.w,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                      child:Row(
+                                        children: [
+                                          Expanded(child: Center(child:
+                                          Text("Sign in",
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                /*fontFamily: 'Metropolis',*/
+                                              )),),flex: 9,),
+                                          const Icon(
+                                            Icons.arrow_forward_sharp,
+                                            color: Colors.white,
+                                          ),
+                                        ],
+                                      ),
 
-                                    style: ButtonStyle(
+                                      style: ButtonStyle(
 
-                                        foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.white),
-                                        backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            btnColorLogin),
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10)),
-                                                side: BorderSide(
-                                                    color: Colors.transparent)))),
-                                    onPressed: () {
-                                      FocusScope.of(context).unfocus();
-                                      if (validateAndSave()) {
-                                        _loginCall();
-                                      }
-                                    })),
-                          ],
+                                          foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                          backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              btnColorLogin),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                              const RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10)),
+                                                  side: BorderSide(
+                                                      color: Colors.transparent)))),
+                                      onPressed: () {
+                                        FocusScope.of(context).unfocus();
+                                        if (validateAndSave()) {
+                                          _loginCall();
+                                        }
+                                      })),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                ],
+                  ],
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height/6,),
               Align(

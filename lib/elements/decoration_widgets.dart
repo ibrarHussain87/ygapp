@@ -23,7 +23,6 @@ InputDecoration textFormFieldSignIn(String hintLabel,String title) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(title,style: TextStyle(color: formFieldLabel),),
-//          const Text("*", style: TextStyle(color: Colors.red)),
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
@@ -83,8 +82,6 @@ InputDecoration textFormFieldDecProfile(String hintLabel,String assetName) {
 //////////Edit profile
 InputDecoration textFieldProfile(String hintLabel,String title) {
   return InputDecoration(
-//    labelText: title,
-
       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       label: Row(
         mainAxisSize: MainAxisSize.min,

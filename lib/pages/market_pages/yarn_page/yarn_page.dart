@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
+import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/elements/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_future_widget.dart';
 
 import '../../../app_database/app_database_instance.dart';
+import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
@@ -31,13 +36,34 @@ class YarnPageState extends State<YarnPage> {
   final GlobalKey<YarnSpecificationListFutureState> yarnSpecificationListState =
   GlobalKey<YarnSpecificationListFutureState>();
   List<Countries> _countries = [];
+  String? selectedFamilyId;
+  List<Family> _familyList = [];
+  final _postYarnProvider = locator<PostYarnProvider>();
 
   @override
   void initState() {
-    AppDbInstance().getOriginsData()
+     AppDbInstance.getYarnFamilyData().then((value) => setState(() {
+      _familyList = value;
+      selectedFamilyId =
+          value.first.famId.toString();
+    }));
+
+
+
+    AppDbInstance.getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
+    _postYarnProvider.addListener(() {updateUI();});
+    _postYarnProvider.yarnFamilyList=_familyList;
+
   }
+
+
+  updateUI(){
+    setState(() {});
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +73,24 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              openYarnPostPage(context, widget.locality, yarn, value);
+              familySheet(context,(int checkedIndex){
+
+              } , (Family family){
+                if(_postYarnProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId).toList().isNotEmpty)
+                {
+                  familyBlendsSheet(context,(int checkedIndex){
+
+                  } , (value){
+
+                  },
+                      _postYarnProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId).toList(),-1,"Yarn");
+                }
+                else
+                {
+
+                  openYarnPostPage(context, widget.locality, yarn, value);
+                }
+              }, _familyList,-1,"Yarn");
             });
           },
           child: const Icon(Icons.add),
