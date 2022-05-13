@@ -250,7 +250,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
-                          vertical: 16.0,
+                          vertical: 14.0,
                         ),
                         decoration: BoxDecoration(
                           color: addBtnColor,
@@ -380,7 +380,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${tagModel.selectedBlends}',
+                      '${tagModel.title}',
                       style:  TextStyle(
                         color: tagsTextColor,
                         fontSize: 13.sp,

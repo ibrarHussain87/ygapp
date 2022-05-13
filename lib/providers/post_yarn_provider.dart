@@ -22,7 +22,7 @@ class PostYarnProvider extends ChangeNotifier{
     notifyListeners();
   }
   List<dynamic> yarnFamilyList= [];
-  List<dynamic> yarnBlendsList= [];
+  List<Blends> yarnBlendsList= [];
 
   set addSelectedBlend(value){
     selectedBlends.add(value);

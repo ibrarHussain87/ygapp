@@ -39,15 +39,12 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
-  List<Blends> _blendsList=[];
   final _postYarnProvider = locator<PostYarnProvider>();
 
   @override
   void initState() {
     print("Index"+widget.selectedIndex.toString());
-    AppDbInstance().getYarnBlendData()
-        .then((value) => setState(() => _blendsList = value));
-    _postYarnProvider.yarnBlendsList=_blendsList;
+
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -131,7 +128,6 @@ class FamilySelectTileWidgetState extends State<FamilySelectTileWidget> {
               Expanded(
                 child:GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
                     widget.callback!(widget.listOfItems[index]);
                   },
                   child: const Icon(Icons.arrow_forward_ios_outlined,

@@ -39,21 +39,22 @@ class YarnPageState extends State<YarnPage> {
   List<Family> _familyList = [];
   final _postYarnProvider = locator<PostYarnProvider>();
 
+//  List<Blends> _blendsList=[];
   @override
   void initState() {
      AppDbInstance().getYarnFamilyData().then((value) => setState(() {
       _familyList = value;
       selectedFamilyId =
           value.first.famId.toString();
+      _postYarnProvider.addYarnFamily=_familyList;
     }));
 
-
+     AppDbInstance().getYarnBlendData().then((value) => _postYarnProvider.addYarnBlends=value);
 
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
-    _postYarnProvider.addListener(() {updateUI();});
-    _postYarnProvider.yarnFamilyList=_familyList;
+//    _postYarnProvider.addListener(() {updateUI();});
 
   }
 
@@ -75,14 +76,16 @@ class YarnPageState extends State<YarnPage> {
               familySheet(context,(int checkedIndex){
 
               } , (Family family){
-                if(_postYarnProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId).toList().isNotEmpty)
+                Navigator.of(context).pop();
+                if(_postYarnProvider.blendList.where((element) =>  element.familyIdfk == family.famId.toString()).toList().isNotEmpty)
                 {
                   familyBlendsSheet(context,(int checkedIndex){
 
-                  } , (value){
-
+                  } , (Blends blends){
+                    Navigator.of(context).pop();
+                    openYarnPostPage(context, widget.locality, yarn, value);
                   },
-                      _postYarnProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId).toList(),-1,"Yarn");
+                      _postYarnProvider.blendList.where((element) =>  element.familyIdfk == family.famId.toString()).toList(),-1,"Yarn");
                 }
                 else
                 {

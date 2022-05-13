@@ -83,23 +83,6 @@ class BusinessInfoComponentState
                   colors: <Color>[appBarColor2,appBarColor1])),
         ),
 
-        /*leading: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                        padding: EdgeInsets.all(12.w),
-                        child: Card(
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 4.w),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                                size: 12.w,
-                              )),
-                        )),
-                  ),*/
         title: Text('Registration',
             style: TextStyle(
                 fontSize: 16.0.w,

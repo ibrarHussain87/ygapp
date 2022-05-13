@@ -46,7 +46,6 @@ class ProfileSegmentComponentState
       padding: const EdgeInsets.all(0),
       child:
       CustomSlidingSegmentedControl<int>(
-
         initialValue: selectedValue,
         children: {
           1: Container(
@@ -78,6 +77,7 @@ class ProfileSegmentComponentState
             ),
           ),
           3: Container(
+            width: width/4.5,
             padding: EdgeInsets.all(5.w),
             child: Text(
               widget.tab3,
