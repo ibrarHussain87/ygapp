@@ -247,6 +247,7 @@ class Formation {
   String? categoryFamilyIdfk;
   String? specificationIdfk;
   String? blendIdfk;
+  String? blendName;
   String? relatedBlendIdfk;
   String? formationRatio;
   String? createdAt;
@@ -260,6 +261,7 @@ class Formation {
         this.categoryFamilyIdfk,
         this.specificationIdfk,
         this.blendIdfk,
+        this.blendName,
         this.relatedBlendIdfk,
         this.formationRatio,
         this.createdAt,
@@ -273,6 +275,7 @@ class Formation {
     categoryFamilyIdfk = json['category_family_idfk'];
     specificationIdfk = json['specification_idfk'];
     blendIdfk = json['blend_idfk'];
+    blendName = json['blend_name'];
     relatedBlendIdfk = json['related_blend_idfk'];
     formationRatio = json['formation_ratio'];
     createdAt = json['created_at'];
@@ -288,6 +291,7 @@ class Formation {
     data['category_family_idfk'] = this.categoryFamilyIdfk;
     data['specification_idfk'] = this.specificationIdfk;
     data['blend_idfk'] = this.blendIdfk;
+    data['blend_name'] = this.blendName;
     data['related_blend_idfk'] = this.relatedBlendIdfk;
     data['formation_ratio'] = this.formationRatio;
     data['created_at'] = this.createdAt;

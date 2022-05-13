@@ -41,7 +41,6 @@ class FiberPage extends StatefulWidget {
 
 class _FiberPageState extends State<FiberPage> {
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
-  List<Specification> _specifications = [];
 
   @override
   void initState() {
@@ -54,14 +53,7 @@ class _FiberPageState extends State<FiberPage> {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       _fiberSpecificationProvider.getFiberDataFromDb();
       _fiberSpecificationProvider.getCountries();
-      if (widget.locality == international) {
-        await _fiberSpecificationProvider
-            .getFibersInternational(widget.locality);
-      } else {
-        await _fiberSpecificationProvider.getFibers(widget.locality);
-      }
-      _specifications =
-          _fiberSpecificationProvider.getSpecificationList(widget.locality);
+      await _fiberSpecificationProvider.getFibers(widget.locality);
     });
   }
 
@@ -201,6 +193,11 @@ class _FiberPageState extends State<FiberPage> {
                               flex: widget.locality == international ? 8 : 10,
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
+                                  _fiberSpecificationProvider
+                                      .getSpecificationRequestModel
+                                      .isOffering = value.toString();
+                                  _fiberSpecificationProvider
+                                      .getFibers(widget.locality);
                                   // fiberListingState.currentState!
                                   //     .refreshListing(
                                   //         GetSpecificationRequestModel(
@@ -371,10 +368,23 @@ class _FiberPageState extends State<FiberPage> {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(top: 8.w),
-                    child: !_fiberSpecificationProvider.isLoading
-                        ? FiberListingBody(
-                            specification: _specifications,
-                          )
+                    child: !_fiberSpecificationProvider.isSpecsLoaded
+                        ? _fiberSpecificationProvider
+                                .fiberSpecificationResponse!
+                                .data
+                                .specification
+                                .isNotEmpty
+                            ? FiberListingBody(
+                                specification: _fiberSpecificationProvider
+                                    .fiberSpecificationResponse!
+                                    .data
+                                    .specification,
+                              )
+                            : const Center(
+                                child: TitleSmallTextWidget(
+                                  title: 'No Data Found',
+                                ),
+                              )
                         : const Center(
                             child: SpinKitWave(
                               color: Colors.green,

@@ -11,11 +11,10 @@ class FiberSpecificationProvider extends ChangeNotifier {
   List<FiberBlends> fiberBlends = [];
   List<FiberFamily> fiberFamily = [];
   bool isLoading = true;
+  bool isSpecsLoaded = true;
   FiberSpecificationResponse? fiberSpecificationResponse;
-  List<Specification> localSpecifications = [];
-  List<Specification> internationalSpecifications = [];
-  String? locality;
   List<Countries> countries = [];
+  String? locality;
   GetSpecificationRequestModel _getSpecificationRequestModel =
       GetSpecificationRequestModel();
 
@@ -27,13 +26,6 @@ class FiberSpecificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Specification> getSpecificationList(String locality) {
-    if (locality == international) {
-      return internationalSpecifications;
-    } else {
-      return localSpecifications;
-    }
-  }
 
   getCountries() async {
     isLoading = true;
@@ -82,27 +74,13 @@ class FiberSpecificationProvider extends ChangeNotifier {
 
   getFibers(String locality) async {
     _getSpecificationRequestModel.locality = locality;
-    isLoading = true;
+    isSpecsLoaded = true;
     notifyListeners();
     var response = await ApiService.getFiberSpecifications(
         _getSpecificationRequestModel, locality);
     fiberSpecificationResponse = response;
-
-    localSpecifications = fiberSpecificationResponse!.data.specification;
-    isLoading = false;
+    isSpecsLoaded = false;
     notifyListeners();
   }
 
-  getFibersInternational(String locality) async {
-    _getSpecificationRequestModel.locality = locality;
-    isLoading = true;
-    notifyListeners();
-    var response = await ApiService.getFiberSpecifications(
-        _getSpecificationRequestModel, locality);
-    fiberSpecificationResponse = response;
-    internationalSpecifications =
-        fiberSpecificationResponse!.data.specification;
-    isLoading = false;
-    notifyListeners();
-  }
 }

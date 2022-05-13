@@ -21,50 +21,47 @@ class OfferingRequirementSegmentComponentState
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 8,
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.only(top: 4.w,left: 10),
-        child: CupertinoSegmentedControl(
-          borderColor: Colors.grey.shade300,
-          selectedColor: lightBlueTabs,
-          pressedColor: Colors.transparent,
-          groupValue: selectedValue,
-          padding: const EdgeInsets.all(0),
-          children: {
-            1: Container(
-              padding: EdgeInsets.all(10.w),
-              child: Text(
-                offering,
-                style: TextStyle(
-                  fontSize: 11.sp,
-                  color: selectedValue == 1
-                      ? Colors.white
-                      : textColorGrey,
-                ),
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(top: 4.w,left: 10),
+      child: CupertinoSegmentedControl(
+        borderColor: Colors.grey.shade300,
+        selectedColor: lightBlueTabs,
+        pressedColor: Colors.transparent,
+        groupValue: selectedValue,
+        padding: const EdgeInsets.all(0),
+        children: {
+          1: Container(
+            padding: EdgeInsets.all(10.w),
+            child: Text(
+              offering,
+              style: TextStyle(
+                fontSize: 11.sp,
+                color: selectedValue == 1
+                    ? Colors.white
+                    : textColorGrey,
               ),
             ),
-            2: Container(
-              padding: EdgeInsets.all(10.w),
-              child: Text(
-                requirement,
-                style: TextStyle(
-                  fontSize: 11.sp,
-                  color: selectedValue == 2
-                      ? Colors.white
-                      : textColorGrey,
-                ),
+          ),
+          2: Container(
+            padding: EdgeInsets.all(10.w),
+            child: Text(
+              requirement,
+              style: TextStyle(
+                fontSize: 11.sp,
+                color: selectedValue == 2
+                    ? Colors.white
+                    : textColorGrey,
               ),
             ),
-          },
-          onValueChanged: (value) {
-            setState(() {
-              selectedValue = value as int;
-            });
-            widget.callback(value == 1 ? 1 : 0);
-          },
-        ),
+          ),
+        },
+        onValueChanged: (value) {
+          setState(() {
+            selectedValue = value as int;
+          });
+          widget.callback(value == 1 ? 1 : 0);
+        },
       ),
     );
   }

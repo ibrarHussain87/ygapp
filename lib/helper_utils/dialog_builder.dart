@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/helper_utils/loading_indicator.dart';
 
 class DialogBuilder {
 
@@ -22,22 +23,7 @@ class DialogBuilder {
                   borderRadius: BorderRadius.all(Radius.circular(8.0))
               ),
               backgroundColor: Colors.white,
-              content:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
-                  SizedBox(
-                    height: 6.w,
-                  ),
-                  const TitleSmallTextWidget(
-                    title: "Syncing data please wait...",
-                  ),
-                ],
-              ),
+              content:LoadingIndicator(text: '',),
             )
         );
       },
