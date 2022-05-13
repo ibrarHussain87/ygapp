@@ -12,7 +12,7 @@ import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
 import 'package:yg_app/elements/send_proposal_bottom_sheet.dart';
 import 'package:yg_app/elements/text_detail_widget_.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/alert_dialog.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';

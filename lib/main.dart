@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/post_fiber_provider.dart';
@@ -16,21 +15,19 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yg_app/providers/sync_provider.dart';
 
-import 'Providers/fabric_specifications_provider.dart';
-import 'Providers/fiber_specifications_provider.dart';
-import 'Providers/filter_fabric_provider.dart';
-import 'Providers/post_fabric_provider.dart';
-import 'Providers/stocklot_provider.dart';
-import 'Providers/yarn_specifications_provider.dart';
+import 'providers/fabric_specifications_provider.dart';
+import 'providers/filter_fabric_provider.dart';
+import 'providers/post_fabric_provider.dart';
+import 'providers/stocklot_provider.dart';
+import 'providers/yarn_specifications_provider.dart';
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
-import 'pages/auth_pages/login_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
@@ -59,7 +56,6 @@ class YgApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
-        ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
         ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
         ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
         ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
@@ -68,6 +64,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> locator<FiberSpecificationProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<PostFiberProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<FamilyListProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<SyncProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',

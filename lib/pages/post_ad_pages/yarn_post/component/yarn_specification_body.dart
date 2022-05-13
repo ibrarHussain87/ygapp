@@ -28,7 +28,7 @@ import 'package:yg_app/providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../elements/decoration_widgets.dart';
-import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';
 import '../../../../helper_utils/util.dart';

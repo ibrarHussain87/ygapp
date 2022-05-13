@@ -21,7 +21,7 @@ specsSheet(BuildContext context,
   final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
   String? _selectedPlyId;
   int checkedTile;
-  checkedTile = selectedIndex ?? 0;
+  checkedTile = selectedIndex;
 
 
   showModalBottomSheet<int>(

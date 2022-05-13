@@ -23,7 +23,7 @@ familySheet(BuildContext context,
   final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
   String? _selectedPlyId;
   int checkedTile;
-  checkedTile = selectedIndex ?? 0;
+  checkedTile = selectedIndex;
 
   print("Calue +"+listOfItems.toString());
 
@@ -88,7 +88,6 @@ familySheet(BuildContext context,
                       listOfItems: listOfItems,
                       selectedValue: (int checkedValue)
                       {
-
                         checkedIndex(checkedValue);
                       },
                       callback: (value) {

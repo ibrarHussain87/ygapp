@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/Providers/stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
 import 'package:yg_app/elements/list_items/fiber_market_list_item_renewed.dart';

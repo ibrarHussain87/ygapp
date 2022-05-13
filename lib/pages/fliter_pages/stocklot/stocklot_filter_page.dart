@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/Providers/stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_provider.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/list__item_stocklot_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';

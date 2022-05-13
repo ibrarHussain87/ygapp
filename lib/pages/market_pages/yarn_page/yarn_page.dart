@@ -39,29 +39,36 @@ class YarnPageState extends State<YarnPage> {
   List<Countries> _countries = [];
   String? selectedFamilyId;
   List<Family> _familyList = [];
+ // List<Blends> _blendsList = [];
   final _postYarnProvider = locator<PostYarnProvider>();
 
-//  List<Blends> _blendsList=[];
   @override
   void initState() {
-     AppDbInstance().getYarnFamilyData().then((value) => setState(() {
-      _familyList = value;
-      selectedFamilyId =
-          value.first.famId.toString();
-      _postYarnProvider.addYarnFamily=_familyList;
-    }));
+    AppDbInstance().getYarnFamilyData().then((value) =>
+        setState(() {
+          _familyList = value;
+          _postYarnProvider.addYarnFamily = _familyList;
+          selectedFamilyId = value.first.famId.toString();
+        }));
 
-     AppDbInstance().getYarnBlendData().then((value) => _postYarnProvider.addYarnBlends=value);
+    AppDbInstance().getYarnBlendData()
+        .then((value) =>
+        setState(() {
+        //  _blendsList = value;
+          _postYarnProvider.setBlendList = value;
+          _postYarnProvider.addYarnBlends = value;
+        }));
 
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
 //    _postYarnProvider.addListener(() {updateUI();});
+    _postYarnProvider.addYarnFamily=_familyList;
 
   }
 
 
-  updateUI(){
+  updateUI() {
     setState(() {});
   }
 
@@ -75,15 +82,18 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              familySheet(context,(int checkedIndex){
+              familySheet(context, (int checkedIndex) {
 
-              } , (Family family){
+              }, (Family family) {
                 Navigator.of(context).pop();
-                if(_postYarnProvider.blendList.where((element) =>  element.familyIdfk == family.famId.toString()).toList().isNotEmpty)
-                {
-                  familyBlendsSheet(context,(int checkedIndex){
+                if (_postYarnProvider.blendList
+                    .where((element) =>
+                element.familyIdfk == family.famId.toString())
+                    .toList()
+                    .isNotEmpty) {
+                  familyBlendsSheet(context, (int checkedIndex) {
 
-                  } , (Blends blends){
+                  }, (Blends blends) {
                     Navigator.of(context).pop();
                     blendedSheet(
                         context,
@@ -103,21 +113,21 @@ class YarnPageState extends State<YarnPage> {
                               ratio: element.blendRatio));
                         }
                       }
-                    //  _createRequestModel.ys_formation = formations;
+                      //  _createRequestModel.ys_formation = formations;
 
                       Navigator.pop(context);
                       openYarnPostPage(context, widget.locality, yarn, value);
                     });
-                   // openYarnPostPage(context, widget.locality, yarn, value);
-                  },
-                      _postYarnProvider.blendList.where((element) =>  element.familyIdfk == family.famId.toString()).toList(),-1,"Yarn");
-                }
-                else
-                {
 
+                  },
+                      _postYarnProvider.blendList.where((element) =>
+                      element.familyIdfk == family.famId.toString()).toList(),
+                      -1, "Yarn");
+                }
+                else {
                   openYarnPostPage(context, widget.locality, yarn, value);
                 }
-              }, _familyList,-1,"Yarn");
+              }, _familyList, -1, "Yarn");
             });
           },
           child: const Icon(Icons.add),
@@ -205,58 +215,74 @@ class YarnPageState extends State<YarnPage> {
                               ),
                             ),
                             Expanded(
-                              flex: widget.locality==international ? 3: 0,
+                              flex: widget.locality == international ? 3 : 0,
                               child: Visibility(
-                                maintainSize: false,
-                                maintainState: false,
-                                visible: widget.locality==international,
-                                child:_countries!=null ? SearchChoices.single(
-                                  displayClearIcon: false,
-                                  isExpanded: true,
-                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                  items:_countries
-                                      .map((value) =>
+                                  maintainSize: false,
+                                  maintainState: false,
+                                  visible: widget.locality == international,
+                                  child: _countries != null ? SearchChoices
+                                      .single(
+                                    displayClearIcon: false,
+                                    isExpanded: true,
+                                    hint: const TitleExtraSmallBoldTextWidget(
+                                        title: 'Country'),
+                                    items: _countries
+                                        .map((value) =>
+                                        DropdownMenuItem(
+                                          child: Text(
+                                            value.conName ??
+                                                Utils.checkNullString(false),
+                                            textAlign: TextAlign
+                                                .center,
+                                            style: TextStyle(fontSize: 12.sp,
+                                              overflow: TextOverflow
+                                                  .ellipsis,),),
+                                          value: value,
+                                        )).toList(),
+                                    isCaseSensitiveSearch: false,
+                                    onChanged: (Countries? value) {
+                                      yarnSpecificationListState.currentState!
+                                          .yarnListBodyState.currentState!
+                                          .filterListSearch(
+                                          value!.conName.toString());
+                                    },
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: textColorGrey,
+                                      overflow: TextOverflow.ellipsis,),
+                                  ) :
+                                  DropdownButtonFormField<String>(
+                                    isExpanded: true,
+                                    decoration: const InputDecoration.collapsed(
+                                        hintText: ''),
+                                    hint: const TitleExtraSmallBoldTextWidget(
+                                        title: 'Country'),
+                                    iconSize: 20,
+                                    items: [
+
                                       DropdownMenuItem(
                                         child: Text(
-                                          value.conName ??
-                                              Utils.checkNullString(false),
-                                          textAlign: TextAlign
-                                              .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
-                                        value: value,
-                                      )).toList(),
-                                  isCaseSensitiveSearch: false,
-                                  onChanged: (Countries? value) {
-                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                                          Utils.checkNullString(false),
+                                          textAlign: TextAlign.start,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          style: TextStyle(fontSize: 12.sp,
+                                            overflow: TextOverflow.ellipsis,),),
+                                      ),
+                                    ],
 
-                                  },
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: textColorGrey,overflow: TextOverflow.ellipsis,),
-                                ) :
-                                DropdownButtonFormField<String>(
-                                  isExpanded: true,
-                                  decoration: const InputDecoration.collapsed(hintText: ''),
-                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
-                                  iconSize: 20,
-                                  items:  [
-
-                                    DropdownMenuItem(
-                                      child:Text(Utils.checkNullString(false),
-                                        textAlign: TextAlign.start,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.fade,
-                                        softWrap: false,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
-                                    ),
-                                  ],
-
-                                  onChanged: (newValue) {
+                                    onChanged: (newValue) {
 
                                   },
 
 
-                                  validator: (value) => value == null ? 'Please select country name' : null,
+                                    validator: (value) =>
+                                    value == null
+                                        ? 'Please select country name'
+                                        : null,
 
-                                )
+                                  )
 
 
 //                                DropdownButtonFormField(

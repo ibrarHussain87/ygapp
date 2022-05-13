@@ -31,7 +31,7 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/providers/post_fiber_provider.dart';
 
-import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';
 

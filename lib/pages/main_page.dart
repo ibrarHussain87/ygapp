@@ -1,21 +1,11 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
-import 'package:yg_app/Providers/sync_provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/providers/sync_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
+import '../locators.dart';
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
 import 'dashboard_pages/yg_services.dart';
@@ -29,13 +19,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   GlobalKey<HomePageState> homePageState = GlobalKey<HomePageState>();
-
+  final _syncProvider = locator<SyncProvider>();
   List<Widget>? _screens;
   int _selectedIndex = 0;
-  bool isSynced = false;
-  List<SingleChildWidget> providers = [
-    ChangeNotifierProvider<SyncProvider>(create: (_) => SyncProvider())
-  ];
 
   void _onItemTapped(int selectedIndex) {
     setState(() {
@@ -65,127 +51,30 @@ class _MainPageState extends State<MainPage> {
       const ProfilePage(),
       // const PastAdPage()
     ];
+    _syncProvider.addListener(() {
+      updateUI();
+    });
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _syncProvider.syncAppData(context);
+
+    });
+  }
+
+  updateUI() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//      systemNavigationBarColor: AppColors.app_color,
-      statusBarColor:Colors.transparent,
-    ));
-    return MultiProvider(
-      providers: providers,
-      child: SafeArea(
-        child: isSynced
-            ? Scaffold(
-                body: /*buildPageView()*/ IndexedStack(
-                    index: _selectedIndex, children: _screens!),
-                bottomNavigationBar: _generateBottomBar())
-            : buildMainWidget(),
-      ),
-    );
-  }
-
-  Widget buildMainWidget() {
-
-    return Builder(
-      builder: (BuildContext context) {
-        final syncProvider = Provider.of<SyncProvider>(context,listen: true);
-        syncProvider.syncAppData();
-        return syncProvider.isDataSynced ?
-        Scaffold(
-            body: /*buildPageView()*/ IndexedStack(
-                index: _selectedIndex, children: _screens!),
-            bottomNavigationBar: _generateBottomBar())
-        :
-        Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: Colors.white,
-            resizeToAvoidBottomInset: true,
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Container(
-                decoration: BoxDecoration(
-                  /*boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0.0, 1.0.w), //(x,y)
-                    blurRadius: 2.0.w,
-                  ),
-                ],*/
-                    color: Colors.white.withOpacity(0.7)),
-                child: Container(
-                    padding: EdgeInsets.all(8.w),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            openProfileScreen(context);
-                          },
-                          child: const CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.green,
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: 8.w,
-                              bottom: 8.w,
-                              left: 12.w,
-                              right: 12.w),
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.deepOrange.shade400,
-                                  Colors.deepOrange.shade600,
-                                ],
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12.w),
-                              )),
-                          child: Text('Upgrade',
-                              style: TextStyle(
-                                  fontSize: 9.0.w,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400)),
-                        )
-                      ],
-                    )),
-              ),
-            ),
-            body: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
-                  SizedBox(
-                    height: 6.w,
-                  ),
-                  const TitleSmallTextWidget(
-                    title: "Syncing data please wait...",
-                  ),
-                ],
-              ),
-            ),
-            bottomNavigationBar: _generateBottomBar());
-      },
-    );
+    return _syncProvider.isDataSynced
+        ? SafeArea(
+            child: Scaffold(
+                body: _screens![_selectedIndex],
+                bottomNavigationBar: _generateBottomBar()),
+          )
+        : Scaffold(
+            bottomNavigationBar: _generateBottomBar(),
+          );
   }
 
   BottomNavigationBar _generateBottomBar() {
@@ -293,124 +182,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
             label: "Profile"),
-        // BottomNavigationBarItem(
-        //     icon: _selectedIndex == 4
-        //         ? Padding(
-        //             padding: EdgeInsets.all(5.w),
-        //             child: Image.asset(
-        //               postAdIcon,
-        //               width: 20.w,
-        //               height: 20.h,
-        //             ),
-        //           )
-        //         : Padding(
-        //             padding: EdgeInsets.all(5.0.w),
-        //             child: Image.asset(
-        //               postAdGreyIcon,
-        //               width: 20.w,
-        //               height: 20.h,
-        //             ),
-        //           ),
-        //     label: auction),
       ],
     );
   }
-
-  CurvedNavigationBar _generateBottomBarCurved() {
-    return CurvedNavigationBar(
-      backgroundColor: Colors.blueAccent,
-      index: _selectedIndex,
-      onTap: _onItemTapped,
-      height: 50,
-      animationCurve: Curves.easeInOut,
-      animationDuration: Duration(milliseconds: 600),
-      items: [
-        _selectedIndex == 0
-            ? Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Image.asset(
-                  homeIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ))
-            : Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Image.asset(
-                  homeGreyIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              ),
-        _selectedIndex == 1
-            ? Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Image.asset(
-                  marketIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ))
-            : Padding(
-                padding: EdgeInsets.all(5.0.w),
-                child: Image.asset(
-                  marketGreyIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              ),
-        _selectedIndex == 2
-            ? Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Image.asset(
-                  marketIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              )
-            : Padding(
-                padding: EdgeInsets.all(5.0.w),
-                child: Image.asset(
-                  marketGreyIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              ),
-        _selectedIndex == 3
-            ? Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Image.asset(
-                  ygServicesIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              )
-            : Padding(
-                padding: EdgeInsets.all(5.0.w),
-                child: Image.asset(
-                  ygServicesGreyIcon,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-              ),
-        _selectedIndex == 4
-            ? Padding(
-                padding: EdgeInsets.all(2.w),
-                child: const Icon(
-                  Icons.segment,
-                  size: 28,
-                  color: Colors.green,
-                ),
-              )
-            : Padding(
-                padding: EdgeInsets.all(2.0.w),
-                child: const Icon(
-                  Icons.segment,
-                  size: 28,
-                  color: Colors.grey,
-                ),
-              ),
-      ],
-    );
-  }
-
-
 }

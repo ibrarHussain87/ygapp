@@ -21,19 +21,11 @@ familyBlendsSheet(BuildContext context,
     String title
     )
 {
-
-  final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
-  String? _selectedPlyId;
-  int checkedTile;
-  checkedTile = selectedIndex ?? 0;
-
-
   showModalBottomSheet<int>(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
-      print("LIST"+listOfItems.toString());
       return StatefulBuilder(
           builder: (BuildContext contextBuilder, StateSetter setState) {
             return SingleChildScrollView(
@@ -90,7 +82,6 @@ familyBlendsSheet(BuildContext context,
                       listOfItems: listOfItems,
                       selectedValue: (int checkedValue)
                       {
-
                         checkedIndex(checkedValue);
                       },
                       callback: (value) {

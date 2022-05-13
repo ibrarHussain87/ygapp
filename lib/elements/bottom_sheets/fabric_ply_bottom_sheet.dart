@@ -105,7 +105,7 @@ fabricPlySheet(
                                         errorText: count,
                                         label: count,
                                         // onChanged:(value) => globalFormKey.currentState!.reset(),
-                                        value: _createRequestModel!.fs_count,
+                                        value: _createRequestModel.fs_count,
                                         minMax: _fabricSettings.countMinMax!,
                                         onSaved: (input) {
                                           _createRequestModel.fs_count = input;

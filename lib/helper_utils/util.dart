@@ -17,6 +17,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
@@ -25,12 +26,12 @@ import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
-import '../Providers/fabric_specifications_provider.dart';
-import '../Providers/fiber_specifications_provider.dart';
-import '../Providers/yarn_specifications_provider.dart';
+import 'package:yg_app/providers/fiber_specification_provider.dart';
+import '../providers/fabric_specifications_provider.dart';
+import '../providers/yarn_specifications_provider.dart';
 import '../model/request/update_fabric_request/update_fabric_request.dart';
 import '../model/response/fiber_response/fiber_specification.dart';
-import 'alert_dialog.dart';
+import 'dialog_builder.dart';
 import 'app_colors.dart';
 import 'app_constants.dart';
 import 'app_images.dart';
@@ -1289,12 +1290,8 @@ class Utils {
                                           yarnSpecificationsProvider
                                               .getUpdatedYarnSpecificationsData();
                                         } else if(specification != null) {
-                                          final fiberSpecificationsProvider =
-                                          Provider.of<
-                                              FiberSpecificationsProvider>(
-                                              context,
-                                              listen: false);
-                                          fiberSpecificationsProvider
+                                          final _fiberSpecificationsProvider = locator<FiberSpecificationProvider>();
+                                          _fiberSpecificationsProvider
                                               .getUpdatedFiberSpecificationsData();
                                         }else if(specObj is FabricSpecification){
                                           final fabricSpecificationsProvider =

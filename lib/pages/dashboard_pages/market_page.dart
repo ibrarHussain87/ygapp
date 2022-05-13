@@ -34,7 +34,7 @@ class MarketPageState extends State<MarketPage>
     'Stock Lot'
   ];
 
-  GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
+  // GlobalKey<FiberPageState> stateFiberPage = GlobalKey<FiberPageState>();
   GlobalKey<YarnPageState> yarnPageState = GlobalKey<YarnPageState>();
   final GlobalKey<StockLotPageState> _stocklotPageState = GlobalKey<StockLotPageState>();
   final GlobalKey<FabricPageState> _fabricPageState = GlobalKey<FabricPageState>();
@@ -172,10 +172,10 @@ class MarketPageState extends State<MarketPage>
                                   GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () async {
-                                        if (stateFiberPage.currentState !=
+                                        /*if (stateFiberPage.currentState !=
                                             null) {
                                           _openFiberFilterView();
-                                        } else if (yarnPageState.currentState !=
+                                        } else*/ if (yarnPageState.currentState !=
                                             null) {
                                           _openYarnFilterPage();
                                         }else if(_stocklotPageState.currentState !=
@@ -234,8 +234,7 @@ class MarketPageState extends State<MarketPage>
                 body: TabBarView(
                   children: [
                     FiberPage(
-                      key: stateFiberPage,
-                      locality: widget.locality,
+                      locality: widget.locality!,
                     ),
                     YarnPage(
                       key: yarnPageState,
@@ -294,17 +293,17 @@ class MarketPageState extends State<MarketPage>
           .filterListSearch(value);
     }
 
-    if (stateFiberPage
+   /* if (stateFiberPage
         .currentState !=
         null) {
-      stateFiberPage
-          .currentState!
-          .fiberListingState
-          .currentState!
-          .fiberListingBodyState
-          .currentState!
-          .filterListSearch(value);
-    }
+      // stateFiberPage
+      //     .currentState!
+      //     .fiberListingState
+      //     .currentState!
+      //     .fiberListingBodyState
+      //     .currentState!
+      //     .filterListSearch(value);
+    }*/
     if (_fabricPageState
         .currentState !=
         null) {
@@ -335,13 +334,13 @@ class MarketPageState extends State<MarketPage>
       //Getting result from filter
       if (tabController!.index == 0) {
         if (value != null) {
-          stateFiberPage.currentState!
-              .fiberListingState.currentState!
-              .refreshListing(value);
-          GetSpecificationRequestModel getSpecificationRequestModel = value;
-          stateFiberPage.currentState!.familySateFiber.currentState!.setNature(
-              getSpecificationRequestModel.natureId != null ? int.parse(getSpecificationRequestModel.natureId!):0,
-          getSpecificationRequestModel.fiberMaterialId!.first);
+          // stateFiberPage.currentState!
+          //     .fiberListingState.currentState!
+          //     .refreshListing(value);
+          // GetSpecificationRequestModel getSpecificationRequestModel = value;
+          // stateFiberPage.currentState!.familySateFiber.currentState!.setNature(
+          //     getSpecificationRequestModel.natureId != null ? int.parse(getSpecificationRequestModel.natureId!):0,
+          // getSpecificationRequestModel.fiberMaterialId!.first);
 
         }
       }

@@ -118,7 +118,7 @@ Widget buildFiberRenewedAgainWidget(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: '${specification.formation!.isNotEmpty?specification.formation!.first.blendIdfk :""}',
+                                          title: '${specification.formation!.isNotEmpty?specification.formation!.first.blendName :""}',
                                           color: Colors.white,
                                           textSize: 11,
                                         ),

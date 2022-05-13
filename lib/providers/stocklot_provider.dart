@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
-import 'package:yg_app/helper_utils/alert_dialog.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';

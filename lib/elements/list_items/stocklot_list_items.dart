@@ -207,7 +207,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: widget.specification.category,
+                                          title: widget.specification.stocklotParentFamilyName,
                                           color: Colors.white,
                                           textSize: 12,
                                         ),

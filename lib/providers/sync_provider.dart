@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
@@ -14,11 +15,14 @@ class SyncProvider extends ChangeNotifier {
   bool isDataSynced = false;
   bool loading = false;
 
-  syncAppData() async {
+  syncAppData(context) async {
     if(!isDataSynced){
+      DialogBuilder(context).showSyncDialog();
       loading = true;
       isDataSynced = await _synData();
       loading = false;
+      DialogBuilder(context).hideDialog();
+
       notifyListeners();
     }
   }
