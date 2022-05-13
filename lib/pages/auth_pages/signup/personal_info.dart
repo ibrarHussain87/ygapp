@@ -99,7 +99,7 @@ class PersonalInfoComponentState
     super.build(context);
     _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
     if (kDebugMode) {
-      print("COuntry"+_signupRequestModel!.countryId.toString());
+      print("Country"+_signupRequestModel!.countryId.toString());
     }
     return  Scaffold(
       resizeToAvoidBottomInset: true,

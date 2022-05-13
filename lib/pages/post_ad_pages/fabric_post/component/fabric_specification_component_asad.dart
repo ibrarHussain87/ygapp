@@ -2391,7 +2391,7 @@ class FabricSpecificationComponentState
                                         for (int i = 0; i <
                                             values.length; i++) {
                                           blendString +=
-                                              values[i].title.toString() + "(" +
+                                              values[i].id.toString() + "(" +
                                                   values[i].ratio.toString() +
                                                   "),";
 

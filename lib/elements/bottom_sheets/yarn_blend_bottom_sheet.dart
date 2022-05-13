@@ -8,7 +8,7 @@ import 'package:yg_app/helper_utils/blend_text_form_field.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/providers/post_yarn_provider.dart';
 
-import '../locators.dart';
+import '../../locators.dart';
 
 GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
 
@@ -104,7 +104,6 @@ blendedSheet(
                                         side: BorderSide(
                                             color: Colors.transparent)))),
                             onPressed: () {
-
                               if(_yarnPostProvider.selectedBlends.isEmpty){
                                 _yarnPostProvider.isBlendSelected = false;
                                 Fluttertoast.showToast(msg: "Please select a blend");
@@ -120,7 +119,8 @@ blendedSheet(
                                   Fluttertoast.showToast(msg: "Ratio should be less then or equal to 100");
                                 }else{
                                   _yarnPostProvider.isBlendSelected = true;
-                                  Navigator.pop(context);
+                                  callback();
+                                  // Navigator.pop(context);
                                 }
 
                               }
@@ -179,7 +179,6 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
     super.initState();
     _isChecked = List<bool>.filled(widget.listOfItems.length, false);
     _yarnPostProvider.addListener(updateUI);
-    // blends = widget.blendsValue;
     _isChecked[widget.selectedIndex] = true;
     _yarnPostProvider.blendList[widget.selectedIndex].isSelected = true;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -263,20 +262,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                   isEnabled: _yarnPostProvider.blendList[index].isSelected??false,
                   textEditingController: _yarnPostProvider.textFieldControllers[index],
                   onSaved: (input) {
-                    // _yarnPostProvider.blendList[index].blendRatio =
-                    //     widget.listController[index].text;
                     _yarnPostProvider.setBlendRatio(index, widget.listController[index].text);
-
-                    // if (widget.listController[index].text.isNotEmpty &&
-                    //     _yarnPostProvider.selectedBlends.contains(widget.listOfItems[index])) {
-                    //   if (widget.listOfItems[index] is Blends) {
-                    //     var blendModel = BlendModel(
-                    //         id: widget.listOfItems.cast<Blends>()[index].blnId,
-                    //         title: widget.listOfItems[index].toString(),
-                    //         ratio: widget.listController[index].text);
-                    //     widget.textFieldcallback!(blendModel);
-                    //   }
-                    // }
                   },
                 ),
               ),

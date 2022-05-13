@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 class PostYarnProvider extends ChangeNotifier{
 
@@ -22,6 +21,8 @@ class PostYarnProvider extends ChangeNotifier{
     _blendsList = value;
     notifyListeners();
   }
+  List<dynamic> yarnFamilyList= [];
+  List<dynamic> yarnBlendsList= [];
 
   set addSelectedBlend(value){
     selectedBlends.add(value);
@@ -48,4 +49,18 @@ class PostYarnProvider extends ChangeNotifier{
     notifyListeners();
 
   }
+
+  set addYarnFamily(value)
+  {
+    yarnFamilyList.add(value);
+    notifyListeners();
+  }
+
+  set addYarnBlends(value)
+  {
+    yarnBlendsList.add(value);
+    notifyListeners();
+  }
+
+
 }

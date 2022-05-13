@@ -200,7 +200,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER NOT NULL, `conName` TEXT, `conIsoCode_2` TEXT, `conIsoCode_3` TEXT, `conCurrency` TEXT, `conAddressFormat` TEXT, `conPostcodeRequired` TEXT, `conIsActive` TEXT, PRIMARY KEY (`conId`))');
+            'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER, `conName` TEXT, `countryIso` TEXT, `countryIso3` TEXT, `countryCurrencyName` TEXT, `countryCurrencyCode` TEXT, `countryCurrencySymbol` TEXT, `countryPhoneCode` TEXT, `countryContinent` TEXT, `countryStatus` TEXT, `mainFlagImage` TEXT, `extralarge` TEXT, `large` TEXT, `medium` TEXT, PRIMARY KEY (`conId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT, `cerName` TEXT, `cerIsActive` TEXT, PRIMARY KEY (`cerId`))');
         await database.execute(
@@ -1443,12 +1443,18 @@ class _$CountryDao extends CountryDao {
             (Countries item) => <String, Object?>{
                   'conId': item.conId,
                   'conName': item.conName,
-                  'conIsoCode_2': item.conIsoCode_2,
-                  'conIsoCode_3': item.conIsoCode_3,
-                  'conCurrency': item.conCurrency,
-                  'conAddressFormat': item.conAddressFormat,
-                  'conPostcodeRequired': item.conPostcodeRequired,
-                  'conIsActive': item.conIsActive
+                  'countryIso': item.countryIso,
+                  'countryIso3': item.countryIso3,
+                  'countryCurrencyName': item.countryCurrencyName,
+                  'countryCurrencyCode': item.countryCurrencyCode,
+                  'countryCurrencySymbol': item.countryCurrencySymbol,
+                  'countryPhoneCode': item.countryPhoneCode,
+                  'countryContinent': item.countryContinent,
+                  'countryStatus': item.countryStatus,
+                  'mainFlagImage': item.mainFlagImage,
+                  'extralarge': item.extralarge,
+                  'large': item.large,
+                  'medium': item.medium
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -1463,28 +1469,40 @@ class _$CountryDao extends CountryDao {
   Future<List<Countries>> findAllCountries() async {
     return _queryAdapter.queryList('SELECT * FROM countries',
         mapper: (Map<String, Object?> row) => Countries(
-            conId: row['conId'] as int,
+            conId: row['conId'] as int?,
             conName: row['conName'] as String?,
-            conIsoCode_2: row['conIsoCode_2'] as String?,
-            conIsoCode_3: row['conIsoCode_3'] as String?,
-            conCurrency: row['conCurrency'] as String?,
-            conAddressFormat: row['conAddressFormat'] as String?,
-            conPostcodeRequired: row['conPostcodeRequired'] as String?,
-            conIsActive: row['conIsActive'] as String?));
+            countryIso: row['countryIso'] as String?,
+            countryIso3: row['countryIso3'] as String?,
+            countryCurrencyName: row['countryCurrencyName'] as String?,
+            countryCurrencyCode: row['countryCurrencyCode'] as String?,
+            countryCurrencySymbol: row['countryCurrencySymbol'] as String?,
+            countryPhoneCode: row['countryPhoneCode'] as String?,
+            countryContinent: row['countryContinent'] as String?,
+            countryStatus: row['countryStatus'] as String?,
+            mainFlagImage: row['mainFlagImage'] as String?,
+            extralarge: row['extralarge'] as String?,
+            large: row['large'] as String?,
+            medium: row['medium'] as String?));
   }
 
   @override
   Future<Countries?> findYarnCountryWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM countries where conId = ?1',
         mapper: (Map<String, Object?> row) => Countries(
-            conId: row['conId'] as int,
+            conId: row['conId'] as int?,
             conName: row['conName'] as String?,
-            conIsoCode_2: row['conIsoCode_2'] as String?,
-            conIsoCode_3: row['conIsoCode_3'] as String?,
-            conCurrency: row['conCurrency'] as String?,
-            conAddressFormat: row['conAddressFormat'] as String?,
-            conPostcodeRequired: row['conPostcodeRequired'] as String?,
-            conIsActive: row['conIsActive'] as String?),
+            countryIso: row['countryIso'] as String?,
+            countryIso3: row['countryIso3'] as String?,
+            countryCurrencyName: row['countryCurrencyName'] as String?,
+            countryCurrencyCode: row['countryCurrencyCode'] as String?,
+            countryCurrencySymbol: row['countryCurrencySymbol'] as String?,
+            countryPhoneCode: row['countryPhoneCode'] as String?,
+            countryContinent: row['countryContinent'] as String?,
+            countryStatus: row['countryStatus'] as String?,
+            mainFlagImage: row['mainFlagImage'] as String?,
+            extralarge: row['extralarge'] as String?,
+            large: row['large'] as String?,
+            medium: row['medium'] as String?),
         arguments: [id]);
   }
 

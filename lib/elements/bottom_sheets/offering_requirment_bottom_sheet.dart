@@ -57,6 +57,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                                     myActions: actionsList[index],
                                     myClickCallback: (value) {
                                       Navigator.pop(context);
+                                      print("Families"+actionsList[index].title.toString());
                                       callback(actionsList[index].value);
                                     });
                               }),

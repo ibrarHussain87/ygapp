@@ -15,7 +15,7 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.dart';
 
-import '../../../elements/offering_requirment_bottom_sheet.dart';
+import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';

@@ -137,7 +137,7 @@ Widget buildFiberRenewedWidget(
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: '${specification.material}',
+                                          title: specification.formation!.first.blendIdfk??"",
                                           color: Colors.white,
                                           textSize: 12,
                                         ),

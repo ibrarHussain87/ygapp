@@ -615,7 +615,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                       onChanged:
                                                           (Countries? value) {
                                                         List<int> originList = [
-                                                          value!.conId
+                                                          value!.conId!
                                                         ];
                                                         _getSpecificationRequestModel!
                                                                 .originId =
