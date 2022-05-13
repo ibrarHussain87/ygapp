@@ -25,11 +25,11 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
-import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../providers/post_fabric_provider.dart';
 import '../../../../elements/bottom_sheets/fabric_ply_bottom_sheet.dart';
 import '../../../../elements/bottom_sheets/warp_bottom_sheet.dart';
 import '../../../../elements/decoration_widgets.dart';
-import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/fabric_bottom_sheet.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';

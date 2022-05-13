@@ -27,10 +27,10 @@ import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
-import '../../../../Providers/post_fabric_provider.dart';
+import '../../../../providers/post_fabric_provider.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
-import '../../../Providers/filter_fabric_provider.dart';
+import '../../../providers/filter_fabric_provider.dart';
 import '../../../elements/elevated_button_widget_2.dart';
 import '../../../elements/list_widgets/cat_with_image_listview_widget.dart';
 import '../../../elements/list_widgets/single_select_tile_renewed_widget.dart';

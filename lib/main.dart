@@ -20,13 +20,13 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yg_app/providers/sync_provider.dart';
 
-import 'Providers/fabric_specifications_provider.dart';
-import 'Providers/fiber_specifications_provider.dart';
-import 'Providers/filter_fabric_provider.dart';
-import 'Providers/post_fabric_provider.dart';
-import 'Providers/stocklot_provider.dart';
-import 'Providers/yarn_specifications_provider.dart';
+import 'providers/fabric_specifications_provider.dart';
+import 'providers/filter_fabric_provider.dart';
+import 'providers/post_fabric_provider.dart';
+import 'providers/stocklot_provider.dart';
+import 'providers/yarn_specifications_provider.dart';
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
@@ -59,7 +59,6 @@ class YgApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
-        ChangeNotifierProvider<FiberSpecificationsProvider>(create: (_) => FiberSpecificationsProvider()),
         ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
         ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
         ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
@@ -68,6 +67,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> locator<FiberSpecificationProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<PostFiberProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<FamilyListProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<SyncProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',

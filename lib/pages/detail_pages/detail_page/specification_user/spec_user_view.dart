@@ -17,7 +17,7 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
-import '../../../../helper_utils/alert_dialog.dart';
+import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/ui_utils.dart';
 import '../detail_tab.dart';
 
