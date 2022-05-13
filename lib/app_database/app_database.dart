@@ -80,7 +80,7 @@ import 'package:build_daemon/constants.dart';
 
 import 'dao/yarn_grades_dao.dart';
 
-part 'app_database.g.dart'; // the generated code will be there
+
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
