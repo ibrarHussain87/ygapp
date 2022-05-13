@@ -107,13 +107,13 @@ class _SignInPageState extends State<SignInPage> {
                                     keyboardType: TextInputType.text,
                                     textInputAction: TextInputAction.next,
                                     inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
+                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
                                       LengthLimitingTextInputFormatter(
                                           25),
                                     ],
                                     cursorColor: Colors.black,
                                     onSaved: (input) =>
-                                    _loginRequestModel.email = input!,
+                                    _loginRequestModel.username = input!,
                                     validator: (input) {
                                       if (input == null || input.isEmpty) {
                                         return "Please enter username";

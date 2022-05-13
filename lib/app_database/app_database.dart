@@ -63,6 +63,7 @@ import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.d
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
 import 'dao/fabric_dao/fabric_blends_dao.dart';
 import 'dao/fabric_dao/fabric_color_treatment_dao.dart';
+import 'dao/fabric_dao/fabric_denim_types_dao.dart';
 import 'dao/fabric_dao/fabric_dying_techniques_dao.dart';
 import 'dao/fabric_dao/fabric_grades_dao.dart';
 import 'dao/fabric_dao/fabric_layyer_dao.dart';
@@ -82,7 +83,7 @@ import 'dao/yarn_grades_dao.dart';
 part 'app_database.g.dart'; // the generated code will be there
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,
-  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,FabricAppearance,KnittingTypes,FabricPly,
+  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
@@ -113,6 +114,7 @@ abstract class AppDatabase extends FloorDatabase {
   FabricSettingDao get fabricSettingDao;
   FabricFamilyDao get fabricFamilyDao;
   FabricBlendsDao get fabricBlendsDao;
+  FabricDenimTypesDao get fabricDenimTypesDao;
   FabricAppearanceDao get fabricAppearanceDao;
   KnittingTypesDao get knittingTypesDao;
   FabricPlyDao get fabricPlyDao;

@@ -129,7 +129,7 @@ class Utils {
         break;
       case '103':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, OZ';
+        '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, ${specification.once ?? Utils.checkNullString(false)}';
         break;
       case '104':
         familyData =
@@ -158,11 +158,11 @@ class Utils {
         break;
       case '102':
         titleData =
-        'Weave Pattern,Weave Width,${specification.fabricBlend ?? Utils.checkNullString(false)}/Blend Ratio';
+        '${specification.fabricWeavePatternName ?? Utils.checkNullString(false)},${specification.width ?? Utils.checkNullString(false)},${specification.fabricBlend ?? Utils.checkNullString(false)}/Blend Ratio';
         break;
       case '103':
         titleData =
-        'Denim Type,${specification.fabricApperance ?? Utils.checkNullString(false)}';
+        '${specification.fabricDenimTypeName ?? Utils.checkNullString(false)},${specification.fabricApperance ?? Utils.checkNullString(false)}';
         break;
       case '104':
         titleData =

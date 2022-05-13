@@ -60,6 +60,7 @@ class YarnPageState extends State<YarnPage> {
         .then((value) => setState(() => _countries = value));
     super.initState();
 //    _postYarnProvider.addListener(() {updateUI();});
+    _postYarnProvider.addYarnFamily=_familyList;
 
   }
 
@@ -67,6 +68,7 @@ class YarnPageState extends State<YarnPage> {
   updateUI() {
     setState(() {});
   }
+
 
 
   @override
@@ -245,7 +247,7 @@ class YarnPageState extends State<YarnPage> {
 
                                     onChanged: (newValue) {
 
-                                    },
+                                  },
 
 
                                     validator: (value) =>

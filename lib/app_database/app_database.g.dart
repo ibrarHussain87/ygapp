@@ -107,6 +107,8 @@ class _$AppDatabase extends AppDatabase {
 
   FabricBlendsDao? _fabricBlendsDaoInstance;
 
+  FabricDenimTypesDao? _fabricDenimTypesDaoInstance;
+
   FabricAppearanceDao? _fabricAppearanceDaoInstance;
 
   KnittingTypesDao? _knittingTypesDaoInstance;
@@ -230,11 +232,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `showWeavePatternes` TEXT, `showDenimType` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_appearance` (`fabricAppearanceId` INTEGER, `fabricAppearanceName` TEXT, `fabricAppearanceSortid` TEXT, `fabricAppearanceIsActive` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricAppearanceId`))');
         await database.execute(
@@ -425,6 +429,12 @@ class _$AppDatabase extends AppDatabase {
   FabricBlendsDao get fabricBlendsDao {
     return _fabricBlendsDaoInstance ??=
         _$FabricBlendsDao(database, changeListener);
+  }
+
+  @override
+  FabricDenimTypesDao get fabricDenimTypesDao {
+    return _fabricDenimTypesDaoInstance ??=
+        _$FabricDenimTypesDao(database, changeListener);
   }
 
   @override
@@ -2211,6 +2221,8 @@ class _$FabricSettingDao extends FabricSettingDao {
                   'showOnce': item.showOnce,
                   'onceMinMax': item.onceMinMax,
                   'showLayyer': item.showLayyer,
+                  'showWeavePatternes': item.showWeavePatternes,
+                  'showDenimType': item.showDenimType,
                   'fabricSettingIsActive': item.fabricSettingIsActive,
                   'fabricSettingSortid': item.fabricSettingSortid
                 });
@@ -2265,6 +2277,8 @@ class _$FabricSettingDao extends FabricSettingDao {
             showOnce: row['showOnce'] as String?,
             onceMinMax: row['onceMinMax'] as String?,
             showLayyer: row['showLayyer'] as String?,
+            showWeavePatternes: row['showWeavePatternes'] as String?,
+            showDenimType: row['showDenimType'] as String?,
             fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
             fabricSettingSortid: row['fabricSettingSortid'] as String?));
   }
@@ -2312,6 +2326,8 @@ class _$FabricSettingDao extends FabricSettingDao {
             showOnce: row['showOnce'] as String?,
             onceMinMax: row['onceMinMax'] as String?,
             showLayyer: row['showLayyer'] as String?,
+            showWeavePatternes: row['showWeavePatternes'] as String?,
+            showDenimType: row['showDenimType'] as String?,
             fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
             fabricSettingSortid: row['fabricSettingSortid'] as String?),
         arguments: [id]);
@@ -2505,6 +2521,72 @@ class _$FabricBlendsDao extends FabricBlendsDao {
   Future<List<int>> insertAllFabricBlends(List<FabricBlends> fabricBlends) {
     return _fabricBlendsInsertionAdapter.insertListAndReturnIds(
         fabricBlends, OnConflictStrategy.replace);
+  }
+}
+
+class _$FabricDenimTypesDao extends FabricDenimTypesDao {
+  _$FabricDenimTypesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _denimTypesInsertionAdapter = InsertionAdapter(
+            database,
+            'fabric_denim_types',
+            (DenimTypes item) => <String, Object?>{
+                  'fabricDenimTypeId': item.fabricDenimTypeId,
+                  'fabricDenimTypeName': item.fabricDenimTypeName,
+                  'fabricFamilyIdfk': item.fabricFamilyIdfk
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<DenimTypes> _denimTypesInsertionAdapter;
+
+  @override
+  Future<List<DenimTypes>> findAllFabricDenimTypes() async {
+    return _queryAdapter.queryList('SELECT * FROM fabric_denim_types',
+        mapper: (Map<String, Object?> row) => DenimTypes(
+            fabricDenimTypeId: row['fabricDenimTypeId'] as int?,
+            fabricDenimTypeName: row['fabricDenimTypeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?));
+  }
+
+  @override
+  Future<List<DenimTypes>> findFabricDenimTypes(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM fabric_denim_types where fabricDenimTypeId = ?1',
+        mapper: (Map<String, Object?> row) => DenimTypes(
+            fabricDenimTypeId: row['fabricDenimTypeId'] as int?,
+            fabricDenimTypeName: row['fabricDenimTypeName'] as String?,
+            fabricFamilyIdfk: row['fabricFamilyIdfk'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricDenimType(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from fabric_denim_types where fabricDenimTypeId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteFabricDenimTypes() async {
+    await _queryAdapter.queryNoReturn('delete from fabric_denim_types');
+  }
+
+  @override
+  Future<void> insertFabricDenimTypes(DenimTypes denimTypes) async {
+    await _denimTypesInsertionAdapter.insert(
+        denimTypes, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllFabricDenimTypes(
+      List<DenimTypes> fabricFabricDenimTypes) {
+    return _denimTypesInsertionAdapter.insertListAndReturnIds(
+        fabricFabricDenimTypes, OnConflictStrategy.replace);
   }
 }
 

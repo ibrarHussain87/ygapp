@@ -65,6 +65,7 @@ class Fabric {
   List<FabricSetting>? setting;
   List<FabricFamily>? family;
   List<FabricBlends>? blends;
+  List<DenimTypes>? denimTypes;
   List<Countries>? countries;
   List<CityState>? cityState;
   List<Ports>? ports;
@@ -91,6 +92,7 @@ class Fabric {
       {this.setting,
         this.family,
         this.blends,
+        this.denimTypes,
         this.countries,
         this.cityState,
         this.ports,
@@ -130,6 +132,12 @@ class Fabric {
       blends = <FabricBlends>[];
       json['blends'].forEach((v) {
         blends!.add(FabricBlends.fromJson(v));
+      });
+    }
+    if (json['denim_types'] != null) {
+      denimTypes = <DenimTypes>[];
+      json['denim_types'].forEach((v) {
+        denimTypes!.add(new DenimTypes.fromJson(v));
       });
     }
     if (json['countries'] != null) {
@@ -273,6 +281,9 @@ class Fabric {
     if (blends != null) {
       data['blends'] = blends!.map((v) => v.toJson()).toList();
     }
+    if (denimTypes != null) {
+      data['denim_types'] = denimTypes!.map((v) => v.toJson()).toList();
+    }
     if (countries != null) {
       data['countries'] = countries!.map((v) => v.toJson()).toList();
     }
@@ -386,6 +397,8 @@ class FabricSetting {
   String? showOnce;
   String? onceMinMax;
   String? showLayyer;
+  String? showWeavePatternes;
+  String? showDenimType;
   String? fabricSettingIsActive;
   String? fabricSettingSortid;
 
@@ -427,6 +440,8 @@ class FabricSetting {
         this.showOnce,
         this.onceMinMax,
         this.showLayyer,
+        this.showWeavePatternes,
+        this.showDenimType,
         this.fabricSettingIsActive,
         this.fabricSettingSortid});
 
@@ -468,6 +483,8 @@ class FabricSetting {
     showOnce = json['show_once'];
     onceMinMax = json['once_min_max'];
     showLayyer = json['show_layyer'];
+    showWeavePatternes = json['show_weave_pattern'];
+    showDenimType = json['show_denim_type'];
     fabricSettingIsActive = json['fabric_setting_is_active'];
     fabricSettingSortid = json['fabric_setting_sortid'];
   }
@@ -511,6 +528,8 @@ class FabricSetting {
     data['show_once'] = showOnce;
     data['once_min_max'] = onceMinMax;
     data['show_layyer'] = showLayyer;
+    data['show_weave_pattern'] = showWeavePatternes;
+    data['show_denim_type'] = showDenimType;
     data['fabric_setting_is_active'] = fabricSettingIsActive;
     data['fabric_setting_sortid'] = fabricSettingSortid;
     return data;
@@ -627,6 +646,38 @@ class FabricBlends {
   @override
   String toString() {
     return blnAbrv ?? blnName??'';
+  }
+}
+
+@Entity(tableName: 'fabric_denim_types')
+class DenimTypes {
+  @PrimaryKey(autoGenerate: false)
+  int? fabricDenimTypeId;
+  String? fabricDenimTypeName;
+  String? fabricFamilyIdfk;
+
+  DenimTypes(
+      {this.fabricDenimTypeId,
+        this.fabricDenimTypeName,
+        this.fabricFamilyIdfk});
+
+  DenimTypes.fromJson(Map<String, dynamic> json) {
+    fabricDenimTypeId = json['fabric_denim_type_id'];
+    fabricDenimTypeName = json['fabric_denim_type_name'];
+    fabricFamilyIdfk = json['fabric_family_idfk'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['fabric_denim_type_id'] = fabricDenimTypeId;
+    data['fabric_denim_type_name'] = fabricDenimTypeName;
+    data['fabric_family_idfk'] = fabricFamilyIdfk;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return fabricDenimTypeName ?? '';
   }
 }
 

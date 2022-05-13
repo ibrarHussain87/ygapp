@@ -98,7 +98,8 @@ class MarketPageState extends State<MarketPage>
                                           ),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(24.w)),
-                                          color: Colors.grey.shade300),
+                                          color: Colors.grey.shade100
+                                      ),
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 8.w, bottom: 8.w),
@@ -222,7 +223,7 @@ class MarketPageState extends State<MarketPage>
                                 borderSide: BorderSide(
                                     color: lightBlueTabs, width: 2.w),
                                 insets: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 5)),
+                                    horizontal: 24.0, vertical: 0)),
                             tabs: tabMaker(),
                           ),
                         ),

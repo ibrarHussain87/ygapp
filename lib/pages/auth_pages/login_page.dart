@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                                 cursorColor: Colors.black,
                                 onSaved: (input) =>
-                                    _loginRequestModel.email = input!,
+                                    _loginRequestModel.username = input!,
                                 validator: (input) {
                                   if (input == null || input.isEmpty) {
                                     return "Please enter username";
