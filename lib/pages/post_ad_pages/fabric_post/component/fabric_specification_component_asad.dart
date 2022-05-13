@@ -109,6 +109,8 @@ class FabricSpecificationComponentState
   String? _selectedAppearenceId;
   String? _selectedColorTreatMethodId;
   String? _selectedSpunTechId;
+  String? weavePatternA;
+  String? weavePatternB;
 
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
 
@@ -1207,6 +1209,7 @@ class FabricSpecificationComponentState
                                                           label: 'Weave Pattern',
                                                           onSaved: (input) {
                                                             // _createRequestModel!.fs_ratio = input;
+                                                            weavePatternA = input;
                                                           }),
                                                     ),
                                                     Container(
@@ -1221,6 +1224,7 @@ class FabricSpecificationComponentState
                                                           label: 'Weave Pattern',
                                                           onSaved: (input) {
                                                             // _createRequestModel!.fs_ratio = input;
+                                                            weavePatternB = input;
                                                           }),
                                                     )
                                                   ],
@@ -1992,6 +1996,7 @@ class FabricSpecificationComponentState
           .familyIdfk
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId ?? '';
+      _createRequestModel!.fabric_weave_pattern_idfk = '$weavePatternA/$weavePatternB';
       /*if(_createRequestModel!.fs_ply_idfk == null){
         _createRequestModel!.fs_ply_idfk = null;
       }
