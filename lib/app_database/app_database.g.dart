@@ -232,7 +232,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `showWeavePatternes` TEXT, `showDenimType` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
@@ -2221,6 +2221,8 @@ class _$FabricSettingDao extends FabricSettingDao {
                   'showOnce': item.showOnce,
                   'onceMinMax': item.onceMinMax,
                   'showLayyer': item.showLayyer,
+                  'showWeavePatternes': item.showWeavePatternes,
+                  'showDenimType': item.showDenimType,
                   'fabricSettingIsActive': item.fabricSettingIsActive,
                   'fabricSettingSortid': item.fabricSettingSortid
                 });
@@ -2275,6 +2277,8 @@ class _$FabricSettingDao extends FabricSettingDao {
             showOnce: row['showOnce'] as String?,
             onceMinMax: row['onceMinMax'] as String?,
             showLayyer: row['showLayyer'] as String?,
+            showWeavePatternes: row['showWeavePatternes'] as String?,
+            showDenimType: row['showDenimType'] as String?,
             fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
             fabricSettingSortid: row['fabricSettingSortid'] as String?));
   }
@@ -2322,6 +2326,8 @@ class _$FabricSettingDao extends FabricSettingDao {
             showOnce: row['showOnce'] as String?,
             onceMinMax: row['onceMinMax'] as String?,
             showLayyer: row['showLayyer'] as String?,
+            showWeavePatternes: row['showWeavePatternes'] as String?,
+            showDenimType: row['showDenimType'] as String?,
             fabricSettingIsActive: row['fabricSettingIsActive'] as String?,
             fabricSettingSortid: row['fabricSettingSortid'] as String?),
         arguments: [id]);

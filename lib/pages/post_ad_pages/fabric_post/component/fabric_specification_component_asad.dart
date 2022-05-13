@@ -97,6 +97,7 @@ class FabricSpecificationComponentState
   late List<FabricLoom> _loomList;
   late List<FabricSalvedge> _salvedgeList;
   late List<FabricLayyer> _layyerList;
+  late List<DenimTypes> _denimTypesList;
 
 
   Color pickerColor = const Color(0xffffffff);
@@ -136,6 +137,8 @@ class FabricSpecificationComponentState
   final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<
       SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<
+      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _denimTypeKey = GlobalKey<
       SingleSelectTileWidgetState>();
 
   //Nature Fabric key (asad_m)
@@ -196,6 +199,7 @@ class FabricSpecificationComponentState
     _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
+    _denimTypesList = await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
     AppDbInstance().getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
     AppDbInstance().getOriginsData()
@@ -476,6 +480,42 @@ class FabricSpecificationComponentState
                                   ),
                                 ),*/
                                 /*const SizedBox(height: 4,),*/
+                                //Show Knitting Type
+                                Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showKnittingType),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Knitting Type' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _knittingTypeKey,
+                                          spanCount: 2,
+                                          listOfItems: _knittingTypeList
+                                              .where(
+                                                  (element) =>
+                                              element.fabricFamilyIdfk ==
+                                                  familyId)
+                                              .toList(),
+                                          callback: (KnittingTypes value) {
+                                            _createRequestModel!
+                                                .fs_knitting_type_idfk =
+                                                value.fabricKnittingTypeId
+                                                    .toString();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Visibility(
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWarpCount),
@@ -991,60 +1031,9 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),
-                                // Show Weave Pattern
-                                IntrinsicHeight(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .stretch,
-                                    children: [
-                                      Visibility(
-                                        visible: true,
-                                        child: Expanded(
-                                          child: Column(
-                                            children: [
-                                              // Modified by (asad_m)
-//                                              Padding(
-//                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
-//                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
-                                              SizedBox(height: 12.w,),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: YgTextFormFieldWithoutRange(
-                                                        errorText: 'Weave Pattern',
-                                                        label: 'Weave Pattern',
-                                                        onSaved: (input) {
-                                                          // _createRequestModel!.fs_ratio = input;
-                                                        }),
-                                                  ),
-                                                  Container(
-                                                    color: Colors.white,
-                                                    width: 16.w,
-                                                    child: const Center(
-                                                        child: Text('/')),
-                                                  ),
-                                                  Expanded(
-                                                    child: YgTextFormFieldWithoutRange(
-                                                        errorText: 'Weave Pattern',
-                                                        label: 'Weave Pattern',
-                                                        onSaved: (input) {
-                                                          // _createRequestModel!.fs_ratio = input;
-                                                        }),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .start,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 //Show Nature of Fabric (asad_mehmood)
                                 Visibility(
-                                  visible: true,
+                                  visible: false,
 //                                  visible: Ui.showHide(_fabricSettings!.showWeave),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
@@ -1185,6 +1174,95 @@ class FabricSpecificationComponentState
                                           callback: (FabricWeave value) {
                                             _createRequestModel!.fs_weave_idfk =
                                                 value.fabricWeaveId.toString();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                // Show Weave Pattern
+                                Visibility(
+                                  visible:  Ui.showHide(
+                                      _fabricSettings!.showWeavePatternes),
+                                  child: IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .stretch,
+                                      children: [
+                                        Visibility(
+                                          visible: true,
+                                          child: Expanded(
+                                            child: Column(
+                                              children: [
+                                                // Modified by (asad_m)
+//                                              Padding(
+//                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
+//                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
+                                                SizedBox(height: 12.w,),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: YgTextFormFieldWithoutRange(
+                                                          errorText: 'Weave Pattern',
+                                                          label: 'Weave Pattern',
+                                                          onSaved: (input) {
+                                                            // _createRequestModel!.fs_ratio = input;
+                                                          }),
+                                                    ),
+                                                    Container(
+                                                      color: Colors.white,
+                                                      width: 16.w,
+                                                      child: const Center(
+                                                          child: Text('/')),
+                                                    ),
+                                                    Expanded(
+                                                      child: YgTextFormFieldWithoutRange(
+                                                          errorText: 'Weave Pattern',
+                                                          label: 'Weave Pattern',
+                                                          onSaved: (input) {
+                                                            // _createRequestModel!.fs_ratio = input;
+                                                          }),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .start,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                //Show Denim Types
+                                Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showDenimType),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Denim Type' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _denimTypeKey,
+                                          spanCount: 3,
+                                          listOfItems: _denimTypesList.where((
+                                              element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (DenimTypes value) {
+                                            _createRequestModel!
+                                                .fabric_denim_type_idfk =
+                                                value.fabricDenimTypeId.toString();
                                           },
                                         ),
                                       ],
@@ -1671,42 +1749,7 @@ class FabricSpecificationComponentState
                                         ],
                                       ),
                                     )),
-                                //Show Knitting Type
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showKnittingType),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Knitting Type' + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _knittingTypeKey,
-                                          spanCount: 2,
-                                          listOfItems: _knittingTypeList
-                                              .where(
-                                                  (element) =>
-                                              element.fabricFamilyIdfk ==
-                                                  familyId)
-                                              .toList(),
-                                          callback: (KnittingTypes value) {
-                                            _createRequestModel!
-                                                .fs_knitting_type_idfk =
-                                                value.fabricKnittingTypeId
-                                                    .toString();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+
                                 //Show Appearance
                                 Visibility(
                                   visible: Ui.showHide(
@@ -2144,7 +2187,11 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showWeave)) {
         Ui.showSnackBar(context, 'Please Select Weave');
         return false;
-      } else if (_createRequestModel!.fs_loom_idfk == null &&
+      } else if (_createRequestModel!.fabric_denim_type_idfk == null &&
+          Ui.showHide(_fabricSettings!.showDenimType)) {
+        Ui.showSnackBar(context, 'Please Select Denim Type');
+        return false;
+      }else if (_createRequestModel!.fs_loom_idfk == null &&
           Ui.showHide(_fabricSettings!.showLoom)) {
         Ui.showSnackBar(context, 'Please Select Loom');
         return false;

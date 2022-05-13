@@ -397,6 +397,8 @@ class FabricSetting {
   String? showOnce;
   String? onceMinMax;
   String? showLayyer;
+  String? showWeavePatternes;
+  String? showDenimType;
   String? fabricSettingIsActive;
   String? fabricSettingSortid;
 
@@ -438,6 +440,8 @@ class FabricSetting {
         this.showOnce,
         this.onceMinMax,
         this.showLayyer,
+        this.showWeavePatternes,
+        this.showDenimType,
         this.fabricSettingIsActive,
         this.fabricSettingSortid});
 
@@ -479,6 +483,8 @@ class FabricSetting {
     showOnce = json['show_once'];
     onceMinMax = json['once_min_max'];
     showLayyer = json['show_layyer'];
+    showWeavePatternes = json['show_weave_pattern'];
+    showDenimType = json['show_denim_type'];
     fabricSettingIsActive = json['fabric_setting_is_active'];
     fabricSettingSortid = json['fabric_setting_sortid'];
   }
@@ -522,6 +528,8 @@ class FabricSetting {
     data['show_once'] = showOnce;
     data['once_min_max'] = onceMinMax;
     data['show_layyer'] = showLayyer;
+    data['show_weave_pattern'] = showWeavePatternes;
+    data['show_denim_type'] = showDenimType;
     data['fabric_setting_is_active'] = fabricSettingIsActive;
     data['fabric_setting_sortid'] = fabricSettingSortid;
     return data;
