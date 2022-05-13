@@ -117,6 +117,8 @@ class FabricSpecification {
   String? tuckinWidth;
   String? portName;
   String? fabricKnittingTypeName;
+  String? fabricDenimTypeName;
+  String? fabricWeavePatternName;
   List<Pictures>? pictures;
   List<CertificationModel>? certifications;
   String? certificationStr;
@@ -176,6 +178,8 @@ class FabricSpecification {
         this.tuckinWidth,
         this.portName,
         this.fabricKnittingTypeName,
+        this.fabricDenimTypeName,
+        this.fabricWeavePatternName,
         this.pictures,
         this.certifications,
         this.certificationStr,
@@ -235,6 +239,8 @@ class FabricSpecification {
     tuckinWidth = json['tuckin_width'];
     portName = json['port_name'];
     fabricKnittingTypeName = json['fabric_knitting_type_name'];
+    fabricDenimTypeName = json['fabric_denim_type_name'];
+    fabricWeavePatternName = json['fabric_weave_pattern_name'];
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
       json['pictures'].forEach((v) {
@@ -304,6 +310,8 @@ class FabricSpecification {
     data['tuckin_width'] = this.tuckinWidth;
     data['port_name'] = this.portName;
     data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
+    data['fabric_denim_type_name'] = this.fabricDenimTypeName;
+    data['fabric_weave_pattern_name'] = this.fabricWeavePatternName;
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
     }
