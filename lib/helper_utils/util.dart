@@ -128,7 +128,7 @@ class Utils {
         break;
       case '103':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, OZ';
+        '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, ${specification.once ?? Utils.checkNullString(false)}';
         break;
       case '104':
         familyData =
