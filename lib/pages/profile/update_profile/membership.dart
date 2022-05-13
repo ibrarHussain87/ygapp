@@ -8,6 +8,8 @@ import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/profile/update_profile/membership_card.dart';
 
+import '../../../elements/custom_header.dart';
+
 
 class MembershipPage extends StatefulWidget {
   const MembershipPage({Key? key}) : super(key: key);
@@ -39,32 +41,33 @@ class _MembershipPageState extends State<MembershipPage> {
       ];
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
-                      )),
-                )),
-          ),
-          title: Text('Membership',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        ),
+        appBar:appBar(context,"Membership"),
+//        AppBar(
+//          backgroundColor: Colors.white,
+//          centerTitle: true,
+//          leading: GestureDetector(
+//            behavior: HitTestBehavior.opaque,
+//            onTap: () {
+//              Navigator.pop(context);
+//            },
+//            child: Padding(
+//                padding: EdgeInsets.all(12.w),
+//                child: Card(
+//                  child: Padding(
+//                      padding: EdgeInsets.only(left: 4.w),
+//                      child: Icon(
+//                        Icons.arrow_back_ios,
+//                        color: Colors.black,
+//                        size: 12.w,
+//                      )),
+//                )),
+//          ),
+//          title: Text('Membership',
+//              style: TextStyle(
+//                  fontSize: 16.0.w,
+//                  color: appBarTextColor,
+//                  fontWeight: FontWeight.w400)),
+//        ),
         key: scaffoldKey,
         backgroundColor: Colors.grey.shade200,
         body:SizedBox(
@@ -83,7 +86,7 @@ class _MembershipPageState extends State<MembershipPage> {
 
 
               GFCarousel(
-                height: height/1.6,
+                height: height/1.55,
                 pagination: false,
                 reverse: false,
                 initialPage: 1,

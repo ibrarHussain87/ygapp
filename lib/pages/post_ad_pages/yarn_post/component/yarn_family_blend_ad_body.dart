@@ -73,7 +73,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _getSyncedData();
     super.initState();
   }
