@@ -15,9 +15,11 @@ import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_fu
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
+import '../../../elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/blend_model.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import 'yarn_components/family_blend_body.dart';
 
@@ -83,7 +85,30 @@ class YarnPageState extends State<YarnPage> {
 
                   } , (Blends blends){
                     Navigator.of(context).pop();
-                    openYarnPostPage(context, widget.locality, yarn, value);
+                    blendedSheet(
+                        context,
+                        _postYarnProvider.blendList
+                            .where((element) =>
+                        element.familyIdfk == family.famId.toString())
+                            .toList(),
+                        _postYarnProvider.blendList
+                            .where((element) =>
+                        element.familyIdfk == family.famId.toString())
+                            .toList().indexWhere((element) => element == blends), () {
+                      List<BlendModel> formations = [];
+                      for (var element in _postYarnProvider.blendList) {
+                        if (element.isSelected??false) {
+                          formations.add(BlendModel(id: element.blnId,
+                              relatedBlnId: null,
+                              ratio: element.blendRatio));
+                        }
+                      }
+                    //  _createRequestModel.ys_formation = formations;
+
+                      Navigator.pop(context);
+                      openYarnPostPage(context, widget.locality, yarn, value);
+                    });
+                   // openYarnPostPage(context, widget.locality, yarn, value);
                   },
                       _postYarnProvider.blendList.where((element) =>  element.familyIdfk == family.famId.toString()).toList(),-1,"Yarn");
                 }

@@ -40,7 +40,7 @@ familyBlendsSheet(BuildContext context,
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.w))
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.w),topRight: Radius.circular(15.w))
                 ),
                 /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
                 padding: EdgeInsets.only(
