@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_specification_provider.dart';
@@ -20,6 +21,9 @@ import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yg_app/providers/sync_provider.dart';
 
+import 'api_services/api_service_class.dart';
+import 'app_database/app_database_instance.dart';
+import 'model/response/common_response_models/countries_response.dart';
 import 'providers/fabric_specifications_provider.dart';
 import 'providers/filter_fabric_provider.dart';
 import 'providers/post_fabric_provider.dart';
@@ -147,6 +151,8 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
 
     _firebaseCrash();
+
+    _synData();
 
     super.initState();
 
@@ -288,5 +294,121 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Future<bool> _synData() async {
+    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
+    Logger().e(dataSynced.toString());
+    if (!dataSynced) {
+      await Future.wait([
+
+        // For getting countries
+        ApiService.syncCountriesCall().then((
+            CountriesSyncResponse response) {
+          if (response.status!) {
+            Logger().e("Countries Sync got successfully : " +
+                response.toString());
+            AppDbInstance().getDbInstance().then((value) async {
+              await Future.wait([
+                value.countriesDao
+                    .insertAllCountry(response.data!.countries),
+              ]);
+            });
+          }
+        })
+
+
+      ]);
+    }
+
+    /*  AppDbInstance().getDbInstance().then((value) async {
+
+      await Future.wait([
+        value.fiberMaterialDao
+            .insertAllFiberMaterials(syncFiberResponse.data.fiber.material),
+
+        value.yarnFamilyDao
+            .insertAllYarnFamily(syncYarnResponse.data.yarn.family!),
+
+        value.fiberSettingDao
+            .insertAllFiberSettings(syncFiberResponse.data.fiber.settings),
+        value.gradesDao.insertAllGrades(syncFiberResponse.data.fiber.grades),
+        value.fiberNatureDao
+            .insertAllFiberNatures(syncFiberResponse.data.fiber.natures),
+
+        //insert Common objects for fiber
+        value.brandsDao.insertAllBrands(syncFiberResponse.data.fiber.brands),
+        value.certificationDao
+            .insertAllCertification(syncFiberResponse.data.fiber.certification),
+        value.cityStateDao
+            .insertAllCityState(syncFiberResponse.data.fiber.cityState),
+        value.companiesDao
+            .insertAllCompanies(syncFiberResponse.data.fiber.companies),
+        value.countriesDao
+            .insertAllCountry(syncFiberResponse.data.fiber.countries),
+        value.deliveryPeriodDao.insertAllDeliveryPeriods(
+            syncFiberResponse.data.fiber.deliveryPeriod),
+        value.lcTypeDao.insertAllLcType(syncFiberResponse.data.fiber.lcType),
+        value.paymentTypeDao
+            .insertAllPaymentType(syncFiberResponse.data.fiber.paymentType),
+        value.portsDao.insertAllPorts(syncFiberResponse.data.fiber.ports),
+        value.priceTermsDao
+            .insertAllFPriceTerms(syncFiberResponse.data.fiber.priceTerms),
+        value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
+        value.fiberAppearanceDoa
+            .insertAllFiberAppearance(syncFiberResponse.data.fiber.apperance),
+
+        //Yarn
+        value.yarnSettingsDao
+            .insertAllYarnSettings(syncYarnResponse.data.yarn.setting!),
+        value.yarnBlendDao
+            .insertAllYarnBlend(syncYarnResponse.data.yarn.blends!),
+
+        value.gradesDao.insertAllGrades(syncYarnResponse.data.yarn.grades!),
+
+        //Insert All Common Objects for yarn
+        value.brandsDao.insertAllBrands(syncYarnResponse.data.yarn.brands!),
+        value.certificationDao
+            .insertAllCertification(syncYarnResponse.data.yarn.certification!),
+        value.cityStateDao
+            .insertAllCityState(syncYarnResponse.data.yarn.cityState!),
+        value.companiesDao
+            .insertAllCompanies(syncYarnResponse.data.yarn.companies!),
+        value.countriesDao
+            .insertAllCountry(syncYarnResponse.data.yarn.countries!),
+        value.deliveryPeriodDao.insertAllDeliveryPeriods(
+            syncYarnResponse.data.yarn.deliveryPeriod!),
+        value.lcTypeDao.insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
+        value.paymentTypeDao
+            .insertAllPaymentType(syncYarnResponse.data.yarn.paymentTypes!),
+        value.portsDao.insertAllPorts(syncYarnResponse.data.yarn.ports!),
+        value.priceTermsDao
+            .insertAllFPriceTerms(syncYarnResponse.data.yarn.priceTerms!),
+        value.unitDao.insertAllUnit(syncYarnResponse.data.yarn.units!),
+        value.colorTreatmentMethodDao.insertAllColorTreatmentMethod(
+            syncYarnResponse.data.yarn.colorTreatmentMethod!),
+        value.coneTypeDao
+            .insertAllConeType(syncYarnResponse.data.yarn.coneType!),
+        value.colorMethodDao
+            .insertAllDyingMethod(syncYarnResponse.data.yarn.dyingMethod!),
+        value.orientationDao
+            .insertAllOrientation(syncYarnResponse.data.yarn.orientation!),
+        value.patternCharDao.insertAllPatternCharacteristics(
+            syncYarnResponse.data.yarn.patternCharectristic!),
+        value.patternDao.insertAllPattern(syncYarnResponse.data.yarn.pattern!),
+        value.plyDao.insertAllPly(syncYarnResponse.data.yarn.ply!),
+        value.qualityDao.insertAllQuality(syncYarnResponse.data.yarn.quality!),
+        value.twistDirectionDao.insertAllTwistDirection(
+            syncYarnResponse.data.yarn.twistDirection!),
+        value.usageDao.insertAllUsage(syncYarnResponse.data.yarn.usage!),
+        value.yarnTypesDao
+            .insertAllYarnTypes(syncYarnResponse.data.yarn.yarnTypes!),
+
+        value.yarnAppearanceDao
+            .insertAllYarnAppearance(syncYarnResponse.data.yarn.apperance!),
+      ]);
+    });
+*/
+    return true;
   }
 }

@@ -35,6 +35,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
+import '../model/response/common_response_models/countries_response.dart';
 import '../model/response/create_stocklot_response.dart';
 import '../model/response/fabric_response/fabric_update_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -67,6 +68,8 @@ class ApiService {
   static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
   static const String GET_BANNERS_END_POINT = "/getBanners";
   static const String UPDATE_SPECIFICATION = "/update-specification";
+
+  static const String COUNTRY_END_POINT = "/get-countries";
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {
@@ -914,6 +917,35 @@ class ApiService {
           json.decode(response.body),
         );
       }
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
+
+// Countries Api
+  static Future<CountriesSyncResponse> syncCountriesCall() async {
+    try {
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+
+      String url = BASE_API_URL + COUNTRY_END_POINT;
+
+//      final response = await http.post(Uri.parse(url),
+//          headers: headerMap, body: requestModel.toJson());
+
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap);
+
+      return CountriesSyncResponse.fromJson(
+        json.decode(response.body),
+      );
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

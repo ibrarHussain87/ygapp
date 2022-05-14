@@ -91,9 +91,9 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             children: [
               Visibility(
                   visible: false, child: TitleTextWidget(title: yarnCategory)),
-              SizedBox(
-                height: 10.w,
-              ),
+//              SizedBox(
+//                height: 4.w,
+//              ),
               SizedBox(
 
                 height: 0.060 * MediaQuery.of(context).size.height,

@@ -8,11 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/network_icon_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 import '../../../elements/decoration_widgets.dart';
 import '../../../helper_utils/app_images.dart';
@@ -51,16 +55,16 @@ class CountryComponentState
   void initState() {
 
     _resetData();
-    _countryList.addAll(
-        [
-          Countries(id: "1", title: 'Pakistan',countryFlag:pk,countryCode: "PK"),
-          Countries(id: "2", title: 'USA',countryFlag:us,countryCode:"US"),
-          Countries(id: "3", title: 'Afghanistan',countryFlag:af,countryCode:"AF"),
-          Countries(id: "4", title: 'Australia',countryFlag:au,countryCode:"AU"),
-          Countries(id: "5", title: 'Bangladesh',countryFlag:bd,countryCode:"BD"),
-          Countries(id: "6", title: 'Argentina',countryFlag:ar,countryCode:"AR"),
-
-        ]);
+//    _countryList.addAll(
+//        [
+//          Countries(id: "1", title: 'Pakistan',countryFlag:pk,countryCode: "PK"),
+//          Countries(id: "2", title: 'USA',countryFlag:us,countryCode:"US"),
+//          Countries(id: "3", title: 'Afghanistan',countryFlag:af,countryCode:"AF"),
+//          Countries(id: "4", title: 'Australia',countryFlag:au,countryCode:"AU"),
+//          Countries(id: "5", title: 'Bangladesh',countryFlag:bd,countryCode:"BD"),
+//          Countries(id: "6", title: 'Argentina',countryFlag:ar,countryCode:"AR"),
+//
+//        ]);
     super.initState();
   }
 
@@ -91,23 +95,6 @@ class CountryComponentState
                       colors: <Color>[appBarColor2,appBarColor1])),
             ),
 
-          /*leading: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                        padding: EdgeInsets.all(12.w),
-                        child: Card(
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 4.w),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                                size: 12.w,
-                              )),
-                        )),
-                  ),*/
           title: Text('Registration',
               style: TextStyle(
                   fontSize: 16.0.w,
@@ -122,7 +109,7 @@ class CountryComponentState
           children: [
             SingleChildScrollView(
               child: Column(
-                
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -171,48 +158,81 @@ class CountryComponentState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              DropdownButtonFormField<String>(
+                              FutureBuilder<List<Countries>?>(
+                                  future: AppDbInstance().getDbInstance()
+                                      .then((value) =>  value.countriesDao.findAllCountries()),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData && snapshot.data != null) {
+                                      return DropdownButtonFormField<String>(
 
-                                decoration: dropDownProfile(
-                                    'Select', "Country") ,
-                                isDense: true,
-                                hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                                isExpanded: true,
-                                iconSize: 21,
-                                items:_countryList.map((location) {
-                                  return DropdownMenuItem<String>(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
+                                        decoration: dropDownProfile(
+                                            'Select', "Country") ,
+                                        isDense: true,
+                                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+                                        isExpanded: true,
+                                        iconSize: 21,
+                                        items:snapshot.data?.map((location) {
+                                          return DropdownMenuItem<String>(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: <Widget>[
 
-                                        const SizedBox(width: 8.0),
-                                        Image.asset(
-                                          location.countryFlag.toString(),
-                                          height: 30.0,
-                                          width: 30.0,
-                                        ),
-                                        const SizedBox(width: 8.0),
-                                        Expanded(child: Text(location.title.toString())),
+                                                const SizedBox(width: 8.0),
+                                                NetworkImageIconWidget(
+                                                    imageUrl:location.medium.toString()
+                                                ),
+//                                                Image.network(
+//                                                  location.medium.toString(),
+//                                                  height: 30.0,
+//                                                  width: 30.0,
+//                                                ),
+                                                const SizedBox(width: 8.0),
+                                                Expanded(child: Text(location.conName.toString())),
 
-                                      ],
-                                    ),
-                                    value: location.countryCode.toString(),
+                                              ],
+                                            ),
+                                            value: location.conId.toString(),
 
-                                  );
-                                }).toList(),
+                                          );}).toList(),
 
-                                onChanged: (newValue) {
-                                  _signupRequestModel?.countryId=newValue;
-                                },
-                                validator: (input) {
-                                  if (input == null ||
-                                      input.isEmpty) {
-                                    return "Please select country";
-                                  }
-                                  return null;
-                                },
+                                        onChanged: (newValue) {
+                                          _signupRequestModel?.countryId=newValue;
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty) {
+                                            return "Please select country";
+                                          }
+                                          return null;
+                                        },
 
-                              ),
+                                      );
+                                    }
+                                    else {
+                                      return DropdownButtonFormField<String>(
+
+                                        decoration: dropDownProfile(
+                                            'Select', "Country") ,
+                                        isDense: true,
+                                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+                                        isExpanded: true,
+                                        iconSize: 20,
+                                        items: const [
+
+                                        ],
+
+                                        onChanged: (newValue) {
+
+                                        },
+
+
+                                        validator: (value) => value == null ? 'Please select country name' : null,
+
+                                      );
+                                    }
+                                  }),
+
+
 
                             ],
                           ),
@@ -356,19 +376,19 @@ if (validationAllPage()) {
   }
 }
 
-class Countries {
-  String? id;
-  String? title;
-  String? countryFlag;
-  String? countryCode;
-
-  Countries({
-    @required this.id,
-    @required this.title,
-    @required this.countryFlag,
-    @required this.countryCode,
-  });
-}
+//class Countries {
+//  String? id;
+//  String? title;
+//  String? countryFlag;
+//  String? countryCode;
+//
+//  Countries({
+//    @required this.id,
+//    @required this.title,
+//    @required this.countryFlag,
+//    @required this.countryCode,
+//  });
+//}
 
 
 

@@ -82,7 +82,7 @@ class MarketPageState extends State<MarketPage>
                         top: false,
                         sliver: SliverAppBar(
                           elevation: 0.0,
-                          backgroundColor: Colors.grey.shade100,
+                          backgroundColor: bgColor,
                           titleSpacing: 0,
                           title: Container(
                             child: Padding(
@@ -94,7 +94,7 @@ class MarketPageState extends State<MarketPage>
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.grey.shade300,
+                                            color: searchBarColor,
                                           ),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(24.w)),
@@ -216,12 +216,12 @@ class MarketPageState extends State<MarketPage>
                             isScrollable: true,
                             controller: tabController,
                             unselectedLabelColor: textColorGreyLight,
-                            labelColor: lightBlueTabs,
-                            indicatorColor: lightBlueTabs,
+                            labelColor: darkBlueChip,
+                            indicatorColor: darkBlueChip,
                             indicatorSize: TabBarIndicatorSize.label,
                             indicator: UnderlineTabIndicator(
                                 borderSide: BorderSide(
-                                    color: lightBlueTabs, width: 2.w),
+                                    color: darkBlueChip, width: 2.w),
                                 insets: const EdgeInsets.symmetric(
                                     horizontal: 24.0, vertical: 0)),
                             tabs: tabMaker(),

@@ -82,6 +82,8 @@ var forgotPasswordColor = HexColor.fromHex('#1C3957');
 var signInBorderColor = HexColor.fromHex('#C3CCD3');
 var appBarColor1 = HexColor.fromHex('#25398B');
 var appBarColor2 = HexColor.fromHex('#2675EC');
+var searchBarColor = HexColor.fromHex('#dee3eb');
+var bgColor = HexColor.fromHex('#eceff4');
 
 var lightBlueChip = const Color(0xFFE3ECFF);
 var darkBlueChip = const Color(0xFF2E59B1);

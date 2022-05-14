@@ -200,16 +200,16 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           color: checked
               ? darkBlueChip
               : lightBlueChip,
-          borderRadius: BorderRadius.all(Radius.circular(24.w))),
+          borderRadius: BorderRadius.all(Radius.circular(25.w))),
       child: Row(
         children: [
           Visibility(
             visible: checked,
             child: Padding(
-              padding: const EdgeInsets.only(top: 4,bottom: 4,),
+              padding: const EdgeInsets.only(top: 6,bottom: 6,),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.check,color: darkBlueChip,),
+                child: Icon(Icons.check,color: darkBlueChip,size: 18,),
               ),
             ),
           ),
