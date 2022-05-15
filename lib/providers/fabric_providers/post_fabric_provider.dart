@@ -6,9 +6,9 @@ import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_m
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 
-import '../app_database/app_database_instance.dart';
+import '../../app_database/app_database_instance.dart';
 
-class FilterFabricProvider extends ChangeNotifier{
+class PostFabricProvider extends ChangeNotifier{
 
   List<FabricFamily> fabricFamilyList = [];
   List<FabricBlends> fabricBlendsList = [];
@@ -43,6 +43,11 @@ class FilterFabricProvider extends ChangeNotifier{
   setBlendId(int? value){
     blendId = value;
     notifyListeners();
+  }
+
+  updateFabricSegments(){
+    updateSegments = true;
+   // notifyListeners();
   }
 
 

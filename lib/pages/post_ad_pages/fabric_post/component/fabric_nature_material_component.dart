@@ -10,7 +10,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
-import '../../../../providers/post_fabric_provider.dart';
+import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
 import '../../../../elements/yarn_widgets/listview_famiy_tile.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';

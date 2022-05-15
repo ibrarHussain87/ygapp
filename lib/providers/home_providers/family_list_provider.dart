@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 
-import '../app_database/app_database_instance.dart';
-import '../model/response/family_data.dart';
+import '../../app_database/app_database_instance.dart';
+import '../../model/response/family_data.dart';
 
 class FamilyListProvider extends ChangeNotifier{
 

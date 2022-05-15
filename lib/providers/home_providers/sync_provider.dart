@@ -4,11 +4,11 @@ import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
-import '../api_services/api_service_class.dart';
-import '../app_database/app_database_instance.dart';
-import '../helper_utils/app_constants.dart';
-import '../helper_utils/shared_pref_util.dart';
-import '../model/response/fabric_response/sync/fabric_sync_response.dart';
+import '../../api_services/api_service_class.dart';
+import '../../app_database/app_database_instance.dart';
+import '../../helper_utils/app_constants.dart';
+import '../../helper_utils/shared_pref_util.dart';
+import '../../model/response/fabric_response/sync/fabric_sync_response.dart';
 
 class SyncProvider extends ChangeNotifier {
 

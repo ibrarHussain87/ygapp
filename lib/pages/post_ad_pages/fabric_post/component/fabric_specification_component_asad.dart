@@ -25,7 +25,7 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
-import '../../../../providers/post_fabric_provider.dart';
+import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../../../elements/bottom_sheets/fabric_ply_bottom_sheet.dart';
 import '../../../../elements/bottom_sheets/warp_bottom_sheet.dart';
 import '../../../../elements/decoration_widgets.dart';

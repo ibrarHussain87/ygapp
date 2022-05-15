@@ -13,7 +13,7 @@ abstract class FiberBlendsDao{
   @Query('SELECT * FROM fiber_blends where familyIdfk = :id')
   Future<List<FiberBlends>> findFiberBlend(int id);
 
-  @Query('SELECT * FROM fiber_blends where nature_id = :id')
+  @Query('SELECT * FROM fiber_blends where familyIdfk = :id')
   Future<List<FiberBlends>> findFiberBlendWithNature(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)

@@ -17,11 +17,7 @@ class PostFiberProvider extends ChangeNotifier {
   bool isLoading = true;
   bool isSettingLoaded = false;
   late String selectedFamilyId;
-  String? _selectedBlendId;
-  String get selectedBlendId => _selectedBlendId!;
-  set selectedBlendId(String value){
-    _selectedBlendId = value;
-  }
+
 
   List<FiberAppearance> fiberAppearanceList= [];
   List<Grades> fiberGradesList = [];
@@ -31,6 +27,13 @@ class PostFiberProvider extends ChangeNotifier {
   List<Certification> certificationList = [];
 
   late FiberSettings fiberSettings;
+
+  String? _selectedBlendId;
+  String get selectedBlendId => _selectedBlendId!;
+  set selectedBlendId(String value){
+    _selectedBlendId = value;
+  }
+
 
 
   getFiberSyncedData() {

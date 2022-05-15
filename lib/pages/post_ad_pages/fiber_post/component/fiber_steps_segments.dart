@@ -78,11 +78,11 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Visibility(
-          visible: widget.selectedTab == offering_type,
-          child: Row(
-            children: [
-              Expanded(
+        Row(
+          children: [
+            Visibility(
+              visible: false,
+              child: Expanded(
                 child: CupertinoSegmentedControl(
                   borderColor: Colors.grey.shade300,
                   selectedColor: darkBlueChip,
@@ -136,8 +136,8 @@ class _FiberStepsSegmentsState extends State<FiberStepsSegments> {
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         Expanded(
           child: PageView.builder(

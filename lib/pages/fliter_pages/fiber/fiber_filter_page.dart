@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/util.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
@@ -17,7 +17,7 @@ import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 
 class FiberFilterView extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -31,251 +31,24 @@ class FiberFilterView extends StatefulWidget {
 class _FiberFilterViewState extends State<FiberFilterView> {
   final TextEditingController _textEditingController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  GetSpecificationRequestModel? _getSpecificationRequestModel;
-
-  List<FiberBlends>? _fiberMaterials;
-  List<FiberAppearance>? _fiberAppearances;
-  List<Grades>? _fiberGrades;
-  List<Certification>? _fiberCertifications;
-  List<Packing>? _fiberPacking;
-  List<Countries>? _countries;
-  List<FiberSettings>? _listOfSettings;
-  List<int> _listOfMaterials = [];
-  List<int> _listOfGrades = [];
-  List<double> _listOfMic = [];
-  List<double> _listOfMos = [];
-  List<double> _listOfRd = [];
-  List<double> _listOfGpt = [];
-  List<int> _listOfAppearance = [];
-  List<int> _listOfCertification = [];
-  List<int> _listOfPacking = [];
-
-  double? micValue;
-  double? moisValue;
-  double? rdValue;
-  double? gptValue;
-
-  bool isListClear = false;
-
-  bool? showLength;
-  bool? showGrade;
-  bool? showMicronaire;
-  bool? showMoisture;
-  bool? showTrash;
-  bool? showRd;
-  bool? showGpt;
-  bool? showAppearance;
-  bool? showBrand;
-  bool? showOrigin;
-  bool? showCertification;
-  bool? showCountUnit;
-  bool? showDeliveryPeriod;
-  bool? showAvailableForMarket;
-  bool? showPriceTerms;
-  bool? showLotNumber;
-
-  double minMois = 0.0;
-  double minRd = 0.0;
-  double minTrash = 0.0;
-  double minMic = 0.0;
-  double minGpt = 0.0;
-  double maxMois = 0.0;
-  double maxRd = 0.0;
-  double maxTrash = 0.0;
-  double maxMic = 0.0;
-  double maxGpt = 0.0;
-
-  _querySetting(int id) {
-    AppDbInstance().getDbInstance()
-        .then((db) => db.fiberSettingDao.findFiberSettings(id).then((value) {
-      late bool isSettingInList;
-      late FiberSettings _fiberSettings;
-
-      if (!isListClear) {
-        _listOfSettings!.clear();
-        isListClear = false;
-      }
-      if (_listOfSettings!.isNotEmpty) {
-        for (var element in _listOfSettings!) {
-          _fiberSettings = value!;
-
-          if (element.fbsFiberFamilyIdfk ==
-              _fiberSettings.fbsFiberFamilyIdfk) {
-            isSettingInList = true;
-            break;
-          } else {
-            isSettingInList = false;
-          }
-        }
-
-        isSettingInList
-            ? _listOfSettings!.removeWhere((element) =>
-        element.fbsFiberFamilyIdfk ==
-            _fiberSettings.fbsFiberFamilyIdfk)
-        // ? listOfSettings.toSet().toList()
-            : _listOfSettings!.add(_fiberSettings);
-      } else {
-        _listOfSettings!.add(value!);
-      }
-      _minMaxConfiguration();
-      _showHideConfiguration();
-    }));
-  }
-
-  _minMaxConfiguration() {
-    for (var element in _listOfSettings!) {
-      _setMinMaxConfiguration(element);
-    }
-  }
-
-  _setMinMaxConfiguration(FiberSettings element) {
-    setState(() {
-      if (Utils.splitMin(element.micMinMax) > minMic) {
-        minMic = Utils.splitMin(element.micMinMax);
-      }
-      if (Utils.splitMax(element.micMinMax) > maxMic) {
-        maxMic = Utils.splitMax(element.micMinMax);
-      }
-      if (Utils.splitMin(element.moiMinMax) > minMois) {
-        minMois = Utils.splitMin(element.moiMinMax);
-      }
-      if (Utils.splitMax(element.moiMinMax) > maxMois) {
-        maxMois = Utils.splitMax(element.moiMinMax);
-      }
-      if (Utils.splitMin(element.rdMinMax) > minRd) {
-        minRd = Utils.splitMin(element.rdMinMax);
-      }
-      if (Utils.splitMax(element.rdMinMax) > maxRd) {
-        maxRd = Utils.splitMax(element.rdMinMax);
-      }
-      if (Utils.splitMin(element.gptMinMax) > minGpt) {
-        minGpt = Utils.splitMin(element.gptMinMax);
-      }
-      if (Utils.splitMax(element.gptMinMax) > maxGpt) {
-        maxGpt = Utils.splitMax(element.gptMinMax);
-      }
-      if (Utils.splitMin(element.trashMinMax) > minTrash) {
-        minTrash = Utils.splitMin(element.trashMinMax);
-      }
-      if (Utils.splitMax(element.trashMinMax) > maxTrash) {
-        maxTrash = Utils.splitMax(element.trashMinMax);
-      }
-    });
-  }
-
-  _showHideConfiguration() {
-    bool? tempShowGrade;
-    bool? tempShowMic;
-    bool? tempShowMos;
-    bool? tempShowRd;
-    bool? tempShowAppearance;
-    bool? tempShowOrigin;
-    bool? tempShowCertification;
-
-    if (_listOfSettings!.isNotEmpty) {
-      for (var element in _listOfSettings!) {
-        // setState(() {
-        tempShowGrade = tempShowGrade == null
-            ? Ui.showHide(element.showGrade)
-            : (showGrade! && Ui.showHide(element.showGrade) && tempShowGrade)
-            ? true
-            : false;
-
-        tempShowMic = tempShowMic == null
-            ? Ui.showHide(element.showMicronaire)
-            : (showMicronaire! &&
-            Ui.showHide(element.showMicronaire) &&
-            tempShowMic)
-            ? true
-            : false;
-
-        tempShowMos = tempShowMos == null
-            ? Ui.showHide(element.showMoisture)
-            : (showMoisture! &&
-            Ui.showHide(element.showMoisture) &&
-            tempShowMos)
-            ? true
-            : false;
-
-        tempShowRd = tempShowRd == null
-            ? Ui.showHide(element.showRd)
-            : (showRd! && Ui.showHide(element.showRd) && tempShowRd)
-            ? true
-            : false;
-
-        tempShowAppearance = tempShowAppearance == null
-            ? Ui.showHide(element.showAppearance)
-            : (showAppearance! &&
-            Ui.showHide(element.showAppearance) &&
-            tempShowAppearance)
-            ? true
-            : false;
-
-        tempShowOrigin = tempShowOrigin == null
-            ? Ui.showHide(element.showOrigin)
-            : (showOrigin! && Ui.showHide(element.showOrigin) && tempShowOrigin)
-            ? true
-            : false;
-
-        tempShowCertification = tempShowCertification == null
-            ? Ui.showHide(element.showCertification)
-            : (showCertification! &&
-            Ui.showHide(element.showCertification) &&
-            tempShowCertification)
-            ? true
-            : false;
-
-        // });
-      }
-
-      setState(() {
-        showGrade = tempShowGrade;
-        showMicronaire = tempShowMic;
-        showMoisture = tempShowMos;
-        showCertification = tempShowCertification;
-        showAppearance = tempShowAppearance;
-        showOrigin = tempShowOrigin;
-        showRd = tempShowRd;
-      });
-    } else {
-      setState(() {
-        showGrade = null;
-        showMicronaire = null;
-        showLength = null;
-        showMoisture = null;
-        showTrash = null;
-        showRd = null;
-        showGpt = null;
-        showAppearance = null;
-        showBrand = null;
-        showOrigin = null;
-        showCertification = null;
-        showCountUnit = null;
-        showDeliveryPeriod = null;
-        showAvailableForMarket = null;
-        showPriceTerms = null;
-        showLotNumber = null;
-      });
-    }
-  }
+  final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
 
   handleReadOnlyInputClick(context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          child: YearPicker(
-            selectedDate: DateTime(DateTime.now().year),
-            firstDate: DateTime(DateTime.now().year - 4),
-            lastDate: DateTime.now(),
-            onChanged: (val) {
-              _textEditingController.text = val.year.toString();
-              Navigator.pop(context);
-            },
-          ),
-        ));
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: YearPicker(
+                selectedDate: DateTime(DateTime.now().year),
+                firstDate: DateTime(DateTime.now().year - 4),
+                lastDate: DateTime.now(),
+                onChanged: (val) {
+                  _textEditingController.text = val.year.toString();
+                  Navigator.pop(context);
+                },
+              ),
+            ));
   }
 
   List<int> _filterList(List<int> list, int value) {
@@ -289,41 +62,19 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     return list.toSet().toList();
   }
 
-  _getSyncedFiberData() {
-    AppDbInstance().getDbInstance().then((value) async {
-      await value.fiberBlendsDao
-          .findFiberBlendWithNature(1)
-          .then((value) => setState(() => _fiberMaterials = value));
-      await value.gradesDao
-          .findGradeWithCatId(1)
-          .then((value) => setState(() => _fiberGrades = value));
-      await value.countriesDao
-          .findAllCountries()
-          .then((value) => setState(() => setState(() => _countries = value)));
-      await value.fiberAppearanceDoa
-          .findAllFiberAppearance()
-          .then((value) => setState(() => _fiberAppearances = value));
-      await value.certificationDao
-          .findCertificationWithCatId(1)
-          .then((value) => _fiberCertifications = value);
-      await value.packingDao
-          .findAllPacking()
-          .then((value) => setState(() => _fiberPacking = value));
-
-      await value.fiberSettingDao
-          .findFiberSettings(_fiberMaterials!.first.blnId!)
-          .then((value) => setState(() {
-        _listOfSettings = [value!];
-        _minMaxConfiguration();
-      }));
+  @override
+  void initState() {
+    super.initState();
+    _fiberSpecificationProvider.addListener(() {
+      updateUI();
+    });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _fiberSpecificationProvider.getFiberSyncDataForFilter();
     });
   }
 
-  @override
-  void initState() {
-    _getSpecificationRequestModel = GetSpecificationRequestModel();
-    _getSyncedFiberData();
-    super.initState();
+  updateUI() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -332,12 +83,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
         child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
-            body: (_countries != null &&
-                    _fiberAppearances != null &&
-                    _fiberCertifications != null &&
-                    _fiberGrades != null &&
-                    _fiberPacking != null &&
-                    _listOfSettings != null)
+            body: (!_fiberSpecificationProvider.isFilterPageLoading)
                 ? Container(
                     padding: EdgeInsets.only(left: 16.w, right: 16.w),
                     child: Column(
@@ -350,31 +96,106 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-
                                 Padding(
                                     padding: EdgeInsets.only(
-                                        left: 4.w,top:16.w,right: 4.w),
+                                        left: 4.w, top: 16.w, right: 4.w),
                                     child: const TitleTextWidget(
                                         title: 'Select specification')),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: FiberFamilyComponent(
+                                  child: Column(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                              height: 0.04 *
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .height,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 2.0),
+                                                child:
+                                                    SingleSelectTileRenewedWidget(
+                                                  spanCount: 2,
+                                                  selectedIndex: 0,
+                                                  listOfItems:
+                                                      _fiberSpecificationProvider
+                                                          .fiberFamily,
+                                                  callback:
+                                                      (FiberFamily value) {
+                                                        _fiberSpecificationProvider
+                                                            .filterBlendWidgetKey
+                                                            .currentState!
+                                                            .checkedIndex = -1;
+                                                    _fiberSpecificationProvider
+                                                        .onClickFamily(value);
+                                                  },
+                                                ),
+                                              )),
+                                          SizedBox(
+                                            height: 8.w,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 8.w,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: BlendsWithImageListWidget(
+                                             key: _fiberSpecificationProvider.filterBlendWidgetKey,
+                                              selectedItem: -1,
+                                              listItem:
+                                                  _fiberSpecificationProvider
+                                                      .fiberBlends,
+                                              onClickCallback: (index) {
+                                                _fiberSpecificationProvider
+                                                        .specificationRequestModel
+                                                        .spcFiberFamilyIdfk =
+                                                    _fiberSpecificationProvider
+                                                        .fiberBlends[index]
+                                                        .familyIdfk.toString();
+                                                _fiberSpecificationProvider
+                                                        .specificationRequestModel
+                                                        .fbBlendIdfk =
+                                                    _fiberSpecificationProvider
+                                                        .fiberBlends[index]
+                                                        .blnId!;
+                                                _fiberSpecificationProvider
+                                                    .querySetting(
+                                                        _fiberSpecificationProvider
+                                                            .fiberBlends[index]
+                                                            .blnId!);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ) /*FiberFamilyComponent(
                                       callback: (FiberBlends value) {
-                                    _querySetting(value.blnId!);
-                                    var natureId1 = value.familyIdfk;
-                                    var selectedNature = int.parse(natureId1!)-1;
-                                    _getSpecificationRequestModel!.natureId = selectedNature.toString();
-                                    _getSpecificationRequestModel!.fiberMaterialId = [value.blnId!];
-                                    _getSpecificationRequestModel!
-                                            .fiberMaterialId =
-                                        _filterList(
-                                            _listOfMaterials, (value).blnId!);
-                                  }),
+
+                                  })*/
+                                  ,
                                 ),
                                 //Show Grade
                                 Visibility(
-                                  visible: showGrade ?? true,
+                                  visible:
+                                      _fiberSpecificationProvider.showGrade ??
+                                          false,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -389,12 +210,17 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       SingleSelectTileWidget(
                                         selectedIndex: -1,
                                         spanCount: 3,
-                                        listOfItems: _fiberGrades!,
+                                        listOfItems: _fiberSpecificationProvider
+                                                .fiberGrades ??
+                                            [],
                                         callback: (Grades value) {
-                                          _getSpecificationRequestModel!
+                                          _fiberSpecificationProvider
+                                                  .specificationRequestModel
                                                   .gradeId =
                                               _filterList(
-                                                  _listOfGrades, value.grdId!);
+                                                  _fiberSpecificationProvider
+                                                      .listOfGrades,
+                                                  value.grdId!);
                                         },
                                       ),
                                       SizedBox(
@@ -406,7 +232,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 ),
 
                                 Visibility(
-                                  visible: showMicronaire ?? true,
+                                  visible: _fiberSpecificationProvider
+                                          .showMicronaire ??
+                                      true,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -414,8 +242,10 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       FilterRangeSlider(
                                         // minMaxRange: widget.syncFiberResponse.data.fiber
                                         //     .settings[0].micMinMax,
-                                        minValue: minMic,
-                                        maxValue: maxMic,
+                                        minValue:
+                                            _fiberSpecificationProvider.minMic,
+                                        maxValue:
+                                            _fiberSpecificationProvider.maxMic,
                                         hintTxt: "Micronaire (Mic)",
                                         valueCallback: (value) {},
                                         // minCallback: (value) {
@@ -434,14 +264,18 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 ),
 
                                 Visibility(
-                                    visible: showMoisture ?? true,
+                                    visible: _fiberSpecificationProvider
+                                            .showMoisture ??
+                                        true,
                                     child: Column(
                                       children: [
                                         FilterRangeSlider(
                                           // minMaxRange: widget.syncFiberResponse.data.fiber
                                           //     .settings[0].moiMinMax,
-                                          minValue: minMois,
-                                          maxValue: maxMois,
+                                          minValue: _fiberSpecificationProvider
+                                              .minMois,
+                                          maxValue: _fiberSpecificationProvider
+                                              .maxMois,
                                           hintTxt: "Moisture",
                                           // minCallback: (value) {
                                           //   minValueMosParam = value;
@@ -459,12 +293,15 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     )),
 
                                 Visibility(
-                                  visible: showRd ?? true,
+                                  visible: _fiberSpecificationProvider.showRd ??
+                                      true,
                                   child: Column(
                                     children: [
                                       FilterRangeSlider(
-                                        minValue: minRd,
-                                        maxValue: maxRd,
+                                        minValue:
+                                            _fiberSpecificationProvider.minRd,
+                                        maxValue:
+                                            _fiberSpecificationProvider.maxRd,
                                         hintTxt: "RD",
                                         // minCallback: (value) {},
                                         // maxCallback: (value) {},
@@ -479,7 +316,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 ),
 
                                 Visibility(
-                                    visible: showAppearance ?? true,
+                                    visible: _fiberSpecificationProvider
+                                            .showAppearance ??
+                                        true,
                                     child: Column(
                                       children: [
                                         Column(
@@ -497,13 +336,17 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                             SingleSelectTileWidget(
                                               selectedIndex: -1,
                                               spanCount: 2,
-                                              listOfItems: _fiberAppearances!,
+                                              listOfItems:
+                                                  _fiberSpecificationProvider
+                                                      .fiberAppearances!,
                                               callback:
                                                   (FiberAppearance value) {
-                                                _getSpecificationRequestModel!
+                                                _fiberSpecificationProvider
+                                                        .specificationRequestModel
                                                         .apperanceId =
                                                     _filterList(
-                                                        _listOfAppearance,
+                                                        _fiberSpecificationProvider
+                                                            .listOfAppearance,
                                                         value.aprId!);
                                               },
                                             ),
@@ -556,7 +399,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       ),
                                     ),
                                     Visibility(
-                                        visible: showOrigin ?? true,
+                                        visible: _fiberSpecificationProvider
+                                                .showOrigin ??
+                                            true,
                                         child: Expanded(
                                           child: Padding(
                                             padding:
@@ -597,7 +442,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                             fontFamily:
                                                                 'Metropolis'),
                                                       ),
-                                                      items: _countries!
+                                                      items: _fiberSpecificationProvider
+                                                          .countries
                                                           .map((value) =>
                                                               DropdownMenuItem(
                                                                 child: Text(
@@ -617,9 +463,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                         List<int> originList = [
                                                           value!.conId!
                                                         ];
-                                                        _getSpecificationRequestModel!
-                                                                .originId =
-                                                            originList;
+                                                        _fiberSpecificationProvider
+                                                            .specificationRequestModel
+                                                            .originId = originList;
                                                       },
                                                       // value: widget.syncFiberResponse.data.fiber.countries.first,
                                                       decoration:
@@ -656,7 +502,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                 const Divider(),
 
                                 Visibility(
-                                  visible: showCertification ?? true,
+                                  visible: _fiberSpecificationProvider
+                                          .showCertification ??
+                                      true,
                                   child: Column(
                                     children: [
                                       Column(
@@ -673,12 +521,16 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                           SingleSelectTileWidget(
                                             selectedIndex: -1,
                                             spanCount: 3,
-                                            listOfItems: _fiberCertifications!,
+                                            listOfItems:
+                                                _fiberSpecificationProvider
+                                                    .fiberCertifications!,
                                             callback: (Certification value) {
-                                              _getSpecificationRequestModel!
+                                              _fiberSpecificationProvider
+                                                      .specificationRequestModel
                                                       .certificationId =
                                                   _filterList(
-                                                      _listOfCertification,
+                                                      _fiberSpecificationProvider
+                                                          .listOfCertification,
                                                       value.cerId);
                                             },
                                           ),
@@ -703,12 +555,16 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                     SingleSelectTileWidget(
                                       selectedIndex: -1,
                                       spanCount: 3,
-                                      listOfItems: _fiberPacking!,
+                                      listOfItems: _fiberSpecificationProvider
+                                          .fiberPacking!,
                                       callback: (Packing value) {
-                                        _getSpecificationRequestModel!
+                                        _fiberSpecificationProvider
+                                                .specificationRequestModel
                                                 .packingId =
                                             _filterList(
-                                                _listOfPacking, value.pacId);
+                                                _fiberSpecificationProvider
+                                                    .listOfPacking,
+                                                value.pacId);
                                       },
                                     ),
                                   ],
@@ -730,7 +586,8 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                               child: ElevatedButtonWithoutIcon(
                                 callback: () {
                                   setState(() {
-                                    _getSpecificationRequestModel =
+                                    _fiberSpecificationProvider
+                                            .specificationRequestModel =
                                         GetSpecificationRequestModel();
                                   });
                                 },
@@ -745,57 +602,68 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                             Expanded(
                               child: ElevatedButtonWithoutIcon(
                                   callback: () {
-                                    if (micValue !=
+                                    if (_fiberSpecificationProvider.micValue !=
                                             null /*&&
                                 maxValueMicParam != null*/
                                         ) {
-                                      _listOfMic = [
-                                        micValue!
+                                      _fiberSpecificationProvider.listOfMic = [
+                                        _fiberSpecificationProvider.micValue!
                                             .toDouble() /*,
                                 maxValueMicParam!.toInt()*/
                                       ];
-                                      _getSpecificationRequestModel!
-                                          .micronaire = _listOfMic;
+                                      _fiberSpecificationProvider
+                                              .specificationRequestModel
+                                              .micronaire =
+                                          _fiberSpecificationProvider.listOfMic;
                                     }
 
-                                    if (moisValue !=
+                                    if (_fiberSpecificationProvider.moisValue !=
                                             null /* &&
                                 maxValueMosParam != null*/
                                         ) {
-                                      _listOfMos = [
-                                        moisValue! /*,
+                                      _fiberSpecificationProvider.listOfMos = [
+                                        _fiberSpecificationProvider
+                                            .moisValue! /*,
                                 maxValueMosParam!.toInt()*/
                                       ];
-                                      _getSpecificationRequestModel!.moisture =
-                                          _listOfMos;
+                                      _fiberSpecificationProvider
+                                              .specificationRequestModel
+                                              .moisture =
+                                          _fiberSpecificationProvider.listOfMos;
                                     }
 
-                                    if (rdValue !=
+                                    if (_fiberSpecificationProvider.rdValue !=
                                             null /* &&
                                 maxValueMosParam != null*/
                                         ) {
-                                      _listOfRd = [
-                                        rdValue! /*,
+                                      _fiberSpecificationProvider.listOfRd = [
+                                        _fiberSpecificationProvider
+                                            .rdValue! /*,
                                 maxValueMosParam!.toInt()*/
                                       ];
-                                      _getSpecificationRequestModel!.rd =
-                                          _listOfMos;
+                                      _fiberSpecificationProvider
+                                              .specificationRequestModel.rd =
+                                          _fiberSpecificationProvider.listOfMos;
                                     }
 
-                                    if (gptValue !=
+                                    if (_fiberSpecificationProvider.gptValue !=
                                             null /* &&
                                 maxValueMosParam != null*/
                                         ) {
-                                      _listOfGpt = [
-                                        gptValue! /*,
+                                      _fiberSpecificationProvider.listOfGpt = [
+                                        _fiberSpecificationProvider
+                                            .gptValue! /*,
                                 maxValueMosParam!.toInt()*/
                                       ];
-                                      _getSpecificationRequestModel!.gpt =
-                                          _listOfGpt;
+                                      _fiberSpecificationProvider
+                                              .specificationRequestModel.gpt =
+                                          _fiberSpecificationProvider.listOfGpt;
                                     }
 
                                     Navigator.pop(
-                                        context, _getSpecificationRequestModel);
+                                        context,
+                                        _fiberSpecificationProvider
+                                            .specificationRequestModel);
                                   },
                                   color: textColorBlue,
                                   btnText: 'Apply Filter'),
@@ -809,6 +677,4 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                     color: Colors.white,
                   )));
   }
-
-
 }
