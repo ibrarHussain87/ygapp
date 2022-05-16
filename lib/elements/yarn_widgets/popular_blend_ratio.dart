@@ -7,7 +7,7 @@ import '../../helper_utils/blend_text_form_field.dart';
 import '../../locators.dart';
 import '../../model/blend_model.dart';
 import '../../model/response/yarn_response/sync/yarn_sync_response.dart';
-import '../../providers/post_yarn_provider.dart';
+import '../../providers/yarn_providers/post_yarn_provider.dart';
 import '../title_text_widget.dart';
 
 class PopularBlendRatioWidget extends StatefulWidget {
