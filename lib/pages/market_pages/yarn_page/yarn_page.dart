@@ -15,9 +15,11 @@ import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_fu
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
+import '../../../elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/blend_model.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import 'yarn_components/family_blend_body.dart';
 
@@ -37,7 +39,7 @@ class YarnPageState extends State<YarnPage> {
   List<Countries> _countries = [];
   String? selectedFamilyId;
   List<Family> _familyList = [];
-  List<Blends> _blendsList = [];
+ // List<Blends> _blendsList = [];
   final _postYarnProvider = locator<PostYarnProvider>();
 
   @override
@@ -52,8 +54,9 @@ class YarnPageState extends State<YarnPage> {
     AppDbInstance().getYarnBlendData()
         .then((value) =>
         setState(() {
-          _blendsList = value;
-          _postYarnProvider.addYarnBlends = _blendsList;
+        //  _blendsList = value;
+          _postYarnProvider.setBlendList = value;
+          _postYarnProvider.addYarnBlends = value;
         }));
 
     AppDbInstance().getOriginsData()
@@ -83,17 +86,41 @@ class YarnPageState extends State<YarnPage> {
 
               }, (Family family) {
                 Navigator.of(context).pop();
-                if (_blendsList
+                if (_postYarnProvider.blendList
                     .where((element) =>
                 element.familyIdfk == family.famId.toString())
                     .toList()
                     .isNotEmpty) {
                   familyBlendsSheet(context, (int checkedIndex) {
 
-                  }, (value) {
+                  }, (Blends blends) {
+                    Navigator.of(context).pop();
+                    blendedSheet(
+                        context,
+                        _postYarnProvider.blendList
+                            .where((element) =>
+                        element.familyIdfk == family.famId.toString())
+                            .toList(),
+                        _postYarnProvider.blendList
+                            .where((element) =>
+                        element.familyIdfk == family.famId.toString())
+                            .toList().indexWhere((element) => element == blends), () {
+                      List<BlendModel> formations = [];
+                      for (var element in _postYarnProvider.blendList) {
+                        if (element.isSelected??false) {
+                          formations.add(BlendModel(id: element.blnId,
+                              relatedBlnId: null,
+                              ratio: element.blendRatio));
+                        }
+                      }
+                      //  _createRequestModel.ys_formation = formations;
+
+                      Navigator.pop(context);
+                      openYarnPostPage(context, widget.locality, yarn, value);
+                    });
 
                   },
-                      _blendsList.where((element) =>
+                      _postYarnProvider.blendList.where((element) =>
                       element.familyIdfk == family.famId.toString()).toList(),
                       -1, "Yarn");
                 }
