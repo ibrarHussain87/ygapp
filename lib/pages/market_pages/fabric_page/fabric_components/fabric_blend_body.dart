@@ -37,6 +37,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
       await value.fabricFamilyDao.findAllFabricFamily().then((value) {
         setState(() {
           _fabricFamily = value;
+          selectedFamilyId = _fabricFamily!.first.fabricFamilyId;
         });
       });
       await value.fabricBlendsDao.findAllFabricBlends().then((value) {

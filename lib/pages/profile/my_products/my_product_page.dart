@@ -7,6 +7,8 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/pages/profile/my_products/fabric/fabric_product_page.dart';
+import 'package:yg_app/pages/profile/my_products/stocklots/stocklot_product_page.dart';
 import 'package:yg_app/pages/profile/my_products/yarn/yarn_product_page.dart';
 
 import 'fiber/fiber_product_page.dart';
@@ -22,7 +24,8 @@ class _MyProductPageState extends State<MyProductPage>
   List<String> tabsList = [
     'Fiber',
     'Yarn',
-    // 'Product Weaving',
+    'Fabric',
+    'Stocklot'
     // 'Converstion (Leasing)',
     // 'Stock Lot'
   ];
@@ -215,6 +218,8 @@ class _MyProductPageState extends State<MyProductPage>
                             YarnProductPage(
                                 key: yarnProductPageState,
                                 specification: snapshots.data!.data!.yarn),
+                            FabricProductPage(specification: snapshots.data!.data!.fabric),
+                            StocklotProductPage(specification: snapshots.data!.data!.stocklot)
                             // StockLotPage()
                           ],
                           controller: tabController,

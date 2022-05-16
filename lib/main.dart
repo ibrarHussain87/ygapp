@@ -67,6 +67,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> locator<FamilyListProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<SyncProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<SpecificationLocalFilterProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<StocklotProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',

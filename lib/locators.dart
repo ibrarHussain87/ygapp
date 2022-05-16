@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
@@ -48,6 +49,12 @@ void setupLocators() {
   if(!locator.isRegistered<FamilyListProvider>()) {
     locator.registerLazySingleton<FamilyListProvider>(
           () => FamilyListProvider(),
+    );
+  }
+
+  if(!locator.isRegistered<StocklotProvider>()) {
+    locator.registerLazySingleton<StocklotProvider>(
+          () => StocklotProvider(),
     );
   }
 

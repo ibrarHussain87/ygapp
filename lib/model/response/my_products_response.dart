@@ -1,4 +1,6 @@
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 ///
@@ -198,10 +200,14 @@ class MyProductsData {
 
   List<Specification?>? fiber;
   List<YarnSpecification?>? yarn;
+  List<FabricSpecification?>? fabric;
+  List<StockLotSpecification?>? stocklot;
 
   MyProductsData({
     this.fiber,
     this.yarn,
+    this.fabric,
+    this.stocklot,
   });
   MyProductsData.fromJson(Map<String, dynamic> json) {
     if (json['fiber'] != null) {
@@ -219,6 +225,22 @@ class MyProductsData {
         arr0.add(YarnSpecification.fromJson(v));
       });
       yarn = arr0;
+    }
+    if (json['fabric'] != null) {
+      final v = json['fabric'];
+      final arr0 = <FabricSpecification>[];
+      v.forEach((v) {
+        arr0.add(FabricSpecification.fromJson(v));
+      });
+      fabric = arr0;
+    }
+    if (json['stocklot'] != null) {
+      final v = json['stocklot'];
+      final arr0 = <StockLotSpecification>[];
+      v.forEach((v) {
+        arr0.add(StockLotSpecification.fromJson(v));
+      });
+      stocklot = arr0;
     }
   }
   Map<String, dynamic> toJson() {
@@ -238,6 +260,22 @@ class MyProductsData {
         arr0.add(v!.toJson());
       });
       data['yarn'] = arr0;
+    }
+    if (fabric != null) {
+      final v = fabric;
+      final arr0 = [];
+      v!.forEach((v) {
+        arr0.add(v!.toJson());
+      });
+      data['fabric'] = arr0;
+    }
+    if (stocklot != null) {
+      final v = stocklot;
+      final arr0 = [];
+      v!.forEach((v) {
+        arr0.add(v!.toJson());
+      });
+      data['stocklot'] = arr0;
     }
     return data;
   }

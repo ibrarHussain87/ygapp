@@ -668,7 +668,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 16.w, left: 24.w, right: 24.w),
+                              top: 0.w, left: 16.w, right: 16.w),
                           child: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,6 +715,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               callback: () async {
                                 if (widget.selectedTab == offering_type) {
                                 if (validationAllPage()) {
+                                  _createRequestModel.spc_category_idfk = "2";
                                   widget.callback!(1);
                                 }
                                 } else {

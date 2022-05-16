@@ -136,7 +136,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                       callback: (value) {
                         setState(() {
                           isOffering = value.toString();
-                          _filteredSpecification = _specification!.where((element) => isOffering == value.toString()).toList();
+                          _filteredSpecification = _specification!.where((element) => element!.is_offering == value.toString()).toList();
                         });
                       },
                     ),
