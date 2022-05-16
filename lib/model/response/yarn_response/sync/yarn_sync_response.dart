@@ -1113,6 +1113,7 @@ class Blends {
   String? iconUnselected;
   String? blnIsActive;
   String? blnSortid;
+  String? bln_ratio_json;
   bool? isSelected = false;
   String? blendRatio = '';
 
@@ -1128,6 +1129,7 @@ class Blends {
         this.blnIsActive,
         this.isSelected,
         this.blendRatio,
+        this.bln_ratio_json,
         this.blnSortid});
 
   Blends.fromJson(Map<String, dynamic> json) {
@@ -1141,6 +1143,7 @@ class Blends {
     iconUnselected = json['icon_unselected'];
     blnIsActive = json['bln_is_active'];
     blnSortid = json['bln_sortid'];
+    bln_ratio_json = json['bln_ratio_json'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1155,6 +1158,7 @@ class Blends {
     data['icon_unselected'] = this.iconUnselected;
     data['bln_is_active'] = this.blnIsActive;
     data['bln_sortid'] = this.blnSortid;
+    data['bln_ratio_json'] = this.bln_ratio_json;
     return data;
   }
   @override
