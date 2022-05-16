@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';

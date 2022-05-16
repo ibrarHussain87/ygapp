@@ -3,10 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
-import 'package:yg_app/Providers/stocklot_provider.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -16,6 +14,7 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 import 'package:yg_app/pages/post_ad_pages/stocklot_page/component/stocklot_specification_body.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';

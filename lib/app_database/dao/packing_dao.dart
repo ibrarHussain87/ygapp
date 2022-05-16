@@ -10,6 +10,9 @@ abstract class PackingDao{
   @Query('SELECT * FROM packing where pacId = :id')
   Future<Packing?> findYarnPackingWithId(int id);
 
+  @Query('SELECT * FROM packing where pacCategoryId = :id')
+  Future<List<Packing>?> findYarnPackingWithCatId(int id);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertPacking(Packing packing);
 

@@ -6,7 +6,7 @@ import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.d
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/get_banner_response.dart';
 
-import '../model/response/yarn_response/yarn_specification_response.dart';
+import '../../model/response/yarn_response/yarn_specification_response.dart';
 
 class YarnSpecificationsProvider extends ChangeNotifier{
 

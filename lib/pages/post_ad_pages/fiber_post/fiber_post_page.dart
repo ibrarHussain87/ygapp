@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/component/fiber_steps_segments.dart';
-import 'package:yg_app/providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 
 class FiberPostPage extends StatefulWidget {
   final String? locality;
@@ -64,24 +65,31 @@ class _FiberPostPageState extends State<FiberPostPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10,),
-                        SingleSelectTileWidget(
-                            spanCount: 2,
-                            callback: (FiberFamily value) {
-                              _fiberPostProvider.createRequestModel.spc_nature_idfk = value.fiberFamilyId.toString();
-                              _fiberPostProvider.getFiberBlends(value.fiberFamilyId);
-                            },
-                            listOfItems: _fiberPostProvider.fiberFamilyList)
+                        SizedBox(
+                          height: 0.04 *
+                            MediaQuery.of(context)
+                            .size
+                            .height,
+                          child: SingleSelectTileRenewedWidget(
+                              spanCount: 2,
+                              callback: (FiberFamily value) {
+                                _fiberPostProvider.blendWidgetKey.currentState!.checkedIndex = -1;
+                                _fiberPostProvider.createRequestModel.spc_nature_idfk = value.fiberFamilyId.toString();
+                                _fiberPostProvider.getFiberBlends(value.fiberFamilyId);
+                              },
+                              listOfItems: _fiberPostProvider.fiberFamilyList),
+                        )
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
-                            padding: EdgeInsets.only(left: 8,right: 8,top: 15),
+                            padding: EdgeInsets.only(left: 8,right: 8,top: 8),
                             child: Divider()
                         ),
                         BlendsWithImageListWidget(
-                          // key: _catWithImageListState,
+                          key: _fiberPostProvider.blendWidgetKey,
                           listItem: _fiberPostProvider.fiberBlendsList,
                           onClickCallback: (index) {
                             _fiberPostProvider.createRequestModel.spc_fiber_family_idfk =

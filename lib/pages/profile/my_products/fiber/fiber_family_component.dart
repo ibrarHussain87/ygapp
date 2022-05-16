@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 
-import '../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
-import '../../../locators.dart';
+import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
+import '../../../../locators.dart';
 
 class FiberFamilyComponent extends StatefulWidget {
   final Function callback;
@@ -27,7 +27,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
     super.initState();
     _fiberSpecificationProvider.addListener(() {updateUI();});
     WidgetsBinding.instance?.addPostFrameCallback((_){
-      _fiberSpecificationProvider.getFiberDataFromDb();
+      _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }
 

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
@@ -15,17 +13,14 @@ import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/fliter_pages/fiber_filter_view.dart';
+import 'package:yg_app/pages/fliter_pages/fiber/fiber_filter_page.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_future_component.dart';
-import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/specification_local_filter_provider.dart';
 
-import '../../../app_database/app_database_instance.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
@@ -36,11 +31,12 @@ class FiberPage extends StatefulWidget {
   const FiberPage({Key? key, required this.locality}) : super(key: key);
 
   @override
-  _FiberPageState createState() => _FiberPageState();
+  FiberPageState createState() => FiberPageState();
 }
 
-class _FiberPageState extends State<FiberPage> {
+class FiberPageState extends State<FiberPage> {
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
+  final _specificationLocalFilterProvider = locator<SpecificationLocalFilterProvider>();
 
   @override
   void initState() {
@@ -48,12 +44,9 @@ class _FiberPageState extends State<FiberPage> {
     _fiberSpecificationProvider.addListener(() {
       updateUI();
     });
-    _fiberSpecificationProvider.getSpecificationRequestModel.isOffering = "1";
-    _fiberSpecificationProvider.getSpecificationRequestModel.categoryId = "1";
+    _fiberSpecificationProvider.specificationRequestModel.isOffering = "1";
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      _fiberSpecificationProvider.getFiberDataFromDb();
-      _fiberSpecificationProvider.getCountries();
-      await _fiberSpecificationProvider.getFibers(widget.locality);
+      _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }
 
@@ -134,8 +127,11 @@ class _FiberPageState extends State<FiberPage> {
                                                         .fiberFamily,
                                                 callback: (FiberFamily value) {
                                                   _fiberSpecificationProvider
-                                                      .getFiberBlends(
-                                                          value.fiberFamilyId);
+                                                      .blendWidgetKey
+                                                      .currentState!
+                                                      .checkedIndex = -1;
+                                                  _fiberSpecificationProvider
+                                                      .onClickFamily(value);
                                                 },
                                               ),
                                             )),
@@ -157,13 +153,21 @@ class _FiberPageState extends State<FiberPage> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
                                           child: BlendsWithImageListWidget(
+                                            key: _fiberSpecificationProvider
+                                                .blendWidgetKey,
                                             selectedItem: -1,
                                             listItem:
                                                 _fiberSpecificationProvider
                                                     .fiberBlends,
                                             onClickCallback: (index) {
                                               _fiberSpecificationProvider
-                                                  .fiberBlends[index];
+                                                      .specificationRequestModel
+                                                      .fbBlendIdfk =
+                                                  [_fiberSpecificationProvider
+                                                      .fiberBlends[index]
+                                                      .blnId!.toString()];
+                                              _fiberSpecificationProvider
+                                                  .notifyUI();
                                             },
                                           ),
                                         ),
@@ -176,14 +180,7 @@ class _FiberPageState extends State<FiberPage> {
                                 child: const LoadingListing(),
                                 height:
                                     0.065 * MediaQuery.of(context).size.height,
-                              ) /*FiberFamilyComponent(
-                          key: familySateFiber,
-                          callback: (FiberBlends value) {
-                            fiberListingState.currentState!.refreshListing(
-                                GetSpecificationRequestModel(fiberMaterialId: [value.blnId!]));
-                          },
-                        )*/
-                        ,
+                              ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
@@ -194,14 +191,9 @@ class _FiberPageState extends State<FiberPage> {
                               child: OfferingRequirementSegmentComponent(
                                 callback: (value) {
                                   _fiberSpecificationProvider
-                                      .getSpecificationRequestModel
+                                      .specificationRequestModel
                                       .isOffering = value.toString();
-                                  _fiberSpecificationProvider
-                                      .getFibers(widget.locality);
-                                  // fiberListingState.currentState!
-                                  //     .refreshListing(
-                                  //         GetSpecificationRequestModel(
-                                  //             isOffering: value.toString()));
+                                  _fiberSpecificationProvider.notifyUI();
                                 },
                               ),
                             ),
@@ -223,11 +215,7 @@ class _FiberPageState extends State<FiberPage> {
                                   maintainSize: false,
                                   maintainState: false,
                                   visible: widget.locality == international,
-                                  child: /*_fiberSpecificationProvider
-                                              .countries !=
-                                          null
-                                      ?*/
-                                      SearchChoices.single(
+                                  child: SearchChoices.single(
                                     displayClearIcon: false,
                                     isExpanded: true,
                                     hint: const TitleExtraSmallBoldTextWidget(
@@ -250,114 +238,16 @@ class _FiberPageState extends State<FiberPage> {
                                         .toList(),
                                     isCaseSensitiveSearch: false,
                                     onChanged: (Countries? value) {
-                                      // fiberListingState
-                                      //     .currentState!
-                                      //     .fiberListingBodyState
-                                      //     .currentState!
-                                      //     .filterListSearch(
-                                      //         value!.conName.toString());
+                                      _specificationLocalFilterProvider
+                                          .fiberFilterListSearch(
+                                              value!.conName.toString());
                                     },
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       color: textColorGrey,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                  )
-                                  /*: DropdownButtonFormField<String>(
-                                          isExpanded: true,
-                                          decoration:
-                                              const InputDecoration.collapsed(
-                                                  hintText: ''),
-                                          hint:
-                                              const TitleExtraSmallBoldTextWidget(
-                                                  title: 'Country'),
-                                          iconSize: 20,
-                                          items: [
-                                            DropdownMenuItem(
-                                              child: Text(
-                                                Utils.checkNullString(false),
-                                                textAlign: TextAlign.start,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                          onChanged: (newValue) {},
-                                          validator: (value) => value == null
-                                              ? 'Please select country name'
-                                              : null,
-                                        )*/
-
-//                                DropdownButtonFormField(
-//                                  isExpanded: true,
-//                                  decoration: const InputDecoration.collapsed(hintText: ''),
-//                                  hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-//                                  items: _countries
-//                                      .map((value) =>
-//                                      DropdownMenuItem(
-//                                        child: Text(
-//                                            value.conName ??
-//                                                Utils.checkNullString(false),
-//                                            textAlign: TextAlign
-//                                                .center),
-//                                        value: value,
-//                                      ))
-//                                      .toList(),
-//                                  onChanged: (Countries? value) {
-//                                    /*_createRequestModel!
-//                                      .spc_origin_idfk =
-//                                      value!.conId.toString();*/
-//                                    fiberListingState.currentState!.fiberListingBodyState.currentState!.filterListSearch(value!.conName.toString());
-//                                  },
-//                                  style: TextStyle(
-//                                      fontSize: 11.sp,
-//                                      color: textColorGrey),
-//                                ),
-                                  ),
-                            ),
-                            Visibility(
-                              visible: false,
-                              child: Center(
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () async {
-                                    // if (familySateFiber
-                                    //         .currentState!.fiberSyncResponse !=
-                                    //     null) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              FiberFilterView()),
-                                    ).then((value) {
-                                      //Getting result from filter
-                                      if (value != null) {
-                                        // fiberListingState.currentState!
-                                        //     .refreshListing(value);
-                                      }
-                                    });
-                                    // } else {
-                                    //   Fluttertoast.showToast(msg: "Please wait...");
-                                    // }
-                                  },
-                                  child: Card(
-                                      color: Colors.white,
-                                      elevation: 1,
-                                      child: Padding(
-                                          padding: EdgeInsets.all(4.w),
-                                          child: Icon(
-                                            Icons.filter_alt_sharp,
-                                            color: lightBlueTabs,
-                                            size: 16.w,
-                                          ))),
-                                ),
-                              ),
+                                  )),
                             ),
                           ],
                         ),
@@ -367,33 +257,43 @@ class _FiberPageState extends State<FiberPage> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top: 8.w),
-                    child: !_fiberSpecificationProvider.isSpecsLoaded
-                        ? _fiberSpecificationProvider
-                                .fiberSpecificationResponse!
-                                .data
-                                .specification
-                                .isNotEmpty
-                            ? FiberListingBody(
-                                specification: _fiberSpecificationProvider
-                                    .fiberSpecificationResponse!
-                                    .data
-                                    .specification,
-                              )
-                            : const Center(
+                      margin: EdgeInsets.only(top: 8.w),
+                      child: FutureBuilder<FiberSpecificationResponse>(
+                        future: _fiberSpecificationProvider
+                            .getFibers(widget.locality),
+                        builder: (BuildContext context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.data != null) {
+                            return Container(
+                              child: snapshot
+                                      .data!.data.specification.isNotEmpty
+                                  ? FiberListingBody(
+                                      specification: _fiberSpecificationProvider
+                                          .fiberSpecificationResponse!
+                                          .data
+                                          .specification,
+                                    )
+                                  : const Center(
+                                      child: TitleSmallTextWidget(
+                                        title: 'No Data Found',
+                                      ),
+                                    ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
                                 child: TitleSmallTextWidget(
-                                  title: 'No Data Found',
-                                ),
-                              )
-                        : const Center(
-                            child: SpinKitWave(
-                              color: Colors.green,
-                              size: 24.0,
-                            ) /*FiberListingComponent(
-                         locality: widget.locality)*/
-                            ,
-                          ),
-                  ),
+                                    title: snapshot.error.toString()));
+                          } else {
+                            return const Center(
+                              child: SpinKitWave(
+                                color: Colors.green,
+                                size: 24.0,
+                              ),
+                            );
+                          }
+                        },
+                      )),
                 ),
               ],
             ),

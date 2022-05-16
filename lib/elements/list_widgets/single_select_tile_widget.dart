@@ -18,10 +18,10 @@ class SingleSelectTileWidget extends StatefulWidget {
 
   const SingleSelectTileWidget(
       {Key? key,
-      required this.spanCount,
-      required this.callback,
-      required this.listOfItems,
-      this.selectedIndex,
+        required this.spanCount,
+        required this.callback,
+        required this.listOfItems,
+        this.selectedIndex,
       })
       : super(key: key);
 
@@ -104,39 +104,39 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                 children: [
 
                   Padding(
-                      padding: EdgeInsets.only(
-                          top: 5.w,
-                          left: 8.w,
-                          bottom: 5.w),
-                      child: ValueListenableBuilder(
-                          valueListenable: dropdownValue,
-                          builder: (context,String showDoublingMethod,child){
-                            return Padding(
-                              padding: EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TitleMediumTextWidget(
-                                    title:dropdownValue.value!=''?dropdownValue.value.toString():'Select',
-                                    color: Colors.black54,
-                                    weight: FontWeight.normal,
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                      ),
+                    padding: EdgeInsets.only(
+                        top: 5.w,
+                        left: 8.w,
+                        bottom: 5.w),
+                    child: ValueListenableBuilder(
+                        valueListenable: dropdownValue,
+                        builder: (context,String showDoublingMethod,child){
+                          return Padding(
+                            padding: EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleMediumTextWidget(
+                                  title:dropdownValue.value!=''?dropdownValue.value.toString():'Select',
+                                  color: Colors.black54,
+                                  weight: FontWeight.normal,
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                    specsSheet(context,(int checkedIndex){
-                      selectedIndex=checkedIndex;
-                    } , (value){
-                      dropdownValue.value=value.toString();
-                      widget.callback!(value);
-                      Navigator.of(context).pop();
-                    }, listOfItems,selectedIndex);
-     },
+                      specsSheet(context,(int checkedIndex){
+                        selectedIndex=checkedIndex;
+                      } , (value){
+                        dropdownValue.value=value.toString();
+                        widget.callback!(value);
+                        Navigator.of(context).pop();
+                      }, listOfItems,selectedIndex);
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(
                           top: 5, right: 6, bottom: 4),
@@ -200,16 +200,16 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           color: checked
               ? darkBlueChip
               : lightBlueChip,
-          borderRadius: BorderRadius.all(Radius.circular(24.w))),
+          borderRadius: BorderRadius.all(Radius.circular(25.w))),
       child: Row(
         children: [
           Visibility(
             visible: checked,
             child: Padding(
-              padding: const EdgeInsets.only(top: 4,bottom: 4,),
+              padding: const EdgeInsets.only(top: 6,bottom: 6,),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.check,color: darkBlueChip,),
+                child: Icon(Icons.check,color: darkBlueChip,size: 18,),
               ),
             ),
           ),

@@ -164,6 +164,8 @@ class StockLotSpecification {
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
+    int? matchedCount,
+    int? proposalCount,
   }) {
     _id = id;
     _userId = userId;
@@ -180,6 +182,8 @@ class StockLotSpecification {
     _isFeatured = isFeatured;
     _specDetails = specDetails;
     _pictures = pictures;
+    _matchedCount = matchedCount;
+    _proposalCount = proposalCount;
     _date = date;
   }
 
@@ -196,6 +200,9 @@ class StockLotSpecification {
     _isOffering = json['is_offering'];
     _locality = json['locality'];
     _isVerified = json['is_verified'];
+    _isFeatured = json['is_featured'];
+    _matchedCount = json['matched_count'];
+    _proposalCount = json['proposal_count'];
     _isFeatured = json['is_featured'];
     if (json['spec_details'] != null) {
       _specDetails = [];
@@ -225,6 +232,8 @@ class StockLotSpecification {
   String? _locality;
   String? _isVerified;
   String? _isFeatured;
+  int? _matchedCount;
+  int? _proposalCount;
   List<SpecDetails>? _specDetails;
   List<dynamic>? _pictures;
   String? _date;
@@ -246,6 +255,8 @@ class StockLotSpecification {
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
+    int? matchedCount,
+    int? proposalCount,
   }) =>
       StockLotSpecification(
         id: id ?? _id,
@@ -264,6 +275,8 @@ class StockLotSpecification {
         specDetails: specDetails ?? _specDetails,
         pictures: pictures ?? _pictures,
         date: date ?? _date,
+        matchedCount: matchedCount ?? _matchedCount,
+        proposalCount: proposalCount ?? _proposalCount,
       );
 
   int? get id => _id;
@@ -282,6 +295,8 @@ class StockLotSpecification {
   String? get availablity => _availablity;
 
   String? get priceTerm => _priceTerm;
+  int? get proposalCount => _proposalCount;
+  int? get matchedCount => _matchedCount;
 
   String? get isOffering => _isOffering;
 
@@ -312,6 +327,8 @@ class StockLotSpecification {
     map['locality'] = _locality;
     map['is_verified'] = _isVerified;
     map['is_featured'] = _isFeatured;
+    map['matched_count'] = _matchedCount;
+    map['proposal_count'] = _proposalCount;
     if (_specDetails != null) {
       map['spec_details'] = _specDetails?.map((v) => v.toJson()).toList();
     }

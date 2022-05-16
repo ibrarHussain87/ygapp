@@ -14,8 +14,9 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 
 class StockLotListItem extends StatefulWidget {
   final StockLotSpecification specification;
+  final bool? showCount;
 
-  const StockLotListItem({Key? key, required this.specification})
+  const StockLotListItem({Key? key, required this.specification, this.showCount})
       : super(key: key);
 
   @override
@@ -272,6 +273,174 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                 )
                               ],
                             ):Container(),
+                            Visibility(
+                              visible: widget.showCount ?? false,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.w,
+                                    right: 18.w,
+                                    top: 0.w,
+                                    bottom: 10.w),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                  1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Proposals',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400),
+                                                        ),
+                                                        Text(
+                                                          widget.specification
+                                                              .proposalCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                              greenButton,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             specification.proposalCount.toString(),
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              /*color: lightYellowContainer,*/
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                  1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Matches',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400),
+                                                        ),
+                                                        Text(
+                                                          widget.specification
+                                                              .matchedCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                              greenButton,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             '3',
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

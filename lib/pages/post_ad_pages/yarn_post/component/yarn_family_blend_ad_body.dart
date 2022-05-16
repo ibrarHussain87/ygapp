@@ -15,7 +15,7 @@ import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../../../elements/bottom_sheets/family_blends_bottom_sheet.dart';
 import '../../../../elements/bottom_sheets/family_bottom_sheet.dart';

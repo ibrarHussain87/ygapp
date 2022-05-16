@@ -10,7 +10,7 @@ import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/ui_utils.dart';
 import '../../locators.dart';

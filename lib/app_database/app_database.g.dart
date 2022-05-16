@@ -218,7 +218,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT, `lcIsActive` TEXT, PRIMARY KEY (`lcId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT, `pacIsActive` TEXT, PRIMARY KEY (`pacId`))');
+            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT, `pacCategoryId` TEXT, `pacIsActive` TEXT, PRIMARY KEY (`pacId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT, `payPriceTerrmIdfk` TEXT, `ptrCountryIdfk` TEXT, `payName` TEXT, `payIsActive` TEXT, `parentId` TEXT, PRIMARY KEY (`payId`))');
         await database.execute(
@@ -964,7 +964,7 @@ class _$FiberBlendsDao extends FiberBlendsDao {
   @override
   Future<List<FiberBlends>> findFiberBlendWithNature(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fiber_blends where nature_id = ?1',
+        'SELECT * FROM fiber_blends where familyIdfk = ?1',
         mapper: (Map<String, Object?> row) => FiberBlends(
             blnId: row['blnId'] as int?,
             blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
@@ -1669,6 +1669,7 @@ class _$PackingDao extends PackingDao {
             (Packing item) => <String, Object?>{
                   'pacId': item.pacId,
                   'pacName': item.pacName,
+                  'pacCategoryId': item.pacCategoryId,
                   'pacIsActive': item.pacIsActive
                 });
 
@@ -1686,6 +1687,7 @@ class _$PackingDao extends PackingDao {
         mapper: (Map<String, Object?> row) => Packing(
             pacId: row['pacId'] as int,
             pacName: row['pacName'] as String?,
+            pacCategoryId: row['pacCategoryId'] as String?,
             pacIsActive: row['pacIsActive'] as String?));
   }
 
@@ -1695,6 +1697,19 @@ class _$PackingDao extends PackingDao {
         mapper: (Map<String, Object?> row) => Packing(
             pacId: row['pacId'] as int,
             pacName: row['pacName'] as String?,
+            pacCategoryId: row['pacCategoryId'] as String?,
+            pacIsActive: row['pacIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Packing>?> findYarnPackingWithCatId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM packing where pacCategoryId = ?1',
+        mapper: (Map<String, Object?> row) => Packing(
+            pacId: row['pacId'] as int,
+            pacName: row['pacName'] as String?,
+            pacCategoryId: row['pacCategoryId'] as String?,
             pacIsActive: row['pacIsActive'] as String?),
         arguments: [id]);
   }

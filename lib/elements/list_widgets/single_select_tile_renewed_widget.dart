@@ -14,10 +14,10 @@ class SingleSelectTileRenewedWidget extends StatefulWidget {
 
   const SingleSelectTileRenewedWidget(
       {Key? key,
-      required this.spanCount,
-      required this.callback,
-      required this.listOfItems,
-      this.selectedIndex,
+        required this.spanCount,
+        required this.callback,
+        required this.listOfItems,
+        this.selectedIndex,
       })
       : super(key: key);
 

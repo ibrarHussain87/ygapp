@@ -24,7 +24,7 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../elements/decoration_widgets.dart';
@@ -668,7 +668,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 16.w, left: 24.w, right: 24.w),
+                              top: 0.w, left: 16.w, right: 16.w),
                           child: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,6 +715,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               callback: () async {
                                 if (widget.selectedTab == offering_type) {
                                 if (validationAllPage()) {
+                                  _createRequestModel.spc_category_idfk = "2";
                                   widget.callback!(1);
                                 }
                                 } else {

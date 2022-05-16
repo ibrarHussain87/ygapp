@@ -11,7 +11,7 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_family_component.dart';
+import 'package:yg_app/pages/profile/my_products/fiber/fiber_family_component.dart';
 
 class FiberProductPage extends StatefulWidget {
   final List<Specification?>? specification;
@@ -136,7 +136,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                       callback: (value) {
                         setState(() {
                           isOffering = value.toString();
-                          _filteredSpecification = _specification!.where((element) => isOffering == value.toString()).toList();
+                          _filteredSpecification = _specification!.where((element) => element!.is_offering == value.toString()).toList();
                         });
                       },
                     ),
