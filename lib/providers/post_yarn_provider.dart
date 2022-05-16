@@ -5,6 +5,7 @@ class PostYarnProvider extends ChangeNotifier{
 
   List<dynamic> selectedBlends = [];
   List<TextEditingController> textFieldControllers = [];
+  List<TextEditingController> textFieldControllersPopular = [];
 
 
   bool? _isBlendSelected;

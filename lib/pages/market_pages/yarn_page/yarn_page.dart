@@ -97,9 +97,11 @@ class YarnPageState extends State<YarnPage> {
 
                   }, (Blends blends) {
                     Navigator.of(context).pop();
+                    _postYarnProvider.resetData();
+                    _postYarnProvider.textFieldControllers.clear();
                     blendedSheet(
                         context,
-                        _postYarnProvider.blendList
+                        _postYarnProvider.blendList.toList()
                             .where((element) =>
                         element.familyIdfk == family.famId.toString())
                             .toList(),
@@ -108,14 +110,14 @@ class YarnPageState extends State<YarnPage> {
                         element.familyIdfk == family.famId.toString())
                             .toList().indexWhere((element) => element == blends), () {
                       List<BlendModel> formations = [];
-                      for (var element in _postYarnProvider.blendList) {
+                      for (var element in _postYarnProvider.selectedBlends) {
                         if (element.isSelected??false) {
                           formations.add(BlendModel(id: element.blnId,
                               relatedBlnId: null,
                               ratio: element.blendRatio));
                         }
                       }
-                      Logger().e(formations.toString()+formations.length.toString());
+                      Logger().e((formations.first).id.toString()+formations.length.toString());
                       //  _createRequestModel.ys_formation = formations;
 
                       Navigator.pop(context);

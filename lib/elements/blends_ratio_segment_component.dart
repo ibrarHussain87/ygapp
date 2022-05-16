@@ -42,6 +42,7 @@ class BlendsRatioSegmentComponentState
       child:
       CustomSlidingSegmentedControl<int>(
         initialValue: selectedValue,
+        isStretch: true,
         children: {
           1: Container(
             padding: EdgeInsets.all(5.w),
@@ -63,7 +64,7 @@ class BlendsRatioSegmentComponentState
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 11.sp,
-                color: selectedValue == 1
+                color: selectedValue == 2
                     ? Colors.white
                     : textColorGrey,
               ),
@@ -76,7 +77,7 @@ class BlendsRatioSegmentComponentState
           borderRadius: BorderRadius.circular(8),
         ),
         thumbDecoration: BoxDecoration(
-          color: lightBlueTabs,
+          color: darkBlueChip,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
