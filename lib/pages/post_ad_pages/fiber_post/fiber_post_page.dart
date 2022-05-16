@@ -73,6 +73,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                           child: SingleSelectTileRenewedWidget(
                               spanCount: 2,
                               callback: (FiberFamily value) {
+                                _fiberPostProvider.blendWidgetKey.currentState!.checkedIndex = -1;
                                 _fiberPostProvider.createRequestModel.spc_nature_idfk = value.fiberFamilyId.toString();
                                 _fiberPostProvider.getFiberBlends(value.fiberFamilyId);
                               },
@@ -88,7 +89,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                             child: Divider()
                         ),
                         BlendsWithImageListWidget(
-                          // key: _catWithImageListState,
+                          key: _fiberPostProvider.blendWidgetKey,
                           listItem: _fiberPostProvider.fiberBlendsList,
                           onClickCallback: (index) {
                             _fiberPostProvider.createRequestModel.spc_fiber_family_idfk =

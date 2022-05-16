@@ -20,7 +20,7 @@ class GetSpecificationRequestModel {
   List<int>? doublingMethodId;
 
   List<int>? gradeId;
-  int? fbBlendIdfk;
+  List<String>? fbBlendIdfk;
   List<int>? originId;
   List<int>? apperanceId;
   List<int>? apperanceYarnId;

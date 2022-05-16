@@ -171,9 +171,9 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                 _fiberSpecificationProvider
                                                         .specificationRequestModel
                                                         .fbBlendIdfk =
-                                                    _fiberSpecificationProvider
+                                                    [_fiberSpecificationProvider
                                                         .fiberBlends[index]
-                                                        .blnId!;
+                                                        .blnId!.toString()];
                                                 _fiberSpecificationProvider
                                                     .querySetting(
                                                         _fiberSpecificationProvider

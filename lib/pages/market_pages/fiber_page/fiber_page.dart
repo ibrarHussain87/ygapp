@@ -163,9 +163,9 @@ class FiberPageState extends State<FiberPage> {
                                               _fiberSpecificationProvider
                                                       .specificationRequestModel
                                                       .fbBlendIdfk =
-                                                  _fiberSpecificationProvider
+                                                  [_fiberSpecificationProvider
                                                       .fiberBlends[index]
-                                                      .blnId!;
+                                                      .blnId!.toString()];
                                               _fiberSpecificationProvider
                                                   .notifyUI();
                                             },

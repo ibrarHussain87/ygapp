@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
@@ -18,6 +19,8 @@ class PostFiberProvider extends ChangeNotifier {
   bool isSettingLoaded = false;
   late String selectedFamilyId;
 
+  final GlobalKey<BlendsWithImageListWidgetState> blendWidgetKey = GlobalKey();
+  final GlobalKey<BlendsWithImageListWidgetState> blendListWidgetKey = GlobalKey();
 
   List<FiberAppearance> fiberAppearanceList= [];
   List<Grades> fiberGradesList = [];

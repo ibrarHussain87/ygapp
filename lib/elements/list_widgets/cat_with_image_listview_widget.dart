@@ -107,7 +107,7 @@ class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               NetworkImageIconWidget(
-                imageUrl: getImageUrl(checked,castingCheckPos,index)
+                  imageUrl: getImageUrl(checked,castingCheckPos,index)
               ),
               SizedBox(
                 height: 2.h,
