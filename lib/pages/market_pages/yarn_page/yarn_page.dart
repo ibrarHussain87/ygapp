@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
@@ -78,6 +79,7 @@ class YarnPageState extends State<YarnPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade100,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -113,6 +115,7 @@ class YarnPageState extends State<YarnPage> {
                               ratio: element.blendRatio));
                         }
                       }
+                      Logger().e(formations.toString()+formations.length.toString());
                       //  _createRequestModel.ys_formation = formations;
 
                       Navigator.pop(context);
