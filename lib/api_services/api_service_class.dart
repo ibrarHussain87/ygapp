@@ -36,6 +36,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/common_response_models/countries_response.dart';
+import '../model/response/common_response_models/pre_config_model.dart';
 import '../model/response/create_stocklot_response.dart';
 import '../model/response/fabric_response/fabric_update_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -70,6 +71,29 @@ class ApiService {
   static const String UPDATE_SPECIFICATION = "/update-specification";
 
   static const String COUNTRY_END_POINT = "/get-countries";
+  static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
+
+  static Future<PreConfigResponse> preConfig(String countryID) async {
+    try {
+      var params = {
+        'country_id':countryID,
+      };
+      String url = BASE_API_URL + PRE_CONFIG_END_POINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body:params);
+      return PreConfigResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong");
+      }
+    }
+  }
 
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {

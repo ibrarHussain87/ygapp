@@ -10,12 +10,15 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:logger/logger.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/elements/circle_icon_widget.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 import '../../../api_services/api_service_class.dart';
 import '../../../app_database/app_database_instance.dart';
+import '../../../elements/custom_header.dart';
 import '../../../elements/decoration_widgets.dart';
+import '../../../elements/network_icon_widget.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
@@ -24,7 +27,9 @@ import '../../../helper_utils/shared_pref_util.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
+import '../../../model/response/common_response_models/countries_response.dart';
 import '../../main_page.dart';
+import 'country_search_page.dart';
 
 class PersonalInfoComponent extends StatefulWidget {
   final Function? callback;
@@ -66,14 +71,12 @@ class PersonalInfoComponentState
 
   FirebaseAuth auth = FirebaseAuth.instance;
   String verificationID = "";
-
-  // ..text = "123456";
-
-  // ignore: close_sinks
-
   bool hasError = false;
   String currentText = "";
 
+  ValueNotifier<Countries?>? _notifierCountry;
+  List<Countries> countriesList = [];
+  String? code;
   @override
   bool get wantKeepAlive => true;
 
@@ -85,6 +88,14 @@ class PersonalInfoComponentState
   }
   @override
   void initState() {
+    AppDbInstance().getDbInstance().then((value) => {
+      value.countriesDao.findAllCountries().then((value) {
+        setState(() {
+          countriesList = value;
+        });
+      })
+    });
+
     super.initState();
   }
 
@@ -98,46 +109,16 @@ class PersonalInfoComponentState
   Widget build(BuildContext context) {
     super.build(context);
     _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
+    _notifierCountry=ValueNotifier(_signupRequestModel?.country);
+    code=_signupRequestModel?.country?.countryPhoneCode;
     if (kDebugMode) {
-      print("Country"+_signupRequestModel!.countryId.toString());
+      print("Country Id"+_signupRequestModel!.countryId.toString());
+      print("Country "+_signupRequestModel!.country.toString());
     }
     return  Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[appBarColor2,appBarColor1])),
-        ),
-
-        /*leading: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                        padding: EdgeInsets.all(12.w),
-                        child: Card(
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 4.w),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                                size: 12.w,
-                              )),
-                        )),
-                  ),*/
-        title: Text('Registration',
-            style: TextStyle(
-                fontSize: 16.0.w,
-                color: Colors.white,
-                fontWeight: FontWeight.w400)),
-      ),
+      appBar: appBar(context,"Registration"),
 //      key: scaffoldKey,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,14 +197,13 @@ class PersonalInfoComponentState
                                               side: BorderSide(
                                                   color: Colors.transparent)))),
                                   onPressed: () {
+
                                     FocusScope.of(context).unfocus();
                                     if (validateAndSave()) {
                                       if (_signupRequestModel
                                           ?.telephoneNumber !=
                                           null) {
-                                        if (kDebugMode) {
-                                          print("Signup Model"+_signupRequestModel!.countryId.toString());
-                                        }
+
                                         print("Signup Model"+_signupRequestModel!.company.toString());
                                         print("Signup Model"+_signupRequestModel!.email.toString());
                                         print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
@@ -250,73 +230,157 @@ class PersonalInfoComponentState
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IntlPhoneField(
-                decoration: textFieldProfile(
-                    '',telephoneNumberLabel),
-                initialCountryCode:_signupRequestModel?.countryId ?? 'US',
-                disableLengthCheck: false,
-                onChanged: (phone){
-                  Utils.validateMobile(phone.number);
-                },
-                onSaved: (input) =>
-                _signupRequestModel!.telephoneNumber = input?.completeNumber,
-                validator: (input) {
-                  if (input == null) {
-                    return "Please enter number";
-                  }
-                  return null;
-                },
-              ),
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  onChanged: (input){
-//                    Utils.validateMobile(input);
+//        Visibility(
+//          visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
+//          child: Padding(
+//            padding: EdgeInsets.only(
+//                top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: [
+//                IntlPhoneField(
+//                  decoration: textFieldProfile(
+//                      '',telephoneNumberLabel),
+//                  initialCountryCode:_signupRequestModel?.countryISO ?? 'US',
+//                  disableLengthCheck: true,
+//
+//                  onChanged: (phone){
+//                    Utils.validateMobile(phone.number);
 //                  },
 //                  onSaved: (input) =>
-//                  _signupRequestModel.telephoneNumber = input!,
+//                  _signupRequestModel!.telephoneNumber = input?.completeNumber,
 //                  validator: (input) {
-//                    if (input == null || input.isEmpty) {
+//                    if (input == null) {
 //                      return "Please enter number";
 //                    }
 //                    return null;
 //                  },
-//                  decoration: textFieldProfile(
-//                      '',telephoneNumberLabel)),
-            ],
+//                ),
+//              ],
+//            ),
+//          ),
+//        ),
+
+        Visibility(
+          visible:_signupRequestModel?.config.toString()=="phone_number"?false:true,
+          child: Padding(
+               padding: EdgeInsets.only(
+                top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    cursorColor: Colors.black,
+                    onSaved: (input) => _signupRequestModel!.email = input!,
+                    validator: (input) {
+                      if (input == null ||
+                          input.isEmpty ||
+                          !input.isValidEmail()) {
+                        return "Please check your email";
+                      }
+                      return null;
+                    },
+                    decoration: textFieldProfile(
+                        '',emailLabel)),
+              ],
+            ),
           ),
         ),
 
-//        Padding(
-//             padding: EdgeInsets.only(
-//              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: [
-//
-//              TextFormField(
-//                  keyboardType: TextInputType.emailAddress,
-//                  cursorColor: Colors.black,
-//                  onSaved: (input) => _signupRequestModel!.email = input!,
-//                  validator: (input) {
-//                    if (input == null ||
-//                        input.isEmpty ||
-//                        !input.isValidEmail()) {
-//                      return "Please check your email";
-//                    }
-//                    return null;
+        Visibility(
+          visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
+          child: Padding(
+               padding: EdgeInsets.only(
+                top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                TextFormField(
+                  keyboardType: TextInputType.phone,
+                  cursorColor: Colors.black,
+                  onSaved: (input) => _signupRequestModel!.telephoneNumber = input!,
+//                  onChanged: (phone){
+//                    Utils.validateMobile(phone);
 //                  },
-//                  decoration: textFieldProfile(
-//                      '',emailLabel)),
-//            ],
-//          ),
-//        ),
+                  validator: (input) {
+                    if (input == null ||
+                        input.isEmpty ||
+                        !input.isValidNumber()) {
+                      return "Please check your phone number";
+                    }
+                    return null;
+                  },
+                  decoration:InputDecoration(
+                    contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Mobile Number",style: TextStyle(color: formFieldLabel),),
+                        const Text("*", style: TextStyle(color: Colors.red)),
+                      ],
+                    ),
+                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+                    floatingLabelAlignment: FloatingLabelAlignment.start,
+                    hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                    border: OutlineInputBorder(
+                        borderRadius:const BorderRadius.all(
+                          Radius.circular(5.0),
+                        ),
+                        borderSide: BorderSide(color: newColorGrey)
+                    ),
+
+                    prefixIcon:  GestureDetector(
+                      onTap:()=>{
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
+                        _signupRequestModel?.country=country,
+//                        _notifierCountry=ValueNotifier(_signupRequestModel?.country),
+                        code=_signupRequestModel?.country?.countryPhoneCode,
+                      _notifierCountry?.value=_signupRequestModel?.country,
+                      },
+                      ),
+                      ),
+                      )
+                      },
+                      child: ValueListenableBuilder(
+                        valueListenable: _notifierCountry!,
+                        builder: (context, Countries? value, child){
+                          return  Container(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Icon(Icons.arrow_drop_down,color: Colors.black87,),
+                                CircleImageIconWidget(
+                                    imageUrl:
+                                    _notifierCountry?.value?.medium.toString() ?? ""),
+                                const SizedBox(width: 8.0,),
+                                Text(
+                                  _notifierCountry?.value?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                ),
+                )
+              ],
+            ),
+          ),
+        ),
+
+
+
 
 
         Padding(
@@ -364,16 +428,6 @@ class PersonalInfoComponentState
                       borderSide: BorderSide(color: newColorGrey)
                   ),
                   hintText: "Enter Here",
-//                  prefixIcon: IconButton(
-//                    onPressed: () {},
-//                    icon: SvgPicture.asset(
-//                      'assets/ic_password.svg',
-//                      color: iconColor,
-//                      fit: BoxFit.scaleDown,
-//                      height: 16,
-//                      width: 16,
-//                    ),
-//                  ),
                   suffixIcon: GestureDetector(
                     behavior:
                     HitTestBehavior.opaque,
@@ -444,16 +498,6 @@ class PersonalInfoComponentState
                       borderSide: BorderSide(color: newColorGrey)
                   ),
                   hintText: "Enter Here",
-//                  prefixIcon: IconButton(
-//                    onPressed: () {},
-//                    icon: SvgPicture.asset(
-//                      'assets/ic_confirm_password.svg',
-//                      color: iconColor,
-//                      fit: BoxFit.scaleDown,
-//                      height: 16,
-//                      width: 16,
-//                    ),
-//                  ),
                   suffixIcon: GestureDetector(
                     behavior:
                     HitTestBehavior.opaque,
@@ -545,7 +589,7 @@ class PersonalInfoComponentState
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
     auth.verifyPhoneNumber(
-      phoneNumber: _signupRequestModel!.telephoneNumber!,
+      phoneNumber: "+$code"+_signupRequestModel!.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
           _signUpCall();
@@ -718,27 +762,7 @@ class PersonalInfoComponentState
                 const SizedBox(
                   height: 8,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     const Text(
-                //       "Didn't receive the code? ",
-                //       style: TextStyle(color: Colors.black54, fontSize: 15),
-                //     ),
-                //     TextButton(
-                //         onPressed: () => loginWithPhone,
-                //         child: const Text(
-                //           "RESEND",
-                //           style: TextStyle(
-                //               color: Color(0xFF91D3B3),
-                //               fontWeight: FontWeight.bold,
-                //               fontSize: 16),
-                //         ))
-                //   ],
-                // ),
-                // const SizedBox(
-                //   height: 8,
-                // ),
+
                 Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 16),
@@ -791,40 +815,7 @@ class PersonalInfoComponentState
               ]));
         });
 
-    // return showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: Text('Enter your OTP'),
-    //         content: Padding(
-    //           padding: const EdgeInsets.all(8.0),
-    //           child: TextFormField(
-    //             decoration: const InputDecoration(
-    //               border:  OutlineInputBorder(
-    //                 borderRadius: BorderRadius.all(
-    //                   Radius.circular(30),
-    //                 ),
-    //               ),
-    //             ),
-    //             onChanged: (value) {
-    //               otp = value;
-    //             },
-    //           ),
-    //         ),
-    //         contentPadding: EdgeInsets.all(10.0),
-    //         actions: <Widget>[
-    //           FlatButton(
-    //             onPressed: () {
-    //               verifyOTP(otp);
-    //             },
-    //             child: Text(
-    //               'Submit',
-    //             ),
-    //           ),
-    //         ],
-    //       );
-    //     });
+
   }
 
   void verifyOTP(
@@ -898,6 +889,7 @@ class PersonalInfoComponentState
     });
   }
 
+
 }
 
 
@@ -906,6 +898,13 @@ extension EmailValidator on String {
     return RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
+  }
+}
+
+extension PhoneValidator on String {
+  bool isValidNumber() {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    return RegExp(pattern).hasMatch(this);
   }
 }
 
