@@ -216,6 +216,8 @@ class YarnSpecification {
   String? yarn_country;
   String? date;
   String? port;
+  int? matchedCount;
+  int? proposalCount;
   List<dynamic>? pictures;
   List<CertificationModel>? certifications;
 
@@ -291,6 +293,8 @@ class YarnSpecification {
     ys_rkm = json['ys_rkm'];
     port = json['port'];
     date = json['date'];
+    matchedCount = json['matched_count'];
+    proposalCount = json['proposal_count'];
     yarnColorTreatmentMethod = json['yarn_color_treatment_method'];
     pictures = List.castFrom<dynamic, dynamic>(json['pictures']);
     if (json['certifications'] != null) {
@@ -370,6 +374,8 @@ class YarnSpecification {
     _data['ys_hairness'] = ys_hairness;
     _data['ys_rkm'] = ys_rkm;
     _data['port'] = port;
+    _data['proposal_count'] = proposalCount;
+    _data['matched_count'] = matchedCount;
     _data['date'] = date;
     return _data;
   }

@@ -134,6 +134,8 @@ class Specification {
   String? isFeatured;
   String? description;
   String? date;
+  int? matchedCount;
+  int? proposalCount;
   List<Pictures>? pictures;
   List<CertificationModel>? certifications;
 
@@ -174,6 +176,8 @@ class Specification {
     isVerified = json['is_verified'];
     description = json['description'];
     date = json['date'];
+    matchedCount = json['matched_count'];
+    proposalCount = json['proposal_count'];
 
     if (json['formation'] != null) {
       formation = <Formation>[];
@@ -228,6 +232,8 @@ class Specification {
     _data['is_verified'] = isVerified;
     _data['description'] = description;
     _data['date'] = date;
+    _data['proposal_count'] = proposalCount;
+    _data['matched_count'] = matchedCount;
     if (this.formation != null) {
       _data['formation'] = this.formation!.map((v) => v.toJson()).toList();
     }

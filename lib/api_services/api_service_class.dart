@@ -375,7 +375,7 @@ class ApiService {
           formData.files.add(MapEntry('fpc_picture[]', file));
         }
 
-
+        logger.e(createRequestModel.toJson());
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(

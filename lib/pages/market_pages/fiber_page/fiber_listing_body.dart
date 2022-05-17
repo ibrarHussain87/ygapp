@@ -48,6 +48,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
           child: buildFiberRenewedAgainWidget(
             _specificationLocalFilterProvider.fiberSpecificationFiltered![index],
             context,
+            showCount: false
           )),
     );
   }

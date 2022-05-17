@@ -24,7 +24,7 @@ class CreateRequestModel {
   String? spc_brand_idfk;
   String? spc_no_of_days;
   String? spc_active;
-  List<BlendModel>? formation;
+  List<Map<String,String>>? formation;
 
   //Packing Details keys
   String? is_offering;
