@@ -244,7 +244,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
                                           title: widget.specification != null
-                                              ? '${widget.specification!.material}'
+                                              ? '${widget.specification!.formation!.isNotEmpty ? widget.specification!.formation!.first.blendName : ''}'
                                               : widget.yarnSpecification != null
                                                   ? setFamilyData(
                                                       widget.yarnSpecification!)
@@ -252,7 +252,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                                           is StockLotSpecification
                                                       ? (widget.specObj
                                                               as StockLotSpecification)
-                                                          .category
+                                                          .stocklotParentFamilyName
                                                       : Utils.setFabricFamilyData(
                                                           (widget.specObj
                                                               as FabricSpecification)),
@@ -739,56 +739,48 @@ class _DetailPageState extends State<DetailRenewedPage> {
       });
     }
   }
+
   stockLotPrice() {
     return Text.rich(
       TextSpan(
-          children: (widget.specObj
-          as StockLotSpecification)
-              .specDetails!
-              .length >
-              1
-              ? Utils.stockLotPriceRange(
-              widget.specObj
-              as StockLotSpecification)
-              : [
-            // TextSpan(
-            //   text:
-            //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-            //   style: TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 12.sp,
-            //       // /*fontFamily: 'Metropolis',*/,
-            //       fontWeight: FontWeight.w500),
-            // ),
-            TextSpan(
-              text: (widget.specObj
-              as StockLotSpecification)
-                  .specDetails!
-                  .first
-                  .price /*'1000'*/,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.sp,
-                  // /*fontFamily: 'Metropolis',*/,
-                  fontWeight:
-                  FontWeight.w600),
-            ),
-            TextSpan(
-              text:
-              "/${(widget.specObj as StockLotSpecification).specDetails!.first.priceUnit != null ? (widget.specObj as StockLotSpecification).specDetails!.first.priceUnit!.split(" ").first : ""}",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.sp,
-                  // /*fontFamily: 'Metropolis',*/,
-                  fontWeight:
-                  FontWeight.w500),
-            ),
-          ]),
+          children:
+              (widget.specObj as StockLotSpecification).specDetails!.length > 1
+                  ? Utils.stockLotPriceRange(
+                      widget.specObj as StockLotSpecification)
+                  : [
+                      // TextSpan(
+                      //   text:
+                      //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                      //   style: TextStyle(
+                      //       color: Colors.black,
+                      //       fontSize: 12.sp,
+                      //       // /*fontFamily: 'Metropolis',*/,
+                      //       fontWeight: FontWeight.w500),
+                      // ),
+                      TextSpan(
+                        text: (widget.specObj as StockLotSpecification)
+                            .specDetails!
+                            .first
+                            .price /*'1000'*/,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17.sp,
+                            // /*fontFamily: 'Metropolis',*/,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      TextSpan(
+                        text:
+                            "/${(widget.specObj as StockLotSpecification).specDetails!.first.priceUnit != null ? (widget.specObj as StockLotSpecification).specDetails!.first.priceUnit!.split(" ").first : ""}",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                            // /*fontFamily: 'Metropolis',*/,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ]),
     );
   }
 }
-
-
 
 Future<String?> _getUserId() async {
   return await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);

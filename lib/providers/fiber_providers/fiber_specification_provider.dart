@@ -323,12 +323,12 @@ class FiberSpecificationProvider extends ChangeNotifier {
   }
 
   getFiberBlends(int id) async {
-    isLoading = true;
-    notifyListeners();
+    // isLoading = true;
+    // notifyListeners();
     var dbInstance = await AppDbInstance().getDbInstance();
     var fiberBlends = await dbInstance.fiberBlendsDao.findFiberBlend(id);
     this.fiberBlends = fiberBlends;
-    isLoading = false;
+    // isLoading = false;
     notifyListeners();
   }
 

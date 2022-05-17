@@ -183,9 +183,10 @@ class PackagingDetailsState extends State<PackagingDetails>
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    _createRequestModel ??= _fiberPostProvider.createRequestModel;
-    if(_createRequestModel!.spc_category_idfk != null && _createRequestModel!.spc_category_idfk=='2'){
-      _yarnPostProvider.familyDisabled = true;
+    if(_createRequestModel == null){
+      _createRequestModel = _fiberPostProvider.createRequestModel;
+    }else if(_createRequestModel!.spc_category_idfk != null && _createRequestModel!.spc_category_idfk=='2'){
+       _yarnPostProvider.familyDisabled = true;
     }
     _initialValuesRequestModel();
     return Scaffold(

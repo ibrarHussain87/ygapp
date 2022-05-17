@@ -299,8 +299,8 @@ class MatchedResponseData {
       yarnSpecification = arr0;
     }
 
-    if (json['stocklots'] != null) {
-      final v = json['stocklots'];
+      if (json['stocklot'] != null) {
+      final v = json['stocklot'];
       final arr0 = <StockLotSpecification>[];
       v.forEach((v) {
         arr0.add(StockLotSpecification.fromJson(v));

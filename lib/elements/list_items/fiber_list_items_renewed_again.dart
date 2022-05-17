@@ -16,9 +16,8 @@ import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/navigation_utils.dart';
 
 Widget buildFiberRenewedAgainWidget(
-  Specification specification,
-  BuildContext context,
-) {
+    Specification specification, BuildContext context,
+    {bool? showCount}) {
   var size = MediaQuery.of(context).size;
   double paddingStart = 10;
   double paddingStartFeatured = 20;
@@ -27,7 +26,7 @@ Widget buildFiberRenewedAgainWidget(
   double paddingEnd = 10;
 
   return Padding(
-    padding: const EdgeInsets.only(left: 8,right: 8,bottom: 6),
+    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
     child: Material(
         color: Colors.white,
         elevation: 10,
@@ -39,12 +38,18 @@ Widget buildFiberRenewedAgainWidget(
             Container(
               width: size.width,
               child: Padding(
-                padding: EdgeInsets.only(left: specification.isFeatured == '0' ? paddingStart:paddingStartFeatured,right: paddingEnd,top: paddingTop,bottom: paddingBottom),
+                padding: EdgeInsets.only(
+                    left: specification.isFeatured == '0'
+                        ? paddingStart
+                        : paddingStartFeatured,
+                    right: paddingEnd,
+                    top: paddingTop,
+                    bottom: paddingBottom),
                 child: Container(
                   child: Row(
                     children: [
                       Container(
-                        width: size.width*0.65,
+                        width: size.width * 0.65,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -53,7 +58,11 @@ Widget buildFiberRenewedAgainWidget(
                               children: [
                                 SizedBox(
                                   child: Text(
-                                    specification.company != null ? specification.company!/*'koh-e-Noor Textile Mills LTD.'*/.capitalize() : Utils.checkNullString(false),
+                                    specification.company != null
+                                        ? specification
+                                            .company! /*'koh-e-Noor Textile Mills LTD.'*/
+                                            .capitalize()
+                                        : Utils.checkNullString(false),
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
                                     softWrap: false,
@@ -72,9 +81,11 @@ Widget buildFiberRenewedAgainWidget(
                                 Visibility(
                                   visible: false,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Text("4.5",
+                                      const Text(
+                                        "4.5",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 10,
@@ -82,8 +93,14 @@ Widget buildFiberRenewedAgainWidget(
                                           /*fontFamily: 'Metropolis',*/
                                         ),
                                       ),
-                                      SizedBox(width: 2.w,),
-                                      Image.asset(ratingIcon,width: 8.w,height: 8.w,)
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Image.asset(
+                                        ratingIcon,
+                                        width: 8.w,
+                                        height: 8.w,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -93,7 +110,8 @@ Widget buildFiberRenewedAgainWidget(
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 2.w),
                                   child: Visibility(
-                                      visible: Ui.showHide(specification.isVerified)/*true*/,
+                                      visible: Ui.showHide(
+                                          specification.isVerified) /*true*/,
                                       maintainSize: true,
                                       maintainState: true,
                                       maintainAnimation: true,
@@ -106,25 +124,29 @@ Widget buildFiberRenewedAgainWidget(
                                 )
                               ],
                             ),
-                            const SizedBox(height: 13,),
+                            const SizedBox(
+                              height: 13,
+                            ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                     color: blueContainerLight,
-
                                     child: Center(
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: '${specification.formation!.isNotEmpty?specification.formation!.first.blendName :""}',
+                                          title:
+                                              '${specification.formation!.isNotEmpty ? specification.formation!.first.blendName : ""}',
                                           color: Colors.white,
                                           textSize: 11,
                                         ),
                                       ),
                                     )),
-                                const SizedBox(width: 2,),
+                                const SizedBox(
+                                  width: 2,
+                                ),
                                 Expanded(
                                   child: TitleMediumTextWidget(
                                     title: Utils.getFiberTitle(specification),
@@ -136,7 +158,9 @@ Widget buildFiberRenewedAgainWidget(
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             TitleSmallBoldTextWidget(
                               title: Utils.getFiberSubtitle(specification),
                               /*title:'Weaving,Ring Frame,Carded,Regular',*/
@@ -144,16 +168,17 @@ Widget buildFiberRenewedAgainWidget(
                               size: 11,
                               weight: FontWeight.w500,
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Container(
-                              width: size.width*0.55,
+                              width: size.width * 0.55,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.nature_id == '2'
+                                      title: specification.nature_id == '2'
                                           ? 'FL ${specification.length ?? ""}'
                                           : 'FL ${specification.length ?? ""}',
                                     ),
@@ -162,8 +187,7 @@ Widget buildFiberRenewedAgainWidget(
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.nature_id == '2'
+                                      title: specification.nature_id == '2'
                                           ? 'M ${specification.micronaire ?? ""}'
                                           : 'Mic ${specification.micronaire ?? ""}',
                                     ),
@@ -172,8 +196,7 @@ Widget buildFiberRenewedAgainWidget(
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.nature_id == '2'
+                                      title: specification.nature_id == '2'
                                           ? 'T ${specification.trash ?? ""}'
                                           : 'GD ${specification.grade ?? ""}',
                                     ),
@@ -212,8 +235,12 @@ Widget buildFiberRenewedAgainWidget(
                                         iconSize: 12,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality == international  ? specification.origin?.capitalizeAndLower() :specification.locality?.capitalizeAndLower()
-                                            /*:Utils.checkNullString(false)*/,
+                                        title: specification.locality ==
+                                                international
+                                            ? specification.origin
+                                                ?.capitalizeAndLower()
+                                            : specification.locality
+                                                ?.capitalizeAndLower() /*:Utils.checkNullString(false)*/,
                                         imageIcon: IC_LOCATION_RENEWED,
                                         size: 10.sp,
                                         iconSize: 12,
@@ -222,6 +249,175 @@ Widget buildFiberRenewedAgainWidget(
                                   ),
                                 )
                               ],
+                            ),
+                            SizedBox(height: 8.w),
+                            Visibility(
+                              visible: showCount ?? false,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.w,
+                                    right: 18.w,
+                                    top: 0.w,
+                                    bottom: 0.w),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Proposals',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                        Text(
+                                                          specification
+                                                              .proposalCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                                  greenButton,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             specification.proposalCount.toString(),
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                /*color: lightYellowContainer,*/
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Matches',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                        Text(
+                                                          specification
+                                                              .matchedCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                                  greenButton,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             '3',
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -236,7 +432,7 @@ Widget buildFiberRenewedAgainWidget(
                               Text.rich(TextSpan(children: [
                                 TextSpan(
                                   text:
-                                  '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
@@ -246,7 +442,8 @@ Widget buildFiberRenewedAgainWidget(
                                 TextSpan(
                                   text: specification.priceUnit
                                       .toString()
-                                      .replaceAll(RegExp(r'[^0-9]'), '')/*'1000'*/,
+                                      .replaceAll(
+                                          RegExp(r'[^0-9]'), '') /*'1000'*/,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17.sp,
@@ -255,7 +452,7 @@ Widget buildFiberRenewedAgainWidget(
                                 ),
                                 TextSpan(
                                   text:
-                                  "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                      "/${specification.unitCount ?? Utils.checkNullString(false)}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
@@ -272,7 +469,9 @@ Widget buildFiberRenewedAgainWidget(
                                   size: 8,
                                 ),
                               ),
-                              const SizedBox(height: 8,),
+                              const SizedBox(
+                                height: 8,
+                              ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -280,37 +479,50 @@ Widget buildFiberRenewedAgainWidget(
                                     TextSpan(
                                       text: "Last Updated",
                                       style: TextStyle(
-                                          fontSize: 8.sp, color: Colors.black,fontWeight: FontWeight.w500),
+                                          fontSize: 8.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ])),
-                                  SizedBox(height: 2.w,),
+                                  SizedBox(
+                                    height: 2.w,
+                                  ),
                                   Text.rich(TextSpan(children: [
                                     TextSpan(
-                                      text: /*"Nov 23, 4:33 PM"*/DateFormat("MMM dd, yyyy").format(DateTime.parse(specification.date??"")),
+                                      text: /*"Nov 23, 4:33 PM"*/ DateFormat(
+                                              "MMM dd, yyyy")
+                                          .format(DateTime.parse(
+                                              specification.date ?? "")),
                                       style: TextStyle(
-                                          fontSize: 10.sp, color: lightBlueLabel),
+                                          fontSize: 10.sp,
+                                          color: lightBlueLabel),
                                     )
                                   ])),
                                 ],
                               ),
-                              const SizedBox(height: 7,),
+                              const SizedBox(
+                                height: 7,
+                              ),
                               SizedBox(
                                 height: 20.h,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
-                                    itemCount: specification.certifications!.length,
+                                    itemCount:
+                                        specification.certifications!.length,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(25),
-                                            border: Border.all(color: Colors.grey.shade500)
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            border: Border.all(
+                                                color: Colors.grey.shade500)),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(25),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                           child: Image.network(
                                             specification.certifications![index]
-                                                .certification!.icon ??
+                                                    .certification!.icon ??
                                                 'images/ic_list.png',
                                             height: 20.w,
                                             width: 20.h,
@@ -319,28 +531,29 @@ Widget buildFiberRenewedAgainWidget(
                                       );
                                     }),
                               ),
-                              const SizedBox(height: 7,),
-
+                              const SizedBox(
+                                height: 7,
+                              ),
                               FutureBuilder<String>(
                                 future: Utils.getUserId(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Padding(
                                         padding: EdgeInsets.only(
-                                          left: 4.w, right: 4.w,),
+                                          left: 4.w,
+                                          right: 4.w,
+                                        ),
                                         child: GestureDetector(
                                             onTap: () {
                                               if (snapshot.data ==
                                                   specification.spc_user_id) {
-                                                Utils.updateDialog(
-                                                  context,
-                                                  null,
-                                                  specification,
-                                                  null
-                                                );
-                                              }else{
-                                                openDetailsScreen(
-                                                    context,specification: specification,sendProposal: true);
+                                                Utils.updateDialog(context,
+                                                    null, specification, null);
+                                              } else {
+                                                openDetailsScreen(context,
+                                                    specification:
+                                                        specification,
+                                                    sendProposal: true);
                                               }
                                             },
                                             child: SizedBox(
@@ -349,7 +562,8 @@ Widget buildFiberRenewedAgainWidget(
                                               child: Center(
                                                 child: BidNowWidget(
                                                   title: snapshot.data !=
-                                                      specification.spc_user_id
+                                                          specification
+                                                              .spc_user_id
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
@@ -393,17 +607,16 @@ Widget buildFiberRenewedAgainWidget(
                 )
                 /*Container(
                   width: 13.w,
-                  *//*height: 80.h,*//*
+                  */ /*height: 80.h,*/ /*
                   color: Colors.red,
-                )*/,
+                )*/
+                ,
               ),
             ),
           ],
-        )
-    ),
+        )),
   );
 }
-
 
 /*String setFamilyData(YarnSpecification specification){
   String familyData = "";

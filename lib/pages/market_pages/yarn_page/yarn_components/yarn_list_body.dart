@@ -21,12 +21,15 @@ class YarnListBody extends StatefulWidget {
 }
 
 class YarnListBodyState extends State<YarnListBody> {
-
   filterListSearch(value) {
     setState(() {
       _yarnFilteredSpecification = _specification!
           .where((element) =>
-              (element.yarnFamily.toString().toLowerCase().contains(value) || element.yarn_country.toString().toLowerCase().contains(value.toString().toLowerCase()) ||
+              (element.yarnFamily.toString().toLowerCase().contains(value) ||
+                  element.yarn_country
+                      .toString()
+                      .toLowerCase()
+                      .contains(value.toString().toLowerCase()) ||
                   element.yarnBlend.toString().contains(value)))
           .toList();
     });
@@ -81,9 +84,8 @@ class YarnListBodyState extends State<YarnListBody> {
                     //     yarnSpecification: _yarnFilteredSpecification![index]);
                   },
                   child: buildYarnRenewedAgainWidget(
-                    _yarnFilteredSpecification![index],
-                    context,
-                  ));
+                      _yarnFilteredSpecification![index], context,
+                      showCount: false));
             })
         : const Center(
             child: TitleSmallTextWidget(
