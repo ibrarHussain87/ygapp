@@ -112,7 +112,7 @@ class YarnPageState extends State<YarnPage> {
                             .where((element) =>
                         element.familyIdfk == family.famId.toString())
                             .toList().indexWhere((element) => element == blends), () {
-                      List<BlendModel> formations = [];
+                /*      List<BlendModel> formations = [];
                       for (var element in _postYarnProvider.selectedBlends) {
                         if (element.isSelected??false) {
                           var blend = element as Blends;
@@ -127,7 +127,7 @@ class YarnPageState extends State<YarnPage> {
                       }
                       Logger().e(formations.toString());
                       //  _createRequestModel.ys_formation = formations;
-
+*/
                       Navigator.pop(context);
                       openYarnPostPage(context, widget.locality, yarn, value);
                     });
@@ -369,9 +369,9 @@ class YarnPageState extends State<YarnPage> {
     );
   }
 
-  String getRelatedId(Blends blend) {
+ /* String getRelatedId(Blends blend) {
     List<BlendModelExtended> blendModelArrayList = json.decode(blend.bln_ratio_json!);
     Logger().e(blendModelArrayList.first.default_bln_id);
     return blendModelArrayList.first.default_bln_id.toString();
-  }
+  }*/
 }

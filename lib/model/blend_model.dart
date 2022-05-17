@@ -14,7 +14,7 @@ class BlendModel {
   Map<String,String> toJson(){
     Map<String, String> map = {
       'bln_id':id.toString(),
-      'related_bln_id':relatedBlnId!,
+      'related_bln_id':relatedBlnId.toString(),
       'percentage':ratio!,
     };
     return map;

@@ -166,7 +166,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                                 .where((element) =>
                                             element.familyIdfk == family.famId.toString())
                                                 .toList().indexWhere((element) => element == blends), () {
-                                          List<BlendModel> formations = [];
+                                          /*List<Map<String,String>> formations = [];
                                           for (var element in _yarnPostProvider.selectedBlends) {
                                             if (element.isSelected??false) {
                                               var blend = element as Blends;
@@ -174,13 +174,14 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                               if(blend.bln_ratio_json != null){
                                                 relateId = getRelatedId(blend);
                                               }
-                                              formations.add(BlendModel(id: element.blnId,
+                                              BlendModel formationModel = BlendModel(id: element.blnId,
                                                   relatedBlnId: relateId,
-                                                  ratio: element.blendRatio));
+                                                  ratio: element.blendRatio);
+                                              formations.add(formationModel.toJson());
                                             }
                                           }
                                           Logger().e(formations.toString());
-                                          //  _createRequestModel.ys_formation = formations;
+                                          //  _createRequestModel.ys_formation = formations;*/
 
                                           Navigator.pop(context);
                                           openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
@@ -249,12 +250,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                     right: 16,
                   ),
                   child: Divider()),
-              Visibility(
-                visible: false,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                    child: TitleTextWidget(title: blend)),
-              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 8.w),
                 child: YarnSelectedBlendWidget(
@@ -271,12 +266,13 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                 element.familyIdfk == selectedFamilyId)
                             .toList(),
                         value, () {
-                      List<BlendModel> formations = [];
+                      List<Map<String,String>> formations = [];
                       for (var element in _yarnPostProvider.blendList) {
                         if (element.isSelected??false) {
-                          formations.add(BlendModel(id: element.blnId,
+                          BlendModel formationModel = BlendModel(id: element.blnId,
                               relatedBlnId: null,
-                              ratio: element.blendRatio));
+                              ratio: element.blendRatio);
+                          formations.add(formationModel.toJson());
                         }
                       }
                       _createRequestModel.ys_formation = formations;
@@ -347,7 +343,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   }
 
   String setFormations(CreateRequestModel createRequestModel) {
-    List<BlendModel> formations = [];
+    List<Map<String,String>> formations = [];
     var value = '';
     List<String?> stringList = [];
     var _postYarnProvider = locator<PostYarnProvider>();
@@ -359,9 +355,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         if(blend.bln_ratio_json != null){
           relateId = getRelatedId(blend);
         }
-        formations.add(BlendModel(id: element.blnId,
+        BlendModel formationModel = BlendModel(id: element.blnId,
             relatedBlnId: relateId,
-            ratio: element.blendRatio));
+            ratio: element.blendRatio);
+        formations.add(formationModel.toJson());
       }
     }
     value = Utils.createStringFromList(stringList);
@@ -371,9 +368,14 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   }
 
   String getRelatedId(Blends blend) {
-    List<BlendModelExtended> blendModelArrayList = json.decode(blend.bln_ratio_json!);
-    Logger().e(blendModelArrayList.first.default_bln_id);
-    return blendModelArrayList.first.default_bln_id.toString();
+    var blendModelArrayList = json.decode(blend.bln_ratio_json!);
+    List<BlendModelExtended> formationList = [];
+    for (var element in blendModelArrayList) {
+     formationList.add(BlendModelExtended.fromJson(element));
+
+    }
+    Logger().e(formationList.first.default_bln_id);
+    return formationList.first.default_bln_id.toString();
   }
 
 }
