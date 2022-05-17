@@ -342,13 +342,13 @@ class DyingMethod {
 @Entity(tableName: "yarn_family")
 class Family {
   Family({
-    required this.famId,
-    required this.famName,
-    required this.iconSelected,
-    required this.iconUnSelected,
-    required this.famType,
-    required this.famDescription,
-    required this.catIsActive,
+     this.famId,
+     this.famName,
+     this.iconSelected,
+     this.iconUnSelected,
+     this.famType,
+     this.famDescription,
+     this.catIsActive,
     this.catSortid,
   });
 
@@ -1106,12 +1106,14 @@ class Blends {
   int? blnId;
   String? familyIdfk;
   String? blnName;
+  String? bln_nature;
   String? bln_abrv;
   String? minMax;
   String? iconSelected;
   String? iconUnselected;
   String? blnIsActive;
   String? blnSortid;
+  String? bln_ratio_json;
   bool? isSelected = false;
   String? blendRatio = '';
 
@@ -1119,6 +1121,7 @@ class Blends {
       {this.blnId,
         this.familyIdfk,
         this.blnName,
+        this.bln_nature,
         this.bln_abrv,
         this.minMax,
         this.iconSelected,
@@ -1126,18 +1129,21 @@ class Blends {
         this.blnIsActive,
         this.isSelected,
         this.blendRatio,
+        this.bln_ratio_json,
         this.blnSortid});
 
   Blends.fromJson(Map<String, dynamic> json) {
     blnId = json['bln_id'];
     familyIdfk = json['family_idfk'];
     blnName = json['bln_name'];
+    bln_nature = json['bln_nature'];
     bln_abrv = json['bln_abrv'];
     minMax = json['min_max'];
     iconSelected = json['icon_selected'];
     iconUnselected = json['icon_unselected'];
     blnIsActive = json['bln_is_active'];
     blnSortid = json['bln_sortid'];
+    bln_ratio_json = json['bln_ratio_json'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1145,12 +1151,14 @@ class Blends {
     data['bln_id'] = blnId;
     data['family_idfk'] = familyIdfk;
     data['bln_name'] = blnName;
+    data['bln_nature'] = bln_nature;
     data['bln_abrv'] = bln_abrv;
     data['min_max'] = minMax;
     data['icon_selected'] = this.iconSelected;
     data['icon_unselected'] = this.iconUnselected;
     data['bln_is_active'] = this.blnIsActive;
     data['bln_sortid'] = this.blnSortid;
+    data['bln_ratio_json'] = this.bln_ratio_json;
     return data;
   }
   @override

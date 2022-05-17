@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
+import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -78,13 +82,14 @@ class YarnPageState extends State<YarnPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade100,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              familySheet(context, (int checkedIndex) {
-
-              }, (Family family) {
+              _postYarnProvider.selectedYarnFamily = Family();
+              familySheet(context, (int checkedIndex) {}, (Family family) {
+                _postYarnProvider.selectedYarnFamily = family;
                 Navigator.of(context).pop();
                 if (_postYarnProvider.blendList
                     .where((element) =>
@@ -95,9 +100,11 @@ class YarnPageState extends State<YarnPage> {
 
                   }, (Blends blends) {
                     Navigator.of(context).pop();
+                    _postYarnProvider.resetData();
+                    _postYarnProvider.textFieldControllers.clear();
                     blendedSheet(
                         context,
-                        _postYarnProvider.blendList
+                        _postYarnProvider.blendList.toList()
                             .where((element) =>
                         element.familyIdfk == family.famId.toString())
                             .toList(),
@@ -105,16 +112,22 @@ class YarnPageState extends State<YarnPage> {
                             .where((element) =>
                         element.familyIdfk == family.famId.toString())
                             .toList().indexWhere((element) => element == blends), () {
-                      List<BlendModel> formations = [];
-                      for (var element in _postYarnProvider.blendList) {
+                /*      List<BlendModel> formations = [];
+                      for (var element in _postYarnProvider.selectedBlends) {
                         if (element.isSelected??false) {
+                          var blend = element as Blends;
+                          String? relateId;
+                          if(blend.bln_ratio_json != null){
+                            relateId = getRelatedId(blend);
+                          }
                           formations.add(BlendModel(id: element.blnId,
-                              relatedBlnId: null,
+                              relatedBlnId: relateId,
                               ratio: element.blendRatio));
                         }
                       }
+                      Logger().e(formations.toString());
                       //  _createRequestModel.ys_formation = formations;
-
+*/
                       Navigator.pop(context);
                       openYarnPostPage(context, widget.locality, yarn, value);
                     });
@@ -355,4 +368,10 @@ class YarnPageState extends State<YarnPage> {
       ),
     );
   }
+
+ /* String getRelatedId(Blends blend) {
+    List<BlendModelExtended> blendModelArrayList = json.decode(blend.bln_ratio_json!);
+    Logger().e(blendModelArrayList.first.default_bln_id);
+    return blendModelArrayList.first.default_bln_id.toString();
+  }*/
 }

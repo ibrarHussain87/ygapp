@@ -5,7 +5,21 @@ class PostYarnProvider extends ChangeNotifier{
 
   List<dynamic> selectedBlends = [];
   List<TextEditingController> textFieldControllers = [];
+  List<TextEditingController> textFieldControllersPopular = [];
 
+  bool? _familyDisabled;
+  bool get familyDisabled => _familyDisabled??false;
+  set familyDisabled(value){
+    _familyDisabled = value;
+    notifyListeners();
+  }
+
+  Family? _selectedYarnFamily;
+  Family get selectedYarnFamily => _selectedYarnFamily??Family();
+  set selectedYarnFamily(value){
+    _selectedYarnFamily = value;
+    notifyListeners();
+  }
 
   bool? _isBlendSelected;
   bool get isBlendSelected => _isBlendSelected??false;

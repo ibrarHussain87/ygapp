@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -186,7 +187,7 @@ class PackagingDetailsState extends State<PackagingDetails>
       _createRequestModel = _fiberPostProvider.createRequestModel;
     } else if (_createRequestModel!.spc_category_idfk != null &&
         _createRequestModel!.spc_category_idfk == '2') {
-      // _yarnPostProvider.familyDisabled = true;
+      _yarnPostProvider.familyDisabled = true;
     }
     _initialValuesRequestModel();
     return Scaffold(
