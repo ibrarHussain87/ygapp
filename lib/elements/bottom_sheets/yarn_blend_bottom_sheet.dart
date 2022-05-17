@@ -85,47 +85,45 @@ blendedSheet(BuildContext context, List<dynamic> blends, int index,
                       const SizedBox(
                         height: 5,
                       ),
-                      Expanded(
-                        child: Visibility(
-                          visible: true,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 8.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, right: 8),
-                                  child: SingleSelectTileWidget(
-                                    selectedIndex: 0,
-                                    spanCount: 2,
-                                    listOfItems: _natureFabricList
-                                        .toList(),
-                                    callback: (String value) {
-                                      if (value == "Pure") {
-                                        _notifierNatureSheet.value = false;
-                                      } else {
-                                        _notifierNatureSheet.value = true;
-                                      }
-                                    },
-                                  ),
+                      Visibility(
+                        visible: true,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 8.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment
+                                .start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8),
+                                child: SingleSelectTileWidget(
+                                  selectedIndex: 0,
+                                  spanCount: 2,
+                                  listOfItems: _natureFabricList
+                                      .toList(),
+                                  callback: (String value) {
+                                    if (value == "Pure") {
+                                      _notifierNatureSheet.value = false;
+                                    } else {
+                                      _notifierNatureSheet.value = true;
+                                    }
+                                  },
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10.0),
-                                  child: ValueListenableBuilder(
-                                      valueListenable: _notifierNatureSheet,
-                                      builder: (context,
-                                          bool notifierValue, child) {
-                                        return getWidget(
-                                            index, blends, _yarnPostProvider,
-                                            values, callback, notifierValue);
-                                      }
-                                  ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0),
+                                child: ValueListenableBuilder(
+                                    valueListenable: _notifierNatureSheet,
+                                    builder: (context,
+                                        bool notifierValue, child) {
+                                      return getWidget(
+                                          index, blends, _yarnPostProvider,
+                                          values, callback, notifierValue);
+                                    }
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -395,11 +395,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (!_yarnPostProvider.isBlendSelected &&
+      /*if (!_yarnPostProvider.isBlendSelected &&
           Ui.showHide(_yarnSetting!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
-      } else if (_createRequestModel.ys_yarn_type_idfk == null &&
+      } else*/ if (_createRequestModel.ys_yarn_type_idfk == null &&
           Ui.showHide(_yarnSetting!.showTexturized)) {
         Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
         return false;
@@ -470,7 +470,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           Ui.showHide(_yarnSetting!.showCertification)) {
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
-      } else {
+      }/*else if (_createRequestModel.ys_formation == null ||
+          _createRequestModel.ys_formation!.isEmpty) {
+        Ui.showSnackBar(context, 'Please Select Formations');
+        return false;
+      }*/ else {
         _createRequestModel.spc_category_idfk = "2";
         return true;
       }
@@ -637,6 +641,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     // Utils.disableClick = false;
     // _yarnData = widget.yarnSyncResponse.data.yarn;
     _getSyncedData();
+    _yarnPostProvider.familyDisabled = false;
     super.initState();
   }
 

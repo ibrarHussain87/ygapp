@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
+import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -84,9 +87,9 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              familySheet(context, (int checkedIndex) {
-
-              }, (Family family) {
+              _postYarnProvider.selectedYarnFamily = Family();
+              familySheet(context, (int checkedIndex) {}, (Family family) {
+                _postYarnProvider.selectedYarnFamily = family;
                 Navigator.of(context).pop();
                 if (_postYarnProvider.blendList
                     .where((element) =>
@@ -112,12 +115,17 @@ class YarnPageState extends State<YarnPage> {
                       List<BlendModel> formations = [];
                       for (var element in _postYarnProvider.selectedBlends) {
                         if (element.isSelected??false) {
+                          var blend = element as Blends;
+                          String? relateId;
+                          if(blend.bln_ratio_json != null){
+                            relateId = getRelatedId(blend);
+                          }
                           formations.add(BlendModel(id: element.blnId,
-                              relatedBlnId: null,
+                              relatedBlnId: relateId,
                               ratio: element.blendRatio));
                         }
                       }
-                      Logger().e((formations.first).id.toString()+formations.length.toString());
+                      Logger().e(formations.toString());
                       //  _createRequestModel.ys_formation = formations;
 
                       Navigator.pop(context);
@@ -359,5 +367,11 @@ class YarnPageState extends State<YarnPage> {
         ),
       ),
     );
+  }
+
+  String getRelatedId(Blends blend) {
+    List<BlendModelExtended> blendModelArrayList = json.decode(blend.bln_ratio_json!);
+    Logger().e(blendModelArrayList.first.default_bln_id);
+    return blendModelArrayList.first.default_bln_id.toString();
   }
 }

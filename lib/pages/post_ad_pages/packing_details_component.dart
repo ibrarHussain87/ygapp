@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -33,6 +34,7 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -105,6 +107,7 @@ class PackagingDetailsState extends State<PackagingDetails>
   late List<ConeType> _coneTypeList;
 
   final _fiberPostProvider = locator<PostFiberProvider>();
+  final _yarnPostProvider = locator<PostYarnProvider>();
 
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
@@ -181,6 +184,9 @@ class PackagingDetailsState extends State<PackagingDetails>
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
     _createRequestModel ??= _fiberPostProvider.createRequestModel;
+    if(_createRequestModel!.spc_category_idfk != null && _createRequestModel!.spc_category_idfk=='2'){
+      _yarnPostProvider.familyDisabled = true;
+    }
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -342,13 +342,13 @@ class DyingMethod {
 @Entity(tableName: "yarn_family")
 class Family {
   Family({
-    required this.famId,
-    required this.famName,
-    required this.iconSelected,
-    required this.iconUnSelected,
-    required this.famType,
-    required this.famDescription,
-    required this.catIsActive,
+     this.famId,
+     this.famName,
+     this.iconSelected,
+     this.iconUnSelected,
+     this.famType,
+     this.famDescription,
+     this.catIsActive,
     this.catSortid,
   });
 
