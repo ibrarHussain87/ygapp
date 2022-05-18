@@ -8,6 +8,7 @@ import 'package:yg_app/helper_utils/blend_text_form_field.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
+import '../../helper_utils/top_round_corners.dart';
 import '../../locators.dart';
 import '../../model/response/yarn_response/sync/yarn_sync_response.dart';
 import '../blends_ratio_segment_component.dart';
@@ -44,10 +45,7 @@ blendedSheet(BuildContext context, List<dynamic> blends, int index,
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(topLeft:Radius.circular(14.w),topRight:Radius.circular(14.w) )
-                ),
+                decoration: getRoundedTopCorners(),
                 height: MediaQuery
                     .of(context)
                     .size
@@ -498,12 +496,12 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
     super.initState();
     _isChecked = List<bool>.filled(widget.listOfItems.length, false);
     _yarnPostProvider.addListener(updateUI);
-    _isChecked[widget.selectedIndex] = true;
-    _yarnPostProvider.blendList[widget.selectedIndex].isSelected = true;
+    /*_isChecked[widget.selectedIndex] = true;
+    _yarnPostProvider.blendList[widget.selectedIndex].isSelected = true;*/
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Add Your Code here.
-      _yarnPostProvider.addSelectedBlend =
-      _yarnPostProvider.blendList[widget.selectedIndex];
+      /*_yarnPostProvider.addSelectedBlend =
+      _yarnPostProvider.blendList[widget.selectedIndex];*/
     });
   }
 
@@ -533,69 +531,79 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
           return Padding(
             padding: EdgeInsets.only(right: 16.w),
             child:
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                flex: 5,
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: _yarnPostProvider.selectedBlends
-                          .contains(widget.listOfItems[index])
-                          ? true
-                          : _isChecked[index],
-                      onChanged: (newValue) {
-                        setState(() {
-                          _isChecked[index] = newValue!;
-                          if (_yarnPostProvider.selectedBlends
-                              .contains(widget.listOfItems[index])) {
-                            _yarnPostProvider.blendList[index].isSelected =
-                            false;
-                            _yarnPostProvider.blendList[index].blendRatio = '';
-                            _yarnPostProvider.removeSelectedBlend =
-                            widget.listOfItems[index];
-
-                            // selectedIndex.remove(index);
-                            widget.listController[index].clear();
-                          } else {
-                            _yarnPostProvider.blendList[index].isSelected =
-                            true;
-                            _yarnPostProvider.addSelectedBlend =
-                            widget.listOfItems[index];
-                            // title.add(widget.listOfItems[index]);
-                            // selectedIndex.add(index);
-                          }
-                        });
-
-                        widget.callback!(_yarnPostProvider.selectedBlends);
-                        looger.e(widget.listOfItems[index].toString());
-                      },
-                    ),
-                    TitleSmallBoldTextWidget(
-                        title: widget.listOfItems[index].toString())
-                  ],
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: (){
+                handleClick(index, !_isChecked[index]);
+              },
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                  flex: 5,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _yarnPostProvider.selectedBlends
+                            .contains(widget.listOfItems[index])
+                            ? true
+                            : _isChecked[index],
+                        onChanged: (newValue) {
+                          handleClick(index, newValue);
+                        },
+                      ),
+                      TitleSmallBoldTextWidget(
+                          title: widget.listOfItems[index].toString())
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 5,
-                child: BlendTextFormFieldWithRangeNonDecimal(
-                  errorText: "count",
-                  minMax: "1-100",
-                  validation: _yarnPostProvider.blendList[index].isSelected ??
-                      false,
-                  isEnabled: _yarnPostProvider.blendList[index].isSelected ??
-                      false,
-                  textEditingController: _yarnPostProvider
-                      .textFieldControllers[index],
-                  onSaved: (input) {
-                    _yarnPostProvider.setBlendRatio(
-                        index, widget.listController[index].text);
-                  },
+                Expanded(
+                  flex: 5,
+                  child: BlendTextFormFieldWithRangeNonDecimal(
+                    errorText: "count",
+                    minMax: "1-100",
+                    validation: _yarnPostProvider.blendList[index].isSelected ??
+                        false,
+                    isEnabled: _yarnPostProvider.blendList[index].isSelected ??
+                        false,
+                    textEditingController: _yarnPostProvider
+                        .textFieldControllers[index],
+                    onSaved: (input) {
+                      _yarnPostProvider.setBlendRatio(
+                          index, widget.listController[index].text);
+                    },
+                  ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           );
         },
       ),
     );
+  }
+
+  void handleClick(int index, bool? newValue) {
+    setState(() {
+      _isChecked[index] = newValue!;
+      if (_yarnPostProvider.selectedBlends
+          .contains(widget.listOfItems[index])) {
+        _yarnPostProvider.blendList[index].isSelected =
+        false;
+        _yarnPostProvider.blendList[index].blendRatio = '';
+        _yarnPostProvider.removeSelectedBlend =
+        widget.listOfItems[index];
+        _yarnPostProvider.textFieldControllers[index].clear();
+        // selectedIndex.remove(index);
+        widget.listController[index].clear();
+      } else {
+        _yarnPostProvider.blendList[index].isSelected =
+        true;
+        _yarnPostProvider.addSelectedBlend =
+        widget.listOfItems[index];
+        // title.add(widget.listOfItems[index]);
+        // selectedIndex.add(index);
+      }
+    });
+
+    widget.callback!(_yarnPostProvider.selectedBlends);
+    looger.e(widget.listOfItems[index].toString());
   }
 }

@@ -91,6 +91,9 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
           behavior: HitTestBehavior.translucent,
           onTap: (){
             setState(() {
+             if(checkedTile != null){
+               _yarnPostProvider.textFieldControllers[checkedTile!].clear();
+             }
               checkedTile = index;
             });
             selectedBlend = widget.listOfItems[index];
@@ -101,24 +104,15 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
               flex: 5,
               child: Row(
                 children: [
-                  GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        checkedTile = index;
-                      });
-                      selectedBlend = widget.listOfItems[index];
-                      widget.callback!(widget.listOfItems[index]);
-                    },
-                    child: Container(
-                      child: widget.listOfItems[index] == selectedBlend ?
-                      const Icon(Icons.radio_button_checked,
-                        size: 14,
-                        color: Colors.blueAccent,
-                      ):
-                      const Icon(Icons.radio_button_off,
-                        size: 14,
-                        color: Colors.black87,
-                      ),
+                  Container(
+                    child: widget.listOfItems[index] == selectedBlend ?
+                    const Icon(Icons.radio_button_checked,
+                      size: 14,
+                      color: Colors.blueAccent,
+                    ):
+                    const Icon(Icons.radio_button_off,
+                      size: 14,
+                      color: Colors.black87,
                     ),
                   ),
                   Padding(
