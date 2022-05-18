@@ -1,23 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:timer_button/timer_button.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/circle_icon_widget.dart';
-import '../../../elements/decoration_widgets.dart';
-import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/navigation_utils.dart';
-import '../../../helper_utils/util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 
@@ -60,7 +50,6 @@ class ForgetPasswordPageState
       value.countriesDao.findAllCountries().then((value) {
         setState(() {
           countriesList = value;
-          _notifierCountry=ValueNotifier(countriesList.first);
           code=countriesList.first.countryPhoneCode;
           _signupRequestModel?.countryId=countriesList.first.conId.toString();
           _signupRequestModel?.country=countriesList.first;
@@ -216,35 +205,33 @@ class ForgetPasswordPageState
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
-                                            _signupRequestModel?.country=country,
-                                            code=_signupRequestModel?.country?.countryPhoneCode,
-                                            _notifierCountry?.value=_signupRequestModel?.country,
+                                          setState(() {
+                                            _signupRequestModel?.country=country;
+                                            code=_signupRequestModel?.country?.countryPhoneCode;
+//                                            _notifierCountry?.value=_signupRequestModel?.country;
+
+                                          })
                                           },
                                           ),
                                         ),
                                       )
                                     },
-                                    child: ValueListenableBuilder(
-                                      valueListenable: _notifierCountry!,
-                                      builder: (context, Countries? value, child){
-                                        return  Container(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              const Icon(Icons.arrow_drop_down,color: Colors.black87,),
-                                              CircleImageIconWidget(
-                                                  imageUrl:
-                                                  _notifierCountry?.value?.medium.toString() ?? ""),
-                                              const SizedBox(width: 8.0,),
-                                              Text(
-                                                _notifierCountry?.value?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+                                    child:  Container(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          const Icon(Icons.arrow_drop_down,color: Colors.black87,),
+                                          CircleImageIconWidget(
+                                              imageUrl:
+                                              _signupRequestModel?.country?.medium.toString() ?? ""),
+                                          const SizedBox(width: 8.0,),
+                                          Text(
+                                            _signupRequestModel?.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
 
-                                            ],
-                                          ),
-                                        );
-                                      },
+                                        ],
+                                      ),
                                     ),
                                   ),
 

@@ -14,7 +14,6 @@ import 'package:yg_app/helper_utils/ui_utils.dart';
 
 import '../../../api_services/api_service_class.dart';
 import '../../../app_database/app_database_instance.dart';
-import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/shared_pref_util.dart';
@@ -55,7 +54,7 @@ class VerifyCodePageState
   @override
   void initState() {
     if (kDebugMode) {
-      print("SignUp Model"+widget.signUpRequestModel!.telephoneNumber.toString());
+      print("SignUp Model"+widget.signUpRequestModel.telephoneNumber.toString());
     }
     loginWithPhone();
     super.initState();
@@ -190,7 +189,7 @@ class VerifyCodePageState
                                         activeFillColor: Colors.white,
                                         inactiveFillColor: Colors.white),
                                     cursorColor: Colors.black,
-                                    animationDuration: Duration(milliseconds: 300),
+                                    animationDuration: const Duration(milliseconds: 300),
                                     enableActiveFill: true,
                                     // errorAnimationController: errorController,
                                     // controller: textEditingController,
@@ -273,7 +272,7 @@ class VerifyCodePageState
                                     FocusScope.of(context).unfocus();
                                     if (validateAndSave()) {
                                       if (widget.signUpRequestModel
-                                          ?.telephoneNumber !=
+                                          .telephoneNumber !=
                                           null) {
                                         if (kDebugMode) {
                                           print("SignUp Model"+widget.signUpRequestModel.telephoneNumber.toString());
@@ -360,13 +359,15 @@ class VerifyCodePageState
 
           }
           else {
-            openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+            openUpdatePasswordScreen(context, widget.signUpRequestModel);
           }
 
         });
       },
       verificationFailed: (FirebaseAuthException e) {
-        print(e.message);
+        if (kDebugMode) {
+          print(e.message);
+        }
         Fluttertoast.showToast(
             msg: e.message.toString(),
             toastLength: Toast.LENGTH_SHORT,
@@ -397,7 +398,7 @@ class VerifyCodePageState
 
 //    ProgressDialogUtil.showDialog(context, 'Please wait...');
     auth.verifyPhoneNumber(
-      phoneNumber:widget.signUpRequestModel!.telephoneNumber!,
+      phoneNumber:widget.signUpRequestModel.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
 
@@ -406,14 +407,16 @@ class VerifyCodePageState
             _signUpCall();
           }
           else {
-            openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+            openUpdatePasswordScreen(context, widget.signUpRequestModel);
           }
 
         });
       },
       verificationFailed: (FirebaseAuthException e) {
 //        ProgressDialogUtil.hideDialog();
-        print(e.message);
+        if (kDebugMode) {
+          print(e.message);
+        }
         Fluttertoast.showToast(
             msg: e.message.toString(),
             toastLength: Toast.LENGTH_SHORT,
@@ -462,7 +465,7 @@ class VerifyCodePageState
         }
       else {
         Navigator.pop(buildContext);
-        openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+        openUpdatePasswordScreen(context, widget.signUpRequestModel);
       }
 
     },onError: (error){
@@ -484,7 +487,7 @@ class VerifyCodePageState
 //        _signupRequestModel?.email =_signupRequestModel?.email;
 //        _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(widget.signUpRequestModel.toJson());
-        ApiService.signup(widget.signUpRequestModel!).then((value) {
+        ApiService.signup(widget.signUpRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

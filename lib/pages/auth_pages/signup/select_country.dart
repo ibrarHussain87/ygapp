@@ -1,17 +1,11 @@
-import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_picker_cupertino.dart';
-import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/network_icon_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
@@ -19,11 +13,7 @@ import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import '../../../api_services/api_service_class.dart';
 import '../../../elements/circle_icon_widget.dart';
 import '../../../elements/custom_header.dart';
-import '../../../elements/decoration_widgets.dart';
-import '../../../elements/title_text_widget.dart';
-import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
-import '../../../helper_utils/util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 
 class CountryComponent extends StatefulWidget {
@@ -51,7 +41,6 @@ class CountryComponentState extends State<CountryComponent>
 
   List<Countries> countriesList = [];
 
-  ValueNotifier<Countries>? _notifierCountry;
 
   @override
   bool get wantKeepAlive => true;
@@ -63,7 +52,6 @@ class CountryComponentState extends State<CountryComponent>
           value.countriesDao.findAllCountries().then((value) {
             setState(() {
               countriesList = value;
-             _notifierCountry=ValueNotifier(countriesList.first);
               _signupRequestModel?.countryId=countriesList.first.conId.toString();
               _signupRequestModel?.country=countriesList.first;
               _preConfigCall(countriesList.first.conId.toString());
@@ -145,60 +133,58 @@ class CountryComponentState extends State<CountryComponent>
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>  SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries country)=>{
+                                      setState(() {
+//                                        _notifierCountry?.value=country,
+                                        _signupRequestModel?.countryId=country.conId.toString();
+                                        _signupRequestModel?.country=country;
+                                        _preConfigCall(country.conId.toString());
 
-                                      _notifierCountry?.value=country,
-                                      _signupRequestModel?.countryId=country.conId.toString(),
-                                      _signupRequestModel?.country=country,
-                                    _preConfigCall(country.conId.toString())
+                                      })
+
 
                                     },
                                     ),
                                   ),
                                 );
                               },
-                              child: ValueListenableBuilder(
-                                valueListenable: _notifierCountry!,
-                                builder: (context, Countries value, child){
-                                  return  Container(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: InputDecorator(
-                                      decoration: InputDecoration(
-                                          contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                          label: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("Country",style: TextStyle(color: formFieldLabel,fontSize: 12.w),),
-                                              const Text("*", style: TextStyle(color: Colors.red)),
-                                            ],
-                                          ),
-                                          suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black87,),
-                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
-                                          hintText: "Select",
-                                          hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-                                          border: OutlineInputBorder(
-                                              borderRadius:const BorderRadius.all(
-                                                Radius.circular(5.0),
-                                              ),
-                                              borderSide: BorderSide(color: newColorGrey)
-                                          )
-                                      ),
-                                      child: Row(
+                              child:Container(
+                                padding: const EdgeInsets.all(4.0),
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                      label: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          CircleImageIconWidget(
-                                              imageUrl:
-                                              _notifierCountry?.value.medium.toString() ?? ""),
-                                         const SizedBox(width: 8.0,),
-                                          Expanded(
-                                              flex:8,
-                                              child: Text(
-                                                _notifierCountry?.value.conName.toString() ?? "Select",textAlign: TextAlign.start,)),
-
+                                          Text("Country",style: TextStyle(color: formFieldLabel,fontSize: 12.w),),
+                                          const Text("*", style: TextStyle(color: Colors.red)),
                                         ],
                                       ),
-                                    ),
-                                  );
-                                },
+                                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black87,),
+                                      floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                      hintText: "Select",
+                                      hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                      border: OutlineInputBorder(
+                                          borderRadius:const BorderRadius.all(
+                                            Radius.circular(5.0),
+                                          ),
+                                          borderSide: BorderSide(color: newColorGrey)
+                                      )
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CircleImageIconWidget(
+                                          imageUrl:
+                                          _signupRequestModel?.country?.medium.toString() ?? ""),
+                                      const SizedBox(width: 8.0,),
+                                      Expanded(
+                                          flex:8,
+                                          child: Text(
+                                            _signupRequestModel?.country?.conName.toString() ?? "Select",textAlign: TextAlign.start,)),
+
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ],
