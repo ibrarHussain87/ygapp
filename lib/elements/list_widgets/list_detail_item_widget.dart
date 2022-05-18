@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yg_app/elements/bottom_sheets/phone_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/enum_phone.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 
 Widget listDetailItemWidget(
@@ -57,12 +61,14 @@ Widget listItemContactCard(BuildContext context,
         Expanded(
           child: Row(
             children: [
-              Text(
-                detailSpecification.detail,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400),
+              Flexible(
+                child: Text(
+                  detailSpecification.detail,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -71,7 +77,8 @@ Widget listItemContactCard(BuildContext context,
                   visible: showCallIcon,
                   child: GestureDetector(
                     onTap: (){
-                      _launchCaller(detailSpecification.detail);
+                     // _launchCaller(detailSpecification.detail);
+                      showPhoneBottomSheet(detailSpecification.detail,context);
                     },
                     child: const Icon(
                       Icons.call,
@@ -85,6 +92,21 @@ Widget listItemContactCard(BuildContext context,
       ],
     ),
   );
+}
+
+void showPhoneBottomSheet(String phone, BuildContext context) {
+  showBottomSheetPhone(context, (value) {
+    Logger().e(value);
+    if(CallEnum.Phone == value){
+      _launchCaller(phone);
+    }else{
+      whatsAppOpen(phone);
+    }
+  });
+}
+
+void whatsAppOpen(String phone) async {
+  await FlutterLaunch.launchWhatsapp(phone: phone, message: "");
 }
 
 _launchCaller(String phone) async {
