@@ -90,6 +90,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
+        FocusScope.of(context).unfocus();
         specsSheet(context,(int checkedIndex){
           selectedIndex=checkedIndex;
         } , (value){

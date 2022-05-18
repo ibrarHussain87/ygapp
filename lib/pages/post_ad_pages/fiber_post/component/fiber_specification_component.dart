@@ -455,7 +455,7 @@ class FiberSpecificationComponentState
                                     Visibility(
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 14.w),
+                                          padding: EdgeInsets.only(top: 18.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -629,7 +629,7 @@ class FiberSpecificationComponentState
                                   visible: Ui.showHide(_postFiberProvider
                                       .fiberSettings.showOrigin),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 14.w),
+                                    padding: EdgeInsets.only(top: 18.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -724,7 +724,7 @@ class FiberSpecificationComponentState
                                 Visibility(
                                   visible: false,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 14.w),
+                                    padding: EdgeInsets.only(top: 18.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -822,7 +822,7 @@ class FiberSpecificationComponentState
                                   visible: Ui.showHide(_postFiberProvider
                                       .fiberSettings.showLotNumber),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 14.w),
+                                    padding: EdgeInsets.only(top: 18.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -879,6 +879,7 @@ class FiberSpecificationComponentState
                                           listOfItems: _postFiberProvider
                                               .certificationList,
                                           callback: (value) {
+
                                             _postFiberProvider
                                                     .createRequestModel
                                                     .spc_certificate_idfk =

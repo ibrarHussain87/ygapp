@@ -438,7 +438,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
+                                      child: const TitleSmallBoldTextWidget(
                                           title: "Cone Type")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
@@ -1390,11 +1390,14 @@ class PackagingDetailsState extends State<PackagingDetails>
                             Visibility(
                               visible:
                                   widget.businessArea != yarn ? true : false,
-                              child: AddPictureWidget(
-                                imageCount: 1,
-                                callbackImages: (value) {
-                                  imageFiles = value;
-                                },
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: AddPictureWidget(
+                                  imageCount: 1,
+                                  callbackImages: (value) {
+                                    imageFiles = value;
+                                  },
+                                ),
                               ),
                             )
                           ],

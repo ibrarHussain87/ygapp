@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 
+import '../../helper_utils/app_colors.dart';
+
 class ListItemStockLot extends StatefulWidget {
   final StocklotWasteModel stocklotWaste;
   final bool addMore;
@@ -42,9 +44,9 @@ class _ListItemStockLotState extends State<ListItemStockLot> {
               onTap: () {
                 _showPopupMenu();
               },
-              child: const Icon(
+              child: Icon(
                 Icons.more_horiz,
-                color: Colors.green,
+                color: darkBlueChip,
                 size: 16,
               ),
             ),
@@ -62,7 +64,7 @@ class _ListItemStockLotState extends State<ListItemStockLot> {
                   maxLines: 1,
                   softWrap: false,
                   style: TextStyle(
-                      color: Colors.grey.shade700,
+                      color: Colors.black,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold),
                 ),
