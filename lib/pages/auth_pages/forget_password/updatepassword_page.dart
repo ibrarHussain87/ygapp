@@ -81,21 +81,13 @@ class UpdatePasswordPageState
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[appBarColor2,appBarColor1])),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color:appbarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
         ),
 
-        title: Text('Forget Password',
-            style: TextStyle(
-                fontSize: 16.0.w,
-                color: Colors.white,
-                fontWeight: FontWeight.w400)),
       ),
 //      key: scaffoldKey,
       body: Column(
@@ -110,11 +102,11 @@ class UpdatePasswordPageState
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: 50.w, left: 18.w, right: 18.w),
+                        top: 20.w, left: 18.w, right: 18.w),
                     child: Text(
                       updatePasswordText,
                       style: TextStyle(
-                          color: signInColor,
+                          color: Colors.black87,
                           fontSize: 28.sp,
                           fontFamily: 'Metropolis',
                           fontWeight: FontWeight.w700),
@@ -153,7 +145,7 @@ class UpdatePasswordPageState
                               height: 50.w,
                               width: double.infinity,
                               child: ElevatedButton(
-                                  child:  Text("Update",
+                                  child:  Text("Reset Password",
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         /*fontFamily: 'Metropolis',*/

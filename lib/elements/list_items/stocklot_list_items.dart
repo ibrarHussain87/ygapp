@@ -85,7 +85,6 @@ class _StockLotListItemState extends State<StockLotListItem> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     priceStockLotSpec = priceStockLot();
   }
@@ -104,6 +103,11 @@ class _StockLotListItemState extends State<StockLotListItem> {
           color: Colors.white,
           elevation: 10,
           shape: RoundedRectangleBorder(
+            side: BorderSide(
+                color: border_color,
+                width: 1,
+                style: BorderStyle.solid
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(

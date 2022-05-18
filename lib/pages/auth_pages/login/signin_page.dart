@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -17,6 +18,7 @@ import 'package:yg_app/pages/auth_pages/signup/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
 
 import '../../../helper_utils/navigation_utils.dart';
+import '../../../model/response/common_response_models/countries_response.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -41,6 +43,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     _loginRequestModel = LoginRequestModel();
+    _synData();
     super.initState();
   }
 
@@ -370,4 +373,33 @@ class _SignInPageState extends State<SignInPage> {
       }
     });
   }
+
+  Future<bool> _synData() async {
+    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
+    Logger().e(dataSynced.toString());
+    if (!dataSynced) {
+      await Future.wait([
+
+        // For getting countries
+        ApiService.syncCountriesCall().then((
+            CountriesSyncResponse response) {
+          if (response.status!) {
+            Logger().e("Countries Sync got successfully : " +
+                response.toString());
+            AppDbInstance().getDbInstance().then((value) async {
+              await Future.wait([
+                value.countriesDao
+                    .insertAllCountry(response.data!.countries),
+              ]);
+            });
+          }
+        })
+
+
+      ]);
+    }
+
+    return true;
+  }
+
 }

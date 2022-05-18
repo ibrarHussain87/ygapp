@@ -26,7 +26,7 @@ class OfferingRequirementSegmentComponentState
       padding: EdgeInsets.only(top: 4.w,left: 10),
       child: CupertinoSegmentedControl(
         borderColor: Colors.grey.shade300,
-        selectedColor: lightBlueTabs,
+        selectedColor: darkBlueChip,
         pressedColor: Colors.transparent,
         groupValue: selectedValue,
         padding: const EdgeInsets.all(0),

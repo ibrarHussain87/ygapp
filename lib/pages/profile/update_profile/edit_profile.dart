@@ -1000,55 +1000,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//              CountryListPick(
-//                  appBar: AppBar(
-//                    leading: BackButton(
-//                        color: Colors.black
-//                    ),
-//                    titleSpacing: 0,
-//                    backgroundColor: Colors.white,
-//                    title: const Text('Choose a Country',style:TextStyle(color: Colors.black),),
-//                  ),
-//
-//                  // if you need custome picker use this
-////                   pickerBuilder: (context, CountryCode? countryCode){
-////                     return Row(
-////                       children: [
-////                         Image.asset(
-////                           countryCode?.flagUri ?? "",
-////                           package: 'country_list_pick',
-////                         ),
-////                         Text(countryCode?.code ?? ""),
-////                         Text(countryCode?.dialCode ?? ""),
-////                       ],
-////                     );
-////                   },
-//
-//                  // To disable option set to false
-//                  theme: CountryTheme(
-//                    isShowFlag: true,
-//                    isShowTitle: true,
-//                    isShowCode: true,
-//                    isDownIcon: true,
-//                    showEnglishName: true,
-//                  ),
-//                  // Set default value
-//                  initialSelection: '+92',
-//                  // or
-//                  // initialSelection: 'US'
-//                  onChanged: (CountryCode? code) {
-//                    print(code?.name);
-//                    print(code?.code);
-//                    print(code?.dialCode);
-//                    print(code?.flagUri);
-//                  },
-//                  // Whether to allow the widget to set a custom UI overlay
-//                  useUiOverlay: true,
-//                  // Whether the country list should be wrapped in a SafeArea
-//                  useSafeArea: false
-//              ),
-
-
     FutureBuilder<List<Countries>?>(
     future: AppDbInstance().getDbInstance()
         .then((value) => value.countriesDao.findAllCountries()),

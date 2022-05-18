@@ -1,3 +1,5 @@
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+
 class SignUpRequestModel {
 
   String? name;
@@ -8,22 +10,28 @@ class SignUpRequestModel {
   String? cityStateId;
   String? operator;
   String? telephoneNumber;
+  String? config;
+  Countries? country;
 
   SignUpRequestModel(
 
-      {this.name,this.email, this.password,this.countryId,this.cityStateId,this.operator,this.telephoneNumber});
+      {this.name,this.email, this.password,this.countryId,this.cityStateId,this.operator,this.telephoneNumber,this.config,
+        this.country});
 
   Map<String, dynamic> toJson() {
 
     Map<String, dynamic> map = {
-      'name': name!.trim(),
-      'email': email!.trim(),
+      'name': name.toString().trim(),
+//      'name': name!.trim(),
+      'email': email.toString().trim(),
+//      'email': email!.trim(),
       'password': password!.trim(),
       'country_id': countryId!.trim(),
       'company': company!.trim(),
       'city_state_id': cityStateId!.trim(),
       'operator': operator!.trim(),
-      'telephone_number': telephoneNumber!.trim()
+      'telephone_number': telephoneNumber.toString().trim()
+//      'telephone_number': telephoneNumber!.trim()
     };
 
     return map;
