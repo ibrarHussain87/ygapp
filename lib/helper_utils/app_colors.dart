@@ -23,6 +23,7 @@ var tagsIconColor = HexColor.fromHex('#BAC5DC');
 var addBtnColor = HexColor.fromHex('#1AC646');
 var text_color_customer = HexColor.fromHex('#2E59B1');
 var border_color_customer = HexColor.fromHex('#4977D6');
+var border_color = HexColor.fromHex('#e3e3e3');
 var whatsapp_color_customer = HexColor.fromHex('#1bbd66');
 var whatsapp_color = HexColor.fromHex('#33cd49');
 var messanger_color_customer = HexColor.fromHex('#0077ff'); //0b86ee
@@ -32,6 +33,8 @@ var contact_color_customer = HexColor.fromHex('#7c6ce8');
 var sub_head_color_share = HexColor.fromHex('#6b7479');
 var icon_color_share = HexColor.fromHex('#56656c');
 var divider_color_share = HexColor.fromHex('#eeeeee');
+var font_light_grey = HexColor.fromHex('#80838b');
+var font_dark_grey = HexColor.fromHex('#414246');
 
 
 //

@@ -41,6 +41,11 @@ Widget buildFabricRenewedAgainWidget(
         color: Colors.white,
         elevation: 10,
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: border_color,
+              width: 1,
+              style: BorderStyle.solid
+          ),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(

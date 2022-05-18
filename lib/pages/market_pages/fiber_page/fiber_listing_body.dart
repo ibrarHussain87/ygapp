@@ -42,7 +42,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       itemCount: specificationFiltered!.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => GestureDetector(
@@ -51,13 +51,16 @@ class FiberListingBodyState extends State<FiberListingBody> {
             openDetailsScreen(
                 context,specification: specificationFiltered![index]);
           },
-          child: buildFiberRenewedAgainWidget(specificationFiltered![index],context,)),
-      separatorBuilder: (context, index) {
-        return Divider(
-          height: 1,
-          color: Colors.grey.shade400,
-        );
-      },
+          child: Padding(
+            padding: const EdgeInsets.only(top:8.0),
+            child: buildFiberRenewedAgainWidget(specificationFiltered![index],context,),
+          )),
+//      separatorBuilder: (context, index) {
+//        return Divider(
+//          height: 1,
+//          color: Colors.grey.shade400,
+//        );
+//      },
     );
   }
 }

@@ -80,7 +80,7 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
                 }
                 return Container(
                   child: snapshot.data!.data != null
-                      ?  ListView.separated(
+                      ?  ListView.builder(
                     itemCount: widget.locality == international
                         ? stocklotProvider.internationSpecList.length
                         : stocklotProvider.localSpecList.length,
@@ -100,12 +100,12 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
                             : stocklotProvider.localSpecList[index],
                       ),
                     ),
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 1,
-                        color: Colors.grey.shade400,
-                      );
-                    },
+//                    separatorBuilder: (context, index) {
+//                      return Divider(
+//                        height: 1,
+//                        color: Colors.grey.shade400,
+//                      );
+//                    },
                   )
                       : const Center(
                           child: TitleSmallTextWidget(

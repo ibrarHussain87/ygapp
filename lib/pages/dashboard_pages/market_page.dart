@@ -70,7 +70,7 @@ class MarketPageState extends State<MarketPage>
           body: DefaultTabController(
             length: tabsList.length,
             child: Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor:Colors.white,
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {
@@ -215,8 +215,9 @@ class MarketPageState extends State<MarketPage>
                           bottom: TabBar(
                             isScrollable: true,
                             controller: tabController,
-                            unselectedLabelColor: textColorGreyLight,
-                            labelColor: darkBlueChip,
+                            labelPadding: EdgeInsets.only(left: 24,right: 24),
+                            unselectedLabelColor: font_light_grey,
+                            labelColor: font_dark_grey,
                             indicatorColor: darkBlueChip,
                             indicatorSize: TabBarIndicatorSize.label,
                             indicator: UnderlineTabIndicator(
