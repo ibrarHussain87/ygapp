@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../helper_utils/top_round_corners.dart';
+
 final List<MyActions> actionsList = [
   MyActions('Offering', Icons.local_offer,'1'),
   MyActions('Requirement', Icons.local_offer_outlined,"0"),
@@ -7,67 +9,66 @@ final List<MyActions> actionsList = [
 
 showBottomSheetOR(BuildContext context,Function callback) {
   showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       context: context,
+      isDismissible: false,
       builder: (context) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          child: Container(
-              height: 0.26 * MediaQuery.of(context).size.height,
-              color: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 5, top: 8),
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.close),
-                        ),
-                      )),
-                  const Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'What do you want to sell?',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
+        return Container(
+            height: 0.26 * MediaQuery.of(context).size.height,
+            decoration: getRoundedTopCorners(),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5, top: 8),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(Icons.close),
+                      ),
+                    )),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'What do you want to sell?',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListView.separated(
-                              separatorBuilder: (BuildContext context, int index) => const VerticalDivider(width: 1,indent: 15,
-                                endIndent: 8,),
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: actionsList.length,
-                              itemBuilder: (context, index) {
-                                return ItemBottomSheet(
-                                    myActions: actionsList[index],
-                                    myClickCallback: (value) {
-                                      Navigator.pop(context);
-                                      print("Families"+actionsList[index].title.toString());
-                                      callback(actionsList[index].value);
-                                    });
-                              }),
-                        ),
-                      )
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              )),
-        );
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ListView.separated(
+                            separatorBuilder: (BuildContext context, int index) => const VerticalDivider(width: 1,indent: 15,
+                              endIndent: 8,),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: actionsList.length,
+                            itemBuilder: (context, index) {
+                              return ItemBottomSheet(
+                                  myActions: actionsList[index],
+                                  myClickCallback: (value) {
+                                    Navigator.pop(context);
+                                    print("Families"+actionsList[index].title.toString());
+                                    callback(actionsList[index].value);
+                                  });
+                            }),
+                      ),
+                    )
+                ),
+                const SizedBox(height: 20),
+              ],
+            ));
       });
 }
 
