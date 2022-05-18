@@ -21,14 +21,17 @@ class SignUpRequestModel {
   Map<String, dynamic> toJson() {
 
     Map<String, dynamic> map = {
-      'name': name!.trim(),
-      'email': email!.trim(),
+      'name': name.toString().trim(),
+//      'name': name!.trim(),
+      'email': email.toString().trim(),
+//      'email': email!.trim(),
       'password': password!.trim(),
       'country_id': countryId!.trim(),
       'company': company!.trim(),
       'city_state_id': cityStateId!.trim(),
       'operator': operator!.trim(),
-      'telephone_number': telephoneNumber!.trim()
+      'telephone_number': telephoneNumber.toString().trim()
+//      'telephone_number': telephoneNumber!.trim()
     };
 
     return map;

@@ -301,7 +301,7 @@ class PersonalInfoComponentState
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   cursorColor: Colors.black,
-                  onSaved: (input) => _signupRequestModel!.telephoneNumber = input!,
+                  onSaved: (input) => _signupRequestModel!.telephoneNumber = "+$code"+input!,
 //                  onChanged: (phone){
 //                    Utils.validateMobile(phone);
 //                  },
@@ -589,7 +589,7 @@ class PersonalInfoComponentState
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
     auth.verifyPhoneNumber(
-      phoneNumber: "+$code"+_signupRequestModel!.telephoneNumber!,
+      phoneNumber: _signupRequestModel!.telephoneNumber!,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
           _signUpCall();
@@ -842,10 +842,10 @@ class PersonalInfoComponentState
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         /*remove operator and added static data for parameter*/
-        _signupRequestModel?.operator = '1';
-        _signupRequestModel?.countryId = '1';
-        _signupRequestModel?.email = 'anonymous@gmail.com';
-        _signupRequestModel?.name = 'Anonymous';
+        _signupRequestModel?.operator = code;
+        _signupRequestModel?.countryId =_signupRequestModel?.countryId;
+        _signupRequestModel?.email =_signupRequestModel?.email;
+        _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(_signupRequestModel?.toJson());
         ApiService.signup(_signupRequestModel!).then((value) {
           Logger().e(value.toJson());
