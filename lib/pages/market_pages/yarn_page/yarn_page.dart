@@ -8,6 +8,8 @@ import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.d
 import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
 import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/elements/custom_header.dart';
+
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -96,7 +98,19 @@ class YarnPageState extends State<YarnPage> {
                 element.familyIdfk == family.famId.toString())
                     .toList()
                     .isNotEmpty) {
-                  familyBlendsSheet(context, (int checkedIndex) {
+                  _postYarnProvider.resetData();
+                  _postYarnProvider.textFieldControllers.clear();
+                  blendedSheet(
+                      context,
+                      _postYarnProvider.blendList.toList()
+                          .where((element) =>
+                      element.familyIdfk == family.famId.toString())
+                          .toList(),
+                      0, () {
+                    Navigator.pop(context);
+                    openYarnPostPage(context, widget.locality, yarn, value);
+                  });
+                  /*familyBlendsSheet(context, (int checkedIndex) {
 
                   }, (Blends blends) {
                     Navigator.of(context).pop();
@@ -112,22 +126,6 @@ class YarnPageState extends State<YarnPage> {
                             .where((element) =>
                         element.familyIdfk == family.famId.toString())
                             .toList().indexWhere((element) => element == blends), () {
-                /*      List<BlendModel> formations = [];
-                      for (var element in _postYarnProvider.selectedBlends) {
-                        if (element.isSelected??false) {
-                          var blend = element as Blends;
-                          String? relateId;
-                          if(blend.bln_ratio_json != null){
-                            relateId = getRelatedId(blend);
-                          }
-                          formations.add(BlendModel(id: element.blnId,
-                              relatedBlnId: relateId,
-                              ratio: element.blendRatio));
-                        }
-                      }
-                      Logger().e(formations.toString());
-                      //  _createRequestModel.ys_formation = formations;
-*/
                       Navigator.pop(context);
                       openYarnPostPage(context, widget.locality, yarn, value);
                     });
@@ -135,7 +133,7 @@ class YarnPageState extends State<YarnPage> {
                   },
                       _postYarnProvider.blendList.where((element) =>
                       element.familyIdfk == family.famId.toString()).toList(),
-                      -1, "Yarn");
+                      -1, "Yarn");*/
                 }
                 else {
                   openYarnPostPage(context, widget.locality, yarn, value);

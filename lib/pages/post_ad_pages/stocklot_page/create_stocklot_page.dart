@@ -19,6 +19,7 @@ import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';
 import '../../../helper_utils/app_constants.dart';
+import '../../../helper_utils/top_round_corners.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/price_term.dart';
@@ -219,13 +220,13 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                               maintainSize: false,
                               maintainState: false,
                               child: Container(
-                                margin: EdgeInsets.only(left: 8.w, right: 8.w),
+                                margin: EdgeInsets.only(left: 8.w, right: 8.w,top: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black12),
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(6))),
-                                child: SizedBox(
-                                    /*height: 36.w,*/
+                                child: Container(
+                                    color: newColorGrey.withOpacity(0.3),
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -236,9 +237,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                top: 8.w,
+                                                top: 10.w,
                                                 left: 8.w,
-                                                bottom: 6.w),
+                                                bottom: 10.w),
                                             child: const TitleMediumTextWidget(
                                               title: 'Stocklot Waste',
                                             )),
@@ -251,7 +252,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             margin: EdgeInsets.only(
                                                 top: 4, right: 6, bottom: 4),
                                             decoration: BoxDecoration(
-                                              color: Colors.green.shade700
+                                              color: Colors.blueAccent.shade700
                                                   .withOpacity(0.1),
                                               shape: BoxShape.circle,
                                             ),
@@ -263,7 +264,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   : Icons
                                                       .keyboard_arrow_down_outlined,
                                               size: 24,
-                                              color: Colors.green,
+                                              color: darkBlueChip,
                                             ),
                                           ),
                                         ),
@@ -325,8 +326,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 //                                    )),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    top:12.w,
-                                    bottom: 6.w,
+                                    top:18.w,
                                     left: 8.w,
                                     right: 8.w,
                                   ),
@@ -418,8 +418,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: 8.w,
-                                    top:12.w,
-                                    bottom: 6.w,
+                                    top:18.w,
                                     right: 8.w,
                                   ),
                                   child: SizedBox(
@@ -514,8 +513,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: 8.w,
-                                    top:14.w,
-                                    bottom:6.w,
+                                    top:18.w,
                                     right: 8.w,
                                   ),
                                   child: SizedBox(
@@ -598,9 +596,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Column(children: [
-                                const SizedBox(
-                                  height: 8,
-                                ),
 //                                Align(
 //                                  alignment: Alignment.topLeft,
 //                                  child: Padding(
@@ -612,7 +607,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 //                                      )),
 //                                ),
                                 Padding(
-                                  padding:  EdgeInsets.only(top:14.w,bottom: 6),
+                                  padding:  EdgeInsets.only(top:18.w,bottom: 6),
                                   child: SizedBox(
                                     height: 5 * 22.w,
                                     child: TextFormField(
@@ -640,7 +635,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 padding: EdgeInsets.only(
                                   left: 8.w,
                                   right: 8.w,
-                                  top: 16.w,
+                                  top: 8.w,
                                 ),
                                 child: AddPictureWidget(
                                   imageCount: 1,
@@ -727,8 +722,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     element.untCategoryIdfk ==
         "5").toList().first.untName;
     showModalBottomSheet(
-        context: context,
         isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        isDismissible: false,
         builder: (context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
@@ -737,236 +734,242 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                   child: StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
                         return Container(
-                          height: 0.35 * MediaQuery.of(context).size.height,
-                          margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
-                          child: Scaffold(
-                            resizeToAvoidBottomInset: false,
-                            body: Stack(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  subCategoryName??"",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16.sp,
-                                                      fontWeight: FontWeight.w600),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10.h,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                          decoration: getRoundedTopCorners(),
+                          height: 0.4 * MediaQuery.of(context).size.height,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.w),
+                            child: Scaffold(
+                              resizeToAvoidBottomInset: false,
+                              body: Container(
+                                color: Colors.white,
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
-                                                  Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 8.w, left: 8.w),
-                                                      child: TitleSmallNormalTextWidget(
-                                                        title: unitCounting,
-                                                        size: 12,
-                                                      )),
+                                                  Center(
+                                                    child: Text(
+                                                      value.stocklotFamilyName??"",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16.sp,
+                                                          fontWeight: FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.h,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              top: 8.w, left: 8.w),
+                                                          child: TitleSmallBoldTextWidget(
+                                                            title: unitCounting,
+                                                            size: 12,
+                                                          )),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      SingleSelectTileWidget(
+                                                          spanCount: 3,
+                                                          selectedIndex: editWasteModel !=
+                                                              null
+                                                              ? stocklotProvider.unitsList!
+                                                              .indexWhere((element) =>
+                                                          element.untName ==
+                                                              editWasteModel
+                                                                  .unitOfCount)
+                                                              : 0,
+                                                          listOfItems: stocklotProvider
+                                                              .unitsList!
+                                                              .where((element) =>
+                                                          element.untCategoryIdfk ==
+                                                              "5")
+                                                              .toList(),
+                                                          callback: (Units value) {
+                                                            stocklotProvider.setUnitName(value.untName.toString());
+                                                            stocklotWaste.unitOfCount =
+                                                                value.untName;
+
+                                                            setState((){
+                                                              unitName = value.untName.toString();
+                                                            });
+                                                          }),
+                                                    ],
+                                                  ),
                                                   const SizedBox(
                                                     height: 8,
                                                   ),
-                                                  SingleSelectTileWidget(
-                                                      spanCount: 3,
-                                                      selectedIndex: editWasteModel !=
-                                                          null
-                                                          ? stocklotProvider.unitsList!
-                                                          .indexWhere((element) =>
-                                                      element.untName ==
-                                                          editWasteModel
-                                                              .unitOfCount)
-                                                          : 0,
-                                                      listOfItems: stocklotProvider
-                                                          .unitsList!
-                                                          .where((element) =>
-                                                      element.untCategoryIdfk ==
-                                                          "5")
-                                                          .toList(),
-                                                      callback: (Units value) {
-                                                        stocklotProvider.setUnitName(value.untName.toString());
-                                                        stocklotWaste.unitOfCount =
-                                                            value.untName;
-
-                                                        setState((){
-                                                          unitName = value.untName.toString();
-                                                        });
-                                                      }),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  top: 8.w,
-                                                                  left: 8.w,
-                                                                  bottom: 6.w),
-                                                              child:
-                                                              TitleSmallNormalTextWidget(
-                                                                title: 'Price ${unitName??""}',
-                                                                size: 12,
-                                                              )),
-                                                          TextFormField(
-                                                              keyboardType:
-                                                              TextInputType.number,
-                                                              cursorColor: lightBlueTabs,
-                                                              style:
-                                                              TextStyle(fontSize: 11.sp),
-                                                              textAlign: TextAlign.center,
-                                                              cursorHeight: 16.w,
-                                                              maxLines: 1,
-                                                              inputFormatters: [
-                                                                FilteringTextInputFormatter
-                                                                    .allow(RegExp("[0-9]")),
-                                                              ],
-                                                              initialValue:
-                                                              editWasteModel != null
-                                                                  ? editWasteModel.price
-                                                                  : '',
-                                                              onSaved: (input) {
-                                                                stocklotWaste.price = input;
-                                                              },
-                                                              onChanged: (input) {
-                                                                stocklotWaste.price = input;
-                                                              },
-                                                              validator: (input) {
-                                                                if (input == null ||
-                                                                    input.isEmpty ||
-                                                                    int.parse(input) < 1) {
-                                                                  return priceUnits;
-                                                                }
-                                                                return null;
-                                                              },
-                                                              decoration:
-                                                              roundedTextFieldDecoration(
-                                                                  'Price')),
-                                                        ],
-                                                      )),
-                                                  SizedBox(width: 16.w),
-                                                  Expanded(
-                                                    child:
-                                                    //Available Quantity
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                            padding: EdgeInsets.only(
-                                                                top: 8.w,
-                                                                left: 8.w,
-                                                                bottom: 6.w),
-                                                            child:
-                                                            const TitleSmallNormalTextWidget(
-                                                              title: "Available Qty",
-                                                              size: 12,
-                                                            )),
-                                                        TextFormField(
-                                                            keyboardType:
-                                                            TextInputType.number,
-                                                            cursorColor: lightBlueTabs,
-                                                            style: TextStyle(
-                                                                fontSize: 11.sp),
-                                                            textAlign: TextAlign.center,
-                                                            cursorHeight: 16.w,
-                                                            maxLines: 1,
-                                                            inputFormatters: [
-                                                              FilteringTextInputFormatter
-                                                                  .allow(RegExp("[0-9]")),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            children: [
+                                                              Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: 8.w,
+                                                                      left: 8.w,
+                                                                      bottom: 6.w),
+                                                                  child:
+                                                                  TitleSmallBoldTextWidget(
+                                                                    title: 'Price ${unitName??""}',
+                                                                    size: 12,
+                                                                  )),
+                                                              TextFormField(
+                                                                  keyboardType:
+                                                                  TextInputType.number,
+                                                                  cursorColor: lightBlueTabs,
+                                                                  style:
+                                                                  TextStyle(fontSize: 11.sp),
+                                                                  textAlign: TextAlign.center,
+                                                                  cursorHeight: 16.w,
+                                                                  maxLines: 1,
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .allow(RegExp("[0-9]")),
+                                                                  ],
+                                                                  initialValue:
+                                                                  editWasteModel != null
+                                                                      ? editWasteModel.price
+                                                                      : '',
+                                                                  onSaved: (input) {
+                                                                    stocklotWaste.price = input;
+                                                                  },
+                                                                  onChanged: (input) {
+                                                                    stocklotWaste.price = input;
+                                                                  },
+                                                                  validator: (input) {
+                                                                    if (input == null ||
+                                                                        input.isEmpty ||
+                                                                        int.parse(input) < 1) {
+                                                                      return priceUnits;
+                                                                    }
+                                                                    return null;
+                                                                  },
+                                                                  decoration:
+                                                                  roundedTextFieldDecoration(
+                                                                      'Price')),
                                                             ],
-                                                            initialValue:
-                                                            editWasteModel != null
-                                                                ? editWasteModel
-                                                                .quantity
-                                                                : '',
-                                                            onSaved: (input) {
-                                                              stocklotWaste.quantity =
-                                                                  input;
-                                                            },
-                                                            onChanged: (input) {
-                                                              stocklotWaste.quantity =
-                                                                  input;
-                                                            },
-                                                            validator: (input) {
-                                                              if (input == null ||
-                                                                  input.isEmpty ||
-                                                                  int.parse(input) < 1) {
-                                                                return "Available Qty";
-                                                              }
-                                                              return null;
-                                                            },
-                                                            decoration:
-                                                            roundedTextFieldDecoration(
-                                                                "Available Qty")),
-                                                      ],
-                                                    ),
+                                                          )),
+                                                      SizedBox(width: 16.w),
+                                                      Expanded(
+                                                        child:
+                                                        //Available Quantity
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                          children: [
+                                                            Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    top: 8.w,
+                                                                    left: 8.w,
+                                                                    bottom: 6.w),
+                                                                child:
+                                                                const TitleSmallBoldTextWidget(
+                                                                  title: "Available Qty",
+                                                                  size: 12,
+                                                                )),
+                                                            TextFormField(
+                                                                keyboardType:
+                                                                TextInputType.number,
+                                                                cursorColor: lightBlueTabs,
+                                                                style: TextStyle(
+                                                                    fontSize: 11.sp),
+                                                                textAlign: TextAlign.center,
+                                                                cursorHeight: 16.w,
+                                                                maxLines: 1,
+                                                                inputFormatters: [
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(RegExp("[0-9]")),
+                                                                ],
+                                                                initialValue:
+                                                                editWasteModel != null
+                                                                    ? editWasteModel
+                                                                    .quantity
+                                                                    : '',
+                                                                onSaved: (input) {
+                                                                  stocklotWaste.quantity =
+                                                                      input;
+                                                                },
+                                                                onChanged: (input) {
+                                                                  stocklotWaste.quantity =
+                                                                      input;
+                                                                },
+                                                                validator: (input) {
+                                                                  if (input == null ||
+                                                                      input.isEmpty ||
+                                                                      int.parse(input) < 1) {
+                                                                    return "Available Qty";
+                                                                  }
+                                                                  return null;
+                                                                },
+                                                                decoration:
+                                                                roundedTextFieldDecoration(
+                                                                    "Available Qty")),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
+
                                                 ],
                                               ),
-
-                                            ],
+                                            ),
+                                            flex: 7,
                                           ),
-                                        ),
-                                        flex: 7,
+                                          ElevatedButtonWithoutIcon(
+                                              callback: () {
+                                                if (stocklotWaste.unitOfCount!.isEmpty) {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Please select unit of count");
+                                                } else if (stocklotWaste.price!.isEmpty) {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Please enter price");
+                                                } else if (stocklotWaste
+                                                    .quantity!.isEmpty) {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Please enter Available Qty");
+                                                } else {
+                                                  Navigator.pop(context);
+                                                  stocklotProvider
+                                                      .addStocklotWaste(stocklotWaste);
+                                                  stocklotProvider.disableClick();
+                                                }
+                                              },
+                                              color: btnColorLogin,
+                                              btnText: 'Add'),
+                                          SizedBox(
+                                            height: 4.h,
+                                          )
+                                        ],
                                       ),
-                                      ElevatedButtonWithoutIcon(
-                                          callback: () {
-                                            if (stocklotWaste.unitOfCount!.isEmpty) {
-                                              Fluttertoast.showToast(
-                                                  msg: "Please select unit of count");
-                                            } else if (stocklotWaste.price!.isEmpty) {
-                                              Fluttertoast.showToast(
-                                                  msg: "Please enter price");
-                                            } else if (stocklotWaste
-                                                .quantity!.isEmpty) {
-                                              Fluttertoast.showToast(
-                                                  msg: "Please enter Available Qty");
-                                            } else {
-                                              Navigator.pop(context);
-                                              stocklotProvider
-                                                  .addStocklotWaste(stocklotWaste);
-                                              stocklotProvider.disableClick();
-                                            }
+                                    ),
+                                    Align(
+                                        alignment: Alignment.topRight,
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            Navigator.pop(context);
                                           },
-                                          color: btnColorLogin,
-                                          btnText: 'Add'),
-                                      SizedBox(
-                                        height: 4.h,
-                                      )
-                                    ],
-                                  ),
+                                          child: const Icon(Icons.close),
+                                        )),
+                                  ],
                                 ),
-                                Align(
-                                    alignment: Alignment.topRight,
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Icon(Icons.close),
-                                    )),
-                              ],
+                              ),
                             ),
                           ),
                         );

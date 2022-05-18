@@ -100,9 +100,9 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             children: [
               Visibility(
                   visible: false, child: TitleTextWidget(title: yarnCategory)),
-              SizedBox(
-                height: 10.w,
-              ),
+//              SizedBox(
+//                height: 4.w,
+//              ),
               SizedBox(
                 height: 0.060 * MediaQuery.of(context).size.height,
                 child: Row(
@@ -150,7 +150,19 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                     element.familyIdfk == family.famId.toString())
                                         .toList()
                                         .isNotEmpty) {
-                                      familyBlendsSheet(context, (int checkedIndex) {
+                                      _yarnPostProvider.resetData();
+                                      _yarnPostProvider.textFieldControllers.clear();
+                                      blendedSheet(
+                                          context,
+                                          _yarnPostProvider.blendList.toList()
+                                              .where((element) =>
+                                          element.familyIdfk == family.famId.toString())
+                                              .toList(),
+                                          0, () {
+                                        Navigator.pop(context);
+                                        openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
+                                      });
+                                      /*familyBlendsSheet(context, (int checkedIndex) {
 
                                       }, (Blends blends) {
                                         Navigator.of(context).pop();
@@ -166,23 +178,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                                 .where((element) =>
                                             element.familyIdfk == family.famId.toString())
                                                 .toList().indexWhere((element) => element == blends), () {
-                                          /*List<Map<String,String>> formations = [];
-                                          for (var element in _yarnPostProvider.selectedBlends) {
-                                            if (element.isSelected??false) {
-                                              var blend = element as Blends;
-                                              String? relateId;
-                                              if(blend.bln_ratio_json != null){
-                                                relateId = getRelatedId(blend);
-                                              }
-                                              BlendModel formationModel = BlendModel(id: element.blnId,
-                                                  relatedBlnId: relateId,
-                                                  ratio: element.blendRatio);
-                                              formations.add(formationModel.toJson());
-                                            }
-                                          }
-                                          Logger().e(formations.toString());
-                                          //  _createRequestModel.ys_formation = formations;*/
-
                                           Navigator.pop(context);
                                           openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
                                         });
@@ -190,7 +185,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                       },
                                           _yarnPostProvider.blendList.where((element) =>
                                           element.familyIdfk == family.famId.toString()).toList(),
-                                          -1, "Yarn");
+                                          -1, "Yarn");*/
                                     }
                                     else {
                                       openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
@@ -236,7 +231,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             ],
           ),
         ),
-        Visibility(
+        /*Visibility(
           visible: Ui.showHide(_yarnSetting.showBlend),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,7 +289,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                   child: Divider()),
             ],
           ),
-        ),
+        ),*/
         Visibility(
           visible: widget.selectedTab == offering_type,
           child: const SizedBox(

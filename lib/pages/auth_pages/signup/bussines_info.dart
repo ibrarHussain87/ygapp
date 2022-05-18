@@ -10,6 +10,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 
+import '../../../elements/custom_header.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 
@@ -72,23 +73,7 @@ class BusinessInfoComponentState
     return  Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[appBarColor2,appBarColor1])),
-        ),
-
-        title: Text('Registration',
-            style: TextStyle(
-                fontSize: 16.0.w,
-                color: Colors.white,
-                fontWeight: FontWeight.w400)),
-      ),
+      appBar:appBar(context,"Registration"),
 //      key: scaffoldKey,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

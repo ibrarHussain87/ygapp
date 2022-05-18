@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -1897,26 +1896,28 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 )),
 
-            const SizedBox(height: 8,),
             // Show Ratio
-            Visibility(
-              visible: Ui.showHide(_yarnSetting!.showRatio),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 8.w,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Visibility(
+                visible: Ui.showHide(_yarnSetting!.showRatio),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 8.w,
+                    ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: ratio + '*')),
-                  YgTextFormFieldWithoutRange(
-                      label: ratio,
-                      errorText: ratio,
-                      onSaved: (input) {
-                        _createRequestModel.ys_ratio = input;
-                      })
-                ],
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    YgTextFormFieldWithoutRange(
+                        label: ratio,
+                        errorText: ratio,
+                        onSaved: (input) {
+                          _createRequestModel.ys_ratio = input;
+                        })
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
               ),
             ),
             // show bottom sheet
@@ -2013,7 +2014,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),*/
-            const SizedBox(height: 6,),
             /*// Count
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showCount),
@@ -2139,7 +2139,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),*/
-
             //Show Twist Direction
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showTwistDirection),

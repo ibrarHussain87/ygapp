@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:yg_app/helper_utils/top_round_corners.dart';
+import 'package:yg_app/model/enum_phone.dart';
 
-import '../../helper_utils/top_round_corners.dart';
+import 'offering_requirment_bottom_sheet.dart';
 
 final List<MyActions> actionsList = [
-  MyActions('Offering', Icons.local_offer,'1'),
-  MyActions('Requirement', Icons.local_offer_outlined,"0"),
+  MyActions('Phone', Icons.phone,'1'),
+  MyActions('Whatsapp', Icons.whatsapp,"0"),
 ];
 
-showBottomSheetOR(BuildContext context,Function callback) {
+showBottomSheetPhone(BuildContext context,Function callback) {
   showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -15,8 +18,8 @@ showBottomSheetOR(BuildContext context,Function callback) {
       isDismissible: false,
       builder: (context) {
         return Container(
-            height: 0.26 * MediaQuery.of(context).size.height,
             decoration: getRoundedTopCorners(),
+            height: 0.26 * MediaQuery.of(context).size.height,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +39,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                 const Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'What do you want to sell?',
+                    'What do you want to open?',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
@@ -59,8 +62,12 @@ showBottomSheetOR(BuildContext context,Function callback) {
                                   myActions: actionsList[index],
                                   myClickCallback: (value) {
                                     Navigator.pop(context);
-                                    print("Families"+actionsList[index].title.toString());
-                                    callback(actionsList[index].value);
+                                    Logger().e(index == 0);
+                                    if(index == 0){
+                                      callback(CallEnum.Phone);
+                                    }else{
+                                      callback(CallEnum.Whatsapp);
+                                    }
                                   });
                             }),
                       ),
@@ -70,14 +77,6 @@ showBottomSheetOR(BuildContext context,Function callback) {
               ],
             ));
       });
-}
-
-class MyActions {
-  String title;
-  IconData icon;
-  String value;
-
-  MyActions(this.title, this.icon,this.value);
 }
 
 class ItemBottomSheet extends StatelessWidget {

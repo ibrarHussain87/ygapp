@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../../app_database/app_database_instance.dart';
@@ -14,14 +13,14 @@ import '../../providers/yarn_providers/post_yarn_provider.dart';
 import '../bottom_sheets/family_blends_bottom_sheet.dart';
 import '../title_text_widget.dart';
 
-class PureFabricSelectTileWidget extends StatefulWidget {
+class PureYarnSelectTileWidget extends StatefulWidget {
   final Function? callback;
   final Function? selectedValue;
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
 
-  const PureFabricSelectTileWidget(
+  const PureYarnSelectTileWidget(
       {Key? key,
         required this.spanCount,
         required this.callback,
@@ -32,10 +31,10 @@ class PureFabricSelectTileWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  PureFabricSelectTileWidgetState createState() => PureFabricSelectTileWidgetState();
+  PureYarnSelectTileWidgetState createState() => PureYarnSelectTileWidgetState();
 }
 
-class PureFabricSelectTileWidgetState extends State<PureFabricSelectTileWidget> {
+class PureYarnSelectTileWidgetState extends State<PureYarnSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
@@ -67,7 +66,7 @@ class PureFabricSelectTileWidgetState extends State<PureFabricSelectTileWidget> 
           crossAxisSpacing: 16,
           mainAxisSpacing: 2,
           crossAxisCount: 1,
-          childAspectRatio: 7.5),
+          childAspectRatio: 9.5),
       itemCount: widget.listOfItems.length,
       itemBuilder: (context, index) {
         return  buildGrid(index);

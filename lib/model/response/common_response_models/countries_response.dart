@@ -1,5 +1,61 @@
 import 'package:floor/floor.dart';
 
+
+class CountriesSyncResponse {
+  bool? status;
+  String? message;
+  Data? data;
+  int? responseCode;
+  int? code;
+
+  CountriesSyncResponse(
+      {this.status, this.message, this.data, this.responseCode, this.code});
+
+  CountriesSyncResponse.fromJson(Map<String, dynamic> json) {
+    status = json['success'];
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    responseCode = json['response_code'];
+    code = json['code'];
+  }
+
+//  Map<String, dynamic> toJson() {
+//    final Map<String, dynamic> data = Map<String, dynamic>();
+//    data['status'] = status;
+//    data['message'] = message;
+//    if (this.data != null) {
+//      data['data'] = this.data!.toJson();
+//    }
+//    data['response_code'] = responseCode;
+//    data['code'] = code;
+//    return data;
+//  }
+}
+
+
+class Data {
+
+  late final List<Countries> countries;
+
+  Data({required this.countries});
+
+  Data.fromJson(Map<String, dynamic> json) {
+
+    countries =json['countries'].map<Countries>((
+        json) {
+      return Countries.fromJson(json);
+    }).toList();
+  }
+
+//  Map<String, dynamic> toJson() {
+//    final Map<String, dynamic> data = Map<String, dynamic>();
+//    if (countries != null) {
+//      data['fabric'] = countries!.toJson();
+//    }
+//    return data;
+//  }
+}
+
 @Entity(tableName: 'countries')
 class Countries {
   @PrimaryKey(autoGenerate:false)

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
 import '../../api_services/api_service_class.dart';
@@ -57,8 +58,8 @@ class SyncProvider extends ChangeNotifier {
                   .insertAllCityState(syncFiberResponse.data.fiber.cityState),
               value.companiesDao
                   .insertAllCompanies(syncFiberResponse.data.fiber.companies),
-              value.countriesDao
-                  .insertAllCountry(syncFiberResponse.data.fiber.countries),
+//              value.countriesDao
+//                  .insertAllCountry(syncFiberResponse.data.fiber.countries),
               value.deliveryPeriodDao.insertAllDeliveryPeriods(
               syncFiberResponse.data.fiber.deliveryPeriod),
               value.lcTypeDao
@@ -107,8 +108,8 @@ class SyncProvider extends ChangeNotifier {
                     .insertAllCityState(syncYarnResponse.data.yarn.cityState!),
                 value.companiesDao
                     .insertAllCompanies(syncYarnResponse.data.yarn.companies!),
-                value.countriesDao
-                    .insertAllCountry(syncYarnResponse.data.yarn.countries!),
+//                value.countriesDao
+//                    .insertAllCountry(syncYarnResponse.data.yarn.countries!),
                 value.deliveryPeriodDao.insertAllDeliveryPeriods(
                     syncYarnResponse.data.yarn.deliveryPeriod!),
                 value.lcTypeDao
@@ -214,7 +215,24 @@ class SyncProvider extends ChangeNotifier {
               ]);
             });
           }
-        })
+        }),
+
+        // For getting countries
+//        ApiService.syncCountriesCall().then((
+//            CountriesSyncResponse response) {
+//          if (response.status!) {
+//            Logger().e("Countries Sync got successfully : " +
+//                response.toString());
+//            AppDbInstance().getDbInstance().then((value) async {
+//              await Future.wait([
+//                value.countriesDao
+//                    .insertAllCountry(response.data!.countries),
+//              ]);
+//            });
+//          }
+//        })
+
+
       ]);
       SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, true);
     }

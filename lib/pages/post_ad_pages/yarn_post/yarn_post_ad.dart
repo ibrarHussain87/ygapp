@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -41,6 +42,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(context, "Yarn"),
         backgroundColor: Colors.white,
         body: /*FutureBuilder<YarnSyncResponse>(
           future: _syncFuture,

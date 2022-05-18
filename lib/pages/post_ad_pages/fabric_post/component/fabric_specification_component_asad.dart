@@ -202,6 +202,7 @@ class FabricSpecificationComponentState
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
     _denimTypesList = await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
+    Logger().e("message");
     AppDbInstance().getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
     AppDbInstance().getOriginsData()

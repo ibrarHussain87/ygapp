@@ -5,6 +5,8 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/auth_pages/forget_password/forgetpassword_page.dart';
 import 'package:yg_app/pages/auth_pages/forget_password/updatepassword_page.dart';
+import 'package:yg_app/pages/auth_pages/forget_password/verifycode_page.dart';
+import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/specification_user/specification_user_page.dart';
 import 'package:yg_app/pages/post_ad_pages/fiber_post/fiber_post_page.dart';
@@ -180,5 +182,16 @@ void openUpdatePasswordScreen(BuildContext context, SignUpRequestModel signUpReq
     ),
   );
 }
+
+void openVerifyCodeScreen(BuildContext context, SignUpRequestModel signUpRequestModel,bool fromSignUp) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) =>  VerifyCodePage(signUpRequestModel:signUpRequestModel,fromSignUp: fromSignUp,),
+    ),
+  );
+}
+
+
 
 //////////////////////
