@@ -183,11 +183,11 @@ void openUpdatePasswordScreen(BuildContext context, SignUpRequestModel signUpReq
   );
 }
 
-void openVerifyCodeScreen(BuildContext context, SignUpRequestModel signUpRequestModel) {
+void openVerifyCodeScreen(BuildContext context, SignUpRequestModel signUpRequestModel,bool fromSignUp) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) =>  VerifyCodePage(signUpRequestModel:signUpRequestModel,),
+      builder: (context) =>  VerifyCodePage(signUpRequestModel:signUpRequestModel,fromSignUp: fromSignUp,),
     ),
   );
 }

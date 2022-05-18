@@ -22,6 +22,7 @@ import '../../../elements/network_icon_widget.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
+import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../helper_utils/shared_pref_util.dart';
 import '../../../helper_utils/ui_utils.dart';
@@ -203,11 +204,12 @@ class PersonalInfoComponentState
                                       if (_signupRequestModel
                                           ?.telephoneNumber !=
                                           null) {
-
+                                        _signupRequestModel?.operator = code;
                                         print("Signup Model"+_signupRequestModel!.company.toString());
                                         print("Signup Model"+_signupRequestModel!.email.toString());
                                         print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
-                                        loginWithPhone();
+//                                        loginWithPhone();
+                                        openVerifyCodeScreen(context, _signupRequestModel!,true);
                                       }
                                     }
                                   })),

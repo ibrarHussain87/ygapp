@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:timer_button/timer_button.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -11,15 +12,21 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 
+import '../../../api_services/api_service_class.dart';
+import '../../../app_database/app_database_instance.dart';
 import '../../../helper_utils/app_images.dart';
+import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/navigation_utils.dart';
+import '../../../helper_utils/shared_pref_util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
+import '../../main_page.dart';
 
 class VerifyCodePage extends StatefulWidget {
   final SignUpRequestModel signUpRequestModel;
+  final bool fromSignUp;
 
   const VerifyCodePage(
-      {Key? key,required this.signUpRequestModel})
+      {Key? key,required this.signUpRequestModel,required this.fromSignUp})
       : super(key: key);
 
   @override
@@ -348,7 +355,13 @@ class VerifyCodePageState
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
 
-          openUpdatePasswordScreen(context,widget.signUpRequestModel!);
+          if(widget.fromSignUp)
+          {
+
+          }
+          else {
+            openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+          }
 
         });
       },
@@ -388,7 +401,13 @@ class VerifyCodePageState
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
 
-          openUpdatePasswordScreen(context,widget.signUpRequestModel);
+          if(widget.fromSignUp)
+          {
+            _signUpCall();
+          }
+          else {
+            openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+          }
 
         });
       },
@@ -436,8 +455,15 @@ class VerifyCodePageState
         verificationId: verificationID, smsCode: otp);
 
     await auth.signInWithCredential(credential).then((value) {
-      Navigator.pop(buildContext);
-      openUpdatePasswordScreen(context,widget.signUpRequestModel!);
+
+      if(widget.fromSignUp)
+        {
+          _signUpCall();
+        }
+      else {
+        Navigator.pop(buildContext);
+        openUpdatePasswordScreen(context, widget.signUpRequestModel!);
+      }
 
     },onError: (error){
       Fluttertoast.showToast(
@@ -445,6 +471,58 @@ class VerifyCodePageState
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1);
+    });
+  }
+
+  void _signUpCall() {
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+        /*remove operator and added static data for parameter*/
+//        widget.signUpRequestModel.operator = code;
+//        _signupRequestModel?.countryId =_signupRequestModel?.countryId;
+//        _signupRequestModel?.email =_signupRequestModel?.email;
+//        _signupRequestModel?.name = _signupRequestModel?.name;
+        Logger().e(widget.signUpRequestModel.toJson());
+        ApiService.signup(widget.signUpRequestModel!).then((value) {
+          Logger().e(value.toJson());
+          ProgressDialogUtil.hideDialog();
+          if (value.errors != null) {
+            value.errors!.forEach((key, error) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(error.toString())));
+            });
+          } else if (value.success!) {
+            AppDbInstance().getDbInstance().then((db) async {
+              await db.userDao.insertUser(value.data!.user!);
+            });
+            SharedPreferenceUtil.addStringToSF(
+                USER_ID_KEY, value.data!.user!.id.toString());
+            SharedPreferenceUtil.addStringToSF(
+                USER_TOKEN_KEY, value.data!.token!);
+            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const MainPage()),
+                    (Route<dynamic> route) => false);
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
     });
   }
 }
