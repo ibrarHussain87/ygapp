@@ -11,7 +11,7 @@ import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import '../../locators.dart';
 import '../../model/response/yarn_response/sync/yarn_sync_response.dart';
 import '../blends_ratio_segment_component.dart';
-import '../list_widgets/pure_fabric_select_tile_widget.dart';
+import '../list_widgets/pure_yarn_select_tile_widget.dart';
 import '../list_widgets/single_select_tile_widget.dart';
 import '../yarn_widgets/popular_blend_ratio.dart';
 
@@ -23,7 +23,7 @@ final ValueNotifier<int> blendTypesNotifier = ValueNotifier(1);
 blendedSheet(BuildContext context, List<dynamic> blends, int index,
     Function callback) {
   List<BlendModel> values = [];
-  late List<String> _natureFabricList = ["Pure", "Blended"];
+  late List<String> _natureYarnList = ["Pure", "Blended"];
   final _yarnPostProvider = locator<PostYarnProvider>();
   final ValueNotifier<bool> _notifierNatureSheet = ValueNotifier(false);
 
@@ -44,7 +44,10 @@ blendedSheet(BuildContext context, List<dynamic> blends, int index,
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(topLeft:Radius.circular(14.w),topRight:Radius.circular(14.w) )
+                ),
                 height: MediaQuery
                     .of(context)
                     .size
@@ -56,21 +59,19 @@ blendedSheet(BuildContext context, List<dynamic> blends, int index,
                       Align(
                           alignment: Alignment.topRight,
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 5, top: 8),
+                            padding: const EdgeInsets.only(right: 8, top: 8),
                             child: GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 _yarnPostProvider.isBlendSelected = false;
                                 Navigator.pop(context);
-                                /*_yarnPostProvider.resetData();
-                                _yarnPostProvider.textFieldControllers.clear();*/
                               },
                               child: const Icon(Icons.close),
                             ),
                           )),
                       Center(
                         child: Text(
-                          "Select Fabric Nature",
+                          "Select Yarn Nature",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16.0.sp,
@@ -95,11 +96,11 @@ blendedSheet(BuildContext context, List<dynamic> blends, int index,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 8, right: 8),
+                                    left: 18, right: 18),
                                 child: SingleSelectTileWidget(
                                   selectedIndex: 0,
                                   spanCount: 2,
-                                  listOfItems: _natureFabricList
+                                  listOfItems: _natureYarnList
                                       .toList(),
                                   callback: (String value) {
                                     if (value == "Pure") {
@@ -149,7 +150,7 @@ Column getWidget(int index, List<dynamic> blends,
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              "Select Pure Fabric",
+              "Select Pure Yarn",
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontSize: 14.0.sp,
@@ -158,10 +159,10 @@ Column getWidget(int index, List<dynamic> blends,
             ),
           ),
         ),
-        const SizedBox(height: 6,),
+        const SizedBox(height: 10,),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: PureFabricSelectTileWidget(
+          child: PureYarnSelectTileWidget(
             selectedIndex: -1,
             spanCount: index,
             listOfItems: blends.where((element) => (element as Blends).bln_nature == 'Pure').toList(),
@@ -229,7 +230,7 @@ Column getWidget(int index, List<dynamic> blends,
       children: [
         const SizedBox(height: 10,),
         Padding(
-          padding: const EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(left: 18),
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
@@ -242,7 +243,7 @@ Column getWidget(int index, List<dynamic> blends,
             ),
           ),
         ),
-        const SizedBox(height: 6,),
+        const SizedBox(height: 10,),
         Padding(
           padding: EdgeInsets.only(left: 18.w, right: 18.w),
           child: BlendsRatioSegmentComponent(
@@ -251,7 +252,7 @@ Column getWidget(int index, List<dynamic> blends,
             },
           ),
         ),
-        const SizedBox(height: 6,),
+        const SizedBox(height: 12,),
         ValueListenableBuilder(
             valueListenable: blendTypesNotifier,
             builder: (context, int notifierValue, child) {
@@ -273,7 +274,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
   return Column(
     children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 4),
         child: PopularBlendRatioWidget(
           selectedIndex: index,
           listOfItems: blends,
@@ -375,7 +376,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
     children: [
       BlendRatioWidget(
         selectedIndex: index,
-        listOfItems: blends,
+        listOfItems: blends.where((element) => (element as Blends).bln_nature == 'Pure').toList(),
         listController: _yarnPostProvider
             .textFieldControllers,
         blendsValue: values,

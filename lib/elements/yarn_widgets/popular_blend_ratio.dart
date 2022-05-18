@@ -69,7 +69,7 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
         shrinkWrap: true,
         separatorBuilder: (context, index) {
           return Container(
-            height: 2,
+            height: 6,
           );
         },
         scrollDirection: Axis.vertical,
@@ -81,9 +81,14 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
     );
   }
 
-  GestureDetector buildGestureDetector(int index) {
+  Container buildGestureDetector(int index) {
     bool checked = index == checkedTile;
-    return GestureDetector(
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.only(right: 16.w),
+        child:
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: (){
             setState(() {
               checkedTile = index;
@@ -91,61 +96,60 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
             selectedBlend = widget.listOfItems[index];
             widget.callback!(widget.listOfItems[index]);
           },
-          child: Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child:
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                flex: 5,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          checkedTile = index;
-                        });
-                        selectedBlend = widget.listOfItems[index];
-                        widget.callback!(widget.listOfItems[index]);
-                      },
-                      child: Container(
-                        child: widget.listOfItems[index] == selectedBlend ?
-                        const Icon(Icons.radio_button_checked,
-                          size: 14,
-                          color: Colors.blueAccent,
-                        ):
-                        const Icon(Icons.radio_button_off,
-                          size: 14,
-                          color: Colors.black87,
-                        ),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Expanded(
+              flex: 5,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        checkedTile = index;
+                      });
+                      selectedBlend = widget.listOfItems[index];
+                      widget.callback!(widget.listOfItems[index]);
+                    },
+                    child: Container(
+                      child: widget.listOfItems[index] == selectedBlend ?
+                      const Icon(Icons.radio_button_checked,
+                        size: 14,
+                        color: Colors.blueAccent,
+                      ):
+                      const Icon(Icons.radio_button_off,
+                        size: 14,
+                        color: Colors.black87,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 2),
-                      child: TitleSmallBoldTextWidget(
-                          title: widget.listOfItems[index].toString()),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10,top: 2),
+                    child: TitleSmallBoldTextWidget(
+                      size: 12,
+                        title: widget.listOfItems[index].toString()),
+                  )
+                ],
               ),
-              Expanded(
-                flex: 5,
-                child: BlendTextFormFieldWithRangeNonDecimal(
-                  errorText: "count",
-                  minMax: "1-100",
-                  validation: _yarnPostProvider.blendList[index].isSelected ??
-                      false,
-                  isEnabled: _yarnPostProvider.blendList[index].isSelected ??
-                      false,
-                  textEditingController: _yarnPostProvider
-                      .textFieldControllers[index],
-                  onSaved: (input) {
-                    _yarnPostProvider.setBlendRatio(
-                        index, widget.listController[index].text);
-                  },
-                ),
+            ),
+            Expanded(
+              flex: 5,
+              child: BlendTextFormFieldWithRangeNonDecimal(
+                errorText: "count",
+                minMax: "1-100",
+                validation: _yarnPostProvider.blendList[index].isSelected ??
+                    false,
+                isEnabled: _yarnPostProvider.blendList[index].isSelected ??
+                    false,
+                textEditingController: _yarnPostProvider
+                    .textFieldControllers[index],
+                onSaved: (input) {
+                  _yarnPostProvider.setBlendRatio(
+                      index, widget.listController[index].text);
+                },
               ),
-            ]),
-          ),
-        );
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }
