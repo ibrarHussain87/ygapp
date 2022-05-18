@@ -43,7 +43,7 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
   @override
   void initState() {
     super.initState();
-    checkedTile = widget.selectedIndex ?? 0;
+    checkedTile = widget.selectedIndex;
     _yarnPostProvider.addListener(updateUI);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Add Your Code here.

@@ -28,7 +28,7 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
   bool showFiberWaste = false;
   bool showYarnLO = false;
   bool showFabricsLO = false;
-  bool showAperalsLO = false;
+  bool showApearalsLO = false;
   List<String> _stockLotList = [];
 
   @override
@@ -175,15 +175,15 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
                                 if(value == "Yarn"){
                                   showYarnLO = true;
                                   showFabricsLO = false;
-                                  showAperalsLO = false;
+                                  showApearalsLO = false;
                                 }else if(value == "Fabrics"){
                                   showYarnLO = false;
                                   showFabricsLO = true;
-                                  showAperalsLO = false;
+                                  showApearalsLO = false;
                                 }else{
                                   showYarnLO = false;
                                   showFabricsLO = false;
-                                  showAperalsLO = true;
+                                  showApearalsLO = true;
                                 }
                               });
                             },
@@ -250,7 +250,7 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
 
                   //Apperals Left Over
                   Visibility(
-                      visible: showAperalsLO,
+                      visible: showApearalsLO,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -308,7 +308,7 @@ class StockLotSpecificationBodyState extends State<StockLotSpecificationBody> {
 
   _hideChildContent(){
     showFabricsLO = false;
-    showAperalsLO = false;
+    showApearalsLO = false;
     showYarnWaste = false;
     showFiberWaste = false;
     showYarnLO = false;

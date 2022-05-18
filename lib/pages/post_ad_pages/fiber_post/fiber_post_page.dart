@@ -36,7 +36,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
         selectedTab: widget.selectedTab,
         callback: (value) {
           _fiberPostProvider.selectedValue++;
-          _fiberPostProvider.pageController.animateToPage(
+          _fiberPostProvider.pageController?.animateToPage(
               _fiberPostProvider.selectedValue,
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut);
