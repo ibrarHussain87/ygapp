@@ -11,12 +11,15 @@ class SignUpRequestModel {
   String? operator;
   String? telephoneNumber;
   String? config;
+  String? comapnyId;
+  String? comapnyName;
+  String? otherCompany;
   Countries? country;
 
   SignUpRequestModel(
 
       {this.name,this.email, this.password,this.countryId,this.cityStateId,this.operator,this.telephoneNumber,this.config,
-        this.country});
+        this.comapnyId,this.comapnyName,this.otherCompany,this.country});
 
   Map<String, dynamic> toJson() {
 
@@ -30,8 +33,11 @@ class SignUpRequestModel {
       'company': company!.trim(),
       'city_state_id': cityStateId!.trim(),
       'operator': operator!.trim(),
-      'telephone_number': telephoneNumber.toString().trim()
+      'telephone_number': telephoneNumber.toString().trim(),
 //      'telephone_number': telephoneNumber!.trim()
+      'company_id': comapnyId ?? '-1',
+      'company_name': comapnyName ?? company,
+      'other_company': '1'
     };
 
     return map;

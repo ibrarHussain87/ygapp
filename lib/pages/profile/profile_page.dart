@@ -305,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               value.brandsDao.deleteAll();
                               value.cityStateDao.deleteAll();
                               value.companiesDao.deleteAll();
-                              value.countriesDao.deleteAll();
+//                              value.countriesDao.deleteAll();
                               value.portsDao.deleteAll();
                             });
                             SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, false);

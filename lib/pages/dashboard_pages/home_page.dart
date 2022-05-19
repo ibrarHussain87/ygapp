@@ -59,11 +59,10 @@ class HomePageState extends State<HomePage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: (){
-                          /*openProfileScreen(context);*/
+//                          openProfileScreen(context);
 
-                          /*widget.callback(4);*/
+                          widget.callback(4);
 
-                          openMembershipScreen(context);
 
                         },
                         child: const CircleAvatar(
@@ -76,26 +75,32 @@ class HomePageState extends State<HomePage> {
                       SizedBox(
                         width: 3.w,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            top: 8.w, bottom: 8.w, left: 12.w, right: 12.w),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.deepOrange.shade400,
-                                Colors.deepOrange.shade600,
-                              ],
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(12.w),
-                            )),
-                        child: Text('Upgrade',
-                            style: TextStyle(
-                                fontSize: 9.0.w,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400)),
+                      GestureDetector(
+                        onTap: (){
+
+                          openMembershipScreen(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 8.w, bottom: 8.w, left: 12.w, right: 12.w),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.deepOrange.shade400,
+                                  Colors.deepOrange.shade600,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12.w),
+                              )),
+                          child: Text('Upgrade',
+                              style: TextStyle(
+                                  fontSize: 9.0.w,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400)),
+                        ),
                       )
                     ],
                   )),
@@ -139,7 +144,8 @@ class HomePageState extends State<HomePage> {
                 ),
               )
             ],
-          )),
+          )
+          ),
           )
     );
   }

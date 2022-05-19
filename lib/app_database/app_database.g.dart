@@ -83,6 +83,8 @@ class _$AppDatabase extends AppDatabase {
 
   CountryDao? _countriesDaoInstance;
 
+  CategoryDao? _categoriesDaoInstance;
+
   DeliveryPeriodDao? _deliveryPeriodDaoInstance;
 
   LcTypesDao? _lcTypeDaoInstance;
@@ -201,6 +203,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER, `conName` TEXT, `countryIso` TEXT, `countryIso3` TEXT, `countryCurrencyName` TEXT, `countryCurrencyCode` TEXT, `countryCurrencySymbol` TEXT, `countryPhoneCode` TEXT, `countryContinent` TEXT, `countryStatus` TEXT, `mainFlagImage` TEXT, `extralarge` TEXT, `large` TEXT, `medium` TEXT, PRIMARY KEY (`conId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `categories` (`catId` INTEGER, `catName` TEXT, PRIMARY KEY (`catId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT, `cerName` TEXT, `cerIsActive` TEXT, PRIMARY KEY (`cerId`))');
         await database.execute(
@@ -362,6 +366,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   CountryDao get countriesDao {
     return _countriesDaoInstance ??= _$CountryDao(database, changeListener);
+  }
+
+  @override
+  CategoryDao get categoriesDao {
+    return _categoriesDaoInstance ??= _$CategoryDao(database, changeListener);
   }
 
   @override
@@ -1527,6 +1536,64 @@ class _$CountryDao extends CountryDao {
   Future<List<int>> insertAllCountry(List<Countries> country) {
     return _countriesInsertionAdapter.insertListAndReturnIds(
         country, OnConflictStrategy.replace);
+  }
+}
+
+class _$CategoryDao extends CategoryDao {
+  _$CategoryDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _categoriesInsertionAdapter = InsertionAdapter(
+            database,
+            'categories',
+            (Categories item) => <String, Object?>{
+                  'catId': item.catId,
+                  'catName': item.catName
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Categories> _categoriesInsertionAdapter;
+
+  @override
+  Future<List<Categories>> findAllCategories() async {
+    return _queryAdapter.queryList('SELECT * FROM categories',
+        mapper: (Map<String, Object?> row) => Categories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?));
+  }
+
+  @override
+  Future<Categories?> findCategoryWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM categories where catId = ?1',
+        mapper: (Map<String, Object?> row) => Categories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteCategories(int id) async {
+    await _queryAdapter.queryNoReturn('delete from categories where catId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from categories');
+  }
+
+  @override
+  Future<void> insertCategory(Categories category) async {
+    await _categoriesInsertionAdapter.insert(
+        category, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCategories(List<Categories> category) {
+    return _categoriesInsertionAdapter.insertListAndReturnIds(
+        category, OnConflictStrategy.replace);
   }
 }
 

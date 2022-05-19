@@ -1,5 +1,33 @@
 import 'package:floor/floor.dart';
 
+
+class CompaniesSyncResponse {
+  bool? status;
+  String? message;
+  late final List<Companies> companies;
+  int? responseCode;
+  int? code;
+
+  CompaniesSyncResponse(
+      {this.status, this.message, required this.companies, this.responseCode, this.code});
+
+  CompaniesSyncResponse.fromJson(Map<String, dynamic> json) {
+    status = json['success'];
+    message = json['message'];
+    companies =json['data'].map<Companies>((
+        json) {
+      return Companies.fromJson(json);
+    }).toList();
+    responseCode = json['status_code'];
+    code = json['code'];
+  }
+
+
+}
+
+
+
+
 @Entity(tableName: 'companies')
 class Companies {
   Companies({

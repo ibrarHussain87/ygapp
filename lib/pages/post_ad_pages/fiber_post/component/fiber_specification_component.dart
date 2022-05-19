@@ -21,9 +21,11 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 
+import '../../../../elements/circle_icon_widget.dart';
 import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/navigation_utils.dart';
 import '../../../../helper_utils/progress_dialog_util.dart';
+import '../../../auth_pages/signup/country_search_page.dart';
 
 class FiberSpecificationComponent extends StatefulWidget {
   final Function? callback;
@@ -627,6 +629,103 @@ class FiberSpecificationComponentState
                                   ],
                                 ),
                                 //ORIGIN
+//                                Visibility(
+//                                  visible: Ui.showHide(_postFiberProvider
+//                                      .fiberSettings.showOrigin),
+//                                  child: Padding(
+//                                    padding: EdgeInsets.only(top: 18.w),
+//                                    child: Column(
+//                                      crossAxisAlignment:
+//                                          CrossAxisAlignment.start,
+//                                      children: [
+//                                        SizedBox(
+//                                          height: 36.w,
+//                                          child: Container(
+//                                            decoration: BoxDecoration(
+//                                                border: Border.all(
+//                                                  color: Colors.grey.shade300,
+//                                                  width:
+//                                                      1, //                   <--- border width here
+//                                                ),
+//                                                borderRadius: BorderRadius.all(
+//                                                    Radius.circular(5.w))),
+//                                            child: DropdownButtonFormField(
+//                                              hint: const Text('Select Origin'),
+//                                              items:
+//                                                  _postFiberProvider.countries
+//                                                      .map((value) =>
+//                                                          DropdownMenuItem(
+//                                                            child: Text(
+//                                                                value.conName ??
+//                                                                    Utils.checkNullString(
+//                                                                        false),
+//                                                                textAlign:
+//                                                                    TextAlign
+//                                                                        .center),
+//                                                            value: value,
+//                                                          ))
+//                                                      .toList(),
+//                                              onChanged: (Countries? value) {
+//                                                _postFiberProvider
+//                                                        .createRequestModel
+//                                                        .spc_origin_idfk =
+//                                                    value!.conId.toString();
+//                                              },
+//                                              decoration: InputDecoration(
+//                                                label: Row(
+//                                                  mainAxisSize:
+//                                                      MainAxisSize.min,
+//                                                  mainAxisAlignment:
+//                                                      MainAxisAlignment.start,
+//                                                  children: [
+//                                                    Text(
+//                                                      'Origin',
+//                                                      style: TextStyle(
+//                                                          color: Colors.black87,
+//                                                          fontSize: 14.sp,
+//                                                          /*fontFamily: 'Metropolis',*/
+//                                                          backgroundColor:
+//                                                              Colors.white,
+//                                                          fontWeight:
+//                                                              FontWeight.w500),
+//                                                    ),
+//                                                    Text("*",
+//                                                        style: TextStyle(
+//                                                            color: Colors.red,
+//                                                            fontSize: 16.sp,
+//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            backgroundColor:
+//                                                                Colors.white,
+//                                                            fontWeight:
+//                                                                FontWeight
+//                                                                    .w500)),
+//                                                  ],
+//                                                ),
+//                                                floatingLabelBehavior:
+//                                                    FloatingLabelBehavior
+//                                                        .always,
+//                                                contentPadding: EdgeInsets.only(
+//                                                    left: 16.w,
+//                                                    right: 6.w,
+//                                                    top: 0,
+//                                                    bottom: 0),
+//                                                border:
+//                                                    const OutlineInputBorder(
+//                                                        borderSide:
+//                                                            BorderSide.none),
+//                                              ),
+//                                              style: TextStyle(
+//                                                  fontSize: 11.sp,
+//                                                  color: textColorGrey),
+//                                            ),
+//                                          ),
+//                                        ),
+//                                      ],
+//                                    ),
+//                                  ),
+//                                ),
+
+
                                 Visibility(
                                   visible: Ui.showHide(_postFiberProvider
                                       .fiberSettings.showOrigin),
@@ -636,6 +735,7 @@ class FiberSpecificationComponentState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+/*<<<<<<< HEAD
                                         SizedBox(
                                           height: 40.w,
                                           child: Container(
@@ -665,56 +765,113 @@ class FiberSpecificationComponentState
                                                       .toList(),
                                               onChanged: (Countries? value) {
                                                 _postFiberProvider
+=======*/
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>  SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries country)=>{
+                                                  setState(() {
+//                                                        _signupRequestModel?.countryId=country.conId.toString();
+                                                    _postFiberProvider
+                                                        .createRequestModel.country=country;
+                                                    _postFiberProvider
+//>>>>>>> dev-asadM
                                                         .createRequestModel
                                                         .spc_origin_idfk =
-                                                    value!.conId.toString();
-                                              },
-                                              decoration: InputDecoration(
-                                                label: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                        country.conId.toString();
+                                                  }
+                                                  )
+
+
+                                                },
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            height: 36.w,
+                                            child:Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade300,
+                                                    width:
+                                                    1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5.w))),
+                                              child: InputDecorator(
+                                                decoration: InputDecoration(
+                                                  label: Row(
+                                        mainAxisSize:
+                                        MainAxisSize.min,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Origin',
+                                            style: TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 14.sp,
+                                                /*fontFamily: 'Metropolis',*/
+                                                backgroundColor:
+                                                Colors.white,
+                                                fontWeight:
+                                                FontWeight.w500),
+                                          ),
+                                          Text("*",
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 16.sp,
+                                                  /*fontFamily: 'Metropolis',*/
+                                                  backgroundColor:
+                                                  Colors.white,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w500)),
+                                        ],
+                                      ),
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 16.w,
+                                                        right: 6.w,
+                                                        top: 0,
+                                                        bottom: 0),
+                                                    suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black87,),
+                                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                                  hintText:'Select Origin',
+                                                   border: const OutlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide.none),
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 11.sp,
+                                                    color: textColorGrey),
+                                                ),
+
+                                                child: Row(
                                                   children: [
-                                                    Text(
-                                                      'Origin',
-                                                      style: TextStyle(
-                                                          color: Colors.black87,
-                                                          fontSize: 14.sp,
-                                                          /*fontFamily: 'Metropolis',*/
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w500),
+                                                    Visibility(
+                                                      visible:true,
+                                                      child: CircleImageIconWidget(
+                                                          imageUrl:
+                                                          _postFiberProvider
+                                                              .createRequestModel.country?.medium.toString() ?? ""),
                                                     ),
-                                                    Text("*",
-                                                        style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 16.sp,
-                                                            /*fontFamily: 'Metropolis',*/
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500)),
+                                                    const Visibility(
+                                                        visible:true,
+                                                         child: SizedBox(width: 8.0,)
+                                                     ),
+                                                    Expanded(
+                                                        flex:8,
+                                                        child: Text(
+                                                          _postFiberProvider
+                                                              .createRequestModel.country?.conName.toString() ?? "Select Origin",textAlign: TextAlign.start,style:TextStyle(
+                                                            fontSize: 11.sp,
+                                                            color: textColorGrey))),
+
                                                   ],
                                                 ),
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior
-                                                        .always,
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 16.w,
-                                                    right: 6.w,
-                                                    top: 0,
-                                                    bottom: 0),
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
                                               ),
-                                              style: TextStyle(
-                                                  fontSize: 11.sp,
-                                                  color: textColorGrey),
                                             ),
                                           ),
                                         ),
