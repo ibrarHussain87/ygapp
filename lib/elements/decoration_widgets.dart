@@ -197,6 +197,7 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
       filled: true,
       fillColor: Colors.white,
       isDense: true,
+      counterText: "",
       contentPadding: EdgeInsets.only(left: 16.w, right: 16.w,top: 12.w,bottom: 12.w),
       label: Row(
         mainAxisSize: MainAxisSize.min,

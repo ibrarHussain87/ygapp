@@ -129,6 +129,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           value: _createRequestModel.ys_dty_filament,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting.dannierMinMax!,
+                                          autoFocus: true,
                                           label: dannier,
                                           errorText: dannier),
                                     ],
@@ -183,6 +184,8 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           value: _createRequestModel.ys_count,
                                           minMax: _yarnSetting.countMinMax!,
+                                          maxLength: 3,
+                                          autoFocus: true,
                                           onSaved: (input) {
                                             _createRequestModel.ys_count = input;
                                           })

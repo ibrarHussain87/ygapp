@@ -12,6 +12,7 @@ import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
+import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../locators.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
@@ -31,7 +32,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
           builder: (BuildContext context, StateSetter setState) {
             return SingleChildScrollView(
               child: Container(
-                color: Colors.white,
+                decoration: getRoundedTopCorners(),
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
                     left: 15.0,right: 15.0),
@@ -89,6 +90,8 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                           label:'Warp Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: fabricSetting.warpCountMinMax??'n/a',
+                                          maxLength: 3,
+                                          autoFocus: true,
                                           onSaved: (input) {
                                             fabricCreateRequestModel.fs_warp_count = input;
                                           })

@@ -12,6 +12,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
   final String errorText;
   final String minMax;
   final String label;
+  final int? maxLength;
   final Function onSaved;
   // final Function onChanged;
   final bool? validation;
@@ -23,7 +24,9 @@ class YgTextFormFieldWithRange extends StatelessWidget {
       required this.label,
       required this.onSaved,
       // required this.onChanged,
-      this.validation})
+      this.validation,
+      this.maxLength,
+      })
       : super(key: key);
 
   @override
@@ -35,6 +38,7 @@ class YgTextFormFieldWithRange extends StatelessWidget {
         style: TextStyle(fontSize: 11.sp),
         textAlign: TextAlign.center,
         cursorHeight: 16.w,
+        maxLength: maxLength,
         onSaved: (input) => onSaved(input),
         // onChanged: (input) => onChanged(input),
         inputFormatters: [
@@ -54,9 +58,12 @@ class YgTextFormFieldWithRange extends StatelessWidget {
 }
 
 class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
+
   final String errorText;
   final String minMax;
   final String label;
+  final int? maxLength;
+  final bool? autoFocus;
   final Function onSaved;
   // final Function onChanged;
   final bool? validation;
@@ -70,8 +77,9 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         required this.onSaved,
         // required this.onChanged,
         this.validation,
-        this.value
-
+        this.value,
+        this.maxLength,
+        this.autoFocus,
       })
       : super(key: key);
 
@@ -85,6 +93,8 @@ class YgTextFormFieldWithRangeNonDecimal extends StatelessWidget {
         style: TextStyle(fontSize: 11.sp),
         textAlign: TextAlign.center,
         cursorHeight: 16.w,
+        maxLength: maxLength,
+        autofocus: autoFocus??false,
         onSaved: (input) => onSaved(input),
         // onChanged: (input) => onChanged(input),
         inputFormatters: [

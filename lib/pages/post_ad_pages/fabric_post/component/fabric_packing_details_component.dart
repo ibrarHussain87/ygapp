@@ -82,6 +82,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   late List<Ports> _portsList;
   late List<ConeType> _coneTypeList;
 
+  TextEditingController availableQuantityController = TextEditingController();
+  TextEditingController minimumQuantityController = TextEditingController();
+
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
       return _priceTermList
@@ -249,6 +252,10 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           input!;
                                                     }
                                                   },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                        RegExp("[0-9]")),
+                                                  ],
                                                   onChanged: (value) {
                                                     if (_conePerBagController
                                                         .text.isNotEmpty) {
@@ -309,6 +316,10 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           .fpb_cones_bag = input!;
                                                     }
                                                   },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                        RegExp("[0-9]")),
+                                                  ],
                                                   onChanged: (value) {
                                                     if (_weigthPerBagController
                                                         .text.isNotEmpty) {
@@ -923,6 +934,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       Padding(
                                         padding:  EdgeInsets.only(top: 14.w,bottom: 4),
                                         child: TextFormField(
+                                            controller: availableQuantityController,
                                             keyboardType: TextInputType.number,
                                             cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -1012,6 +1024,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   Padding(
                                     padding:  EdgeInsets.only(top: 14.w,bottom: 4),
                                     child: TextFormField(
+                                        controller: minimumQuantityController,
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
@@ -1035,6 +1048,17 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             return minQty;
                                           }
                                           return null;
+                                        },
+                                        onChanged: (String value){
+                                          if(value.isNotEmpty){
+                                            int availableQuantity = int.parse(availableQuantityController.text);
+                                            int minimumQuantity = int.parse(value);
+                                            if(minimumQuantity>availableQuantity){
+                                              FocusScope.of(context).unfocus();
+                                              minimumQuantityController.text = '';
+                                              Fluttertoast.showToast(msg: 'Minimum Quantity can not be greater than Available Quantity');
+                                            }
+                                          }
                                         },
                                         decoration:
                                             ygTextFieldDecoration(minQty,minQty)),

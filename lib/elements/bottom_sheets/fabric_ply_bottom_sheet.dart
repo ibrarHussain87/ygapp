@@ -13,6 +13,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/app_constants.dart';
+import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../locators.dart';
 import '../../model/request/post_ad_request/create_request_model.dart';
@@ -47,7 +48,7 @@ fabricPlySheet(
           builder: (BuildContext contextBuilder, StateSetter setState) {
             return SingleChildScrollView(
               child: Container(
-                color: Colors.white,
+                decoration: getRoundedTopCorners(),
                 /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -107,6 +108,8 @@ fabricPlySheet(
                                         // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         value: _createRequestModel.fs_count,
                                         minMax: _fabricSettings.countMinMax!,
+                                        maxLength: 3,
+                                        autoFocus: true,
                                         onSaved: (input) {
                                           _createRequestModel.fs_count = input;
                                         })
@@ -198,8 +201,7 @@ fabricPlySheet(
                                           minMax: _fabricSettings.gsmCountMinMax??'n/a',
                                           value: _createRequestModel.fs_gsm_count,
                                           onSaved: (input) {
-                                            _createRequestModel.fs_gsm_count =
-                                                input;
+                                            _createRequestModel.fs_gsm_count = input;
                                           }),
                                       SizedBox(
                                         width: 16.w,

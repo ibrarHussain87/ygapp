@@ -54,6 +54,7 @@ class PackagingDetails extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
+
   const PackagingDetails({
     Key? key,
     // required this.requestModel,
@@ -108,6 +109,8 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   final _fiberPostProvider = locator<PostFiberProvider>();
   final _yarnPostProvider = locator<PostYarnProvider>();
+  TextEditingController availableQuantityController = TextEditingController();
+  TextEditingController minimumQuantityController = TextEditingController();
 
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
@@ -293,6 +296,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         input!;
                                                   }
                                                 },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.allow(
+                                                      RegExp("[0-9]")),
+                                                ],
                                                 onChanged: (value) {
                                                   if (_conePerBagController
                                                       .text.isNotEmpty) {
@@ -353,6 +360,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         .fpb_cones_bag = input!;
                                                   }
                                                 },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.allow(
+                                                      RegExp("[0-9]")),
+                                                ],
                                                 onChanged: (value) {
                                                   if (_weigthPerBagController
                                                       .text.isNotEmpty) {
@@ -1060,6 +1071,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          child: const TitleSmallTextWidget(
 //                                              title: "Available Quantity")),
                                         TextFormField(
+                                            controller: availableQuantityController,
                                             keyboardType: TextInputType.number,
                                             cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -1109,6 +1121,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                      child: TitleSmallTextWidget(title: minQty)),
                                     SizedBox(height: 12.w),
                                     TextFormField(
+                                        controller: minimumQuantityController,
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
@@ -1132,6 +1145,17 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             return minQty;
                                           }
                                           return null;
+                                        },
+                                        onChanged: (String value){
+                                          if(value.isNotEmpty){
+                                            int availableQuantity = int.parse(availableQuantityController.text);
+                                            int minimumQuantity = int.parse(value);
+                                            if(minimumQuantity>availableQuantity){
+                                              FocusScope.of(context).unfocus();
+                                              minimumQuantityController.text = '';
+                                              Fluttertoast.showToast(msg: 'Minimum Quantity can not be greater than Available Quantity');
+                                            }
+                                          }
                                         },
                                         decoration: ygTextFieldDecoration(
                                             minQty, minQty)),

@@ -5,6 +5,7 @@ import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
+import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
 
@@ -23,7 +24,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
           builder: (BuildContext context, StateSetter setState) {
             return SingleChildScrollView(
               child: Container(
-                color: Colors.white,
+                decoration: getRoundedTopCorners(),
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
                     left: 15.0,right: 15.0),
@@ -81,6 +82,8 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                           label:'Weft Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: fabricSetting.weftCountMinMax??'n/a',
+                                          maxLength: 3,
+                                          autoFocus: true,
                                           onSaved: (input) {
                                             fabricCreateRequestModel.fs_weft_count = input;
                                           })
