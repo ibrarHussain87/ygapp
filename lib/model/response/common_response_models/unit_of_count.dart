@@ -5,6 +5,7 @@ class Units {
   Units({
     required this.untId,
     required this.untCategoryIdfk,
+    required this.unt_family_idfk,
     required this.untName,
     required this.untIsActive,
     this.untSortid,
@@ -15,6 +16,7 @@ class Units {
   @PrimaryKey(autoGenerate: false)
   late final int untId;
   String? untCategoryIdfk;
+  String? unt_family_idfk;
   String? untName;
   String? untIsActive;
   @ignore
@@ -29,6 +31,7 @@ class Units {
   Units.fromJson(Map<String, dynamic> json){
     untId = json['unt_id'];
     untCategoryIdfk = json['unt_category_idfk'];
+    unt_family_idfk = json['unt_family_idfk'];
     untName = json['unt_name'];
     untIsActive = json['unt_is_active'];
     untSortid = null;
@@ -41,6 +44,7 @@ class Units {
     final _data = <String, dynamic>{};
     _data['unt_id'] = untId;
     _data['unt_category_idfk'] = untCategoryIdfk;
+    _data['unt_family_idfk'] = unt_family_idfk;
     _data['unt_name'] = untName;
     _data['unt_is_active'] = untIsActive;
     _data['unt_sortid'] = untSortid;

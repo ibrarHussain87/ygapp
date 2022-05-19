@@ -77,7 +77,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                   visible: false,
                   child: TitleTextWidget(title: yarnCategory)),
               SizedBox(
-                height: 0.055 * MediaQuery
+                height: 0.058 * MediaQuery
                     .of(context)
                     .size
                     .height,

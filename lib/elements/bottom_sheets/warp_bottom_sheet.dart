@@ -186,6 +186,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                                 color: Colors.transparent)))),
                                 onPressed: () {
                                   if (validateAndSaveWrap()) {
+                                    FocusScope.of(context).unfocus();
                                     callback.call();
                                     Navigator.of(context).pop();
                                   }

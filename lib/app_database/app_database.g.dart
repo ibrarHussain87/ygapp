@@ -206,7 +206,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT, `dprName` TEXT, `dprIsActive` TEXT, PRIMARY KEY (`dprId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
+            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `unt_family_idfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `companies` (`id` INTEGER NOT NULL, `name` TEXT, `gst` TEXT, `address` TEXT, `countryId` TEXT, `cityStateId` TEXT, `zipCode` TEXT, `websiteUrl` TEXT, `whatsappNumber` TEXT, `wechatNumber` TEXT, `telephoneNumber` TEXT, `emailId` TEXT, `maxProduction` TEXT, `noOfUnits` TEXT, `yearEstablished` TEXT, `tradeCategory` TEXT, `licenseHolder` TEXT, `isVerified` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -1966,6 +1966,7 @@ class _$UnitDao extends UnitDao {
             (Units item) => <String, Object?>{
                   'untId': item.untId,
                   'untCategoryIdfk': item.untCategoryIdfk,
+                  'unt_family_idfk': item.unt_family_idfk,
                   'untName': item.untName,
                   'untIsActive': item.untIsActive
                 });
@@ -1984,6 +1985,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?));
   }
@@ -1994,6 +1996,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?),
         arguments: [id]);

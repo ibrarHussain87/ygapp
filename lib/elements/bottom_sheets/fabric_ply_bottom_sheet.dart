@@ -239,6 +239,7 @@ fabricPlySheet(
                                 onPressed: () {
                                   if (validationAllPage(_createRequestModel,_fabricSettings,contextBuilder,selectedPlyId)) {
                                     //showDoublingMethod.dispose();
+                                    FocusScope.of(context).unfocus();
                                     _createRequestModel.fs_ply_idfk = selectedPlyId;
                                     callback.call();
                                     Navigator.of(context).pop();

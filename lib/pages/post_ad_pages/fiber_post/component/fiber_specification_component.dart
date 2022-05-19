@@ -455,13 +455,13 @@ class FiberSpecificationComponentState
                                     Visibility(
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 18.w),
+                                          padding: EdgeInsets.only(top: 14.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                height: 36.w,
+                                                height: 40.w,
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
@@ -476,7 +476,7 @@ class FiberSpecificationComponentState
                                                                   5.w))),
                                                   child:
                                                       DropdownButtonFormField(
-                                                    hint: Text('Select $brand'),
+                                                    hint: Text(brand),
                                                     items: _postFiberProvider
                                                         .brandsList
                                                         .map((value) =>
@@ -507,7 +507,7 @@ class FiberSpecificationComponentState
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            brand,
+                                                            'Select $brand',
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .black87,
@@ -610,8 +610,8 @@ class FiberSpecificationComponentState
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        'Production year',
-                                                        'Production year',true),
+                                                        'Year',
+                                                        'Production Year',true),
                                                 onTap: () {
                                                   handleReadOnlyInputClick(
                                                       context);
@@ -635,7 +635,7 @@ class FiberSpecificationComponentState
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          height: 36.w,
+                                          height: 40.w,
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 border: Border.all(

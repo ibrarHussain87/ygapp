@@ -192,9 +192,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
-                                              element.untCategoryIdfk ==
-                                              _createRequestModel!
-                                                  .spc_category_idfk)
+                                              element.untCategoryIdfk == _createRequestModel!.spc_category_idfk
+                                                  && checkFamilyId(element.unt_family_idfk!)
+                                      )
                                           .toList(),
                                       callback: (Units value) {
                                         setState(() {
@@ -436,7 +436,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                              child: TitleSmallTextWidget(
 //                                                  title: country)),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -533,7 +533,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                              child: TitleSmallTextWidget(
 //                                                  title: port)),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -638,7 +638,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                          child: TitleSmallTextWidget(
 //                                              title: cityState)),
                                       SizedBox(
-                                        height: 36.w,
+                                        height: 40.w,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -730,7 +730,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 Padding(
                                   padding: const EdgeInsets.only(top: 14.0,bottom: 4),
                                   child: SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -1136,7 +1136,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   Padding(
                                     padding: const EdgeInsets.only(top: 14.0,bottom: 4),
                                     child: SizedBox(
-                                      height: 36.w,
+                                      height: 40.w,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -1249,12 +1249,22 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             Visibility(
                               visible: true,
-                              child: AddPictureWidget(
-                                imageCount: 1,
-                                callbackImages: (value) {
-                                  imageFiles = value;
-                                },
-                              ),
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TitleSmallBoldTextWidget(
+                                        title: attachment),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  AddPictureWidget(
+                                    imageCount: 1,
+                                    callbackImages: (value) {
+                                      imageFiles = value;
+                                    },
+                                  ),
+                                ],
+                              )
                             )
                           ],
                         ),
@@ -1398,5 +1408,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
     }
     return false;
    // return true;
+  }
+
+  bool checkFamilyId(String familyId) {
+    return familyId == _createRequestModel!.fs_family_idfk;
   }
 }

@@ -329,6 +329,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                   if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,
                                       showDoublingMethod.value,_selectedPlyId,_selectedDoublingMethodId,_selectedOrientationId)) {
                                     //showDoublingMethod.dispose();
+                                    FocusScope.of(context).unfocus();
                                     _createRequestModel.ys_ply_idfk = _selectedPlyId;
                                     _createRequestModel.ys_doubling_method_idFk = _selectedDoublingMethodId;
                                     _createRequestModel.ys_orientation_idfk = _selectedOrientationId;

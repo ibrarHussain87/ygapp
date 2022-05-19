@@ -199,6 +199,7 @@ class YarnPageState extends State<YarnPage> {
                               .searchData(model);
                         },
                       ),
+                      const SizedBox(height: 2,),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Row(

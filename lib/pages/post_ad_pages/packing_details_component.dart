@@ -234,9 +234,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
-                                              element.untCategoryIdfk ==
-                                              _createRequestModel!
-                                                  .spc_category_idfk)
+                                              element.untCategoryIdfk == _createRequestModel!.spc_category_idfk
+                                          && checkFamilyId(element.unt_family_idfk!)
+                                      )
                                           .toList(),
                                       callback: (Units value) {
                                         setState(() {
@@ -513,7 +513,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             height: 12.w,
                                           ),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -630,7 +630,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             height: 12.w,
                                           ),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -755,7 +755,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         height: 12.w,
                                       ),
                                       SizedBox(
-                                        height: 36.w,
+                                        height: 40.w,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -857,7 +857,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     height: 12.w,
                                   ),
                                   SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -1293,7 +1293,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     height: 12.w,
                                   ),
                                   SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -1415,12 +1415,22 @@ class PackagingDetailsState extends State<PackagingDetails>
                               visible:
                                   widget.businessArea != yarn ? true : false,
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: AddPictureWidget(
-                                  imageCount: 1,
-                                  callbackImages: (value) {
-                                    imageFiles = value;
-                                  },
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: TitleSmallBoldTextWidget(
+                                          title: attachment),
+                                    ),
+                                    const SizedBox(height: 4,),
+                                    AddPictureWidget(
+                                      imageCount: 1,
+                                      callbackImages: (value) {
+                                        imageFiles = value;
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
@@ -1571,5 +1581,13 @@ class PackagingDetailsState extends State<PackagingDetails>
       // }
     }
     return false;
+  }
+
+  bool checkFamilyId(String familyId) {
+    if(_createRequestModel!.spc_category_idfk == '1'){
+      return familyId == _createRequestModel!.spc_fiber_family_idfk;
+    }else{
+      return familyId == _createRequestModel!.ys_family_idfk;
+    }
   }
 }

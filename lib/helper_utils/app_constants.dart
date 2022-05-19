@@ -95,6 +95,7 @@ String weightCones = 'Weight/Cones';
 // String weightBags = 'Weight/Bags';
 String coneBags = 'Cone/Bags';
 String yarn = "Yarn";
+String attachment = "Attachment";
 
 var unifomity = 'U (Uniformity)%';
 var cv = 'CV%';
