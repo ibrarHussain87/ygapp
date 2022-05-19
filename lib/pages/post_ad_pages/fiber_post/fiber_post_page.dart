@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -70,6 +71,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          appBar: appBar(context, "Fiber"),
           backgroundColor: Colors.white,
           body: !_fiberPostProvider.isLoading
               ? Padding(

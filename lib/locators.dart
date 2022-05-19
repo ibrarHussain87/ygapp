@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
@@ -6,6 +7,7 @@ import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 
 /// Locators to get instances of classes mostly singletons
@@ -40,9 +42,21 @@ void setupLocators() {
     );
   }
 
+  if(!locator.isRegistered<YarnSpecificationsProvider>()) {
+    locator.registerLazySingleton<YarnSpecificationsProvider>(
+          () => YarnSpecificationsProvider(),
+    );
+  }
+
   if(!locator.isRegistered<PostYarnProvider>()) {
     locator.registerLazySingleton<PostYarnProvider>(
           () => PostYarnProvider(),
+    );
+  }
+
+  if(!locator.isRegistered<PostFabricProvider>()) {
+    locator.registerLazySingleton<PostFabricProvider>(
+          () => PostFabricProvider(),
     );
   }
 

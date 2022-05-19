@@ -467,27 +467,54 @@ class ApiService {
 
   static Future<CreateFiberResponse> createFabricSpecification(
       FabricCreateRequestModel createRequestModel, String imagePath) async {
-    //for multipart Request
-    try {
-      var request = http.MultipartRequest(
-          'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
-      var userToken =
-          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-      request.headers.addAll(
-          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
-      if (imagePath.isNotEmpty) {
-        request.files
-            .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
-      }
-      createRequestModel.fs_user_idfk = userId.toString();
-      request.fields.addAll(createRequestModel.toJson());
-      logger.e(createRequestModel.toJson());
-      var response = await request.send();
-      var responsed = await http.Response.fromStream(response);
-      logger.e(json.decode(responsed.body));
 
-      return CreateFiberResponse.fromJson(json.decode(responsed.body));
+
+    try {
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+        createRequestModel.fs_user_idfk = userId.toString();
+        var dbInstance = await AppDbInstance().getDbInstance();
+        var userDetail = await dbInstance.userDao.getUser();
+        createRequestModel.fs_origin_idfk = userDetail!.countryId.toString();
+
+      try {
+        ///[1] CREATING INSTANCE
+        var dioRequest = dio.Dio();
+        dioRequest.options.baseUrl = BASE_API_URL;
+
+        //[2] ADDING TOKEN
+        dioRequest.options.headers = {
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        };
+
+        //[3] ADDING EXTRA INFO
+        var formData = dio.FormData.fromMap(createRequestModel.toJson());
+
+        if(imagePath != "") {
+          //[4] ADD IMAGE TO UPLOAD
+          var file = await dio.MultipartFile.fromFile(
+            imagePath,
+            filename: imagePath
+                .split("/")
+                .last,
+          );
+          formData.files.add(MapEntry('fpc_picture[]', file));
+        }
+
+        logger.e(createRequestModel.toJson());
+
+        //[5] SEND TO SERVER
+        var response = await dioRequest.post(
+          CREATE_END_POINT,
+          data: formData,
+        );
+        final result = json.decode(response.toString());
+        return CreateFiberResponse.fromJson(result);
+      } catch (err) {
+        throw (err.toString());
+      }
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -497,6 +524,38 @@ class ApiService {
         throw ("Something went wrong");
       }
     }
+
+
+    //for multipart Request
+    // try {
+    //   var request = http.MultipartRequest(
+    //       'POST', Uri.parse(BASE_API_URL + CREATE_END_POINT));
+    //   var userToken =
+    //       await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+    //   var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    //   request.headers.addAll(
+    //       {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+    //   if (imagePath.isNotEmpty) {
+    //     request.files
+    //         .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
+    //   }
+    //   createRequestModel.fs_user_idfk = userId.toString();
+    //   request.fields.addAll(createRequestModel.toJson());
+    //   logger.e(createRequestModel.toJson());
+    //   var response = await request.send();
+    //   var responsed = await http.Response.fromStream(response);
+    //   logger.e(json.decode(responsed.body));
+    //
+    //   return CreateFiberResponse.fromJson(json.decode(responsed.body));
+    // } catch (e) {
+    //   if (e is SocketException) {
+    //     throw (no_internet_available_msg);
+    //   } else if (e is TimeoutException) {
+    //     throw (e.toString());
+    //   } else {
+    //     throw ("Something went wrong");
+    //   }
+    // }
   }
 
   static Future<FabricUpdateResponse> updateFabricSpecification(

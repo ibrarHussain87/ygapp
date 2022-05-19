@@ -148,4 +148,8 @@ class PostFiberProvider extends ChangeNotifier {
     createRequestModel.spc_origin_idfk = null;
     textEditingController.text = "";
   }
+
+  notifyUI(){
+    notifyListeners();
+  }
 }

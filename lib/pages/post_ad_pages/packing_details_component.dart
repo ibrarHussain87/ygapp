@@ -33,8 +33,11 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -108,6 +111,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   final _fiberPostProvider = locator<PostFiberProvider>();
   final _yarnPostProvider = locator<PostYarnProvider>();
+  final _fabricPostProvider = locator<PostFabricProvider>();
+  final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
+  final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
 
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
@@ -1471,6 +1477,11 @@ class PackagingDetailsState extends State<PackagingDetails>
               },
             );
           } else {
+            if(_createRequestModel!.spc_category_idfk == "1") {
+              _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
+            }else if(_createRequestModel!.spc_category_idfk == "2"){
+              _yarnSpecificationProvider.getUpdatedYarnSpecificationsData();
+            }
             Navigator.pop(context);
           }
         } else {

@@ -12,13 +12,58 @@ class PostFabricProvider extends ChangeNotifier{
 
   List<FabricFamily> fabricFamilyList = [];
   List<FabricBlends> fabricBlendsList = [];
+  List<dynamic> selectedBlends = [];
+  set addSelectedBlend(value){
+    selectedBlends.add(value);
+    notifyListeners();
+  }
+
+  set removeSelectedBlend(value){
+    selectedBlends.remove(value);
+    notifyListeners();
+  }
   int? blendId;
   int? firstFamilyId;
   bool dataSynced = false;
   bool updateSegments = true;
   List<FabricSetting>? fabricSetting = [];
   late FabricCreateRequestModel fabricCreateRequestModel;
+  List<TextEditingController> textFieldControllers = [];
+  List<TextEditingController> textFieldControllersPopular = [];
   // Lists
+  FabricFamily? _selectedFabricFamily;
+  FabricFamily get selectedFabricFamily => _selectedFabricFamily??FabricFamily();
+  set selectedFabricFamily(value){
+    _selectedFabricFamily = value;
+    notifyListeners();
+  }
+
+  bool? _isBlendSelected;
+  bool get isBlendSelected => _isBlendSelected??false;
+  set isBlendSelected(value){
+    _isBlendSelected = value;
+    notifyListeners();
+  }
+
+  bool? _familyDisabled;
+  bool get familyDisabled => _familyDisabled??false;
+  set familyDisabled(value){
+    _familyDisabled = value;
+    notifyListeners();
+  }
+
+  List<FabricBlends> _blendsList = [];
+  List<FabricBlends> get blendList => _blendsList;
+  set setBlendList(value){
+    _blendsList.clear();
+    _blendsList = value;
+    notifyListeners();
+  }
+
+  void setBlendRatio(index,ratio){
+    _blendsList[index].blendRatio = ratio;
+    notifyListeners();
+  }
 
 
   Future<void> getSyncData() async{
@@ -30,6 +75,8 @@ class PostFabricProvider extends ChangeNotifier{
     blendId = fabricBlendsList.where((element) => element.familyIdfk == fabricFamilyList.first.fabricFamilyId.toString())
         .toList().first
         .blnId;
+
+    setBlendList = fabricBlendsList;
     dataSynced = true;
     notifyListeners();
   }
@@ -58,6 +105,17 @@ class PostFabricProvider extends ChangeNotifier{
 
   void setRequestModel(FabricCreateRequestModel createRequestModel) {
     fabricCreateRequestModel = createRequestModel;
+  }
+
+  void resetData(){
+    for (var element in _blendsList) {
+      element.blendRatio = "";
+      element.isSelected = false;
+    }
+    textFieldControllers.clear();
+    selectedBlends.clear();
+    notifyListeners();
+
   }
 
 }

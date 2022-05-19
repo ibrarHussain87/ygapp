@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
+import 'package:yg_app/elements/bottom_sheets/fabric_blend_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
@@ -33,12 +38,16 @@ class FabricPageState extends State<FabricPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final GlobalKey<FabricSpecificationListFutureState> fabricSpecificationListState = GlobalKey<FabricSpecificationListFutureState>();
   List<Countries> _countries = [];
+  final _postFabricProvider = locator<PostFabricProvider>();
 
   @override
   void initState() {
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _postFabricProvider.getSyncData();
+    });
   }
 
   @override
@@ -49,7 +58,34 @@ class FabricPageState extends State<FabricPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              openFabricPostPage(context, widget.locality, value, "Fabric");
+              _postFabricProvider.selectedFabricFamily = FabricFamily();
+              familySheet(context, (int checkedIndex) {}, (FabricFamily family) {
+                _postFabricProvider.selectedFabricFamily = family;
+                Navigator.of(context).pop();
+                if (_postFabricProvider.fabricBlendsList
+                    .where((element) =>
+                element.familyIdfk == family.fabricFamilyId.toString())
+                    .toList()
+                    .isNotEmpty) {
+                  _postFabricProvider.resetData();
+                  _postFabricProvider.textFieldControllers.clear();
+                  FabricBlendBottomSheet(
+                      context,
+                      _postFabricProvider.fabricBlendsList.toList()
+                          .where((element) =>
+                      element.familyIdfk == family.fabricFamilyId.toString())
+                          .toList(),
+                      0, () {
+                    Navigator.pop(context);
+                    openFabricPostPage(context, widget.locality, "Fabric", value);
+                  });
+                }
+                else {
+                  openFabricPostPage(context, widget.locality,"Fabric", value);
+                }
+              }, _postFabricProvider.fabricFamilyList, -1, "Fabric");
+
+
             });
           },
           child: const Icon(Icons.add),

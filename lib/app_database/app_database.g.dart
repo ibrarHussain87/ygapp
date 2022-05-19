@@ -236,7 +236,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
@@ -2469,7 +2469,12 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
                   'blnIsActive': item.blnIsActive,
-                  'blnSortid': item.blnSortid
+                  'blnSortid': item.blnSortid,
+                  'blnNature': item.blnNature,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0),
+                  'blendRatio': item.blendRatio
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -2493,6 +2498,11 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
+            blnNature: row['blnNature'] as String?,
             blnSortid: row['blnSortid'] as String?));
   }
 
@@ -2510,6 +2520,11 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
+            blnNature: row['blnNature'] as String?,
             blnSortid: row['blnSortid'] as String?),
         arguments: [id]);
   }

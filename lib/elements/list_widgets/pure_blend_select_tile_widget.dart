@@ -13,14 +13,14 @@ import '../../providers/yarn_providers/post_yarn_provider.dart';
 import '../bottom_sheets/family_blends_bottom_sheet.dart';
 import '../title_text_widget.dart';
 
-class PureYarnSelectTileWidget extends StatefulWidget {
+class PureBlendSelectTileWidget extends StatefulWidget {
   final Function? callback;
   final Function? selectedValue;
   final List<dynamic> listOfItems;
   final int? spanCount;
   final int? selectedIndex;
 
-  const PureYarnSelectTileWidget(
+  const PureBlendSelectTileWidget(
       {Key? key,
         required this.spanCount,
         required this.callback,
@@ -31,15 +31,15 @@ class PureYarnSelectTileWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  PureYarnSelectTileWidgetState createState() => PureYarnSelectTileWidgetState();
+  PureBlendSelectTileWidgetState createState() => PureBlendSelectTileWidgetState();
 }
 
-class PureYarnSelectTileWidgetState extends State<PureYarnSelectTileWidget> {
+class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
   final _postYarnProvider = locator<PostYarnProvider>();
-  Blends? selectedBlend;
+  dynamic selectedBlend;
 
   @override
   void initState() {

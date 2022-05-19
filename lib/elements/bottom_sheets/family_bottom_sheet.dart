@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -6,7 +5,6 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import '../../helper_utils/top_round_corners.dart';
 import '../list_widgets/family_select_tile_widget.dart';
 import '../list_widgets/single_select_tile_widget.dart';
-import '../list_widgets/spec_select_tile_widget.dart';
 
 
 final GlobalKey<SingleSelectTileWidgetState> _specKey =
@@ -20,13 +18,6 @@ familySheet(BuildContext context,
     String title
     )
 {
-
-  final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
-  String? _selectedPlyId;
-  int checkedTile;
-  checkedTile = selectedIndex;
-
-  print("Calue +"+listOfItems.toString());
 
   showModalBottomSheet<int>(
     isScrollControlled: true,
