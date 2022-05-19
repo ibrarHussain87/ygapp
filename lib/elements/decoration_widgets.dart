@@ -191,7 +191,7 @@ OutlineInputBorder myfocusborder() {
 
 // created by (asad_m)
 
-InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
+InputDecoration ygTextFieldDecoration(String hintLabel,String title,bool mandatoryField) {
   return InputDecoration(
       hintStyle: TextStyle(fontSize: 11.sp,),
       filled: true,
@@ -208,7 +208,7 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title) {
               fontSize: 14.sp,
               /*fontFamily: 'Metropolis',*/
               fontWeight: FontWeight.w500),),
-           Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
+           Text(mandatoryField ? "*" : "", style: TextStyle(color: Colors.red, fontSize: 16.sp,
             /*fontFamily: 'Metropolis',*/
                fontWeight: FontWeight.w500)),
         ],

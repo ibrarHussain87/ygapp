@@ -325,7 +325,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration: ygTextFieldDecoration(
                                                     "Weight($unitCountSelected)/Bag",
-                                                    "Weight($unitCountSelected)/Bag")),
+                                                    "Weight($unitCountSelected)/Bag",true)),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -387,7 +387,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        coneBags, coneBags)),
+                                                        coneBags, coneBags,true)),
                                           ],
                                         )),
                                       ],
@@ -430,7 +430,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 return null;
                                               },
                                               decoration: ygTextFieldDecoration(
-                                                  weightCones, weightCones)),
+                                                  weightCones, weightCones,true)),
                                         ],
                                       ),
                                     ),
@@ -1051,7 +1051,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             return null;
                                           },
                                           decoration: ygTextFieldDecoration(
-                                              priceUnits, priceUnits)),
+                                              priceUnits, priceUnits,true)),
                                     ],
                                   )),
                                   SizedBox(width: 16.w),
@@ -1099,7 +1099,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             },
                                             decoration: ygTextFieldDecoration(
                                                 "Available Quantity",
-                                                "Available Qunatity")),
+                                                "Available Qunatity",true)),
                                       ],
                                     ),
                                   ),
@@ -1158,7 +1158,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           }
                                         },
                                         decoration: ygTextFieldDecoration(
-                                            minQty, minQty)),
+                                            minQty, minQty,true)),
                                   ],
                                 ),
                               ),
@@ -1205,7 +1205,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         decoration: ygTextFieldDecoration(
                                             "Required Quantity",
-                                            "Required Quantity")),
+                                            "Required Quantity",true)),
                                   ],
                                 ),
                               ),
@@ -1407,7 +1407,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     //   return null;
                                     // },
                                     decoration: ygTextFieldDecoration(
-                                        descriptionStr, descriptionStr)),
+                                        descriptionStr, descriptionStr,true)),
                               ),
                             ),
 

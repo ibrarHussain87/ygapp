@@ -296,6 +296,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: thinPlaces,
                                                           label: thinPlaces,
+                                                          mandatoryField: false,
                                                           onSaved: (input) => _createRequestModel
                                                               .ys_thin_places = input!,
                                                           minMax: widget.newSettings.thinPlacesMinMax??"",

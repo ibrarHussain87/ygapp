@@ -611,7 +611,7 @@ class FiberSpecificationComponentState
                                                 decoration:
                                                     ygTextFieldDecoration(
                                                         'Production year',
-                                                        'Production year'),
+                                                        'Production year',true),
                                                 onTap: () {
                                                   handleReadOnlyInputClick(
                                                       context);
@@ -845,7 +845,7 @@ class FiberSpecificationComponentState
                                               return null;
                                             },
                                             decoration: ygTextFieldDecoration(
-                                                'Lot Number', 'Lot Number')),
+                                                'Lot Number', 'Lot Number',true)),
                                       ],
                                     ),
                                   ),

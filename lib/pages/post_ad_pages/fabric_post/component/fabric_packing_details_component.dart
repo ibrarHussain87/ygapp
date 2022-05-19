@@ -281,7 +281,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   },
                                                   decoration:
                                                       ygTextFieldDecoration(
-                                                          "Weight/$unitCountSelected","Weight/$unitCountSelected")),
+                                                          "Weight/$unitCountSelected","Weight/$unitCountSelected",true)),
                                             ),
                                           ],
                                         )),
@@ -343,7 +343,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   },
                                                   decoration:
                                                       ygTextFieldDecoration(
-                                                          coneBags,coneBags)),
+                                                          coneBags,coneBags,true)),
                                             ),
                                           ],
                                         )),
@@ -385,7 +385,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               },
                                               decoration:
                                                   ygTextFieldDecoration(
-                                                      weightCones,weightCones)),
+                                                      weightCones,weightCones,true)),
                                         ),
                                       ],
                                     ),
@@ -914,7 +914,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             return null;
                                           },
                                           decoration: ygTextFieldDecoration(
-                                              priceUnits,priceUnits)),
+                                              priceUnits,priceUnits,true)),
                                     ),
                                   ],
                                 )),
@@ -962,7 +962,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             },
                                             decoration:
                                                 ygTextFieldDecoration(
-                                                    "Available Quantity","Available Quantity")),
+                                                    "Available Quantity","Available Quantity",true)),
                                       ),
                                     ],
                                   ),
@@ -1061,7 +1061,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           }
                                         },
                                         decoration:
-                                            ygTextFieldDecoration(minQty,minQty)),
+                                            ygTextFieldDecoration(minQty,minQty,true)),
                                   ),
                                 ],
                               ),
@@ -1243,7 +1243,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                     //   return null;
                                     // },
                                     decoration: ygTextFieldDecoration(
-                                        descriptionStr,descriptionStr)),
+                                        descriptionStr,descriptionStr,true)),
                               ),
                             ),
 

@@ -624,7 +624,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           stocklotProvider.stocklotRequestModel.description = input;
                                         },
                                         decoration:
-                                        ygTextFieldDecoration(descriptionStr,descriptionStr)),
+                                        ygTextFieldDecoration(descriptionStr,descriptionStr,true)),
                                   ),
                                 ),
                               ],),
