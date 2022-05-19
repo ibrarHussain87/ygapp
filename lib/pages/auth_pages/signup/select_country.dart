@@ -12,6 +12,7 @@ import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import '../../../api_services/api_service_class.dart';
 import '../../../elements/circle_icon_widget.dart';
 import '../../../elements/custom_header.dart';
+import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 
@@ -237,7 +238,7 @@ class CountryComponentState extends State<CountryComponent>
   void handleNextClick() {
     if (validationAllPage()) {
       _preConfigCall(_signupRequestModel?.countryId.toString());
-      widget.callback!(1);
+
     }
   }
 
@@ -268,24 +269,39 @@ class CountryComponentState extends State<CountryComponent>
   }
 
   void _preConfigCall(String? countryId) {
-    ProgressDialogUtil.showDialog(context, 'Please wait...');
-    ApiService.preConfig(countryId!).then((value) {
-      ProgressDialogUtil.hideDialog();
-      if (value.success!) {
-        _signupRequestModel?.config = value.data!.config.toString();
-        if (kDebugMode) {
-          print("Data Config:" + value.data!.config.toString());
-        }
-      } else {
-        if (kDebugMode) {
-          print("Error" + value.message.toString());
-        }
+
+    check().then((value) {
+      if(value){
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+        ApiService.preConfig(countryId!).then((value) {
+          ProgressDialogUtil.hideDialog();
+          if (value.success!) {
+            _signupRequestModel?.config = value.data!.config.toString();
+            widget.callback!(1);
+            if (kDebugMode) {
+              print("Data Config:" + value.data!.config.toString());
+            }
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message!)));
+            if (kDebugMode) {
+              print("Error" + value.message.toString());
+            }
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+          if (kDebugMode) {
+            print("Error" + error.toString());
+          }
+        });
       }
-    }).onError((error, stackTrace) {
-      ProgressDialogUtil.hideDialog();
-      if (kDebugMode) {
-        print("Error" + error.toString());
+      else{
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
       }
     });
+
   }
 }
