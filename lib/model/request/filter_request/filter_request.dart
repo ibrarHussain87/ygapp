@@ -20,7 +20,7 @@ class GetSpecificationRequestModel {
   List<int>? doublingMethodId;
 
   List<int>? gradeId;
-  List<String>? fbBlendIdfk;
+  List<int>? fbBlendIdfk;
   List<int>? originId;
   List<int>? apperanceId;
   List<int>? apperanceYarnId;
@@ -78,7 +78,7 @@ class GetSpecificationRequestModel {
       'spc_fiber_family_idfk[]': spcFiberFamilyIdfk,
       'locality': locality,
       'is_offering': isOffering,
-      'fb_blend_idfk[]': fbBlendIdfk,
+      'fb_blend_idfk': fbBlendIdfk,
       'origin_id[]': originId ?? "",
       'apperance_id': apperanceId,
       'production_year': productionYear,

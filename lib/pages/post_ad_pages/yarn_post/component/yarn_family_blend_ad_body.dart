@@ -152,7 +152,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                         .isNotEmpty) {
                                       _yarnPostProvider.resetData();
                                       _yarnPostProvider.textFieldControllers.clear();
-                                      blendedSheet(
+                                      YarnBlendBottomSheet(
                                           context,
                                           _yarnPostProvider.blendList.toList()
                                               .where((element) =>
@@ -342,12 +342,13 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
     var value = '';
     List<String?> stringList = [];
     var _postYarnProvider = locator<PostYarnProvider>();
+    if(_postYarnProvider.selectedBlends.isNotEmpty){
     for (var element in _postYarnProvider.selectedBlends) {
-      if (element.isSelected??false) {
+      if (element.isSelected ?? false) {
         var blend = element as Blends;
         stringList.add(element.blnName);
         String? relateId;
-        if(blend.bln_ratio_json != null){
+        if (blend.bln_ratio_json != null) {
           relateId = getRelatedId(blend);
         }
         BlendModel formationModel = BlendModel(id: element.blnId,
@@ -355,6 +356,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             ratio: element.blendRatio);
         formations.add(formationModel.toJson());
       }
+    }
+    }else{
+      BlendModel formationModel = BlendModel(id: _postYarnProvider.selectedYarnFamily.famId,
+          relatedBlnId: null,
+          ratio: "100");
+      formations.add(formationModel.toJson());
     }
     value = Utils.createStringFromList(stringList);
     Logger().e(formations.toString());

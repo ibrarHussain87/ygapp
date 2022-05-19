@@ -216,11 +216,14 @@ class FabricFilterPageState extends State<FabricFilterPage>
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  //Fabric Family
                   Padding(
                     padding:
                     EdgeInsets.only(top: 8.w, left: 16.w, right: 16.w),
                     child: Column(
                       children: [
+
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -923,7 +926,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                           children: [
                                             //Show Color dying Method
                                             Visibility(
-                                              visible: true,
+                                              visible: false,
                                               child: Padding(
                                                 padding:
                                                     EdgeInsets.only(top: 8.w),

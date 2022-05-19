@@ -18,6 +18,7 @@ import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 
 import '../../../../helper_utils/dialog_builder.dart';
@@ -51,6 +52,7 @@ class FiberSpecificationComponentState
     with AutomaticKeepAliveClientMixin {
 
   final _postFiberProvider = locator<PostFiberProvider>();
+  final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<PickedFile> _imageFiles = [];
@@ -984,6 +986,7 @@ class FiberSpecificationComponentState
             },
           );
         } else {
+          _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
           Navigator.pop(context);
         }
       } else {

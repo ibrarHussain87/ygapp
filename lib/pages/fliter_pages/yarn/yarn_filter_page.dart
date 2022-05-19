@@ -7,6 +7,7 @@ import 'package:yg_app/elements/filter_widget/filter_category_single_select_widg
 import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -274,9 +275,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             height: 8.w,
                           ),
                           SizedBox(
-                            height: 0.055 * MediaQuery.of(context).size.height,
-                            child: CategorySingleSelectWidget(
-                              listItems: _familyList,
+                            height: 0.04 * MediaQuery.of(context).size.height,
+                            child: SingleSelectTileRenewedWidget(
+                              spanCount: 4,
+                              listOfItems: _familyList!,
                               callback: (value) {
                                 //Family Id
 
@@ -349,7 +351,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                                 child:
-                                    TitleSmallTextWidget(title: yarnTexturedType)),
+                                TitleSmallTextWidget(title: yarnTexturedType)),
                             SingleSelectTileWidget(
                               selectedIndex: -1,
                               spanCount: 3,
@@ -363,6 +365,57 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               height: 4.w,
                             ),
                             const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Usage
+                      Visibility(
+                        visible: showUsage ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(title: usage)),
+                            SingleSelectTileWidget(
+                              spanCount: 2,
+                              listOfItems: _usageList!
+                                  .where((element) =>
+                              element.ysFamilyId == selectedFamilyId)
+                                  .toList(),
+                              callback: (Usage usage) {
+                                _getSpecificationRequestModel!.yuId =
+                                    filterList(listOfUsageId, usage.yuId!);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Count
+                      Visibility(
+                        visible: showCount ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FilterRangeSlider(
+                              // minMaxRange: widget.syncFiberResponse.data.fiber
+                              //     .settings[0].micMinMax,
+                              minValue: minCount,
+                              maxValue: maxCount,
+                              hintTxt: "Count",
+                              valueCallback: (value) {},
+                            ),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Divider(),
                           ],
                         ),
                       ),
@@ -417,25 +470,91 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                       ),
 
-                      //Show Usage
+                      //Show Ply
                       Visibility(
-                        visible: showUsage ?? false,
+                        visible: showPly ?? false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: usage)),
-                            FilterGridTileWidget(
-                              spanCount: 2,
-                              listOfItems: _usageList!
+                                child: TitleSmallTextWidget(title: ply)),
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
+                              spanCount: 3,
+                              listOfItems: _plyList!
                                   .where((element) =>
-                                      element.ysFamilyId == selectedFamilyId)
+                              element.familyId == selectedFamilyId)
                                   .toList(),
-                              callback: (Usage usage) {
-                                _getSpecificationRequestModel!.yuId =
-                                    filterList(listOfUsageId, usage.yuId!);
+                              callback: (Ply ply) {
+                                _getSpecificationRequestModel!.plyId =
+                                    filterList(listOfPlyId, ply.plyId!);
+                                _showDoublingMethod(ply);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Doubling Method
+                      Visibility(
+                        visible: showDoublingMethod ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: const TitleSmallTextWidget(
+                                    title: "Doubling Method")),
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
+                              spanCount: 3,
+                              listOfItems: _doublingMethodList!
+                                  .where(
+                                      (element) => element.plyId == _selectedPlyId)
+                                  .toList(),
+                              callback: (DoublingMethod doublingMethod) {
+                                _getSpecificationRequestModel!.doublingMethodId =
+                                    filterList(
+                                        listOfDoublingMethod, doublingMethod.dmId!);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Orientation
+                      Visibility(
+                        visible: showOrientation ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: const TitleSmallTextWidget(
+                                    title: 'Orientation')),
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
+                              spanCount: 2,
+                              listOfItems: _orientationList!
+                                  .where((element) =>
+                              element.familyId == selectedFamilyId)
+                                  .toList(),
+                              callback: (OrientationTable orientation) {
+                                _getSpecificationRequestModel!.orientationId =
+                                    filterList(
+                                        listOfOrientation, orientation.yoId!);
                               },
                             ),
                             SizedBox(
@@ -482,7 +601,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                       //Show color dying method
                       Visibility(
-                        visible: showDyingMethod ?? false,
+                        visible: /*showDyingMethod ?? */false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -571,7 +690,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                       //Show Appearance
                       Visibility(
-                        visible: showAppearance ?? false,
+                        visible: /*showAppearance ??*/ false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -599,31 +718,11 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                       ),
 
-                      //Show Count
-                      Visibility(
-                        visible: showCount ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minCount,
-                              maxValue: maxCount,
-                              hintTxt: "Count",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
 
-                      //Show Ratio
+
+                     /* //Show Ratio
                       Visibility(
-                        visible: showRatio ?? false,
+                        visible: *//*showRatio ?? *//*false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -641,104 +740,12 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
 
-                      //Show Ply
-                      Visibility(
-                        visible: showPly ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: ply)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _plyList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (Ply ply) {
-                                _getSpecificationRequestModel!.plyId =
-                                    filterList(listOfPlyId, ply.plyId!);
-                                _showDoublingMethod(ply);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
 
-                      //Show Doubling Method
-                      Visibility(
-                        visible: showDoublingMethod ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: "Doubling Method")),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _doublingMethodList!
-                                  .where(
-                                      (element) => element.plyId == _selectedPlyId)
-                                  .toList(),
-                              callback: (DoublingMethod doublingMethod) {
-                                _getSpecificationRequestModel!.doublingMethodId =
-                                    filterList(
-                                        listOfDoublingMethod, doublingMethod.dmId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
 
-                      //Show Orientation
-                      Visibility(
-                        visible: showOrientation ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: 'Orientation')),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 2,
-                              listOfItems: _orientationList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (OrientationTable orientation) {
-                                _getSpecificationRequestModel!.orientationId =
-                                    filterList(
-                                        listOfOrientation, orientation.yoId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
 
-                      //Show Twist Direction
+                   /*   //Show Twist Direction
                       Visibility(
                         visible: showTwistDirection ?? false,
                         child: Column(
@@ -767,7 +774,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
 
                       //Show Spun Technique
                       Visibility(
@@ -858,7 +865,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ),
 
                       //Show Pattern characteristics
-                      Visibility(
+                     /* Visibility(
                         visible: showPatternCharc ?? false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -887,7 +894,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
 
                       //Show Grade
                       Visibility(
@@ -918,7 +925,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ),
 
                       //Show Certifications
-                      Visibility(
+                    /*  Visibility(
                         visible: showCertification ?? false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -944,7 +951,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

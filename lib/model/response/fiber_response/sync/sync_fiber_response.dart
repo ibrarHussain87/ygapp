@@ -105,9 +105,8 @@ class FiberModel {
         .toList();
     fiberFamily =
         List.from(json['family']).map((e) => FiberFamily.fromJson(e)).toList();
-    fiberBlends = List.from(json['blends'])
-        .map((e) => FiberBlends.fromJson(e))
-        .toList();
+    fiberBlends =
+        List.from(json['blends']).map((e) => FiberBlends.fromJson(e)).toList();
     apperance = List.from(json['apperance'])
         .map((e) => FiberAppearance.fromJson(e))
         .toList();
@@ -259,14 +258,13 @@ class FiberFamily {
   @override
   String toString() {
     // TODO: implement toString
-    return fiberFamilyName??"";
+    return fiberFamilyName ?? "";
   }
 }
 
 @Entity(tableName: 'fiber_blends')
 class FiberBlends {
   @PrimaryKey(autoGenerate: false)
-
   int? blnId;
   String? blnCategoryIdfk;
   String? familyIdfk;
@@ -282,17 +280,17 @@ class FiberBlends {
 
   FiberBlends(
       {this.blnId,
-        this.blnCategoryIdfk,
-        this.familyIdfk,
-        this.blnNature,
-        this.blnName,
-        this.blnAbrv,
-        this.minMax,
-        this.blnRatioJson,
-        this.iconSelected,
-        this.iconUnselected,
-        this.blnIsActive,
-        this.blnSortid});
+      this.blnCategoryIdfk,
+      this.familyIdfk,
+      this.blnNature,
+      this.blnName,
+      this.blnAbrv,
+      this.minMax,
+      this.blnRatioJson,
+      this.iconSelected,
+      this.iconUnselected,
+      this.blnIsActive,
+      this.blnSortid});
 
   FiberBlends.fromJson(Map<String, dynamic> json) {
     blnId = json['bln_id'];
@@ -329,7 +327,7 @@ class FiberBlends {
   @override
   String toString() {
     // TODO: implement toString
-    return blnAbrv??blnName??"";
+    return blnAbrv ?? blnName ?? "";
   }
 }
 
@@ -393,36 +391,36 @@ class FiberAvailbleForMarket {
 @Entity(tableName: 'fiber_setting')
 class FiberSettings {
   FiberSettings({
-    required this.fbsId,
-    required this.fbsCategoryIdfk,
-    required this.fbsFiberFamilyIdfk,
-    required this.fbsBlendIdfk,
-    required this.showLength,
-    required this.lengthMinMax,
-    required this.showGrade,
-    required this.showMicronaire,
-    required this.micMinMax,
-    required this.showMoisture,
-    required this.moiMinMax,
-    required this.showTrash,
-    required this.trashMinMax,
-    required this.showRd,
-    required this.rdMinMax,
-    required this.showGpt,
-    required this.gptMinMax,
-    required this.showAppearance,
-    required this.showColorTreatmentMethod,
-    required this.showBrand,
-    required this.showProductionYear,
-    required this.showOrigin,
-    required this.showCertification,
-    required this.showCountUnit,
-    required this.showDeliveryPeriod,
-    required this.showAvailableForMarket,
-    required this.showPriceTerms,
-    required this.showLotNumber,
-    required this.showRatio,
-    required this.fbsIsActive,
+    this.fbsId,
+    this.fbsCategoryIdfk,
+    this.fbsFiberFamilyIdfk,
+    this.fbsBlendIdfk,
+    this.showLength,
+    this.lengthMinMax,
+    this.showGrade,
+    this.showMicronaire,
+    this.micMinMax,
+    this.showMoisture,
+    this.moiMinMax,
+    this.showTrash,
+    this.trashMinMax,
+    this.showRd,
+    this.rdMinMax,
+    this.showGpt,
+    this.gptMinMax,
+    this.showAppearance,
+    this.showColorTreatmentMethod,
+    this.showBrand,
+    this.showProductionYear,
+    this.showOrigin,
+    this.showCertification,
+    this.showCountUnit,
+    this.showDeliveryPeriod,
+    this.showAvailableForMarket,
+    this.showPriceTerms,
+    this.showLotNumber,
+    this.showRatio,
+    this.fbsIsActive,
     this.fbsSortid,
     // required this.catName,
     // required this.matName,
@@ -461,6 +459,7 @@ class FiberSettings {
   String? fbsIsActive;
   @ignore
   String? fbsSortid;
+
   // late final String catName;
   // late final String matName;
 

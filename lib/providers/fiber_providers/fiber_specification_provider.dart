@@ -351,7 +351,7 @@ class FiberSpecificationProvider extends ChangeNotifier {
   onClickFamily(FiberFamily value) {
     specificationRequestModel.spcFiberFamilyIdfk =
         value.fiberFamilyId.toString();
-    specificationRequestModel.ysBlendIdFk = null;
+    specificationRequestModel.fbBlendIdfk = null;
     getFiberBlends(value.fiberFamilyId);
   }
 
