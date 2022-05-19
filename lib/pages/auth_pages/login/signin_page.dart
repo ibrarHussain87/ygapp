@@ -17,8 +17,10 @@ import 'package:yg_app/model/request/login_request/login_request.dart';
 import 'package:yg_app/pages/auth_pages/signup/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
 
+import '../../../elements/circle_icon_widget.dart';
 import '../../../helper_utils/navigation_utils.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../signup/country_search_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -33,6 +35,7 @@ class _SignInPageState extends State<SignInPage> {
   bool _showPassword = false;
   late LoginRequestModel _loginRequestModel;
   bool? isOnline;
+  String? code;
 
   void _togglevisibility() {
     setState(() {
@@ -43,6 +46,14 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     _loginRequestModel = LoginRequestModel();
+    AppDbInstance().getDbInstance().then((value) => {
+      value.countriesDao.findAllCountries().then((value) {
+        setState(() {
+          _loginRequestModel?.country=value.first;
+         code=value.first.countryPhoneCode;
+        });
+      })
+    });
     super.initState();
   }
 
@@ -101,32 +112,151 @@ class _SignInPageState extends State<SignInPage> {
                         child: Form(
                           key: globalFormKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-                                child: TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    textInputAction: TextInputAction.next,
-                                    inputFormatters: <TextInputFormatter>[
-                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
-                                      LengthLimitingTextInputFormatter(
-                                          25),
-                                    ],
-                                    cursorColor: Colors.black,
-                                    onSaved: (input) =>
-                                    _loginRequestModel.username = input!,
-                                    validator: (input) {
-                                      if (input == null || input.isEmpty) {
-                                        return "Please enter username";
-                                      }
-                                      return null;
-                                    },
-                                    decoration: textFormFieldSignIn(userName,userName)),
+                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                child: Text(
+                                  mobileNumber,
+                                  textAlign: TextAlign.left,
+
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 12.w, bottom: 8.w, left: 8.w, right: 8.w),
+                                    bottom: 8.w, left: 8.w, right: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    TextFormField(
+                                      keyboardType: TextInputType.phone,
+                                      cursorColor: Colors.black,
+                                      onSaved: (input) => _loginRequestModel.username = "+$code"+input!,
+                                    inputFormatters: <TextInputFormatter>[
+                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
+                                      LengthLimitingTextInputFormatter(
+                                          15),
+                                    ],
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            !input.isValidNumber()) {
+                                          return "Please check your phone number";
+                                        }
+                                        return null;
+                                      },
+                                      decoration:InputDecoration(
+                                        contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                        border: OutlineInputBorder(
+                                            borderRadius:const BorderRadius.all(
+                                              Radius.circular(5.0),
+                                            ),
+                                            borderSide: BorderSide(color: newColorGrey)
+                                        ),
+
+                                        prefixIcon:  GestureDetector(
+                                          onTap:()=>{
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
+                                                  setState(() {
+                                                    _loginRequestModel?.country=country;
+                                                    code=_loginRequestModel?.country?.countryPhoneCode;
+
+                                                  })
+                                                },
+                                                ),
+                                              ),
+                                            )
+                                          },
+                                          child:  Container(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(width: 2.0,),
+                                                CircleImageIconWidget(
+                                                    imageUrl:
+                                                    _loginRequestModel?.country?.medium.toString() ?? ""),
+                                                const SizedBox(width: 8.0,),
+                                                Text(
+                                                  _loginRequestModel?.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+                                                const SizedBox(width: 2.0,),
+                                                const Icon(Icons.arrow_drop_down,color: Colors.grey,),
+                                                const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
+                                                const SizedBox(width: 2.0,),
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+//                              Padding(
+//                                padding: EdgeInsets.only(
+//                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+//                                child: Text(
+//                                  userName,
+//                                  textAlign: TextAlign.left,
+//
+//                                ),
+//                              ),
+//                              Padding(
+//                                padding: EdgeInsets.only(
+//                                     bottom: 8.w, left: 8.w, right: 8.w),
+//                                child: TextFormField(
+//                                    keyboardType: TextInputType.text,
+//                                    textInputAction: TextInputAction.next,
+//                                    inputFormatters: <TextInputFormatter>[
+//                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
+//                                      LengthLimitingTextInputFormatter(
+//                                          25),
+//                                    ],
+//                                    cursorColor: Colors.black,
+//                                    onSaved: (input) =>
+//                                    _loginRequestModel.username = input!,
+//                                    validator: (input) {
+//                                      if (input == null || input.isEmpty) {
+//                                        return "Please enter username";
+//                                      }
+//                                      return null;
+//                                    },
+//                                    decoration: InputDecoration(
+//                                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+//
+//                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//                                      border: OutlineInputBorder(
+//                                          borderRadius:const BorderRadius.all(
+//                                            Radius.circular(5.0),
+//                                          ),
+//                                          borderSide: BorderSide(color: signInBorderColor)
+//                                      ),
+////                                    hintText: "Enter Here",
+//
+//                                    ),
+//                                ),
+//                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                child: Text(
+                                  password,
+                                  textAlign: TextAlign.left,
+
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                     bottom: 8.w, left: 8.w, right: 8.w),
                                 child: TextFormField(
                                   obscureText: !_showPassword,
                                   keyboardType: TextInputType.text,
@@ -143,15 +273,15 @@ class _SignInPageState extends State<SignInPage> {
                                   },
                                   decoration: InputDecoration(
                                     contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                    label: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text("Password",style: TextStyle(color: formFieldLabel),),
-//                                    const Text("*", style: TextStyle(color: Colors.red)),
-                                      ],
-                                    ),
-                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                    label: Row(
+//                                      mainAxisSize: MainAxisSize.min,
+//                                      mainAxisAlignment: MainAxisAlignment.start,
+//                                      children: [
+//                                        Text("Password",style: TextStyle(color: formFieldLabel),),
+////                                    const Text("*", style: TextStyle(color: Colors.red)),
+//                                      ],
+//                                    ),
+//                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
                                     hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                                     border: OutlineInputBorder(
                                         borderRadius:const BorderRadius.all(
@@ -159,7 +289,7 @@ class _SignInPageState extends State<SignInPage> {
                                         ),
                                         borderSide: BorderSide(color: signInBorderColor)
                                     ),
-                                    hintText: "Enter Here",
+//                                    hintText: "Enter Here",
 //                  prefixIcon: IconButton(
 //                    onPressed: () {},
 //                    icon: SvgPicture.asset(
@@ -267,7 +397,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height/6,),
+              SizedBox(height: MediaQuery.of(context).size.height/10,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
@@ -374,4 +504,10 @@ class _SignInPageState extends State<SignInPage> {
   }
 
 
+}
+extension PhoneValidator on String {
+  bool isValidNumber() {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    return RegExp(pattern).hasMatch(this);
+  }
 }

@@ -9,10 +9,13 @@ import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/model/response/common_response_models/category_response.dart';
 
+import '../../../app_database/app_database_instance.dart';
 import '../../../elements/custom_header.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../model/request/signup_request/signup_request.dart';
+import '../../../model/response/common_response_models/companies_reponse.dart';
 
 class BusinessInfoComponent extends StatefulWidget {
   final Function? callback;
@@ -41,6 +44,8 @@ class BusinessInfoComponentState
   final companyFocus = FocusNode();
   List<String> businessAreaList = ["Islamabad","Lahore","Karachi","Quetta","Peshwar"];
   List<String> suggestionList = ["Uber","Careem","Foodpanda","Director","CEO"];
+  List<Companies> companiesList = [];
+  List<Categories> categoriesList = [];
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   SignUpRequestModel? _signupRequestModel;
 
@@ -51,8 +56,19 @@ class BusinessInfoComponentState
 
   @override
   void initState() {
-//    _signupRequestModel = SignUpRequestModel();
     _resetData();
+    AppDbInstance().getDbInstance().then((value) => {
+      value.companiesDao.findAllCompanies().then((value) {
+        setState(() {
+          companiesList=value;
+        });
+      }),
+      value.categoriesDao.findAllCategories().then((value) {
+        setState(() {
+          categoriesList=value;
+        });
+      })
+    });
     super.initState();
   }
 
@@ -175,11 +191,20 @@ class BusinessInfoComponentState
   {
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding:EdgeInsets.only(
+              top: 20.w, bottom: 6.w, left: 18.w, right: 18.w),
+          child: Text(
+            companyName,
+            textAlign: TextAlign.left,
 
+          ),
+        ),
         Padding(
           padding: EdgeInsets.only(
-              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+               bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -187,16 +212,25 @@ class BusinessInfoComponentState
               TypeAheadFormField(
                 textFieldConfiguration: TextFieldConfiguration(
                     controller: _typeAheadController,
-                    decoration: textFieldProfile(
-                   'Enter Company Name', "Company Name")
+                    decoration: InputDecoration(
+                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                      border: OutlineInputBorder(
+                          borderRadius:const BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          borderSide: BorderSide(color: signInBorderColor)
+                      ),
+//                                    hintText: "Enter Here",
+
+                    ),
                     ),
                     suggestionsCallback: (pattern) {
-                  print("Suggestion"+pattern);
-                    return suggestionList.where(
-                            (x) => x.toLowerCase().contains(pattern)
+                    return companiesList.where(
+                            (Companies x) => x.name.toString().toLowerCase().contains(pattern)
                     ).toList();
                    },
-                itemBuilder: (context, suggestion) {
+                itemBuilder: (context,suggestion) {
                   return ListTile(
                     title: Text(suggestion.toString()),
                   );
@@ -205,8 +239,10 @@ class BusinessInfoComponentState
                   return suggestionsBox;
                 },
                 hideSuggestionsOnKeyboardHide: true,
-                onSuggestionSelected: (suggestion) {
-                  _typeAheadController.text = suggestion.toString();
+                onSuggestionSelected: (Companies suggestion) {
+                  _typeAheadController.text = suggestion.name.toString();
+                  _signupRequestModel?.comapnyId=suggestion.id.toString();
+                  _signupRequestModel?.comapnyName=suggestion.name.toString();
                 },
                 errorBuilder:(BuildContext context, Object? error) =>
                     Text(
@@ -221,67 +257,60 @@ class BusinessInfoComponentState
                   }
                   return null;
                 },
-                onSaved: (value) =>
-                _signupRequestModel?.company = value,
+                onSaved: (value) {
+                  print("Value"+value.toString());
+                  _signupRequestModel?.company = value;
+                }
 
               ),
             ],
           ),
         ),
+        Padding(
+          padding:EdgeInsets.only(
+              top: 20.w, bottom: 6.w, left: 18.w, right: 18.w),
+          child: Text(
+            businessArea,
+            textAlign: TextAlign.left,
 
-//        Padding(
-//          padding: EdgeInsets.only(
-//              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: [
-//
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  onSaved: (input) =>
-//                  _signupRequestModel?.company = input!,
-//                  validator: (input) {
-//                    if (input == null || input.isEmpty) {
-//                      return "Please enter company name";
-//                    }
-//                    return null;
-//                  },
-//                  decoration: textFieldProfile(
-//                      'Enter Company Name', "Company Name")),
-//            ],
-//          ),
-//        ),
-
+          ),
+        ),
         Padding(
           padding: EdgeInsets.only(
-              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+              bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<Categories>(
 
-                decoration: dropDownProfile(
-                    'Select', "Business Area") ,
+                decoration:InputDecoration(
+                  contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                  border: OutlineInputBorder(
+                      borderRadius:const BorderRadius.all(
+                        Radius.circular(5.0),
+                      ),
+                      borderSide: BorderSide(color: signInBorderColor)
+                  ),
+
+                ),
                 isDense: true,
-                hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
                 isExpanded: true,
                 iconSize: 21,
-                items:businessAreaList.map((location) {
-                  return DropdownMenuItem<String>(
-                    child: Text(location),
+                items:categoriesList.map((location) {
+                  return DropdownMenuItem<Categories>(
+                    child: Text(location.catName.toString()),
                     value: location,
 
                   );
                 }).toList(),
 
                 onChanged: (newValue) {
-                  _signupRequestModel?.cityStateId=newValue;
+                  _signupRequestModel?.cityStateId=newValue?.catId.toString();
                 },
                 validator: (input) {
-                  if (input == null ||
-                      input.isEmpty) {
+                  if (input == null) {
                     return "Please select business area";
                   }
                   return null;

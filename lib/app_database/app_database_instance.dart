@@ -1,5 +1,6 @@
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/category_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
@@ -150,6 +151,11 @@ class AppDbInstance {
   Future<List<Companies>> getCompaniesDao() {
     return getDbInstance()
         .then((value) => value.companiesDao.findAllCompanies());
+  }
+
+  Future<List<Categories>> getCategoriesDao() {
+    return getDbInstance()
+        .then((value) => value.categoriesDao.findAllCategories());
   }
 
   Future<List<DeliveryPeriod>> getDeliveryPeriod() {

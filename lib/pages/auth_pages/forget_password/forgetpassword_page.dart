@@ -130,36 +130,18 @@ class ForgetPasswordPageState
                         SizedBox(
                           height: 8.w,
                         ),
-//                        Padding(
-//                          padding: EdgeInsets.only(
-//                              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
-//                          child: Column(
-//                            crossAxisAlignment: CrossAxisAlignment.start,
-//                            children: [
-//                              IntlPhoneField(
-//                                decoration: textFieldProfile(
-//                                    '',telephoneNumberLabel),
-//                                initialCountryCode:'PK',
-//                                disableLengthCheck: false,
-//                                onChanged: (phone){
-//                                  Utils.validateMobile(phone.number);
-//                                },
-//                                onSaved: (input) =>
-//                                _signupRequestModel?.telephoneNumber = input?.completeNumber,
-//                                validator: (input) {
-//                                  if (input == null) {
-//                                    return "Please enter number";
-//                                  }
-//                                  return null;
-//                                },
-//                              ),
-//
-//                            ],
-//                          ),
-//                        ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+                              top: 14.w, bottom: 6.w, left: 18.w, right: 18.w),
+                          child: Text(
+                            mobileNumber,
+                            textAlign: TextAlign.left,
+
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 8.w, left: 18.w, right: 18.w),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -181,16 +163,16 @@ class ForgetPasswordPageState
                                 },
                                 decoration:InputDecoration(
                                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                  label: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("Mobile Number",style: TextStyle(color: formFieldLabel),),
-                                      const Text("*", style: TextStyle(color: Colors.red)),
-                                    ],
-                                  ),
-                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
-                                  floatingLabelAlignment: FloatingLabelAlignment.start,
+//                                  label: Row(
+//                                    mainAxisSize: MainAxisSize.min,
+//                                    mainAxisAlignment: MainAxisAlignment.start,
+//                                    children: [
+//                                      Text("Mobile Number",style: TextStyle(color: formFieldLabel),),
+//                                      const Text("*", style: TextStyle(color: Colors.red)),
+//                                    ],
+//                                  ),
+//                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                                  floatingLabelAlignment: FloatingLabelAlignment.start,
                                   hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                                   border: OutlineInputBorder(
                                       borderRadius:const BorderRadius.all(
@@ -222,13 +204,17 @@ class ForgetPasswordPageState
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          const Icon(Icons.arrow_drop_down,color: Colors.black87,),
-                                          CircleImageIconWidget(
+                                          const SizedBox(width: 2.0,),
+                                        CircleImageIconWidget(
                                               imageUrl:
                                               _signupRequestModel?.country?.medium.toString() ?? ""),
                                           const SizedBox(width: 8.0,),
                                           Text(
                                             _signupRequestModel?.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+                                          const SizedBox(width: 2.0,),
+                                          const Icon(Icons.arrow_drop_down,color: Colors.grey,),
+                                          const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
+                                          const SizedBox(width: 2.0,),
 
                                         ],
                                       ),

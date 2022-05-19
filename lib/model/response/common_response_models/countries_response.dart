@@ -1,4 +1,6 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/model/response/common_response_models/category_response.dart';
+import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 
 
 class CountriesSyncResponse {
@@ -36,8 +38,9 @@ class CountriesSyncResponse {
 class Data {
 
   late final List<Countries> countries;
+  late final List<Categories> categories;
 
-  Data({required this.countries});
+  Data({required this.countries,required this.categories});
 
   Data.fromJson(Map<String, dynamic> json) {
 
@@ -45,15 +48,14 @@ class Data {
         json) {
       return Countries.fromJson(json);
     }).toList();
+
+    categories =json['categories'].map<Categories>((
+        json) {
+      return Categories.fromJson(json);
+    }).toList();
   }
 
-//  Map<String, dynamic> toJson() {
-//    final Map<String, dynamic> data = Map<String, dynamic>();
-//    if (countries != null) {
-//      data['fabric'] = countries!.toJson();
-//    }
-//    return data;
-//  }
+
 }
 
 @Entity(tableName: 'countries')

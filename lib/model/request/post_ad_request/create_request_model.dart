@@ -1,4 +1,5 @@
 import 'package:yg_app/model/blend_model.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 class CreateRequestModel {
   String? spc_category_idfk;
@@ -106,6 +107,8 @@ class CreateRequestModel {
   String? ys_origin_idfk;
   String? ys_title;
 
+  Countries? country;
+
   CreateRequestModel(
       {this.spc_category_idfk,
       this.spc_id,
@@ -195,7 +198,9 @@ class CreateRequestModel {
       this.fpb_cones_bag,
       this.ys_details,
       this.ys_origin_idfk,
-      this.ys_title});
+      this.ys_title,
+      this.country
+      });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

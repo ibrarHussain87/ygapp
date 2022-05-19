@@ -178,4 +178,9 @@ var verifyCodeDetails = "Enter the verification code here";
 var verifyCodeLabel = "Please enter the verification code";
 var updatePasswordText = "Reset Password";
 var updatePasswordDetails = "Please enter the new password";
+String countryResidence = 'Country';
+String companyName = "Company Name";
+String mobileNumber = "Mobile Number";
+String passwordString = "Password";
+String confirmPasswordString = "Confirm Password";
 

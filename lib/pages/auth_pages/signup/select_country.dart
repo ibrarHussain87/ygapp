@@ -126,7 +126,15 @@ class CountryComponentState extends State<CountryComponent>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                              child: Text(
+                                countryResidence,
+                                textAlign: TextAlign.left,
 
+                              ),
+                            ),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -134,12 +142,9 @@ class CountryComponentState extends State<CountryComponent>
                                   MaterialPageRoute(
                                     builder: (context) =>  SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries country)=>{
                                       setState(() {
-//                                        _notifierCountry?.value=country,
                                         _signupRequestModel?.countryId=country.conId.toString();
                                         _signupRequestModel?.country=country;
-//                                        _preConfigCall(country.conId.toString());
-
-                                      }
+                                        }
                                       )
 
 
@@ -153,14 +158,14 @@ class CountryComponentState extends State<CountryComponent>
                                 child: InputDecorator(
                                   decoration: InputDecoration(
                                       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                      label: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text("Country",style: TextStyle(color: formFieldLabel,fontSize: 12.w),),
-                                          const Text("*", style: TextStyle(color: Colors.red)),
-                                        ],
-                                      ),
+//                                      label: Row(
+//                                        mainAxisSize: MainAxisSize.min,
+//                                        mainAxisAlignment: MainAxisAlignment.start,
+//                                        children: [
+//                                          Text("Country",style: TextStyle(color: formFieldLabel,fontSize: 12.w),),
+//                                          const Text("*", style: TextStyle(color: Colors.red)),
+//                                        ],
+//                                      ),
                                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black87,),
                                       floatingLabelBehavior:FloatingLabelBehavior.always ,
                                       hintText: "Select",

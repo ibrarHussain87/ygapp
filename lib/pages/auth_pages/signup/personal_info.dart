@@ -171,7 +171,7 @@ class PersonalInfoComponentState
                         buildUserDataColumn(context),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 40.w, bottom: 8.w, left: 18.w, right: 18.w),
+                              top: 30.w, bottom: 8.w, left: 18.w, right: 18.w),
                           child: SizedBox(
                               height: 50.w,
                               width: double.infinity,
@@ -231,37 +231,8 @@ class PersonalInfoComponentState
   Column buildUserDataColumn(BuildContext context2) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//        Visibility(
-//          visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
-//          child: Padding(
-//            padding: EdgeInsets.only(
-//                top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: [
-//                IntlPhoneField(
-//                  decoration: textFieldProfile(
-//                      '',telephoneNumberLabel),
-//                  initialCountryCode:_signupRequestModel?.countryISO ?? 'US',
-//                  disableLengthCheck: true,
-//
-//                  onChanged: (phone){
-//                    Utils.validateMobile(phone.number);
-//                  },
-//                  onSaved: (input) =>
-//                  _signupRequestModel!.telephoneNumber = input?.completeNumber,
-//                  validator: (input) {
-//                    if (input == null) {
-//                      return "Please enter number";
-//                    }
-//                    return null;
-//                  },
-//                ),
-//              ],
-//            ),
-//          ),
-//        ),
 
         Visibility(
           visible:_signupRequestModel?.config.toString()=="phone_number"?false:true,
@@ -271,7 +242,15 @@ class PersonalInfoComponentState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding:EdgeInsets.only(
+                    bottom: 6.w,),
+                  child: Text(
+                    "Email",
+                    textAlign: TextAlign.left,
 
+                  ),
+                ),
                 TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Colors.black,
@@ -284,8 +263,17 @@ class PersonalInfoComponentState
                       }
                       return null;
                     },
-                    decoration: textFieldProfile(
-                        '',emailLabel)),
+                    decoration: InputDecoration(
+                        contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                        hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                        border: OutlineInputBorder(
+                            borderRadius:const BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
+                            borderSide: BorderSide(color: newColorGrey)
+                        )
+                    )
+                ),
               ],
             ),
           ),
@@ -295,11 +283,19 @@ class PersonalInfoComponentState
           visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
           child: Padding(
                padding: EdgeInsets.only(
-                top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+                top: 15.w, bottom: 8.w, left: 18.w, right: 18.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding:EdgeInsets.only(
+                      bottom: 6.w,),
+                  child: Text(
+                    mobileNumber,
+                    textAlign: TextAlign.left,
 
+                  ),
+                ),
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   cursorColor: Colors.black,
@@ -317,17 +313,17 @@ class PersonalInfoComponentState
                   },
                   decoration:InputDecoration(
                     contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Mobile Number",style: TextStyle(color: formFieldLabel),),
-                        const Text("*", style: TextStyle(color: Colors.red)),
-                      ],
-                    ),
-                    floatingLabelBehavior:FloatingLabelBehavior.always ,
-                    floatingLabelAlignment: FloatingLabelAlignment.start,
-                    hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//                    label: Row(
+//                      mainAxisSize: MainAxisSize.min,
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      children: [
+//                        Text("Mobile Number",style: TextStyle(color: formFieldLabel),),
+//                        const Text("*", style: TextStyle(color: Colors.red)),
+//                      ],
+//                    ),
+//                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                    floatingLabelAlignment: FloatingLabelAlignment.start,
+//                    hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                     border: OutlineInputBorder(
                         borderRadius:const BorderRadius.all(
                           Radius.circular(5.0),
@@ -359,14 +355,17 @@ class PersonalInfoComponentState
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const Icon(Icons.arrow_drop_down,color: Colors.black87,),
+                                const SizedBox(width: 2.0,),
                                 CircleImageIconWidget(
                                     imageUrl:
                                     _notifierCountry?.value?.medium.toString() ?? ""),
                                 const SizedBox(width: 8.0,),
                                 Text(
                                   _notifierCountry?.value?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
-
+                                const SizedBox(width: 2.0,),
+                                const Icon(Icons.arrow_drop_down,color: Colors.grey,),
+                                const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
+                                const SizedBox(width: 2.0,),
                               ],
                             ),
                           );
@@ -383,11 +382,19 @@ class PersonalInfoComponentState
 
 
 
+        Padding(
+          padding:EdgeInsets.only(
+              top: 15.w, bottom: 6.w, left: 18.w, right: 18.w),
+          child: Text(
+            passwordString,
+            textAlign: TextAlign.left,
 
+          ),
+        ),
 
         Padding(
           padding: EdgeInsets.only(
-              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+               bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -413,23 +420,23 @@ class PersonalInfoComponentState
                 },
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Password",style: TextStyle(color: formFieldLabel),),
-                      const Text("*", style: TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  floatingLabelBehavior:FloatingLabelBehavior.always ,
-                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//                  label: Row(
+//                    mainAxisSize: MainAxisSize.min,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: [
+//                      Text("Password",style: TextStyle(color: formFieldLabel),),
+//                      const Text("*", style: TextStyle(color: Colors.red)),
+//                    ],
+//                  ),
+//                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                   border: OutlineInputBorder(
                       borderRadius:const BorderRadius.all(
                         Radius.circular(5.0),
                       ),
                       borderSide: BorderSide(color: newColorGrey)
                   ),
-                  hintText: "Enter Here",
+//                  hintText: "Enter Here",
                   suffixIcon: GestureDetector(
                     behavior:
                     HitTestBehavior.opaque,
@@ -451,10 +458,18 @@ class PersonalInfoComponentState
           ),
         ),
 
+        Padding(
+          padding:EdgeInsets.only(
+              top: 15.w, bottom: 6.w, left: 18.w, right: 18.w),
+          child: Text(
+            confirmPasswordString,
+            textAlign: TextAlign.left,
 
+          ),
+        ),
         Padding(
           padding: EdgeInsets.only(
-              top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
+              bottom: 8.w, left: 18.w, right: 18.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -483,23 +498,23 @@ class PersonalInfoComponentState
                 },
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Confirm Password",style: TextStyle(color: formFieldLabel),),
-                      const Text("*", style: TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  floatingLabelBehavior:FloatingLabelBehavior.always ,
-                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//                  label: Row(
+//                    mainAxisSize: MainAxisSize.min,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: [
+//                      Text("Confirm Password",style: TextStyle(color: formFieldLabel),),
+//                      const Text("*", style: TextStyle(color: Colors.red)),
+//                    ],
+//                  ),
+//                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                  hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                   border: OutlineInputBorder(
                       borderRadius:const BorderRadius.all(
                         Radius.circular(5.0),
                       ),
                       borderSide: BorderSide(color: newColorGrey)
                   ),
-                  hintText: "Enter Here",
+//                  hintText: "Enter Here",
                   suffixIcon: GestureDetector(
                     behavior:
                     HitTestBehavior.opaque,
@@ -523,7 +538,7 @@ class PersonalInfoComponentState
 
         Padding(
           padding: EdgeInsets.only(
-              top: 10.w, bottom: 8.w, left: 5.w),
+              top: 8.w, bottom: 8.w, left: 5.w),
           child: Row(
             children: [
               Checkbox(

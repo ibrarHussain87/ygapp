@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
@@ -155,7 +156,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
 
     _firebaseCrash();
-    _synData();
+    _preLoginSynData();
 
     super.initState();
 
@@ -300,7 +301,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   }
 
 
-  Future<bool> _synData() async {
+  Future<bool> _preLoginSynData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
     Logger().e(dataSynced.toString());
     if (!dataSynced) {
@@ -316,6 +317,24 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
               await Future.wait([
                 value.countriesDao
                     .insertAllCountry(response.data!.countries),
+                value.categoriesDao
+                    .insertAllCategories(response.data!.categories),
+              ]);
+            });
+          }
+        }),
+
+
+        // For getting companies
+        ApiService.syncCompaniesCall().then((
+            CompaniesSyncResponse response) {
+          if (response.status!) {
+            Logger().e("Companies Sync got successfully : " +
+                response.toString());
+            AppDbInstance().getDbInstance().then((value) async {
+              await Future.wait([
+                value.companiesDao
+                    .insertAllCompanies(response.companies),
               ]);
             });
           }

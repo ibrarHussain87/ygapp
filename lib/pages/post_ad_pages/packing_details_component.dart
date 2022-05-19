@@ -172,7 +172,6 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     // Utils.disableClick = false;
     super.dispose();
   }
@@ -208,6 +207,22 @@ class PackagingDetailsState extends State<PackagingDetails>
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+//                      GestureDetector(
+//                        onTap: () {
+//
+//                        },
+//                        child: Container(
+//                          margin: const EdgeInsets.only(
+//                              top: 5, right: 6, bottom: 4),
+//                          decoration: const BoxDecoration(
+//                            shape: BoxShape.circle,
+//                          ),
+//                          child: const Icon(Icons.keyboard_arrow_down_outlined,
+//                            size: 24,
+//                            color: Colors.grey,
+//                          ),
+//                        ),
+//                      ),
                       TitleTextWidget(
                         title: packingDetails,
                       ),

@@ -37,6 +37,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
+import '../model/response/common_response_models/companies_reponse.dart';
 import '../model/response/common_response_models/countries_response.dart';
 import '../model/response/common_response_models/pre_config_model.dart';
 import '../model/response/create_stocklot_response.dart';
@@ -72,7 +73,9 @@ class ApiService {
   static const String GET_BANNERS_END_POINT = "/getBanners";
   static const String UPDATE_SPECIFICATION = "/update-specification";
 
-  static const String COUNTRY_END_POINT = "/get-countries";
+  static const String COUNTRY_END_POINT = "/get-pre-login-sync";
+//  static const String COUNTRY_END_POINT = "/get-countries";
+  static const String COMPANIES_END_POINT = "/company/search/Outfitters";
   static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
@@ -971,8 +974,38 @@ class ApiService {
 
       final response = await http.post(Uri.parse(url),
           headers: headerMap);
-
+      Logger().e("Countries Sync got successfully : " +
+          response.body.toString());
       return CountriesSyncResponse.fromJson(
+        json.decode(response.body),
+      );
+    } catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw ("Something went wrong"+e.toString());
+      }
+    }
+  }
+
+// Coompanies Api
+  static Future<CompaniesSyncResponse> syncCompaniesCall() async {
+    try {
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+
+      String url = BASE_API_URL + COMPANIES_END_POINT;
+
+//      final response = await http.post(Uri.parse(url),
+//          headers: headerMap, body: requestModel.toJson());
+
+      final response = await http.get(Uri.parse(url),
+          headers: headerMap);
+
+      return CompaniesSyncResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {
