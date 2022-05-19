@@ -1102,13 +1102,13 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems: _deliverPeriodList,
+                                    listOfItems: _deliverPeriodList.where((element) => element.dprCategoryIdfk == '3').toList(),
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
                                                 .fbp_delivery_period_idfk =
                                             value.dprId.toString();
-                                        if (value.dprId == 3) {
+                                        if (value.dprName == 'No Of Days') {
                                           setState(() {
                                             noOfDays = true;
                                           });
@@ -1124,6 +1124,30 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //No of Days
                             Visibility(
+                              visible: noOfDays,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: 'No of Days')),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: Iterable<int>.generate(102)
+                                          .toList()
+                                          .map((value) => value == 101 ? 'Other':value.toString())
+                                          .toList(),
+                                      callback: (String? value) {
+                                        _createRequestModel!.fbp_no_of_days =
+                                            value!.toString();
+                                      }),
+                                ],
+                              ),
+                            ),
+
+                            /*Visibility(
                               visible: noOfDays,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1211,7 +1235,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   ),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Description
 //                            Padding(
@@ -1396,6 +1420,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       Ui.showSnackBar(context, "Please select Cone Type");
       return false;
     }*/
+
+    if (_createRequestModel!.fbp_no_of_days == null && noOfDays) {
+      Ui.showSnackBar(context, "Please select number of days");
+      return false;
+    }
 
     if (form!.validate()) {
       // if (imageFiles.isNotEmpty) {

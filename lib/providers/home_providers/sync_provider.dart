@@ -211,7 +211,9 @@ class SyncProvider extends ChangeNotifier {
                 value.fabricLayyerDao.insertAllFabricLayyer(
                     response.data!.fabric!.layyer!),
                 value.fabricDenimTypesDao.insertAllFabricDenimTypes(
-                    response.data!.fabric!.denimTypes!)
+                    response.data!.fabric!.denimTypes!),
+                value.deliveryPeriodDao.insertAllDeliveryPeriods(
+                    response.data!.fabric!.deliveryPeriod!)
               ]);
             });
           }

@@ -1284,6 +1284,31 @@ class PackagingDetailsState extends State<PackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: 'No of Days')),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: Iterable<int>.generate(102)
+                                          .toList()
+                                          .map((value) => value == 101 ? 'Other':value.toString())
+                                          .toList(),
+                                      callback: (String? value) {
+                                        _createRequestModel!.spc_no_of_days =
+                                            value!.toString();
+                                      }),
+                                ],
+                              ),
+                            ),
+
+
+                           /* Visibility(
+                              visible: noOfDays,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 //                                  Padding(
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
@@ -1339,7 +1364,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    /*fontFamily: 'Metropolis',*/
+                                                    *//*fontFamily: 'Metropolis',*//*
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -1347,7 +1372,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      /*fontFamily: 'Metropolis',*/
+                                                      *//*fontFamily: 'Metropolis',*//*
                                                       backgroundColor:
                                                           Colors.white,
                                                       fontWeight:
@@ -1375,7 +1400,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   ),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Description
 //                            Padding(
@@ -1568,6 +1593,12 @@ class PackagingDetailsState extends State<PackagingDetails>
     if (_createRequestModel!.cone_type_id == null &&
         widget.businessArea == yarn) {
       Ui.showSnackBar(context, "Please select Cone Type");
+      return false;
+    }
+
+    if (_createRequestModel!.spc_no_of_days == null &&
+        noOfDays) {
+      Ui.showSnackBar(context, "Please select number of days");
       return false;
     }
 
