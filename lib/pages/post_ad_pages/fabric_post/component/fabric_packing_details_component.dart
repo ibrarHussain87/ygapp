@@ -33,7 +33,7 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../../../../providers/post_fabric_provider.dart';
+import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../../../model/request/post_fabric_request/create_fabric_request_model.dart';
 
 class FabricPackagingDetails extends StatefulWidget {

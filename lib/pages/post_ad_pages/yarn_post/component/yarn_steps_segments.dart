@@ -111,7 +111,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Visibility(
-          visible: widget.selectedTab == offering_type,
+          visible: false,
           child: Row(
             children: [
               Expanded(

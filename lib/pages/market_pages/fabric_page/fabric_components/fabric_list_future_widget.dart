@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/providers/yarn_specifications_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -12,7 +12,7 @@ import 'package:yg_app/model/response/fabric_response/fabric_specification_respo
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_body.dart';
 
-import '../../../../providers/fabric_specifications_provider.dart';
+import '../../../../providers/fabric_providers/fabric_specifications_provider.dart';
 import '../../../../model/request/filter_request/fabric_filter_request.dart';
 import 'fabric_list_body.dart';
 

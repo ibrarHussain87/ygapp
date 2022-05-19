@@ -5,6 +5,7 @@ class Packing {
   Packing({
     required this.pacId,
     required this.pacName,
+    required this.pacCategoryId,
     required this.pacIsActive,
     this.pacSortid,
     this.createdAt,
@@ -14,6 +15,7 @@ class Packing {
   @PrimaryKey(autoGenerate: false)
   late final int pacId;
   String? pacName;
+  String? pacCategoryId;
   String? pacIsActive;
   @ignore
   Null pacSortid;
@@ -27,6 +29,7 @@ class Packing {
   Packing.fromJson(Map<String, dynamic> json){
     pacId = json['pac_id'];
     pacName = json['pac_name'];
+    pacCategoryId = json['pac_category_id'];
     pacIsActive = json['pac_is_active'];
     pacSortid = null;
     createdAt = null;
@@ -38,6 +41,7 @@ class Packing {
     final _data = <String, dynamic>{};
     _data['pac_id'] = pacId;
     _data['pac_name'] = pacName;
+    _data['pac_category_id'] = pacCategoryId;
     _data['pac_is_active'] = pacIsActive;
     _data['pac_sortid'] = pacSortid;
     _data['created_at'] = createdAt;

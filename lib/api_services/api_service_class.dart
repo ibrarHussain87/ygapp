@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:yg_app/app_database/app_database.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/matched_response.dart';
@@ -376,6 +378,9 @@ class ApiService {
           createRequestModel.spc_user_idfk = userId.toString();
         } else {
           createRequestModel.ys_user_idfk = userId.toString();
+          var dbInstance = await AppDbInstance().getDbInstance();
+          var userDetail = await dbInstance.userDao.getUser();
+          createRequestModel.ys_origin_idfk = userDetail!.countryId.toString();
         }
       try {
         ///[1] CREATING INSTANCE
@@ -402,7 +407,7 @@ class ApiService {
           formData.files.add(MapEntry('fpc_picture[]', file));
         }
 
-
+        logger.e(createRequestModel.toJson());
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(

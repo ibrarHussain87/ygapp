@@ -25,9 +25,8 @@ import '../../helper_utils/navigation_utils.dart';
 import '../elevated_button_widget_2.dart';
 
 Widget buildFabricRenewedAgainWidget(
-  FabricSpecification specification,
-  BuildContext context,
-) {
+    FabricSpecification specification, BuildContext context,
+    {bool? showCounts}) {
   var size = MediaQuery.of(context).size;
   double paddingStart = 10;
   double paddingStartFeatured = 20;
@@ -36,7 +35,7 @@ Widget buildFabricRenewedAgainWidget(
   double paddingEnd = 10;
 
   return Padding(
-    padding: const EdgeInsets.only(left: 8,right: 8,bottom: 6),
+    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
     child: Material(
         color: Colors.white,
         elevation: 10,
@@ -53,12 +52,18 @@ Widget buildFabricRenewedAgainWidget(
             Container(
               width: size.width,
               child: Padding(
-                padding: EdgeInsets.only(left: specification.isFeatured == '0' ? paddingStart:paddingStartFeatured,right: paddingEnd,top: paddingTop,bottom: paddingBottom),
+                padding: EdgeInsets.only(
+                    left: specification.isFeatured == '0'
+                        ? paddingStart
+                        : paddingStartFeatured,
+                    right: paddingEnd,
+                    top: paddingTop,
+                    bottom: paddingBottom),
                 child: Container(
                   child: Row(
                     children: [
                       Container(
-                        width: size.width*0.65,
+                        width: size.width * 0.65,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -67,7 +72,11 @@ Widget buildFabricRenewedAgainWidget(
                               children: [
                                 SizedBox(
                                   child: Text(
-                                    specification.company != null ? specification.company!/*'koh-e-Noor Textile Mills LTD.'*/.capitalize() : Utils.checkNullString(false),
+                                    specification.company != null
+                                        ? specification
+                                            .company! /*'koh-e-Noor Textile Mills LTD.'*/
+                                            .capitalize()
+                                        : Utils.checkNullString(false),
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
                                     softWrap: false,
@@ -86,9 +95,11 @@ Widget buildFabricRenewedAgainWidget(
                                 Visibility(
                                   visible: false,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Text("4.5",
+                                      const Text(
+                                        "4.5",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 10,
@@ -96,8 +107,14 @@ Widget buildFabricRenewedAgainWidget(
                                           /*fontFamily: 'Metropolis',*/
                                         ),
                                       ),
-                                      SizedBox(width: 2.w,),
-                                      Image.asset(ratingIcon,width: 8.w,height: 8.w,)
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Image.asset(
+                                        ratingIcon,
+                                        width: 8.w,
+                                        height: 8.w,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -107,7 +124,8 @@ Widget buildFabricRenewedAgainWidget(
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 2.w),
                                   child: Visibility(
-                                      visible: Ui.showHide(specification.isVerified)/*true*/,
+                                      visible: Ui.showHide(
+                                          specification.isVerified) /*true*/,
                                       maintainSize: true,
                                       maintainState: true,
                                       maintainAnimation: true,
@@ -120,25 +138,29 @@ Widget buildFabricRenewedAgainWidget(
                                 )
                               ],
                             ),
-                            const SizedBox(height: 13,),
+                            const SizedBox(
+                              height: 13,
+                            ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                     color: blueContainerLight,
-
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: Utils.setFabricFamilyData(specification),
+                                          title: Utils.setFabricFamilyData(
+                                              specification),
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
                                       ),
                                     )),
-                                const SizedBox(width: 2,),
+                                const SizedBox(
+                                  width: 2,
+                                ),
                                 Expanded(
                                   child: TitleMediumTextWidget(
                                     title: Utils.setFabricTitle(specification),
@@ -149,38 +171,44 @@ Widget buildFabricRenewedAgainWidget(
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             TitleSmallBoldTextWidget(
                               title: Utils.setFabricDetails(specification),
                               color: Colors.black87,
                               size: 11,
                               weight: FontWeight.w500,
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Container(
-                              width: size.width*0.55,
+                              width: size.width * 0.55,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricBlendAbrv ?? specification.fabricBlend??Utils.checkNullString(false),
+                                      title: specification.fabricBlendAbrv ??
+                                          specification.fabricBlend ??
+                                          Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.fabricQuality ?? Utils.checkNullString(false),
+                                      title: specification.fabricQuality ??
+                                          Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
                                   SizedBox(width: 8.w),
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title:
-                                      specification.fabricGrade ?? Utils.checkNullString(false),
+                                      title: specification.fabricGrade ??
+                                          Utils.checkNullString(false),
                                     ),
                                     flex: 1,
                                   ),
@@ -217,8 +245,12 @@ Widget buildFabricRenewedAgainWidget(
                                         iconSize: 12,
                                       ),
                                       ShortDetailRenewedWidget(
-                                        title: specification.locality == international  ? specification.fabricCountry?.capitalizeAndLower() :specification.locality?.capitalizeAndLower()
-                                            /*:Utils.checkNullString(false)*/,
+                                        title: specification.locality ==
+                                                international
+                                            ? specification.fabricCountry
+                                                ?.capitalizeAndLower()
+                                            : specification.locality
+                                                ?.capitalizeAndLower() /*:Utils.checkNullString(false)*/,
                                         imageIcon: IC_LOCATION_RENEWED,
                                         size: 10.sp,
                                         iconSize: 12,
@@ -227,6 +259,177 @@ Widget buildFabricRenewedAgainWidget(
                                   ),
                                 )
                               ],
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Visibility(
+                              visible: showCounts ?? false,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.w,
+                                    right: 18.w,
+                                    top: 0.w,
+                                    bottom: 10.w),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Proposals',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                        Text(
+                                                          specification
+                                                              .proposalCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                                  greenButton,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             specification.proposalCount.toString(),
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                /*color: lightYellowContainer,*/
+                                                border: Border.all(
+                                                  color: greenButton,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.w))),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6.w),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Text(
+                                                          'Matches',
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                        Text(
+                                                          specification
+                                                              .matchedCount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 9.sp,
+                                                              color:
+                                                                  greenButton,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 3.w,
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Align(
+                                                //     alignment: AlignmentDirectional.topEnd,
+                                                //     child: Padding(
+                                                //       padding: const EdgeInsets.all(2),
+                                                //       child: Container(
+                                                //         width: 10,
+                                                //         height: 10,
+                                                //         decoration: BoxDecoration(
+                                                //             color: redColor,
+                                                //             borderRadius: BorderRadius.all(
+                                                //                 Radius.circular(10.w))),
+                                                //         child: Center(
+                                                //           child: Text(
+                                                //             '3',
+                                                //             textAlign: TextAlign.center,
+                                                //             style: TextStyle(
+                                                //                 fontSize: 8.sp,
+                                                //                 color: Colors.white,
+                                                //                 fontWeight: FontWeight.w400),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ))
+                                              ],
+                                            ))),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -241,7 +444,7 @@ Widget buildFabricRenewedAgainWidget(
                               Text.rich(TextSpan(children: [
                                 TextSpan(
                                   text:
-                                  '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12.sp,
@@ -251,7 +454,8 @@ Widget buildFabricRenewedAgainWidget(
                                 TextSpan(
                                   text: specification.priceUnit
                                       .toString()
-                                      .replaceAll(RegExp(r'[^0-9]'), '')/*'1000'*/,
+                                      .replaceAll(
+                                          RegExp(r'[^0-9]'), '') /*'1000'*/,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17.sp,
@@ -259,14 +463,13 @@ Widget buildFabricRenewedAgainWidget(
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
-                                  text:
-                                  "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w500)
-                                ),
+                                    text:
+                                        "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w500)),
                               ])),
                               SizedBox(
                                 height: 1.h,
@@ -277,7 +480,9 @@ Widget buildFabricRenewedAgainWidget(
                                   size: 8,
                                 ),
                               ),
-                              const SizedBox(height: 8,),
+                              const SizedBox(
+                                height: 8,
+                              ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -285,37 +490,50 @@ Widget buildFabricRenewedAgainWidget(
                                     TextSpan(
                                       text: "Last Updated",
                                       style: TextStyle(
-                                          fontSize: 8.sp, color: Colors.black,fontWeight: FontWeight.w500),
+                                          fontSize: 8.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ])),
-                                  SizedBox(height: 2.w,),
+                                  SizedBox(
+                                    height: 2.w,
+                                  ),
                                   Text.rich(TextSpan(children: [
                                     TextSpan(
-                                      text: /*"Nov 23, 4:33 PM"*/DateFormat("MMM dd, yyyy").format(DateTime.parse(specification.date??"")),
+                                      text: /*"Nov 23, 4:33 PM"*/ DateFormat(
+                                              "MMM dd, yyyy")
+                                          .format(DateTime.parse(
+                                              specification.date ?? "")),
                                       style: TextStyle(
-                                          fontSize: 10.sp, color: lightBlueLabel),
+                                          fontSize: 10.sp,
+                                          color: lightBlueLabel),
                                     )
                                   ])),
                                 ],
                               ),
-                              const SizedBox(height: 7,),
+                              const SizedBox(
+                                height: 7,
+                              ),
                               SizedBox(
                                 height: 20.h,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
-                                    itemCount: specification.certifications!.length,
+                                    itemCount:
+                                        specification.certifications!.length,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(25),
-                                            border: Border.all(color: Colors.grey.shade500)
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            border: Border.all(
+                                                color: Colors.grey.shade500)),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(25),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                           child: Image.network(
                                             specification.certifications![index]
-                                                .certification!.icon ??
+                                                    .certification!.icon ??
                                                 'images/ic_list.png',
                                             height: 20.w,
                                             width: 20.h,
@@ -324,30 +542,30 @@ Widget buildFabricRenewedAgainWidget(
                                       );
                                     }),
                               ),
-                              const SizedBox(height: 7,),
-
+                              const SizedBox(
+                                height: 7,
+                              ),
                               FutureBuilder<String>(
                                 future: Utils.getUserId(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Padding(
                                         padding: EdgeInsets.only(
-                                          left: 4.w, right: 4.w,),
+                                          left: 4.w,
+                                          right: 4.w,
+                                        ),
                                         child: GestureDetector(
                                             onTap: () {
                                               if (snapshot.data ==
                                                   specification.fsUserId) {
-                                                Utils.updateDialog(
-                                                  context,
-                                                  null,
-                                                  null,
-                                                  specification
-                                                );
-                                              }else{
-                                                openDetailsScreen(
-                                                    context,specObj: specification,sendProposal: true);
+                                                Utils.updateDialog(context,
+                                                    null, null, specification);
+                                              } else {
+                                                openDetailsScreen(context,
+                                                    specObj: specification,
+                                                    sendProposal: true);
                                               }
-                                             // Fluttertoast.showToast(msg: 'coming soon');
+                                              // Fluttertoast.showToast(msg: 'coming soon');
                                             },
                                             child: SizedBox(
                                               width: 80,
@@ -355,7 +573,7 @@ Widget buildFabricRenewedAgainWidget(
                                               child: Center(
                                                 child: BidNowWidget(
                                                   title: snapshot.data !=
-                                                      specification.fsUserId
+                                                          specification.fsUserId
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
@@ -399,14 +617,13 @@ Widget buildFabricRenewedAgainWidget(
                 )
                 /*Container(
                   width: 13.w,
-                  *//*height: 80.h,*//*
+                  */ /*height: 80.h,*/ /*
                   color: Colors.red,
-                )*/,
+                )*/
+                ,
               ),
             ),
           ],
-        )
-    ),
+        )),
   );
 }
-

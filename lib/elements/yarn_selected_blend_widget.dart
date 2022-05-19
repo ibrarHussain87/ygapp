@@ -10,7 +10,7 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 class YarnSelectedBlendWidget extends StatefulWidget {
   final Function? onClickCallback;

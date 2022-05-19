@@ -11,7 +11,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_nature_material_component.dart';
 
-import '../../../providers/post_fabric_provider.dart';
+import '../../../providers/fabric_providers/post_fabric_provider.dart';
 import 'component/fabric_steps_segments.dart';
 
 class FabricPostPage extends StatefulWidget {

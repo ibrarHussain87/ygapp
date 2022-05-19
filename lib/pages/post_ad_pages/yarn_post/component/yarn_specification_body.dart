@@ -23,7 +23,7 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../elements/decoration_widgets.dart';
@@ -394,11 +394,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (!_yarnPostProvider.isBlendSelected &&
+      /*if (!_yarnPostProvider.isBlendSelected &&
           Ui.showHide(_yarnSetting!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
-      } else if (_createRequestModel.ys_yarn_type_idfk == null &&
+      } else*/ if (_createRequestModel.ys_yarn_type_idfk == null &&
           Ui.showHide(_yarnSetting!.showTexturized)) {
         Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
         return false;
@@ -469,7 +469,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           Ui.showHide(_yarnSetting!.showCertification)) {
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
-      } else {
+      }/*else if (_createRequestModel.ys_formation == null ||
+          _createRequestModel.ys_formation!.isEmpty) {
+        Ui.showSnackBar(context, 'Please Select Formations');
+        return false;
+      }*/ else {
         _createRequestModel.spc_category_idfk = "2";
         return true;
       }
@@ -636,6 +640,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     // Utils.disableClick = false;
     // _yarnData = widget.yarnSyncResponse.data.yarn;
     _getSyncedData();
+    _yarnPostProvider.familyDisabled = false;
     super.initState();
   }
 
@@ -667,7 +672,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 16.w, left: 24.w, right: 24.w),
+                              top: 0.w, left: 16.w, right: 16.w),
                           child: SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -714,6 +719,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               callback: () async {
                                 if (widget.selectedTab == offering_type) {
                                 if (validationAllPage()) {
+                                  _createRequestModel.spc_category_idfk = "2";
                                   widget.callback!(1);
                                 }
                                 } else {
@@ -1890,26 +1896,28 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 )),
 
-            const SizedBox(height: 8,),
             // Show Ratio
-            Visibility(
-              visible: Ui.showHide(_yarnSetting!.showRatio),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 8.w,
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Visibility(
+                visible: Ui.showHide(_yarnSetting!.showRatio),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 8.w,
+                    ),
 //                        Padding(
 //                            padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                            child: TitleSmallTextWidget(title: ratio + '*')),
-                  YgTextFormFieldWithoutRange(
-                      label: ratio,
-                      errorText: ratio,
-                      onSaved: (input) {
-                        _createRequestModel.ys_ratio = input;
-                      })
-                ],
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    YgTextFormFieldWithoutRange(
+                        label: ratio,
+                        errorText: ratio,
+                        onSaved: (input) {
+                          _createRequestModel.ys_ratio = input;
+                        })
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ),
               ),
             ),
             // show bottom sheet
@@ -2006,7 +2014,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),*/
-            const SizedBox(height: 6,),
             /*// Count
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showCount),
@@ -2132,7 +2139,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),*/
-
             //Show Twist Direction
             Visibility(
               visible: Ui.showHide(_yarnSetting!.showTwistDirection),

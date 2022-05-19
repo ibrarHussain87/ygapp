@@ -97,6 +97,7 @@ dependencies:
   flutter_typeahead: ^3.2.5
   timer_button: ^2.0.0
   flutter_countdown_timer: ^4.1.0
+  flutter_launch: ^0.3.0
 
 dev_dependencies:
   flutter_test:

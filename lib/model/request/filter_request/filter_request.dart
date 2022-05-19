@@ -1,7 +1,7 @@
 class GetSpecificationRequestModel {
   // String? userId;
   String? categoryId;
-  String? natureId;
+  String? spcFiberFamilyIdfk;
   String? isOffering;
   String? productionYear;
   String? locality;
@@ -20,7 +20,7 @@ class GetSpecificationRequestModel {
   List<int>? doublingMethodId;
 
   List<int>? gradeId;
-  List<int>? fiberMaterialId;
+  List<String>? fbBlendIdfk;
   List<int>? originId;
   List<int>? apperanceId;
   List<int>? apperanceYarnId;
@@ -44,9 +44,9 @@ class GetSpecificationRequestModel {
       this.ys_dying_method_idfk,
       this.locality,
       this.gradeId,
-      this.natureId,
+      this.spcFiberFamilyIdfk,
       this.apperanceYarnId,
-      this.fiberMaterialId,
+      this.fbBlendIdfk,
       this.originId,
       this.apperanceId,
       this.certificationId,
@@ -74,18 +74,18 @@ class GetSpecificationRequestModel {
     Map<String, dynamic> map = {
       // 'user_id': userId!.trim(),
       'category_id': categoryId!.trim(),
-      'grade_id': gradeId,
-      'nature_id': natureId,
+      'grade_id[]': gradeId,
+      'spc_fiber_family_idfk[]': spcFiberFamilyIdfk,
       'locality': locality,
       'is_offering': isOffering,
-      'fiber_material_id': fiberMaterialId,
-      'origin_id': originId ?? "",
+      'fb_blend_idfk[]': fbBlendIdfk,
+      'origin_id[]': originId ?? "",
       'apperance_id': apperanceId,
       'production_year': productionYear,
-      'certification_id': certificationId,
-      'packing_id': packingId,
-      'micronaire': micronaire,
-      'moisture': moisture,
+      'certification_id[]': certificationId,
+      'packing_id[]': packingId,
+      'micronaire[]': micronaire,
+      'moisture[]': moisture,
       'rd': rd,
       'ys_dying_method_idfk': ys_dying_method_idfk,
       'gpt': gpt,

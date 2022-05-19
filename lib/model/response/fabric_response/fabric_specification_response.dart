@@ -123,6 +123,8 @@ class FabricSpecification {
   List<CertificationModel>? certifications;
   String? certificationStr;
   String? date;
+  int? matchedCount;
+  int? proposalCount;
 
   FabricSpecification(
       {this.fsId,
@@ -183,6 +185,8 @@ class FabricSpecification {
         this.pictures,
         this.certifications,
         this.certificationStr,
+        this.matchedCount,
+        this.proposalCount,
         this.date});
 
   FabricSpecification.fromJson(Map<String, dynamic> json) {
@@ -238,6 +242,8 @@ class FabricSpecification {
     fabricSalvedgeName = json['fabric_salvedge_name'];
     tuckinWidth = json['tuckin_width'];
     portName = json['port_name'];
+    matchedCount = json['matched_count'];
+    proposalCount = json['proposal_count'];
     fabricKnittingTypeName = json['fabric_knitting_type_name'];
     fabricDenimTypeName = json['fabric_denim_type_name'];
     fabricWeavePatternName = json['fabric_weave_pattern_name'];
@@ -312,6 +318,8 @@ class FabricSpecification {
     data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
     data['fabric_denim_type_name'] = this.fabricDenimTypeName;
     data['fabric_weave_pattern_name'] = this.fabricWeavePatternName;
+    data['matched_count'] = this.matchedCount;
+    data['proposal_count'] = this.proposalCount;
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
     }

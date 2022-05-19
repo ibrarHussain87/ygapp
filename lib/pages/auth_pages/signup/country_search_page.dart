@@ -201,7 +201,7 @@ class SelectCountryPageState extends State<SelectCountryPage>
 
   filterListSearch(value) {
     setState(() {
-      _countriesFilterList = countriesList!
+      _countriesFilterList = countriesList
           .where((element) =>
       (element.conName.toString().toLowerCase().contains(value)))
           .toList();

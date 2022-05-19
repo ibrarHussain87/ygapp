@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yg_app/elements/list_items/fiber_market_list_item.dart';
-import 'package:yg_app/elements/list_items/fiber_market_list_item_renewed.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/providers/specification_local_filter_provider.dart';
 
 import '../../../elements/list_items/fiber_list_items_renewed_again.dart';
 
@@ -20,47 +18,39 @@ class FiberListingBody extends StatefulWidget {
 
 class FiberListingBodyState extends State<FiberListingBody> {
 
-
-  filterListSearch(value) {
-    setState(() {
-      specificationFiltered = specification!
-          .where(
-              (element) => (element.material.toString().toLowerCase().contains(value) || element.origin.toString().toLowerCase().contains(value.toString().toLowerCase()) || element.grade.toString().contains(value)))
-          .toList();
-    });
-  }
-
-  List<Specification>? specification;
-  List<Specification>? specificationFiltered;
+  final _specificationLocalFilterProvider = locator<SpecificationLocalFilterProvider>();
 
   @override
   void initState() {
-    specification = widget.specification;
-    specificationFiltered = specification;
+    _specificationLocalFilterProvider.fiberSpecification = widget.specification;
+    _specificationLocalFilterProvider.fiberSpecificationFiltered = widget.specification;
     super.initState();
+    _specificationLocalFilterProvider.addListener(() {updateUI();});
+  }
+
+  updateUI(){
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: specificationFiltered!.length,
+      itemCount: _specificationLocalFilterProvider.fiberSpecificationFiltered!.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            openDetailsScreen(
-                context,specification: specificationFiltered![index]);
+            openDetailsScreen(context,
+                specification: _specificationLocalFilterProvider.fiberSpecificationFiltered![index]);
           },
-          child: Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: buildFiberRenewedAgainWidget(specificationFiltered![index],context,),
+          child: buildFiberRenewedAgainWidget(
+            _specificationLocalFilterProvider.fiberSpecificationFiltered![index],
+            context,
+            showCount: false
           )),
-//      separatorBuilder: (context, index) {
-//        return Divider(
-//          height: 1,
-//          color: Colors.grey.shade400,
-//        );
-//      },
+
     );
   }
 }

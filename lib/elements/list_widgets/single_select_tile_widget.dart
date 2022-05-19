@@ -18,10 +18,10 @@ class SingleSelectTileWidget extends StatefulWidget {
 
   const SingleSelectTileWidget(
       {Key? key,
-      required this.spanCount,
-      required this.callback,
-      required this.listOfItems,
-      this.selectedIndex,
+        required this.spanCount,
+        required this.callback,
+        required this.listOfItems,
+        this.selectedIndex,
       })
       : super(key: key);
 
@@ -86,24 +86,36 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
     );
   }
 
-  Container buildDropDownContainer(List listOfItems) {
-    return Container(
-      width: double.maxFinite,
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black12),
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(6))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
+  GestureDetector buildDropDownContainer(List listOfItems) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        specsSheet(context,(int checkedIndex){
+          selectedIndex=checkedIndex;
+        } , (value){
+          dropdownValue.value=value.toString();
+          widget.callback!(value);
+          Navigator.of(context).pop();
+        }, listOfItems,selectedIndex);
+      },
+      child: Container(
+        width: double.maxFinite,
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(6))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
 
-                  Padding(
+                    Padding(
                       padding: EdgeInsets.only(
                           top: 5.w,
                           left: 8.w,
@@ -126,18 +138,8 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                             );
                           }
                       ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                    specsSheet(context,(int checkedIndex){
-                      selectedIndex=checkedIndex;
-                    } , (value){
-                      dropdownValue.value=value.toString();
-                      widget.callback!(value);
-                      Navigator.of(context).pop();
-                    }, listOfItems,selectedIndex);
-     },
-                    child: Container(
+                    ),
+                    Container(
                       margin: const EdgeInsets.only(
                           top: 5, right: 6, bottom: 4),
                       decoration: const BoxDecoration(
@@ -148,13 +150,13 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                         color: Colors.grey,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
 
-        ],
+          ],
+        ),
       ),
     );
   }

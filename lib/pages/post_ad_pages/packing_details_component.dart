@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -32,7 +33,8 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -105,6 +107,7 @@ class PackagingDetailsState extends State<PackagingDetails>
   late List<ConeType> _coneTypeList;
 
   final _fiberPostProvider = locator<PostFiberProvider>();
+  final _yarnPostProvider = locator<PostYarnProvider>();
 
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
@@ -113,12 +116,16 @@ class PackagingDetailsState extends State<PackagingDetails>
               element.ptrCategoryIdfk == "2"))
           .toList();
     } else {
-      return _priceTermList.where((element) => (element.ptr_locality == widget.locality && element.ptrCategoryIdfk == "1")).toList();
+      return _priceTermList
+          .where((element) => (element.ptr_locality == widget.locality &&
+              element.ptrCategoryIdfk == "1"))
+          .toList();
     }
   }
 
   _getPackingDetailData() async {
-    await AppDbInstance().getPriceTerms()
+    await AppDbInstance()
+        .getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
     await AppDbInstance().getPacking().then((value) => setState(() {
           _packingList = value;
@@ -126,21 +133,29 @@ class PackagingDetailsState extends State<PackagingDetails>
               .where((element) => element.pacIsActive == "1")
               .toList();
         }));
-    await AppDbInstance().getDeliveryPeriod()
+    await AppDbInstance()
+        .getDeliveryPeriod()
         .then((value) => setState(() => _deliverPeriodList = value));
-    await AppDbInstance().getPaymentType()
+    await AppDbInstance()
+        .getPaymentType()
         .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance().getLcType()
+    await AppDbInstance()
+        .getLcType()
         .then((value) => setState(() => _lcTypeList = value));
-    await AppDbInstance().getUnits()
+    await AppDbInstance()
+        .getUnits()
         .then((value) => setState(() => _unitsList = value));
-    await AppDbInstance().getOriginsData()
+    await AppDbInstance()
+        .getOriginsData()
         .then((value) => setState(() => _countriesList = value));
-    await AppDbInstance().getCityState()
+    await AppDbInstance()
+        .getCityState()
         .then((value) => setState(() => _cityStateList = value));
-    await AppDbInstance().getPorts()
+    await AppDbInstance()
+        .getPorts()
         .then((value) => setState(() => _portsList = value));
-    await AppDbInstance().getConeTypes()
+    await AppDbInstance()
+        .getConeTypes()
         .then((value) => setState(() => _coneTypeList = value));
   }
 
@@ -168,7 +183,11 @@ class PackagingDetailsState extends State<PackagingDetails>
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    _createRequestModel ??= _fiberPostProvider.createRequestModel;
+    if(_createRequestModel == null){
+      _createRequestModel = _fiberPostProvider.createRequestModel;
+    }else if(_createRequestModel!.spc_category_idfk != null && _createRequestModel!.spc_category_idfk=='2'){
+       _yarnPostProvider.familyDisabled = true;
+    }
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -181,13 +200,12 @@ class PackagingDetailsState extends State<PackagingDetails>
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                padding: EdgeInsets.only(top: 0.w, left: 16.w, right: 16.w),
                 child: Form(
                   key: globalFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
-
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       TitleTextWidget(
@@ -205,8 +223,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 4, bottom: 4),
                                       child: TitleSmallBoldTextWidget(
                                           title: unitCounting)),
                                   SingleSelectTileWidget(
@@ -247,7 +265,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(height: 12.w,),
+                                            SizedBox(
+                                              height: 12.w,
+                                            ),
 //                                            Padding(
 //                                                padding: EdgeInsets.only(
 //                                                    top: 8.w, left: 8.w),
@@ -296,9 +316,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   }
                                                   return null;
                                                 },
-                                                decoration:
-                                                    ygTextFieldDecoration(
-                                                        "Weight($unitCountSelected)/Bag","Weight($unitCountSelected)/Bag")),
+                                                decoration: ygTextFieldDecoration(
+                                                    "Weight($unitCountSelected)/Bag",
+                                                    "Weight($unitCountSelected)/Bag")),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -312,7 +332,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                    top: 8.w, left: 8.w),
 //                                                child: TitleSmallTextWidget(
 //                                                    title: coneBags)),
-                                          SizedBox(height: 12.w,),
+                                            SizedBox(
+                                              height: 12.w,
+                                            ),
                                             TextFormField(
                                                 controller:
                                                     _conePerBagController,
@@ -354,48 +376,52 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        coneBags,coneBags)),
+                                                        coneBags, coneBags)),
                                           ],
                                         )),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
 //                                        Padding(
 //                                            padding: EdgeInsets.only(
 //                                                top: 8.w, left: 8.w),
 //                                            child: TitleSmallTextWidget(
 //                                                title: weightCones)),
-                                      SizedBox(height: 12.w,),
-                                        TextFormField(
-                                            controller: _coneWithController,
-                                            keyboardType: TextInputType.number,
-                                            readOnly: true,
-                                            autofocus: false,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!
-                                                    .fpb_weight_cone = input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty) {
-                                                return weightCones;
-                                              }
-                                              return null;
-                                            },
-                                            decoration:
-                                                ygTextFieldDecoration(
-                                                    weightCones,weightCones)),
-                                      ],
+                                          SizedBox(
+                                            height: 12.w,
+                                          ),
+                                          TextFormField(
+                                              controller: _coneWithController,
+                                              keyboardType: TextInputType.number,
+                                              readOnly: true,
+                                              autofocus: false,
+                                              cursorColor: lightBlueTabs,
+                                              style: TextStyle(fontSize: 11.sp),
+                                              textAlign: TextAlign.center,
+                                              cursorHeight: 16.w,
+                                              maxLines: 1,
+                                              onSaved: (input) {
+                                                if (_createRequestModel != null) {
+                                                  _createRequestModel!
+                                                      .fpb_weight_cone = input!;
+                                                }
+                                              },
+                                              validator: (input) {
+                                                if (input == null ||
+                                                    input.isEmpty) {
+                                                  return weightCones;
+                                                }
+                                                return null;
+                                              },
+                                              decoration: ygTextFieldDecoration(
+                                                  weightCones, weightCones)),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -412,7 +438,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   Padding(
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallTextWidget(
+                                      child: const TitleSmallBoldTextWidget(
                                           title: "Cone Type")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
@@ -439,7 +465,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 0.w,top: 4,bottom: 4),
+                                          left: 0.w, top: 4, bottom: 4),
                                       child: TitleSmallBoldTextWidget(
                                           title: sellingRegionStr)),
                                   SingleSelectTileWidget(
@@ -472,7 +498,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                  EdgeInsets.only(left: 8.w),
 //                                              child: TitleSmallTextWidget(
 //                                                  title: country)),
-                                        SizedBox(height: 12.w,),
+                                          SizedBox(
+                                            height: 12.w,
+                                          ),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -494,7 +522,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.conName ??
-                                                                  Utils.checkNullString(false),
+                                                                  Utils.checkNullString(
+                                                                      false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -516,36 +545,52 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
                                                   label: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text(country,style:TextStyle(
-                                                          color: Colors.black87,
-                                                          fontSize: 14.sp,
-                                                          backgroundColor: Colors.white,
-                                                          /*fontFamily: 'Metropolis',*/
-                                                          fontWeight: FontWeight.w500),),
-                                                      Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                          /*fontFamily: 'Metropolis',*/
-                                                          backgroundColor: Colors.white,
-                                                          fontWeight: FontWeight.w500)),
+                                                      Text(
+                                                        country,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 14.sp,
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            /*fontFamily: 'Metropolis',*/
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text("*",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 16.sp,
+                                                              /*fontFamily: 'Metropolis',*/
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500)),
                                                     ],
                                                   ),
-                                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .always,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
                                                   contentPadding:
-                                                  EdgeInsets.only(
-                                                      left: 16.w,
-                                                      right: 6.w,
-                                                      top: 0,
-                                                      bottom: 0),
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
                                                   border:
-                                                  const OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide
-                                                          .none),
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -570,7 +615,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                  EdgeInsets.only(left: 8.w),
 //                                              child: TitleSmallTextWidget(
 //                                                  title: port)),
-                                        SizedBox(height: 12.w,),
+                                          SizedBox(
+                                            height: 12.w,
+                                          ),
                                           SizedBox(
                                             height: 36.w,
                                             child: Container(
@@ -597,7 +644,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         DropdownMenuItem(
                                                           child: Text(
                                                               value.prtName ??
-                                                                  Utils.checkNullString(false),
+                                                                  Utils.checkNullString(
+                                                                      false),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -617,36 +665,52 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
                                                 decoration: InputDecoration(
                                                   label: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      Text(port,style:TextStyle(
-                                                          color: Colors.black87,
-                                                          fontSize: 14.sp,
-                                                          backgroundColor: Colors.white,
-                                                          /*fontFamily: 'Metropolis',*/
-                                                          fontWeight: FontWeight.w500),),
-                                                      Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                          /*fontFamily: 'Metropolis',*/
-                                                          backgroundColor: Colors.white,
-                                                          fontWeight: FontWeight.w500)),
+                                                      Text(
+                                                        port,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 14.sp,
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            /*fontFamily: 'Metropolis',*/
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text("*",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 16.sp,
+                                                              /*fontFamily: 'Metropolis',*/
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500)),
                                                     ],
                                                   ),
-                                                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .always,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
                                                   contentPadding:
-                                                  EdgeInsets.only(
-                                                      left: 16.w,
-                                                      right: 6.w,
-                                                      top: 0,
-                                                      bottom: 0),
+                                                      EdgeInsets.only(
+                                                          left: 16.w,
+                                                          right: 6.w,
+                                                          top: 0,
+                                                          bottom: 0),
                                                   border:
-                                                  const OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide
-                                                          .none),
+                                                      const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide.none),
                                                 ),
                                                 style: TextStyle(
                                                     fontSize: 11.sp,
@@ -676,7 +740,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          padding: EdgeInsets.only(left: 8.w),
 //                                          child: TitleSmallTextWidget(
 //                                              title: cityState)),
-                                      SizedBox(height: 12.w,),
+                                      SizedBox(
+                                        height: 12.w,
+                                      ),
                                       SizedBox(
                                         height: 36.w,
                                         child: Container(
@@ -696,14 +762,17 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     selectedCountryId
                                                         .toString())
                                                 .toList()
-                                                .map((value) =>
-                                                    DropdownMenuItem(
-                                                      child: Text(
-                                                          value.name ?? Utils.checkNullString(false),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                      value: value,
-                                                    ))
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          child: Text(
+                                                              value.name ??
+                                                                  Utils.checkNullString(
+                                                                      false),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                          value: value,
+                                                        ))
                                                 .toList(),
                                             isExpanded: true,
                                             onChanged: (CityState? value) {
@@ -718,33 +787,39 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             decoration: InputDecoration(
                                               label: Row(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: [
-                                                  Text(cityState,style:TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 14.sp,
-                                                      /*fontFamily: 'Metropolis',*/
-                                                      fontWeight: FontWeight.w500),),
-                                                  Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                      /*fontFamily: 'Metropolis',*/
-                                                      fontWeight: FontWeight.w500)),
+                                                  Text(
+                                                    cityState,
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 14.sp,
+                                                        /*fontFamily: 'Metropolis',*/
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text("*",
+                                                      style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: 16.sp,
+                                                          /*fontFamily: 'Metropolis',*/
+                                                          fontWeight:
+                                                              FontWeight.w500)),
                                                 ],
                                               ),
-                                              floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                              floatingLabelBehavior:
+                                                  FloatingLabelBehavior.always,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
-                                              contentPadding:
-                                              EdgeInsets.only(
+                                              contentPadding: EdgeInsets.only(
                                                   left: 16.w,
                                                   right: 6.w,
                                                   top: 0,
                                                   bottom: 0),
-                                              border:
-                                              const OutlineInputBorder(
-                                                  borderSide:
-                                                  BorderSide
-                                                      .none),
+                                              border: const OutlineInputBorder(
+                                                  borderSide: BorderSide.none),
                                             ),
                                             style: TextStyle(
                                                 fontSize: 11.sp,
@@ -757,102 +832,114 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 )),
 
                             //Price Terms
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 //                                Padding(
 //                                    padding:
 //                                        EdgeInsets.only(top: 8.w, left: 8.w),
 //                                    child: TitleSmallTextWidget(
 //                                        title: priceTerms)),
-                              SizedBox(height: 12.w,),
-                                SizedBox(
-                                  height: 36.w,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.shade300,
-                                          width:
-                                              1, //                   <--- border width here
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.w))),
-                                    child: DropdownButtonFormField(
-                                      hint: const Text('Select Price Terms'),
-                                      items: _getPriceTerms()
-                                          .map((value) => DropdownMenuItem(
-                                                child: Text(
-                                                    value.ptrName ?? Utils.checkNullString(false),
-                                                    textAlign:
-                                                        TextAlign.center),
-                                                value: value,
-                                              ))
-                                          .toList(),
-                                      isExpanded: true,
-                                      onChanged: (FPriceTerms? value) {
-                                        FocusScope.of(context)
-                                            .requestFocus(FocusNode());
-                                        setState(() {
-                                          if (value!.ptrId == 3) {
-                                            _showPaymentType = true;
-                                          } else {
-                                            _showPaymentType = false;
-                                            _showLcType = false;
-                                            _createRequestModel!
-                                                .payment_type_idfk = null;
-                                            _createRequestModel!.lc_type_idfk =
-                                                null;
-                                          }
-                                        });
-                                        _createRequestModel!
-                                                .fbp_price_terms_idfk =
-                                            value!.ptrId.toString();
-                                      },
-                                      // validator: (value) => value == null
-                                      //     ? 'field required'
-                                      //     : null,
-                                      // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                      decoration: InputDecoration(
-                                        label: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Text(priceTerms,style:TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 14.sp,
-                                                backgroundColor: Colors.white,
-                                                /*fontFamily: 'Metropolis',*/
-                                                fontWeight: FontWeight.w500),),
-                                            Text("*", style: TextStyle(backgroundColor: Colors.white,color: Colors.red,fontSize: 16.sp,
-                                                /*fontFamily: 'Metropolis',*/
-                                                fontWeight: FontWeight.w500)),
-                                          ],
-                                        ),
-                                        floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                  SizedBox(
+                                    height: 12.w,
+                                  ),
+                                  SizedBox(
+                                    height: 36.w,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey.shade300,
+                                            width:
+                                                1, //                   <--- border width here
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.w))),
+                                      child: DropdownButtonFormField(
+                                        hint: const Text('Select Price Terms'),
+                                        items: _getPriceTerms()
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(
+                                                      value.ptrName ??
+                                                          Utils.checkNullString(
+                                                              false),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  value: value,
+                                                ))
+                                            .toList(),
+                                        isExpanded: true,
+                                        onChanged: (FPriceTerms? value) {
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
+                                          setState(() {
+                                            if (value!.ptrId == 3) {
+                                              _showPaymentType = true;
+                                            } else {
+                                              _showPaymentType = false;
+                                              _showLcType = false;
+                                              _createRequestModel!
+                                                  .payment_type_idfk = null;
+                                              _createRequestModel!.lc_type_idfk =
+                                                  null;
+                                            }
+                                          });
+                                          _createRequestModel!
+                                                  .fbp_price_terms_idfk =
+                                              value!.ptrId.toString();
+                                        },
+                                        // validator: (value) => value == null
+                                        //     ? 'field required'
+                                        //     : null,
+                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                        decoration: InputDecoration(
+                                          label: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                priceTerms,
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 14.sp,
+                                                    backgroundColor: Colors.white,
+                                                    /*fontFamily: 'Metropolis',*/
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                              Text("*",
+                                                  style: TextStyle(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      color: Colors.red,
+                                                      fontSize: 16.sp,
+                                                      /*fontFamily: 'Metropolis',*/
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                            ],
+                                          ),
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.always,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
-                                        contentPadding:
-                                        EdgeInsets.only(
-                                            left: 16.w,
-                                            right: 6.w,
-                                            top: 0,
-                                            bottom: 0),
-                                        border:
-                                        const OutlineInputBorder(
-
-                                            borderSide:
-                                            BorderSide
-                                                .none),
-
+                                          contentPadding: EdgeInsets.only(
+                                              left: 16.w,
+                                              right: 6.w,
+                                              top: 0,
+                                              bottom: 0),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: textColorGrey),
                                       ),
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          color: textColorGrey),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
 
                             //Payment Type
@@ -863,7 +950,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   children: [
                                     Padding(
                                         padding: EdgeInsets.only(
-                                            left: 0.w,top: 4,bottom: 4),
+                                            left: 0.w, top: 4, bottom: 4),
                                         child: TitleSmallBoldTextWidget(
                                             title: paymentType)),
                                     SingleSelectTileWidget(
@@ -894,10 +981,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                      child:
-                                      TitleSmallBoldTextWidget(title: lcType)),
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 4, bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
+                                          title: lcType)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
@@ -913,61 +1000,20 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Price Unit and Available Quantity
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
 //                                    Padding(
 //                                        padding: EdgeInsets.only(
 //                                            top: 8.w, left: 8.w),
 //                                        child: TitleSmallTextWidget(
 //                                            title: priceUnits)),
-                                  SizedBox(height:12.w),
-                                    TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        cursorColor: lightBlueTabs,
-                                        style: TextStyle(fontSize: 11.sp),
-                                        textAlign: TextAlign.center,
-                                        cursorHeight: 16.w,
-                                        maxLines: 1,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp("[0-9]")),
-                                        ],
-                                        onSaved: (input) {
-                                          if (_createRequestModel != null) {
-                                            _createRequestModel!.fbp_price =
-                                                input!;
-                                          }
-                                        },
-                                        validator: (input) {
-                                          if (input == null ||
-                                              input.isEmpty ||
-                                              int.parse(input) < 1) {
-                                            return priceUnits;
-                                          }
-                                          return null;
-                                        },
-                                        decoration: ygTextFieldDecoration(
-                                            priceUnits,priceUnits)),
-                                  ],
-                                )),
-                                SizedBox(width: 16.w),
-                                Expanded(
-                                  child:
-                                      //Available Quantity
-                                      Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(height: 12.w,),
-//                                      Padding(
-//                                          padding: EdgeInsets.only(
-//                                              top: 8.w, left: 8.w),
-//                                          child: const TitleSmallTextWidget(
-//                                              title: "Available Quantity")),
+                                      SizedBox(height: 12.w),
                                       TextFormField(
                                           keyboardType: TextInputType.number,
                                           cursorColor: lightBlueTabs,
@@ -981,8 +1027,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           ],
                                           onSaved: (input) {
                                             if (_createRequestModel != null) {
-                                              _createRequestModel!
-                                                      .fbp_available_quantity =
+                                              _createRequestModel!.fbp_price =
                                                   input!;
                                             }
                                           },
@@ -990,104 +1035,158 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             if (input == null ||
                                                 input.isEmpty ||
                                                 int.parse(input) < 1) {
-                                              return "Available Quantity";
+                                              return priceUnits;
                                             }
                                             return null;
                                           },
-                                          decoration:
-                                              ygTextFieldDecoration(
-                                                  "Available Quantity","Available Qunatity")),
+                                          decoration: ygTextFieldDecoration(
+                                              priceUnits, priceUnits)),
                                     ],
+                                  )),
+                                  SizedBox(width: 16.w),
+                                  Expanded(
+                                    child:
+                                        //Available Quantity
+                                        Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 12.w,
+                                        ),
+//                                      Padding(
+//                                          padding: EdgeInsets.only(
+//                                              top: 8.w, left: 8.w),
+//                                          child: const TitleSmallTextWidget(
+//                                              title: "Available Quantity")),
+                                        TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            cursorColor: lightBlueTabs,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            cursorHeight: 16.w,
+                                            maxLines: 1,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp("[0-9]")),
+                                            ],
+                                            onSaved: (input) {
+                                              if (_createRequestModel != null) {
+                                                _createRequestModel!
+                                                        .fbp_available_quantity =
+                                                    input!;
+                                              }
+                                            },
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty ||
+                                                  int.parse(input) < 1) {
+                                                return "Available Quantity";
+                                              }
+                                              return null;
+                                            },
+                                            decoration: ygTextFieldDecoration(
+                                                "Available Quantity",
+                                                "Available Qunatity")),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
 
                             //Minimum Quantity
                             Visibility(
                               visible: true,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
 //                                  Padding(
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: TitleSmallTextWidget(title: minQty)),
-                                SizedBox(height:12.w),
-                                  TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      cursorColor: lightBlueTabs,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      cursorHeight: 16.w,
-                                      maxLines: 1,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]")),
-                                      ],
-                                      onSaved: (input) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.fbp_min_quantity =
-                                              input!;
-                                        }
-                                      },
-                                      validator: (input) {
-                                        if (input == null ||
-                                            input.isEmpty ||
-                                            int.parse(input) < 1) {
-                                          return minQty;
-                                        }
-                                        return null;
-                                      },
-                                      decoration:
-                                          ygTextFieldDecoration(minQty,minQty)),
-                                ],
+                                    SizedBox(height: 12.w),
+                                    TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        maxLines: 1,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]")),
+                                        ],
+                                        onSaved: (input) {
+                                          if (_createRequestModel != null) {
+                                            _createRequestModel!
+                                                .fbp_min_quantity = input!;
+                                          }
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
+                                            return minQty;
+                                          }
+                                          return null;
+                                        },
+                                        decoration: ygTextFieldDecoration(
+                                            minQty, minQty)),
+                                  ],
+                                ),
                               ),
                             ),
 
                             //Required Quantity
                             Visibility(
                               visible: false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
 //                                  Padding(
 //                                      padding:
 //                                      EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: const TitleSmallTextWidget(title: "Required Quantity")),
 //
-                                SizedBox(height:12.w),
-                                  TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      cursorColor: lightBlueTabs,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      cursorHeight: 16.w,
-                                      maxLines: 1,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]")),
-                                      ],
-                                      onSaved: (input) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.fbp_required_quantity =
-                                          input!;
-                                        }
-                                      },
-                                      validator: (input) {
-                                        if (input == null ||
-                                            input.isEmpty ||
-                                            int.parse(input) < 1) {
-                                          return minQty;
-                                        }
-                                        return null;
-                                      },
-                                      decoration:
-                                      ygTextFieldDecoration("Required Quantity","Required Quantity")),
-                                ],
+                                    SizedBox(height: 12.w),
+                                    TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        cursorColor: lightBlueTabs,
+                                        style: TextStyle(fontSize: 11.sp),
+                                        textAlign: TextAlign.center,
+                                        cursorHeight: 16.w,
+                                        maxLines: 1,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]")),
+                                        ],
+                                        onSaved: (input) {
+                                          if (_createRequestModel != null) {
+                                            _createRequestModel!
+                                                .fbp_required_quantity = input!;
+                                          }
+                                        },
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              int.parse(input) < 1) {
+                                            return minQty;
+                                          }
+                                          return null;
+                                        },
+                                        decoration: ygTextFieldDecoration(
+                                            "Required Quantity",
+                                            "Required Quantity")),
+                                  ],
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 6,),
+
                             //Packing
                             Visibility(
                               visible:
@@ -1096,13 +1195,19 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                      child:
-                                      TitleSmallBoldTextWidget(title: packing)),
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
+                                          title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
-                                      listOfItems: _packingList,
+                                      listOfItems: _packingList
+                                          .where((element) =>
+                                              element.pacCategoryId ==
+                                              _createRequestModel!
+                                                  .spc_category_idfk
+                                                  .toString())
+                                          .toList(),
                                       callback: (Packing value) {
                                         if (_createRequestModel != null) {
                                           _createRequestModel!.packing_idfk =
@@ -1112,20 +1217,24 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 6,),
+
                             //Delivery Period
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                    padding: EdgeInsets.only(
+                                        left: 0.w, top: 8, bottom: 4),
                                     child: TitleSmallBoldTextWidget(
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems: _deliverPeriodList.where((element) => element.dprCategoryIdfk == _createRequestModel!
-                                        .spc_category_idfk).toList(),
+                                    listOfItems: _deliverPeriodList
+                                        .where((element) =>
+                                            element.dprCategoryIdfk ==
+                                            _createRequestModel!
+                                                .spc_category_idfk)
+                                        .toList(),
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
@@ -1156,7 +1265,9 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
 //                                      child: const TitleSmallTextWidget(
 //                                          title: "No of Days")),
-                                SizedBox(height: 12.w,),
+                                  SizedBox(
+                                    height: 12.w,
+                                  ),
                                   SizedBox(
                                     height: 36.w,
                                     child: Container(
@@ -1194,35 +1305,43 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         decoration: InputDecoration(
                                           label: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
-                                              Text("No of Days",style:TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 14.sp,
-                                                  backgroundColor: Colors.white,
-                                                  /*fontFamily: 'Metropolis',*/
-                                                  fontWeight: FontWeight.w500),),
-                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  /*fontFamily: 'Metropolis',*/
-                                                  backgroundColor: Colors.white,
-                                                  fontWeight: FontWeight.w500)),
+                                              Text(
+                                                "No of Days",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 14.sp,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    /*fontFamily: 'Metropolis',*/
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              Text("*",
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16.sp,
+                                                      /*fontFamily: 'Metropolis',*/
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
                                             ],
                                           ),
-                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.always,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
-                                          contentPadding:
-                                          EdgeInsets.only(
+                                          contentPadding: EdgeInsets.only(
                                               left: 16.w,
                                               right: 6.w,
                                               top: 0,
                                               bottom: 0),
-                                          border:
-                                          const OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide
-                                                  .none),
+                                          border: const OutlineInputBorder(
+                                              borderSide: BorderSide.none),
                                         ),
                                         style: TextStyle(
                                             fontSize: 11.sp,
@@ -1235,45 +1354,50 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Description
-                            SizedBox(height: 12.w,),
 //                            Padding(
 //                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
 //                                child: TitleSmallTextWidget(
 //                                    title: descriptionStr)),
 
-                            SizedBox(
-                              height: 5 * 22.w,
-                              child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  maxLines: 5,
-                                  cursorColor: lightBlueTabs,
-                                  style: TextStyle(fontSize: 11.sp),
-                                  textAlign: TextAlign.start,
-                                  cursorHeight: 16.w,
-                                  onSaved: (input) {
-                                    if (_createRequestModel != null) {
-                                      _createRequestModel!.fbp_description =
-                                          input!;
-                                    }
-                                  },
-                                  // validator: (input) {
-                                  //   if (input == null || input.isEmpty) {
-                                  //     return descriptionStr;
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  decoration: ygTextFieldDecoration(
-                                      descriptionStr,descriptionStr)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 18.0),
+                              child: SizedBox(
+                                height: 5 * 22.w,
+                                child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    maxLines: 5,
+                                    cursorColor: lightBlueTabs,
+                                    style: TextStyle(fontSize: 11.sp),
+                                    textAlign: TextAlign.start,
+                                    cursorHeight: 16.w,
+                                    onSaved: (input) {
+                                      if (_createRequestModel != null) {
+                                        _createRequestModel!.fbp_description =
+                                            input!;
+                                      }
+                                    },
+                                    // validator: (input) {
+                                    //   if (input == null || input.isEmpty) {
+                                    //     return descriptionStr;
+                                    //   }
+                                    //   return null;
+                                    // },
+                                    decoration: ygTextFieldDecoration(
+                                        descriptionStr, descriptionStr)),
+                              ),
                             ),
 
                             Visibility(
                               visible:
                                   widget.businessArea != yarn ? true : false,
-                              child: AddPictureWidget(
-                                imageCount: 1,
-                                callbackImages: (value) {
-                                  imageFiles = value;
-                                },
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: AddPictureWidget(
+                                  imageCount: 1,
+                                  callbackImages: (value) {
+                                    imageFiles = value;
+                                  },
+                                ),
                               ),
                             )
                           ],
@@ -1381,11 +1505,19 @@ class PackagingDetailsState extends State<PackagingDetails>
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
-    _createRequestModel!.fbp_count_unit_idfk =
-        _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
-            .spc_category_idfk).toList().first.untId.toString();
-    unitCountSelected ??= _unitsList.where((element) => element.untCategoryIdfk==_createRequestModel!
-        .spc_category_idfk).toList().first.untName;
+    _createRequestModel!.fbp_count_unit_idfk = _unitsList
+        .where((element) =>
+            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+        .toList()
+        .first
+        .untId
+        .toString();
+    unitCountSelected ??= _unitsList
+        .where((element) =>
+            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+        .toList()
+        .first
+        .untName;
     _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
     _createRequestModel!.fbp_delivery_period_idfk =
         _deliverPeriodList.first.dprId.toString();

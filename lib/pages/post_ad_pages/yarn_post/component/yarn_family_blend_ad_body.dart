@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
@@ -15,11 +18,14 @@ import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
-import 'package:yg_app/providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../../../elements/bottom_sheets/family_blends_bottom_sheet.dart';
 import '../../../../elements/bottom_sheets/family_bottom_sheet.dart';
 import '../../../../elements/list_widgets/single_select_tile_widget.dart';
+import '../../../../helper_utils/navigation_utils.dart';
+import '../../../../helper_utils/util.dart';
+import '../../../../model/blend_model_extended.dart';
 
 class FamilyBlendAdsBody extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
@@ -48,6 +54,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
       GlobalKey<FamilyTileWidgetState>();
   final GlobalKey<BlendsWithImageListWidgetState> _blendTileKey =
       GlobalKey<BlendsWithImageListWidgetState>();
+
 
   late CreateRequestModel _createRequestModel;
   YarnSetting _yarnSetting = YarnSetting();
@@ -81,6 +88,8 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
   Widget build(BuildContext context) {
 //    print("PRovider"+_yarnPostProvider.yarnBlendsList.first.toString());
     _createRequestModel = Provider.of<CreateRequestModel>(context);
+    var blendString = setFormations(_createRequestModel);
+    Logger().e('Blend String : ${blendString}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,7 +104,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 //                height: 4.w,
 //              ),
               SizedBox(
-
                 height: 0.060 * MediaQuery.of(context).size.height,
                 child: Row(
                   children: [
@@ -122,7 +130,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TitleMediumTextWidget(
-                                      title:'Select',
+                                      title:blendString.isEmpty ? _yarnPostProvider.selectedYarnFamily.toString().isNotEmpty ? _yarnPostProvider.selectedYarnFamily.famName :'Select' : blendString,
                                       color: Colors.black54,
                                       weight: FontWeight.normal,
                                     )
@@ -132,26 +140,58 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                familySheet(context,(int checkedIndex){
+                                if(!_yarnPostProvider.familyDisabled){
+                                  _yarnPostProvider.selectedYarnFamily = Family();
+                                  familySheet(context, (int checkedIndex) {}, (Family family) {
+                                    _yarnPostProvider.selectedYarnFamily = family;
+                                    Navigator.of(context).pop();
+                                    if (_yarnPostProvider.blendList
+                                        .where((element) =>
+                                    element.familyIdfk == family.famId.toString())
+                                        .toList()
+                                        .isNotEmpty) {
+                                      _yarnPostProvider.resetData();
+                                      _yarnPostProvider.textFieldControllers.clear();
+                                      blendedSheet(
+                                          context,
+                                          _yarnPostProvider.blendList.toList()
+                                              .where((element) =>
+                                          element.familyIdfk == family.famId.toString())
+                                              .toList(),
+                                          0, () {
+                                        Navigator.pop(context);
+                                        openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
+                                      });
+                                      /*familyBlendsSheet(context, (int checkedIndex) {
 
-                                } , (Family family){
-                                  Navigator.of(context).pop();
-                                  if(_yarnPostProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId.toString()).toList().isNotEmpty)
-                                  {
-                                    familyBlendsSheet(context,(int checkedIndex){
+                                      }, (Blends blends) {
+                                        Navigator.of(context).pop();
+                                        _yarnPostProvider.resetData();
+                                        _yarnPostProvider.textFieldControllers.clear();
+                                        blendedSheet(
+                                            context,
+                                            _yarnPostProvider.blendList.toList()
+                                                .where((element) =>
+                                            element.familyIdfk == family.famId.toString())
+                                                .toList(),
+                                            _yarnPostProvider.blendList
+                                                .where((element) =>
+                                            element.familyIdfk == family.famId.toString())
+                                                .toList().indexWhere((element) => element == blends), () {
+                                          Navigator.pop(context);
+                                          openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
+                                        });
 
-                                    } , (Blends blends){
-                                      Navigator.of(context).pop();
-//                                      openYarnPostPage(context, widget.locality, yarn, value);
-                                    },
-                                        _yarnPostProvider.yarnBlendsList.where((element) =>  element.familyIdfk == family.famId.toString()).toList(),-1,"Yarn");
-                                  }
-                                  else
-                                  {
-
-//                                    openYarnPostPage(context, widget.locality, yarn, value);
-                                  }
-                                }, _familyList,-1,"Yarn");
+                                      },
+                                          _yarnPostProvider.blendList.where((element) =>
+                                          element.familyIdfk == family.famId.toString()).toList(),
+                                          -1, "Yarn");*/
+                                    }
+                                    else {
+                                      openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);
+                                    }
+                                  }, _familyList, -1, "Yarn");
+                                }
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(
@@ -191,7 +231,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             ],
           ),
         ),
-        Visibility(
+        /*Visibility(
           visible: Ui.showHide(_yarnSetting.showBlend),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,12 +245,6 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                     right: 16,
                   ),
                   child: Divider()),
-              Visibility(
-                visible: false,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 16.w, bottom: 8.w),
-                    child: TitleTextWidget(title: blend)),
-              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 8.w),
                 child: YarnSelectedBlendWidget(
@@ -227,12 +261,13 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                                 element.familyIdfk == selectedFamilyId)
                             .toList(),
                         value, () {
-                      List<BlendModel> formations = [];
+                      List<Map<String,String>> formations = [];
                       for (var element in _yarnPostProvider.blendList) {
                         if (element.isSelected??false) {
-                          formations.add(BlendModel(id: element.blnId,
+                          BlendModel formationModel = BlendModel(id: element.blnId,
                               relatedBlnId: null,
-                              ratio: element.blendRatio));
+                              ratio: element.blendRatio);
+                          formations.add(formationModel.toJson());
                         }
                       }
                       _createRequestModel.ys_formation = formations;
@@ -254,7 +289,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                   child: Divider()),
             ],
           ),
-        ),
+        ),*/
         Visibility(
           visible: widget.selectedTab == offering_type,
           child: const SizedBox(
@@ -301,4 +336,41 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
       });
     });
   }
+
+  String setFormations(CreateRequestModel createRequestModel) {
+    List<Map<String,String>> formations = [];
+    var value = '';
+    List<String?> stringList = [];
+    var _postYarnProvider = locator<PostYarnProvider>();
+    for (var element in _postYarnProvider.selectedBlends) {
+      if (element.isSelected??false) {
+        var blend = element as Blends;
+        stringList.add(element.blnName);
+        String? relateId;
+        if(blend.bln_ratio_json != null){
+          relateId = getRelatedId(blend);
+        }
+        BlendModel formationModel = BlendModel(id: element.blnId,
+            relatedBlnId: relateId,
+            ratio: element.blendRatio);
+        formations.add(formationModel.toJson());
+      }
+    }
+    value = Utils.createStringFromList(stringList);
+    Logger().e(formations.toString());
+    createRequestModel.ys_formation = formations;
+    return value;
+  }
+
+  String getRelatedId(Blends blend) {
+    var blendModelArrayList = json.decode(blend.bln_ratio_json!);
+    List<BlendModelExtended> formationList = [];
+    for (var element in blendModelArrayList) {
+     formationList.add(BlendModelExtended.fromJson(element));
+
+    }
+    Logger().e(formationList.first.default_bln_id);
+    return formationList.first.default_bln_id.toString();
+  }
+
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/providers/banners_provider.dart';
+import 'package:yg_app/providers/home_providers/banners_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
