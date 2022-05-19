@@ -44,7 +44,6 @@ specsSheet(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
                     Column(
                       children: [
                         Align(
