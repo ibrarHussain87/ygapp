@@ -151,7 +151,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
 
     _firebaseCrash();
-
+    _synData();
 
     super.initState();
 
@@ -293,6 +293,35 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+
+  Future<bool> _synData() async {
+    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
+    Logger().e(dataSynced.toString());
+    if (!dataSynced) {
+      await Future.wait([
+
+        // For getting countries
+        ApiService.syncCountriesCall().then((
+            CountriesSyncResponse response) {
+          if (response.status!) {
+            Logger().e("Countries Sync got successfully : " +
+                response.toString());
+            AppDbInstance().getDbInstance().then((value) async {
+              await Future.wait([
+                value.countriesDao
+                    .insertAllCountry(response.data!.countries),
+              ]);
+            });
+          }
+        })
+
+
+      ]);
+    }
+
+    return true;
   }
 
 }

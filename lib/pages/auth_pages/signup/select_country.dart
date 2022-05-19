@@ -53,7 +53,7 @@ class CountryComponentState extends State<CountryComponent>
               countriesList = value;
               _signupRequestModel?.countryId=countriesList.first.conId.toString();
               _signupRequestModel?.country=countriesList.first;
-              _preConfigCall(countriesList.first.conId.toString());
+//              _preConfigCall(countriesList.first.conId.toString());
             });
           })
         });
@@ -136,7 +136,7 @@ class CountryComponentState extends State<CountryComponent>
 //                                        _notifierCountry?.value=country,
                                         _signupRequestModel?.countryId=country.conId.toString();
                                         _signupRequestModel?.country=country;
-                                        _preConfigCall(country.conId.toString());
+//                                        _preConfigCall(country.conId.toString());
 
                                       }
                                       )
@@ -236,6 +236,7 @@ class CountryComponentState extends State<CountryComponent>
 
   void handleNextClick() {
     if (validationAllPage()) {
+      _preConfigCall(_signupRequestModel?.countryId.toString());
       widget.callback!(1);
     }
   }
