@@ -52,7 +52,7 @@ class _SignInPageState extends State<SignInPage> {
       value.countriesDao.findAllCountries().then((value) {
         setState(() {
           _loginRequestModel.country=value.first;
-         code=value.first.countryPhoneCode;
+          code=value.first.countryPhoneCode;
         });
       })
     });
@@ -161,15 +161,15 @@ class _SignInPageState extends State<SignInPage> {
                                 width: 100.w,
                                 child: Center(child:
                                 Text("Phone Number",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: isEmail ? Colors.black54 : Colors.white
-                                    /*fontFamily: 'Metropolis',*/
-                                  )),)
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: isEmail ? Colors.black54 : Colors.white
+                                      /*fontFamily: 'Metropolis',*/
+                                    )),)
                             ),
                           ),
 
-                      ],
+                        ],
                       ),
                     ),
                     Padding(
@@ -461,7 +461,7 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                     bottom: 8.w, left: 8.w, right: 8.w),
+                                    bottom: 8.w, left: 8.w, right: 8.w),
                                 child: TextFormField(
                                   obscureText: !_showPassword,
                                   keyboardType: TextInputType.text,
@@ -554,7 +554,7 @@ class _SignInPageState extends State<SignInPage> {
                                 height: 30.h,
                               ),
                               SizedBox(
-                                height: 50.w,
+                                  height: 50.w,
                                   width: double.infinity,
                                   child: ElevatedButton(
                                       child:Row(
@@ -711,7 +711,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   _resetData() {
-   _loginRequestModel.phone = null ;
+    _loginRequestModel.phone = null ;
     _loginRequestModel.email = null;
     emailController.clear();
     phoneController.clear();

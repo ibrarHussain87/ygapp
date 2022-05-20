@@ -134,8 +134,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
                                   //     yarn, widget.selectedTab);
                                 });
                               } else {
-                                openFabricPostPage(context, widget.locality,
-                                    "Fabric", widget.selectedTab);
+                                /*openFabricPostPage(context, widget.locality,
+                                    "Fabric", widget.selectedTab);*/
                               }
                             }, postFabricProvider.fabricFamilyList, -1, "Fabric");
                       }

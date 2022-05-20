@@ -335,8 +335,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
                 response.toString());
             AppDbInstance().getDbInstance().then((value) async {
               await Future.wait([
-                value.companiesDao
-                    .insertAllCompanies(response.companies),
+                value.companiesDao.insertAllCompanies(response.companies),
               ]);
             });
           }
