@@ -1025,7 +1025,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           style: TextStyle(fontSize: 11.sp),
                           textAlign: TextAlign.center,
                           cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                          decoration: ygTextFieldDecoration('Enter count details','Count',true));
                     },
                   ),
                 ),
@@ -1197,7 +1197,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: SizedBox(
-                          width: 120.w,
+                          width: double.infinity,
                           child: TextFormField(
                             keyboardType: TextInputType.none,
                             controller: _textEditingController,
@@ -1862,8 +1862,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        child: SizedBox(
-                          width: 120.w,
+                        child: Container(
+                          width: double.infinity,
                           child: TextFormField(
                             keyboardType: TextInputType.none,
                             controller: _textEditingController,
@@ -1952,7 +1952,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           style: TextStyle(fontSize: 11.sp),
                           textAlign: TextAlign.center,
                           cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                          decoration: ygTextFieldDecoration('Enter count details','Count',true));
                     },
                   ),
                 ),

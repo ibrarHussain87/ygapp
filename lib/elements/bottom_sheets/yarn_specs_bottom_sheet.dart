@@ -122,6 +122,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           value: _createRequestModel.ys_dty_filament,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting.dannierMinMax!,
+                                          autoFocus: true,
                                           label: dannier,
                                           errorText: dannier),
                                     ],
@@ -176,6 +177,8 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           value: _createRequestModel.ys_count,
                                           minMax: _yarnSetting.countMinMax!,
+                                          maxLength: 3,
+                                          autoFocus: true,
                                           onSaved: (input) {
                                             _createRequestModel.ys_count = input;
                                           })
@@ -319,6 +322,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                   if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,
                                       showDoublingMethod.value,_selectedPlyId,_selectedDoublingMethodId,_selectedOrientationId)) {
                                     //showDoublingMethod.dispose();
+                                    FocusScope.of(context).unfocus();
                                     _createRequestModel.ys_ply_idfk = _selectedPlyId;
                                     _createRequestModel.ys_doubling_method_idFk = _selectedDoublingMethodId;
                                     _createRequestModel.ys_orientation_idfk = _selectedOrientationId;

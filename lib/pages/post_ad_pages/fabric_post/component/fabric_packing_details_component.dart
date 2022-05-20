@@ -83,6 +83,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   late List<Ports> _portsList;
   late List<ConeType> _coneTypeList;
 
+  TextEditingController availableQuantityController = TextEditingController();
+  TextEditingController minimumQuantityController = TextEditingController();
+
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
       return _priceTermList
@@ -190,9 +193,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
-                                              element.untCategoryIdfk ==
-                                              _createRequestModel!
-                                                  .spc_category_idfk)
+                                              element.untCategoryIdfk == _createRequestModel!.spc_category_idfk
+                                                  && checkFamilyId(element.unt_family_idfk!)
+                                      )
                                           .toList(),
                                       callback: (Units value) {
                                         setState(() {
@@ -250,6 +253,10 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           input!;
                                                     }
                                                   },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                        RegExp("[0-9]")),
+                                                  ],
                                                   onChanged: (value) {
                                                     if (_conePerBagController
                                                         .text.isNotEmpty) {
@@ -275,7 +282,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   },
                                                   decoration:
                                                       ygTextFieldDecoration(
-                                                          "Weight/$unitCountSelected","Weight/$unitCountSelected")),
+                                                          "Weight/$unitCountSelected","Weight/$unitCountSelected",true)),
                                             ),
                                           ],
                                         )),
@@ -310,6 +317,10 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           .fpb_cones_bag = input!;
                                                     }
                                                   },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                        RegExp("[0-9]")),
+                                                  ],
                                                   onChanged: (value) {
                                                     if (_weigthPerBagController
                                                         .text.isNotEmpty) {
@@ -333,7 +344,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   },
                                                   decoration:
                                                       ygTextFieldDecoration(
-                                                          coneBags,coneBags)),
+                                                          coneBags,coneBags,true)),
                                             ),
                                           ],
                                         )),
@@ -375,7 +386,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               },
                                               decoration:
                                                   ygTextFieldDecoration(
-                                                      weightCones,weightCones)),
+                                                      weightCones,weightCones,true)),
                                         ),
                                       ],
                                     ),
@@ -426,7 +437,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                              child: TitleSmallTextWidget(
 //                                                  title: country)),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -523,7 +534,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                              child: TitleSmallTextWidget(
 //                                                  title: port)),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -628,7 +639,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                          child: TitleSmallTextWidget(
 //                                              title: cityState)),
                                       SizedBox(
-                                        height: 36.w,
+                                        height: 40.w,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -720,7 +731,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 Padding(
                                   padding: const EdgeInsets.only(top: 14.0,bottom: 4),
                                   child: SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -904,7 +915,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             return null;
                                           },
                                           decoration: ygTextFieldDecoration(
-                                              priceUnits,priceUnits)),
+                                              priceUnits,priceUnits,true)),
                                     ),
                                   ],
                                 )),
@@ -924,6 +935,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       Padding(
                                         padding:  EdgeInsets.only(top: 14.w,bottom: 4),
                                         child: TextFormField(
+                                            controller: availableQuantityController,
                                             keyboardType: TextInputType.number,
                                             cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -951,7 +963,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             },
                                             decoration:
                                                 ygTextFieldDecoration(
-                                                    "Available Quantity","Available Quantity")),
+                                                    "Available Quantity","Available Quantity",true)),
                                       ),
                                     ],
                                   ),
@@ -1013,6 +1025,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   Padding(
                                     padding:  EdgeInsets.only(top: 14.w,bottom: 4),
                                     child: TextFormField(
+                                        controller: minimumQuantityController,
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
@@ -1037,8 +1050,19 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           }
                                           return null;
                                         },
+                                        onChanged: (String value){
+                                          if(value.isNotEmpty){
+                                            int availableQuantity = int.parse(availableQuantityController.text);
+                                            int minimumQuantity = int.parse(value);
+                                            if(minimumQuantity>availableQuantity){
+                                              FocusScope.of(context).unfocus();
+                                              minimumQuantityController.text = '';
+                                              Fluttertoast.showToast(msg: 'Minimum Quantity can not be greater than Available Quantity');
+                                            }
+                                          }
+                                        },
                                         decoration:
-                                            ygTextFieldDecoration(minQty,minQty)),
+                                            ygTextFieldDecoration(minQty,minQty,true)),
                                   ),
                                 ],
                               ),
@@ -1079,13 +1103,13 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
                                     spanCount: 3,
-                                    listOfItems: _deliverPeriodList,
+                                    listOfItems: _deliverPeriodList.where((element) => element.dprCategoryIdfk == '3').toList(),
                                     callback: (DeliveryPeriod value) {
                                       if (_createRequestModel != null) {
                                         _createRequestModel!
                                                 .fbp_delivery_period_idfk =
                                             value.dprId.toString();
-                                        if (value.dprId == 3) {
+                                        if (value.dprName == 'No Of Days') {
                                           setState(() {
                                             noOfDays = true;
                                           });
@@ -1105,6 +1129,30 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: 'No of Days')),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: Iterable<int>.generate(102)
+                                          .toList()
+                                          .map((value) => value == 101 ? 'Other':value.toString())
+                                          .toList(),
+                                      callback: (String? value) {
+                                        _createRequestModel!.fbp_no_of_days =
+                                            value!.toString();
+                                      }),
+                                ],
+                              ),
+                            ),
+
+                            /*Visibility(
+                              visible: noOfDays,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 //                                  Padding(
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
@@ -1113,7 +1161,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   Padding(
                                     padding: const EdgeInsets.only(top: 14.0,bottom: 4),
                                     child: SizedBox(
-                                      height: 36.w,
+                                      height: 40.w,
                                       child: Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -1188,7 +1236,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   ),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Description
 //                            Padding(
@@ -1220,18 +1268,28 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                     //   return null;
                                     // },
                                     decoration: ygTextFieldDecoration(
-                                        descriptionStr,descriptionStr)),
+                                        descriptionStr,descriptionStr,true)),
                               ),
                             ),
 
                             Visibility(
                               visible: true,
-                              child: AddPictureWidget(
-                                imageCount: 1,
-                                callbackImages: (value) {
-                                  imageFiles = value;
-                                },
-                              ),
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TitleSmallBoldTextWidget(
+                                        title: attachment),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  AddPictureWidget(
+                                    imageCount: 1,
+                                    callbackImages: (value) {
+                                      imageFiles = value;
+                                    },
+                                  ),
+                                ],
+                              )
                             )
                           ],
                         ),
@@ -1370,6 +1428,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       return false;
     }*/
 
+    if (_createRequestModel!.fbp_no_of_days == null && noOfDays) {
+      Ui.showSnackBar(context, "Please select number of days");
+      return false;
+    }
+
     if (form!.validate()) {
       // if (imageFiles.isNotEmpty) {
       form.save();
@@ -1381,5 +1444,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
     }
     return false;
    // return true;
+  }
+
+  bool checkFamilyId(String familyId) {
+    return familyId == _createRequestModel!.fs_family_idfk;
   }
 }

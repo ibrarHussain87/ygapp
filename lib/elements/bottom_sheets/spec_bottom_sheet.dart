@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
+import '../../helper_utils/top_round_corners.dart';
 import '../list_widgets/single_select_tile_widget.dart';
 import '../list_widgets/spec_select_tile_widget.dart';
 
@@ -33,7 +34,7 @@ specsSheet(BuildContext context,
           builder: (BuildContext contextBuilder, StateSetter setState) {
             return SingleChildScrollView(
               child: Container(
-                color: Colors.white,
+                decoration: getRoundedTopCorners(),
                 /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -43,7 +44,6 @@ specsSheet(BuildContext context,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
                     Column(
                       children: [
                         Align(

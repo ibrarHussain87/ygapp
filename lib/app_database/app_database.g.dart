@@ -83,6 +83,8 @@ class _$AppDatabase extends AppDatabase {
 
   CountryDao? _countriesDaoInstance;
 
+  CategoryDao? _categoriesDaoInstance;
+
   DeliveryPeriodDao? _deliveryPeriodDaoInstance;
 
   LcTypesDao? _lcTypeDaoInstance;
@@ -202,11 +204,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER, `conName` TEXT, `countryIso` TEXT, `countryIso3` TEXT, `countryCurrencyName` TEXT, `countryCurrencyCode` TEXT, `countryCurrencySymbol` TEXT, `countryPhoneCode` TEXT, `countryContinent` TEXT, `countryStatus` TEXT, `mainFlagImage` TEXT, `extralarge` TEXT, `large` TEXT, `medium` TEXT, PRIMARY KEY (`conId`))');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `categories` (`catId` INTEGER, `catName` TEXT, PRIMARY KEY (`catId`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `certifications` (`cerId` INTEGER NOT NULL, `cerCategoryIdfk` TEXT, `cerName` TEXT, `cerIsActive` TEXT, PRIMARY KEY (`cerId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT, `dprName` TEXT, `dprIsActive` TEXT, PRIMARY KEY (`dprId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
+            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `unt_family_idfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `companies` (`id` INTEGER NOT NULL, `name` TEXT, `gst` TEXT, `address` TEXT, `countryId` TEXT, `cityStateId` TEXT, `zipCode` TEXT, `websiteUrl` TEXT, `whatsappNumber` TEXT, `wechatNumber` TEXT, `telephoneNumber` TEXT, `emailId` TEXT, `maxProduction` TEXT, `noOfUnits` TEXT, `yearEstablished` TEXT, `tradeCategory` TEXT, `licenseHolder` TEXT, `isVerified` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -236,7 +240,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
@@ -362,6 +366,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   CountryDao get countriesDao {
     return _countriesDaoInstance ??= _$CountryDao(database, changeListener);
+  }
+
+  @override
+  CategoryDao get categoriesDao {
+    return _categoriesDaoInstance ??= _$CategoryDao(database, changeListener);
   }
 
   @override
@@ -1530,6 +1539,64 @@ class _$CountryDao extends CountryDao {
   }
 }
 
+class _$CategoryDao extends CategoryDao {
+  _$CategoryDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _categoriesInsertionAdapter = InsertionAdapter(
+            database,
+            'categories',
+            (Categories item) => <String, Object?>{
+                  'catId': item.catId,
+                  'catName': item.catName
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Categories> _categoriesInsertionAdapter;
+
+  @override
+  Future<List<Categories>> findAllCategories() async {
+    return _queryAdapter.queryList('SELECT * FROM categories',
+        mapper: (Map<String, Object?> row) => Categories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?));
+  }
+
+  @override
+  Future<Categories?> findCategoryWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM categories where catId = ?1',
+        mapper: (Map<String, Object?> row) => Categories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteCategories(int id) async {
+    await _queryAdapter.queryNoReturn('delete from categories where catId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from categories');
+  }
+
+  @override
+  Future<void> insertCategory(Categories category) async {
+    await _categoriesInsertionAdapter.insert(
+        category, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCategories(List<Categories> category) {
+    return _categoriesInsertionAdapter.insertListAndReturnIds(
+        category, OnConflictStrategy.replace);
+  }
+}
+
 class _$DeliveryPeriodDao extends DeliveryPeriodDao {
   _$DeliveryPeriodDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
@@ -1966,6 +2033,7 @@ class _$UnitDao extends UnitDao {
             (Units item) => <String, Object?>{
                   'untId': item.untId,
                   'untCategoryIdfk': item.untCategoryIdfk,
+                  'unt_family_idfk': item.unt_family_idfk,
                   'untName': item.untName,
                   'untIsActive': item.untIsActive
                 });
@@ -1984,6 +2052,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?));
   }
@@ -1994,6 +2063,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?),
         arguments: [id]);
@@ -2471,6 +2541,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                   'blnIsActive': item.blnIsActive,
                   'blnSortid': item.blnSortid,
                   'blnNature': item.blnNature,
+                  'bln_ratio_json': item.bln_ratio_json,
                   'isSelected': item.isSelected == null
                       ? null
                       : (item.isSelected! ? 1 : 0),
@@ -2503,6 +2574,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                 : (row['isSelected'] as int) != 0,
             blendRatio: row['blendRatio'] as String?,
             blnNature: row['blnNature'] as String?,
+            bln_ratio_json: row['bln_ratio_json'] as String?,
             blnSortid: row['blnSortid'] as String?));
   }
 
@@ -2525,6 +2597,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                 : (row['isSelected'] as int) != 0,
             blendRatio: row['blendRatio'] as String?,
             blnNature: row['blnNature'] as String?,
+            bln_ratio_json: row['bln_ratio_json'] as String?,
             blnSortid: row['blnSortid'] as String?),
         arguments: [id]);
   }

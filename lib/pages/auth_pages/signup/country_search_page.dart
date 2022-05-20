@@ -153,7 +153,7 @@ class SelectCountryPageState extends State<SelectCountryPage>
                 itemCount: _countriesFilterList?.length,
                 itemBuilder: (context, index) =>
                     Padding(
-                      padding: const EdgeInsets.only(top:10.0,bottom: 10.0,left: 12.0,right: 12.0),
+                      padding: const EdgeInsets.only(top:18.0,bottom: 18.0,left: 12.0,right: 12.0),
                       child: InkWell(
                         onTap: ()=>{
                           widget.callback!(_countriesFilterList![index]),
@@ -167,17 +167,17 @@ class SelectCountryPageState extends State<SelectCountryPage>
                                   imageUrl:
                                   _countriesFilterList![index].medium.toString()),
                             ),
-                            SizedBox(width: 4.w,),
+                            SizedBox(width: 6.w,),
                             Expanded(
                                 flex:8,
                                 child: Text(
-                                  _countriesFilterList![index].conName.toString(),textAlign: TextAlign.start,)),
+                                  _countriesFilterList![index].conName.toString(),textAlign: TextAlign.start,style: TextStyle(color: font_dark_grey,fontSize: 15.sp),)),
                             Visibility(
                               visible: widget.isCodeVisible,
                               child: Expanded(
                                 flex:2,
                                 child: Text(
-                                  _countriesFilterList![index].countryPhoneCode.toString(),textAlign: TextAlign.end,),
+                                  _countriesFilterList![index].countryPhoneCode.toString(),textAlign: TextAlign.end,style: TextStyle(color: font_light_grey,fontSize: 15.sp),),
                               ),
                             )
                           ],

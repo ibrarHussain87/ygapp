@@ -371,7 +371,7 @@ class FabricSpecificationComponentState
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                                              decoration: ygTextFieldDecoration('Enter count details','Count',true));
                                         },
                                       ),
                                     ),
@@ -551,7 +551,7 @@ class FabricSpecificationComponentState
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter Warp','Warp'));
+                                              decoration: ygTextFieldDecoration('Enter Warp','Warp',true));
                                         },
                                       ),
                                     ),
@@ -707,7 +707,7 @@ class FabricSpecificationComponentState
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
-                                            decoration: ygTextFieldDecoration('Enter Weft','Weft'));
+                                            decoration: ygTextFieldDecoration('Enter Weft','Weft',true));
                                       },
                                     ),
                                   ),
@@ -1631,7 +1631,7 @@ class FabricSpecificationComponentState
                                                             .circular(10.0),
                                                       ),
                                                       child: SizedBox(
-                                                        width: 120.w,
+                                                        width: double.infinity,
                                                         child: TextFormField(
                                                           keyboardType: TextInputType
                                                               .none,
@@ -1707,7 +1707,7 @@ class FabricSpecificationComponentState
                                                         .circular(10.0),
                                                   ),
                                                   child: SizedBox(
-                                                    width: 120.w,
+                                                    width: double.infinity,
                                                     child: TextFormField(
                                                       keyboardType: TextInputType
                                                           .none,

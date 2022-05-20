@@ -205,7 +205,15 @@ class UpdatePasswordPageState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding:EdgeInsets.only(
+                   bottom: 6.w,),
+                child: Text(
+                  passwordString,
+                  textAlign: TextAlign.left,
 
+                ),
+              ),
               TextFormField(
                 focusNode: passwordFocus,
                 obscureText: !_showPassword,
@@ -227,15 +235,15 @@ class UpdatePasswordPageState
                 },
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("New Password",style: TextStyle(color: formFieldLabel),),
-                      const Text("*", style: TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                  label: Row(
+//                    mainAxisSize: MainAxisSize.min,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: [
+//                      Text("New Password",style: TextStyle(color: formFieldLabel),),
+//                      const Text("*", style: TextStyle(color: Colors.red)),
+//                    ],
+//                  ),
+//                  floatingLabelBehavior:FloatingLabelBehavior.always ,
                   hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                   border: OutlineInputBorder(
                       borderRadius:const BorderRadius.all(
@@ -243,7 +251,7 @@ class UpdatePasswordPageState
                       ),
                       borderSide: BorderSide(color: newColorGrey)
                   ),
-                  hintText: "Enter Here",
+//                  hintText: "Enter Here",
 //                  prefixIcon: IconButton(
 //                    onPressed: () {},
 //                    icon: SvgPicture.asset(
@@ -282,7 +290,15 @@ class UpdatePasswordPageState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding:EdgeInsets.only(
+                   bottom: 6.w,),
+                child: Text(
+                  confirmPasswordString,
+                  textAlign: TextAlign.left,
 
+                ),
+              ),
               TextFormField(
                 focusNode: confirmPasswordFocus,
                 obscureText: !_showPassword,
@@ -306,15 +322,15 @@ class UpdatePasswordPageState
                 },
                 decoration: InputDecoration(
                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Confirm Password",style: TextStyle(color: formFieldLabel),),
-                      const Text("*", style: TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  floatingLabelBehavior:FloatingLabelBehavior.always ,
+//                  label: Row(
+//                    mainAxisSize: MainAxisSize.min,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: [
+//                      Text("Confirm Password",style: TextStyle(color: formFieldLabel),),
+//                      const Text("*", style: TextStyle(color: Colors.red)),
+//                    ],
+//                  ),
+//                  floatingLabelBehavior:FloatingLabelBehavior.always ,
                   hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                   border: OutlineInputBorder(
                       borderRadius:const BorderRadius.all(
@@ -322,7 +338,7 @@ class UpdatePasswordPageState
                       ),
                       borderSide: BorderSide(color: newColorGrey)
                   ),
-                  hintText: "Enter Here",
+//                  hintText: "Enter Here",
 
                   suffixIcon: GestureDetector(
                     behavior:

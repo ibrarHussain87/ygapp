@@ -242,8 +242,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
     List<String?> stringList = [];
     if(postFabricProvider.selectedBlends.isNotEmpty) {
       for (var element in postFabricProvider.selectedBlends) {
+        var blend = element as FabricBlends;
         if (element.isSelected ?? false) {
-          var blend = element as FabricBlends;
           stringList.add(element.blnName);
           String? relateId;
           if (blend.bln_ratio_json != null) {

@@ -23,8 +23,8 @@ class _CircleImageIconWidgetState extends State<CircleImageIconWidget> {
       placeholder: (context, url) =>  CircularProgressIndicator(strokeWidth: 1.0,color: lightBlueTabs,),
       errorWidget: (context, url, error) =>  Icon(Icons.error),
     imageBuilder: (context, imageProvider) => Container(
-    width: 32.0,
-    height: 32.0,
+    width: 24.0,
+    height: 24.0,
     decoration: BoxDecoration(
     shape: BoxShape.circle,
     image: DecorationImage(image: imageProvider, fit: BoxFit.cover),

@@ -634,7 +634,7 @@ class Quality {
   @override
   String toString() {
     // TODO: implement toString
-    return yqAbrv ?? yqName ?? "";
+    return /*yqAbrv ??*/ yqName ?? "";
   }
 }
 

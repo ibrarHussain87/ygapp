@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:yg_app/app_database/dao/brands_dao.dart';
+import 'package:yg_app/app_database/dao/category_dao.dart';
 import 'package:yg_app/app_database/dao/certifications_dao.dart';
 import 'package:yg_app/app_database/dao/city_state_dao.dart';
 import 'package:yg_app/app_database/dao/companies_dao.dart';
@@ -58,6 +59,7 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../model/response/common_response_models/category_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
@@ -82,67 +84,15 @@ import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
 
+
 /*Run the generator with flutter packages pub run build_runner build.
 To automatically run it, whenever a file changes, use flutter packages pub run build_runner watch.*/
 
-@Database(version: APP_DATABASE_VERSION, entities: [
-  User,
-  FiberFamily,
-  FiberAppearance,
-  FiberAvailbleForMarket,
-  FiberCategories,
-  FiberBlends,
-  Brands,
-  Countries,
-  Certification,
-  DeliveryPeriod,
-  Units,
-  Companies,
-  CityState,
-  Grades,
-  FPriceTerms,
-  LcType,
-  Packing,
-  PaymentType,
-  Ports,
-  FiberSettings,
-  YarnSetting,
-  Family,
-  Blends,
-  FabricSetting,
-  FabricFamily,
-  FabricBlends,
-  DenimTypes,
-  FabricAppearance,
-  KnittingTypes,
-  FabricPly,
-  FabricColorTreatmentMethod,
-  FabricDyingTechniques,
-  FabricQuality,
-  FabricGrades,
-  FabricLoom,
-  FabricSalvedge,
-  FabricWeave,
-  FabricLayyer,
-  AvailabilityModel,
-  ColorTreatmentMethod,
-  ConeType,
-  DoublingMethod,
-  DyingMethod,
-  YarnGrades,
-  FiberAppearance,
-  YarnAppearance,
-  OrientationTable,
-  PatternCharectristic,
-  PatternModel,
-  Ply,
-  Quality,
-  SpunTechnique,
-  TwistDirection,
-  Usage,
-  YarnTypes,
-  StockLotFamily
-])
+
+@Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
+  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
+  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
+ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -166,6 +116,7 @@ abstract class AppDatabase extends FloorDatabase {
 
   CountryDao get countriesDao;
 
+  CategoryDao get categoriesDao;
   DeliveryPeriodDao get deliveryPeriodDao;
 
   LcTypesDao get lcTypeDao;

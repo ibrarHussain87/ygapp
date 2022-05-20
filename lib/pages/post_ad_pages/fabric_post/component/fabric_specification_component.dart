@@ -883,7 +883,7 @@ class FabricSpecificationComponentState
                                                         borderRadius: BorderRadius.circular(10.0),
                                                       ),
                                                       child: SizedBox(
-                                                        width: 120.w,
+                                                        width: double.infinity,
                                                         child: TextFormField(
                                                           keyboardType: TextInputType.none,
                                                           controller: _textEditingController,
