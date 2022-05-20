@@ -51,11 +51,11 @@ import 'package:dio/dio.dart' as dio;
 class ApiService {
   static var logger = Logger();
   static Map<String, String> headerMap = {"Accept": "application/json"};
-  static String BASE_URL = "http://staging.yarnonline.net/";
+  // static String BASE_URL = "http://stagingv2.yarnguru.net/";
 
   // static String BASE_API_URL = "http://stagingv2.yarnguru.net/api";
-  // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
-  static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
+  static String BASE_API_URL = "http://stagingv2.yarnguru.net/api";
+  // static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String SPEC_USER_END_POINT = "/spec_user";

@@ -80,7 +80,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
             width: 18.w,
           ),*/
           NetworkImageIconWidget(
-            imageUrl: "${ApiService.BASE_URL}${widget.listOfItems[index].imageUrl}"
+            imageUrl: widget.listOfItems[index].imageUrl
           ),
           SizedBox(
             height: 5.h,

@@ -61,8 +61,8 @@ class _FilterCatWithImageWidgetState extends State<FilterCatWithImageWidget> {
           children: [
             NetworkImageIconWidget(
               imageUrl: isSelected
-                  ? '${ApiService.BASE_URL}${castedList[index].iconSelected??""}'
-                  : '${ApiService.BASE_URL}${castedList[index].iconUnselected??""}',
+                  ? castedList[index].iconSelected??""
+                  : castedList[index].iconUnselected??"",
             ),
             SizedBox(
               height: 2.h,

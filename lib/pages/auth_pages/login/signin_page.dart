@@ -49,7 +49,7 @@ class _SignInPageState extends State<SignInPage> {
     AppDbInstance().getDbInstance().then((value) => {
       value.countriesDao.findAllCountries().then((value) {
         setState(() {
-          _loginRequestModel?.country=value.first;
+          _loginRequestModel.country=value.first;
          code=value.first.countryPhoneCode;
         });
       })
@@ -164,8 +164,8 @@ class _SignInPageState extends State<SignInPage> {
                                               MaterialPageRoute(
                                                 builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
                                                   setState(() {
-                                                    _loginRequestModel?.country=country;
-                                                    code=_loginRequestModel?.country?.countryPhoneCode;
+                                                    _loginRequestModel.country=country;
+                                                    code=_loginRequestModel.country?.countryPhoneCode;
 
                                                   })
                                                 },
@@ -182,10 +182,10 @@ class _SignInPageState extends State<SignInPage> {
                                                 const SizedBox(width: 2.0,),
                                                 CircleImageIconWidget(
                                                     imageUrl:
-                                                    _loginRequestModel?.country?.medium.toString() ?? ""),
+                                                    _loginRequestModel.country?.medium.toString() ?? ""),
                                                 const SizedBox(width: 8.0,),
                                                 Text(
-                                                  _loginRequestModel?.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+                                                  _loginRequestModel.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
                                                 const SizedBox(width: 2.0,),
                                                 const Icon(Icons.arrow_drop_down,color: Colors.grey,),
                                                 const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),

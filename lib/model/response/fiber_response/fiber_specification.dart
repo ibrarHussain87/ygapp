@@ -141,7 +141,7 @@ class Specification {
 
   Specification.fromJson(Map<String, dynamic> json) {
     spcId = json['spc_id'];
-    nature_id = json['nature_id'];
+    nature_id = json['spc_fiber_family_idfk'];
     company = json['company'];
     spc_user_id = json['spc_user_id'];
     // formation = json['formation'];
@@ -199,7 +199,7 @@ class Specification {
     final _data = <String, dynamic>{};
     _data['spc_id'] = spcId;
     _data['company'] = company;
-    _data['nature_id'] = nature_id;
+    _data['spc_fiber_family_idfk'] = nature_id;
     _data['spc_user_id'] = spc_user_id;
     _data['category_id'] = categoryId;
     _data['business_area'] = businessArea;
