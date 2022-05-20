@@ -210,7 +210,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `delivery_period` (`dprId` INTEGER NOT NULL, `dprCategoryIdfk` TEXT, `dprName` TEXT, `dprIsActive` TEXT, PRIMARY KEY (`dprId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
+            'CREATE TABLE IF NOT EXISTS `units_table` (`untId` INTEGER NOT NULL, `untCategoryIdfk` TEXT, `unt_family_idfk` TEXT, `untName` TEXT, `untIsActive` TEXT, PRIMARY KEY (`untId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `companies` (`id` INTEGER NOT NULL, `name` TEXT, `gst` TEXT, `address` TEXT, `countryId` TEXT, `cityStateId` TEXT, `zipCode` TEXT, `websiteUrl` TEXT, `whatsappNumber` TEXT, `wechatNumber` TEXT, `telephoneNumber` TEXT, `emailId` TEXT, `maxProduction` TEXT, `noOfUnits` TEXT, `yearEstablished` TEXT, `tradeCategory` TEXT, `licenseHolder` TEXT, `isVerified` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
@@ -240,7 +240,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
@@ -2033,6 +2033,7 @@ class _$UnitDao extends UnitDao {
             (Units item) => <String, Object?>{
                   'untId': item.untId,
                   'untCategoryIdfk': item.untCategoryIdfk,
+                  'unt_family_idfk': item.unt_family_idfk,
                   'untName': item.untName,
                   'untIsActive': item.untIsActive
                 });
@@ -2051,6 +2052,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?));
   }
@@ -2061,6 +2063,7 @@ class _$UnitDao extends UnitDao {
         mapper: (Map<String, Object?> row) => Units(
             untId: row['untId'] as int,
             untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
             untName: row['untName'] as String?,
             untIsActive: row['untIsActive'] as String?),
         arguments: [id]);
@@ -2536,7 +2539,13 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
                   'blnIsActive': item.blnIsActive,
-                  'blnSortid': item.blnSortid
+                  'blnSortid': item.blnSortid,
+                  'blnNature': item.blnNature,
+                  'bln_ratio_json': item.bln_ratio_json,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0),
+                  'blendRatio': item.blendRatio
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -2560,6 +2569,12 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
+            blnNature: row['blnNature'] as String?,
+            bln_ratio_json: row['bln_ratio_json'] as String?,
             blnSortid: row['blnSortid'] as String?));
   }
 
@@ -2577,6 +2592,12 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0,
+            blendRatio: row['blendRatio'] as String?,
+            blnNature: row['blnNature'] as String?,
+            bln_ratio_json: row['bln_ratio_json'] as String?,
             blnSortid: row['blnSortid'] as String?),
         arguments: [id]);
   }

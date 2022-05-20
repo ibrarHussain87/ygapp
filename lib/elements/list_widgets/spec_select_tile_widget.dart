@@ -54,7 +54,7 @@ class SpecSelectTileWidgetState extends State<SpecSelectTileWidget> {
   @override
   Widget build(BuildContext context) {
     return  GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: widget.spanCount! == 2 ? 16 : 6,

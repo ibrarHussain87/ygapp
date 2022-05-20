@@ -20,10 +20,12 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/blended_single_tile.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/fabric_providers/fabric_specifications_provider.dart';
 
 import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../../../elements/bottom_sheets/fabric_ply_bottom_sheet.dart';
@@ -221,6 +223,8 @@ class FabricSpecificationComponentState
   final ValueNotifier<String> _notifierPureText = ValueNotifier("");
   final ValueNotifier<String> _notifierBlendText = ValueNotifier("");
 
+  final _fabricPostProvider = locator<PostFabricProvider>();
+
   @override
   bool get wantKeepAlive => true;
 
@@ -231,6 +235,7 @@ class FabricSpecificationComponentState
     final postFabricProvider =
     Provider.of<PostFabricProvider>(context, listen: false);
     _getFabricSyncedData(postFabricProvider);
+    _fabricPostProvider.familyDisabled = false;
     super.initState();
   }
 
@@ -288,7 +293,7 @@ class FabricSpecificationComponentState
                 Expanded(
                   child: Padding(
                     padding:
-                    EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                    EdgeInsets.only(top: 8.w, left: 0.w, right: 0.w),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -366,7 +371,7 @@ class FabricSpecificationComponentState
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                                              decoration: ygTextFieldDecoration('Enter count details','Count',true));
                                         },
                                       ),
                                     ),
@@ -546,7 +551,7 @@ class FabricSpecificationComponentState
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter Warp','Warp'));
+                                              decoration: ygTextFieldDecoration('Enter Warp','Warp',true));
                                         },
                                       ),
                                     ),
@@ -702,7 +707,7 @@ class FabricSpecificationComponentState
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
-                                            decoration: ygTextFieldDecoration('Enter Weft','Weft'));
+                                            decoration: ygTextFieldDecoration('Enter Weft','Weft',true));
                                       },
                                     ),
                                   ),
@@ -1626,7 +1631,7 @@ class FabricSpecificationComponentState
                                                             .circular(10.0),
                                                       ),
                                                       child: SizedBox(
-                                                        width: 120.w,
+                                                        width: double.infinity,
                                                         child: TextFormField(
                                                           keyboardType: TextInputType
                                                               .none,
@@ -1702,7 +1707,7 @@ class FabricSpecificationComponentState
                                                         .circular(10.0),
                                                   ),
                                                   child: SizedBox(
-                                                    width: 120.w,
+                                                    width: double.infinity,
                                                     child: TextFormField(
                                                       keyboardType: TextInputType
                                                           .none,
@@ -2008,7 +2013,7 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      if (widget.businessArea == offering_type) {
+      if (widget.selectedTab == offering_type) {
         widget.callback!(1);
       } else {
         showGenericDialog(
@@ -2057,6 +2062,12 @@ class FabricSpecificationComponentState
               },
             );
           } else {
+            final fabricSpecificationsProvider =
+            Provider.of<FabricSpecificationsProvider>(
+                context,
+                listen: false);
+            fabricSpecificationsProvider
+                .getUpdatedFabricSpecificationsData();
             Navigator.pop(context);
           }
         } else {

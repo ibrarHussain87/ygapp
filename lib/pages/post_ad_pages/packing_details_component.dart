@@ -33,8 +33,11 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
@@ -53,6 +56,7 @@ class PackagingDetails extends StatefulWidget {
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
+
 
   const PackagingDetails({
     Key? key,
@@ -108,6 +112,11 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   final _fiberPostProvider = locator<PostFiberProvider>();
   final _yarnPostProvider = locator<PostYarnProvider>();
+  TextEditingController availableQuantityController = TextEditingController();
+  TextEditingController minimumQuantityController = TextEditingController();
+  final _fabricPostProvider = locator<PostFabricProvider>();
+  final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
+  final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
 
   List<FPriceTerms> _getPriceTerms() {
     if (widget.businessArea == yarn) {
@@ -182,10 +191,11 @@ class PackagingDetailsState extends State<PackagingDetails>
   @override
   Widget build(BuildContext context) {
     _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    if(_createRequestModel == null){
+    if (_createRequestModel == null) {
       _createRequestModel = _fiberPostProvider.createRequestModel;
-    }else if(_createRequestModel!.spc_category_idfk != null && _createRequestModel!.spc_category_idfk=='2'){
-       _yarnPostProvider.familyDisabled = true;
+    } else if (_createRequestModel!.spc_category_idfk != null &&
+        _createRequestModel!.spc_category_idfk == '2') {
+      _yarnPostProvider.familyDisabled = true;
     }
     _initialValuesRequestModel();
     return Scaffold(
@@ -246,9 +256,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
-                                              element.untCategoryIdfk ==
-                                              _createRequestModel!
-                                                  .spc_category_idfk)
+                                              element.untCategoryIdfk == _createRequestModel!.spc_category_idfk
+                                          && checkFamilyId(element.unt_family_idfk!)
+                                      )
                                           .toList(),
                                       callback: (Units value) {
                                         setState(() {
@@ -308,6 +318,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         input!;
                                                   }
                                                 },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.allow(
+                                                      RegExp("[0-9]")),
+                                                ],
                                                 onChanged: (value) {
                                                   if (_conePerBagController
                                                       .text.isNotEmpty) {
@@ -333,7 +347,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration: ygTextFieldDecoration(
                                                     "Weight($unitCountSelected)/Bag",
-                                                    "Weight($unitCountSelected)/Bag")),
+                                                    "Weight($unitCountSelected)/Bag",true)),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -368,6 +382,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                         .fpb_cones_bag = input!;
                                                   }
                                                 },
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.allow(
+                                                      RegExp("[0-9]")),
+                                                ],
                                                 onChanged: (value) {
                                                   if (_weigthPerBagController
                                                       .text.isNotEmpty) {
@@ -391,7 +409,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        coneBags, coneBags)),
+                                                        coneBags, coneBags,true)),
                                           ],
                                         )),
                                       ],
@@ -434,7 +452,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 return null;
                                               },
                                               decoration: ygTextFieldDecoration(
-                                                  weightCones, weightCones)),
+                                                  weightCones, weightCones,true)),
                                         ],
                                       ),
                                     ),
@@ -517,7 +535,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             height: 12.w,
                                           ),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -634,7 +652,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             height: 12.w,
                                           ),
                                           SizedBox(
-                                            height: 36.w,
+                                            height: 40.w,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -759,7 +777,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         height: 12.w,
                                       ),
                                       SizedBox(
-                                        height: 36.w,
+                                        height: 40.w,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
@@ -861,7 +879,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     height: 12.w,
                                   ),
                                   SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -1055,7 +1073,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             return null;
                                           },
                                           decoration: ygTextFieldDecoration(
-                                              priceUnits, priceUnits)),
+                                              priceUnits, priceUnits,true)),
                                     ],
                                   )),
                                   SizedBox(width: 16.w),
@@ -1075,6 +1093,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          child: const TitleSmallTextWidget(
 //                                              title: "Available Quantity")),
                                         TextFormField(
+                                            controller: availableQuantityController,
                                             keyboardType: TextInputType.number,
                                             cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -1102,7 +1121,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             },
                                             decoration: ygTextFieldDecoration(
                                                 "Available Quantity",
-                                                "Available Qunatity")),
+                                                "Available Qunatity",true)),
                                       ],
                                     ),
                                   ),
@@ -1124,6 +1143,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                      child: TitleSmallTextWidget(title: minQty)),
                                     SizedBox(height: 12.w),
                                     TextFormField(
+                                        controller: minimumQuantityController,
                                         keyboardType: TextInputType.number,
                                         cursorColor: lightBlueTabs,
                                         style: TextStyle(fontSize: 11.sp),
@@ -1148,8 +1168,19 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           }
                                           return null;
                                         },
+                                        onChanged: (String value){
+                                          if(value.isNotEmpty){
+                                            int availableQuantity = int.parse(availableQuantityController.text);
+                                            int minimumQuantity = int.parse(value);
+                                            if(minimumQuantity>availableQuantity){
+                                              FocusScope.of(context).unfocus();
+                                              minimumQuantityController.text = '';
+                                              Fluttertoast.showToast(msg: 'Minimum Quantity can not be greater than Available Quantity');
+                                            }
+                                          }
+                                        },
                                         decoration: ygTextFieldDecoration(
-                                            minQty, minQty)),
+                                            minQty, minQty,true)),
                                   ],
                                 ),
                               ),
@@ -1196,7 +1227,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         decoration: ygTextFieldDecoration(
                                             "Required Quantity",
-                                            "Required Quantity")),
+                                            "Required Quantity",true)),
                                   ],
                                 ),
                               ),
@@ -1275,6 +1306,31 @@ class PackagingDetailsState extends State<PackagingDetails>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: 'No of Days')),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: Iterable<int>.generate(102)
+                                          .toList()
+                                          .map((value) => value == 101 ? 'Other':value.toString())
+                                          .toList(),
+                                      callback: (String? value) {
+                                        _createRequestModel!.spc_no_of_days =
+                                            value!.toString();
+                                      }),
+                                ],
+                              ),
+                            ),
+
+
+                           /* Visibility(
+                              visible: noOfDays,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 //                                  Padding(
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w),
@@ -1284,7 +1340,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     height: 12.w,
                                   ),
                                   SizedBox(
-                                    height: 36.w,
+                                    height: 40.w,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
@@ -1330,7 +1386,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    /*fontFamily: 'Metropolis',*/
+                                                    *//*fontFamily: 'Metropolis',*//*
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -1338,7 +1394,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      /*fontFamily: 'Metropolis',*/
+                                                      *//*fontFamily: 'Metropolis',*//*
                                                       backgroundColor:
                                                           Colors.white,
                                                       fontWeight:
@@ -1366,7 +1422,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   ),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Description
 //                            Padding(
@@ -1398,7 +1454,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     //   return null;
                                     // },
                                     decoration: ygTextFieldDecoration(
-                                        descriptionStr, descriptionStr)),
+                                        descriptionStr, descriptionStr,true)),
                               ),
                             ),
 
@@ -1406,12 +1462,22 @@ class PackagingDetailsState extends State<PackagingDetails>
                               visible:
                                   widget.businessArea != yarn ? true : false,
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: AddPictureWidget(
-                                  imageCount: 1,
-                                  callbackImages: (value) {
-                                    imageFiles = value;
-                                  },
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: TitleSmallBoldTextWidget(
+                                          title: attachment),
+                                    ),
+                                    const SizedBox(height: 4,),
+                                    AddPictureWidget(
+                                      imageCount: 1,
+                                      callbackImages: (value) {
+                                        imageFiles = value;
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
@@ -1485,6 +1551,11 @@ class PackagingDetailsState extends State<PackagingDetails>
               },
             );
           } else {
+            if(_createRequestModel!.spc_category_idfk == "1") {
+              _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
+            }else if(_createRequestModel!.spc_category_idfk == "2"){
+              _yarnSpecificationProvider.getUpdatedYarnSpecificationsData();
+            }
             Navigator.pop(context);
           }
         } else {
@@ -1552,6 +1623,12 @@ class PackagingDetailsState extends State<PackagingDetails>
       return false;
     }
 
+    if (_createRequestModel!.spc_no_of_days == null &&
+        noOfDays) {
+      Ui.showSnackBar(context, "Please select number of days");
+      return false;
+    }
+
     if (form!.validate()) {
       // if (imageFiles.isNotEmpty) {
       form.save();
@@ -1562,5 +1639,13 @@ class PackagingDetailsState extends State<PackagingDetails>
       // }
     }
     return false;
+  }
+
+  bool checkFamilyId(String familyId) {
+    if(_createRequestModel!.spc_category_idfk == '1'){
+      return familyId == _createRequestModel!.spc_fiber_family_idfk;
+    }else{
+      return familyId == _createRequestModel!.ys_family_idfk;
+    }
   }
 }

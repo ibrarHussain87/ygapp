@@ -24,6 +24,7 @@ import 'package:yg_app/model/response/common_response_models/certification_respo
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 import '../../../../api_services/api_service_class.dart';
 import '../../../../elements/decoration_widgets.dart';
@@ -62,6 +63,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       GlobalKey<LabParameterPageState>();
 
   final _yarnPostProvider = locator<PostYarnProvider>();
+  final  _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
   final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
 
 
@@ -799,6 +801,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             },
           );
         } else {
+          _yarnSpecificationProvider.getUpdatedYarnSpecificationsData();
           Navigator.pop(context);
         }
       } else {
@@ -1022,7 +1025,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           style: TextStyle(fontSize: 11.sp),
                           textAlign: TextAlign.center,
                           cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                          decoration: ygTextFieldDecoration('Enter count details','Count',true));
                     },
                   ),
                 ),
@@ -1194,7 +1197,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: SizedBox(
-                          width: 120.w,
+                          width: double.infinity,
                           child: TextFormField(
                             keyboardType: TextInputType.none,
                             controller: _textEditingController,
@@ -1859,8 +1862,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        child: SizedBox(
-                          width: 120.w,
+                        child: Container(
+                          width: double.infinity,
                           child: TextFormField(
                             keyboardType: TextInputType.none,
                             controller: _textEditingController,
@@ -1949,7 +1952,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           style: TextStyle(fontSize: 11.sp),
                           textAlign: TextAlign.center,
                           cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration('Enter ply','Ply'));
+                          decoration: ygTextFieldDecoration('Enter count details','Count',true));
                     },
                   ),
                 ),

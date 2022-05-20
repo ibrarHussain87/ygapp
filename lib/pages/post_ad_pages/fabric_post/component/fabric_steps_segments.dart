@@ -84,7 +84,7 @@ class _FabricStepsSegmentsState extends State<FabricStepsSegments> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Visibility(
-          visible: widget.businessArea == offering_type,
+          visible: false,
           child: Row(
             children: [
               Expanded(

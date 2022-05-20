@@ -624,7 +624,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           stocklotProvider.stocklotRequestModel.description = input;
                                         },
                                         decoration:
-                                        ygTextFieldDecoration(descriptionStr,descriptionStr)),
+                                        ygTextFieldDecoration(descriptionStr,descriptionStr,true)),
                                   ),
                                 ),
                               ],),
@@ -635,14 +635,24 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 padding: EdgeInsets.only(
                                   left: 8.w,
                                   right: 8.w,
-                                  top: 8.w,
+                                  top: 0.w,
                                 ),
-                                child: AddPictureWidget(
-                                  imageCount: 1,
-                                  callbackImages: (value) {
-                                    stocklotProvider.imageFiles = value;
-                                  },
-                                ),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: TitleSmallBoldTextWidget(
+                                          title: attachment),
+                                    ),
+                                    const SizedBox(height: 4,),
+                                    AddPictureWidget(
+                                      imageCount: 1,
+                                      callbackImages: (value) {
+                                        stocklotProvider.imageFiles = value;
+                                      },
+                                    ),
+                                  ],
+                                )
                               ),
                             ),
 

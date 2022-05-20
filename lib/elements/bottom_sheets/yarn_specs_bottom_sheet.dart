@@ -2,21 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:logger/logger.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
-import 'package:yg_app/model/blend_model.dart';
-import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/ui_utils.dart';
-import '../../locators.dart';
 import '../../model/request/post_ad_request/create_request_model.dart';
-import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../list_widgets/single_select_tile_widget.dart';
 
 
@@ -129,6 +122,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           value: _createRequestModel.ys_dty_filament,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: _yarnSetting.dannierMinMax!,
+                                          autoFocus: true,
                                           label: dannier,
                                           errorText: dannier),
                                     ],
@@ -183,6 +177,8 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           value: _createRequestModel.ys_count,
                                           minMax: _yarnSetting.countMinMax!,
+                                          maxLength: 3,
+                                          autoFocus: true,
                                           onSaved: (input) {
                                             _createRequestModel.ys_count = input;
                                           })
@@ -326,6 +322,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                                   if (validationAllPage(_createRequestModel,_yarnSetting,contextBuilder,
                                       showDoublingMethod.value,_selectedPlyId,_selectedDoublingMethodId,_selectedOrientationId)) {
                                     //showDoublingMethod.dispose();
+                                    FocusScope.of(context).unfocus();
                                     _createRequestModel.ys_ply_idfk = _selectedPlyId;
                                     _createRequestModel.ys_doubling_method_idFk = _selectedDoublingMethodId;
                                     _createRequestModel.ys_orientation_idfk = _selectedOrientationId;

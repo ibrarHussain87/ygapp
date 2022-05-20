@@ -602,6 +602,10 @@ class FabricBlends {
   String? iconUnselected;
   String? blnIsActive;
   String? blnSortid;
+  String? blnNature;
+  String? bln_ratio_json;
+  bool? isSelected = false;
+  String? blendRatio = '';
 
   FabricBlends(
       {this.blnId,
@@ -613,6 +617,10 @@ class FabricBlends {
         this.iconSelected,
         this.iconUnselected,
         this.blnIsActive,
+        this.isSelected,
+        this.blendRatio,
+        this.blnNature,
+        this.bln_ratio_json,
         this.blnSortid});
 
   FabricBlends.fromJson(Map<String, dynamic> json) {
@@ -626,6 +634,8 @@ class FabricBlends {
     iconUnselected = json['icon_unselected'];
     blnIsActive = json['bln_is_active'];
     blnSortid = json['bln_sortid'];
+    bln_ratio_json = json['bln_ratio_json'];
+    blnNature = json['bln_nature'];
   }
 
   Map<String, dynamic> toJson() {
@@ -640,6 +650,8 @@ class FabricBlends {
     data['icon_unselected'] = iconUnselected;
     data['bln_is_active'] = blnIsActive;
     data['bln_sortid'] = blnSortid;
+    data['bln_nature'] = blnNature;
+    data['bln_ratio_json'] = bln_ratio_json;
     return data;
   }
 

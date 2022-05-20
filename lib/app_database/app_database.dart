@@ -84,6 +84,11 @@ import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
 
+
+/*Run the generator with flutter packages pub run build_runner build.
+To automatically run it, whenever a file changes, use flutter packages pub run build_runner watch.*/
+
+
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
@@ -92,61 +97,107 @@ abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
   FiberSettingDao get fiberSettingDao;
+
   FiberFamilyDao get fiberFamilyDao;
+
   FiberBlendsDao get fiberBlendsDao;
+
   FiberAppearanceDao get fiberAppearanceDoa;
 
   GradesDao get gradesDao;
+
   BrandsDao get brandsDao;
+
   CertificationsDao get certificationDao;
+
   CityStateDao get cityStateDao;
+
   CompaniesDao get companiesDao;
+
   CountryDao get countriesDao;
+
   CategoryDao get categoriesDao;
   DeliveryPeriodDao get deliveryPeriodDao;
+
   LcTypesDao get lcTypeDao;
+
   PackingDao get packingDao;
+
   PaymentTypeDao get paymentTypeDao;
+
   PortsDao get portsDao;
+
   PriceTermsDao get priceTermsDao;
+
   UnitDao get unitDao;
+
   StocklotFamilyDao get stocklotCategoriesDao;
+
   AvailabilityDao get availabilityDao;
 
-
   FabricSettingDao get fabricSettingDao;
+
   FabricFamilyDao get fabricFamilyDao;
+
   FabricBlendsDao get fabricBlendsDao;
+
   FabricDenimTypesDao get fabricDenimTypesDao;
+
   FabricAppearanceDao get fabricAppearanceDao;
+
   KnittingTypesDao get knittingTypesDao;
+
   FabricPlyDao get fabricPlyDao;
+
   FabricColorTreatmentMethodDao get fabricColorTreatmentMethodDao;
+
   FabricDyingTechniqueDao get fabricDyingTechniqueDao;
+
   FabricQualityDao get fabricQualityDao;
+
   FabricGradesDao get fabricGradesDao;
+
   FabricLoomDao get fabricLoomDao;
+
   FabricSalvedgeDao get fabricSalvedgeDao;
+
   FabricWeaveDao get fabricWeaveDao;
+
   FabricLayyerDao get fabricLayyerDao;
 
   YarnSettingDao get yarnSettingsDao;
+
   YarnFamilyDao get yarnFamilyDao;
+
   YarnBlendDao get yarnBlendDao;
+
   YarnGradesDao get yarnGradesDao;
+
   DoublingMethodDao get doublingMethodDao;
 
   ColorTreatmentMethodDao get colorTreatmentMethodDao;
+
   ConeTypeDao get coneTypeDao;
+
   DyingMethodDao get colorMethodDao;
+
   OrientationDao get orientationDao;
+
   PatternCharacteristicsDao get patternCharDao;
+
   PatternDao get patternDao;
+
   PlyDao get plyDao;
+
   QualityDao get qualityDao;
+
   SpunTechniqueDao get spunTechDao;
+
   TwistDirectionDao get twistDirectionDao;
+
   UsageDao get usageDao;
+
   YarnTypesDao get yarnTypesDao;
+
   YarnAppearanceDao get yarnAppearanceDao;
 }

@@ -18,6 +18,7 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_future_widget.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
@@ -41,44 +42,43 @@ class YarnPage extends StatefulWidget {
 class YarnPageState extends State<YarnPage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final GlobalKey<YarnSpecificationListFutureState> yarnSpecificationListState =
-  GlobalKey<YarnSpecificationListFutureState>();
+      GlobalKey<YarnSpecificationListFutureState>();
   List<Countries> _countries = [];
   String? selectedFamilyId;
   List<Family> _familyList = [];
- // List<Blends> _blendsList = [];
+
+  // List<Blends> _blendsList = [];
   final _postYarnProvider = locator<PostYarnProvider>();
+  final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
 
   @override
   void initState() {
-    AppDbInstance().getYarnFamilyData().then((value) =>
-        setState(() {
+    AppDbInstance().getYarnFamilyData().then((value) => setState(() {
           _familyList = value;
           _postYarnProvider.addYarnFamily = _familyList;
           selectedFamilyId = value.first.famId.toString();
         }));
 
-    AppDbInstance().getYarnBlendData()
-        .then((value) =>
-        setState(() {
-        //  _blendsList = value;
+    AppDbInstance().getYarnBlendData().then((value) => setState(() {
+          //  _blendsList = value;
           _postYarnProvider.setBlendList = value;
           _postYarnProvider.addYarnBlends = value;
         }));
 
-    AppDbInstance().getOriginsData()
+    AppDbInstance()
+        .getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
 //    _postYarnProvider.addListener(() {updateUI();});
-    _postYarnProvider.addYarnFamily=_familyList;
-
+    _postYarnProvider.addYarnFamily = _familyList;
+    _yarnSpecificationProvider.addListener(() {
+      setState(() {});
+    });
   }
-
 
   updateUI() {
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +95,17 @@ class YarnPageState extends State<YarnPage> {
                 Navigator.of(context).pop();
                 if (_postYarnProvider.blendList
                     .where((element) =>
-                element.familyIdfk == family.famId.toString())
+                        element.familyIdfk == family.famId.toString())
                     .toList()
                     .isNotEmpty) {
                   _postYarnProvider.resetData();
                   _postYarnProvider.textFieldControllers.clear();
-                  blendedSheet(
+                  YarnBlendBottomSheet(
                       context,
-                      _postYarnProvider.blendList.toList()
+                      _postYarnProvider.blendList
+                          .toList()
                           .where((element) =>
-                      element.familyIdfk == family.famId.toString())
+                              element.familyIdfk == family.famId.toString())
                           .toList(),
                       0, () {
                     Navigator.pop(context);
@@ -134,8 +135,7 @@ class YarnPageState extends State<YarnPage> {
                       _postYarnProvider.blendList.where((element) =>
                       element.familyIdfk == family.famId.toString()).toList(),
                       -1, "Yarn");*/
-                }
-                else {
+                } else {
                   openYarnPostPage(context, widget.locality, yarn, value);
                 }
               }, _familyList, -1, "Yarn");
@@ -153,8 +153,7 @@ class YarnPageState extends State<YarnPage> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))
-            ),
+                    topRight: Radius.circular(25))),
             child: Column(
               children: [
                 Container(
@@ -182,7 +181,9 @@ class YarnPageState extends State<YarnPage> {
                       //         .searchData(model);
                       //   },
                       // ),
-                      const SizedBox(height: 8,),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       BlendFamily(
                         // yarnSyncResponse: snapshot.data!,
                         yarnFamilyCallback: (Family yarnFamily) {
@@ -199,6 +200,7 @@ class YarnPageState extends State<YarnPage> {
                               .searchData(model);
                         },
                       ),
+                      const SizedBox(height: 2,),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Row(
@@ -209,7 +211,7 @@ class YarnPageState extends State<YarnPage> {
                                 callback: (value) {
                                   yarnSpecificationListState.currentState!
                                       .searchData(GetSpecificationRequestModel(
-                                      isOffering: value.toString()));
+                                          isOffering: value.toString()));
                                 },
                               ),
                             ),
@@ -231,70 +233,75 @@ class YarnPageState extends State<YarnPage> {
                                   maintainSize: false,
                                   maintainState: false,
                                   visible: widget.locality == international,
-                                  child: _countries != null ? SearchChoices
-                                      .single(
-                                    displayClearIcon: false,
-                                    isExpanded: true,
-                                    hint: const TitleExtraSmallBoldTextWidget(
-                                        title: 'Country'),
-                                    items: _countries
-                                        .map((value) =>
-                                        DropdownMenuItem(
-                                          child: Text(
-                                            value.conName ??
+                                  child: _countries != null
+                                      ? SearchChoices.single(
+                                          displayClearIcon: false,
+                                          isExpanded: true,
+                                          hint:
+                                              const TitleExtraSmallBoldTextWidget(
+                                                  title: 'Country'),
+                                          items: _countries
+                                              .map((value) => DropdownMenuItem(
+                                                    child: Text(
+                                                      value.conName ??
+                                                          Utils.checkNullString(
+                                                              false),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    value: value,
+                                                  ))
+                                              .toList(),
+                                          isCaseSensitiveSearch: false,
+                                          onChanged: (Countries? value) {
+                                            yarnSpecificationListState
+                                                .currentState!
+                                                .yarnListBodyState
+                                                .currentState!
+                                                .filterListSearch(
+                                                    value!.conName.toString());
+                                          },
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: textColorGrey,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
+                                      : DropdownButtonFormField<String>(
+                                          isExpanded: true,
+                                          decoration:
+                                              const InputDecoration.collapsed(
+                                                  hintText: ''),
+                                          hint:
+                                              const TitleExtraSmallBoldTextWidget(
+                                                  title: 'Country'),
+                                          iconSize: 20,
+                                          items: [
+                                            DropdownMenuItem(
+                                              child: Text(
                                                 Utils.checkNullString(false),
-                                            textAlign: TextAlign
-                                                .center,
-                                            style: TextStyle(fontSize: 12.sp,
-                                              overflow: TextOverflow
-                                                  .ellipsis,),),
-                                          value: value,
-                                        )).toList(),
-                                    isCaseSensitiveSearch: false,
-                                    onChanged: (Countries? value) {
-                                      yarnSpecificationListState.currentState!
-                                          .yarnListBodyState.currentState!
-                                          .filterListSearch(
-                                          value!.conName.toString());
-                                    },
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: textColorGrey,
-                                      overflow: TextOverflow.ellipsis,),
-                                  ) :
-                                  DropdownButtonFormField<String>(
-                                    isExpanded: true,
-                                    decoration: const InputDecoration.collapsed(
-                                        hintText: ''),
-                                    hint: const TitleExtraSmallBoldTextWidget(
-                                        title: 'Country'),
-                                    iconSize: 20,
-                                    items: [
-
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          Utils.checkNullString(false),
-                                          textAlign: TextAlign.start,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                          style: TextStyle(fontSize: 12.sp,
-                                            overflow: TextOverflow.ellipsis,),),
-                                      ),
-                                    ],
-
-                                    onChanged: (newValue) {
-
-                                  },
-
-
-                                    validator: (value) =>
-                                    value == null
-                                        ? 'Please select country name'
-                                        : null,
-
-                                  )
-
+                                                textAlign: TextAlign.start,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.fade,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                          onChanged: (newValue) {},
+                                          validator: (value) => value == null
+                                              ? 'Please select country name'
+                                              : null,
+                                        )
 
 //                                DropdownButtonFormField(
 //                                  isExpanded: true,
@@ -325,7 +332,7 @@ class YarnPageState extends State<YarnPage> {
 //                                      fontSize: 11.sp,
 //                                      color: textColorGrey),
 //                                ),
-                              ),
+                                  ),
                             ),
                             Visibility(
                               visible: false,
@@ -367,7 +374,7 @@ class YarnPageState extends State<YarnPage> {
     );
   }
 
- /* String getRelatedId(Blends blend) {
+/* String getRelatedId(Blends blend) {
     List<BlendModelExtended> blendModelArrayList = json.decode(blend.bln_ratio_json!);
     Logger().e(blendModelArrayList.first.default_bln_id);
     return blendModelArrayList.first.default_bln_id.toString();

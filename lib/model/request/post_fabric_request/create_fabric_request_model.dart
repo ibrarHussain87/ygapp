@@ -4,6 +4,7 @@ class FabricCreateRequestModel {
   String? spc_category_idfk;
   String? fs_title;
   String? fs_details;
+  List<Map<String,String>>? fs_formation;
   String? fs_local_international;
   String? fs_user_idfk;
   String? fs_family_idfk;
@@ -64,6 +65,7 @@ class FabricCreateRequestModel {
         this.spc_category_idfk,
         this.fs_title,
         this.fs_details,
+        this.fs_formation,
         this.fs_local_international,
         this.fs_user_idfk,
         this.fs_family_idfk,
@@ -120,13 +122,14 @@ class FabricCreateRequestModel {
         /*this.pictures*/
       });
 
-  Map<String, String> toJson() {
-    Map<String, String> map = {
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
       'spc_category_idfk': spc_category_idfk ?? "",
       'fs_title': fs_title ?? "",
       'fs_details': fs_details ?? "",
       'fs_local_international': fs_local_international ?? "",
       'fs_user_idfk': fs_user_idfk ?? "",
+      'fs_formation': fs_formation ?? [],
       'fs_family_idfk': fs_family_idfk ?? "",
       'fabric_denim_type_idfk': fabric_denim_type_idfk ?? "",
       'fabric_weave_pattern_idfk': fabric_weave_pattern_idfk ?? "",

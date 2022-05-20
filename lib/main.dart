@@ -7,6 +7,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
+
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -25,12 +30,8 @@ import 'package:yg_app/providers/home_providers/sync_provider.dart';
 
 import 'providers/fabric_providers/fabric_specifications_provider.dart';
 import 'providers/fabric_providers/filter_fabric_provider.dart';
-import 'providers/fabric_providers/post_fabric_provider.dart';
 import 'providers/stocklot_providers/stocklot_provider.dart';
 import 'providers/yarn_providers/yarn_specifications_provider.dart';
-import 'api_services/api_service_class.dart';
-import 'app_database/app_database_instance.dart';
-import 'model/response/common_response_models/countries_response.dart';
 
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
@@ -74,6 +75,8 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> locator<SyncProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<SpecificationLocalFilterProvider>()),
         ChangeNotifierProvider(create: (_)=> locator<StocklotProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<PostFabricProvider>()),
+        ChangeNotifierProvider(create: (_)=> locator<YarnSpecificationsProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',
@@ -306,7 +309,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     Logger().e(dataSynced.toString());
     if (!dataSynced) {
       await Future.wait([
-
         // For getting countries
         ApiService.syncCountriesCall().then((
             CountriesSyncResponse response) {

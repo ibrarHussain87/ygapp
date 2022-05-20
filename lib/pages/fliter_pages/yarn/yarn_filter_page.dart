@@ -7,6 +7,7 @@ import 'package:yg_app/elements/filter_widget/filter_category_single_select_widg
 import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -274,9 +275,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             height: 8.w,
                           ),
                           SizedBox(
-                            height: 0.055 * MediaQuery.of(context).size.height,
-                            child: CategorySingleSelectWidget(
-                              listItems: _familyList,
+                            height: 0.04 * MediaQuery.of(context).size.height,
+                            child: SingleSelectTileRenewedWidget(
+                              spanCount: 4,
+                              listOfItems: _familyList!,
                               callback: (value) {
                                 //Family Id
 
@@ -349,7 +351,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             Padding(
                                 padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
                                 child:
-                                    TitleSmallTextWidget(title: yarnTexturedType)),
+                                TitleSmallTextWidget(title: yarnTexturedType)),
                             SingleSelectTileWidget(
                               selectedIndex: -1,
                               spanCount: 3,
@@ -363,6 +365,57 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               height: 4.w,
                             ),
                             const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Usage
+                      Visibility(
+                        visible: showUsage ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(title: usage)),
+                            SingleSelectTileWidget(
+                              spanCount: 2,
+                              listOfItems: _usageList!
+                                  .where((element) =>
+                              element.ysFamilyId == selectedFamilyId)
+                                  .toList(),
+                              callback: (Usage usage) {
+                                _getSpecificationRequestModel!.yuId =
+                                    filterList(listOfUsageId, usage.yuId!);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Count
+                      Visibility(
+                        visible: showCount ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FilterRangeSlider(
+                              // minMaxRange: widget.syncFiberResponse.data.fiber
+                              //     .settings[0].micMinMax,
+                              minValue: minCount,
+                              maxValue: maxCount,
+                              hintTxt: "Count",
+                              valueCallback: (value) {},
+                            ),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Divider(),
                           ],
                         ),
                       ),
@@ -417,232 +470,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                       ),
 
-                      //Show Usage
-                      Visibility(
-                        visible: showUsage ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: usage)),
-                            FilterGridTileWidget(
-                              spanCount: 2,
-                              listOfItems: _usageList!
-                                  .where((element) =>
-                                      element.ysFamilyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (Usage usage) {
-                                _getSpecificationRequestModel!.yuId =
-                                    filterList(listOfUsageId, usage.yuId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Color Treatment Method
-                      Visibility(
-                        visible: showColorTreatmentMethod ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: colorTreatmentMethod)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _colorTreatmentMethodList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback:
-                                  (ColorTreatmentMethod colorTreatmentMethod) {
-                                _getSpecificationRequestModel!.colorTreatmentId =
-                                    filterList(listOfColorTreatmentId,
-                                        colorTreatmentMethod.yctmId!);
-                                _showDyingMethod(colorTreatmentMethod);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show color dying method
-                      Visibility(
-                        visible: showDyingMethod ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: "Dying Method")),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _dyingMethodList!
-                                  .where((element) =>
-                                      element.ydmColorTreatmentMethodIdfk ==
-                                      _selectedColorTreatMethodId)
-                                  .toList(),
-                              callback: (DyingMethod dyingMethod) {
-                                _getSpecificationRequestModel!
-                                        .ys_dying_method_idfk =
-                                    filterList(
-                                        listOfDyingMethod, dyingMethod.ydmId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Color Code
-                      Visibility(
-                          visible: showDyingMethod ?? false,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child:
-                                      TitleSmallTextWidget(title: "Select Color"),
-                                ),
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: SizedBox(
-                                    width: 120.w,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.none,
-                                      controller: _textEditingController,
-                                      autofocus: false,
-                                      showCursor: false,
-                                      readOnly: true,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      onSaved: (input) =>
-                                          _getSpecificationRequestModel!
-                                              .ys_color_code = input,
-                                      validator: (input) {
-                                        if (input == null || input.isEmpty) {
-                                          return "Select Color Code";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide.none),
-                                          contentPadding: const EdgeInsets.all(2.0),
-                                          hintText: "Select Color",
-                                          filled: true,
-                                          fillColor: pickerColor),
-                                      onTap: () {
-                                        openDialogBox();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-
-                      //Show Appearance
-                      Visibility(
-                        visible: showAppearance ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: apperance)),
-                            SingleSelectTileWidget(
-                                selectedIndex: -1,
-                                spanCount: 3,
-                                listOfItems: _appearanceList!
-                                    .where((element) =>
-                                        element.familyId == selectedFamilyId)
-                                    .toList(),
-                                callback: (YarnAppearance yarnAppearance) {
-                                  _getSpecificationRequestModel!.apperanceYarnId =
-                                      filterList(
-                                          listAppearanceId, yarnAppearance.yaId!);
-                                }),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Count
-                      Visibility(
-                        visible: showCount ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minCount,
-                              maxValue: maxCount,
-                              hintTxt: "Count",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Ratio
-                      Visibility(
-                        visible: showRatio ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minRatio,
-                              maxValue: maxRatio,
-                              hintTxt: "Ratio",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
-
                       //Show Ply
                       Visibility(
                         visible: showPly ?? false,
@@ -658,7 +485,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               spanCount: 3,
                               listOfItems: _plyList!
                                   .where((element) =>
-                                      element.familyId == selectedFamilyId)
+                              element.familyId == selectedFamilyId)
                                   .toList(),
                               callback: (Ply ply) {
                                 _getSpecificationRequestModel!.plyId =
@@ -722,7 +549,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               spanCount: 2,
                               listOfItems: _orientationList!
                                   .where((element) =>
-                                      element.familyId == selectedFamilyId)
+                              element.familyId == selectedFamilyId)
                                   .toList(),
                               callback: (OrientationTable orientation) {
                                 _getSpecificationRequestModel!.orientationId =
@@ -738,7 +565,187 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         ),
                       ),
 
-                      //Show Twist Direction
+                      //Show Color Treatment Method
+                      Visibility(
+                        visible: showColorTreatmentMethod ?? false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(
+                                    title: colorTreatmentMethod)),
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
+                              spanCount: 3,
+                              listOfItems: _colorTreatmentMethodList!
+                                  .where((element) =>
+                                      element.familyId == selectedFamilyId)
+                                  .toList(),
+                              callback:
+                                  (ColorTreatmentMethod colorTreatmentMethod) {
+                                _getSpecificationRequestModel!.colorTreatmentId =
+                                    filterList(listOfColorTreatmentId,
+                                        colorTreatmentMethod.yctmId!);
+                                _showDyingMethod(colorTreatmentMethod);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show color dying method
+                      Visibility(
+                        visible: /*showDyingMethod ?? */false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: const TitleSmallTextWidget(
+                                    title: "Dying Method")),
+                            SingleSelectTileWidget(
+                              selectedIndex: -1,
+                              spanCount: 3,
+                              listOfItems: _dyingMethodList!
+                                  .where((element) =>
+                                      element.ydmColorTreatmentMethodIdfk ==
+                                      _selectedColorTreatMethodId)
+                                  .toList(),
+                              callback: (DyingMethod dyingMethod) {
+                                _getSpecificationRequestModel!
+                                        .ys_dying_method_idfk =
+                                    filterList(
+                                        listOfDyingMethod, dyingMethod.ydmId!);
+                              },
+                            ),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+                      //Show Color Code
+                      Visibility(
+                          visible: showDyingMethod ?? false,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child:
+                                      TitleSmallTextWidget(title: "Select Color"),
+                                ),
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.none,
+                                      controller: _textEditingController,
+                                      autofocus: false,
+                                      showCursor: false,
+                                      readOnly: true,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      onSaved: (input) =>
+                                          _getSpecificationRequestModel!
+                                              .ys_color_code = input,
+                                      validator: (input) {
+                                        if (input == null || input.isEmpty) {
+                                          return "Select Color Code";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide.none),
+                                          contentPadding: const EdgeInsets.all(2.0),
+                                          hintText: "Select Color",
+                                          filled: true,
+                                          fillColor: pickerColor),
+                                      onTap: () {
+                                        openDialogBox();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+
+                      //Show Appearance
+                      Visibility(
+                        visible: /*showAppearance ??*/ false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
+                                child: TitleSmallTextWidget(title: apperance)),
+                            SingleSelectTileWidget(
+                                selectedIndex: -1,
+                                spanCount: 3,
+                                listOfItems: _appearanceList!
+                                    .where((element) =>
+                                        element.familyId == selectedFamilyId)
+                                    .toList(),
+                                callback: (YarnAppearance yarnAppearance) {
+                                  _getSpecificationRequestModel!.apperanceYarnId =
+                                      filterList(
+                                          listAppearanceId, yarnAppearance.yaId!);
+                                }),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+
+
+
+                     /* //Show Ratio
+                      Visibility(
+                        visible: *//*showRatio ?? *//*false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FilterRangeSlider(
+                              // minMaxRange: widget.syncFiberResponse.data.fiber
+                              //     .settings[0].micMinMax,
+                              minValue: minRatio,
+                              maxValue: maxRatio,
+                              hintTxt: "Ratio",
+                              valueCallback: (value) {},
+                            ),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Divider(),
+                          ],
+                        ),
+                      ),*/
+
+
+
+
+                   /*   //Show Twist Direction
                       Visibility(
                         visible: showTwistDirection ?? false,
                         child: Column(
@@ -767,7 +774,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
 
                       //Show Spun Technique
                       Visibility(
@@ -858,7 +865,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ),
 
                       //Show Pattern characteristics
-                      Visibility(
+                     /* Visibility(
                         visible: showPatternCharc ?? false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -887,7 +894,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
 
                       //Show Grade
                       Visibility(
@@ -918,7 +925,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                       ),
 
                       //Show Certifications
-                      Visibility(
+                    /*  Visibility(
                         visible: showCertification ?? false,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -944,7 +951,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             const Divider(),
                           ],
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

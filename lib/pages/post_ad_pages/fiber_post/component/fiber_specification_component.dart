@@ -18,6 +18,7 @@ import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 
 import '../../../../elements/circle_icon_widget.dart';
@@ -53,6 +54,7 @@ class FiberSpecificationComponentState
     with AutomaticKeepAliveClientMixin {
 
   final _postFiberProvider = locator<PostFiberProvider>();
+  final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<PickedFile> _imageFiles = [];
@@ -457,13 +459,13 @@ class FiberSpecificationComponentState
                                     Visibility(
                                       child: Expanded(
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 18.w),
+                                          padding: EdgeInsets.only(top: 14.w),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                height: 36.w,
+                                                height: 40.w,
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
@@ -478,7 +480,7 @@ class FiberSpecificationComponentState
                                                                   5.w))),
                                                   child:
                                                       DropdownButtonFormField(
-                                                    hint: Text('Select $brand'),
+                                                    hint: Text(brand),
                                                     items: _postFiberProvider
                                                         .brandsList
                                                         .map((value) =>
@@ -509,7 +511,7 @@ class FiberSpecificationComponentState
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            brand,
+                                                            'Select $brand',
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .black87,
@@ -612,8 +614,8 @@ class FiberSpecificationComponentState
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        'Production year',
-                                                        'Production year'),
+                                                        'Year',
+                                                        'Production Year',true),
                                                 onTap: () {
                                                   handleReadOnlyInputClick(
                                                       context);
@@ -733,6 +735,37 @@ class FiberSpecificationComponentState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+/*<<<<<<< HEAD
+                                        SizedBox(
+                                          height: 40.w,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey.shade300,
+                                                  width:
+                                                      1, //                   <--- border width here
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5.w))),
+                                            child: DropdownButtonFormField(
+                                              hint: const Text('Select Origin'),
+                                              items:
+                                                  _postFiberProvider.countries
+                                                      .map((value) =>
+                                                          DropdownMenuItem(
+                                                            child: Text(
+                                                                value.conName ??
+                                                                    Utils.checkNullString(
+                                                                        false),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center),
+                                                            value: value,
+                                                          ))
+                                                      .toList(),
+                                              onChanged: (Countries? value) {
+                                                _postFiberProvider
+=======*/
                                         GestureDetector(
                                           onTap: (){
                                             Navigator.push(
@@ -744,6 +777,7 @@ class FiberSpecificationComponentState
                                                     _postFiberProvider
                                                         .createRequestModel.country=country;
                                                     _postFiberProvider
+//>>>>>>> dev-asadM
                                                         .createRequestModel
                                                         .spc_origin_idfk =
                                                         country.conId.toString();
@@ -970,7 +1004,7 @@ class FiberSpecificationComponentState
                                               return null;
                                             },
                                             decoration: ygTextFieldDecoration(
-                                                'Lot Number', 'Lot Number')),
+                                                'Lot Number', 'Lot Number',true)),
                                       ],
                                     ),
                                   ),
@@ -1109,6 +1143,7 @@ class FiberSpecificationComponentState
             },
           );
         } else {
+          _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
           Navigator.pop(context);
         }
       } else {

@@ -296,6 +296,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: thinPlaces,
                                                           label: thinPlaces,
+                                                          mandatoryField: false,
                                                           onSaved: (input) => _createRequestModel
                                                               .ys_thin_places = input!,
                                                           minMax: widget.newSettings.thinPlacesMinMax??"",
@@ -324,6 +325,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: thickPlaces,
                                                           label: thickPlaces,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.thickPlacesMinMax??"",
                                                           onSaved: (input) => _createRequestModel
                                                               .ys_thick_places = input!,
@@ -346,6 +348,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: naps,
                                                           label:naps,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.napsMinMax??"",
                                                           onSaved: (input) => _createRequestModel
                                                               .ys_naps = input!,
@@ -372,6 +375,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: unifomity,
                                                           label: unifomity,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.uniformityMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel
@@ -398,6 +402,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: cv,
                                                           label: cv,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.cvMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel.ys_cv =
@@ -424,6 +429,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: hairness,
                                                           label: hairness,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.hairnessMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel.ys_hairness =
@@ -448,6 +454,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: Rkm,
                                                           label: Rkm,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.rkmMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel.ys_rkm =
@@ -473,6 +480,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: elongation,
                                                           label: elongation,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.elongationMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel
@@ -499,6 +507,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: tpi,
                                                           label: tpi,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.tpiMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel.ys_tpi =
@@ -522,6 +531,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                         YgTextFormFieldWithRangeNoValidation(
                                                           errorText: tm,
                                                           label: tm,
+                                                          mandatoryField: false,
                                                           minMax: widget.newSettings.tmMinMax??"",
                                                           onSaved: (input) =>
                                                           _createRequestModel.ys_tm = input!,

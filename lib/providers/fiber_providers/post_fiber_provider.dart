@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
@@ -13,34 +12,38 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 class PostFiberProvider extends ChangeNotifier {
-
   CreateRequestModel createRequestModel = CreateRequestModel();
-  late List<FiberBlends> fiberBlendsList;
-  late List<FiberFamily> fiberFamilyList;
+  List<FiberBlends> fiberBlendsList = [];
+  List<FiberFamily> fiberFamilyList = [];
   bool isLoading = true;
   bool isSettingLoaded = false;
-  late String selectedFamilyId;
-  late PageController pageController;
-  late List<Widget> samplePages;
+  String selectedFamilyId = "";
+  PageController? pageController;
+  List<Widget> samplePages = [];
   int selectedValue = 0;
 
   final GlobalKey<BlendsWithImageListWidgetState> blendWidgetKey = GlobalKey();
-  final GlobalKey<BlendsWithImageListWidgetState> blendListWidgetKey = GlobalKey();
+  final GlobalKey<BlendsWithImageListWidgetState> blendListWidgetKey =
+      GlobalKey();
   final GlobalKey<SingleSelectTileWidgetState> gradeWidgetKey = GlobalKey();
-  final GlobalKey<SingleSelectTileWidgetState> appearanceWidgetKey = GlobalKey();
-  final GlobalKey<SingleSelectTileWidgetState> certificationWidgetKey = GlobalKey();
+  final GlobalKey<SingleSelectTileWidgetState> appearanceWidgetKey =
+      GlobalKey();
+  final GlobalKey<SingleSelectTileWidgetState> certificationWidgetKey =
+      GlobalKey();
   final TextEditingController textEditingController = TextEditingController();
-  List<FiberAppearance> fiberAppearanceList= [];
+  List<FiberAppearance> fiberAppearanceList = [];
   List<Grades> fiberGradesList = [];
   List<Brands> brandsList = [];
   List<Countries> countries = [];
   List<CityState> citySateList = [];
   List<Certification> certificationList = [];
-  late FiberSettings fiberSettings;
+  FiberSettings fiberSettings = FiberSettings();
 
   String? _selectedBlendId;
+
   String get selectedBlendId => _selectedBlendId!;
-  set selectedBlendId(String value){
+
+  set selectedBlendId(String value) {
     _selectedBlendId = value;
   }
 
@@ -107,22 +110,28 @@ class PostFiberProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     });
-
   }
 
-  fiberSettingSelectedBlend(){
+  fiberSettingSelectedBlend() {
     isLoading = true;
-    AppDbInstance().getDbInstance().then((value) async{
-      fiberSettings = (await value.fiberSettingDao.findFiberSettings(int.parse(selectedBlendId)))!;
+    AppDbInstance().getDbInstance().then((value) async {
+      fiberSettings = (await value.fiberSettingDao
+          .findFiberSettings(int.parse(selectedBlendId)))!;
       isLoading = false;
       notifyListeners();
     });
   }
 
   resetData() {
-    if(gradeWidgetKey.currentState!=null)gradeWidgetKey.currentState!.checkedTile = -1;
-    if(appearanceWidgetKey.currentState!=null)appearanceWidgetKey.currentState!.checkedTile = -1;
-    if(certificationWidgetKey.currentState!=null)certificationWidgetKey.currentState!.checkedTile = -1;
+    if (gradeWidgetKey.currentState != null) {
+      gradeWidgetKey.currentState!.checkedTile = -1;
+    }
+    if (appearanceWidgetKey.currentState != null) {
+      appearanceWidgetKey.currentState!.checkedTile = -1;
+    }
+    if (certificationWidgetKey.currentState != null) {
+      certificationWidgetKey.currentState!.checkedTile = -1;
+    }
     createRequestModel.spc_grade_idfk = null;
     createRequestModel.spc_appearance_idfk = null;
     createRequestModel.spc_certificate_idfk = null;
@@ -138,5 +147,9 @@ class PostFiberProvider extends ChangeNotifier {
     createRequestModel.spc_fiber_family_idfk = null;
     createRequestModel.spc_origin_idfk = null;
     textEditingController.text = "";
+  }
+
+  notifyUI(){
+    notifyListeners();
   }
 }
