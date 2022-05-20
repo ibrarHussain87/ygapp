@@ -348,8 +348,10 @@ Column getWidget(int index, List<dynamic> blends,
               valueListenable: blendTypesNotifier,
               builder: (context, int notifierValue, child) {
                 if(notifierValue == 1){
+                //  createTextControllers(blends);
                   return getPopularBlends(index, blends, _yarnPostProvider, values, callback);
                 }else{
+               //   createTextControllers(blends.where((element) => (element as Blends).bln_nature == 'Pure').toList());
                   return getCustomBlends(index, blends, _yarnPostProvider, values, callback);
                 }
               }
@@ -357,6 +359,16 @@ Column getWidget(int index, List<dynamic> blends,
         )
       ],
     );
+  }
+}
+
+void createTextControllers(List<dynamic> blends) {
+  var _yarnPostProvider = locator<PostYarnProvider>();
+  _yarnPostProvider.textFieldControllers.clear();
+  if (_yarnPostProvider.textFieldControllers.isEmpty) {
+    for (var i = 0; i < blends.length; i++) {
+      _yarnPostProvider.textFieldControllers.add(TextEditingController());
+    }
   }
 }
 
@@ -466,6 +478,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
 Column getCustomBlends(int index, List<dynamic> blends,
     PostYarnProvider _yarnPostProvider, List<BlendModel> values,
     Function callback) {
+
   return Column(
     children: [
       Expanded(
@@ -475,7 +488,9 @@ Column getCustomBlends(int index, List<dynamic> blends,
           listController: _yarnPostProvider
               .textFieldControllers,
           blendsValue: values,
-          callback: (value) {},
+          callback: (value) {
+            Logger().e('check blend list');
+          },
           textFieldcallback: (value) {
             values.clear();
             values.add(value);
@@ -522,7 +537,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
                           var count = 0.0;
                           for (var element
                           in _yarnPostProvider
-                              .blendList) {
+                              .selectedBlends) {
                             if (element.blendRatio !=
                                 null &&
                                 element.blendRatio !=
@@ -629,14 +644,14 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
           return Padding(
             padding: EdgeInsets.only(right: 16.w),
             child:
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: (){
-                handleClick(index, !_isChecked[index]);
-              },
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Expanded(
-                  flex: 5,
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Expanded(
+                flex: 5,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: (){
+                    handleClick(index, !_isChecked[index]);
+                  },
                   child: Row(
                     children: [
                       Checkbox(
@@ -653,25 +668,39 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: 5,
-                  child: BlendTextFormFieldWithRangeNonDecimal(
-                    errorText: "count",
-                    minMax: "1-100",
-                    validation: _yarnPostProvider.blendList[index].isSelected ??
-                        false,
-                    isEnabled: _yarnPostProvider.blendList[index].isSelected ??
-                        false,
-                    textEditingController: _yarnPostProvider
-                        .textFieldControllers[index],
-                    onSaved: (input) {
-                      _yarnPostProvider.setBlendRatio(
-                          index, widget.listController[index].text);
-                    },
-                  ),
+              ),
+              Expanded(
+                flex: 5,
+                child: BlendTextFormFieldWithRangeNonDecimal(
+                  errorText: "count",
+                  minMax: "1-100",
+                  validation: widget.listOfItems[index].isSelected ??
+                      false,
+                  isEnabled: widget.listOfItems[index].isSelected ??
+                      false,
+                  textEditingController: _yarnPostProvider
+                      .textFieldControllers[index],
+                  onSaved: (input) {
+                    Logger().e('Org blends ${_yarnPostProvider.selectedBlends.length}');
+                    Logger().e('${widget.listOfItems.length}');
+                    /*_yarnPostProvider.textFieldControllers.clear();
+                    for (var element in widget.listOfItems) {
+                      _yarnPostProvider.textFieldControllers.add(TextEditingController());
+                    }*/
+                    _yarnPostProvider.blendList.where((element) => (element as Blends).bln_nature == 'Pure')
+                        .toList().forEach((element1) {
+                          if(element1.isSelected??false){
+                            int myIndex = _yarnPostProvider.blendList.where((element) => (element as Blends).bln_nature == 'Pure')
+                                .toList().indexWhere((element2) => element2 == element1);
+                            element1.blendRatio = widget.listController[myIndex].text;
+                          }
+                    });
+                    /*_yarnPostProvider.setBlendRatio(
+                        index, widget.listController[index].text);*/
+                  },
                 ),
-              ]),
-            ),
+              ),
+            ]),
           );
         },
       ),
@@ -681,7 +710,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
   void handleClick(int index, bool? newValue) {
     setState(() {
       _isChecked[index] = newValue!;
-      if (_yarnPostProvider.selectedBlends
+      /*if (_yarnPostProvider.selectedBlends
           .contains(widget.listOfItems[index])) {
         _yarnPostProvider.blendList[index].isSelected =
         false;
@@ -698,6 +727,22 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
         widget.listOfItems[index];
         // title.add(widget.listOfItems[index]);
         // selectedIndex.add(index);
+      }*/
+      if (_yarnPostProvider.selectedBlends
+          .contains(widget.listOfItems[index])) {
+        int blendIndex = _yarnPostProvider.selectedBlends.indexWhere((element) => element == widget.listOfItems[index]);
+        //int blendMainIndex = _yarnPostProvider.blendList.indexWhere((element) => element == widget.listOfItems[index]);
+        _yarnPostProvider.selectedBlends[blendIndex].isSelected = false;
+        _yarnPostProvider.selectedBlends[blendIndex].blendRatio = '';
+        /*_yarnPostProvider.blendList[blendMainIndex].isSelected = false;
+        _yarnPostProvider.blendList[blendMainIndex].blendRatio = '';*/
+        _yarnPostProvider.removeSelectedBlend = widget.listOfItems[index];
+        _yarnPostProvider.textFieldControllers[index].clear();
+        widget.listController[index].clear();
+      } else {
+        Blends blend = widget.listOfItems[index];
+        blend.isSelected = true;
+        _yarnPostProvider.addSelectedBlend = blend;
       }
     });
 

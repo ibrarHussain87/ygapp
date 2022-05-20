@@ -280,7 +280,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
   void showBlendsSheets(BuildContext context) {
     if (!_yarnPostProvider.familyDisabled) {
-      _yarnPostProvider.selectedYarnFamily = Family();
+      _yarnPostProvider.selectedYarnFamily = /*Family()*/_familyList.first;
       familySheet(context, (int checkedIndex) {}, (Family family) {
         _yarnPostProvider.selectedYarnFamily = family;
         Navigator.of(context).pop();
@@ -374,7 +374,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           BlendModel formationModel = BlendModel(
               id: element.blnId,
               relatedBlnId: relateId,
-              ratio: element.blendRatio);
+              ratio: element.blendRatio == null ? '100' :element.blendRatio!.isEmpty ? '100':element.blendRatio);
           formations.add(formationModel.toJson());
         }
       }

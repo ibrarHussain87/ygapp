@@ -40,12 +40,12 @@ class PostYarnProvider extends ChangeNotifier{
 
   set addSelectedBlend(value){
     selectedBlends.add(value);
-    notifyListeners();
+   // notifyListeners();
   }
 
   set removeSelectedBlend(value){
     selectedBlends.remove(value);
-    notifyListeners();
+  //  notifyListeners();
   }
 
   void setBlendRatio(index,ratio){
@@ -75,6 +75,11 @@ class PostYarnProvider extends ChangeNotifier{
     yarnBlendsList.add(value);
     notifyListeners();
   }
+
+  notifyUI(){
+    notifyListeners();
+  }
+
 
 
 }

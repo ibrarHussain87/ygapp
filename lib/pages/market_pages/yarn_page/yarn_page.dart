@@ -141,6 +141,9 @@ class YarnPageState extends State<YarnPage> {
               }, _familyList, -1, "Yarn");*/
               if(_familyList.isNotEmpty){
                 _postYarnProvider.selectedYarnFamily = _familyList.first;
+                if(_postYarnProvider.selectedBlends.isNotEmpty){
+                  _postYarnProvider.selectedBlends.clear();
+                }
                 openYarnPostPage(context, widget.locality, yarn, value);
               }
             });
