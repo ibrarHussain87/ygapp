@@ -33,7 +33,7 @@ class StocklotProvider extends ChangeNotifier {
 
   final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListLocalKey =
   GlobalKey<SingleSelectTileRenewedWidgetState>();
-  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListInternationalKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState> subFamilyKey =
   GlobalKey<SingleSelectTileRenewedWidgetState>();
 
   List<StockLotFamily> stocklotAllCategories = [];
@@ -53,7 +53,6 @@ class StocklotProvider extends ChangeNotifier {
   bool loading = false;
   bool ignoreClick = false;
   int selectedSubCategoryId = -1;
-  int? stocklotId = -1;
   int? categoryId = -1;
   int? subcategoryId = -1;
   int? selectedIndex = -1;
@@ -272,7 +271,6 @@ class StocklotProvider extends ChangeNotifier {
     loading = false;
     ignoreClick = false;
     selectedSubCategoryId = -1;
-    stocklotId = -1;
     categoryId = -1;
     subcategoryId = -1;
     expandStockLostWast = true;

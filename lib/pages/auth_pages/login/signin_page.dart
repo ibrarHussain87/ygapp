@@ -35,8 +35,10 @@ class _SignInPageState extends State<SignInPage> {
   bool _showPassword = false;
   late LoginRequestModel _loginRequestModel;
   bool? isOnline;
+  bool isEmail=true;
   String? code;
-
+  var phoneController=TextEditingController();
+  var emailController=TextEditingController();
   void _togglevisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -54,6 +56,7 @@ class _SignInPageState extends State<SignInPage> {
         });
       })
     });
+
     super.initState();
   }
 
@@ -107,100 +110,302 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(16.w),
+                      padding:  EdgeInsets.only(left: 18.w,top: 10.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              setState(() {
+                                isEmail=true;
+                                _resetData();
+                              });
+                            },
+                            child: Container(
+                                height: 40.w,
+                                width: 100.w,
+                                decoration:  BoxDecoration(
+                                    color: isEmail ? Colors.green : Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(2.0),
+                                    )
+                                ),
+                                child: Center(child:
+                                Text("Email",
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color:isEmail ? Colors.white : Colors.black54
+                                      /*fontFamily: 'Metropolis',*/
+                                    )),)
+                            ),
+                          ),
+                          SizedBox(width: 20.w,),
+                          GestureDetector(
+                            onTap: ()
+                            {
+                              setState(() {
+                                isEmail=false;
+                                _resetData();
+                              });
+                            },
+                            child: Container(
+                                decoration:BoxDecoration(
+                                    color: isEmail ? Colors.white : Colors.green,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(2.0),
+                                    )
+                                ),
+                                height: 40.w,
+                                width: 100.w,
+                                child: Center(child:
+                                Text("Phone Number",
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: isEmail ? Colors.black54 : Colors.white
+                                    /*fontFamily: 'Metropolis',*/
+                                  )),)
+                            ),
+                          ),
+
+                      ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 16.w),
                       child: Center(
                         child: Form(
                           key: globalFormKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
-                                child: Text(
-                                  mobileNumber,
-                                  textAlign: TextAlign.left,
+                              Visibility(
+                                visible:isEmail ? true:false,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:EdgeInsets.only(
+                                          bottom: 6.w,),
+                                        child: const Text(
+                                          "Email",
+                                          textAlign: TextAlign.left,
 
+                                        ),
+                                      ),
+                                      TextFormField(
+                                          keyboardType: TextInputType.emailAddress,
+                                          cursorColor: Colors.black,
+                                          onSaved: (input) => _loginRequestModel.email = input!,
+                                          validator: (input) {
+                                            if (input == null ||
+                                                input.isEmpty ||
+                                                !input.isValidEmail()) {
+                                              return "Please check your email";
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                              contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                              hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                              border: OutlineInputBorder(
+                                                  borderRadius:const BorderRadius.all(
+                                                    Radius.circular(5.0),
+                                                  ),
+                                                  borderSide: BorderSide(color: newColorGrey)
+                                              )
+                                          )
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: 8.w, left: 8.w, right: 8.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
 
-                                    TextFormField(
-                                      keyboardType: TextInputType.phone,
-                                      cursorColor: Colors.black,
-                                      onSaved: (input) => _loginRequestModel.username = "+$code"+input!,
-                                    inputFormatters: <TextInputFormatter>[
-                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
-                                      LengthLimitingTextInputFormatter(
-                                          15),
-                                    ],
-                                      validator: (input) {
-                                        if (input == null ||
-                                            input.isEmpty ||
-                                            !input.isValidNumber()) {
-                                          return "Please check your phone number";
-                                        }
-                                        return null;
-                                      },
-                                      decoration:InputDecoration(
-                                        contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-                                        border: OutlineInputBorder(
-                                            borderRadius:const BorderRadius.all(
-                                              Radius.circular(5.0),
-                                            ),
-                                            borderSide: BorderSide(color: newColorGrey)
+                              //Phone NUmber
+
+                              Visibility(
+                                visible:isEmail ? false:true,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:EdgeInsets.only(
+                                          bottom: 6.w,),
+                                        child:  Text(
+                                          mobileNumber,
+                                          textAlign: TextAlign.left,
+
                                         ),
-
-                                        prefixIcon:  GestureDetector(
-                                          onTap:()=>{
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
-                                                  setState(() {
-                                                    _loginRequestModel.country=country;
-                                                    code=_loginRequestModel.country?.countryPhoneCode;
-
-                                                  })
-                                                },
-                                                ),
+                                      ),
+                                      TextFormField(
+                                        keyboardType: TextInputType.phone,
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) => _loginRequestModel.phone = "+$code"+input!,
+                                        inputFormatters: <TextInputFormatter>[
+                                          /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
+                                          LengthLimitingTextInputFormatter(
+                                              15),
+                                        ],
+                                        validator: (input) {
+                                          if (input == null ||
+                                              input.isEmpty ||
+                                              !input.isValidNumber()) {
+                                            return "Please check your phone number";
+                                          }
+                                          return null;
+                                        },
+                                        decoration:InputDecoration(
+                                          contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                          hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                          border: OutlineInputBorder(
+                                              borderRadius:const BorderRadius.all(
+                                                Radius.circular(5.0),
                                               ),
-                                            )
-                                          },
-                                          child:  Container(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(width: 2.0,),
-                                                CircleImageIconWidget(
-                                                    imageUrl:
-                                                    _loginRequestModel.country?.medium.toString() ?? ""),
-                                                const SizedBox(width: 8.0,),
-                                                Text(
-                                                  _loginRequestModel.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
-                                                const SizedBox(width: 2.0,),
-                                                const Icon(Icons.arrow_drop_down,color: Colors.grey,),
-                                                const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
-                                                const SizedBox(width: 2.0,),
-
-                                              ],
+                                              borderSide: BorderSide(color: newColorGrey)
+                                          ),
+                                          prefixIcon:  GestureDetector(
+                                            onTap:()=>{
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
+                                                    setState(() {
+                                                      _loginRequestModel.country=country;
+                                                      code=_loginRequestModel.country?.countryPhoneCode;
+                                                    })
+                                                  },
+                                                  ),
+                                                ),
+                                              )
+                                            },
+                                            child:  Container(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(width: 2.0,),
+                                                  CircleImageIconWidget(
+                                                      imageUrl:
+                                                      _loginRequestModel.country?.medium.toString() ?? ""),
+                                                  const SizedBox(width: 8.0,),
+                                                  Text(
+                                                    _loginRequestModel.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+                                                  const SizedBox(width: 2.0,),
+                                                  const Icon(Icons.arrow_drop_down,color: Colors.grey,),
+                                                  const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
+                                                  const SizedBox(width: 2.0,),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
 
-                                      ),
-                                    )
-                                  ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
+
+
+//                              Visibility(
+//                                visible:isEmail ? false:true,
+//                                child: Padding(
+//                                  padding: EdgeInsets.only(
+//                                      top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+//                                  child: Text(
+//                                    mobileNumber,
+//                                    textAlign: TextAlign.left,
+//
+//                                  ),
+//                                ),
+//                              ),
+//
+//                              Padding(
+//                                padding: EdgeInsets.only(
+//                                    bottom: 8.w, left: 8.w, right: 8.w),
+//                                child: Column(
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+//                                  children: [
+//
+//                                    TextFormField(
+//                                      keyboardType: TextInputType.phone,
+//                                      cursorColor: Colors.black,
+//                                      onSaved: (input) => _loginRequestModel.username = "+$code"+input!,
+//                                    inputFormatters: <TextInputFormatter>[
+//                                      /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
+//                                      LengthLimitingTextInputFormatter(
+//                                          15),
+//                                    ],
+//                                      validator: (input) {
+//                                        if (input == null ||
+//                                            input.isEmpty ||
+//                                            !input.isValidNumber()) {
+//                                          return "Please check your phone number";
+//                                        }
+//                                        return null;
+//                                      },
+//                                      decoration:InputDecoration(
+//                                        contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+//                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//                                        border: OutlineInputBorder(
+//                                            borderRadius:const BorderRadius.all(
+//                                              Radius.circular(5.0),
+//                                            ),
+//                                            borderSide: BorderSide(color: newColorGrey)
+//                                        ),
+//
+//                                        prefixIcon:  GestureDetector(
+//                                          onTap:()=>{
+//                                            Navigator.push(
+//                                              context,
+//                                              MaterialPageRoute(
+//                                                builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
+//                                                  setState(() {
+//                                                    _loginRequestModel?.country=country;
+//                                                    code=_loginRequestModel?.country?.countryPhoneCode;
+//
+//                                                  })
+//                                                },
+//                                                ),
+//                                              ),
+//                                            )
+//                                          },
+//                                          child:  Container(
+//                                            padding: const EdgeInsets.all(4.0),
+//                                            child: Row(
+//                                              mainAxisSize: MainAxisSize.min,
+//                                              mainAxisAlignment: MainAxisAlignment.start,
+//                                              children: [
+//                                                const SizedBox(width: 2.0,),
+//                                                CircleImageIconWidget(
+//                                                    imageUrl:
+//                                                    _loginRequestModel?.country?.medium.toString() ?? ""),
+//                                                const SizedBox(width: 8.0,),
+//                                                Text(
+//                                                  _loginRequestModel?.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
+//                                                const SizedBox(width: 2.0,),
+//                                                const Icon(Icons.arrow_drop_down,color: Colors.grey,),
+//                                                const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
+//                                                const SizedBox(width: 2.0,),
+//
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//
+//                                      ),
+//                                    )
+//                                  ],
+//                                ),
+//                              ),
 //                              Padding(
 //                                padding: EdgeInsets.only(
 //                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
@@ -387,7 +592,8 @@ class _SignInPageState extends State<SignInPage> {
                                         if (validateAndSave()) {
                                           _loginCall();
                                         }
-                                      })),
+                                      })
+                              ),
                             ],
                           ),
                         ),
@@ -397,7 +603,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height/10,),
+              SizedBox(height: MediaQuery.of(context).size.height/28,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
@@ -466,6 +672,7 @@ class _SignInPageState extends State<SignInPage> {
     check().then((value) {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
+        Logger().e(_loginRequestModel.toJson());
         ApiService.login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
@@ -503,8 +710,22 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-
+  _resetData() {
+   _loginRequestModel.phone = null ;
+    _loginRequestModel.email = null;
+    emailController.clear();
+    phoneController.clear();
+  }
 }
+
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
+
 extension PhoneValidator on String {
   bool isValidNumber() {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';

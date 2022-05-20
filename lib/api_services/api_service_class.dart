@@ -58,6 +58,8 @@ class ApiService {
   static String BASE_API_URL = "http://stagingv2.yarnguru.net/api";
 
   // static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
+  // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
+  // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String SPEC_USER_END_POINT = "/spec_user";
@@ -108,11 +110,15 @@ class ApiService {
   static Future<LoginResponse> login(LoginRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + LOGIN_END_POINT;
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: requestModel.toJson());
-      return LoginResponse.fromJson(
-        json.decode(response.body),
-      );
+      // final response = await http.post(Uri.parse(url),
+      //     headers: headerMap, body: requestModel.toJson());
+
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(requestModel.toJson()));
+
+      return LoginResponse.fromJson(response.data,);
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

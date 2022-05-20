@@ -24,7 +24,6 @@ class StockLotFilterPage extends StatefulWidget {
 
 class _StockLotFilterPageState extends State<StockLotFilterPage> {
   late StocklotProvider stocklotProvider;
-  final GetStockLotSpecRequestModel _getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
 
   @override
   void initState() {
@@ -72,13 +71,17 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       .stocklots!,
                                   selectedIndex: -1,
                                   callback: (StockLotFamily value) {
-                                      stocklotProvider
-                                          .getCategories(value.stocklotFamilyId.toString());
-                                      stocklotProvider.setShowCategory(true);
-                                      stocklotProvider.setShowSubCategory(true);
-                                      // stocklotProvider.setSubCatIndex(-1);
-                                      // stocklotProvider.setCatIndex(-1);
-                                      stocklotProvider.getStockLotSpecRequestModel.stocklotFamilyId = null;
+                                    stocklotProvider.getStockLotSpecRequestModel
+                                            .stocklotParentFamilyId =
+                                        value.stocklotFamilyId.toString();
+                                    stocklotProvider.getCategories(
+                                        value.stocklotFamilyId.toString());
+                                    stocklotProvider.setShowCategory(true);
+                                    stocklotProvider.setShowSubCategory(true);
+                                    // stocklotProvider.setSubCatIndex(-1);
+                                    // stocklotProvider.setCatIndex(-1);
+                                    stocklotProvider.getStockLotSpecRequestModel
+                                        .stocklotFamilyId = null;
                                   },
                                 )
                               ],
@@ -97,7 +100,8 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  const TitleMediumTextWidget(title: "Category"),
+                                  const TitleMediumTextWidget(
+                                      title: "Category"),
                                   SizedBox(
                                     height: 8.h,
                                   ),
@@ -110,9 +114,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                           stocklotProvider.stocklotCategories!,
                                       selectedIndex: -1,
                                       callback: (StockLotFamily value) {
-                                        // stocklotProvider.stocklotRequestModel
-                                        //     .subcategoryId = value.id.toString();
-                                        _getStockLotSpecRequestModel.categoryId = value.stocklotFamilyId.toString();
+                                        stocklotProvider.stocklotRequestModel
+                                                .subcategoryId =
+                                            value.stocklotFamilyId.toString();
+                                        // _getStockLotSpecRequestModel.categoryId = value.stocklotFamilyId.toString();
                                         stocklotProvider.getSubcategories(
                                             value.stocklotFamilyId.toString());
                                       },
@@ -126,7 +131,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                             visible: stocklotProvider.showSubCategory,
                             child: Container(
                               padding: EdgeInsets.only(
-                                  left: 8.w, right: 8.w, top: 10.w, bottom: 8.w),
+                                  left: 8.w,
+                                  right: 8.w,
+                                  top: 10.w,
+                                  bottom: 8.w),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,8 +154,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                     callback: (StockLotFamily value) {
                                       stocklotProvider.getFilteredStocklotWaste(
                                           value.stocklotFamilyId ?? -1);
-                                      _getStockLotSpecRequestModel.stocklotFamilyId = value.stocklotFamilyId.toString();
-
+                                      stocklotProvider
+                                              .getStockLotSpecRequestModel
+                                              .stocklotFamilyId =
+                                          value.stocklotFamilyId.toString();
                                     },
                                   )
                                 ],
@@ -194,7 +204,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                           .toList(),
                                       isExpanded: true,
                                       onChanged: (FPriceTerms? value) {
-                                       _getStockLotSpecRequestModel.priceTermId = value!.ptrId.toString();
+                                        stocklotProvider
+                                                .getStockLotSpecRequestModel
+                                                .priceTermId =
+                                            value!.ptrId.toString();
                                       },
                                       // validator: (value) => value == null
                                       //     ? 'field required'
@@ -258,8 +271,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       isExpanded: true,
                                       onChanged: (/*Countries?*/
                                           AvailabilityModel? value) {
-                                        _getStockLotSpecRequestModel.avalibilityId = value!.afm_id.toString();
-
+                                        stocklotProvider
+                                                .getStockLotSpecRequestModel
+                                                .avalibilityId =
+                                            value!.afm_id.toString();
                                       },
                                       // validator: (value) => value == null
                                       //     ? 'field required'
@@ -296,17 +311,29 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                               textSize: 12.sp,
                               color: Colors.grey.shade300,
                               textColor: 'black',
-                              callback: () {},
+                              callback: () {
+                                stocklotProvider.stocklotKey.currentState!.resetWidget() ;
+                                stocklotProvider.categoryKey.currentState!.resetWidget();
+                                stocklotProvider.subCategoryKey.currentState!.resetWidget();
+                                stocklotProvider.getStockLotSpecRequestModel =
+                                    GetStockLotSpecRequestModel(
+                                        categoryId: "5");
+                              },
                             ),
                           ),
-                          SizedBox(width: 8.w,),
+                          SizedBox(
+                            width: 8.w,
+                          ),
                           Expanded(
                             child: ElevatedButtonWithoutIcon(
                               btnText: "Apply Filter",
                               textSize: 12.sp,
                               color: Colors.green,
                               callback: () {
-                                Navigator.pop(context, _getStockLotSpecRequestModel);
+                                Navigator.pop(
+                                    context,
+                                    stocklotProvider
+                                        .getStockLotSpecRequestModel);
                               },
                             ),
                           ),

@@ -68,11 +68,9 @@ String gmail = "images/gmail.png";
 String telegram = "images/telegram.png";
 String facebook = "images/facebook.png";
 String newLogoImage = "images/new_logo.png";
-String au = "images/au.png";
-String bd = "images/bn.png";
-String pk = "images/pk.png";
-String us = "images/us.png";
-String af = "images/af.png";
-String ar = "images/ar.png";
+String fiberImage = "images/fiber.png";
+String fabricsImage = "images/fabrics.png";
+String yarnImage = "images/yarn.png";
+String stockLotsImage = "images/stocklots.png";
 
 

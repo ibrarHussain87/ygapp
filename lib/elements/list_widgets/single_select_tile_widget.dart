@@ -239,7 +239,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
   resetWidget(){
     setState(() {
-      checkedTile = 0;
+      checkedTile = -1;
 
     });
   }

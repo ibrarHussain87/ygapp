@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _loginRequestModel = LoginRequestModel();
+//    _loginRequestModel = LoginRequestModel();
     super.initState();
   }
 
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                                 cursorColor: Colors.black,
                                 onSaved: (input) =>
-                                    _loginRequestModel.username = input!,
+                                    _loginRequestModel.email = input!,
                                 validator: (input) {
                                   if (input == null || input.isEmpty) {
                                     return "Please enter username";
