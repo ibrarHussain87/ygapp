@@ -34,7 +34,15 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _screens = [
-      HomePage(
+//      HomePage(
+//        key: homePageState,
+//        callback: (value) {
+//          setState(() {
+//            _onItemTapped(value);
+//          });
+//        },
+//      ),
+      HomeScreen(
         key: homePageState,
         callback: (value) {
           setState(() {
@@ -42,7 +50,6 @@ class _MainPageState extends State<MainPage> {
           });
         },
       ),
-//    HomeScreen(key: homePageState,),
       MarketPage(
         locality: local,
       ),

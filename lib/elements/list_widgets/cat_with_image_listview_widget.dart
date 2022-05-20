@@ -134,37 +134,37 @@ class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
     String url= "";
     if(checked == true){
       if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberBlends>()[index].iconSelected??""}';
+        return widget.listItem!.cast<FiberBlends>()[index].iconSelected??"";
       }else if(castingCheckPos == 1){
         if(widget.listItem!.cast<Blends>()[index].iconSelected != null){
-          return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconSelected!;
+          return widget.listItem!.cast<Blends>()[index].iconSelected!;
         }else{
           return "";
         }
       }else if(castingCheckPos == 2){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconSelected??""}';
+        return widget.listItem!.cast<Family>()[index].iconSelected??"";
       }else if(castingCheckPos == 3){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconSelected??""}';
+        return widget.listItem!.cast<FabricBlends>()[index].iconSelected??"";
       }else if(castingCheckPos == 4){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconSelected??""}';
+        return widget.listItem!.cast<FabricFamily>()[index].iconSelected??"";
       }else{
         return "";
       }
     }else{
       if(castingCheckPos == 0){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FiberBlends>()[index].iconUnselected??""}';
+        return widget.listItem!.cast<FiberBlends>()[index].iconUnselected??"";
       }else if(castingCheckPos == 1){
         if(widget.listItem!.cast<Blends>()[index].iconUnselected != null){
-          return ApiService.BASE_URL + widget.listItem!.cast<Blends>()[index].iconUnselected!;
+          return widget.listItem!.cast<Blends>()[index].iconUnselected!;
         }else{
           return "";
         }
       }else if(castingCheckPos == 2){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<Family>()[index].iconUnSelected??""}';
+        return widget.listItem!.cast<Family>()[index].iconUnSelected??"";
       }else if(castingCheckPos == 3){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricBlends>()[index].iconUnselected??""}';
+        return widget.listItem!.cast<FabricBlends>()[index].iconUnselected??"";
       }else if(castingCheckPos == 4){
-        return '${ApiService.BASE_URL}${widget.listItem!.cast<FabricFamily>()[index].iconUnselected??""}';
+        return widget.listItem!.cast<FabricFamily>()[index].iconUnselected??"";
       }else{
         return "";
       }

@@ -287,7 +287,7 @@ class Utils {
   static getFiberSubtitle(Specification specification) {
     String subtitle = "";
     switch (specification.nature_id) {
-      case '2':
+      case '18':
       /*subtitle =
           '${specification.length ?? Utils.checkNullString(false)}'
               '${specification.length != null ? ',' : ''}'
@@ -304,7 +304,7 @@ class Utils {
         ];
         subtitle = Utils.createStringFromList(list);
         break;
-      case '1':
+      case '17':
       /*add color in specification at 2nd*/
       /*subtitle =
           '${specification.apperance != null ? '${specification.apperance}':Utils.checkNullString(false)}'
@@ -326,7 +326,7 @@ class Utils {
   static getFiberTitle(Specification specification) {
     String title = "";
     switch (specification.nature_id) {
-      case '2':
+      case '18':
       /*title =
           '${specification.origin_fiber_spc ?? Utils.checkNullString(false)}'
               '${specification.origin_fiber_spc != null ? ',' : ''}'
@@ -337,7 +337,7 @@ class Utils {
         ];
         title = Utils.createStringFromList(list);
         break;
-      case '1':
+      case '17':
       /*title =
           '${specification.brand ?? Utils.checkNullString(false)}'
               '${specification.brand != null ? ',' : ''}'

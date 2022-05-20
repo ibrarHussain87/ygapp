@@ -160,39 +160,38 @@ class FamilyBlendsSelectTileWidgetState
     String url = "";
     if (checked == true) {
       if (castingCheckPos == 0) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FiberFamily>()[index].iconSelected ?? ""}';
+        return widget.listOfItems.cast<FiberFamily>()[index].iconSelected ?? "";
       } else if (castingCheckPos == 1) {
         if (widget.listOfItems.cast<Blends>()[index].iconSelected != null) {
-          return ApiService.BASE_URL +
-              widget.listOfItems.cast<Blends>()[index].iconSelected!;
+          return widget.listOfItems.cast<Blends>()[index].iconSelected!;
         } else {
           return "";
         }
       } else if (castingCheckPos == 2) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<Family>()[index].iconSelected ?? ""}';
+        return widget.listOfItems.cast<Family>()[index].iconSelected ?? "";
       } else if (castingCheckPos == 3) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricBlends>()[index].iconSelected ?? ""}';
+        return widget.listOfItems.cast<FabricBlends>()[index].iconSelected ?? "";
       } else if (castingCheckPos == 4) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricFamily>()[index].iconSelected ?? ""}';
+        return widget.listOfItems.cast<FabricFamily>()[index].iconSelected ?? "";
       } else {
         return "";
       }
     } else {
       if (castingCheckPos == 0) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FiberFamily>()[index].iconUnselected ?? ""}';
+        return widget.listOfItems.cast<FiberFamily>()[index].iconUnselected ?? "";
       } else if (castingCheckPos == 1) {
         if (widget.listOfItems.cast<Blends>()[index].iconUnselected != null) {
-          return ApiService.BASE_URL +
+          return
               widget.listOfItems.cast<Blends>()[index].iconUnselected!;
         } else {
           return "";
         }
       } else if (castingCheckPos == 2) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<Family>()[index].iconUnSelected ?? ""}';
+        return widget.listOfItems.cast<Family>()[index].iconUnSelected ?? "";
       } else if (castingCheckPos == 3) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricBlends>()[index].iconUnselected ?? ""}';
+        return widget.listOfItems.cast<FabricBlends>()[index].iconUnselected ?? "";
       } else if (castingCheckPos == 4) {
-        return '${ApiService.BASE_URL}${widget.listOfItems.cast<FabricFamily>()[index].iconUnselected ?? ""}';
+        return widget.listOfItems.cast<FabricFamily>()[index].iconUnselected ?? "";
       } else {
         return "";
       }

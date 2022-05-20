@@ -33,8 +33,6 @@ class StockLotListingFuture extends StatefulWidget {
 
 class StockLotListingFutureState extends State<StockLotListingFuture> {
   late StocklotProvider stocklotProvider;
-  GetStockLotSpecRequestModel getStockLotSpecRequestModel =
-      GetStockLotSpecRequestModel();
 
   @override
   void initState() {
@@ -44,20 +42,19 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
   @override
   Widget build(BuildContext context) {
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: true);
-    getStockLotSpecRequestModel.localInternational = widget.locality;
-    getStockLotSpecRequestModel.categoryId = "5";
-    getStockLotSpecRequestModel.isOffering = stocklotProvider.isOffering;
-    getStockLotSpecRequestModel.stocklotFamilyId =
+    stocklotProvider.getStockLotSpecRequestModel.localInternational = widget.locality;
+    stocklotProvider.getStockLotSpecRequestModel.categoryId = "5";
+    stocklotProvider.getStockLotSpecRequestModel.isOffering = stocklotProvider.isOffering;
+    stocklotProvider.getStockLotSpecRequestModel.stocklotFamilyId =
         stocklotProvider.categoryId != -1
             ? stocklotProvider.categoryId.toString()
             : stocklotProvider.getStockLotSpecRequestModel.stocklotFamilyId;
-
-    getStockLotSpecRequestModel.avalibilityId =
+    stocklotProvider.getStockLotSpecRequestModel.avalibilityId =
         stocklotProvider.getStockLotSpecRequestModel.avalibilityId;
-    getStockLotSpecRequestModel.avalibilityId =
+    stocklotProvider.getStockLotSpecRequestModel.priceTermId =
         stocklotProvider.getStockLotSpecRequestModel.priceTermId;
     return FutureBuilder<StockLotSpecificationResponse>(
-            future: ApiService.getStockLotSpecifications(getStockLotSpecRequestModel),
+            future: ApiService.getStockLotSpecifications(stocklotProvider.getStockLotSpecRequestModel),
             builder: (BuildContext context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.data != null) {

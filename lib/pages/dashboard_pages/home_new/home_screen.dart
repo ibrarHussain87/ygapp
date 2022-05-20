@@ -1,19 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Function callback;
+   const HomeScreen({Key? key,required this.callback}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<HomeModel> homeList=
+  [
+    HomeModel(id: "1", title: 'Fiber',subTitle: 'over 255 ads',image:fiberImage),
+    HomeModel(id: "2", title: 'Yarn',subTitle: 'over 410 ads',image:yarnImage),
+    HomeModel(id: "3", title: 'Fabrics',subTitle: 'over 115 ads',image: fabricsImage),
+    HomeModel(id: "4", title: 'Stocklots',subTitle: 'over 40 ads',image: stockLotsImage),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height:AppBar().preferredSize.height,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration:BoxDecoration(
                 gradient:LinearGradient(
                     begin: Alignment.centerLeft,
@@ -39,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-//                    Navigator.pop(context);
+                    widget.callback(4);
                   },
                   child: Padding(
                       padding: EdgeInsets.only(left: 10.w,top: 8.w),
@@ -67,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     },
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10.w,top: 8.w),
+                        padding: EdgeInsets.only(left: 10.w,top: 6.w),
                         child: Icon(
                           Icons.notifications,
                           color: Colors.white,
@@ -84,78 +92,76 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.white,
         padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 8.w,top: 8.w),
         margin: EdgeInsets.only(bottom: 4.w),
-        child:ListView(
-          shrinkWrap: true,
-          primary: true,
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleTextWidget(title: todayPremium),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0),
-                  )),
-              child:  ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.w),
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    homePremiumGradientDark,
-                                    homePremiumGradientLight,
-                                  ],
-                                )),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '20/S cdd Yarn for Weaving',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 11.sp),
-                                  ),
-                                  Text(
-                                    '(100%) Cotton',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 11.sp),
-                                  ),
-                                  Text(
-                                    'PKR.22,000',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.bold),
+             Visibility(
+               visible: false,
+               child: Padding(
+                padding:  const EdgeInsets.only(left: 8.0,right: 8.0,top: 8.0),
+                child:
+                Text("Welcome, Zohaib Rao", style: TextStyle(fontSize: 18.sp, color:Colors.black,fontWeight: FontWeight.bold)),
+            ),
+             ),
+             Visibility(
+               visible: false,
+               child: Padding(
+                padding:  const EdgeInsets.only(left: 8.0,right: 8.0,bottom: 8.0),
+                child: TitleExtraSmallTextWidget(title: "Choose your required product to start",color: font_light_grey,),
+            ),
+             ),
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0),
+                    )),
+                child:  ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: homeList.length,
+                  shrinkWrap: true,
+                  primary: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Image.asset(
+                                homeList[index].image.toString(),
+                                fit: BoxFit.cover
+                            )
+                        ),
+                        Positioned(
+                            left: 25,
+                            bottom: 25,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(0, 0, 0, 0.1)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                       Text(homeList[index].title.toString(), style: TextStyle(fontSize: 18.sp, color: Colors.white,fontWeight: FontWeight.bold)),
+                                       Text(homeList[index].subTitle.toString() , style: TextStyle(fontSize: 10.sp, color: Colors.white))
+                                    ],
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 4.w,
-                      )
-                    ],
-                  );
-                },
+                            )
+                        )
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-
           ],
         )
 
@@ -163,4 +169,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class HomeModel {
+  String? id;
+  String? title;
+  String? subTitle;
+  String? image;
+
+  HomeModel({
+    @required this.id,
+    @required this.title,
+    @required this.subTitle,
+    @required this.image,
+  });
 }

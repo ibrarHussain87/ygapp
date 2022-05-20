@@ -36,7 +36,8 @@ class StockLotPageState extends State<StockLotPage> {
 
   @override
   void initState() {
-    AppDbInstance().getOriginsData()
+    AppDbInstance()
+        .getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
@@ -88,12 +89,13 @@ class StockLotPageState extends State<StockLotPage> {
                                   child: BlendsWithImageListWidget(
                                       listItem: stocklotProvider.stocklots!,
                                       onClickCallback: (value) {
+                                        stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = stocklotProvider.stocklots![value]
+                                            .stocklotFamilyId
+                                            .toString();
                                         stocklotProvider.getCategories(
-                                            stocklotProvider
-                                                .stocklots![value].stocklotFamilyId.toString());
-                                        stocklotProvider.stocklotId =
-                                            stocklotProvider
-                                                .stocklots![value].stocklotFamilyId;
+                                            stocklotProvider.stocklots![value]
+                                                .stocklotFamilyId
+                                                .toString());
                                         stocklotProvider.categoryId = -1;
                                         stocklotProvider
                                             .getStockLotSpecRequestModel
@@ -101,44 +103,40 @@ class StockLotPageState extends State<StockLotPage> {
                                         stocklotProvider
                                             .getStockLotSpecRequestModel
                                             .priceTermId = null;
+
                                         stocklotProvider
                                             .getStockLotSpecRequestModel
                                             .stocklotFamilyId = null;
                                         stocklotProvider.setShowCategory(true);
-                                        if(widget.locality == international) {
-                                          if (stocklotProvider.categoryListLocalKey
-                                              .currentState != null) {
-                                            stocklotProvider.categoryListLocalKey
-                                                .currentState!.checkedTile = -1;
-                                          }
-                                        }else{
-                                          if (stocklotProvider.categoryListInternationalKey
-                                              .currentState != null) {
-                                            stocklotProvider.categoryListInternationalKey
-                                                .currentState!.checkedTile = -1;
-                                          }
-                                        }
 
+                                        if (stocklotProvider
+                                                .subFamilyKey.currentState !=
+                                            null) {
+                                          stocklotProvider.subFamilyKey
+                                              .currentState!.checkedTile = -1;
+                                        }
                                       })),
                             ),
                             Visibility(
-                              visible:stocklotProvider.showCategory,
+                              visible: stocklotProvider.showCategory,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   height:
-                                  0.04 * MediaQuery.of(context).size.height,
+                                      0.04 * MediaQuery.of(context).size.height,
                                   child: SingleSelectTileRenewedWidget(
-                                    key: widget.locality == international?stocklotProvider.categoryListInternationalKey : stocklotProvider.categoryListLocalKey,
+                                    key: stocklotProvider.subFamilyKey,
                                     spanCount: 2,
-                                    selectedIndex: stocklotProvider.selectedIndex,
+                                    selectedIndex:
+                                        stocklotProvider.selectedIndex,
                                     listOfItems:
-                                    stocklotProvider.stocklotCategories!,
+                                        stocklotProvider.stocklotCategories!,
                                     callback: (StockLotFamily value) {
                                       // stocklotProvider.getSubcategories(
                                       //     stocklotProvider.stocklotId
                                       //         .toString());
-                                      stocklotProvider.categoryId = value.stocklotFamilyId;
+                                      stocklotProvider.categoryId =
+                                          value.stocklotFamilyId;
                                       stocklotProvider.getSubcategories(
                                           value.stocklotFamilyId.toString());
                                     },
@@ -150,7 +148,7 @@ class StockLotPageState extends State<StockLotPage> {
                               visible: false,
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: SizedBox(
                                     height: 0.04 *
                                         MediaQuery.of(context).size.height,
@@ -212,31 +210,43 @@ class StockLotPageState extends State<StockLotPage> {
                                           ? 3
                                           : 0,
                                       child: Visibility(
-                                        maintainSize: false,
-                                        maintainState: false,
-                                        visible:
-                                            widget.locality == international,
-                                        child:SearchChoices.single(
-                                          displayClearIcon: false,
-                                          isExpanded: true,
-                                          hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                                          items:_countries
-                                              .map((value) =>
-                                              DropdownMenuItem(
-                                                child: Text(
-                                                  value.conName ??
-                                                      Utils.checkNullString(false),
-                                                  textAlign: TextAlign
-                                                      .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
-                                                value: value,
-                                              )).toList(),
-                                          isCaseSensitiveSearch: false,
-                                          onChanged: (Countries? value) {
-                                          },
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: textColorGrey,overflow: TextOverflow.ellipsis,),
-                                        )
+                                          maintainSize: false,
+                                          maintainState: false,
+                                          visible:
+                                              widget.locality == international,
+                                          child: SearchChoices.single(
+                                            displayClearIcon: false,
+                                            isExpanded: true,
+                                            hint:
+                                                const TitleExtraSmallBoldTextWidget(
+                                                    title: 'Country'),
+                                            items: _countries
+                                                .map((value) =>
+                                                    DropdownMenuItem(
+                                                      child: Text(
+                                                        value.conName ??
+                                                            Utils
+                                                                .checkNullString(
+                                                                    false),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 12.sp,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ),
+                                                      value: value,
+                                                    ))
+                                                .toList(),
+                                            isCaseSensitiveSearch: false,
+                                            onChanged: (Countries? value) {},
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: textColorGrey,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
 
 //                                        DropdownButtonFormField(
 //                                          isExpanded: true,
@@ -267,7 +277,7 @@ class StockLotPageState extends State<StockLotPage> {
 //                                              fontSize: 11.sp,
 //                                              color: textColorGrey),
 //                                        ),
-                                      ),
+                                          ),
                                     ),
                                     Visibility(
                                       visible: false,
