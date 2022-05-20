@@ -92,14 +92,16 @@ class ApiService {
       return PreConfigResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -111,14 +113,16 @@ class ApiService {
       return LoginResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -150,14 +154,16 @@ class ApiService {
       return LoginResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -170,14 +176,16 @@ class ApiService {
       return SpecificationUserResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -197,14 +205,16 @@ class ApiService {
       return SyncFiberResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -225,14 +235,16 @@ class ApiService {
           data: json.encode(getRequestModel.toJson()));
       logger.e(response.data);
       return FiberSpecificationResponse.fromJson(response.data);
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -251,14 +263,16 @@ class ApiService {
       return YarnSyncResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -277,14 +291,16 @@ class ApiService {
       return StockLotSyncResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -303,14 +319,16 @@ class ApiService {
       return FabricSyncResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -333,14 +351,16 @@ class ApiService {
           data: json.encode(getRequestModel.toJson()));
 
       return GetYarnSpecificationResponse.fromJson(response.data);
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -363,14 +383,16 @@ class ApiService {
           data: json.encode(getRequestModel.toJson()));
 
       return FabricSpecificationResponse.fromJson(response.data);
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -480,14 +502,16 @@ class ApiService {
       } catch (err) {
         throw (err.toString());
       }
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
 
     //for multipart Request
@@ -546,14 +570,16 @@ class ApiService {
       logger.e(json.decode(responsed.body));
 
       return FabricUpdateResponse.fromJson(json.decode(responsed.body));
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -597,14 +623,16 @@ class ApiService {
       } catch (err) {
         throw (err.toString());
       }
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -624,14 +652,16 @@ class ApiService {
           data: json.encode(getRequestModel.toJson()));
       logger.e(response.data);
       return StockLotSpecificationResponse.fromJson(response.data);
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -655,14 +685,16 @@ class ApiService {
       return ListBidResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -683,14 +715,16 @@ class ApiService {
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
       return MatchedResponse.fromJson(json.decode(response.body));
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -721,14 +755,16 @@ class ApiService {
       return CreateBidResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -754,14 +790,16 @@ class ApiService {
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
       return ChangeBidResponse.fromJson(json.decode(response.body));
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -792,14 +830,16 @@ class ApiService {
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 
       return ChangeBidResponse.fromJson(json.decode(response.body));
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -813,14 +853,16 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headerMap);
 
       return GetBannersResponse.fromJson(json.decode(response.body));
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -841,14 +883,16 @@ class ApiService {
       return MyProductsResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -867,14 +911,16 @@ class ApiService {
       return ListBidResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -898,14 +944,16 @@ class ApiService {
       return ListBidResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -928,14 +976,16 @@ class ApiService {
       return MarkYgResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -969,14 +1019,16 @@ class ApiService {
           json.decode(response.body),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
@@ -1026,14 +1078,16 @@ class ApiService {
       return CompaniesSyncResponse.fromJson(
         json.decode(response.body),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
-        throw ("Something went wrong");
+        throw (e.toString());
       }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 
