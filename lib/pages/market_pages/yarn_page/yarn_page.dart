@@ -89,7 +89,7 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              _postYarnProvider.selectedYarnFamily = Family();
+              /*_postYarnProvider.selectedYarnFamily = Family();
               familySheet(context, (int checkedIndex) {}, (Family family) {
                 _postYarnProvider.selectedYarnFamily = family;
                 Navigator.of(context).pop();
@@ -111,7 +111,7 @@ class YarnPageState extends State<YarnPage> {
                     Navigator.pop(context);
                     openYarnPostPage(context, widget.locality, yarn, value);
                   });
-                  /*familyBlendsSheet(context, (int checkedIndex) {
+                  *//*familyBlendsSheet(context, (int checkedIndex) {
 
                   }, (Blends blends) {
                     Navigator.of(context).pop();
@@ -134,11 +134,15 @@ class YarnPageState extends State<YarnPage> {
                   },
                       _postYarnProvider.blendList.where((element) =>
                       element.familyIdfk == family.famId.toString()).toList(),
-                      -1, "Yarn");*/
+                      -1, "Yarn");*//*
                 } else {
                   openYarnPostPage(context, widget.locality, yarn, value);
                 }
-              }, _familyList, -1, "Yarn");
+              }, _familyList, -1, "Yarn");*/
+              if(_familyList.isNotEmpty){
+                _postYarnProvider.selectedYarnFamily = _familyList.first;
+                openYarnPostPage(context, widget.locality, yarn, value);
+              }
             });
           },
           child: const Icon(Icons.add),
