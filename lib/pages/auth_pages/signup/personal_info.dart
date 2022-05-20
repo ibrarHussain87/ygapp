@@ -6,19 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:logger/logger.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/elements/circle_icon_widget.dart';
-import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 import '../../../api_services/api_service_class.dart';
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/custom_header.dart';
-import '../../../elements/decoration_widgets.dart';
-import '../../../elements/network_icon_widget.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
@@ -26,7 +22,6 @@ import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../helper_utils/shared_pref_util.dart';
 import '../../../helper_utils/ui_utils.dart';
-import '../../../helper_utils/util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import '../../main_page.dart';
@@ -78,6 +73,10 @@ class PersonalInfoComponentState
   ValueNotifier<Countries?>? _notifierCountry;
   List<Countries> countriesList = [];
   String? code;
+  bool isEmail=true;
+
+  var phoneController=TextEditingController();
+  var emailController=TextEditingController();
   @override
   bool get wantKeepAlive => true;
 
@@ -168,6 +167,69 @@ class PersonalInfoComponentState
                         SizedBox(
                           height: 15.w,
                         ),
+                        Padding(
+                          padding:  EdgeInsets.only(left: 18.w,top: 10.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+
+                              GestureDetector(
+                                onTap: ()
+                                {
+                                  setState(() {
+                                    isEmail=true;
+                                    _resetData();
+                                  });
+                                },
+                                child: Container(
+                                    height: 40.w,
+                                    width: 100.w,
+                                    decoration:  BoxDecoration(
+                                        color: isEmail ? Colors.green : Colors.white,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(2.0),
+                                        )
+                                    ),
+                                    child: Center(child:
+                                    Text("Email",
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color:isEmail ? Colors.white : Colors.black54
+                                          /*fontFamily: 'Metropolis',*/
+                                        )),)
+                                ),
+                              ),
+                              SizedBox(width: 20.w,),
+                              GestureDetector(
+                                onTap: ()
+                                {
+                                  setState(() {
+                                    isEmail=false;
+                                    _resetData();
+                                  });
+                                },
+                                child: Container(
+                                    decoration:BoxDecoration(
+                                        color: isEmail ? Colors.white : Colors.green,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(2.0),
+                                        )
+                                    ),
+                                    height: 40.w,
+                                    width: 100.w,
+                                    child: Center(child:
+                                    Text("Phone Number",
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: isEmail ? Colors.black54 : Colors.white
+                                          /*fontFamily: 'Metropolis',*/
+                                        )),)
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
                         buildUserDataColumn(context),
                         Padding(
                           padding: EdgeInsets.only(
@@ -211,6 +273,10 @@ class PersonalInfoComponentState
 //                                        loginWithPhone();
                                         openVerifyCodeScreen(context, _signupRequestModel!,true);
                                       }
+                                      else
+                                        {
+                                          _signUpCall();
+                                        }
                                     }
                                   })),
                         ),
@@ -235,7 +301,8 @@ class PersonalInfoComponentState
       children: [
 
         Visibility(
-          visible:_signupRequestModel?.config.toString()=="phone_number"?false:true,
+          visible:isEmail?true:false,
+//          visible:_signupRequestModel?.config.toString()=="phone_number"?false:true,
           child: Padding(
                padding: EdgeInsets.only(
                 top: 20.w, bottom: 8.w, left: 18.w, right: 18.w),
@@ -245,13 +312,14 @@ class PersonalInfoComponentState
                 Padding(
                   padding:EdgeInsets.only(
                     bottom: 6.w,),
-                  child: Text(
+                  child: const Text(
                     "Email",
                     textAlign: TextAlign.left,
 
                   ),
                 ),
                 TextFormField(
+                  controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Colors.black,
                     onSaved: (input) => _signupRequestModel!.email = input!,
@@ -280,7 +348,8 @@ class PersonalInfoComponentState
         ),
 
         Visibility(
-          visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
+          visible: isEmail?false:true,
+//          visible: _signupRequestModel?.config.toString()=="phone_number"?true:false,
           child: Padding(
                padding: EdgeInsets.only(
                 top: 15.w, bottom: 8.w, left: 18.w, right: 18.w),
@@ -297,6 +366,7 @@ class PersonalInfoComponentState
                   ),
                 ),
                 TextFormField(
+                  controller: phoneController,
                   keyboardType: TextInputType.phone,
                   cursorColor: Colors.black,
                   onSaved: (input) => _signupRequestModel!.telephoneNumber = "+$code"+input!,
@@ -904,6 +974,13 @@ class PersonalInfoComponentState
             SnackBar(content: Text("No internet available.".toString())));
       }
     });
+  }
+
+  _resetData() {
+ _signupRequestModel?.telephoneNumber = null ;
+ _signupRequestModel?.email = null;
+ emailController.clear();
+ phoneController.clear();
   }
 
 
