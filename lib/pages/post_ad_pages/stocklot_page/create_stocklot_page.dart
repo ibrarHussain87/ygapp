@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -75,6 +76,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return stocklotProvider.stocklots!.isNotEmpty
           ? SafeArea(
               child: Scaffold(
+                  appBar: appBar(context, "Stocklot"),
                   body: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

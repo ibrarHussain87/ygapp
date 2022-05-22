@@ -168,84 +168,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
                     ),
                   ],
                 ),
-
-//                FamilyTileWidget(
-//                  key: _familyTileKey,
-//                  listItems: _familyList,
-//                  callback: (Family value) {
-//                    //Family Id
-//                    setState(() {
-//                      selectedFamilyId = value.famId.toString();
-//                    });
-//                    _createRequestModel.ys_family_idfk = selectedFamilyId;
-//                    _yarnPostProvider.resetData();
-//                    queryFamilySettings(value.famId!);
-//                    yarnStepStateKey.currentState!.onClickFamily(value.famId);
-//                  },
-//                ),
               ),
             ],
           ),
         ),
-        /*Visibility(
-          visible: Ui.showHide(_yarnSetting.showBlend),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 4,
-              ),
-              const Padding(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: Divider()),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 8.w),
-                child: YarnSelectedBlendWidget(
-                  key: _blendTileKey,
-                  listItem: _yarnPostProvider.blendList
-                      .where(
-                          (element) => element.familyIdfk == selectedFamilyId)
-                      .toList(),
-                  onClickCallback: (value) {
-                    blendedSheet(
-                        context,
-                        _yarnPostProvider.blendList
-                            .where((element) =>
-                                element.familyIdfk == selectedFamilyId)
-                            .toList(),
-                        value, () {
-                      List<Map<String,String>> formations = [];
-                      for (var element in _yarnPostProvider.blendList) {
-                        if (element.isSelected??false) {
-                          BlendModel formationModel = BlendModel(id: element.blnId,
-                              relatedBlnId: null,
-                              ratio: element.blendRatio);
-                          formations.add(formationModel.toJson());
-                        }
-                      }
-                      _createRequestModel.ys_formation = formations;
-
-                      Navigator.pop(context);
-                    });
-                    yarnStepStateKey.currentState!.onClickBlend(value);
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              const Padding(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: Divider()),
-            ],
-          ),
-        ),*/
         Visibility(
           visible: widget.selectedTab == offering_type,
           child: const SizedBox(
@@ -280,9 +206,10 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
 
   void showBlendsSheets(BuildContext context) {
     if (!_yarnPostProvider.familyDisabled) {
-      _yarnPostProvider.selectedYarnFamily = /*Family()*/_familyList.first;
+      // _yarnPostProvider.selectedYarnFamily = /*Family()*/_familyList.first;
       familySheet(context, (int checkedIndex) {}, (Family family) {
         _yarnPostProvider.selectedYarnFamily = family;
+        _yarnPostProvider.notifyUI();
         Navigator.of(context).pop();
         if (_yarnPostProvider.blendList
             .where((element) => element.familyIdfk == family.famId.toString())
@@ -290,6 +217,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
             .isNotEmpty) {
           _yarnPostProvider.resetData();
           _yarnPostProvider.textFieldControllers.clear();
+          _yarnPostProvider.notifyUI();
           YarnBlendBottomSheet(
               context,
               _yarnPostProvider.blendList
@@ -348,6 +276,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         setState(() {
           if (value.isNotEmpty) {
             _yarnSetting = value[0];
+            _yarnPostProvider.notifyUI();
           }
           // } else {
           //   Ui.showSnackBar(context, 'No Settings Found');
@@ -378,7 +307,7 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           formations.add(formationModel.toJson());
         }
       }
-    } else {
+    } else if(_postYarnProvider.selectedYarnFamily.famId!=null) {
       BlendModel formationModel = BlendModel(
           id: _postYarnProvider.selectedYarnFamily.famId,
           relatedBlnId: null,

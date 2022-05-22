@@ -687,10 +687,10 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                     for (var element in widget.listOfItems) {
                       _yarnPostProvider.textFieldControllers.add(TextEditingController());
                     }*/
-                    _yarnPostProvider.blendList.where((element) => (element as Blends).bln_nature == 'Pure')
+                    _yarnPostProvider.blendList.where((element) => (element).bln_nature == 'Pure')
                         .toList().forEach((element1) {
                           if(element1.isSelected??false){
-                            int myIndex = _yarnPostProvider.blendList.where((element) => (element as Blends).bln_nature == 'Pure')
+                            int myIndex = _yarnPostProvider.blendList.where((element) => (element).bln_nature == 'Pure')
                                 .toList().indexWhere((element2) => element2 == element1);
                             element1.blendRatio = widget.listController[myIndex].text;
                           }

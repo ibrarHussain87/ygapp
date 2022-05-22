@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: Text(
                           'Sign up',
                           style: TextStyle(
-                              fontFamily: 'Metropolis',
+                              // fontFamily: 'Metropolis',
                               fontSize: 28.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.white),
@@ -126,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         'Delivery options and fees may vary based\non your country selection',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily: 'Metropolis',
+                          // fontFamily: 'Metropolis',
                           color: Colors.white,
                           fontSize: 11.sp,
                           fontWeight: FontWeight.w400,
@@ -178,10 +178,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 TextFormField(
                                                     keyboardType:
                                                         TextInputType.phone,
-                                                    textInputAction: TextInputAction.next,
-                                                    onEditingComplete: () => FocusScope.of(context).requestFocus(usernameFocus),
-                                                    inputFormatters: <TextInputFormatter>[
-                                                      FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
+                                                    textInputAction:
+                                                        TextInputAction.next,
+                                                    onEditingComplete: () =>
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                usernameFocus),
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              r'([+0-9])')),
                                                       LengthLimitingTextInputFormatter(
                                                           13),
                                                     ],
@@ -190,13 +197,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                                       LengthLimitingTextInputFormatter(
                                                           13),
                                                     ],*/
-                                                    onChanged: (input){
-                                                      Utils.validateMobile(input);
+                                                    onChanged: (input) {
+                                                      Utils.validateMobile(
+                                                          input);
                                                     },
-                                                    onSaved: (input) =>
-                                                        _signupRequestModel
-                                                                .telephoneNumber =
-                                                            input!,
+                                                    onSaved: (input) {
+                                                      _signupRequestModel
+                                                              .telephoneNumber =
+                                                          input!;
+                                                      _signupRequestModel
+                                                          .userName = input;
+                                                    },
                                                     validator: (input) {
                                                       if (input == null ||
                                                           input.isEmpty ||
@@ -211,33 +222,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                                             "assets/ic_call.svg")),
                                               ],
                                             )),
-                                        /*Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: 8.w, left: 8.w, right: 8.w),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(operator,
-                                                    style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color: Colors.black)),
-                                                TextFormField(
-                                                    keyboardType: TextInputType.text,
-                                                    cursorColor: Colors.black,
-                                                    onSaved: (input) =>
-                                                    _signupRequestModel.operator = input!,
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty) {
-                                                        return "Please enter operator";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration: textFormFieldDecSignup(
-                                                    operator,"assets/ic_operator.svg")
-                                                ),
-                                              ],
-                                            ),
-
-                                          ),*/
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: 8.w,
@@ -258,10 +242,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   focusNode: usernameFocus,
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  textInputAction: TextInputAction.next,
-                                                  onEditingComplete: () => FocusScope.of(context).requestFocus(emailFocus),
-                                                  inputFormatters: <TextInputFormatter>[
-                                                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9])')),
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  onEditingComplete: () =>
+                                                      FocusScope.of(context)
+                                                          .requestFocus(
+                                                              emailFocus),
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow(RegExp(
+                                                            r'([a-zA-Z0-9])')),
                                                     LengthLimitingTextInputFormatter(
                                                         20),
                                                   ],
@@ -300,13 +291,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                                           FontWeight.w500,
                                                       color: Colors.black)),
                                               TextFormField(
-                                                focusNode: emailFocus,
+                                                  focusNode: emailFocus,
                                                   keyboardType: TextInputType
                                                       .emailAddress,
-                                                  textInputAction: TextInputAction.next,
-                                                  onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocus),
-                                                  inputFormatters: <TextInputFormatter>[
-                                                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  onEditingComplete: () =>
+                                                      FocusScope.of(context)
+                                                          .requestFocus(
+                                                              passwordFocus),
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow(RegExp(
+                                                            r'([a-zA-Z0-9@.])')),
                                                     LengthLimitingTextInputFormatter(
                                                         25),
                                                   ],
@@ -350,8 +348,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
-                                                textInputAction: TextInputAction.next,
-                                                onEditingComplete: () => FocusScope.of(context).requestFocus(confirmPasswordFocus),
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                onEditingComplete: () =>
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            confirmPasswordFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     password = input!,
@@ -426,8 +428,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 obscureText: !_showPassword,
                                                 keyboardType:
                                                     TextInputType.text,
-                                                textInputAction: TextInputAction.next,
-                                                onEditingComplete: () => FocusScope.of(context).requestFocus(businessAreaFocus),
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                onEditingComplete: () =>
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            businessAreaFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -504,8 +510,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 focusNode: businessAreaFocus,
                                                 keyboardType:
                                                     TextInputType.text,
-                                                textInputAction: TextInputAction.next,
-                                                onEditingComplete: () => FocusScope.of(context).requestFocus(companyFocus),
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                onEditingComplete: () =>
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            companyFocus),
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -544,7 +554,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 focusNode: companyFocus,
                                                 keyboardType:
                                                     TextInputType.text,
-                                                textInputAction: TextInputAction.done,
+                                                textInputAction:
+                                                    TextInputAction.done,
                                                 cursorColor: Colors.black,
                                                 onSaved: (input) =>
                                                     _signupRequestModel
@@ -577,7 +588,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 // Note: Styles for TextSpans must be explicitly defined.
                                                 // Child text spans will inherit styles from parent
                                                 style: TextStyle(
-                                                  fontFamily: 'Metropolis',
+                                                  // fontFamily: 'Metropolis',
                                                   fontSize: 14.0.sp,
                                                   color: Colors.black,
                                                 ),
@@ -585,8 +596,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                                   TextSpan(
                                                       text: 'I Agree to ',
                                                       style: TextStyle(
-                                                          fontFamily:
-                                                              'Metropolis',
+                                                          // fontFamily:
+                                                          //     'Metropolis',
                                                           fontSize: 12.sp,
                                                           color:
                                                               textColorGrey)),
@@ -594,8 +605,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                                       text:
                                                           'Terms & Conditions',
                                                       style: TextStyle(
-                                                          fontFamily:
-                                                              'Metropolis',
+                                                          // fontFamily:
+                                                          //     'Metropolis',
                                                           fontSize: 12.sp,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -620,7 +631,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: ElevatedButton(
                                     child: Text("Sign Up",
                                         style: TextStyle(
-                                            fontFamily: 'Metropolis',
+                                            // fontFamily: 'Metropolis',
                                             fontSize: 14.sp)),
                                     style: ButtonStyle(
                                         foregroundColor:
@@ -634,7 +645,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                             const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(8)),
-                                                side: BorderSide(color: Colors.transparent)))),
+                                                side: BorderSide(
+                                                    color: Colors.transparent)))),
                                     onPressed: () {
                                       FocusScope.of(context).unfocus();
                                       if (validateAndSave()) {
@@ -956,7 +968,7 @@ class _SignUpPageState extends State<SignUpPage> {
     await auth.signInWithCredential(credential).then((value) {
       Navigator.pop(buildContext);
       _signUpCall();
-    },onError: (error){
+    }, onError: (error) {
       Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,
