@@ -1945,6 +1945,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   : widget.yarnSpecification!.yarnCertificationStr!
                       .replaceAll(",", "")),*/
         ];
+        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
         _detailSpecification = newSpecifications
             .where((element) =>
@@ -2002,6 +2003,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
+        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
         _detailSpecification = newSpecifications
             .where((element) =>
@@ -2060,6 +2062,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnColorTreatmentMethod!),
         ];
+        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
         _detailSpecification = newSpecifications
             .where((element) =>
@@ -2108,6 +2111,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnApperance ??
                   Utils.checkNullString(false)),
         ];
+        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
         _detailSpecification = newSpecifications
             .where((element) =>
@@ -2162,6 +2166,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
         ];
+        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
         _detailSpecification = newSpecifications
             .where((element) =>
@@ -2414,6 +2419,31 @@ class _DetailTabPageState extends State<DetailTabPage> {
         ],
       ),
     );
+  }
+
+  GridTileModel formatFormations(List<YarnFormation> yarnFormation) {
+    GridTileModel formationTileModel;
+    switch(yarnFormation.length){
+      case 1:
+        formationTileModel = GridTileModel('Blends Formation', yarnFormation.first.blendName?? Utils.checkNullString(false));
+        break;
+        case 2:
+        formationTileModel = GridTileModel('Blends Formation', '${yarnFormation.first.formationRatio?? Utils.checkNullString(false)}:'
+            '${yarnFormation[1].formationRatio?? Utils.checkNullString(false)}');
+        break;
+      default:
+        String? blendString = '';
+        yarnFormation.forEach((element) { 
+          if(blendString!.isEmpty){
+            blendString = blendString!+'${element.blendName}(${element.formationRatio}%)';
+          }else{
+            blendString = blendString!+',${element.blendName}(${element.formationRatio}%)';
+          }
+        });
+        formationTileModel = GridTileModel('Blends Formation', blendString?? Utils.checkNullString(false));
+        break;
+    }
+    return formationTileModel;
   }
 }
 

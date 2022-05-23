@@ -90,6 +90,7 @@ class YarnSpecification {
     required this.locality,
     required this.yarnFamilyId,
     required this.yarnFamily,
+    this.yarnFormation,
     required this.yarnBlend,
     required this.yarnRtio,
     required this.yarnUsage,
@@ -156,6 +157,7 @@ class YarnSpecification {
   String? locality;
   String? yarnFamilyId;
   String? yarnFamily;
+  List<YarnFormation>? yarnFormation;
   String? doublingMethod;
   String? yarnType;
   String? yarnBlend;
@@ -301,6 +303,10 @@ class YarnSpecification {
       certifications =
           List.from(json['certifications']).map((e) => CertificationModel.fromJson(e)).toList();
     }
+    if (json['formation'] != null) {
+      yarnFormation =
+          List.from(json['formation']).map((e) => YarnFormation.fromJson(e)).toList();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -377,6 +383,50 @@ class YarnSpecification {
     _data['proposal_count'] = proposalCount;
     _data['matched_count'] = matchedCount;
     _data['date'] = date;
+    if (this.yarnFormation != null) {
+      _data['formation'] = this.yarnFormation!.map((v) => v.toJson()).toList();
+    }
     return _data;
+  }
+}
+
+class YarnFormation {
+  int? formationId;
+  String? categoryIdfk;
+  String? categoryFamilyIdfk;
+  String? specificationIdfk;
+  String? blendIdfk;
+  String? blendName;
+  String? formationRatio;
+
+  YarnFormation(
+      {this.formationId,
+        this.categoryIdfk,
+        this.categoryFamilyIdfk,
+        this.specificationIdfk,
+        this.blendIdfk,
+        this.blendName,
+        this.formationRatio});
+
+  YarnFormation.fromJson(Map<String, dynamic> json) {
+    formationId = json['formation_id'];
+    categoryIdfk = json['category_idfk'];
+    categoryFamilyIdfk = json['category_family_idfk'];
+    specificationIdfk = json['specification_idfk'];
+    blendIdfk = json['blend_idfk'];
+    blendName = json['blend_name'];
+    formationRatio = json['formation_ratio'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['formation_id'] = this.formationId;
+    data['category_idfk'] = this.categoryIdfk;
+    data['category_family_idfk'] = this.categoryFamilyIdfk;
+    data['specification_idfk'] = this.specificationIdfk;
+    data['blend_idfk'] = this.blendIdfk;
+    data['blend_name'] = this.blendName;
+    data['formation_ratio'] = this.formationRatio;
+    return data;
   }
 }
