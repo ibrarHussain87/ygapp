@@ -125,9 +125,21 @@ class PackagingDetailsState extends State<PackagingDetails>
           _unitsList = value;
           _createRequestModel!
               .fbp_count_unit_idfk =
-              value.first.untId.toString();
+              value.where((element) =>
+              element.untCategoryIdfk ==
+                  _createRequestModel!
+                      .spc_category_idfk &&
+                  checkFamilyId(
+                      element.unt_family_idfk!))
+                  .toList().first.untId.toString();
           setState(() {
-            unitCountSelected = value.first.untName;
+            unitCountSelected = value.where((element) =>
+            element.untCategoryIdfk ==
+                _createRequestModel!
+                    .spc_category_idfk &&
+                checkFamilyId(
+                    element.unt_family_idfk!))
+                .toList().first.untName;
           });
         }));
     await AppDbInstance()
