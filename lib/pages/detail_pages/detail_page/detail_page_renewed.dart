@@ -476,9 +476,9 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                const Center(
+                                 Center(
                                   child: TitleSmallNormalTextWidget(
-                                    title: "Ex- Factory",
+                                    title:_isYarn() ? widget.yarnSpecification!.deliveryPeriod ?? "" : widget.specification != null ? widget.specification!.deliveryPeriod ?? "" : (widget.specObj as FabricSpecification).deliveryPeriod ?? "" ,
                                     size: 7,
                                   ),
                                 )
