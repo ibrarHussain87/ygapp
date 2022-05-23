@@ -139,13 +139,13 @@ class YarnPageState extends State<YarnPage> {
                   openYarnPostPage(context, widget.locality, yarn, value);
                 }
               }, _familyList, -1, "Yarn");*/
-              if(_familyList.isNotEmpty){
-                _postYarnProvider.selectedYarnFamily = _familyList.first;
-                if(_postYarnProvider.selectedBlends.isNotEmpty){
-                  _postYarnProvider.selectedBlends.clear();
-                }
+              // if(_familyList.isNotEmpty){
+              //   _postYarnProvider.selectedYarnFamily = _familyList.first;
+              //   if(_postYarnProvider.selectedBlends.isNotEmpty){
+              //     _postYarnProvider.selectedBlends.clear();
+              //   }
                 openYarnPostPage(context, widget.locality, yarn, value);
-              }
+              // }
             });
           },
           child: const Icon(Icons.add),

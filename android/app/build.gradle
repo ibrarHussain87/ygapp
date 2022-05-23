@@ -57,6 +57,7 @@ android {
         release {
             storeFile file('D:\\WorkSpace\\Flutter\\Yarn\\yurn_guru.jks')
  //           storeFile file('E:\\yarnguruandroid\\yurn_guru.jks')
+
  //           storeFile file('D:\\Flutter\\Projects\\yarn_guru\\yarnguruandroid\\yurn_guru.jks')
             storePassword 'thanks@123'
             keyAlias 'key0'

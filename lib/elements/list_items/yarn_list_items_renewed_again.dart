@@ -499,9 +499,9 @@ Widget buildYarnRenewedAgainWidget(
                               SizedBox(
                                 height: 1.h,
                               ),
-                              const Center(
+                               Center(
                                 child: TitleSmallNormalTextWidget(
-                                  title: "Ex- Factory",
+                                  title: specification.deliveryPeriod,
                                   size: 8,
                                 ),
                               ),

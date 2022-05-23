@@ -78,15 +78,17 @@ import 'dao/fabric_dao/fabric_weave_dao.dart';
 import 'dao/fabric_dao/knitting_types_dao.dart';
 import 'dao/grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
-import 'package:build_daemon/constants.dart';
 
 import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there
 
 
-/*Run the generator with flutter packages pub run build_runner build.
-To automatically run it, whenever a file changes, use flutter packages pub run build_runner watch.*/
+/// Run the generator with flutter packages pub run build_runner build.
+///To automatically run it, whenever a file changes, use flutter packages pub run build_runner watch.
+///flutter clean
+///flutter pub get
+///flutter packages pub run build_runner build --delete-conflicting-outputs
 
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,

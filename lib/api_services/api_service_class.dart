@@ -108,7 +108,7 @@ class ApiService {
     }
   }
 
-  static Future<LoginResponse> login(LoginRequestModel requestModel) async {
+  static Future<AuthResponse> login(LoginRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + LOGIN_END_POINT;
       // final response = await http.post(Uri.parse(url),
@@ -119,7 +119,7 @@ class ApiService {
           options: Options(headers: headerMap),
           data: json.encode(requestModel.toJson()));
 
-      return LoginResponse.fromJson(response.data,);
+      return AuthResponse.fromJson(response.data,);
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -133,12 +133,12 @@ class ApiService {
     }
   }
 
-  static Future<LoginResponse> signup(SignUpRequestModel requestModel) async {
+  static Future<AuthResponse> signup(SignUpRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
-      return LoginResponse.fromJson(
+      return AuthResponse.fromJson(
         json.decode(response.body),
       );
     } catch (e) {
@@ -152,13 +152,13 @@ class ApiService {
     }
   }
 
-  static Future<LoginResponse> updateProfile(
+  static Future<AuthResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
-      return LoginResponse.fromJson(
+      return AuthResponse.fromJson(
         json.decode(response.body),
       );
     } on Exception catch (e) {

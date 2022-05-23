@@ -7,6 +7,8 @@ class PostYarnProvider extends ChangeNotifier{
   List<TextEditingController> textFieldControllers = [];
   List<TextEditingController> textFieldControllersPopular = [];
 
+  bool isYarnSettingLoaded = false;
+
   bool? _familyDisabled;
   bool get familyDisabled => _familyDisabled??false;
   set familyDisabled(value){

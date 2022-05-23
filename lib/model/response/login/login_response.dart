@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 
-class LoginResponse {
-  LoginResponse({
+class AuthResponse {
+  AuthResponse({
     required this.code,
     required this.success,
     required this.message,
@@ -16,7 +16,7 @@ class LoginResponse {
   int? statusCode;
   Data? data;
 
-  LoginResponse.fromJson(Map<String, dynamic> json){
+  AuthResponse.fromJson(Map<String, dynamic> json){
     code = json['code'];
     success = json['success'];
     message = json['message'];

@@ -2,6 +2,7 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 
 class SignUpRequestModel {
 
+  String? userName;
   String? name;
   String? email;
   String? password;
@@ -18,26 +19,28 @@ class SignUpRequestModel {
 
   SignUpRequestModel(
 
-      {this.name,this.email, this.password,this.countryId,this.cityStateId,this.operator,this.telephoneNumber,this.config,
+      {this.userName,this.name,this.email, this.password,this.countryId,this.cityStateId,this.operator,this.telephoneNumber,this.config,
         this.comapnyId,this.comapnyName,this.otherCompany,this.country});
 
   Map<String, dynamic> toJson() {
 
     Map<String, dynamic> map = {
       'name': name.toString().trim(),
+      'username': telephoneNumber.toString().trim(),
 //      'name': name!.trim(),
-      'email': email.toString().trim(),
+      'email': email??"",
 //      'email': email!.trim(),
-      'password': password!.trim(),
-      'country_id': countryId!.trim(),
-      'company': company!.trim(),
-      'city_state_id': cityStateId!.trim(),
-      'operator': operator!.trim(),
+      'password': password.toString().trim(),
+      'country_id': countryId.toString().trim(),
+      'company': company.toString().trim(),
+      'city_state_id': cityStateId.toString().trim(),
+      'operator': operator.toString().trim(),
       'telephone_number': telephoneNumber.toString().trim(),
 //      'telephone_number': telephoneNumber!.trim()
       'company_id': comapnyId ?? '-1',
       'company_name': comapnyName ?? company,
-      'other_company': '1'
+      'other_company': '1',
+      'operator_id': '4'
     };
 
     return map;
