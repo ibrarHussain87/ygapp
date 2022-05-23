@@ -125,7 +125,7 @@ class SyncProvider extends ChangeNotifier {
                     syncYarnResponse.data.yarn.colorTreatmentMethod!),
                 value.coneTypeDao
                     .insertAllConeType(syncYarnResponse.data.yarn.coneType!),
-                value.colorMethodDao.insertAllDyingMethod(
+                value.dyingMethodDao.insertAllDyingMethod(
                     syncYarnResponse.data.yarn.dyingMethod!),
                 value.orientationDao.insertAllOrientation(
                     syncYarnResponse.data.yarn.orientation!),

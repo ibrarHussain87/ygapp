@@ -6,6 +6,12 @@ abstract class PatternDao{
   @Query('SELECT * FROM pattern_table')
   Future<List<PatternModel>> findAllPattern();
 
+  @Query('SELECT * FROM pattern_table where familyId = :id')
+  Future<List<PatternModel>> findAllPatternWithFamily(int id);
+
+  @Query('SELECT * FROM pattern_table where spun_technique_id = :id and familyId = :famId')
+  Future<List<PatternModel>> findAllPatternWithSpunTechId(int id,int famId);
+
   @Query('SELECT * FROM pattern_table where ypId = :id')
   Future<PatternModel?> findYarnPatternWithId(int id);
 

@@ -8,8 +8,8 @@ abstract class DoublingMethodDao{
   @Query('SELECT * FROM doubling_method')
   Future<List<DoublingMethod>> findAllDoublingMethod();
 
-  @Query('SELECT * FROM doubling_method where yctmId = :id')
-  Future<DoublingMethod?> findYarnDoublingMethodWithId(int id);
+  @Query('SELECT * FROM doubling_method where plyId = :id')
+  Future<List<DoublingMethod>> findYarnDoublingMethodWithPlyId(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertDoublingMethod(DoublingMethod colorTm);

@@ -6,8 +6,8 @@ abstract class UsageDao{
   @Query('SELECT * FROM usage_table')
   Future<List<Usage>> findAllUsage();
 
-  @Query('SELECT * FROM usage_table where yuId = :id')
-  Future<Usage?> findYarnUsageWithId(int id);
+  @Query('SELECT * FROM usage_table where ysFamilyId = :id')
+  Future<List<Usage>> findYarnUsageWithFamilyId(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertUsage(Usage colorTm);

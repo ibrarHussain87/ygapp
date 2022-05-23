@@ -6,6 +6,9 @@ abstract class PatternCharacteristicsDao{
   @Query('SELECT * FROM pattern_characteristics_table')
   Future<List<PatternCharectristic>> findAllPatternCharacteristics();
 
+  @Query('SELECT * FROM pattern_characteristics_table where ypcPatternIdfk = :id')
+  Future<List<PatternCharectristic>> findYarnPatternCharacteristicsWithPtrId(int id);
+
   @Query('SELECT * FROM pattern_characteristics_table where ypcId = :id')
   Future<PatternCharectristic?> findYarnPatternCharacteristicsWithId(int id);
 

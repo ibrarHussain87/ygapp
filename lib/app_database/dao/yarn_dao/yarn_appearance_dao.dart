@@ -8,6 +8,9 @@ abstract class YarnAppearanceDao{
   @Query('SELECT * FROM yarn_appearance')
   Future<List<YarnAppearance>> findAllYarnAppearance();
 
+  @Query('SELECT * FROM yarn_appearance where familyId = :id')
+  Future<List<YarnAppearance>> findYarnAppearanceWithFamilyId(int id);
+
   @Query('SELECT * FROM yarn_appearance where yaId = :id')
   Future<List<YarnAppearance>> findYarnAppearance(int id);
 

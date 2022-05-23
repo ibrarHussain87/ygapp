@@ -6,6 +6,12 @@ abstract class QualityDao{
   @Query('SELECT * FROM quality_table')
   Future<List<Quality>> findAllQuality();
 
+  @Query('SELECT * FROM quality_table where spun_technique_id = :id and familyId = :familyId')
+  Future<List<Quality>> findYarnQualityWithSpunTechId(int id,int familyId);
+
+  @Query('SELECT * FROM quality_table where familyId = :id')
+  Future<List<Quality>> findYarnQualityWithFamilyId(int id);
+
   @Query('SELECT * FROM quality_table where yqId = :id')
   Future<Quality?> findYarnQualityWithId(int id);
 

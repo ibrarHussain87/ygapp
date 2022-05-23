@@ -147,7 +147,7 @@ class _$AppDatabase extends AppDatabase {
 
   ConeTypeDao? _coneTypeDaoInstance;
 
-  DyingMethodDao? _colorMethodDaoInstance;
+  DyingMethodDao? _dyingMethodDaoInstance;
 
   OrientationDao? _orientationDaoInstance;
 
@@ -549,8 +549,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  DyingMethodDao get colorMethodDao {
-    return _colorMethodDaoInstance ??=
+  DyingMethodDao get dyingMethodDao {
+    return _dyingMethodDaoInstance ??=
         _$DyingMethodDao(database, changeListener);
   }
 
@@ -3810,7 +3810,7 @@ class _$YarnBlendDao extends YarnBlendDao {
   final InsertionAdapter<Blends> _blendsInsertionAdapter;
 
   @override
-  Future<List<Blends>> findAllYarnBlends() async {
+  Future<List<Blends>> allYarnBlends() async {
     return _queryAdapter.queryList('SELECT * FROM yarn_blend',
         mapper: (Map<String, Object?> row) => Blends(
             blnId: row['blnId'] as int?,
@@ -3829,6 +3829,14 @@ class _$YarnBlendDao extends YarnBlendDao {
             blendRatio: row['blendRatio'] as String?,
             bln_ratio_json: row['bln_ratio_json'] as String?,
             blnSortid: row['blnSortid'] as String?));
+  }
+
+  @override
+  Future<List<Blends>> findAllYarnBlends(int famId, int catId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_blend where familyIdfk = ?1 and bln_category_idfk = ?2',
+        mapper: (Map<String, Object?> row) => Blends(blnId: row['blnId'] as int?, familyIdfk: row['familyIdfk'] as String?, blnName: row['blnName'] as String?, bln_category_idfk: row['bln_category_idfk'] as String?, bln_nature: row['bln_nature'] as String?, bln_abrv: row['bln_abrv'] as String?, minMax: row['minMax'] as String?, iconSelected: row['iconSelected'] as String?, iconUnselected: row['iconUnselected'] as String?, blnIsActive: row['blnIsActive'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, blendRatio: row['blendRatio'] as String?, bln_ratio_json: row['bln_ratio_json'] as String?, blnSortid: row['blnSortid'] as String?),
+        arguments: [famId, catId]);
   }
 
   @override
@@ -3974,9 +3982,9 @@ class _$DoublingMethodDao extends DoublingMethodDao {
   }
 
   @override
-  Future<DoublingMethod?> findYarnDoublingMethodWithId(int id) async {
-    return _queryAdapter.query(
-        'SELECT * FROM doubling_method where yctmId = ?1',
+  Future<List<DoublingMethod>> findYarnDoublingMethodWithPlyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM doubling_method where plyId = ?1',
         mapper: (Map<String, Object?> row) => DoublingMethod(
             dmId: row['dmId'] as int?,
             plyId: row['plyId'] as String?,
@@ -4047,6 +4055,22 @@ class _$ColorTreatmentMethodDao extends ColorTreatmentMethodDao {
             yctmDescription: row['yctmDescription'] as String?,
             yctmIsActive: row['yctmIsActive'] as String?,
             yctmSortid: row['yctmSortid'] as String?));
+  }
+
+  @override
+  Future<List<ColorTreatmentMethod>> findYarnColorTreatmentMethodWithFamilyId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM color_treatment_method where familyId = ?1',
+        mapper: (Map<String, Object?> row) => ColorTreatmentMethod(
+            yctmId: row['yctmId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctmName: row['yctmName'] as String?,
+            yctmColorMethodIdfk: row['yctmColorMethodIdfk'] as String?,
+            yctmDescription: row['yctmDescription'] as String?,
+            yctmIsActive: row['yctmIsActive'] as String?,
+            yctmSortid: row['yctmSortid'] as String?),
+        arguments: [id]);
   }
 
   @override
@@ -4204,6 +4228,40 @@ class _$DyingMethodDao extends DyingMethodDao {
   }
 
   @override
+  Future<List<DyingMethod>> findAllDyingMethodWithAppearanceId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM dying_method where apperanceId = ?1',
+        mapper: (Map<String, Object?> row) => DyingMethod(
+            ydmId: row['ydmId'] as int?,
+            apperanceId: row['apperanceId'] as String?,
+            ydmName: row['ydmName'] as String?,
+            ydmType: row['ydmType'] as String?,
+            ydmColorTreatmentMethodIdfk:
+                row['ydmColorTreatmentMethodIdfk'] as String?,
+            ydmDescription: row['ydmDescription'] as String?,
+            ydmIsActive: row['ydmIsActive'] as String?,
+            ydmSortid: row['ydmSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<DyingMethod>> findAllDyingMethodWithCTMId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM dying_method where ydmColorTreatmentMethodIdfk = ?1',
+        mapper: (Map<String, Object?> row) => DyingMethod(
+            ydmId: row['ydmId'] as int?,
+            apperanceId: row['apperanceId'] as String?,
+            ydmName: row['ydmName'] as String?,
+            ydmType: row['ydmType'] as String?,
+            ydmColorTreatmentMethodIdfk:
+                row['ydmColorTreatmentMethodIdfk'] as String?,
+            ydmDescription: row['ydmDescription'] as String?,
+            ydmIsActive: row['ydmIsActive'] as String?,
+            ydmSortid: row['ydmSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
   Future<DyingMethod?> findYarnDyingMethodWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM dying_method where ydmId = ?1',
         mapper: (Map<String, Object?> row) => DyingMethod(
@@ -4280,6 +4338,20 @@ class _$OrientationDao extends OrientationDao {
   }
 
   @override
+  Future<List<OrientationTable>> findYarnOrientationWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM orientation_table where familyId = ?1',
+        mapper: (Map<String, Object?> row) => OrientationTable(
+            yoId: row['yoId'] as int?,
+            familyId: row['familyId'] as String?,
+            yoName: row['yoName'] as String?,
+            yoDescription: row['yoDescription'] as String?,
+            yoIsActive: row['yoIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
   Future<OrientationTable?> findYarnOrientationWithId(int id) async {
     return _queryAdapter.query(
         'SELECT * FROM orientation_table where yoId = ?1',
@@ -4353,6 +4425,21 @@ class _$PatternCharacteristicsDao extends PatternCharacteristicsDao {
             ypcDescription: row['ypcDescription'] as String?,
             ypcIsActive: row['ypcIsActive'] as String?,
             ypcSortid: row['ypcSortid'] as String?));
+  }
+
+  @override
+  Future<List<PatternCharectristic>> findYarnPatternCharacteristicsWithPtrId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM pattern_characteristics_table where ypcPatternIdfk = ?1',
+        mapper: (Map<String, Object?> row) => PatternCharectristic(
+            ypcId: row['ypcId'] as int?,
+            ypcName: row['ypcName'] as String?,
+            ypcPatternIdfk: row['ypcPatternIdfk'] as String?,
+            ypcDescription: row['ypcDescription'] as String?,
+            ypcIsActive: row['ypcIsActive'] as String?,
+            ypcSortid: row['ypcSortid'] as String?),
+        arguments: [id]);
   }
 
   @override
@@ -4436,6 +4523,30 @@ class _$PatternDao extends PatternDao {
   }
 
   @override
+  Future<List<PatternModel>> findAllPatternWithFamily(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM pattern_table where familyId = ?1',
+        mapper: (Map<String, Object?> row) => PatternModel(
+            ypId: row['ypId'] as int?,
+            familyId: row['familyId'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
+            ypName: row['ypName'] as String?,
+            ypDescription: row['ypDescription'] as String?,
+            ypIsActive: row['ypIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<PatternModel>> findAllPatternWithSpunTechId(
+      int id, int famId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM pattern_table where spun_technique_id = ?1 and familyId = ?2',
+        mapper: (Map<String, Object?> row) => PatternModel(ypId: row['ypId'] as int?, familyId: row['familyId'] as String?, spun_technique_id: row['spun_technique_id'] as String?, ypName: row['ypName'] as String?, ypDescription: row['ypDescription'] as String?, ypIsActive: row['ypIsActive'] as String?, catSortid: row['catSortid'] as String?),
+        arguments: [id, famId]);
+  }
+
+  @override
   Future<PatternModel?> findYarnPatternWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM pattern_table where ypId = ?1',
         mapper: (Map<String, Object?> row) => PatternModel(
@@ -4507,6 +4618,20 @@ class _$PlyDao extends PlyDao {
             plyDescription: row['plyDescription'] as String?,
             catIsActive: row['catIsActive'] as String?,
             catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<List<Ply>> findYarnPlyWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM ply_table where familyId = ?1',
+        mapper: (Map<String, Object?> row) => Ply(
+            plyId: row['plyId'] as int?,
+            familyId: row['familyId'] as String?,
+            plyName: row['plyName'] as String?,
+            plyDescription: row['plyDescription'] as String?,
+            catIsActive: row['catIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
   }
 
   @override
@@ -4584,6 +4709,32 @@ class _$QualityDao extends QualityDao {
             yqDescription: row['yqDescription'] as String?,
             yqIsActive: row['yqIsActive'] as String?,
             yqSortid: row['yqSortid'] as String?));
+  }
+
+  @override
+  Future<List<Quality>> findYarnQualityWithSpunTechId(
+      int id, int familyId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM quality_table where spun_technique_id = ?1 and familyId = ?2',
+        mapper: (Map<String, Object?> row) => Quality(yqId: row['yqId'] as int?, familyId: row['familyId'] as String?, yqName: row['yqName'] as String?, yqAbrv: row['yqAbrv'] as String?, spun_technique_id: row['spun_technique_id'] as String?, yqBlendIdfk: row['yqBlendIdfk'] as String?, yqDescription: row['yqDescription'] as String?, yqIsActive: row['yqIsActive'] as String?, yqSortid: row['yqSortid'] as String?),
+        arguments: [id, familyId]);
+  }
+
+  @override
+  Future<List<Quality>> findYarnQualityWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM quality_table where familyId = ?1',
+        mapper: (Map<String, Object?> row) => Quality(
+            yqId: row['yqId'] as int?,
+            familyId: row['familyId'] as String?,
+            yqName: row['yqName'] as String?,
+            yqAbrv: row['yqAbrv'] as String?,
+            spun_technique_id: row['spun_technique_id'] as String?,
+            yqBlendIdfk: row['yqBlendIdfk'] as String?,
+            yqDescription: row['yqDescription'] as String?,
+            yqIsActive: row['yqIsActive'] as String?,
+            yqSortid: row['yqSortid'] as String?),
+        arguments: [id]);
   }
 
   @override
@@ -4666,6 +4817,39 @@ class _$SpunTechniqueDao extends SpunTechniqueDao {
   }
 
   @override
+  Future<List<SpunTechnique>> findYarnSpunTechniqueWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM spun_technique where familyId = ?1',
+        mapper: (Map<String, Object?> row) => SpunTechnique(
+            ystId: row['ystId'] as int?,
+            familyId: row['familyId'] as String?,
+            orientationId: row['orientationId'] as String?,
+            ystName: row['ystName'] as String?,
+            ystBlendIdfd: row['ystBlendIdfd'] as String?,
+            ystDescription: row['ystDescription'] as String?,
+            ystIsActive: row['ystIsActive'] as String?,
+            ystSortid: row['ystSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<SpunTechnique>> findYarnSpunTechniqueWithOrientationId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM spun_technique where orientationId = ?1',
+        mapper: (Map<String, Object?> row) => SpunTechnique(
+            ystId: row['ystId'] as int?,
+            familyId: row['familyId'] as String?,
+            orientationId: row['orientationId'] as String?,
+            ystName: row['ystName'] as String?,
+            ystBlendIdfd: row['ystBlendIdfd'] as String?,
+            ystDescription: row['ystDescription'] as String?,
+            ystIsActive: row['ystIsActive'] as String?,
+            ystSortid: row['ystSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
   Future<SpunTechnique?> findYarnSpunTechniqueWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM spun_technique where ystId = ?1',
         mapper: (Map<String, Object?> row) => SpunTechnique(
@@ -4738,6 +4922,21 @@ class _$TwistDirectionDao extends TwistDirectionDao {
             ytdDescription: row['ytdDescription'] as String?,
             ytdIsActive: row['ytdIsActive'] as String?,
             catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<List<TwistDirection>> findYarnTwistDirectionWithFamilyId(
+      int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM twist_direction where familyId = ?1',
+        mapper: (Map<String, Object?> row) => TwistDirection(
+            ytdId: row['ytdId'] as int?,
+            familyId: row['familyId'] as String?,
+            ytdName: row['ytdName'] as String?,
+            ytdDescription: row['ytdDescription'] as String?,
+            ytdIsActive: row['ytdIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
   }
 
   @override
@@ -4814,8 +5013,9 @@ class _$UsageDao extends UsageDao {
   }
 
   @override
-  Future<Usage?> findYarnUsageWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM usage_table where yuId = ?1',
+  Future<List<Usage>> findYarnUsageWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM usage_table where ysFamilyId = ?1',
         mapper: (Map<String, Object?> row) => Usage(
             yuId: row['yuId'] as int?,
             ysFamilyId: row['ysFamilyId'] as String?,
@@ -4958,6 +5158,20 @@ class _$YarnAppearanceDao extends YarnAppearanceDao {
             yaName: row['yaName'] as String?,
             yaIsActive: row['yaIsActive'] as String?,
             catSortid: row['catSortid'] as String?));
+  }
+
+  @override
+  Future<List<YarnAppearance>> findYarnAppearanceWithFamilyId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM yarn_appearance where familyId = ?1',
+        mapper: (Map<String, Object?> row) => YarnAppearance(
+            yaId: row['yaId'] as int?,
+            familyId: row['familyId'] as String?,
+            usageId: row['usageId'] as String?,
+            yaName: row['yaName'] as String?,
+            yaIsActive: row['yaIsActive'] as String?,
+            catSortid: row['catSortid'] as String?),
+        arguments: [id]);
   }
 
   @override

@@ -64,7 +64,7 @@ class YarnProductPageState extends State<YarnProductPage>
       await db.yarnFamilyDao.findAllYarnFamily().then((value) => setState(() {
             yarnFamilyList = value;
           }));
-      await db.yarnBlendDao.findAllYarnBlends().then((value) {
+      await db.yarnBlendDao.findAllYarnBlends(yarnFamilyList.first.famId!,2).then((value) {
         setState(() {
           yarnBlendList = value;
         });

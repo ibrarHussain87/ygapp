@@ -296,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               value.coneTypeDao.deleteAll();
                               value.yarnTypesDao.deleteAll();
                               value.colorTreatmentMethodDao.deleteAll();
-                              value.colorMethodDao.deleteAll();
+                              value.dyingMethodDao.deleteAll();
                               value.usageDao.deleteAll();
                               value.unitDao.deleteAll();
                               value.orientationDao.deleteAll();
