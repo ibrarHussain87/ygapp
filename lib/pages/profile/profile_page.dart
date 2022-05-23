@@ -307,6 +307,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               value.companiesDao.deleteAll();
 //                              value.countriesDao.deleteAll();
                               value.portsDao.deleteAll();
+                              value.fabricBlendsDao.deleteFabricBlends();
+                              value.fabricFamilyDao.deleteFabricFamilies();
+                              value.fabricSettingDao.deleteFabricSettings();
+                              value.fabricAppearanceDao.deleteFabricAppearances();
+                              value.fabricDenimTypesDao.deleteFabricDenimTypes();
+                              value.fabricColorTreatmentMethodDao.deleteFabricFiberColorTreatmentMethods();
+                              value.fabricDyingTechniqueDao.deleteFabricDyingTechniques();
+                              value.fabricLoomDao.deleteFabricLooms();
+                              value.fabricPlyDao.deleteFabricPlys();
+                              value.fabricQualityDao.deleteFabricQualities();
+                              value.fabricLayyerDao.deleteFabricLayyers();
+                              value.fabricQualityDao.deleteFabricQualities();
+                              value.fabricSalvedgeDao.deleteFabricSalvedges();
+                              value.fabricWeaveDao.deleteFabricWeaves();
+                              value.stocklotCategoriesDao.deleteAll();
+
                             });
                             SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, false);
                             SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);

@@ -121,9 +121,27 @@ class PackagingDetailsState extends State<PackagingDetails>
     await AppDbInstance()
         .getLcType()
         .then((value) => setState(() => _lcTypeList = value));
-    await AppDbInstance()
-        .getUnits()
-        .then((value) => setState(() => _unitsList = value));
+    await AppDbInstance().getUnits().then((value) => setState(() {
+          _unitsList = value;
+          _createRequestModel!
+              .fbp_count_unit_idfk =
+              value.where((element) =>
+              element.untCategoryIdfk ==
+                  _createRequestModel!
+                      .spc_category_idfk &&
+                  checkFamilyId(
+                      element.unt_family_idfk!))
+                  .toList().first.untId.toString();
+          setState(() {
+            unitCountSelected = value.where((element) =>
+            element.untCategoryIdfk ==
+                _createRequestModel!
+                    .spc_category_idfk &&
+                checkFamilyId(
+                    element.unt_family_idfk!))
+                .toList().first.untName;
+          });
+        }));
     await AppDbInstance()
         .getOriginsData()
         .then((value) => setState(() => _countriesList = value));
@@ -233,6 +251,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       child: TitleSmallBoldTextWidget(
                                           title: unitCounting)),
                                   SingleSelectTileWidget(
+                                      selectedIndex: 0,
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
@@ -461,7 +480,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: const TitleSmallBoldTextWidget(
-                                          title: "Cone Type")),
+                                          title: "Packing")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
@@ -480,23 +499,26 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Selling Region
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 0.w, top: 4, bottom: 4),
-                                      child: TitleSmallBoldTextWidget(
-                                          title: sellingRegionStr)),
-                                  SingleSelectTileWidget(
-                                    spanCount: 2,
-                                    listOfItems: sellingRegion,
-                                    callback: (value) {},
-                                    selectedIndex: 0,
-                                  ),
-                                ],
+                            Visibility(
+                              visible: false,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 0.w, top: 4, bottom: 4),
+                                        child: TitleSmallBoldTextWidget(
+                                            title: sellingRegionStr)),
+                                    SingleSelectTileWidget(
+                                      spanCount: 2,
+                                      listOfItems: sellingRegion,
+                                      callback: (value) {},
+                                      selectedIndex: -1,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
 
@@ -993,15 +1015,15 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           _createRequestModel!
                                               .payment_type_idfk = value.payId;
 
-                                          setState(() {
-                                            if (value.payId == "1") {
-                                              _showLcType = true;
-                                            } else {
-                                              _showLcType = false;
-                                              _createRequestModel!
-                                                  .lc_type_idfk = null;
-                                            }
-                                          });
+                                          // setState(() {
+                                          //   if (value.payId == "1") {
+                                          //     _showLcType = true;
+                                          //   } else {
+                                          //     _showLcType = false;
+                                          //     _createRequestModel!
+                                          //         .lc_type_idfk = null;
+                                          //   }
+                                          // });
                                         }),
                                   ],
                                 )),
@@ -1245,7 +1267,8 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                             //Packing
                             Visibility(
-                              visible: true,
+                              visible:
+                                  widget.businessArea != yarn ? true : false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1255,6 +1278,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       child: TitleSmallBoldTextWidget(
                                           title: packing)),
                                   SingleSelectTileWidget(
+                                      selectedIndex: -1,
                                       spanCount: 3,
                                       listOfItems: _packingList
                                           .where((element) =>
@@ -1283,6 +1307,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     child: TitleSmallBoldTextWidget(
                                         title: deliveryPeriod)),
                                 SingleSelectTileWidget(
+                                    selectedIndex: -1,
                                     spanCount: 3,
                                     listOfItems: _deliverPeriodList
                                         .where((element) =>
@@ -1610,28 +1635,28 @@ class PackagingDetailsState extends State<PackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    if (widget.locality == international) {
-      _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
-    }
-    _createRequestModel!.is_offering = widget.selectedTab;
+    // if (widget.locality == international) {
+    //   _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
+    // }
+    // _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
-    _createRequestModel!.fbp_count_unit_idfk = _unitsList
-        .where((element) =>
-            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
-        .toList()
-        .first
-        .untId
-        .toString();
-    unitCountSelected ??= _unitsList
-        .where((element) =>
-            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
-        .toList()
-        .first
-        .untName;
-    _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
-    _createRequestModel!.fbp_delivery_period_idfk =
-        _deliverPeriodList.first.dprId.toString();
+    // _createRequestModel!.fbp_count_unit_idfk = _unitsList
+    //     .where((element) =>
+    //         element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+    //     .toList()
+    //     .first
+    //     .untId
+    //     .toString();
+    // unitCountSelected ??= _unitsList
+    //     .where((element) =>
+    //         element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+    //     .toList()
+    //     .first
+    //     .untName;
+    // _createRequestModel!.packing_idfk = _packingList.first.pacId.toString();
+    // _createRequestModel!.fbp_delivery_period_idfk =
+    //     _deliverPeriodList.first.dprId.toString();
   }
 
   bool validateAndSave() {

@@ -217,7 +217,7 @@ class CreateRequestModel {
       'spc_micronaire': spc_micronaire_idfk ?? "",
       'spc_moisture': spc_moisture_idfk ?? "",
       'spc_trash_idfk': spc_trash_idfk ?? "",
-      'spc_yct_id': cone_type_id ?? "",
+      'fpb_cone_type_idfk': cone_type_id ?? "",
       'spc_rd_idfk': spc_rd_idfk ?? "",
       'spc_gpt_idfk': spc_gpt_idfk ?? "",
       'spc_no_of_days': spc_no_of_days ?? "",
