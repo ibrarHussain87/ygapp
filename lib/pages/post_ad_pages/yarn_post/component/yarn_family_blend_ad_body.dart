@@ -67,11 +67,12 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
     var dbIntstance = await AppDbInstance().getDbInstance();
     _familyList = await dbIntstance.yarnFamilyDao.findAllYarnFamily();
     selectedFamilyId = _familyList.first.famId.toString();
-    _yarnPostProvider.setBlendList = await dbIntstance.yarnBlendDao.findAllYarnBlends();
-    List<YarnSetting> yarnSettings = await dbIntstance.yarnSettingsDao.findAllYarnSettings();
-    setState(() {
-      _yarnSetting = yarnSettings.first;
-    });
+    _yarnPostProvider.setBlendList =
+        await dbIntstance.yarnBlendDao.findAllYarnBlends();
+    // List<YarnSetting> yarnSettings = await dbIntstance.yarnSettingsDao.findAllYarnSettings();
+    // setState(() {
+    //   _yarnSetting = yarnSettings.first;
+    // });
     showBlendsSheets(context);
   }
 
@@ -80,17 +81,21 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
     super.initState();
     _getSyncedData();
     // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    // });
+    // })
+    _yarnPostProvider.addListener(() {
+      setState(() {
+        blendString = setFormations(_createRequestModel);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 //    print("PRovider"+_yarnPostProvider.yarnBlendsList.first.toString());
     _createRequestModel = Provider.of<CreateRequestModel>(context);
-    blendString = setFormations(_createRequestModel);
     Logger().e('Blend String : ${blendString}');
-    Logger().e('Family String : ${_yarnPostProvider.selectedYarnFamily
-        .toString()}');
+    Logger().e(
+        'Family String : ${_yarnPostProvider.selectedYarnFamily.toString()}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -212,22 +217,24 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
         _yarnPostProvider.notifyUI();
         Navigator.of(context).pop();
         if (_yarnPostProvider.blendList
-            .where((element) => element.familyIdfk == family.famId.toString())
+            .where((element) => element.familyIdfk == _yarnPostProvider.selectedYarnFamily.famId.toString())
             .toList()
             .isNotEmpty) {
           _yarnPostProvider.resetData();
           _yarnPostProvider.textFieldControllers.clear();
           _yarnPostProvider.notifyUI();
-          YarnBlendBottomSheet(
-              context,
-              _yarnPostProvider.blendList
-                  .toList()
-                  .where((element) =>
-                      element.familyIdfk == family.famId.toString())
-                  .toList(),
-              0, () {
+
+          var blendList = _yarnPostProvider.blendList
+              .where((element) => element.bln_category_idfk == "2")
+              .toList();
+
+          blendList = blendList
+              .where((element) => element.familyIdfk == family.famId.toString())
+              .toList();
+
+          YarnBlendBottomSheet(context, blendList, 0, () {
             Navigator.pop(context);
-            setState(() {});
+            // setState(() {});
             /*openYarnPostPage(
                 context, widget.locality, yarn, widget.selectedTab);*/
           });
@@ -260,10 +267,8 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           _yarnPostProvider.resetData();
           _yarnPostProvider.textFieldControllers.clear();
           blendString = '';
-          setState(() {
-
-          });
-         // Navigator.pop(context);
+          setState(() {});
+          // Navigator.pop(context);
           /*openYarnPostPage(context, widget.locality, yarn, widget.selectedTab);*/
         }
       }, _familyList, -1, "Yarn");
@@ -303,11 +308,15 @@ class _FamilyBlendAdsBodyState extends State<FamilyBlendAdsBody> {
           BlendModel formationModel = BlendModel(
               id: element.blnId,
               relatedBlnId: relateId,
-              ratio: element.blendRatio == null ? '100' :element.blendRatio!.isEmpty ? '100':element.blendRatio);
+              ratio: element.blendRatio == null
+                  ? '100'
+                  : element.blendRatio!.isEmpty
+                      ? '100'
+                      : element.blendRatio);
           formations.add(formationModel.toJson());
         }
       }
-    } else if(_postYarnProvider.selectedYarnFamily.famId!=null) {
+    } else if (_postYarnProvider.selectedYarnFamily.famId != null) {
       BlendModel formationModel = BlendModel(
           id: _postYarnProvider.selectedYarnFamily.famId,
           relatedBlnId: null,

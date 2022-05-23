@@ -10,8 +10,8 @@ class LoginRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'telephone_number': phone != null?  phone!.trim().toString():null,
-      'email':email != null? email!.trim().toString():null,
+      'username': phone != null?  phone!.trim().toString():null,
+      'username':email != null? email!.trim().toString():null,
       'password': password!.trim()
     };
 

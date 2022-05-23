@@ -1106,6 +1106,7 @@ class Blends {
   int? blnId;
   String? familyIdfk;
   String? blnName;
+  String? bln_category_idfk;
   String? bln_nature;
   String? bln_abrv;
   String? minMax;
@@ -1121,6 +1122,7 @@ class Blends {
       {this.blnId,
         this.familyIdfk,
         this.blnName,
+        this.bln_category_idfk,
         this.bln_nature,
         this.bln_abrv,
         this.minMax,
@@ -1136,6 +1138,7 @@ class Blends {
     blnId = json['bln_id'];
     familyIdfk = json['family_idfk'];
     blnName = json['bln_name'];
+    bln_category_idfk = json['bln_category_idfk'];
     bln_nature = json['bln_nature'];
     bln_abrv = json['bln_abrv'];
     minMax = json['min_max'];
@@ -1151,6 +1154,7 @@ class Blends {
     data['bln_id'] = blnId;
     data['family_idfk'] = familyIdfk;
     data['bln_name'] = blnName;
+    data['bln_category_idfk'] = bln_category_idfk;
     data['bln_nature'] = bln_nature;
     data['bln_abrv'] = bln_abrv;
     data['min_max'] = minMax;

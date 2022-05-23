@@ -234,7 +234,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_nature` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_category_idfk` TEXT, `bln_nature` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `showWeavePatternes` TEXT, `showDenimType` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
@@ -3786,6 +3786,7 @@ class _$YarnBlendDao extends YarnBlendDao {
                   'blnId': item.blnId,
                   'familyIdfk': item.familyIdfk,
                   'blnName': item.blnName,
+                  'bln_category_idfk': item.bln_category_idfk,
                   'bln_nature': item.bln_nature,
                   'bln_abrv': item.bln_abrv,
                   'minMax': item.minMax,
@@ -3815,6 +3816,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnId: row['blnId'] as int?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            bln_category_idfk: row['bln_category_idfk'] as String?,
             bln_nature: row['bln_nature'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
@@ -3836,6 +3838,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnId: row['blnId'] as int?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            bln_category_idfk: row['bln_category_idfk'] as String?,
             bln_nature: row['bln_nature'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,

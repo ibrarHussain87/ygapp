@@ -78,7 +78,6 @@ import 'dao/fabric_dao/fabric_weave_dao.dart';
 import 'dao/fabric_dao/knitting_types_dao.dart';
 import 'dao/grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
-import 'package:build_daemon/constants.dart';
 
 import 'dao/yarn_grades_dao.dart';
 

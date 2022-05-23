@@ -266,7 +266,7 @@ class PersonalInfoComponentState
                                       if (_signupRequestModel
                                           ?.telephoneNumber !=
                                           null) {
-                                  /*      _signupRequestModel?.operator = code;
+                                        _signupRequestModel?.operator = code;
                                         print("Signup Model"+_signupRequestModel!.company.toString());
                                         print("Signup Model"+_signupRequestModel!.email.toString());
                                         print("Signup Model"+_signupRequestModel!.telephoneNumber.toString());
@@ -274,7 +274,7 @@ class PersonalInfoComponentState
                                         openVerifyCodeScreen(context, _signupRequestModel!,true);
                                       }
                                       else
-                                        {*/
+                                        {
                                           _signUpCall();
                                         }
                                     }
