@@ -55,14 +55,14 @@ class YarnPageState extends State<YarnPage> {
   void initState() {
     AppDbInstance().getYarnFamilyData().then((value) => setState(() {
           _familyList = value;
-          _postYarnProvider.addYarnFamily = _familyList;
+          // _postYarnProvider.addYarnFamily = _familyList;
           selectedFamilyId = value.first.famId.toString();
         }));
 
     AppDbInstance().getYarnBlendData().then((value) => setState(() {
           //  _blendsList = value;
           _postYarnProvider.setBlendList = value;
-          _postYarnProvider.addYarnBlends = value;
+          // _postYarnProvider.addYarnBlends = value;
         }));
 
     AppDbInstance()
@@ -70,7 +70,7 @@ class YarnPageState extends State<YarnPage> {
         .then((value) => setState(() => _countries = value));
     super.initState();
 //    _postYarnProvider.addListener(() {updateUI();});
-    _postYarnProvider.addYarnFamily = _familyList;
+//     _postYarnProvider.addYarnFamily = _familyList;
     _yarnSpecificationProvider.addListener(() {
       setState(() {});
     });

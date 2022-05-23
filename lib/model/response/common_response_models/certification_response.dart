@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 class Certification {
   Certification({
     required this.cerId,
-    required this.cerCategoryIdfk,
+      required this.cerCategoryIdfk,
     required this.cerName,
     required this.cerIsActive,
     this.cerSortid,

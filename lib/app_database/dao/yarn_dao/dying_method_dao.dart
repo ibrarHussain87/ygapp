@@ -8,6 +8,12 @@ abstract class DyingMethodDao{
   @Query('SELECT * FROM dying_method')
   Future<List<DyingMethod>> findAllDyingMethod();
 
+  @Query('SELECT * FROM dying_method where apperanceId = :id')
+  Future<List<DyingMethod>> findAllDyingMethodWithAppearanceId(int id);
+
+  @Query('SELECT * FROM dying_method where ydmColorTreatmentMethodIdfk = :id')
+  Future<List<DyingMethod>> findAllDyingMethodWithCTMId(int id);
+
   @Query('SELECT * FROM dying_method where ydmId = :id')
   Future<DyingMethod?> findYarnDyingMethodWithId(int id);
 

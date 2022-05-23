@@ -40,7 +40,7 @@ class _BlendFamilyState extends State<BlendFamily> {
           _yarnFamily = value;
         });
       });
-      await value.yarnBlendDao.findAllYarnBlends().then((value) {
+      await value.yarnBlendDao.allYarnBlends().then((value) {
         setState(() {
           _yarnBlends = value;
         });

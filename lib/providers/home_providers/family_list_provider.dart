@@ -17,7 +17,7 @@ class FamilyListProvider extends ChangeNotifier{
     familyList!.clear();
     var dbInstance = await AppDbInstance().getDbInstance();
     var fiberList = await dbInstance.fiberBlendsDao.findAllFiberBlends();
-    var yarnList = await dbInstance.yarnBlendDao.findAllYarnBlends();
+    var yarnList = await dbInstance.yarnBlendDao.allYarnBlends();
     if(fiberList.isNotEmpty  && fiberList.length >= 4){
       fiberList = fiberList.take(4).toList();
       for (var element in fiberList) {

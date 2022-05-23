@@ -8,6 +8,9 @@ abstract class OrientationDao{
   @Query('SELECT * FROM orientation_table')
   Future<List<OrientationTable>> findAllOrientation();
 
+  @Query('SELECT * FROM orientation_table where familyId = :id')
+  Future<List<OrientationTable>> findYarnOrientationWithFamilyId(int id);
+
   @Query('SELECT * FROM orientation_table where yoId = :id')
   Future<OrientationTable?> findYarnOrientationWithId(int id);
 

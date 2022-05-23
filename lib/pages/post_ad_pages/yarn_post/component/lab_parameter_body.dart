@@ -14,10 +14,12 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_specification_body.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 class LabParameterPage extends StatefulWidget {
   // final YarnSyncResponse yarnSyncResponse;
@@ -25,7 +27,7 @@ class LabParameterPage extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
   final Function? callback;
-  final YarnSetting newSettings;
+  // final YarnSetting newSettings;
   final Key specKey;
 
   LabParameterPage(
@@ -35,7 +37,7 @@ class LabParameterPage extends StatefulWidget {
         required this.locality,
         required this.businessArea,
         required this.selectedTab,
-        required this.newSettings,
+        // required this.newSettings,
         required this.specKey})
       : super(key: key);
 
@@ -48,9 +50,8 @@ class LabParameterPageState extends State<LabParameterPage>
 
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  late CreateRequestModel _createRequestModel;
-  // late YarnSetting widget.newSettings;
   ValueNotifier<bool> showOptionalParams = ValueNotifier(false);
+  final _postYarnProvider = locator<PostYarnProvider>();
 
 
   @override
@@ -71,7 +72,6 @@ class LabParameterPageState extends State<LabParameterPage>
   @override
   Widget build(BuildContext context) {
 
-    _createRequestModel = Provider.of<CreateRequestModel>(context);
     // widget.newSettings = Provider.of<YarnSetting>(context);
     // if(widget.newSettings != null){
     //   widget.newSettings = widget.newSettings!;
@@ -123,7 +123,7 @@ class LabParameterPageState extends State<LabParameterPage>
                       Row(
                         children: [
                           Visibility(
-                            visible: Ui.showHide(widget.newSettings.show_actual_count),
+                            visible: Ui.showHide(_postYarnProvider.yarnSetting!.show_actual_count),
                             child: Expanded(
                               child: Column(
                                 crossAxisAlignment:
@@ -140,11 +140,10 @@ class LabParameterPageState extends State<LabParameterPage>
                                   YgTextFormFieldWithRange(
                                     label: actualYarnCount,
                                     errorText: actualYarnCount,
-                                    onSaved: (input) => _createRequestModel
-                                        .ys_actual_yarn_count = input!,
+                                    onSaved: (input) => _postYarnProvider.createRequestModel!.ys_actual_yarn_count = input!,
                                     // onChanged:(value) => globalFormKey.currentState!.reset(),
                                     minMax:
-                                    widget.newSettings.actual_count_min_max??"",
+                                    _postYarnProvider.yarnSetting!.actual_count_min_max??"",
                                   )
                                 ],
                               ),
@@ -152,8 +151,8 @@ class LabParameterPageState extends State<LabParameterPage>
                           ),
                           // SizedBox(
                           //   width: Ui.showHide(
-                          //               widget.newSettings.show_actual_count) &&
-                          //           Ui.showHide(widget.newSettings.showClsp)
+                          //               __postYarnProvider.yarnSetting!.show_actual_count) &&
+                          //           Ui.showHide(__postYarnProvider.yarnSetting!.showClsp)
                           //       ? 16.w
                           //       : 0,
                           // ),
@@ -162,7 +161,7 @@ class LabParameterPageState extends State<LabParameterPage>
                       ),
                       // CLSP
                       Visibility(
-                        visible: Ui.showHide(widget.newSettings.showClsp),
+                        visible: Ui.showHide(_postYarnProvider.yarnSetting!.showClsp),
                         child: Column(
                           crossAxisAlignment:
                           CrossAxisAlignment.start,
@@ -178,11 +177,11 @@ class LabParameterPageState extends State<LabParameterPage>
                             YgTextFormFieldWithRange(
                               errorText: "CLSP",
                               label: 'CLSP',
-                              onSaved: (input) => _createRequestModel
-                                  .ys_clsp = input!,
+                              onSaved: (input) => _postYarnProvider.createRequestModel
+                                  !.ys_clsp = input!,
                               // onChanged:(value) => globalFormKey.currentState!.reset(),
 
-                              minMax: widget.newSettings.clspMinMax??"",
+                              minMax: _postYarnProvider.yarnSetting!.clspMinMax??"",
                             )
                           ],
                         ),
@@ -190,7 +189,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
                       //  IPI/KM
                       Visibility(
-                        visible: Ui.showHide(widget.newSettings.showIpmKm),
+                        visible: Ui.showHide(_postYarnProvider.yarnSetting!.showIpmKm),
                         child: Column(
                           crossAxisAlignment:
                           CrossAxisAlignment.start,
@@ -206,10 +205,10 @@ class LabParameterPageState extends State<LabParameterPage>
                             YgTextFormFieldWithRange(
                               label:IpmKm,
                               errorText: "IPKM",
-                              onSaved: (input) => _createRequestModel
-                                  .ys_ipm_km = input!,
+                              onSaved: (input) => _postYarnProvider.createRequestModel
+                                  !.ys_ipm_km = input!,
                               // onChanged:(value) => globalFormKey.currentState!.reset(),
-                              minMax: widget.newSettings.ipmKmMinMax??"",
+                              minMax: _postYarnProvider.yarnSetting!.ipmKmMinMax??"",
                             ),
                           ],
                         ),
@@ -283,7 +282,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   // Thin Places
                                                   Visibility(
                                                     visible:
-                                                    Ui.showHide(widget.newSettings.showThinPlaces),
+                                                    Ui.showHide(_postYarnProvider.yarnSetting!.showThinPlaces),
                                                     child: Column(
                                                       children: [
 //                                      Container(
@@ -297,9 +296,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: thinPlaces,
                                                           label: thinPlaces,
                                                           mandatoryField: false,
-                                                          onSaved: (input) => _createRequestModel
-                                                              .ys_thin_places = input!,
-                                                          minMax: widget.newSettings.thinPlacesMinMax??"",
+                                                          onSaved: (input) => _postYarnProvider.createRequestModel
+                                                              !.ys_thin_places = input!,
+                                                          minMax: _postYarnProvider.yarnSetting!.thinPlacesMinMax??"",
                                                         ),
                                                       ],
                                                       crossAxisAlignment:
@@ -310,7 +309,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   //Thick Places
                                                   Visibility(
                                                     visible:
-                                                    Ui.showHide(widget.newSettings.showtThickPlaces),
+                                                    Ui.showHide(_postYarnProvider.yarnSetting!.showtThickPlaces),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -326,16 +325,16 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: thickPlaces,
                                                           label: thickPlaces,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.thickPlacesMinMax??"",
-                                                          onSaved: (input) => _createRequestModel
-                                                              .ys_thick_places = input!,
+                                                          minMax: _postYarnProvider.yarnSetting!.thickPlacesMinMax??"",
+                                                          onSaved: (input) => _postYarnProvider.createRequestModel
+                                                              !.ys_thick_places = input!,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
                                                   // Naps
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showNaps),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showNaps),
                                                     child: Column(
                                                       children: [
 //                                      Container(
@@ -349,9 +348,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: naps,
                                                           label:naps,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.napsMinMax??"",
-                                                          onSaved: (input) => _createRequestModel
-                                                              .ys_naps = input!,
+                                                          minMax: _postYarnProvider.yarnSetting!.napsMinMax??"",
+                                                          onSaved: (input) => _postYarnProvider.createRequestModel
+                                                              !.ys_naps = input!,
                                                         ),
                                                       ],
                                                       crossAxisAlignment:
@@ -362,7 +361,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   //UNIFORMITY
                                                   Visibility(
                                                     visible:
-                                                    Ui.showHide(widget.newSettings.showUniformity),
+                                                    Ui.showHide(_postYarnProvider.yarnSetting!.showUniformity),
                                                     child: Column(
                                                       children: [
 //                                      Container(
@@ -376,10 +375,10 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: unifomity,
                                                           label: unifomity,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.uniformityMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.uniformityMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel
-                                                              .ys_uniformity = input!,
+                                                          _postYarnProvider.createRequestModel
+                                                              !.ys_uniformity = input!,
                                                         ),
                                                       ],
                                                       crossAxisAlignment:
@@ -388,7 +387,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   ),
                                                   // CV
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showCv),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showCv),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -403,9 +402,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: cv,
                                                           label: cv,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.cvMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.cvMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel.ys_cv =
+                                                          _postYarnProvider.createRequestModel!.ys_cv =
                                                           input!,
                                                         ),
                                                       ],
@@ -414,7 +413,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
                                                   //Hairness
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showHairness),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showHairness),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -430,9 +429,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: hairness,
                                                           label: hairness,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.hairnessMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.hairnessMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel.ys_hairness =
+                                                          _postYarnProvider.createRequestModel!.ys_hairness =
                                                           input!,
                                                         ),
                                                       ],
@@ -440,7 +439,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   ),
                                                   // RKM
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showRkm),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showRkm),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -455,9 +454,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: Rkm,
                                                           label: Rkm,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.rkmMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.rkmMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel.ys_rkm =
+                                                          _postYarnProvider.createRequestModel!.ys_rkm =
                                                           input!,
                                                         ),
                                                       ],
@@ -467,7 +466,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   //Elongation
                                                   Visibility(
                                                     visible:
-                                                    Ui.showHide(widget.newSettings.showElongation),
+                                                    Ui.showHide(_postYarnProvider.yarnSetting!.showElongation),
                                                     child: Column(
                                                       children: [
 //                                      Container(
@@ -481,10 +480,10 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: elongation,
                                                           label: elongation,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.elongationMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.elongationMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel
-                                                              .ys_elongation = input!,
+                                                          _postYarnProvider.createRequestModel
+                                                              !.ys_elongation = input!,
                                                         ),
                                                       ],
                                                       crossAxisAlignment:
@@ -493,7 +492,7 @@ class LabParameterPageState extends State<LabParameterPage>
                                                   ),
                                                   // TPI
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showTpi),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showTpi),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -508,9 +507,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: tpi,
                                                           label: tpi,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.tpiMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.tpiMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel.ys_tpi =
+                                                          _postYarnProvider.createRequestModel!.ys_tpi =
                                                           input!,
                                                         ),
                                                       ],
@@ -519,7 +518,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
                                                   //TM
                                                   Visibility(
-                                                    visible: Ui.showHide(widget.newSettings.showTm),
+                                                    visible: Ui.showHide(_postYarnProvider.yarnSetting!.showTm),
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
@@ -532,9 +531,9 @@ class LabParameterPageState extends State<LabParameterPage>
                                                           errorText: tm,
                                                           label: tm,
                                                           mandatoryField: false,
-                                                          minMax: widget.newSettings.tmMinMax??"",
+                                                          minMax: _postYarnProvider.yarnSetting!.tmMinMax??"",
                                                           onSaved: (input) =>
-                                                          _createRequestModel.ys_tm = input!,
+                                                          _postYarnProvider.createRequestModel!.ys_tm = input!,
                                                         ),
                                                       ],
                                                     ),
@@ -567,7 +566,7 @@ class LabParameterPageState extends State<LabParameterPage>
               callback: () {
                 if ((widget.specKey as GlobalKey<YarnSpecificationComponentState>).currentState!.validationAllPage()
                     && validateAndSave()) {
-                  //    Logger().e(_createRequestModel.toJson().toString());
+                  //    Logger().e(_yarnPostProvider..createRequestModel.toJson().toString());
                   widget.callback!(1);
                 }
               },
@@ -582,7 +581,7 @@ class LabParameterPageState extends State<LabParameterPage>
 
   _initGridValues() {
     // if (widget.yarnSyncResponse.data.yarn.spunTechnique!.isNotEmpty) {
-    //   _createRequestModel.ys_spun_technique_idfk = widget
+    //   _yarnPostProvider..createRequestModel.ys_spun_technique_idfk = widget
     //       .yarnSyncResponse.data.yarn.spunTechnique!.first.ystId
     //       .toString();
     // }

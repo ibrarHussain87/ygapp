@@ -8,6 +8,9 @@ abstract class ColorTreatmentMethodDao{
   @Query('SELECT * FROM color_treatment_method')
   Future<List<ColorTreatmentMethod>> findAllColorTreatmentMethod();
 
+  @Query('SELECT * FROM color_treatment_method where familyId = :id')
+  Future<List<ColorTreatmentMethod>> findYarnColorTreatmentMethodWithFamilyId(int id);
+
   @Query('SELECT * FROM color_treatment_method where yctmId = :id')
   Future<ColorTreatmentMethod?> findYarnColorTreatmentMethodWithId(int id);
 

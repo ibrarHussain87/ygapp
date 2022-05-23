@@ -6,6 +6,12 @@ abstract class SpunTechniqueDao{
   @Query('SELECT * FROM spun_technique')
   Future<List<SpunTechnique>> findAllSpunTechnique();
 
+  @Query('SELECT * FROM spun_technique where familyId = :id')
+  Future<List<SpunTechnique>> findYarnSpunTechniqueWithFamilyId(int id);
+
+  @Query('SELECT * FROM spun_technique where orientationId = :id')
+  Future<List<SpunTechnique>> findYarnSpunTechniqueWithOrientationId(int id);
+
   @Query('SELECT * FROM spun_technique where ystId = :id')
   Future<SpunTechnique?> findYarnSpunTechniqueWithId(int id);
 

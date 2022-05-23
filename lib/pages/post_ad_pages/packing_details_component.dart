@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -32,6 +29,7 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -40,41 +38,15 @@ import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 class PackagingDetails extends StatefulWidget {
-  // final SyncFiberResponse syncFiberResponse;
-
-  /* final List<FPriceTerms>? priceTerms;
-  final List<Packing>? packing;
-  final List<DeliveryPeriod>? deliveryPeriod;
-  final List<PaymentType>? paymentType;
-  final List<Units>? units;
-  final List<LcType>? lcType;
-  final List<ConeType>? coneType;
-  final List<Countries> countries;
-  final List<Ports> ports;
-  final List<CityState> cityState;*/
-
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-
   const PackagingDetails({
     Key? key,
-    // required this.requestModel,
-    // required this.syncFiberResponse,
     required this.locality,
     required this.businessArea,
     required this.selectedTab,
-    /*required this.priceTerms,
-      required this.packing,
-      required this.deliveryPeriod,
-      required this.paymentType,
-      required this.lcType,
-      required this.units,
-      required this.coneType,
-      required this.countries,
-      required this.ports,
-      required this.cityState*/
   }) : super(key: key);
 
   @override
@@ -86,8 +58,6 @@ class PackagingDetailsState extends State<PackagingDetails>
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> sellingRegion = [];
-
-  // List<Packing> packingList = [];
   List<PickedFile> imageFiles = [];
   CreateRequestModel? _createRequestModel;
   bool noOfDays = false;
@@ -177,11 +147,28 @@ class PackagingDetailsState extends State<PackagingDetails>
     sellingRegion.add(widget.locality.toString());
 
     super.initState();
+
+    if (_fiberPostProvider.createRequestModel != null) {
+      _createRequestModel = _fiberPostProvider.createRequestModel;
+    }
+
+    if (_yarnPostProvider.createRequestModel != null) {
+      _createRequestModel = _yarnPostProvider.createRequestModel;
+    }
+    if (_createRequestModel!.spc_category_idfk != null &&
+        _createRequestModel!.spc_category_idfk == '1') {
+      _createRequestModel = _fiberPostProvider.createRequestModel;
+    } else if (_createRequestModel!.spc_category_idfk != null &&
+        _createRequestModel!.spc_category_idfk == '2') {
+      _yarnPostProvider.familyDisabled = true;
+    }
   }
 
   @override
   void dispose() {
     // Utils.disableClick = false;
+    _fiberPostProvider.createRequestModel = null;
+    _yarnPostProvider.createRequestModel = null;
     super.dispose();
   }
 
@@ -190,13 +177,6 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   @override
   Widget build(BuildContext context) {
-    _createRequestModel = Provider.of<CreateRequestModel?>(context);
-    if (_createRequestModel == null) {
-      _createRequestModel = _fiberPostProvider.createRequestModel;
-    } else if (_createRequestModel!.spc_category_idfk != null &&
-        _createRequestModel!.spc_category_idfk == '2') {
-      _yarnPostProvider.familyDisabled = true;
-    }
     _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -256,9 +236,11 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       listOfItems: _unitsList
                                           .where((element) =>
-                                              element.untCategoryIdfk == _createRequestModel!.spc_category_idfk
-                                          && checkFamilyId(element.unt_family_idfk!)
-                                      )
+                                              element.untCategoryIdfk ==
+                                                  _createRequestModel!
+                                                      .spc_category_idfk &&
+                                              checkFamilyId(
+                                                  element.unt_family_idfk!))
                                           .toList(),
                                       callback: (Units value) {
                                         setState(() {
@@ -319,8 +301,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   }
                                                 },
                                                 inputFormatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                      RegExp("[0-9]")),
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp("[0-9]")),
                                                 ],
                                                 onChanged: (value) {
                                                   if (_conePerBagController
@@ -347,7 +329,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration: ygTextFieldDecoration(
                                                     "Weight($unitCountSelected)/Bag",
-                                                    "Weight($unitCountSelected)/Bag",true)),
+                                                    "Weight($unitCountSelected)/Bag",
+                                                    true)),
                                           ],
                                         )),
                                         SizedBox(width: 16.w),
@@ -383,8 +366,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   }
                                                 },
                                                 inputFormatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                      RegExp("[0-9]")),
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp("[0-9]")),
                                                 ],
                                                 onChanged: (value) {
                                                   if (_weigthPerBagController
@@ -409,7 +392,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 },
                                                 decoration:
                                                     ygTextFieldDecoration(
-                                                        coneBags, coneBags,true)),
+                                                        coneBags,
+                                                        coneBags,
+                                                        true)),
                                           ],
                                         )),
                                       ],
@@ -430,7 +415,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           ),
                                           TextFormField(
                                               controller: _coneWithController,
-                                              keyboardType: TextInputType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               readOnly: true,
                                               autofocus: false,
                                               cursorColor: lightBlueTabs,
@@ -439,7 +425,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               cursorHeight: 16.w,
                                               maxLines: 1,
                                               onSaved: (input) {
-                                                if (_createRequestModel != null) {
+                                                if (_createRequestModel !=
+                                                    null) {
                                                   _createRequestModel!
                                                       .fpb_weight_cone = input!;
                                                 }
@@ -452,7 +439,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 return null;
                                               },
                                               decoration: ygTextFieldDecoration(
-                                                  weightCones, weightCones,true)),
+                                                  weightCones,
+                                                  weightCones,
+                                                  true)),
                                         ],
                                       ),
                                     ),
@@ -570,9 +559,17 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           FocusNode());
                                                   selectedCountryId =
                                                       value!.conId;
-                                                  _createRequestModel!
-                                                          .spc_origin_idfk =
-                                                      value.conId.toString();
+
+                                                  if (widget.businessArea ==
+                                                      yarn) {
+                                                    _createRequestModel!
+                                                            .ys_origin_idfk =
+                                                        value.conId.toString();
+                                                  } else {
+                                                    _createRequestModel!
+                                                            .ys_origin_idfk =
+                                                        value.conId.toString();
+                                                  }
                                                 },
 
                                                 // value: widget.syncFiberResponse.data.fiber.brands.first,
@@ -914,8 +911,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               _showLcType = false;
                                               _createRequestModel!
                                                   .payment_type_idfk = null;
-                                              _createRequestModel!.lc_type_idfk =
-                                                  null;
+                                              _createRequestModel!
+                                                  .lc_type_idfk = null;
                                             }
                                           });
                                           _createRequestModel!
@@ -937,9 +934,11 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontSize: 14.sp,
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                     /*fontFamily: 'Metropolis',*/
-                                                    fontWeight: FontWeight.w500),
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                               Text("*",
                                                   style: TextStyle(
@@ -1039,7 +1038,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 children: [
                                   Expanded(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
 //                                    Padding(
 //                                        padding: EdgeInsets.only(
@@ -1073,7 +1073,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             return null;
                                           },
                                           decoration: ygTextFieldDecoration(
-                                              priceUnits, priceUnits,true)),
+                                              priceUnits, priceUnits, true)),
                                     ],
                                   )),
                                   SizedBox(width: 16.w),
@@ -1093,7 +1093,8 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                          child: const TitleSmallTextWidget(
 //                                              title: "Available Quantity")),
                                         TextFormField(
-                                            controller: availableQuantityController,
+                                            controller:
+                                                availableQuantityController,
                                             keyboardType: TextInputType.number,
                                             cursorColor: lightBlueTabs,
                                             style: TextStyle(fontSize: 11.sp),
@@ -1121,7 +1122,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             },
                                             decoration: ygTextFieldDecoration(
                                                 "Available Quantity",
-                                                "Available Qunatity",true)),
+                                                "Available Qunatity",
+                                                true)),
                                       ],
                                     ),
                                   ),
@@ -1168,19 +1170,26 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           }
                                           return null;
                                         },
-                                        onChanged: (String value){
-                                          if(value.isNotEmpty){
-                                            int availableQuantity = int.parse(availableQuantityController.text);
-                                            int minimumQuantity = int.parse(value);
-                                            if(minimumQuantity>availableQuantity){
+                                        onChanged: (String value) {
+                                          if (value.isNotEmpty) {
+                                            int availableQuantity = int.parse(
+                                                availableQuantityController
+                                                    .text);
+                                            int minimumQuantity =
+                                                int.parse(value);
+                                            if (minimumQuantity >
+                                                availableQuantity) {
                                               FocusScope.of(context).unfocus();
-                                              minimumQuantityController.text = '';
-                                              Fluttertoast.showToast(msg: 'Minimum Quantity can not be greater than Available Quantity');
+                                              minimumQuantityController.text =
+                                                  '';
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      'Minimum Quantity can not be greater than Available Quantity');
                                             }
                                           }
                                         },
                                         decoration: ygTextFieldDecoration(
-                                            minQty, minQty,true)),
+                                            minQty, minQty, true)),
                                   ],
                                 ),
                               ),
@@ -1227,7 +1236,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         },
                                         decoration: ygTextFieldDecoration(
                                             "Required Quantity",
-                                            "Required Quantity",true)),
+                                            "Required Quantity",
+                                            true)),
                                   ],
                                 ),
                               ),
@@ -1235,8 +1245,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                             //Packing
                             Visibility(
-                              visible:
-                                  widget.businessArea == "Fiber" ? true : false,
+                              visible: true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1286,7 +1295,8 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         _createRequestModel!
                                                 .fbp_delivery_period_idfk =
                                             value.dprId.toString();
-                                        if (value.dprId == 3) {
+                                        if (value.dprId == 3 ||
+                                            value.dprId == 9) {
                                           setState(() {
                                             noOfDays = true;
                                           });
@@ -1315,7 +1325,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       spanCount: 3,
                                       listOfItems: Iterable<int>.generate(102)
                                           .toList()
-                                          .map((value) => value == 101 ? 'Other':value.toString())
+                                          .map((value) => value == 101
+                                              ? 'Other'
+                                              : value.toString())
                                           .toList(),
                                       callback: (String? value) {
                                         _createRequestModel!.spc_no_of_days =
@@ -1325,8 +1337,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                               ),
                             ),
 
-
-                           /* Visibility(
+                            /* Visibility(
                               visible: noOfDays,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1386,7 +1397,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    *//*fontFamily: 'Metropolis',*//*
+                                                    */ /*fontFamily: 'Metropolis',*/ /*
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -1394,7 +1405,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      *//*fontFamily: 'Metropolis',*//*
+                                                      */ /*fontFamily: 'Metropolis',*/ /*
                                                       backgroundColor:
                                                           Colors.white,
                                                       fontWeight:
@@ -1454,7 +1465,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     //   return null;
                                     // },
                                     decoration: ygTextFieldDecoration(
-                                        descriptionStr, descriptionStr,true)),
+                                        descriptionStr, descriptionStr, true)),
                               ),
                             ),
 
@@ -1470,7 +1481,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       child: TitleSmallBoldTextWidget(
                                           title: attachment),
                                     ),
-                                    const SizedBox(height: 4,),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
                                     AddPictureWidget(
                                       imageCount: 1,
                                       callbackImages: (value) {
@@ -1521,14 +1534,26 @@ class PackagingDetailsState extends State<PackagingDetails>
     );
   }
 
-  void submitData(BuildContext context) {
+  void submitData(BuildContext context) async {
     if (_createRequestModel != null) {
       if (widget.businessArea == yarn) {
         _createRequestModel!.ys_local_international =
             widget.locality!.toUpperCase();
+
+        if (widget.locality != international) {
+          var dbInstance = await AppDbInstance().getDbInstance();
+          User? user = await dbInstance.userDao.getUser();
+          _createRequestModel!.ys_origin_idfk = user!.countryId;
+        }
       } else {
         _createRequestModel!.spc_local_international =
             widget.locality!.toUpperCase();
+
+        if (widget.locality != international) {
+          var dbInstance = await AppDbInstance().getDbInstance();
+          User? user = await dbInstance.userDao.getUser();
+          _createRequestModel!.spc_origin_idfk = user!.countryId;
+        }
       }
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
@@ -1551,9 +1576,9 @@ class PackagingDetailsState extends State<PackagingDetails>
               },
             );
           } else {
-            if(_createRequestModel!.spc_category_idfk == "1") {
+            if (_createRequestModel!.spc_category_idfk == "1") {
               _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
-            }else if(_createRequestModel!.spc_category_idfk == "2"){
+            } else if (_createRequestModel!.spc_category_idfk == "2") {
               _yarnSpecificationProvider.getUpdatedYarnSpecificationsData();
             }
             Navigator.pop(context);
@@ -1623,8 +1648,7 @@ class PackagingDetailsState extends State<PackagingDetails>
       return false;
     }
 
-    if (_createRequestModel!.spc_no_of_days == null &&
-        noOfDays) {
+    if (_createRequestModel!.spc_no_of_days == null && noOfDays) {
       Ui.showSnackBar(context, "Please select number of days");
       return false;
     }
@@ -1642,9 +1666,9 @@ class PackagingDetailsState extends State<PackagingDetails>
   }
 
   bool checkFamilyId(String familyId) {
-    if(_createRequestModel!.spc_category_idfk == '1'){
+    if (_createRequestModel!.spc_category_idfk == '1') {
       return familyId == _createRequestModel!.spc_fiber_family_idfk;
-    }else{
+    } else {
       return familyId == _createRequestModel!.ys_family_idfk;
     }
   }

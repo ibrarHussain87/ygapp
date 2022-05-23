@@ -12,7 +12,7 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
 class PostFiberProvider extends ChangeNotifier {
-  CreateRequestModel createRequestModel = CreateRequestModel();
+  CreateRequestModel? createRequestModel = CreateRequestModel();
   List<FiberBlends> fiberBlendsList = [];
   List<FiberFamily> fiberFamilyList = [];
   bool isLoading = true;
@@ -132,24 +132,24 @@ class PostFiberProvider extends ChangeNotifier {
     if (certificationWidgetKey.currentState != null) {
       certificationWidgetKey.currentState!.checkedTile = -1;
     }
-    createRequestModel.spc_grade_idfk = null;
-    createRequestModel.spc_appearance_idfk = null;
-    createRequestModel.spc_certificate_idfk = null;
-    createRequestModel.spc_lot_number = null;
-    createRequestModel.spc_brand_idfk = null;
-    createRequestModel.spc_gpt_idfk = null;
-    createRequestModel.spc_rd_idfk = null;
-    createRequestModel.spc_trash_idfk = null;
-    createRequestModel.spc_micronaire_idfk = null;
-    createRequestModel.spc_moisture_idfk = null;
-    createRequestModel.spc_production_year = null;
-    createRequestModel.spc_nature_idfk = null;
-    createRequestModel.spc_fiber_family_idfk = null;
-    createRequestModel.spc_origin_idfk = null;
+    createRequestModel!.spc_grade_idfk = null;
+    createRequestModel!.spc_appearance_idfk = null;
+    createRequestModel!.spc_certificate_idfk = null;
+    createRequestModel!.spc_lot_number = null;
+    createRequestModel!.spc_brand_idfk = null;
+    createRequestModel!.spc_gpt_idfk = null;
+    createRequestModel!.spc_rd_idfk = null;
+    createRequestModel!.spc_trash_idfk = null;
+    createRequestModel!.spc_micronaire_idfk = null;
+    createRequestModel!.spc_moisture_idfk = null;
+    createRequestModel!.spc_production_year = null;
+    createRequestModel!.spc_nature_idfk = null;
+    createRequestModel!.spc_fiber_family_idfk = null;
+    createRequestModel!.spc_origin_idfk = null;
     textEditingController.text = "";
   }
 
-  notifyUI(){
+  notifyUI() {
     notifyListeners();
   }
 }

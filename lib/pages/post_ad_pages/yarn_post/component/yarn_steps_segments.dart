@@ -69,36 +69,11 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
               curve: Curves.easeInOut);
         },
       ),
-      /*LabParameterPage(
-          callback: (value) {
-            setState(() {
-              selectedValue++;
-            });
-            // widget.stepsCallback!(value);
-            _pageController.animateToPage(selectedValue - 1,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeInOut);
-          },
-          key: _labParameterPage,
-          // yarnSyncResponse: widget.yarnSyncResponse,
-          locality: widget.locality,
-          businessArea: widget.businessArea,
-          selectedTab: widget.selectedTab),*/
       PackagingDetails(
         key: _packingStateKey,
         locality: widget.locality,
         businessArea: widget.businessArea,
         selectedTab: widget.selectedTab,
-        /*lcType: widget.yarnSyncResponse.data.yarn.lcTypes,
-        cityState: widget.yarnSyncResponse.data.yarn.cityState!,
-        countries: widget.yarnSyncResponse.data.yarn.countries!,
-        packing: widget.yarnSyncResponse.data.yarn.packing,
-        paymentType: widget.yarnSyncResponse.data.yarn.paymentTypes,
-        ports: widget.yarnSyncResponse.data.yarn.ports!,
-        coneType: widget.yarnSyncResponse.data.yarn.coneType,
-        priceTerms: widget.yarnSyncResponse.data.yarn.priceTerms,
-        deliveryPeriod: widget.yarnSyncResponse.data.yarn.deliveryPeriod,
-        units: widget.yarnSyncResponse.data.yarn.units,*/
       ),
     ];
 
@@ -290,7 +265,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
   }
 
   onClickBlend(value) {
-    yarnSpecificationComponentStateKey.currentState!.queryBlendSettings(value);
+    // yarnSpecificationComponentStateKey.currentState!.queryBlendSettings(value);
   }
 
   onClickFamily(value) {
@@ -381,7 +356,7 @@ class YarnStepsSegmentsState extends State<YarnStepsSegments> {
         ];
       }
     });
-    yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
+    // yarnSpecificationComponentStateKey.currentState!.queryFamilySettings(value);
   }
 
   _moveToNext(value) {

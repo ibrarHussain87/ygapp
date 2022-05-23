@@ -75,7 +75,7 @@ class AppDbInstance {
 
   Future<List<Blends>> getYarnBlendData() {
     return getDbInstance()
-        .then((value) => value.yarnBlendDao.findAllYarnBlends());
+        .then((value) => value.yarnBlendDao.allYarnBlends());
   }
 
   Future<List<Usage>> getYarnUsage() {
@@ -94,7 +94,7 @@ class AppDbInstance {
 
   Future<List<DyingMethod>> getYarnDyingMethod() {
     return getDbInstance()
-        .then((value) => value.colorMethodDao.findAllDyingMethod());
+        .then((value) => value.dyingMethodDao.findAllDyingMethod());
   }
 
   Future<List<Ply>> getYarnPly() {

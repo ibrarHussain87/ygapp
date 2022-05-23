@@ -64,6 +64,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
 
   @override
   void dispose() {
+    _fiberPostProvider.createRequestModel = null;
     super.dispose();
   }
 
@@ -98,7 +99,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                                       _fiberPostProvider.blendWidgetKey
                                           .currentState!.checkedIndex = -1;
                                       _fiberPostProvider.createRequestModel
-                                              .spc_nature_idfk =
+                                              !.spc_nature_idfk =
                                           value.fiberFamilyId.toString();
                                       _fiberPostProvider
                                           .getFiberBlends(value.fiberFamilyId);
@@ -120,7 +121,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                                 listItem: _fiberPostProvider.fiberBlendsList,
                                 onClickCallback: (index) {
                                   _fiberPostProvider.createRequestModel
-                                          .spc_fiber_family_idfk =
+                                          !.spc_fiber_family_idfk =
                                       _fiberPostProvider
                                           .fiberBlendsList[index].blnId
                                           .toString();
@@ -165,4 +166,6 @@ class _FiberPostPageState extends State<FiberPostPage> {
               : Container()),
     );
   }
+
+
 }

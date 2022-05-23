@@ -6,6 +6,9 @@ abstract class PlyDao{
   @Query('SELECT * FROM ply_table')
   Future<List<Ply>> findAllPly();
 
+  @Query('SELECT * FROM ply_table where familyId = :id')
+  Future<List<Ply>> findYarnPlyWithFamilyId(int id);
+
   @Query('SELECT * FROM ply_table where plyId = :id')
   Future<Ply?> findYarnPlyWithId(int id);
 

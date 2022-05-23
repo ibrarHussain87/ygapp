@@ -6,6 +6,9 @@ abstract class TwistDirectionDao{
   @Query('SELECT * FROM twist_direction')
   Future<List<TwistDirection>> findAllTwistDirection();
 
+  @Query('SELECT * FROM twist_direction where familyId = :id')
+  Future<List<TwistDirection>> findYarnTwistDirectionWithFamilyId(int id);
+
   @Query('SELECT * FROM twist_direction where ytdId = :id')
   Future<TwistDirection?> findYarnTwistDirectionWithId(int id);
 

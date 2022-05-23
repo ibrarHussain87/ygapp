@@ -181,7 +181,7 @@ abstract class AppDatabase extends FloorDatabase {
 
   ConeTypeDao get coneTypeDao;
 
-  DyingMethodDao get colorMethodDao;
+  DyingMethodDao get dyingMethodDao;
 
   OrientationDao get orientationDao;
 
