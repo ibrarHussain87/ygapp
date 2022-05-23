@@ -890,12 +890,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         hint: const Text('Select Price Terms'),
                                         items: _getPriceTerms()
                                             .map((value) => DropdownMenuItem(
-                                                  child: Text(
-                                                      value.ptrName ??
-                                                          Utils.checkNullString(
-                                                              false),
-                                                      textAlign:
-                                                          TextAlign.center),
+                                                  child: Text(value.ptrName ?? Utils.checkNullString(false), textAlign: TextAlign.center),
                                                   value: value,
                                                 ))
                                             .toList(),
@@ -904,7 +899,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           FocusScope.of(context)
                                               .requestFocus(FocusNode());
                                           setState(() {
-                                            if (value!.ptrId == 3) {
+                                            if (value!.ptrId == 3 ) {
                                               _showPaymentType = true;
                                             } else {
                                               _showPaymentType = false;

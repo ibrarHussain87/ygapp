@@ -146,14 +146,6 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                     businessArea: widget.businessArea,
                     locality: widget.locality,
                     callback: (int step) {
-                      // if (step > 1) {
-                      //   if (_familyTileKey.currentState != null) {
-                      //     _familyTileKey.currentState!.disableClick = true;
-                      //   }
-                      //   if (_blendTileKey.currentState != null) {
-                      //     _blendTileKey.currentState!.disableClick = true;
-                      //   }
-                      // }
                     },
                   ),
                 )

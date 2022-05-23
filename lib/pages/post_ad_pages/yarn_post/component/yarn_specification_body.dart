@@ -1760,7 +1760,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   spunSelection(SpunTechnique value) async {
     _yarnPostProvider.createRequestModel!.ys_spun_technique_idfk =
         value.ystId.toString();
-    await _yarnPostProvider.getPattern(value.ystId!);
+    await _yarnPostProvider.getPatternWithSpunId(value.ystId!);
     await _yarnPostProvider.getQualityWithSpunId(value.ystId!);
     if (_yarnPostProvider.qualityList!.isEmpty) {
       await _yarnPostProvider.getQuality();

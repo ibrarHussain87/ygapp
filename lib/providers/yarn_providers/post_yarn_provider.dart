@@ -139,7 +139,7 @@ class PostYarnProvider extends ChangeNotifier {
     notifyUI();
   }
 
-  getPattern(int id) async {
+  getPatternWithSpunId(int id) async {
     var dbInstance = await AppDbInstance().getDbInstance();
     patternList = await dbInstance.patternDao
         .findAllPatternWithSpunTechId(id, selectedYarnFamily.famId!);
