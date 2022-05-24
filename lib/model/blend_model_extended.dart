@@ -19,11 +19,11 @@ class BlendModelExtended{
   });
 
   @override
-  Map<String,String> toJson(){
-    Map<String, String> map = {
+  Map<String,dynamic> toJson(){
+    Map<String, dynamic> map = {
       'bln_id':bln_id.toString(),
       'related_bln_id':related_bln_id!,
-      'percentage':percentage!,
+      'percentage':percentage ,
       'default_bln_id':default_bln_id!,
       'bln_name':bln_name!,
     };

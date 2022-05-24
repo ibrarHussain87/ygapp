@@ -73,7 +73,7 @@ class CreateRequestModel {
   String? ys_certification_idfk;
   String? ys_color_treatment_method_idfk;
   String? ys_dying_method_idfk;
-  List<Map<String,String>>? ys_formation;
+  List<Map<String,dynamic>>? ys_formation;
 
   // String? ys_color_idfk;
   String? ys_color_code;

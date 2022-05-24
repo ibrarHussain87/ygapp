@@ -89,63 +89,7 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              /*_postYarnProvider.selectedYarnFamily = Family();
-              familySheet(context, (int checkedIndex) {}, (Family family) {
-                _postYarnProvider.selectedYarnFamily = family;
-                Navigator.of(context).pop();
-                if (_postYarnProvider.blendList
-                    .where((element) =>
-                        element.familyIdfk == family.famId.toString())
-                    .toList()
-                    .isNotEmpty) {
-                  _postYarnProvider.resetData();
-                  _postYarnProvider.textFieldControllers.clear();
-                  YarnBlendBottomSheet(
-                      context,
-                      _postYarnProvider.blendList
-                          .toList()
-                          .where((element) =>
-                              element.familyIdfk == family.famId.toString())
-                          .toList(),
-                      0, () {
-                    Navigator.pop(context);
-                    openYarnPostPage(context, widget.locality, yarn, value);
-                  });
-                  *//*familyBlendsSheet(context, (int checkedIndex) {
-
-                  }, (Blends blends) {
-                    Navigator.of(context).pop();
-                    _postYarnProvider.resetData();
-                    _postYarnProvider.textFieldControllers.clear();
-                    blendedSheet(
-                        context,
-                        _postYarnProvider.blendList.toList()
-                            .where((element) =>
-                        element.familyIdfk == family.famId.toString())
-                            .toList(),
-                        _postYarnProvider.blendList
-                            .where((element) =>
-                        element.familyIdfk == family.famId.toString())
-                            .toList().indexWhere((element) => element == blends), () {
-                      Navigator.pop(context);
-                      openYarnPostPage(context, widget.locality, yarn, value);
-                    });
-
-                  },
-                      _postYarnProvider.blendList.where((element) =>
-                      element.familyIdfk == family.famId.toString()).toList(),
-                      -1, "Yarn");*//*
-                } else {
-                  openYarnPostPage(context, widget.locality, yarn, value);
-                }
-              }, _familyList, -1, "Yarn");*/
-              // if(_familyList.isNotEmpty){
-              //   _postYarnProvider.selectedYarnFamily = _familyList.first;
-              //   if(_postYarnProvider.selectedBlends.isNotEmpty){
-              //     _postYarnProvider.selectedBlends.clear();
-              //   }
-                openYarnPostPage(context, widget.locality, yarn, value);
-              // }
+              openYarnPostPage(context, widget.locality, yarn, value);
             });
           },
           child: const Icon(Icons.add),
@@ -207,7 +151,9 @@ class YarnPageState extends State<YarnPage> {
                               .searchData(model);
                         },
                       ),
-                      const SizedBox(height: 2,),
+                      const SizedBox(
+                        height: 2,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Row(
