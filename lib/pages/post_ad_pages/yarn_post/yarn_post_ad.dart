@@ -197,8 +197,13 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           var blend = element as Blends;
           stringList.add(element.blnName);
           String? relateId;
-          if (blend.bln_ratio_json != null) {
+          /*if (blend.bln_ratio_json != null) {
             relateId = getRelatedId(blend);
+          }*/
+          if (blend.has_blend_id_2 != null) {
+            relateId = blend.has_blend_id_2;
+          }else{
+            relateId = null;
           }
           BlendModel formationModel = BlendModel(
               id: element.blnId,

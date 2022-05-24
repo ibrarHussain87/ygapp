@@ -234,7 +234,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_category_idfk` TEXT, `bln_nature` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_category_idfk` TEXT, `bln_nature` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `showWeavePatternes` TEXT, `showDenimType` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
@@ -3790,6 +3790,11 @@ class _$YarnBlendDao extends YarnBlendDao {
                   'bln_nature': item.bln_nature,
                   'bln_abrv': item.bln_abrv,
                   'minMax': item.minMax,
+                  'has_blend_id_1': item.has_blend_id_1,
+                  'has_blend_id_2': item.has_blend_id_2,
+                  'has_blend_name_1': item.has_blend_name_1,
+                  'has_blend_name_2': item.has_blend_name_2,
+                  'is_popular': item.is_popular,
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
                   'blnIsActive': item.blnIsActive,
@@ -3820,6 +3825,11 @@ class _$YarnBlendDao extends YarnBlendDao {
             bln_nature: row['bln_nature'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
+            has_blend_id_1: row['has_blend_id_1'] as String?,
+            has_blend_id_2: row['has_blend_id_2'] as String?,
+            has_blend_name_1: row['has_blend_name_1'] as String?,
+            has_blend_name_2: row['has_blend_name_2'] as String?,
+            is_popular: row['is_popular'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
@@ -3835,7 +3845,7 @@ class _$YarnBlendDao extends YarnBlendDao {
   Future<List<Blends>> findAllYarnBlends(int famId, int catId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM yarn_blend where familyIdfk = ?1 and bln_category_idfk = ?2',
-        mapper: (Map<String, Object?> row) => Blends(blnId: row['blnId'] as int?, familyIdfk: row['familyIdfk'] as String?, blnName: row['blnName'] as String?, bln_category_idfk: row['bln_category_idfk'] as String?, bln_nature: row['bln_nature'] as String?, bln_abrv: row['bln_abrv'] as String?, minMax: row['minMax'] as String?, iconSelected: row['iconSelected'] as String?, iconUnselected: row['iconUnselected'] as String?, blnIsActive: row['blnIsActive'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, blendRatio: row['blendRatio'] as String?, bln_ratio_json: row['bln_ratio_json'] as String?, blnSortid: row['blnSortid'] as String?),
+        mapper: (Map<String, Object?> row) => Blends(blnId: row['blnId'] as int?, familyIdfk: row['familyIdfk'] as String?, blnName: row['blnName'] as String?, bln_category_idfk: row['bln_category_idfk'] as String?, bln_nature: row['bln_nature'] as String?, bln_abrv: row['bln_abrv'] as String?, minMax: row['minMax'] as String?, has_blend_id_1: row['has_blend_id_1'] as String?, has_blend_id_2: row['has_blend_id_2'] as String?, has_blend_name_1: row['has_blend_name_1'] as String?, has_blend_name_2: row['has_blend_name_2'] as String?, is_popular: row['is_popular'] as String?, iconSelected: row['iconSelected'] as String?, iconUnselected: row['iconUnselected'] as String?, blnIsActive: row['blnIsActive'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, blendRatio: row['blendRatio'] as String?, bln_ratio_json: row['bln_ratio_json'] as String?, blnSortid: row['blnSortid'] as String?),
         arguments: [famId, catId]);
   }
 
@@ -3850,6 +3860,11 @@ class _$YarnBlendDao extends YarnBlendDao {
             bln_nature: row['bln_nature'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
+            has_blend_id_1: row['has_blend_id_1'] as String?,
+            has_blend_id_2: row['has_blend_id_2'] as String?,
+            has_blend_name_1: row['has_blend_name_1'] as String?,
+            has_blend_name_2: row['has_blend_name_2'] as String?,
+            is_popular: row['is_popular'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
