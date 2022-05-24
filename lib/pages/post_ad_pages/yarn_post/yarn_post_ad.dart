@@ -21,11 +21,10 @@ class YarnPostAdPage extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const YarnPostAdPage(
-      {Key? key,
-      required this.businessArea,
-      required this.selectedTab,
-      required this.locality})
+  const YarnPostAdPage({Key? key,
+    required this.businessArea,
+    required this.selectedTab,
+    required this.locality})
       : super(key: key);
 
   @override
@@ -41,11 +40,12 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
   void initState() {
     super.initState();
     _postYarnProvider.createRequestModel ??= CreateRequestModel();
-    _postYarnProvider.addListener(() {setState(() {});});
+    _postYarnProvider.addListener(() {
+      setState(() {});
+    });
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showBlendsSheets(context);
     });
-
   }
 
   @override
@@ -53,7 +53,6 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     // TODO: implement dispose
     _postYarnProvider.createRequestModel = null;
     super.dispose();
-
   }
 
   @override
@@ -68,28 +67,34 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 8.w,left: 10.w, right: 10.w),
+                  padding: EdgeInsets.only(top: 8.w, left: 10.w, right: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           showBlendsSheets(context);
                         },
                         child: SizedBox(
-                          height: 0.060 * MediaQuery.of(context).size.height,
+                          height: 0.060 * MediaQuery
+                              .of(context)
+                              .size
+                              .height,
                           child: Row(
                             children: [
                               Expanded(
                                 child: Container(
                                   margin:
-                                  EdgeInsets.only(left: 0.w, right: 0.w, top: 2.w),
+                                  EdgeInsets.only(
+                                      left: 0.w, right: 0.w, top: 2.w),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: Colors.black12),
                                       borderRadius:
-                                      const BorderRadius.all(Radius.circular(6))),
+                                      const BorderRadius.all(
+                                          Radius.circular(6))),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
@@ -99,11 +104,13 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                                           padding: EdgeInsets.only(
                                               left: 6.w, top: 6, bottom: 6),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment
+                                                .start,
                                             children: [
                                               TitleMediumTextWidget(
                                                 title: blendString.isEmpty
-                                                    ? _postYarnProvider.selectedYarnFamily
+                                                    ? _postYarnProvider
+                                                    .selectedYarnFamily
                                                     .toString()
                                                     .isNotEmpty
                                                     ? _postYarnProvider
@@ -145,8 +152,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                     selectedTab: widget.selectedTab,
                     businessArea: widget.businessArea,
                     locality: widget.locality,
-                    callback: (int step) {
-                    },
+                    callback: (int step) {},
                   ),
                 )
               ],
@@ -157,12 +163,13 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     );
   }
 
-  void showBlendsSheets(BuildContext context) async{
+  void showBlendsSheets(BuildContext context) async {
     await _postYarnProvider.getFamilyData();
     if (!_postYarnProvider.familyDisabled) {
-      familySheet(context, (int checkedIndex) {}, (Family family) async{
+      familySheet(context, (int checkedIndex) {}, (Family family) async {
         _postYarnProvider.selectedYarnFamily = family;
-        _postYarnProvider.createRequestModel!.ys_family_idfk = family.famId.toString();
+        _postYarnProvider.createRequestModel!.ys_family_idfk =
+            family.famId.toString();
         await _postYarnProvider.queryFamilySettings(family.famId!);
         await _postYarnProvider.getSyncedData();
         await _postYarnProvider.getYarnBlendData(family.famId!, 2);
@@ -188,7 +195,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
 
 
   String setFormations() {
-    List<Map<String, String>> formations = [];
+    List<Map<String, dynamic>> formations = [];
     var value = '';
     List<String?> stringList = [];
     if (_postYarnProvider.selectedBlends.isNotEmpty) {
@@ -196,47 +203,59 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
         if (element.isSelected ?? false) {
           var blend = element as Blends;
           stringList.add(element.blnName);
-          String? relateId;
-          /*if (blend.bln_ratio_json != null) {
-            relateId = getRelatedId(blend);
-          }*/
-          if (blend.has_blend_id_2 != null) {
-            relateId = blend.has_blend_id_2;
-          }else{
-            relateId = null;
+
+          if (blend.has_blend_id_1 != null) {
+            BlendModel formationModel = BlendModel(
+                id: int.parse(blend.has_blend_id_1!),
+                relatedBlnId: blend.blnId.toString(),
+                ratio: element.blendRatio);
+            formations.add(formationModel.toJson());
           }
-          BlendModel formationModel = BlendModel(
-              id: element.blnId,
-              relatedBlnId: relateId,
-              ratio: element.blendRatio == null
-                  ? '100'
-                  : element.blendRatio!.isEmpty
-                  ? '100'
-                  : element.blendRatio);
-          formations.add(formationModel.toJson());
+
+          if (blend.has_blend_id_2 != null) {
+            BlendModel formationModel = BlendModel(
+                id: int.parse(blend.has_blend_id_2!),
+                relatedBlnId: blend.blnId.toString(),
+                ratio: (100 - int.parse(element.blendRatio!)).toString());
+            formations.add(formationModel.toJson());
+          }
+
+          if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
+            BlendModel formationModel = BlendModel(
+                id: blend.blnId,
+                relatedBlnId: null,
+                ratio: "100");
+            formations.add(formationModel.toJson());
+          }
         }
       }
-    } else if (_postYarnProvider.selectedYarnFamily.famId != null) {
-      BlendModel formationModel = BlendModel(
-          id: _postYarnProvider.selectedYarnFamily.famId,
-          relatedBlnId: null,
-          ratio: "100");
-      formations.add(formationModel.toJson());
+    } else {
+      BlendModelExtended blendModelExtended = BlendModelExtended(
+          default_bln_id: "0",
+          bln_name: "",
+          bln_id: "0",
+          related_bln_id: "0",
+          percentage: null);
+      // BlendModel formationModel = BlendModel(
+      //     id: _postYarnProvider.selectedYarnFamily.famId,
+      //     relatedBlnId: null,
+      //     ratio: "100");
+      formations.add(blendModelExtended.toJson());
     }
     value = Utils.createStringFromList(stringList);
     Logger().e(formations.toString());
     _postYarnProvider.createRequestModel!.ys_formation = formations;
     return value;
   }
-
-  String getRelatedId(Blends blend) {
-    var blendModelArrayList = json.decode(blend.bln_ratio_json!);
-    List<BlendModelExtended> formationList = [];
-    for (var element in blendModelArrayList) {
-      formationList.add(BlendModelExtended.fromJson(element));
-    }
-    Logger().e(formationList.first.default_bln_id);
-    return formationList.first.default_bln_id.toString();
-  }
+  //
+  // String getRelatedId(Blends blend) {
+  //   var blendModelArrayList = json.decode(blend.bln_ratio_json!);
+  //   List<BlendModelExtended> formationList = [];
+  //   for (var element in blendModelArrayList) {
+  //     formationList.add(BlendModelExtended.fromJson(element));
+  //   }
+  //   Logger().e(formationList.first.default_bln_id);
+  //   return formationList.first.default_bln_id.toString();
+  // }
 
 }
