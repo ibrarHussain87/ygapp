@@ -230,10 +230,10 @@ class FabricSpecificationComponentState
 
   @override
   void initState() {
-    _createRequestModel = FabricCreateRequestModel();
-    _resetData();
     final postFabricProvider =
     Provider.of<PostFabricProvider>(context, listen: false);
+    _createRequestModel = postFabricProvider.fabricCreateRequestModel;
+    _resetData();
     _getFabricSyncedData(postFabricProvider);
     _fabricPostProvider.familyDisabled = false;
     super.initState();
@@ -2106,22 +2106,10 @@ class FabricSpecificationComponentState
     _selectedAppearenceId = null;
     _selectedPlyId = null;
     Logger().e(_createRequestModel!.toJson().toString());
-    _createRequestModel = FabricCreateRequestModel();
+   // String? familyId = _createRequestModel!.fs_family_idfk;
+    _createRequestModel = _fabricPostProvider.fabricCreateRequestModel;
+   // _createRequestModel!.fs_family_idfk = familyId;
     Logger().e(_createRequestModel!.toJson().toString());
-    /* _createRequestModel!.spc_grade_idfk = null;
-    _createRequestModel!.spc_appearance_idfk = null;
-    _createRequestModel!.spc_certificate_idfk = null;
-    _createRequestModel!.spc_lot_number = null;
-    _createRequestModel!.spc_brand_idfk = null;
-    _createRequestModel!.spc_gpt_idfk = null;
-    _createRequestModel!.spc_rd_idfk = null;
-    _createRequestModel!.spc_trash_idfk = null;
-    _createRequestModel!.spc_micronaire_idfk = null;
-    _createRequestModel!.spc_moisture_idfk = null;
-    _createRequestModel!.spc_production_year = null;
-    _createRequestModel!.spc_nature_idfk = null;
-    _createRequestModel!.spc_fiber_material_idfk = null;
-    _createRequestModel!.spc_origin_idfk = null;*/
     _textEditingController.text = "";
   }
 

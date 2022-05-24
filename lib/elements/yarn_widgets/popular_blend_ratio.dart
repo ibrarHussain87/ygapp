@@ -6,6 +6,7 @@ import '../../helper_utils/blend_text_form_field.dart';
 import '../../locators.dart';
 import '../../model/blend_model.dart';
 import '../../model/response/yarn_response/sync/yarn_sync_response.dart';
+import '../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../providers/yarn_providers/post_yarn_provider.dart';
 import '../title_text_widget.dart';
 
@@ -16,6 +17,7 @@ class PopularBlendRatioWidget extends StatefulWidget {
   final List<BlendModel> blendsValue;
   final int selectedIndex;
   final List<TextEditingController> listController;
+  final dynamic provider;
 
 
   const PopularBlendRatioWidget({
@@ -26,6 +28,7 @@ class PopularBlendRatioWidget extends StatefulWidget {
     required this.blendsValue,
     required this.listController,
     required this.selectedIndex,
+    required this.provider,
   }) : super(key: key);
 
   @override
@@ -35,15 +38,23 @@ class PopularBlendRatioWidget extends StatefulWidget {
 class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
   var looger = Logger();
   var width;
-  final _yarnPostProvider = locator<PostYarnProvider>();
-  Blends? selectedBlend;
+ // final _yarnPostProvider = locator<PostYarnProvider>();
+  late PostYarnProvider? yarnProvider;
+  late PostFabricProvider? fabricProvider;
+  dynamic selectedBlend;
   int? checkedTile;
 
   @override
   void initState() {
     super.initState();
     checkedTile = widget.selectedIndex;
-    _yarnPostProvider.addListener(updateUI);
+    if(widget.provider is PostYarnProvider){
+      yarnProvider = widget.provider;
+      yarnProvider!.addListener(updateUI);
+    }else if(widget.provider is PostFabricProvider){
+      fabricProvider = widget.provider;
+      fabricProvider!.addListener(updateUI);
+    }
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Add Your Code here.
       /*_yarnPostProvider.addSelectedBlend =
@@ -91,7 +102,9 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
           onTap: (){
             setState(() {
              if(checkedTile != null){
-               _yarnPostProvider.textFieldControllers[checkedTile!].clear();
+               widget.provider is PostYarnProvider ?
+               yarnProvider!.textFieldControllers[checkedTile!].clear():
+               fabricProvider!.textFieldControllers[checkedTile!].clear();
              }
               checkedTile = index;
             });
@@ -128,14 +141,14 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
               child: BlendTextFormFieldWithRangeNonDecimal(
                 errorText: "count",
                 minMax: "1-100",
-                validation: _yarnPostProvider.blendList[index].isSelected ??
+                validation: widget.provider.blendList[index].isSelected ??
                     false,
-                isEnabled: _yarnPostProvider.blendList[index].isSelected ??
+                isEnabled: widget.provider.blendList[index].isSelected ??
                     false,
-                textEditingController: _yarnPostProvider
+                textEditingController: widget.provider
                     .textFieldControllers[index],
                 onSaved: (input) {
-                  _yarnPostProvider.setBlendRatio(
+                  widget.provider.setBlendRatio(
                       index, widget.listController[index].text);
                 },
               ),

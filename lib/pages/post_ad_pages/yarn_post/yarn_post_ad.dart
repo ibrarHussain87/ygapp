@@ -221,10 +221,8 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
-            BlendModel formationModel = BlendModel(
-                id: blend.blnId,
-                relatedBlnId: null,
-                ratio: "100");
+            BlendModel formationModel =
+            BlendModel(id: blend.blnId, relatedBlnId: null, ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio );
             formations.add(formationModel.toJson());
           }
         }
@@ -247,6 +245,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     _postYarnProvider.createRequestModel!.ys_formation = formations;
     return value;
   }
+
   //
   // String getRelatedId(Blends blend) {
   //   var blendModelArrayList = json.decode(blend.bln_ratio_json!);

@@ -598,6 +598,11 @@ class FabricBlends {
   String? blnName;
   String? blnAbrv;
   String? minMax;
+  String? has_blend_id_1;
+  String? has_blend_id_2;
+  String? has_blend_name_1;
+  String? has_blend_name_2;
+  String? is_popular;
   String? iconSelected;
   String? iconUnselected;
   String? blnIsActive;
@@ -614,6 +619,11 @@ class FabricBlends {
         this.blnName,
         this.blnAbrv,
         this.minMax,
+        this.has_blend_id_1,
+        this.has_blend_id_2,
+        this.has_blend_name_1,
+        this.has_blend_name_2,
+        this.is_popular,
         this.iconSelected,
         this.iconUnselected,
         this.blnIsActive,
@@ -630,6 +640,11 @@ class FabricBlends {
     blnName = json['bln_name'];
     blnAbrv = json['bln_abrv'];
     minMax = json['min_max'];
+    has_blend_id_1 = json['has_blend_id_1'];
+    has_blend_id_2 = json['has_blend_id_2'];
+    has_blend_name_1 = json['has_blend_name_1'];
+    has_blend_name_2 = json['has_blend_name_2'];
+    is_popular = json['is_popular'];
     iconSelected = json['icon_selected'];
     iconUnselected = json['icon_unselected'];
     blnIsActive = json['bln_is_active'];
@@ -646,6 +661,11 @@ class FabricBlends {
     data['bln_name'] = blnName;
     data['bln_abrv'] = blnAbrv;
     data['min_max'] = minMax;
+    data['has_blend_id_1'] = has_blend_id_1;
+    data['has_blend_id_2'] = has_blend_id_2;
+    data['has_blend_name_1'] = has_blend_name_1;
+    data['has_blend_name_2'] = has_blend_name_2;
+    data['is_popular'] = is_popular;
     data['icon_selected'] = iconSelected;
     data['icon_unselected'] = iconUnselected;
     data['bln_is_active'] = blnIsActive;

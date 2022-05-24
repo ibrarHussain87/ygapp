@@ -27,7 +27,7 @@ class PostFabricProvider extends ChangeNotifier{
   bool dataSynced = false;
   bool updateSegments = true;
   List<FabricSetting>? fabricSetting = [];
-  late FabricCreateRequestModel fabricCreateRequestModel;
+  FabricCreateRequestModel? fabricCreateRequestModel = FabricCreateRequestModel();
   List<TextEditingController> textFieldControllers = [];
   List<TextEditingController> textFieldControllersPopular = [];
   // Lists
@@ -65,9 +65,31 @@ class PostFabricProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  getFamilyData() async {
+    var dbInstance = await AppDbInstance().getDbInstance();
+    fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
+    notifyUI();
+  }
+
+  getFabricBlendData(famId) async {
+    var dbInstance = await AppDbInstance().getDbInstance();
+    _blendsList = await dbInstance.fabricBlendsDao.findFabricBlend(famId);
+    notifyUI();
+  }
+
+  queryFamilySettings(int id) async {
+    var dbInstance = await AppDbInstance().getDbInstance();
+    List<FabricSetting> fabricSettings =
+    await dbInstance.fabricSettingDao.findFamilyFabricSettings(id);
+    if (fabricSettings.isNotEmpty) {
+      fabricSetting = fabricSettings;
+      notifyUI();
+    }
+  }
+
 
   Future<void> getSyncData() async{
-    fabricCreateRequestModel = FabricCreateRequestModel();
+    //fabricCreateRequestModel = FabricCreateRequestModel();
     var dbInstance = await AppDbInstance().getDbInstance();
     fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     fabricBlendsList = await dbInstance.fabricBlendsDao.findAllFabricBlends();
@@ -103,6 +125,7 @@ class PostFabricProvider extends ChangeNotifier{
 
   }
 
+
   void setRequestModel(FabricCreateRequestModel createRequestModel) {
     fabricCreateRequestModel = createRequestModel;
   }
@@ -116,6 +139,10 @@ class PostFabricProvider extends ChangeNotifier{
     selectedBlends.clear();
     notifyListeners();
 
+  }
+
+  notifyUI() {
+    notifyListeners();
   }
 
 }

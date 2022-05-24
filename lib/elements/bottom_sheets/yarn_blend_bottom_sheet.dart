@@ -6,6 +6,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/blend_text_form_field.dart';
 import 'package:yg_app/model/blend_model.dart';
+import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
@@ -234,7 +235,9 @@ Column getWidget(int index, List<dynamic> blends,
                 child: PureBlendSelectTileWidget(
                   selectedIndex: -1,
                   spanCount: index,
-                  listOfItems: blends.where((element) => (element as Blends).bln_nature == 'Pure').toList(),
+                  listOfItems: provider is PostYarnProvider ?
+                  blends.where((element) => (element as Blends).bln_nature == 'Pure').toList():
+                  blends.where((element) => (element as FabricBlends).blnNature == 'Pure').toList(),
                   selectedValue: (int checkedValue) {
                     // checkedIndex(checkedValue);
                   },
@@ -242,9 +245,15 @@ Column getWidget(int index, List<dynamic> blends,
                     provider.selectedBlends.clear();
                     if (!provider.selectedBlends
                         .contains(value)) {
-                      var blend = value as Blends;
-                      blend.isSelected = true;
-                      provider.addSelectedBlend = blend;
+                      if(provider is PostYarnProvider){
+                        var blend = value as Blends;
+                        blend.isSelected = true;
+                        provider.addSelectedBlend = blend;
+                      }else if(provider is PostFabricProvider){
+                        var blend = value as FabricBlends ;
+                        blend.isSelected = true;
+                        provider.addSelectedBlend = blend;
+                      }
                     }
                     // perform button add action here
                     if (provider
@@ -405,23 +414,39 @@ Column getPopularBlends(int index, List<dynamic> blends,
                 .textFieldControllers,
             blendsValue: values,
             callback: (value) {
-              if(provider.selectedBlends.isNotEmpty){
-                var blend = provider.selectedBlends.first as Blends;
-                blend.isSelected = false;
-                blend.blendRatio = null;
-                provider.removeSelectedBlend = blend;
-              }
-              if (!provider.selectedBlends
-                  .contains(value)) {
-                var blend = value as Blends;
-                blend.isSelected = true;
-                provider.addSelectedBlend = blend;
+              if(provider is PostYarnProvider){
+                if(provider.selectedBlends.isNotEmpty){
+                  var blend = provider.selectedBlends.first as Blends;
+                  blend.isSelected = false;
+                  blend.blendRatio = null;
+                  provider.removeSelectedBlend = blend;
+                }
+                if (!provider.selectedBlends
+                    .contains(value)) {
+                  var blend = value as Blends;
+                  blend.isSelected = true;
+                  provider.addSelectedBlend = blend;
+                }
+              }else if(provider is PostFabricProvider){
+                if(provider.selectedBlends.isNotEmpty){
+                  var blend = provider.selectedBlends.first as FabricBlends;
+                  blend.isSelected = false;
+                  blend.blendRatio = null;
+                  provider.removeSelectedBlend = blend;
+                }
+                if (!provider.selectedBlends
+                    .contains(value)) {
+                  var blend = value as FabricBlends;
+                  blend.isSelected = true;
+                  provider.addSelectedBlend = blend;
+                }
               }
             },
             textFieldcallback: (value) {
               values.clear();
               values.add(value);
             },
+            provider: provider,
           ),
         )
       ),
@@ -494,7 +519,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
 }
 
 Column getCustomBlends(int index, List<dynamic> blends,
-    PostYarnProvider provider, List<BlendModel> values,
+    dynamic provider, List<BlendModel> values,
     Function callback) {
 
   return Column(
@@ -502,7 +527,9 @@ Column getCustomBlends(int index, List<dynamic> blends,
       Expanded(
         child: BlendRatioWidget(
           selectedIndex: index,
-          listOfItems: blends.where((element) => (element as Blends).bln_nature == 'Pure').toList(),
+          listOfItems: provider is PostYarnProvider ?
+      blends.where((element) => (element as Blends).bln_nature == 'Pure').toList():
+      blends.where((element) => (element as FabricBlends).blnNature == 'Pure').toList(),
           listController: provider
               .textFieldControllers,
           blendsValue: values,
@@ -513,6 +540,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
             values.clear();
             values.add(value);
           },
+          provider: provider,
         ),
       ),
       Padding(
@@ -600,6 +628,7 @@ class BlendRatioWidget extends StatefulWidget {
   final List<BlendModel> blendsValue;
   final int selectedIndex;
   final List<TextEditingController> listController;
+  final dynamic provider;
 
 
   const BlendRatioWidget({
@@ -610,6 +639,7 @@ class BlendRatioWidget extends StatefulWidget {
     required this.blendsValue,
     required this.listController,
     required this.selectedIndex,
+    required this.provider,
   }) : super(key: key);
 
   @override
@@ -620,13 +650,23 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
   var looger = Logger();
   var width;
   List<bool> _isChecked = [];
-  final _yarnPostProvider = locator<PostYarnProvider>();
+ //final _yarnPostProvider = locator<PostYarnProvider>();
+  late PostYarnProvider yarnProvider;
+  late PostFabricProvider fabricProvider;
+  late dynamic provider;
 
   @override
   void initState() {
     super.initState();
     _isChecked = List<bool>.filled(widget.listOfItems.length, false);
-    _yarnPostProvider.addListener(updateUI);
+    provider = widget.provider;
+    if(provider is PostYarnProvider){
+      yarnProvider = provider;
+      yarnProvider.addListener(updateUI);
+    }else if(provider is PostFabricProvider){
+      fabricProvider = provider;
+      fabricProvider.addListener(updateUI);
+    }
     /*_isChecked[widget.selectedIndex] = true;
     _yarnPostProvider.blendList[widget.selectedIndex].isSelected = true;*/
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -668,17 +708,22 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: (){
-                    handleClick(index, !_isChecked[index]);
+                    handleClick(index, !_isChecked[index],provider);
                   },
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _yarnPostProvider.selectedBlends
+                        value: provider is PostYarnProvider ?
+                  yarnProvider.selectedBlends
+                            .contains(widget.listOfItems[index])
+                            ? true
+                            : _isChecked[index]:
+                        fabricProvider.selectedBlends
                             .contains(widget.listOfItems[index])
                             ? true
                             : _isChecked[index],
                         onChanged: (newValue) {
-                          handleClick(index, newValue);
+                          handleClick(index, newValue,provider);
                         },
                       ),
                       TitleSmallBoldTextWidget(
@@ -696,22 +741,34 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                       false,
                   isEnabled: widget.listOfItems[index].isSelected ??
                       false,
-                  textEditingController: _yarnPostProvider
+                  textEditingController: provider is PostYarnProvider ?
+                  yarnProvider
+                      .textFieldControllers[index] :
+                  fabricProvider
                       .textFieldControllers[index],
                   onSaved: (input) {
-                    Logger().e('Org blends ${_yarnPostProvider.selectedBlends.length}');
+                   // Logger().e('Org blends ${_yarnPostProvider.selectedBlends.length}');
                     Logger().e('${widget.listOfItems.length}');
                     /*_yarnPostProvider.textFieldControllers.clear();
                     for (var element in widget.listOfItems) {
                       _yarnPostProvider.textFieldControllers.add(TextEditingController());
                     }*/
-                    _yarnPostProvider.blendList.where((element) => (element).bln_nature == 'Pure')
+                    provider is PostYarnProvider ?
+                    yarnProvider.blendList.where((element) => (element).bln_nature == 'Pure')
                         .toList().forEach((element1) {
                           if(element1.isSelected??false){
-                            int myIndex = _yarnPostProvider.blendList.where((element) => (element).bln_nature == 'Pure')
+                            int myIndex = yarnProvider.blendList.where((element) => (element).bln_nature == 'Pure')
                                 .toList().indexWhere((element2) => element2 == element1);
                             element1.blendRatio = widget.listController[myIndex].text;
                           }
+                    }) :
+                    fabricProvider.blendList.where((element) => (element).blnNature == 'Pure')
+                        .toList().forEach((element1) {
+                      if(element1.isSelected??false){
+                        int myIndex = fabricProvider.blendList.where((element) => (element).blnNature == 'Pure')
+                            .toList().indexWhere((element2) => element2 == element1);
+                        element1.blendRatio = widget.listController[myIndex].text;
+                      }
                     });
                     /*_yarnPostProvider.setBlendRatio(
                         index, widget.listController[index].text);*/
@@ -725,46 +782,56 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
     );
   }
 
-  void handleClick(int index, bool? newValue) {
-    setState(() {
-      _isChecked[index] = newValue!;
-      /*if (_yarnPostProvider.selectedBlends
-          .contains(widget.listOfItems[index])) {
-        _yarnPostProvider.blendList[index].isSelected =
-        false;
-        _yarnPostProvider.blendList[index].blendRatio = '';
-        _yarnPostProvider.removeSelectedBlend =
-        widget.listOfItems[index];
-        _yarnPostProvider.textFieldControllers[index].clear();
-        // selectedIndex.remove(index);
-        widget.listController[index].clear();
-      } else {
-        _yarnPostProvider.blendList[index].isSelected =
-        true;
-        _yarnPostProvider.addSelectedBlend =
-        widget.listOfItems[index];
-        // title.add(widget.listOfItems[index]);
-        // selectedIndex.add(index);
-      }*/
-      if (_yarnPostProvider.selectedBlends
-          .contains(widget.listOfItems[index])) {
-        int blendIndex = _yarnPostProvider.selectedBlends.indexWhere((element) => element == widget.listOfItems[index]);
-        //int blendMainIndex = _yarnPostProvider.blendList.indexWhere((element) => element == widget.listOfItems[index]);
-        _yarnPostProvider.selectedBlends[blendIndex].isSelected = false;
-        _yarnPostProvider.selectedBlends[blendIndex].blendRatio = '';
-        /*_yarnPostProvider.blendList[blendMainIndex].isSelected = false;
-        _yarnPostProvider.blendList[blendMainIndex].blendRatio = '';*/
-        _yarnPostProvider.removeSelectedBlend = widget.listOfItems[index];
-        _yarnPostProvider.textFieldControllers[index].clear();
-        widget.listController[index].clear();
-      } else {
-        Blends blend = widget.listOfItems[index];
-        blend.isSelected = true;
-        _yarnPostProvider.addSelectedBlend = blend;
-      }
-    });
+  void handleClick(int index, bool? newValue, dynamic provider) {
+    if(provider is PostYarnProvider){
+      setState(() {
 
-    widget.callback!(_yarnPostProvider.selectedBlends);
-    looger.e(widget.listOfItems[index].toString());
+        _isChecked[index] = newValue!;
+        if (provider.selectedBlends
+            .contains(widget.listOfItems[index])) {
+          int blendIndex = provider.selectedBlends.indexWhere((element) => element == widget.listOfItems[index]);
+          //int blendMainIndex = _yarnPostProvider.blendList.indexWhere((element) => element == widget.listOfItems[index]);
+          provider.selectedBlends[blendIndex].isSelected = false;
+          provider.selectedBlends[blendIndex].blendRatio = '';
+          /*_yarnPostProvider.blendList[blendMainIndex].isSelected = false;
+        _yarnPostProvider.blendList[blendMainIndex].blendRatio = '';*/
+          provider.removeSelectedBlend = widget.listOfItems[index];
+          provider.textFieldControllers[index].clear();
+          widget.listController[index].clear();
+        } else {
+          Blends blend = widget.listOfItems[index];
+          blend.isSelected = true;
+          provider.addSelectedBlend = blend;
+        }
+      });
+
+      widget.callback!(provider.selectedBlends);
+      looger.e(widget.listOfItems[index].toString());
+    }else if(provider is PostFabricProvider){
+      setState(() {
+
+        _isChecked[index] = newValue!;
+        if (provider.selectedBlends
+            .contains(widget.listOfItems[index])) {
+          int blendIndex = provider.selectedBlends.indexWhere((element) => element == widget.listOfItems[index]);
+          //int blendMainIndex = _yarnPostProvider.blendList.indexWhere((element) => element == widget.listOfItems[index]);
+          provider.selectedBlends[blendIndex].isSelected = false;
+          provider.selectedBlends[blendIndex].blendRatio = '';
+          /*_yarnPostProvider.blendList[blendMainIndex].isSelected = false;
+        _yarnPostProvider.blendList[blendMainIndex].blendRatio = '';*/
+          provider.removeSelectedBlend = widget.listOfItems[index];
+          provider.textFieldControllers[index].clear();
+          widget.listController[index].clear();
+        } else {
+          FabricBlends blend = widget.listOfItems[index];
+          blend.isSelected = true;
+          provider.addSelectedBlend = blend;
+        }
+      });
+
+      widget.callback!(provider.selectedBlends);
+      looger.e(widget.listOfItems[index].toString());
+    }
+
   }
 }
