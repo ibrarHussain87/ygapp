@@ -93,6 +93,9 @@ class PostFabricProvider extends ChangeNotifier{
     var dbInstance = await AppDbInstance().getDbInstance();
     fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     fabricBlendsList = await dbInstance.fabricBlendsDao.findAllFabricBlends();
+    if(_selectedFabricFamily == null){
+      selectedFabricFamily = fabricFamilyList.first;
+    }
     firstFamilyId = fabricFamilyList.first.fabricFamilyId;
     blendId = fabricBlendsList.where((element) => element.familyIdfk == fabricFamilyList.first.fabricFamilyId.toString())
         .toList().first

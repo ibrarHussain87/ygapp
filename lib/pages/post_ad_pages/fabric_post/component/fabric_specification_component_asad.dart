@@ -256,18 +256,16 @@ class FabricSpecificationComponentState
   Widget build(BuildContext context) {
     super.build(context);
     postFabricProvider = Provider.of<PostFabricProvider>(context);
-    if (postFabricProvider.blendId != null) {
-      _selectedMaterial = postFabricProvider.blendId;
+    /*if (postFabricProvider.blendId != null) {
+     // _selectedMaterial = postFabricProvider.blendId;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = _fabricBlendsList
-          .where((element) => element.blnId == postFabricProvider.blendId)
-          .first
-          .familyIdfk;
+      familyId = postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
     } else {
-      _selectedMaterial = null;
+    //  _selectedMaterial = null;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID /*Microfiber*/;
-    }
+      familyId = FABRIC_MIRCOFIBER_ID *//*Microfiber*//*;
+    }*/
+    familyId = postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
       builder: (BuildContext context, snapshot) {
@@ -277,8 +275,7 @@ class FabricSpecificationComponentState
             if (snapshot.data!.isNotEmpty) {
               _resetData();
               ApiService.logger.e(_createRequestModel!.toJson());
-              _fabricSettings = /*snapshot.data![0]*/
-              postFabricProvider.fabricSetting!.first;
+              _fabricSettings = /*snapshot.data![0]*/postFabricProvider.fabricSetting!.first;
             }
           }
           return Scaffold(
@@ -1989,8 +1986,8 @@ class FabricSpecificationComponentState
 
   void handleNextClick() {
     _createRequestModel!.spc_category_idfk = "3";
-    _createRequestModel!.fs_blend_idfk =
-    _selectedMaterial != null ? _selectedMaterial.toString() : '';
+    /*_createRequestModel!.fs_blend_idfk =
+    _selectedMaterial != null ? _selectedMaterial.toString() : '';*/
     if (validationAllPage()) {
       /*_createRequestModel!.spc_category_idfk = "3";
       _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';*/

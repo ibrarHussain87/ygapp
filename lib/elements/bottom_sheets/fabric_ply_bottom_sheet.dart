@@ -107,7 +107,7 @@ fabricPlySheet(
                                         label: count,
                                         // onChanged:(value) => globalFormKey.currentState!.reset(),
                                         value: _createRequestModel.fs_count,
-                                        minMax: _fabricSettings.countMinMax!,
+                                        minMax: _fabricSettings.countMinMax??'',
                                         maxLength: 3,
                                         autoFocus: true,
                                         onSaved: (input) {
