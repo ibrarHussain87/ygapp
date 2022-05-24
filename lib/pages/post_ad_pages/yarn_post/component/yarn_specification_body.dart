@@ -92,7 +92,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   }
 
   Widget _showPatternCharWidget() {
-    if (_patternTLPIdList.contains(int.parse(_selectedPatternId!))) {
+    if (_yarnPostProvider.patternCharList!.isEmpty) {
       return Row(
         children: [
           Expanded(
@@ -101,10 +101,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 SizedBox(
                   height: 15.w,
                 ),
-                YgTextFormFieldWithoutRange(
+                YgTextFormFieldWithoutRangeNoValidation(
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_pattern_charectristic_thickness = input!,
-                  errorText: "Thickness",
                   label: 'Thickness',
                 ),
               ],
@@ -125,10 +124,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 //                Padding(
 //                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
 //                    child: const TitleSmallTextWidget(title: "Length")),
-                YgTextFormFieldWithoutRange(
+                YgTextFormFieldWithoutRangeNoValidation(
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_length_pattern_charactristics = input!,
-                  errorText: "Length",
                   label: 'Length',
                 ),
               ],
@@ -147,8 +145,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 SizedBox(
                   height: 15.w,
                 ),
-                YgTextFormFieldWithoutRange(
-                  errorText: "Pause",
+                YgTextFormFieldWithoutRangeNoValidation(
                   label: 'Pause',
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_pause_patteren_charactristics = input!,
@@ -158,7 +155,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    } else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
+    } /*else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
       return Row(
         children: [
           Expanded(
@@ -204,7 +201,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    } else {
+    } */else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
@@ -695,7 +692,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               ),
             ),
 
-            // show bottom sheet
+            // show ply bottom sheet
             Visibility(
               visible: true,
               child: Padding(
@@ -1347,6 +1344,48 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               ),
             ),
 
+            // show ply bottom sheet
+            Visibility(
+              visible: true,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: GestureDetector(
+                  onTap: () {
+                    yarnSpecsSheet(context, _yarnPostProvider.yarnSetting,
+                        _yarnPostProvider.createRequestModel!, () {
+                          _notifierPlySheet.value = !_notifierPlySheet.value;
+                        },
+                        selectedFamilyId,
+                        _yarnPostProvider.plyList!,
+                        _yarnPostProvider.orientationList!,
+                        _yarnPostProvider.doublingMethodList!,
+                        _plyIdList);
+                  },
+                  child: ValueListenableBuilder(
+                    valueListenable: _notifierPlySheet,
+                    builder: (context, bool value, child) {
+                      return TextFormField(
+                          key: Key(
+                              getPlyList(_yarnPostProvider.createRequestModel!)
+                                  .toString()),
+                          initialValue: getPlyList(
+                              _yarnPostProvider.createRequestModel!) ??
+                              '',
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
+                          cursorColor: lightBlueTabs,
+                          enabled: false,
+                          style: TextStyle(fontSize: 11.sp),
+                          textAlign: TextAlign.center,
+                          cursorHeight: 16.w,
+                          decoration: ygTextFieldDecoration(
+                              'Enter count details', 'Count', true));
+                    },
+                  ),
+                ),
+              ),
+            ),
+
             //Show Color Treatment Method
             Visibility(
               visible: Ui.showHide(
@@ -1487,47 +1526,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),
-            // show bottom sheet
-            Visibility(
-              visible: true,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: GestureDetector(
-                  onTap: () {
-                    yarnSpecsSheet(context, _yarnPostProvider.yarnSetting,
-                        _yarnPostProvider.createRequestModel!, () {
-                      _notifierPlySheet.value = !_notifierPlySheet.value;
-                    },
-                        selectedFamilyId,
-                        _yarnPostProvider.plyList!,
-                        _yarnPostProvider.orientationList!,
-                        _yarnPostProvider.doublingMethodList!,
-                        _plyIdList);
-                  },
-                  child: ValueListenableBuilder(
-                    valueListenable: _notifierPlySheet,
-                    builder: (context, bool value, child) {
-                      return TextFormField(
-                          key: Key(
-                              getPlyList(_yarnPostProvider.createRequestModel!)
-                                  .toString()),
-                          initialValue: getPlyList(
-                                  _yarnPostProvider.createRequestModel!) ??
-                              '',
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.number,
-                          cursorColor: lightBlueTabs,
-                          enabled: false,
-                          style: TextStyle(fontSize: 11.sp),
-                          textAlign: TextAlign.center,
-                          cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration(
-                              'Enter count details', 'Count', true));
-                    },
-                  ),
-                ),
-              ),
-            ),
+
             //Show Twist Direction
             Visibility(
               visible: Ui.showHide(
