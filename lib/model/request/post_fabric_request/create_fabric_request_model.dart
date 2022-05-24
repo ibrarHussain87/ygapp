@@ -4,7 +4,7 @@ class FabricCreateRequestModel {
   String? spc_category_idfk;
   String? fs_title;
   String? fs_details;
-  List<Map<String,String>>? fs_formation;
+  List<Map<String,dynamic>>? fs_formation;
   String? fs_local_international;
   String? fs_user_idfk;
   String? fs_family_idfk;

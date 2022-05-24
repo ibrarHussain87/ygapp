@@ -6,23 +6,19 @@ import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/bottom_sheets/fabric_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
+import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
-import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_nature_material_component.dart';
 
 import '../../../providers/fabric_providers/post_fabric_provider.dart';
 import 'component/fabric_steps_segments.dart';
@@ -41,24 +37,24 @@ class FabricPostPage extends StatefulWidget {
 }
 
 class _FabricPostPageState extends State<FabricPostPage> {
-  String blendString = "";
-
   final postFabricProvider = locator<PostFabricProvider>();
+  String blendString = "";
 
   @override
   void initState() {
     super.initState();
+    postFabricProvider.fabricCreateRequestModel ??= FabricCreateRequestModel();
     postFabricProvider.addListener(() {
       setState(() {});
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showBlendsSheets(context);
+    });
   }
 
   @override
   void dispose() {
-    //Dispose broadcast
-    /*BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
-    BroadcastReceiver().unsubscribe(requestModelBroadCast);*/
+    postFabricProvider.fabricCreateRequestModel = null;
     super.dispose();
   }
 
@@ -102,43 +98,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
-                      if (!postFabricProvider.familyDisabled) {
-                        postFabricProvider.selectedFabricFamily =
-                            FabricFamily();
-                        familySheet(context, (int checkedIndex) {},
-                                (FabricFamily family) {
-                              postFabricProvider.selectedFabricFamily =
-                                  family;
-                              Navigator.of(context).pop();
-                              if (postFabricProvider.blendList
-                                  .where((element) =>
-                              element.familyIdfk ==
-                                  family.fabricFamilyId.toString())
-                                  .toList()
-                                  .isNotEmpty) {
-                                postFabricProvider.resetData();
-                                postFabricProvider.textFieldControllers
-                                    .clear();
-                                FabricBlendBottomSheet(
-                                    context,
-                                    postFabricProvider.blendList
-                                        .toList()
-                                        .where((element) =>
-                                    element.familyIdfk ==
-                                        family.fabricFamilyId.toString())
-                                        .toList(),
-                                    0, () {
-                                  Navigator.pop(context);
-                                  // openYarnPostPage(context, widget.locality,
-                                  //     yarn, widget.selectedTab);
-                                });
-                              } else {
-                                /*openFabricPostPage(context, widget.locality,
-                                    "Fabric", widget.selectedTab);*/
-                              }
-                            }, postFabricProvider.fabricFamilyList, -1, "Fabric");
-                      }
+                    onTap: () {
+                      showBlendsSheets(context);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 0.w, right: 0.w, top: 2.w),
@@ -151,8 +112,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsets.only(top: 5.w, left: 8.w, bottom: 5.w),
+                            padding: EdgeInsets.only(
+                                top: 5.w, left: 8.w, bottom: 5.w),
                             child: Padding(
                               padding:
                                   EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
@@ -161,14 +122,15 @@ class _FabricPostPageState extends State<FabricPostPage> {
                                 children: [
                                   TitleMediumTextWidget(
                                     title: blendString.isEmpty
-                                        ? postFabricProvider.selectedFabricFamily
+                                        ? postFabricProvider
+                                                .selectedFabricFamily
                                                 .toString()
                                                 .isNotEmpty
                                             ? postFabricProvider
                                                 .selectedFabricFamily
                                                 .fabricFamilyName
                                             : 'Select'
-                                        : blendString,
+                                        : "${postFabricProvider.selectedFabricFamily.fabricFamilyName},$blendString",
                                     color: Colors.black54,
                                     weight: FontWeight.normal,
                                   )
@@ -236,45 +198,88 @@ class _FabricPostPageState extends State<FabricPostPage> {
     );
   }
 
+  void showBlendsSheets(BuildContext context) async {
+    await postFabricProvider.getFamilyData();
+    if (!postFabricProvider.familyDisabled) {
+      familySheet(context, (int checkedIndex) {}, (FabricFamily family) async {
+        postFabricProvider.selectedFabricFamily = family;
+        postFabricProvider.fabricCreateRequestModel!.fs_family_idfk =
+            family.fabricFamilyId.toString();
+        await postFabricProvider.queryFamilySettings(family.fabricFamilyId!);
+        await postFabricProvider.getSyncData();
+        await postFabricProvider.getFabricBlendData(family.fabricFamilyId!);
+        Navigator.of(context).pop();
+        if (postFabricProvider.blendList.isNotEmpty) {
+          postFabricProvider.resetData();
+          postFabricProvider.textFieldControllers.clear();
+          postFabricProvider.notifyUI();
+          GenericBlendBottomSheet(
+              context, postFabricProvider, postFabricProvider.blendList, 0, () {
+            blendString = setFormations();
+            Navigator.pop(context);
+          });
+        } else {
+          blendString = setFormations();
+          postFabricProvider.resetData();
+          postFabricProvider.textFieldControllers.clear();
+          blendString = '';
+          setState(() {});
+        }
+      }, postFabricProvider.fabricFamilyList, -1, "Fabric");
+    }
+  }
+
   String setFormations() {
-    List<Map<String, String>> formations = [];
+    List<Map<String, dynamic>> formations = [];
     var value = '';
     List<String?> stringList = [];
-    if(postFabricProvider.selectedBlends.isNotEmpty) {
+    if (postFabricProvider.selectedBlends.isNotEmpty) {
       for (var element in postFabricProvider.selectedBlends) {
-        var blend = element as FabricBlends;
         if (element.isSelected ?? false) {
+          var blend = element as FabricBlends;
           stringList.add(element.blnName);
-          String? relateId;
-          if (blend.bln_ratio_json != null) {
-            relateId = getRelatedId(blend);
+
+          if (blend.has_blend_id_1 != null) {
+            BlendModel formationModel = BlendModel(
+                id: int.parse(blend.has_blend_id_1!),
+                relatedBlnId: blend.blnId.toString(),
+                ratio: element.blendRatio);
+            formations.add(formationModel.toJson());
           }
-          BlendModel formationModel = BlendModel(
-              id: element.blnId,
-              relatedBlnId: relateId,
-              ratio: element.blendRatio);
-          formations.add(formationModel.toJson());
+
+          if (blend.has_blend_id_2 != null) {
+            BlendModel formationModel = BlendModel(
+                id: int.parse(blend.has_blend_id_2!),
+                relatedBlnId: blend.blnId.toString(),
+                ratio: (100 - int.parse(element.blendRatio!)).toString());
+            formations.add(formationModel.toJson());
+          }
+
+          if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
+            BlendModel formationModel = BlendModel(
+                id: blend.blnId,
+                relatedBlnId: null,
+                ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
+            formations.add(formationModel.toJson());
+          }
         }
       }
-    }else{
-      BlendModel formationModel = BlendModel(id: postFabricProvider.selectedFabricFamily.fabricFamilyId,
-          relatedBlnId: null,
-          ratio: "100");
-      formations.add(formationModel.toJson());
+    } else {
+      BlendModelExtended blendModelExtended = BlendModelExtended(
+          default_bln_id: "0",
+          bln_name: "",
+          bln_id: "0",
+          related_bln_id: "0",
+          percentage: null);
+      // BlendModel formationModel = BlendModel(
+      //     id: _postYarnProvider.selectedYarnFamily.famId,
+      //     relatedBlnId: null,
+      //     ratio: "100");
+      formations.add(blendModelExtended.toJson());
     }
     value = Utils.createStringFromList(stringList);
     Logger().e(formations.toString());
-    postFabricProvider.fabricCreateRequestModel.fs_formation = formations;
+    postFabricProvider.fabricCreateRequestModel!.fs_formation = formations;
     return value;
-  }
-
-  String getRelatedId(FabricBlends blend) {
-    var blendModelArrayList = json.decode(blend.bln_ratio_json!);
-    List<BlendModelExtended> formationList = [];
-    for (var element in blendModelArrayList) {
-      formationList.add(BlendModelExtended.fromJson(element));
-    }
-    Logger().e(formationList.first.default_bln_id);
-    return formationList.first.default_bln_id.toString();
   }
 }

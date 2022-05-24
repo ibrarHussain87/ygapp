@@ -21,7 +21,6 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
@@ -161,7 +160,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                padding: EdgeInsets.only(left: 8.w, right: 8.w),
                 child: Form(
                   key: globalFormKey,
                   child: Column(

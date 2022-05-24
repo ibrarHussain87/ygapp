@@ -230,10 +230,10 @@ class FabricSpecificationComponentState
 
   @override
   void initState() {
-    _createRequestModel = FabricCreateRequestModel();
-    _resetData();
     final postFabricProvider =
     Provider.of<PostFabricProvider>(context, listen: false);
+    _createRequestModel = postFabricProvider.fabricCreateRequestModel;
+    _resetData();
     _getFabricSyncedData(postFabricProvider);
     _fabricPostProvider.familyDisabled = false;
     super.initState();
@@ -256,18 +256,16 @@ class FabricSpecificationComponentState
   Widget build(BuildContext context) {
     super.build(context);
     postFabricProvider = Provider.of<PostFabricProvider>(context);
-    if (postFabricProvider.blendId != null) {
-      _selectedMaterial = postFabricProvider.blendId;
+    /*if (postFabricProvider.blendId != null) {
+     // _selectedMaterial = postFabricProvider.blendId;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = _fabricBlendsList
-          .where((element) => element.blnId == postFabricProvider.blendId)
-          .first
-          .familyIdfk;
+      familyId = postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
     } else {
-      _selectedMaterial = null;
+    //  _selectedMaterial = null;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID /*Microfiber*/;
-    }
+      familyId = FABRIC_MIRCOFIBER_ID *//*Microfiber*//*;
+    }*/
+    familyId = postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
       builder: (BuildContext context, snapshot) {
@@ -277,8 +275,7 @@ class FabricSpecificationComponentState
             if (snapshot.data!.isNotEmpty) {
               _resetData();
               ApiService.logger.e(_createRequestModel!.toJson());
-              _fabricSettings = /*snapshot.data![0]*/
-              postFabricProvider.fabricSetting!.first;
+              _fabricSettings = /*snapshot.data![0]*/postFabricProvider.fabricSetting!.first;
             }
           }
           return Scaffold(
@@ -682,7 +679,6 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),*/
-                                SizedBox(height: 12.w,),
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWeftCount),
                                   child: GestureDetector(
@@ -695,19 +691,22 @@ class FabricSpecificationComponentState
                                     child: ValueListenableBuilder(
                                       valueListenable: _notifierWeftSheet,
                                       builder: (context, bool value, child){
-                                        return TextFormField(
-                                            key: Key(getWeftList(
-                                                _createRequestModel!).toString()),
-                                            initialValue: getWeftList(
-                                                _createRequestModel!) ?? '',
-                                            textInputAction: TextInputAction.done,
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            enabled: false,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            decoration: ygTextFieldDecoration('Enter Weft','Weft',true));
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 12),
+                                          child: TextFormField(
+                                              key: Key(getWeftList(
+                                                  _createRequestModel!).toString()),
+                                              initialValue: getWeftList(
+                                                  _createRequestModel!) ?? '',
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.number,
+                                              cursorColor: lightBlueTabs,
+                                              enabled: false,
+                                              style: TextStyle(fontSize: 11.sp),
+                                              textAlign: TextAlign.center,
+                                              cursorHeight: 16.w,
+                                              decoration: ygTextFieldDecoration('Enter Weft','Weft',true)),
+                                        );
                                       },
                                     ),
                                   ),
@@ -1006,6 +1005,40 @@ class FabricSpecificationComponentState
 //                                  ],
 //                                ),
                                 // Width
+                                //Show Layyer
+                                Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showLayyer),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Layyer' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _layyerKey,
+                                          spanCount: 3,
+                                          listOfItems: _layyerList.where((
+                                              element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricLayyer value) {
+                                            _createRequestModel!
+                                                .fs_layyer_idfk =
+                                                value.fabricLayyerId.toString();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
                                 Visibility(
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWidth),
@@ -1356,7 +1389,7 @@ class FabricSpecificationComponentState
 //                                      Padding(
 //                                          padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
-                                      SizedBox(height: 12.w,),
+                                      SizedBox(height: 18.w,),
                                       YgTextFormFieldWithoutRange(
                                           errorText: 'Tuckin Width',
                                           label: 'Tuckin Width',
@@ -1397,39 +1430,7 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),*/
-                                //Show Layyer
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showLayyer),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Layyer' + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _layyerKey,
-                                          spanCount: 3,
-                                          listOfItems: _layyerList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
-                                              .toList(),
-                                          callback: (FabricLayyer value) {
-                                            _createRequestModel!
-                                                .fs_layyer_idfk =
-                                                value.fabricLayyerId.toString();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+
                                 /*//Show Once
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showOnce),
@@ -1847,7 +1848,7 @@ class FabricSpecificationComponentState
                                       _fabricSettings!.showGrade),
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        top: 8.w, bottom: 8.w),
+                                        top: 8.w,),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment
                                           .start,
@@ -1989,8 +1990,8 @@ class FabricSpecificationComponentState
 
   void handleNextClick() {
     _createRequestModel!.spc_category_idfk = "3";
-    _createRequestModel!.fs_blend_idfk =
-    _selectedMaterial != null ? _selectedMaterial.toString() : '';
+    /*_createRequestModel!.fs_blend_idfk =
+    _selectedMaterial != null ? _selectedMaterial.toString() : '';*/
     if (validationAllPage()) {
       /*_createRequestModel!.spc_category_idfk = "3";
       _createRequestModel!.fs_blend_idfk = _selectedMaterial != null ? _selectedMaterial.toString():'';*/
@@ -2013,7 +2014,7 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      if (widget.selectedTab == offering_type) {
+      if (widget.businessArea == offering_type) {
         widget.callback!(1);
       } else {
         showGenericDialog(
@@ -2106,22 +2107,10 @@ class FabricSpecificationComponentState
     _selectedAppearenceId = null;
     _selectedPlyId = null;
     Logger().e(_createRequestModel!.toJson().toString());
-    _createRequestModel = FabricCreateRequestModel();
+   // String? familyId = _createRequestModel!.fs_family_idfk;
+    _createRequestModel = _fabricPostProvider.fabricCreateRequestModel;
+   // _createRequestModel!.fs_family_idfk = familyId;
     Logger().e(_createRequestModel!.toJson().toString());
-    /* _createRequestModel!.spc_grade_idfk = null;
-    _createRequestModel!.spc_appearance_idfk = null;
-    _createRequestModel!.spc_certificate_idfk = null;
-    _createRequestModel!.spc_lot_number = null;
-    _createRequestModel!.spc_brand_idfk = null;
-    _createRequestModel!.spc_gpt_idfk = null;
-    _createRequestModel!.spc_rd_idfk = null;
-    _createRequestModel!.spc_trash_idfk = null;
-    _createRequestModel!.spc_micronaire_idfk = null;
-    _createRequestModel!.spc_moisture_idfk = null;
-    _createRequestModel!.spc_production_year = null;
-    _createRequestModel!.spc_nature_idfk = null;
-    _createRequestModel!.spc_fiber_material_idfk = null;
-    _createRequestModel!.spc_origin_idfk = null;*/
     _textEditingController.text = "";
   }
 
@@ -2180,11 +2169,11 @@ class FabricSpecificationComponentState
         return false;
       }
       //
-      else if (_createRequestModel!.fs_blend_idfk == null &&
+      /*else if (_createRequestModel!.fs_blend_idfk == null &&
           Ui.showHide(_fabricSettings!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
-      } else if (_createRequestModel!.fs_ply_idfk == null &&
+      }*/ else if (_createRequestModel!.fs_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showPly)) {
         Ui.showSnackBar(context, 'Please Select Ply');
         return false;

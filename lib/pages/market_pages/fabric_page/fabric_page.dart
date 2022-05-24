@@ -58,7 +58,7 @@ class FabricPageState extends State<FabricPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
-              _postFabricProvider.selectedFabricFamily = FabricFamily();
+              /*_postFabricProvider.selectedFabricFamily = FabricFamily();
               familySheet(context, (int checkedIndex) {}, (FabricFamily family) {
                 _postFabricProvider.selectedFabricFamily = family;
                 Navigator.of(context).pop();
@@ -83,9 +83,9 @@ class FabricPageState extends State<FabricPage> {
                 else {
                   openFabricPostPage(context, widget.locality,"Fabric", value);
                 }
-              }, _postFabricProvider.fabricFamilyList, -1, "Fabric");
+              }, _postFabricProvider.fabricFamilyList, -1, "Fabric");*/
 
-
+              openFabricPostPage(context, widget.locality,value, "Fabric");
             });
           },
           child: const Icon(Icons.add),

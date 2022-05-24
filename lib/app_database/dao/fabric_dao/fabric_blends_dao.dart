@@ -6,7 +6,7 @@ abstract class FabricBlendsDao {
   @Query('SELECT * FROM fabric_blends')
   Future<List<FabricBlends>> findAllFabricBlends();
 
-  @Query('SELECT * FROM fabric_blends where blnId = :id')
+  @Query('SELECT * FROM fabric_blends where familyIdfk = :id')
   Future<List<FabricBlends>> findFabricBlend(int id);
 
   @Insert(onConflict: OnConflictStrategy.replace)

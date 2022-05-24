@@ -240,7 +240,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
@@ -2536,6 +2536,11 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                   'blnName': item.blnName,
                   'blnAbrv': item.blnAbrv,
                   'minMax': item.minMax,
+                  'has_blend_id_1': item.has_blend_id_1,
+                  'has_blend_id_2': item.has_blend_id_2,
+                  'has_blend_name_1': item.has_blend_name_1,
+                  'has_blend_name_2': item.has_blend_name_2,
+                  'is_popular': item.is_popular,
                   'iconSelected': item.iconSelected,
                   'iconUnselected': item.iconUnselected,
                   'blnIsActive': item.blnIsActive,
@@ -2566,6 +2571,11 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             blnName: row['blnName'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
+            has_blend_id_1: row['has_blend_id_1'] as String?,
+            has_blend_id_2: row['has_blend_id_2'] as String?,
+            has_blend_name_1: row['has_blend_name_1'] as String?,
+            has_blend_name_2: row['has_blend_name_2'] as String?,
+            is_popular: row['is_popular'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,
@@ -2581,7 +2591,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
   @override
   Future<List<FabricBlends>> findFabricBlend(int id) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM fabric_blends where blnId = ?1',
+        'SELECT * FROM fabric_blends where familyIdfk = ?1',
         mapper: (Map<String, Object?> row) => FabricBlends(
             blnId: row['blnId'] as int?,
             blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
@@ -2589,6 +2599,11 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             blnName: row['blnName'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
+            has_blend_id_1: row['has_blend_id_1'] as String?,
+            has_blend_id_2: row['has_blend_id_2'] as String?,
+            has_blend_name_1: row['has_blend_name_1'] as String?,
+            has_blend_name_2: row['has_blend_name_2'] as String?,
+            is_popular: row['is_popular'] as String?,
             iconSelected: row['iconSelected'] as String?,
             iconUnselected: row['iconUnselected'] as String?,
             blnIsActive: row['blnIsActive'] as String?,

@@ -69,16 +69,16 @@ class PackagingDetailsState extends State<PackagingDetails>
   int? selectedCountryId;
   String? unitCountSelected;
 
-  late List<FPriceTerms> _priceTermList;
-  late List<Packing> _packingList;
-  late List<DeliveryPeriod> _deliverPeriodList;
-  late List<PaymentType> _paymentTypeList;
-  late List<LcType> _lcTypeList;
-  late List<Units> _unitsList;
-  late List<Countries> _countriesList;
-  late List<CityState> _cityStateList;
-  late List<Ports> _portsList;
-  late List<ConeType> _coneTypeList;
+  List<FPriceTerms> _priceTermList = [];
+  List<Packing> _packingList= [];
+  List<DeliveryPeriod> _deliverPeriodList= [];
+  List<PaymentType> _paymentTypeList= [];
+  List<LcType> _lcTypeList= [];
+  List<Units> _unitsList= [];
+  List<Countries> _countriesList= [];
+  List<CityState> _cityStateList= [];
+  List<Ports> _portsList = [];
+  List<ConeType> _coneTypeList = [];
 
   final _fiberPostProvider = locator<PostFiberProvider>();
   final _yarnPostProvider = locator<PostYarnProvider>();
@@ -1061,6 +1061,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
                                           maxLines: 1,
+                                          maxLength: 6,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp("[0-9]")),
@@ -1108,6 +1109,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
                                             maxLines: 1,
+                                            maxLength: 6,
                                             inputFormatters: [
                                               FilteringTextInputFormatter.allow(
                                                   RegExp("[0-9]")),
@@ -1159,6 +1161,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
                                         maxLines: 1,
+                                        maxLength: 6,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp("[0-9]")),
@@ -1223,6 +1226,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
                                         maxLines: 1,
+                                        maxLength: 6,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp("[0-9]")),
