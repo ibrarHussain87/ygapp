@@ -679,7 +679,6 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),*/
-                                SizedBox(height: 12.w,),
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showWeftCount),
                                   child: GestureDetector(
@@ -692,19 +691,22 @@ class FabricSpecificationComponentState
                                     child: ValueListenableBuilder(
                                       valueListenable: _notifierWeftSheet,
                                       builder: (context, bool value, child){
-                                        return TextFormField(
-                                            key: Key(getWeftList(
-                                                _createRequestModel!).toString()),
-                                            initialValue: getWeftList(
-                                                _createRequestModel!) ?? '',
-                                            textInputAction: TextInputAction.done,
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            enabled: false,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            decoration: ygTextFieldDecoration('Enter Weft','Weft',true));
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 12),
+                                          child: TextFormField(
+                                              key: Key(getWeftList(
+                                                  _createRequestModel!).toString()),
+                                              initialValue: getWeftList(
+                                                  _createRequestModel!) ?? '',
+                                              textInputAction: TextInputAction.done,
+                                              keyboardType: TextInputType.number,
+                                              cursorColor: lightBlueTabs,
+                                              enabled: false,
+                                              style: TextStyle(fontSize: 11.sp),
+                                              textAlign: TextAlign.center,
+                                              cursorHeight: 16.w,
+                                              decoration: ygTextFieldDecoration('Enter Weft','Weft',true)),
+                                        );
                                       },
                                     ),
                                   ),
@@ -1003,6 +1005,40 @@ class FabricSpecificationComponentState
 //                                  ],
 //                                ),
                                 // Width
+                                //Show Layyer
+                                Visibility(
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showLayyer),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child: const TitleSmallBoldTextWidget(
+                                                title: 'Layyer' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _layyerKey,
+                                          spanCount: 3,
+                                          listOfItems: _layyerList.where((
+                                              element) =>
+                                          element.fabricFamilyIdfk == familyId)
+                                              .toList(),
+                                          callback: (FabricLayyer value) {
+                                            _createRequestModel!
+                                                .fs_layyer_idfk =
+                                                value.fabricLayyerId.toString();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
                                 Visibility(
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWidth),
@@ -1353,7 +1389,7 @@ class FabricSpecificationComponentState
 //                                      Padding(
 //                                          padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
-                                      SizedBox(height: 12.w,),
+                                      SizedBox(height: 18.w,),
                                       YgTextFormFieldWithoutRange(
                                           errorText: 'Tuckin Width',
                                           label: 'Tuckin Width',
@@ -1394,39 +1430,7 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),*/
-                                //Show Layyer
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showLayyer),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Layyer' + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _layyerKey,
-                                          spanCount: 3,
-                                          listOfItems: _layyerList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
-                                              .toList(),
-                                          callback: (FabricLayyer value) {
-                                            _createRequestModel!
-                                                .fs_layyer_idfk =
-                                                value.fabricLayyerId.toString();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+
                                 /*//Show Once
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showOnce),
@@ -1844,7 +1848,7 @@ class FabricSpecificationComponentState
                                       _fabricSettings!.showGrade),
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        top: 8.w, bottom: 8.w),
+                                        top: 8.w,),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment
                                           .start,
