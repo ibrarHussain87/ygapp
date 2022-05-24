@@ -41,9 +41,9 @@ class FabricPostPage extends StatefulWidget {
 }
 
 class _FabricPostPageState extends State<FabricPostPage> {
-  String blendString = "";
 
   final postFabricProvider = locator<PostFabricProvider>();
+  String blendString = "";
 
   @override
   void initState() {
@@ -51,14 +51,13 @@ class _FabricPostPageState extends State<FabricPostPage> {
     postFabricProvider.addListener(() {
       setState(() {});
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+     // showBlendsSheets(context);
+    });
   }
 
   @override
   void dispose() {
-    //Dispose broadcast
-    /*BroadcastReceiver().unsubscribe(segmentIndexBroadcast);
-    BroadcastReceiver().unsubscribe(requestModelBroadCast);*/
     super.dispose();
   }
 
