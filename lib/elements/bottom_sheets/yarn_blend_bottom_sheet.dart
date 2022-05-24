@@ -6,6 +6,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/blend_text_form_field.dart';
 import 'package:yg_app/model/blend_model.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/top_round_corners.dart';
@@ -21,18 +22,31 @@ GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
 final ValueNotifier<int> blendTypesNotifier = ValueNotifier(1);
 
 
-YarnBlendBottomSheet(BuildContext context, List<dynamic> blends, int index,
+GenericBlendBottomSheet(BuildContext context,dynamic provider, List<dynamic> blends, int index,
     Function callback) {
   List<BlendModel> values = [];
   late List<String> _natureYarnList = ["Pure", "Blended"];
-  final _yarnPostProvider = locator<PostYarnProvider>();
+ //final _yarnPostProvider = locator<PostYarnProvider>();
+ PostYarnProvider? _yarnPostProvider;
+ PostFabricProvider? _fabricPostProvider;
   final ValueNotifier<bool> _notifierNatureSheet = ValueNotifier(false);
 
-  if (_yarnPostProvider.textFieldControllers.isEmpty) {
-    for (var i = 0; i < blends.length; i++) {
-      _yarnPostProvider.textFieldControllers.add(TextEditingController());
+  if(provider is PostYarnProvider){
+    _yarnPostProvider = provider;
+    if (_yarnPostProvider.textFieldControllers.isEmpty) {
+      for (var i = 0; i < blends.length; i++) {
+        _yarnPostProvider.textFieldControllers.add(TextEditingController());
+      }
+    }
+  }else if(provider is PostFabricProvider){
+    _fabricPostProvider = provider;
+    if (_fabricPostProvider.textFieldControllers.isEmpty) {
+      for (var i = 0; i < blends.length; i++) {
+        _fabricPostProvider.textFieldControllers.add(TextEditingController());
+      }
     }
   }
+
 
 
 
@@ -61,7 +75,9 @@ YarnBlendBottomSheet(BuildContext context, List<dynamic> blends, int index,
                           child: GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              _yarnPostProvider.isBlendSelected = false;
+                              _yarnPostProvider != null ?
+                              _yarnPostProvider.isBlendSelected = false :
+                              _fabricPostProvider!.isBlendSelected = false;
                               Navigator.pop(context);
                             },
                             child: const Icon(Icons.close),
@@ -119,7 +135,7 @@ YarnBlendBottomSheet(BuildContext context, List<dynamic> blends, int index,
                                       builder: (context,
                                           bool notifierValue, child) {
                                         return getWidget(
-                                            index, blends, _yarnPostProvider,
+                                            index, blends, _yarnPostProvider ?? _fabricPostProvider,
                                             values, callback, notifierValue);
                                       }
                                   ),
@@ -188,7 +204,7 @@ YarnBlendBottomSheet(BuildContext context, List<dynamic> blends, int index,
 }
 
 Column getWidget(int index, List<dynamic> blends,
-    PostYarnProvider _yarnPostProvider, List<BlendModel> values,
+    dynamic provider, List<BlendModel> values,
     Function callback, bool notifierValue) {
   if (!notifierValue) {
     return Column(
@@ -223,24 +239,24 @@ Column getWidget(int index, List<dynamic> blends,
                     // checkedIndex(checkedValue);
                   },
                   callback: (value) {
-                    _yarnPostProvider.selectedBlends.clear();
-                    if (!_yarnPostProvider.selectedBlends
+                    provider.selectedBlends.clear();
+                    if (!provider.selectedBlends
                         .contains(value)) {
                       var blend = value as Blends;
                       blend.isSelected = true;
-                      _yarnPostProvider.addSelectedBlend = blend;
+                      provider.addSelectedBlend = blend;
                     }
                     // perform button add action here
-                    if (_yarnPostProvider
+                    if (provider
                         .selectedBlends.isEmpty) {
-                      _yarnPostProvider
+                      provider
                           .isBlendSelected =
                       false;
                       Fluttertoast.showToast(
                           msg:
                           "Please select a blend");
                     } else if (validateAndSaveBlend()) {
-                      _yarnPostProvider.isBlendSelected = true;
+                      provider.isBlendSelected = true;
                       callback();
                     }
                   },
@@ -299,16 +315,16 @@ Column getWidget(int index, List<dynamic> blends,
                                       side: BorderSide(color: Colors
                                           .transparent)))),
                           onPressed: () {
-                            if (_yarnPostProvider
+                            if (provider
                                 .selectedBlends.isEmpty) {
-                              _yarnPostProvider
+                              provider
                                   .isBlendSelected =
                               false;
                               Fluttertoast.showToast(
                                   msg:
                                   "Please select a blend");
                             } else if (validateAndSaveBlend()) {
-                              _yarnPostProvider.isBlendSelected = true;
+                              provider.isBlendSelected = true;
                               callback();
                             }
                           });
@@ -351,10 +367,10 @@ Column getWidget(int index, List<dynamic> blends,
               builder: (context, int notifierValue, child) {
                 if(notifierValue == 1){
                 //  createTextControllers(blends);
-                  return getPopularBlends(index, blends, _yarnPostProvider, values, callback);
+                  return getPopularBlends(index, blends, provider, values, callback);
                 }else{
                //   createTextControllers(blends.where((element) => (element as Blends).bln_nature == 'Pure').toList());
-                  return getCustomBlends(index, blends, _yarnPostProvider, values, callback);
+                  return getCustomBlends(index, blends, provider, values, callback);
                 }
               }
           ),
@@ -364,7 +380,7 @@ Column getWidget(int index, List<dynamic> blends,
   }
 }
 
-void createTextControllers(List<dynamic> blends) {
+/*void createTextControllers(List<dynamic> blends) {
   var _yarnPostProvider = locator<PostYarnProvider>();
   _yarnPostProvider.textFieldControllers.clear();
   if (_yarnPostProvider.textFieldControllers.isEmpty) {
@@ -372,10 +388,10 @@ void createTextControllers(List<dynamic> blends) {
       _yarnPostProvider.textFieldControllers.add(TextEditingController());
     }
   }
-}
+}*/
 
 Column getPopularBlends(int index, List<dynamic> blends,
-    PostYarnProvider _yarnPostProvider, List<BlendModel> values,
+    dynamic provider, List<BlendModel> values,
     Function callback) {
   return Column(
     children: [
@@ -385,21 +401,21 @@ Column getPopularBlends(int index, List<dynamic> blends,
           child: PopularBlendRatioWidget(
             selectedIndex: index,
             listOfItems: blends,
-            listController: _yarnPostProvider
+            listController: provider
                 .textFieldControllers,
             blendsValue: values,
             callback: (value) {
-              if(_yarnPostProvider.selectedBlends.isNotEmpty){
-                var blend = _yarnPostProvider.selectedBlends.first as Blends;
+              if(provider.selectedBlends.isNotEmpty){
+                var blend = provider.selectedBlends.first as Blends;
                 blend.isSelected = false;
                 blend.blendRatio = null;
-                _yarnPostProvider.removeSelectedBlend = blend;
+                provider.removeSelectedBlend = blend;
               }
-              if (!_yarnPostProvider.selectedBlends
+              if (!provider.selectedBlends
                   .contains(value)) {
                 var blend = value as Blends;
                 blend.isSelected = true;
-                _yarnPostProvider.addSelectedBlend = blend;
+                provider.addSelectedBlend = blend;
               }
             },
             textFieldcallback: (value) {
@@ -437,9 +453,9 @@ Column getPopularBlends(int index, List<dynamic> blends,
                                   side: BorderSide(
                                       color: Colors.transparent)))),
                       onPressed: () {
-                        if (_yarnPostProvider
+                        if (provider
                             .selectedBlends.isEmpty) {
-                          _yarnPostProvider
+                          provider
                               .isBlendSelected =
                           false;
                           Fluttertoast.showToast(
@@ -448,7 +464,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
                         } else if (validateAndSaveBlend()) {
                           var count = 0.0;
                           for (var element
-                          in _yarnPostProvider
+                          in provider
                               .blendList) {
                             if (element.blendRatio !=
                                 null &&
@@ -464,7 +480,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
                                 msg:
                                 "Ratio should be less then or equal to 100");
                           } else {
-                            _yarnPostProvider.isBlendSelected =
+                            provider.isBlendSelected =
                             true;
                             callback();
                             // Navigator.pop(context);
@@ -478,7 +494,7 @@ Column getPopularBlends(int index, List<dynamic> blends,
 }
 
 Column getCustomBlends(int index, List<dynamic> blends,
-    PostYarnProvider _yarnPostProvider, List<BlendModel> values,
+    PostYarnProvider provider, List<BlendModel> values,
     Function callback) {
 
   return Column(
@@ -487,7 +503,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
         child: BlendRatioWidget(
           selectedIndex: index,
           listOfItems: blends.where((element) => (element as Blends).bln_nature == 'Pure').toList(),
-          listController: _yarnPostProvider
+          listController: provider
               .textFieldControllers,
           blendsValue: values,
           callback: (value) {
@@ -527,9 +543,9 @@ Column getCustomBlends(int index, List<dynamic> blends,
                                   side: BorderSide(
                                       color: Colors.transparent)))),
                       onPressed: () {
-                        if (_yarnPostProvider
+                        if (provider
                             .selectedBlends.isEmpty) {
-                          _yarnPostProvider
+                          provider
                               .isBlendSelected =
                           false;
                           Fluttertoast.showToast(
@@ -538,7 +554,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
                         } else if (validateAndSaveBlend()) {
                           var count = 0.0;
                           for (var element
-                          in _yarnPostProvider
+                          in provider
                               .selectedBlends) {
                             if (element.blendRatio !=
                                 null &&
@@ -554,7 +570,7 @@ Column getCustomBlends(int index, List<dynamic> blends,
                                 msg:
                                 "Ratio should be less then or equal to 100");
                           } else {
-                            _yarnPostProvider
+                            provider
                                 .isBlendSelected =
                             true;
                             callback();

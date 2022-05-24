@@ -171,7 +171,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.resetData();
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
-          YarnBlendBottomSheet(context, _postYarnProvider.blendList, 0, () {
+          GenericBlendBottomSheet(context,_postYarnProvider, _postYarnProvider.blendList, 0, () {
             setFormations();
             Navigator.pop(context);
           });
