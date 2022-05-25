@@ -808,7 +808,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                               .unitsList!
                                                               .where((element) =>
                                                           element.untCategoryIdfk ==
-                                                              "5")
+                                                              "5").where((element) => element.unt_family_idfk=='1')
                                                               .toList(),
                                                           callback: (Units value) {
                                                             stocklotProvider.setUnitName(value.untName.toString());

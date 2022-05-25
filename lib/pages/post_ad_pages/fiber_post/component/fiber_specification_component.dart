@@ -853,14 +853,14 @@ class FiberSpecificationComponentState
                                                 child: Row(
                                                   children: [
                                                     Visibility(
-                                                      visible:true,
+                                                      visible:false,
                                                       child: CircleImageIconWidget(
                                                           imageUrl:
                                                           _postFiberProvider
                                                               .createRequestModel!.country?.medium.toString() ?? ""),
                                                     ),
                                                     const Visibility(
-                                                        visible:true,
+                                                        visible:false,
                                                          child: SizedBox(width: 8.0,)
                                                      ),
                                                     Expanded(

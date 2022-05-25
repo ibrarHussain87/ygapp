@@ -152,6 +152,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                         stocklotProvider.stocklotSubcategories!,
                                     selectedIndex: -1,
                                     callback: (StockLotFamily value) {
+
                                       stocklotProvider.getFilteredStocklotWaste(
                                           value.stocklotFamilyId ?? -1);
                                       stocklotProvider
