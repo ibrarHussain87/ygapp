@@ -73,6 +73,7 @@ class User{
   User({
     required this.id,
     required this.name,
+    required this.username,
     required this.telephoneNumber,
     required this.operatorId,
     required this.status,
@@ -99,6 +100,7 @@ class User{
   @PrimaryKey(autoGenerate: false)
   int? id;
   String? name;
+  String? username;
   String? telephoneNumber;
   String? operatorId;
   String? status;
@@ -126,6 +128,7 @@ class User{
   User.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
+    username = json['username'];
     telephoneNumber = json['telephone_number'];
     operatorId = json['operator_id'];
     status = json['status'];
@@ -154,6 +157,7 @@ class User{
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
+    _data['username'] = username;
     _data['telephone_number'] = telephoneNumber;
     _data['operator_id'] = operatorId;
     _data['status'] = status;

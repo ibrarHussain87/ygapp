@@ -70,7 +70,7 @@ class PackagingDetailsState extends State<PackagingDetails>
   String? unitCountSelected;
 
   List<FPriceTerms> _priceTermList = [];
-  List<Packing> _packingList= [];
+  // List<Packing> _packingList= [];
   List<DeliveryPeriod> _deliverPeriodList= [];
   List<PaymentType> _paymentTypeList= [];
   List<LcType> _lcTypeList= [];
@@ -106,12 +106,12 @@ class PackagingDetailsState extends State<PackagingDetails>
     await AppDbInstance()
         .getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
-    await AppDbInstance().getPacking().then((value) => setState(() {
-          _packingList = value;
-          _packingList = _packingList
-              .where((element) => element.pacIsActive == "1")
-              .toList();
-        }));
+    // await AppDbInstance().getPacking().then((value) => setState(() {
+    //       _packingList = value;
+    //       _packingList = _packingList
+    //           .where((element) => element.pacIsActive == "1")
+    //           .toList();
+    //     }));
     await AppDbInstance()
         .getDeliveryPeriod()
         .then((value) => setState(() => _deliverPeriodList = value));
@@ -1255,36 +1255,36 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Packing
-                            Visibility(
-                              visible:
-                                  widget.businessArea != yarn ? true : false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 0.w, top: 8, bottom: 4),
-                                      child: TitleSmallBoldTextWidget(
-                                          title: packing)),
-                                  SingleSelectTileWidget(
-                                      selectedIndex: -1,
-                                      spanCount: 3,
-                                      listOfItems: _packingList
-                                          .where((element) =>
-                                              element.pacCategoryId ==
-                                              _createRequestModel!
-                                                  .spc_category_idfk
-                                                  .toString())
-                                          .toList(),
-                                      callback: (Packing value) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.packing_idfk =
-                                              value.pacId.toString();
-                                        }
-                                      }),
-                                ],
-                              ),
-                            ),
+                            // Visibility(
+                            //   visible:
+                            //       widget.businessArea != yarn ? true : false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Padding(
+                            //           padding: EdgeInsets.only(
+                            //               left: 0.w, top: 8, bottom: 4),
+                            //           child: TitleSmallBoldTextWidget(
+                            //               title: packing)),
+                            //       SingleSelectTileWidget(
+                            //           selectedIndex: -1,
+                            //           spanCount: 3,
+                            //           listOfItems: _packingList
+                            //               .where((element) =>
+                            //                   element.pacCategoryId ==
+                            //                   _createRequestModel!
+                            //                       .spc_category_idfk
+                            //                       .toString())
+                            //               .toList(),
+                            //           callback: (Packing value) {
+                            //             if (_createRequestModel != null) {
+                            //               _createRequestModel!.packing_idfk =
+                            //                   value.pacId.toString();
+                            //             }
+                            //           }),
+                            //     ],
+                            //   ),
+                            // ),
 
                             //Delivery Period
                             Column(

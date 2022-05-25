@@ -188,7 +188,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `username` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_family` (`fiberFamilyId` INTEGER NOT NULL, `fiberFamilyCategoryIdFk` TEXT, `fiberFamilyParentId` TEXT, `fiberFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fiberFamilyIsActive` TEXT, `fiberFamilySortId` TEXT, PRIMARY KEY (`fiberFamilyId`))');
         await database.execute(
@@ -619,6 +619,7 @@ class _$UserDao extends UserDao {
             (User item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
+                  'username': item.username,
                   'telephoneNumber': item.telephoneNumber,
                   'operatorId': item.operatorId,
                   'status': item.status,
@@ -656,6 +657,7 @@ class _$UserDao extends UserDao {
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
             name: row['name'] as String?,
+            username: row['username'] as String?,
             telephoneNumber: row['telephoneNumber'] as String?,
             operatorId: row['operatorId'] as String?,
             status: row['status'] as String?,

@@ -198,7 +198,6 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
         if (element.isSelected ?? false) {
           var blend = element as Blends;
           stringList.add(element.blnName);
-
           if (blend.has_blend_id_1 != null) {
             BlendModel formationModel = BlendModel(
                 id: int.parse(blend.has_blend_id_1!),

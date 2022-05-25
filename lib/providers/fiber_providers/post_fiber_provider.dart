@@ -104,7 +104,7 @@ class PostFiberProvider extends ChangeNotifier {
       await value.cityStateDao.findAllCityState().then((value) {
         citySateList = value;
       });
-      await value.certificationDao.findAllCertifications().then((value) {
+      await value.certificationDao.findCertificationWithCatId(1).then((value) {
         certificationList = value;
       });
       isLoading = false;

@@ -120,8 +120,8 @@ class PostYarnProvider extends ChangeNotifier {
         .findGradeWithFamilyId(_selectedYarnFamily!.famId!);
     patternCharList =
         await dbInstance.patternCharDao.findAllPatternCharacteristics();
-    // certificationList = await dbInstance.certificationDao.findCertificationWithCatId(2);
-    certificationList = await dbInstance.certificationDao.findAllCertifications();
+    certificationList = await dbInstance.certificationDao.findCertificationWithCatId(2);
+    // certificationList = await dbInstance.certificationDao.findAllCertifications();
     notifyUI();
   }
 
