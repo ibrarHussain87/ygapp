@@ -2014,7 +2014,7 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      if (widget.selectedTab == offering_type) {
+      if (widget.businessArea == offering_type) {
         widget.callback!(1);
       } else {
         showGenericDialog(
@@ -2169,11 +2169,11 @@ class FabricSpecificationComponentState
         return false;
       }
       //
-      else if (_createRequestModel!.fs_blend_idfk == null &&
+      /*else if (_createRequestModel!.fs_blend_idfk == null &&
           Ui.showHide(_fabricSettings!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
-      } else if (_createRequestModel!.fs_ply_idfk == null &&
+      }*/ else if (_createRequestModel!.fs_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showPly)) {
         Ui.showSnackBar(context, 'Please Select Ply');
         return false;
