@@ -87,10 +87,6 @@ class _$AppDatabase extends AppDatabase {
 
   DeliveryPeriodDao? _deliveryPeriodDaoInstance;
 
-  LcTypesDao? _lcTypeDaoInstance;
-
-  PackingDao? _packingDaoInstance;
-
   PaymentTypeDao? _paymentTypeDaoInstance;
 
   PortsDao? _portsDaoInstance;
@@ -100,8 +96,6 @@ class _$AppDatabase extends AppDatabase {
   UnitDao? _unitDaoInstance;
 
   StocklotFamilyDao? _stocklotCategoriesDaoInstance;
-
-  AvailabilityDao? _availabilityDaoInstance;
 
   FabricSettingDao? _fabricSettingDaoInstance;
 
@@ -161,8 +155,6 @@ class _$AppDatabase extends AppDatabase {
 
   SpunTechniqueDao? _spunTechDaoInstance;
 
-  TwistDirectionDao? _twistDirectionDaoInstance;
-
   UsageDao? _usageDaoInstance;
 
   YarnTypesDao? _yarnTypesDaoInstance;
@@ -220,10 +212,6 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `price_terms_table` (`ptrId` INTEGER NOT NULL, `ptrCategoryIdfk` TEXT, `ptr_locality` TEXT, `ptrName` TEXT, `ptrIsActive` TEXT, PRIMARY KEY (`ptrId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `lc_type` (`lcId` INTEGER NOT NULL, `lcName` TEXT, `lcIsActive` TEXT, PRIMARY KEY (`lcId`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `packing` (`pacId` INTEGER NOT NULL, `pacName` TEXT, `pacCategoryId` TEXT, `pacIsActive` TEXT, PRIMARY KEY (`pacId`))');
-        await database.execute(
             'CREATE TABLE IF NOT EXISTS `payment_type` (`payId` TEXT, `payPriceTerrmIdfk` TEXT, `ptrCountryIdfk` TEXT, `payName` TEXT, `payIsActive` TEXT, `parentId` TEXT, PRIMARY KEY (`payId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ports` (`prtId` INTEGER NOT NULL, `prtCountryIdfk` TEXT, `prtName` TEXT, `prtIsActive` TEXT, PRIMARY KEY (`prtId`))');
@@ -266,11 +254,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_layyer` (`fabricLayyerId` INTEGER, `fabricLayyerName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricLayyerId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `availability_table` (`afm_id` INTEGER, `afm_category_idfk` TEXT, `afm_port_idfk` TEXT, `afm_name` TEXT, `afm_is_active` TEXT, `afm_sortid` TEXT, `created_at` TEXT, `updated_at` TEXT, `deleted_at` TEXT, PRIMARY KEY (`afm_id`))');
-        await database.execute(
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `cone_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
+            'CREATE TABLE IF NOT EXISTS `cone_type` (`yctId` INTEGER, `familyId` TEXT, `ctCategoryIdfk` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `doubling_method` (`dmId` INTEGER, `plyId` TEXT, `dmName` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`dmId`))');
         await database.execute(
@@ -293,8 +279,6 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `quality_table` (`yqId` INTEGER, `familyId` TEXT, `yqName` TEXT, `yqAbrv` TEXT, `spun_technique_id` TEXT, `yqBlendIdfk` TEXT, `yqDescription` TEXT, `yqIsActive` TEXT, `yqSortid` TEXT, PRIMARY KEY (`yqId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `spun_technique` (`ystId` INTEGER, `familyId` TEXT, `orientationId` TEXT, `ystName` TEXT, `ystBlendIdfd` TEXT, `ystDescription` TEXT, `ystIsActive` TEXT, `ystSortid` TEXT, PRIMARY KEY (`ystId`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `twist_direction` (`ytdId` INTEGER, `familyId` TEXT, `ytdName` TEXT, `ytdDescription` TEXT, `ytdIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ytdId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `usage_table` (`yuId` INTEGER, `ysFamilyId` TEXT, `yuName` TEXT, `yuDescription` TEXT, `yuIsActive` TEXT, `yuSortid` TEXT, PRIMARY KEY (`yuId`))');
         await database.execute(
@@ -380,16 +364,6 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  LcTypesDao get lcTypeDao {
-    return _lcTypeDaoInstance ??= _$LcTypesDao(database, changeListener);
-  }
-
-  @override
-  PackingDao get packingDao {
-    return _packingDaoInstance ??= _$PackingDao(database, changeListener);
-  }
-
-  @override
   PaymentTypeDao get paymentTypeDao {
     return _paymentTypeDaoInstance ??=
         _$PaymentTypeDao(database, changeListener);
@@ -414,12 +388,6 @@ class _$AppDatabase extends AppDatabase {
   StocklotFamilyDao get stocklotCategoriesDao {
     return _stocklotCategoriesDaoInstance ??=
         _$StocklotFamilyDao(database, changeListener);
-  }
-
-  @override
-  AvailabilityDao get availabilityDao {
-    return _availabilityDaoInstance ??=
-        _$AvailabilityDao(database, changeListener);
   }
 
   @override
@@ -585,12 +553,6 @@ class _$AppDatabase extends AppDatabase {
   SpunTechniqueDao get spunTechDao {
     return _spunTechDaoInstance ??=
         _$SpunTechniqueDao(database, changeListener);
-  }
-
-  @override
-  TwistDirectionDao get twistDirectionDao {
-    return _twistDirectionDaoInstance ??=
-        _$TwistDirectionDao(database, changeListener);
   }
 
   @override
@@ -1631,6 +1593,18 @@ class _$DeliveryPeriodDao extends DeliveryPeriodDao {
   }
 
   @override
+  Future<List<DeliveryPeriod>> findAllDeliveryPeriodWithCatId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM delivery_period where dprCategoryIdfk = ?1',
+        mapper: (Map<String, Object?> row) => DeliveryPeriod(
+            dprId: row['dprId'] as int,
+            dprCategoryIdfk: row['dprCategoryIdfk'] as String?,
+            dprName: row['dprName'] as String?,
+            dprIsActive: row['dprIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
   Future<DeliveryPeriod?> findDeliveryPeriodWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM delivery_period where dprId = ?1',
         mapper: (Map<String, Object?> row) => DeliveryPeriod(
@@ -1664,145 +1638,6 @@ class _$DeliveryPeriodDao extends DeliveryPeriodDao {
       List<DeliveryPeriod> deliveryPeriods) {
     return _deliveryPeriodInsertionAdapter.insertListAndReturnIds(
         deliveryPeriods, OnConflictStrategy.replace);
-  }
-}
-
-class _$LcTypesDao extends LcTypesDao {
-  _$LcTypesDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _lcTypeInsertionAdapter = InsertionAdapter(
-            database,
-            'lc_type',
-            (LcType item) => <String, Object?>{
-                  'lcId': item.lcId,
-                  'lcName': item.lcName,
-                  'lcIsActive': item.lcIsActive
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<LcType> _lcTypeInsertionAdapter;
-
-  @override
-  Future<List<LcType>> findAllLcType() async {
-    return _queryAdapter.queryList('SELECT * FROM lc_type',
-        mapper: (Map<String, Object?> row) => LcType(
-            lcId: row['lcId'] as int,
-            lcName: row['lcName'] as String?,
-            lcIsActive: row['lcIsActive'] as String?));
-  }
-
-  @override
-  Future<LcType?> findYarnLcTypeWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM lc_type where lcId = ?1',
-        mapper: (Map<String, Object?> row) => LcType(
-            lcId: row['lcId'] as int,
-            lcName: row['lcName'] as String?,
-            lcIsActive: row['lcIsActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteLcType(int id) async {
-    await _queryAdapter
-        .queryNoReturn('delete from lc_type where lcId = ?1', arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from lc_type');
-  }
-
-  @override
-  Future<void> insertLcType(LcType lcType) async {
-    await _lcTypeInsertionAdapter.insert(lcType, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllLcType(List<LcType> lcType) {
-    return _lcTypeInsertionAdapter.insertListAndReturnIds(
-        lcType, OnConflictStrategy.replace);
-  }
-}
-
-class _$PackingDao extends PackingDao {
-  _$PackingDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _packingInsertionAdapter = InsertionAdapter(
-            database,
-            'packing',
-            (Packing item) => <String, Object?>{
-                  'pacId': item.pacId,
-                  'pacName': item.pacName,
-                  'pacCategoryId': item.pacCategoryId,
-                  'pacIsActive': item.pacIsActive
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<Packing> _packingInsertionAdapter;
-
-  @override
-  Future<List<Packing>> findAllPacking() async {
-    return _queryAdapter.queryList('SELECT * FROM packing',
-        mapper: (Map<String, Object?> row) => Packing(
-            pacId: row['pacId'] as int,
-            pacName: row['pacName'] as String?,
-            pacCategoryId: row['pacCategoryId'] as String?,
-            pacIsActive: row['pacIsActive'] as String?));
-  }
-
-  @override
-  Future<Packing?> findYarnPackingWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM packing where pacId = ?1',
-        mapper: (Map<String, Object?> row) => Packing(
-            pacId: row['pacId'] as int,
-            pacName: row['pacName'] as String?,
-            pacCategoryId: row['pacCategoryId'] as String?,
-            pacIsActive: row['pacIsActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<List<Packing>?> findYarnPackingWithCatId(int id) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM packing where pacCategoryId = ?1',
-        mapper: (Map<String, Object?> row) => Packing(
-            pacId: row['pacId'] as int,
-            pacName: row['pacName'] as String?,
-            pacCategoryId: row['pacCategoryId'] as String?,
-            pacIsActive: row['pacIsActive'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deletePacking(int id) async {
-    await _queryAdapter
-        .queryNoReturn('delete from packing where pacId = ?1', arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from packing');
-  }
-
-  @override
-  Future<void> insertPacking(Packing packing) async {
-    await _packingInsertionAdapter.insert(packing, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllPacking(List<Packing> packing) {
-    return _packingInsertionAdapter.insertListAndReturnIds(
-        packing, OnConflictStrategy.replace);
   }
 }
 
@@ -2060,6 +1895,27 @@ class _$UnitDao extends UnitDao {
   }
 
   @override
+  Future<List<Units>> findAllUnitWithCatId(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM units_table where untCategoryIdfk = ?1',
+        mapper: (Map<String, Object?> row) => Units(
+            untId: row['untId'] as int,
+            untCategoryIdfk: row['untCategoryIdfk'] as String?,
+            unt_family_idfk: row['unt_family_idfk'] as String?,
+            untName: row['untName'] as String?,
+            untIsActive: row['untIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<Units>> findAllUnitWithCatIdFamId(int id, int famId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM units_table where untCategoryIdfk = ?1 and unt_family_idfk = ?2',
+        mapper: (Map<String, Object?> row) => Units(untId: row['untId'] as int, untCategoryIdfk: row['untCategoryIdfk'] as String?, unt_family_idfk: row['unt_family_idfk'] as String?, untName: row['untName'] as String?, untIsActive: row['untIsActive'] as String?),
+        arguments: [id, famId]);
+  }
+
+  @override
   Future<Units?> findYarnUnitWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM units_table where untId = ?1',
         mapper: (Map<String, Object?> row) => Units(
@@ -2178,89 +2034,6 @@ class _$StocklotFamilyDao extends StocklotFamilyDao {
       List<StockLotFamily> stocklotCategories) {
     return _stockLotFamilyInsertionAdapter.insertListAndReturnIds(
         stocklotCategories, OnConflictStrategy.replace);
-  }
-}
-
-class _$AvailabilityDao extends AvailabilityDao {
-  _$AvailabilityDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _availabilityModelInsertionAdapter = InsertionAdapter(
-            database,
-            'availability_table',
-            (AvailabilityModel item) => <String, Object?>{
-                  'afm_id': item.afm_id,
-                  'afm_category_idfk': item.afm_category_idfk,
-                  'afm_port_idfk': item.afm_port_idfk,
-                  'afm_name': item.afm_name,
-                  'afm_is_active': item.afm_is_active,
-                  'afm_sortid': item.afm_sortid,
-                  'created_at': item.created_at,
-                  'updated_at': item.updated_at,
-                  'deleted_at': item.deleted_at
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<AvailabilityModel> _availabilityModelInsertionAdapter;
-
-  @override
-  Future<List<AvailabilityModel>> findAllAvailability() async {
-    return _queryAdapter.queryList('SELECT * FROM availability_table',
-        mapper: (Map<String, Object?> row) => AvailabilityModel(
-            afm_id: row['afm_id'] as int?,
-            afm_category_idfk: row['afm_category_idfk'] as String?,
-            afm_port_idfk: row['afm_port_idfk'] as String?,
-            afm_name: row['afm_name'] as String?,
-            afm_is_active: row['afm_is_active'] as String?,
-            afm_sortid: row['afm_sortid'] as String?,
-            created_at: row['created_at'] as String?,
-            updated_at: row['updated_at'] as String?,
-            deleted_at: row['deleted_at'] as String?));
-  }
-
-  @override
-  Future<AvailabilityModel?> findAvailabilityWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM availability_table where id = ?1',
-        mapper: (Map<String, Object?> row) => AvailabilityModel(
-            afm_id: row['afm_id'] as int?,
-            afm_category_idfk: row['afm_category_idfk'] as String?,
-            afm_port_idfk: row['afm_port_idfk'] as String?,
-            afm_name: row['afm_name'] as String?,
-            afm_is_active: row['afm_is_active'] as String?,
-            afm_sortid: row['afm_sortid'] as String?,
-            created_at: row['created_at'] as String?,
-            updated_at: row['updated_at'] as String?,
-            deleted_at: row['deleted_at'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAvailability(int id) async {
-    await _queryAdapter.queryNoReturn(
-        'delete from availability_table where id = ?1',
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from availability_table');
-  }
-
-  @override
-  Future<void> insertAvailability(AvailabilityModel availablityModel) async {
-    await _availabilityModelInsertionAdapter.insert(
-        availablityModel, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllAvailability(
-      List<AvailabilityModel> availablityModel) {
-    return _availabilityModelInsertionAdapter.insertListAndReturnIds(
-        availablityModel, OnConflictStrategy.replace);
   }
 }
 
@@ -4156,6 +3929,7 @@ class _$ConeTypeDao extends ConeTypeDao {
             (ConeType item) => <String, Object?>{
                   'yctId': item.yctId,
                   'familyId': item.familyId,
+                  'ctCategoryIdfk': item.ctCategoryIdfk,
                   'yctName': item.yctName,
                   'yctDescription': item.yctDescription,
                   'yctIsActive': item.yctIsActive,
@@ -4172,7 +3946,7 @@ class _$ConeTypeDao extends ConeTypeDao {
 
   @override
   Future<List<ConeType>> findAllConeType() async {
-    return _queryAdapter.queryList('SELECT * FROM corn_type',
+    return _queryAdapter.queryList('SELECT * FROM cone_type',
         mapper: (Map<String, Object?> row) => ConeType(
             yctId: row['yctId'] as int?,
             familyId: row['familyId'] as String?,
@@ -4183,8 +3957,23 @@ class _$ConeTypeDao extends ConeTypeDao {
   }
 
   @override
+  Future<List<ConeType>> findAllConeTypeWithCatAndFamID(
+      int famId, int catId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM cone_type where familyId = ?1 and ctCategoryIdfk = ?2',
+        mapper: (Map<String, Object?> row) => ConeType(
+            yctId: row['yctId'] as int?,
+            familyId: row['familyId'] as String?,
+            yctName: row['yctName'] as String?,
+            yctDescription: row['yctDescription'] as String?,
+            yctIsActive: row['yctIsActive'] as String?,
+            yctSortid: row['yctSortid'] as String?),
+        arguments: [famId, catId]);
+  }
+
+  @override
   Future<ConeType?> findYarnConeTypeWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM corn_type where yctId = ?1',
+    return _queryAdapter.query('SELECT * FROM cone_type where yctId = ?1',
         mapper: (Map<String, Object?> row) => ConeType(
             yctId: row['yctId'] as int?,
             familyId: row['familyId'] as String?,
@@ -4197,13 +3986,13 @@ class _$ConeTypeDao extends ConeTypeDao {
 
   @override
   Future<void> deleteConeType(int id) async {
-    await _queryAdapter.queryNoReturn('delete from corn_type where yctId = ?1',
+    await _queryAdapter.queryNoReturn('delete from cone_type where yctId = ?1',
         arguments: [id]);
   }
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from corn_type');
+    await _queryAdapter.queryNoReturn('delete from cone_type');
   }
 
   @override
@@ -4917,94 +4706,6 @@ class _$SpunTechniqueDao extends SpunTechniqueDao {
   @override
   Future<List<int>> insertAllSpunTechnique(List<SpunTechnique> colorTm) {
     return _spunTechniqueInsertionAdapter.insertListAndReturnIds(
-        colorTm, OnConflictStrategy.replace);
-  }
-}
-
-class _$TwistDirectionDao extends TwistDirectionDao {
-  _$TwistDirectionDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _twistDirectionInsertionAdapter = InsertionAdapter(
-            database,
-            'twist_direction',
-            (TwistDirection item) => <String, Object?>{
-                  'ytdId': item.ytdId,
-                  'familyId': item.familyId,
-                  'ytdName': item.ytdName,
-                  'ytdDescription': item.ytdDescription,
-                  'ytdIsActive': item.ytdIsActive,
-                  'catSortid': item.catSortid
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<TwistDirection> _twistDirectionInsertionAdapter;
-
-  @override
-  Future<List<TwistDirection>> findAllTwistDirection() async {
-    return _queryAdapter.queryList('SELECT * FROM twist_direction',
-        mapper: (Map<String, Object?> row) => TwistDirection(
-            ytdId: row['ytdId'] as int?,
-            familyId: row['familyId'] as String?,
-            ytdName: row['ytdName'] as String?,
-            ytdDescription: row['ytdDescription'] as String?,
-            ytdIsActive: row['ytdIsActive'] as String?,
-            catSortid: row['catSortid'] as String?));
-  }
-
-  @override
-  Future<List<TwistDirection>> findYarnTwistDirectionWithFamilyId(
-      int id) async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM twist_direction where familyId = ?1',
-        mapper: (Map<String, Object?> row) => TwistDirection(
-            ytdId: row['ytdId'] as int?,
-            familyId: row['familyId'] as String?,
-            ytdName: row['ytdName'] as String?,
-            ytdDescription: row['ytdDescription'] as String?,
-            ytdIsActive: row['ytdIsActive'] as String?,
-            catSortid: row['catSortid'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<TwistDirection?> findYarnTwistDirectionWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM twist_direction where ytdId = ?1',
-        mapper: (Map<String, Object?> row) => TwistDirection(
-            ytdId: row['ytdId'] as int?,
-            familyId: row['familyId'] as String?,
-            ytdName: row['ytdName'] as String?,
-            ytdDescription: row['ytdDescription'] as String?,
-            ytdIsActive: row['ytdIsActive'] as String?,
-            catSortid: row['catSortid'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteTwistDirection(int id) async {
-    await _queryAdapter.queryNoReturn(
-        'delete from twist_direction where ytdId = ?1',
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from twist_direction');
-  }
-
-  @override
-  Future<void> insertTwistDirection(TwistDirection colorTm) async {
-    await _twistDirectionInsertionAdapter.insert(
-        colorTm, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllTwistDirection(List<TwistDirection> colorTm) {
-    return _twistDirectionInsertionAdapter.insertListAndReturnIds(
         colorTm, OnConflictStrategy.replace);
   }
 }

@@ -274,6 +274,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
                           showLogoutDialog("Alert", "Are you sure you want to logout?", context, (){
+                            SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, false);
+                            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
+                            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
+                            SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
                             AppDbInstance().getDbInstance().then((value) {
                               value.userDao.deleteUserData();
                               value.yarnSettingsDao.deleteYarnSettings();
@@ -282,12 +286,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               value.fiberSettingDao.deleteAll();
                               value.gradesDao.deleteAll();
                               value.fiberFamilyDao.deleteAll();
-                              value.packingDao.deleteAll();
                               value.patternDao.deleteAll();
                               value.patternCharDao.deleteAll();
                               value.paymentTypeDao.deleteAll();
                               value.deliveryPeriodDao.deleteAll();
-                              value.lcTypeDao.deleteAll();
                               value.yarnGradesDao.deleteAll();
                               value.fiberAppearanceDoa.deleteAll();
                               value.yarnAppearanceDao.deleteAll();
@@ -324,10 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               value.stocklotCategoriesDao.deleteAll();
 
                             });
-                            SharedPreferenceUtil.addBoolToSF(SYNCED_KEY, false);
-                            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
-                            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
-                            SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
+
 
                             Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) => const SignInPage()),(route) => false,);

@@ -7,6 +7,9 @@ abstract class DeliveryPeriodDao{
   @Query('SELECT * FROM delivery_period')
   Future<List<DeliveryPeriod>> findAllDeliveryPeriod();
 
+  @Query('SELECT * FROM delivery_period where dprCategoryIdfk = :id')
+  Future<List<DeliveryPeriod>> findAllDeliveryPeriodWithCatId(int id);
+
   @Query('SELECT * FROM delivery_period where dprId = :id')
   Future<DeliveryPeriod?> findDeliveryPeriodWithId(int id);
 

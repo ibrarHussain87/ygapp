@@ -13,12 +13,9 @@ import 'package:yg_app/app_database/dao/fabric_dao/fabric_family_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_appearance_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_material_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_nature_dao.dart';
-import 'package:yg_app/app_database/dao/lc_types_dao.dart';
-import 'package:yg_app/app_database/dao/packing_dao.dart';
 import 'package:yg_app/app_database/dao/payment_type_dao.dart';
 import 'package:yg_app/app_database/dao/port_dao.dart';
 import 'package:yg_app/app_database/dao/price_terms_dao.dart';
-import 'package:yg_app/app_database/dao/stocklot_dao/availability_dao.dart';
 import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_categories_dao.dart';
 import 'package:yg_app/app_database/dao/unit_dao.dart';
 import 'package:yg_app/app_database/dao/user_dao.dart';
@@ -32,7 +29,6 @@ import 'package:yg_app/app_database/dao/yarn_dao/pattern_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/ply_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/quality_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/spun_technequie_dao.dart';
-import 'package:yg_app/app_database/dao/yarn_dao/twist_direction_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/usage_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_appearance_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_blend_dao.dart';
@@ -48,8 +44,6 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
@@ -92,9 +86,9 @@ part 'app_database.g.dart'; // the generated code will be there
 
 
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
-  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,LcType,Packing,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
-  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,AvailabilityModel,
-ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,TwistDirection,Usage,YarnTypes,StockLotFamily])
+  Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
+  FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
+ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -121,9 +115,6 @@ abstract class AppDatabase extends FloorDatabase {
   CategoryDao get categoriesDao;
   DeliveryPeriodDao get deliveryPeriodDao;
 
-  LcTypesDao get lcTypeDao;
-
-  PackingDao get packingDao;
 
   PaymentTypeDao get paymentTypeDao;
 
@@ -134,8 +125,6 @@ abstract class AppDatabase extends FloorDatabase {
   UnitDao get unitDao;
 
   StocklotFamilyDao get stocklotCategoriesDao;
-
-  AvailabilityDao get availabilityDao;
 
   FabricSettingDao get fabricSettingDao;
 
@@ -195,7 +184,6 @@ abstract class AppDatabase extends FloorDatabase {
 
   SpunTechniqueDao get spunTechDao;
 
-  TwistDirectionDao get twistDirectionDao;
 
   UsageDao get usageDao;
 

@@ -1892,9 +1892,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
     _detailPackaging = [
       GridTileModel(
           'Unit of Counting',
-          widget.yarnSpecification!.unitCount == null
+          fabricSpec.unitCount == null
               ? Utils.checkNullString(false)
-              : widget.yarnSpecification!.unitCount!),
+              : fabricSpec.unitCount??""),
       GridTileModel(
           'Packing',
           fabricSpec.fpb_cone_type_name ??

@@ -231,7 +231,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                               ),
                             ],
                           ),
-                          Column(
+                        /*  Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
@@ -261,7 +261,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       items: stocklotProvider.availabilityList!
                                           .map((value) => DropdownMenuItem(
                                                 child: Text(
-                                                    /*value.conCurrency*/
+                                                    *//*value.conCurrency*//*
                                                     value.toString(),
                                                     textAlign:
                                                         TextAlign.center),
@@ -269,7 +269,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                               ))
                                           .toList(),
                                       isExpanded: true,
-                                      onChanged: (/*Countries?*/
+                                      onChanged: (*//*Countries?*//*
                                           AvailabilityModel? value) {
                                         stocklotProvider
                                                 .getStockLotSpecRequestModel
@@ -297,7 +297,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                 ),
                               ),
                             ],
-                          ),
+                          ),*/
                         ],
                       ),
                     )),

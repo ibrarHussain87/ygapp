@@ -2,7 +2,6 @@ import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
@@ -60,8 +59,7 @@ class Stocklot {
   List<Countries>? countries;
   List<CityState>? cityState;
   List<FPriceTerms>? priceTerms;
-  List<LcType>? lcTypes;
-  List<AvailabilityModel>? availabilityList;
+  // List<AvailabilityModel>? availabilityList;
   List<PaymentType>? paymentTypes;
   List<Units>? units;
   List<DeliveryPeriod>? deliveryPeriod;
@@ -73,8 +71,7 @@ class Stocklot {
       this.countries,
       this.cityState,
       this.priceTerms,
-      this.lcTypes,
-      this.availabilityList,
+      // this.availabilityList,
       this.paymentTypes,
       this.units,
       this.deliveryPeriod});
@@ -110,19 +107,19 @@ class Stocklot {
         priceTerms!.add(FPriceTerms.fromJson(v));
       });
     }
-    if (json['lc_types'] != null) {
-      lcTypes = <LcType>[];
-      json['lc_types'].forEach((v) {
-        lcTypes!.add(LcType.fromJson(v));
-      });
-    }
+    // if (json['lc_types'] != null) {
+    //   lcTypes = <LcType>[];
+    //   json['lc_types'].forEach((v) {
+    //     lcTypes!.add(LcType.fromJson(v));
+    //   });
+    // }
 
-    if (json['availablity'] != null) {
-      availabilityList = <AvailabilityModel>[];
-      json['availablity'].forEach((v) {
-        availabilityList!.add(AvailabilityModel.fromJson(v));
-      });
-    }
+    // if (json['availablity'] != null) {
+    //   availabilityList = <AvailabilityModel>[];
+    //   json['availablity'].forEach((v) {
+    //     availabilityList!.add(AvailabilityModel.fromJson(v));
+    //   });
+    // }
 
     if (json['payment_types'] != null) {
       paymentTypes = <PaymentType>[];
@@ -162,9 +159,7 @@ class Stocklot {
     if (this.priceTerms != null) {
       data['price_terms'] = this.priceTerms!.map((v) => v.toJson()).toList();
     }
-    if (this.lcTypes != null) {
-      data['lc_types'] = this.lcTypes!.map((v) => v.toJson()).toList();
-    }
+
     if (this.paymentTypes != null) {
       data['payment_types'] =
           this.paymentTypes!.map((v) => v.toJson()).toList();
@@ -257,7 +252,7 @@ class StockLotFamily {
   }
 }
 
-@Entity(tableName: 'availability_table')
+/*@Entity(tableName: 'availability_table')
 class AvailabilityModel {
   @PrimaryKey(autoGenerate: false)
   int? afm_id;
@@ -312,7 +307,7 @@ class AvailabilityModel {
     // TODO: implement toString
     return afm_name ?? "";
   }
-}
+}*/
 
 /*class CityState {
   int? id;

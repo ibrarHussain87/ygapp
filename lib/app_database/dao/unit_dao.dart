@@ -7,6 +7,12 @@ abstract class UnitDao{
   @Query('SELECT * FROM units_table')
   Future<List<Units>> findAllUnit();
 
+  @Query('SELECT * FROM units_table where untCategoryIdfk = :id')
+  Future<List<Units>> findAllUnitWithCatId(int id);
+
+  @Query('SELECT * FROM units_table where untCategoryIdfk = :id and unt_family_idfk = :famId')
+  Future<List<Units>> findAllUnitWithCatIdFamId(int id,int famId);
+
   @Query('SELECT * FROM units_table where untId = :id')
   Future<Units?> findYarnUnitWithId(int id);
 

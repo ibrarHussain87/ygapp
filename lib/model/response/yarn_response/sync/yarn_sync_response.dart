@@ -6,14 +6,10 @@ import 'package:yg_app/model/response/common_response_models/city_state_response
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 
 class YarnSyncResponse {
@@ -77,13 +73,13 @@ class Yarn {
     required this.countries,
     required this.cityState,
     required this.ports,
-    required this.lcTypes,
+    // required this.lcTypes,
     required this.paymentTypes,
     // required this.packing,
     required this.yarnTypes,
     required this.setting,
     required this.spunTechnique,
-    required this.twistDirection,
+    // required this.twistDirection,
     required this.usage,
     required this.blends,
     required this.grades,
@@ -109,13 +105,13 @@ class Yarn {
   List<Countries>? countries;
   List<CityState>? cityState;
   List<Ports>? ports;
-  List<LcType>? lcTypes;
+  // List<LcType>? lcTypes;
   List<PaymentType>? paymentTypes;
   // List<Packing>? packing;
   List<YarnTypes>? yarnTypes;
   List<YarnSetting>? setting;
   List<SpunTechnique>? spunTechnique;
-  List<TwistDirection>? twistDirection;
+  // List<TwistDirection>? twistDirection;
   List<Usage>? usage;
   List<Blends>? blends;
   List<YarnGrades>? grades;
@@ -154,8 +150,8 @@ class Yarn {
         .map((e) => CityState.fromJson(e))
         .toList();
     ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();
-    lcTypes =
-        List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
+    // lcTypes =
+    //     List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
     paymentTypes = List.from(json['payment_types'])
         .map((e) => PaymentType.fromJson(e))
         .toList();
@@ -169,9 +165,9 @@ class Yarn {
     spunTechnique = List.from(json['spun_technique'])
         .map((e) => SpunTechnique.fromJson(e))
         .toList();
-    twistDirection = List.from(json['twist_direction'])
-        .map((e) => TwistDirection.fromJson(e))
-        .toList();
+    // twistDirection = List.from(json['twist_direction'])
+    //     .map((e) => TwistDirection.fromJson(e))
+    //     .toList();
     usage = List.from(json['usage']).map((e) => Usage.fromJson(e)).toList();
     blends = List.from(json['blends']).map((e) => Blends.fromJson(e)).toList();
     grades = List.from(json['grades']).map((e) => YarnGrades.fromJson(e)).toList();
@@ -212,13 +208,13 @@ class Yarn {
     _data['countries'] = countries!.map((e) => e.toJson()).toList();
     _data['city_state'] = cityState!.map((e) => e.toJson()).toList();
     _data['ports'] = ports!.map((e) => e.toJson()).toList();
-    _data['lc_types'] = lcTypes!.map((e) => e.toJson()).toList();
+    // _data['lc_types'] = lcTypes!.map((e) => e.toJson()).toList();
     _data['payment_types'] = paymentTypes!.map((e) => e.toJson()).toList();
     // _data['packing'] = packing!.map((e) => e.toJson()).toList();
     _data['yarn_types'] = yarnTypes!.map((e) => e.toJson()).toList();
     _data['setting'] = setting!.map((e) => e.toJson()).toList();
     _data['spun_technique'] = spunTechnique!.map((e) => e.toJson()).toList();
-    _data['twist_direction'] = twistDirection!.map((e) => e.toJson()).toList();
+    // _data['twist_direction'] = twistDirection!.map((e) => e.toJson()).toList();
     _data['usage'] = usage!.map((e) => e.toJson()).toList();
     _data['blends'] = blends!.map((e) => e.toJson()).toList();
     _data['grades'] = grades!.map((e) => e.toJson()).toList();
@@ -1003,7 +999,7 @@ class SpunTechnique {
     return ystName ?? "";
   }
 }
-
+/*
 @Entity(tableName: "twist_direction")
 class TwistDirection {
   TwistDirection({
@@ -1048,7 +1044,7 @@ class TwistDirection {
     // TODO: implement toString
     return ytdName ?? "";
   }
-}
+}*/
 @Entity(tableName: "usage_table")
 class Usage {
   Usage({
@@ -1196,6 +1192,7 @@ class ConeType {
   @PrimaryKey(autoGenerate: false)
   int? yctId;
   String? familyId;
+  String? ctCategoryIdfk;
   String? yctName;
   String? yctDescription;
   String? yctIsActive;
@@ -1210,18 +1207,20 @@ class ConeType {
       this.yctSortid});
 
   ConeType.fromJson(Map<String, dynamic> json) {
-    yctId = json['yct_id'];
-    familyId = json['family_id'];
-    yctName = json['yct_name'];
-    yctDescription = json['yct_description'];
-    yctIsActive = json['yct_is_active'];
-    yctSortid = json['yct_sortid'];
+    yctId = json['ct_id'];
+    ctCategoryIdfk = json['ct_category_idfk'];
+    familyId = json['ct_family_idfk'];
+    yctName = json['ct_name'];
+    yctDescription = json['ct_description'];
+    yctIsActive = json['ct_is_active'];
+    yctSortid = json['ct_sortid'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['yct_id'] = yctId;
     data['family_id'] = familyId;
+    data['ct_category_idfk'] = ctCategoryIdfk;
     data['yct_name'] = yctName;
     data['yct_description'] = yctDescription;
     data['yct_is_active'] = yctIsActive;

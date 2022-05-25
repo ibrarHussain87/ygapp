@@ -118,8 +118,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         await dbInstance.patternDao.findAllPatternWithFamily(selectedFamilyId!);
     _qualityList = await dbInstance.qualityDao
         .findYarnQualityWithFamilyId(selectedFamilyId!);
-    _twistDirectionList = await dbInstance.twistDirectionDao
-        .findYarnTwistDirectionWithFamilyId(selectedFamilyId!);
+    // _twistDirectionList = await dbInstance.twistDirectionDao
+    //     .findYarnTwistDirectionWithFamilyId(selectedFamilyId!);
     _patternCharList =
         await dbInstance.patternCharDao.findAllPatternCharacteristics();
     _certificationList =
@@ -146,7 +146,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   List<DoublingMethod>? _doublingMethodList;
   List<DyingMethod>? _dyingMethodList;
   List<OrientationTable>? _orientationList;
-  List<TwistDirection>? _twistDirectionList;
+  // List<TwistDirection>? _twistDirectionList;
   List<SpunTechnique>? _spunTechList;
   List<Quality>? _qualityList;
   List<PatternModel>? _patternList;

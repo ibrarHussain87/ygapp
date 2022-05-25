@@ -24,8 +24,6 @@ import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
@@ -71,10 +69,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   String? unitCountSelected;
 
   late List<FPriceTerms> _priceTermList;
-  late List<Packing> _packingList;
   late List<DeliveryPeriod> _deliverPeriodList;
   late List<PaymentType> _paymentTypeList;
-  late List<LcType> _lcTypeList;
   late List<Units> _unitsList;
   late List<Countries> _countriesList;
   late List<CityState> _cityStateList;
@@ -102,21 +98,12 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
     await AppDbInstance()
         .getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
-    await AppDbInstance().getPacking().then((value) => setState(() {
-          _packingList = value;
-          _packingList = _packingList
-              .where((element) => element.pacIsActive == "1")
-              .toList();
-        }));
     await AppDbInstance()
         .getDeliveryPeriod()
         .then((value) => setState(() => _deliverPeriodList = value));
     await AppDbInstance()
         .getPaymentType()
         .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance()
-        .getLcType()
-        .then((value) => setState(() => _lcTypeList = value));
     await AppDbInstance()
         .getUnits()
         .then((value) => setState(() => _unitsList = value));
@@ -1504,9 +1491,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    if (widget.locality == international) {
-      _createRequestModel!.fpb_lc_type_idfk = _lcTypeList.first.lcId.toString();
-    }
+
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
