@@ -1864,9 +1864,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
   }
 
   _yarnDetails() {
-    String? familyId = widget.yarnSpecification!.yarnFamilyId;
-    switch (familyId) {
-      case '1':
         _detailSpecification = [
           GridTileModel(
               'Yarn Family',
@@ -1876,28 +1873,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
               'Yarn Usage',
               widget.yarnSpecification!.yarnUsage ??
                   Utils.checkNullString(false)),
-          /*GridTileModel('Yarn Appearance',
-              widget.yarnSpecification!.yarnApperance ?? Utils.checkNullString(false)),*/
           GridTileModel(
               'Count',
               widget.yarnSpecification!.count != null
                   ? '${widget.yarnSpecification!.count}'
                   : Utils.checkNullString(false)),
-          /*GridTileModel(
-              'Ratio',
-              widget.yarnSpecification!.yarnRtio != null
-                  ? widget.yarnSpecification!.yarnRtio!
-                  : Utils.checkNullString(false)),*/
-          /*GridTileModel(
-              'Filament',
-              widget.yarnSpecification!.fdyFilament != null
-                  ? widget.yarnSpecification!.fdyFilament!
-                  : Utils.checkNullString(false)),*/
-          /*GridTileModel(
-              'Dianner',
-              widget.yarnSpecification!.dtyFilament != null
-                  ? widget.yarnSpecification!.dtyFilament!
-                  : Utils.checkNullString(false)),*/
           GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
@@ -1938,7 +1918,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnQuality == null
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnQuality!),
-
           GridTileModel(
               'Yarn Appearance',
               widget.yarnSpecification!.yarnApperance ??
@@ -1947,7 +1926,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
               'Yarn Grade',
               widget.yarnSpecification!.yarnGrade ??
                   Utils.checkNullString(false)),
-
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
@@ -1958,18 +1936,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnPatternCharectristic == null
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
-
           GridTileModel(
               'Yarn Certification',
               widget.yarnSpecification!.yarnCertificationStr ??
                   Utils.checkNullString(false)),
-          /*GridTileModel(
-              'Certification',
-              (widget.yarnSpecification!.yarnCertificationStr == null ||
-                      widget.yarnSpecification!.yarnCertificationStr!.isEmpty)
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnCertificationStr!
-                      .replaceAll(",", "")),*/
         ];
         _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
         var newSpecifications = _detailSpecification.toList();
@@ -1978,229 +1948,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
                 element._detail.isNotEmpty &&
                 element._detail.toUpperCase() != "N/A")
             .toList();
-        break;
-      case '2':
-        _detailSpecification = [
-          GridTileModel(
-              'Yarn Family',
-              widget.yarnSpecification!.yarnFamily ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Yarn Usage',
-              widget.yarnSpecification!.yarnUsage ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Blend',
-              widget.yarnSpecification!.yarnBlend ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Count',
-              widget.yarnSpecification!.count != null
-                  ? '${widget.yarnSpecification!.count}'
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Ratio',
-              widget.yarnSpecification!.yarnRtio != null
-                  ? widget.yarnSpecification!.yarnRtio!
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Ply',
-              widget.yarnSpecification!.yarnPly == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPly!),
-          GridTileModel(
-              'Orientation',
-              widget.yarnSpecification!.yarnOrientation == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnOrientation!),
-          GridTileModel(
-              'Pattern',
-              widget.yarnSpecification!.yarnPattern == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPattern!),
-          GridTileModel(
-              'Pattern Characteristics',
-              widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPatternCharectristic!),
-          GridTileModel(
-              'Color Treatment Method',
-              widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-        ];
-        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
-        var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications
-            .where((element) =>
-                element._detail.isNotEmpty &&
-                element._detail.toUpperCase() != "N/A")
-            .toList();
-        break;
-      case '3':
-        _detailSpecification = [
-          GridTileModel(
-              'Yarn Family',
-              widget.yarnSpecification!.yarnFamily ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Yarn Usage',
-              widget.yarnSpecification!.yarnUsage ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Count',
-              widget.yarnSpecification!.count != null
-                  ? '${widget.yarnSpecification!.count}'
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Ply',
-              widget.yarnSpecification!.yarnPly == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPly!),
-          GridTileModel(
-              'Orientation',
-              widget.yarnSpecification!.yarnOrientation == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnOrientation!),
-          GridTileModel(
-              'Doubling Method',
-              widget.yarnSpecification!.doublingMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.doublingMethod!),
-          GridTileModel(
-              'Spun Technique',
-              widget.yarnSpecification!.yarnSpunTechnique == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnSpunTechnique!),
-          GridTileModel(
-              'Pattern',
-              widget.yarnSpecification!.yarnPattern == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPattern!),
-          GridTileModel(
-              'Pattern Characteristics',
-              widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPatternCharectristic!),
-          GridTileModel(
-              'Color Treatment Method',
-              widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-        ];
-        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
-        var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications
-            .where((element) =>
-                element._detail.isNotEmpty &&
-                element._detail.toUpperCase() != "N/A")
-            .toList();
-        break;
-      case '4':
-        _detailSpecification = [
-          GridTileModel(
-              'Yarn Family',
-              widget.yarnSpecification!.yarnFamily ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Dianner',
-              widget.yarnSpecification!.dtyFilament != null
-                  ? widget.yarnSpecification!.dtyFilament!
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Filament',
-              widget.yarnSpecification!.fdyFilament != null
-                  ? widget.yarnSpecification!.fdyFilament!
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Ply',
-              widget.yarnSpecification!.yarnPly == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPly!),
-          GridTileModel(
-              'Color Treatment Method',
-              widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-          GridTileModel(
-              'Dying Method',
-              widget.yarnSpecification!.yarnDyingMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnDyingMethod!),
-          GridTileModel(
-              'Color',
-              widget.yarnSpecification!.color == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.color!),
-          GridTileModel(
-              'Yarn Appearance',
-              widget.yarnSpecification!.yarnApperance ??
-                  Utils.checkNullString(false)),
-        ];
-        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
-        var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications
-            .where((element) =>
-                element._detail.isNotEmpty &&
-                element._detail.toUpperCase() != "N/A")
-            .toList();
-        break;
-      case '5':
-        _detailSpecification = [
-          GridTileModel(
-              'Yarn Family',
-              widget.yarnSpecification!.yarnFamily ??
-                  Utils.checkNullString(false)),
-          GridTileModel(
-              'Blend',
-              widget.yarnSpecification!.yarnBlend != null
-                  ? '${widget.yarnSpecification!.yarnBlend}'
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Color Treatment Method',
-              widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
-          GridTileModel(
-              'Dying Method',
-              widget.yarnSpecification!.yarnDyingMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnDyingMethod!),
-          GridTileModel(
-              'Color',
-              widget.yarnSpecification!.color == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.color!),
-          GridTileModel(
-              'Count',
-              widget.yarnSpecification!.count != null
-                  ? '${widget.yarnSpecification!.count}'
-                  : Utils.checkNullString(false)),
-          GridTileModel(
-              'Ply',
-              widget.yarnSpecification!.yarnPly == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPly!),
-          GridTileModel(
-              'Pattern',
-              widget.yarnSpecification!.yarnPattern == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPattern!),
-          GridTileModel(
-              'Pattern Characteristics',
-              widget.yarnSpecification!.yarnPatternCharectristic == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnPatternCharectristic!),
-        ];
-        _detailSpecification.add(formatFormations(widget.yarnSpecification!.yarnFormation!));
-        var newSpecifications = _detailSpecification.toList();
-        _detailSpecification = newSpecifications
-            .where((element) =>
-                element._detail.isNotEmpty &&
-                element._detail.toUpperCase() != "N/A")
-            .toList();
-        break;
-    }
 
     _labParameters = [
       GridTileModel(
