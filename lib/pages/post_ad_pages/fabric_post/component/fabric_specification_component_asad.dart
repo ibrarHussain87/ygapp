@@ -168,6 +168,8 @@ class FabricSpecificationComponentState
 
 
   _getFabricSyncedData(PostFabricProvider postFabricProvider) async {
+    var dbInstance = await AppDbInstance().getDbInstance();
+
     AppDbInstance().getFabricBlendsData().then((value) =>
         setState(() {
           _fabricBlendsList = value;
@@ -183,7 +185,6 @@ class FabricSpecificationComponentState
               .first
               .familyIdfk;
         }));
-    var dbInstance = await AppDbInstance().getDbInstance();
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     _fabricAppearanceList =
     await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
@@ -203,7 +204,8 @@ class FabricSpecificationComponentState
     _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
-    _denimTypesList = await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
+    _denimTypesList =
+    await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
     Logger().e("message");
     AppDbInstance().getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
@@ -211,8 +213,8 @@ class FabricSpecificationComponentState
         .then((value) => setState(() => _countries = value));
     AppDbInstance().getCityState()
         .then((value) => setState(() => _citySateList = value));
-    AppDbInstance().getCertificationsData()
-        .then((value) => setState(() => _certificationList = value));
+
+    _certificationList = await dbInstance.certificationDao.findCertificationWithCatId(3);
   }
 
   final ValueNotifier<bool> _notifier = ValueNotifier(false);
@@ -263,9 +265,10 @@ class FabricSpecificationComponentState
     } else {
     //  _selectedMaterial = null;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID *//*Microfiber*//*;
+      familyId = FABRIC_MIRCOFIBER_ID */ /*Microfiber*/ /*;
     }*/
-    familyId = postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
+    familyId =
+        postFabricProvider.selectedFabricFamily.fabricFamilyId.toString();
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
       builder: (BuildContext context, snapshot) {
@@ -275,7 +278,8 @@ class FabricSpecificationComponentState
             if (snapshot.data!.isNotEmpty) {
               _resetData();
               ApiService.logger.e(_createRequestModel!.toJson());
-              _fabricSettings = /*snapshot.data![0]*/postFabricProvider.fabricSetting!.first;
+              _fabricSettings = /*snapshot.data![0]*/
+              postFabricProvider.fabricSetting!.first;
             }
           }
           return Scaffold(
@@ -345,7 +349,7 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 12),
                                     child: GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         fabricPlySheet(context, _fabricSettings,
                                             _createRequestModel, () {
                                               _notifierPlySheet.value =
@@ -354,21 +358,26 @@ class FabricSpecificationComponentState
                                       },
                                       child: ValueListenableBuilder(
                                         valueListenable: _notifierPlySheet,
-                                        builder: (context, bool value, child){
+                                        builder: (context, bool value, child) {
                                           return TextFormField(
                                               key: Key(getPlyList(
-                                                  _createRequestModel!).toString()),
+                                                  _createRequestModel!)
+                                                  .toString()),
                                               initialValue: getPlyList(
                                                   _createRequestModel!) ??
                                                   '',
-                                              textInputAction: TextInputAction.done,
-                                              keyboardType: TextInputType.number,
+                                              textInputAction: TextInputAction
+                                                  .done,
+                                              keyboardType: TextInputType
+                                                  .number,
                                               cursorColor: lightBlueTabs,
                                               enabled: false,
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter count details','Count',true));
+                                              decoration: ygTextFieldDecoration(
+                                                  'Enter count details',
+                                                  'Count', true));
                                         },
                                       ),
                                     ),
@@ -525,30 +534,35 @@ class FabricSpecificationComponentState
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWarpCount),
                                   child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       warpSheet(context, _fabricSettings,
-                                          _createRequestModel, (){
-                                            _notifierWarpSheet.value = !_notifierWarpSheet.value;
+                                          _createRequestModel, () {
+                                            _notifierWarpSheet.value =
+                                            !_notifierWarpSheet.value;
                                           });
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 12),
                                       child: ValueListenableBuilder(
                                         valueListenable: _notifierWarpSheet,
-                                        builder: (context, bool value, child){
+                                        builder: (context, bool value, child) {
                                           return TextFormField(
                                               key: Key(getWarpList(
-                                                  _createRequestModel!).toString()),
+                                                  _createRequestModel!)
+                                                  .toString()),
                                               initialValue: getWarpList(
                                                   _createRequestModel!) ?? '',
-                                              textInputAction: TextInputAction.done,
-                                              keyboardType: TextInputType.number,
+                                              textInputAction: TextInputAction
+                                                  .done,
+                                              keyboardType: TextInputType
+                                                  .number,
                                               cursorColor: lightBlueTabs,
                                               enabled: false,
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter Warp','Warp',true));
+                                              decoration: ygTextFieldDecoration(
+                                                  'Enter Warp', 'Warp', true));
                                         },
                                       ),
                                     ),
@@ -680,32 +694,39 @@ class FabricSpecificationComponentState
                                   ),
                                 ),*/
                                 Visibility(
-                                  visible: Ui.showHide(_fabricSettings!.showWeftCount),
+                                  visible: Ui.showHide(
+                                      _fabricSettings!.showWeftCount),
                                   child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       weftSheet(context, _fabricSettings,
-                                          _createRequestModel, (){
-                                            _notifierWeftSheet.value = !_notifierWeftSheet.value;
+                                          _createRequestModel, () {
+                                            _notifierWeftSheet.value =
+                                            !_notifierWeftSheet.value;
                                           });
                                     },
                                     child: ValueListenableBuilder(
                                       valueListenable: _notifierWeftSheet,
-                                      builder: (context, bool value, child){
+                                      builder: (context, bool value, child) {
                                         return Padding(
-                                          padding: const EdgeInsets.only(top: 12),
+                                          padding: const EdgeInsets.only(
+                                              top: 12),
                                           child: TextFormField(
                                               key: Key(getWeftList(
-                                                  _createRequestModel!).toString()),
+                                                  _createRequestModel!)
+                                                  .toString()),
                                               initialValue: getWeftList(
                                                   _createRequestModel!) ?? '',
-                                              textInputAction: TextInputAction.done,
-                                              keyboardType: TextInputType.number,
+                                              textInputAction: TextInputAction
+                                                  .done,
+                                              keyboardType: TextInputType
+                                                  .number,
                                               cursorColor: lightBlueTabs,
                                               enabled: false,
                                               style: TextStyle(fontSize: 11.sp),
                                               textAlign: TextAlign.center,
                                               cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration('Enter Weft','Weft',true)),
+                                              decoration: ygTextFieldDecoration(
+                                                  'Enter Weft', 'Weft', true)),
                                         );
                                       },
                                     ),
@@ -1223,7 +1244,7 @@ class FabricSpecificationComponentState
                                 ),
                                 // Show Weave Pattern
                                 Visibility(
-                                  visible:  Ui.showHide(
+                                  visible: Ui.showHide(
                                       _fabricSettings!.showWeavePatternes),
                                   child: IntrinsicHeight(
                                     child: Row(
@@ -1248,7 +1269,8 @@ class FabricSpecificationComponentState
                                                           label: 'Weave Pattern',
                                                           onSaved: (input) {
                                                             // _createRequestModel!.fs_ratio = input;
-                                                            weavePatternA = input;
+                                                            weavePatternA =
+                                                                input;
                                                           }),
                                                     ),
                                                     Container(
@@ -1263,7 +1285,8 @@ class FabricSpecificationComponentState
                                                           label: 'Weave Pattern',
                                                           onSaved: (input) {
                                                             // _createRequestModel!.fs_ratio = input;
-                                                            weavePatternB = input;
+                                                            weavePatternB =
+                                                                input;
                                                           }),
                                                     )
                                                   ],
@@ -1305,7 +1328,8 @@ class FabricSpecificationComponentState
                                           callback: (DenimTypes value) {
                                             _createRequestModel!
                                                 .fabric_denim_type_idfk =
-                                                value.fabricDenimTypeId.toString();
+                                                value.fabricDenimTypeId
+                                                    .toString();
                                           },
                                         ),
                                       ],
@@ -1848,7 +1872,7 @@ class FabricSpecificationComponentState
                                       _fabricSettings!.showGrade),
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        top: 8.w,),
+                                      top: 8.w,),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment
                                           .start,
@@ -2003,7 +2027,8 @@ class FabricSpecificationComponentState
           .familyIdfk
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId ?? '';
-      _createRequestModel!.fabric_weave_pattern_idfk = '$weavePatternA/$weavePatternB';
+      _createRequestModel!.fabric_weave_pattern_idfk =
+      '$weavePatternA/$weavePatternB';
       /*if(_createRequestModel!.fs_ply_idfk == null){
         _createRequestModel!.fs_ply_idfk = null;
       }
@@ -2107,9 +2132,9 @@ class FabricSpecificationComponentState
     _selectedAppearenceId = null;
     _selectedPlyId = null;
     Logger().e(_createRequestModel!.toJson().toString());
-   // String? familyId = _createRequestModel!.fs_family_idfk;
+    // String? familyId = _createRequestModel!.fs_family_idfk;
     _createRequestModel = _fabricPostProvider.fabricCreateRequestModel;
-   // _createRequestModel!.fs_family_idfk = familyId;
+    // _createRequestModel!.fs_family_idfk = familyId;
     Logger().e(_createRequestModel!.toJson().toString());
     _textEditingController.text = "";
   }
@@ -2197,7 +2222,7 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showDenimType)) {
         Ui.showSnackBar(context, 'Please Select Denim Type');
         return false;
-      }else if (_createRequestModel!.fs_loom_idfk == null &&
+      } else if (_createRequestModel!.fs_loom_idfk == null &&
           Ui.showHide(_fabricSettings!.showLoom)) {
         Ui.showSnackBar(context, 'Please Select Loom');
         return false;

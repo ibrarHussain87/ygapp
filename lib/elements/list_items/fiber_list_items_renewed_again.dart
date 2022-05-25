@@ -386,37 +386,40 @@ Widget buildFiberRenewedAgainWidget(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text.rich(TextSpan(children: [
-                            TextSpan(
-                              text:
-                                  '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.sp,
-                                  /*fontFamily: 'Metropolis',*/
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            TextSpan(
-                              text: specification.priceUnit
-                                  .toString()
-                                  .replaceAll(
-                                      RegExp(r'[^0-9]'), '') /*'1000'*/,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 17.sp,
-                                  /*fontFamily: 'Metropolis',*/
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            TextSpan(
-                              text:
-                                  "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.sp,
-                                  /*fontFamily: 'Metropolis',*/
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ])),
+                          Visibility(
+                            visible: specification.is_offering == offering_type,
+                            child: Text.rich(TextSpan(children: [
+                              TextSpan(
+                                text:
+                                    '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    /*fontFamily: 'Metropolis',*/
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              TextSpan(
+                                text: specification.priceUnit
+                                    .toString()
+                                    .replaceAll(
+                                        RegExp(r'[^0-9]'), '') /*'1000'*/,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17.sp,
+                                    /*fontFamily: 'Metropolis',*/
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              TextSpan(
+                                text:
+                                    "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    /*fontFamily: 'Metropolis',*/
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ])),
+                          ),
                           SizedBox(
                             height: 1.h,
                           ),
@@ -460,33 +463,36 @@ Widget buildFiberRenewedAgainWidget(
                           const SizedBox(
                             height: 7,
                           ),
-                          SizedBox(
-                            height: 20.h,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount:
-                                    specification.certifications!.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    decoration: BoxDecoration(
+                          Visibility(
+                            visible: false,
+                            child: SizedBox(
+                              height: 20.h,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      specification.certifications!.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          border: Border.all(
+                                              color: Colors.grey.shade500)),
+                                      child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(25),
-                                        border: Border.all(
-                                            color: Colors.grey.shade500)),
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(25),
-                                      child: Image.network(
-                                        specification.certifications![index]
-                                                .certification!.icon ??
-                                            'images/ic_list.png',
-                                        height: 20.w,
-                                        width: 20.h,
+                                        child: Image.network(
+                                          specification.certifications![index]
+                                                  .certification!.icon ??
+                                              'images/ic_list.png',
+                                          height: 20.w,
+                                          width: 20.h,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
+                                    );
+                                  }),
+                            ),
                           ),
                           const SizedBox(
                             height: 7,

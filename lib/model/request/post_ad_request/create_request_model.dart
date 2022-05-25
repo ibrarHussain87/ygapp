@@ -34,7 +34,7 @@ class CreateRequestModel {
   String? spc_city_state_idfk;
   String? spc_certificate_idfk;
   String? fbp_price;
-  String? packing_idfk;
+  // String? packing_idfk;
   String? payment_type_idfk;
   String? lc_type_idfk;
   String? fbp_count_unit_idfk;
@@ -139,7 +139,7 @@ class CreateRequestModel {
       this.spc_city_state_idfk,
       this.spc_certificate_idfk,
       this.fbp_price,
-      this.packing_idfk,
+      // this.packing_idfk,
       this.payment_type_idfk,
       this.lc_type_idfk,
       this.ys_color_code,
@@ -232,7 +232,7 @@ class CreateRequestModel {
       'formation': formation ?? [],
       'certification_id ': spc_certificate_idfk ?? "",
       'fbp_price': fbp_price ?? "",
-      'packing_idfk': packing_idfk ?? "",
+      // 'packing_idfk': packing_idfk ?? "",
       'payment_type_idfk': payment_type_idfk ?? "",
       'lc_type_idfk': lc_type_idfk ?? "",
       'fbp_count_unit_idfk': fbp_count_unit_idfk ?? "",
@@ -261,8 +261,7 @@ class CreateRequestModel {
           ys_pattern_charectristic_thickness ?? "",
       'ys_pattern_charactristics_length':
           ys_length_pattern_charactristics ?? "",
-      'ys_patteren_charactristics_pause':
-          ys_pause_patteren_charactristics ?? "",
+      'ys_patteren_charactristics_pause': ys_pause_patteren_charactristics ?? "",
       'ys_patteren_charactristics_grain':
           ys_grain_patteren_charactristics ?? "",
       'ys_patteren_charactristics_rice': ys_rice_patteren_charactristics ?? "",

@@ -243,48 +243,51 @@ Widget buildYarnRenewedAgainWidget(
                                     ),
                             ),
                             SizedBox(height: 13.w),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Wrap(
-                                    spacing: 4.0,
-                                    runSpacing: 3.0,
-                                    children: [
-                                      ShortDetailRenewedWidget(
-                                        title: specification.weightBag ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_BAG_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.weightCone ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_CONE_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_VAN_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: /*specification.locality ==
-                                                international
-                                            ? */specification.yarn_country?.capitalizeAndLower()
-                                            /*: specification.locality
-                                                ?.capitalizeAndLower()*/ /*:Utils.checkNullString(false)*/,
-                                        imageIcon: IC_LOCATION_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                            Visibility(
+                              visible: specification.is_offering == offering_type,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      spacing: 4.0,
+                                      runSpacing: 3.0,
+                                      children: [
+                                        ShortDetailRenewedWidget(
+                                          title: specification.weightBag ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_BAG_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.weightCone ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_CONE_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.deliveryPeriod ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_VAN_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: /*specification.locality ==
+                                                  international
+                                              ? */specification.yarn_country?.capitalizeAndLower()
+                                              /*: specification.locality
+                                                  ?.capitalizeAndLower()*/ /*:Utils.checkNullString(false)*/,
+                                          imageIcon: IC_LOCATION_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             Visibility(
                               visible: showCount ?? false,
@@ -458,87 +461,96 @@ Widget buildYarnRenewedAgainWidget(
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text.rich(TextSpan(children: [
-                                TextSpan(
-                                  text:
-                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      // /*fontFamily: 'Metropolis',*/,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                TextSpan(
-                                  text: specification.priceUnit
-                                      .toString()
-                                      .replaceAll(
-                                          RegExp(r'[^0-9]'), '') /*'1000'*/,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.sp,
-                                      // /*fontFamily: 'Metropolis',*/,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                TextSpan(
-                                  text:
-                                      "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      // /*fontFamily: 'Metropolis',*/,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ])),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                               Center(
-                                child: TitleSmallNormalTextWidget(
-                                  title: specification.deliveryPeriod,
-                                  size: 8,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text.rich(TextSpan(children: [
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              children: [
+                                Visibility(
+                                  visible: specification.is_offering == offering_type,
+                                  child: Text.rich(TextSpan(children: [
                                     TextSpan(
-                                      text: "Last Updated",
+                                      text:
+                                          '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                       style: TextStyle(
-                                          fontSize: 8.sp,
                                           color: Colors.black,
+                                          fontSize: 12.sp,
+                                          // /*fontFamily: 'Metropolis',*/,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: specification.priceUnit
+                                          .toString()
+                                          .replaceAll(
+                                              RegExp(r'[^0-9]'), '') /*'1000'*/,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 17.sp,
+                                          // /*fontFamily: 'Metropolis',*/,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12.sp,
+                                          // /*fontFamily: 'Metropolis',*/,
                                           fontWeight: FontWeight.w500),
                                     ),
                                   ])),
-                                  SizedBox(
-                                    height: 2.w,
+                                ),
+                                SizedBox(
+                                  height: 1.h,
+                                ),
+                              ],
+                            ),
+
+                             Center(
+                              child: TitleSmallNormalTextWidget(
+                                title: "Ex- Factory"/*specification.deliveryPeriod*/,
+                                size: 8,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: "Last Updated",
+                                    style: TextStyle(
+                                        fontSize: 8.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                  Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                      text: /*"Nov 23, 4:33 PM"*/ DateFormat(
-                                              "MMM dd, yyyy")
-                                          .format(DateTime.parse(
-                                              specification.date ?? "")),
-                                      style: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: lightBlueLabel),
-                                    )
-                                  ])),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 7,
-                              ),
-                              SizedBox(
+                                ])),
+                                SizedBox(
+                                  height: 2.w,
+                                ),
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: /*"Nov 23, 4:33 PM"*/ DateFormat(
+                                            "MMM dd, yyyy")
+                                        .format(DateTime.parse(
+                                            specification.date ?? "")),
+                                    style: TextStyle(
+                                        fontSize: 10.sp,
+                                        color: lightBlueLabel),
+                                  )
+                                ])),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Visibility(
+                              visible: specification.is_offering == offering_type,
+                              child: SizedBox(
                                 height: 20.h,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -566,58 +578,58 @@ Widget buildYarnRenewedAgainWidget(
                                       );
                                     }),
                               ),
-                              const SizedBox(
-                                height: 7,
-                              ),
-                              FutureBuilder<String>(
-                                future: Utils.getUserId(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 4.w,
-                                          right: 4.w,
-                                        ),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              if (snapshot.data ==
-                                                  specification.ys_user_id) {
-                                                Utils.updateDialog(context,
-                                                    specification, null, null);
-                                              } else {
-                                                openDetailsScreen(context,
-                                                    yarnSpecification:
-                                                        specification,
-                                                    sendProposal: true);
-                                              }
-                                            },
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 22,
-                                              child: Center(
-                                                child: BidNowWidget(
-                                                  title: snapshot.data !=
-                                                          specification
-                                                              .ys_user_id
-                                                      ? 'Send Proposal'
-                                                      : "Update",
-                                                  size: 10.sp,
-                                                  padding: 5,
-                                                ),
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            FutureBuilder<String>(
+                              future: Utils.getUserId(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Padding(
+                                      padding: EdgeInsets.only(
+                                        left: 4.w,
+                                        right: 4.w,
+                                      ),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            if (snapshot.data ==
+                                                specification.ys_user_id) {
+                                              Utils.updateDialog(context,
+                                                  specification, null, null);
+                                            } else {
+                                              openDetailsScreen(context,
+                                                  yarnSpecification:
+                                                      specification,
+                                                  sendProposal: true);
+                                            }
+                                          },
+                                          child: SizedBox(
+                                            width: 80,
+                                            height: 22,
+                                            child: Center(
+                                              child: BidNowWidget(
+                                                title: snapshot.data !=
+                                                        specification
+                                                            .ys_user_id
+                                                    ? 'Send Proposal'
+                                                    : "Update",
+                                                size: 10.sp,
+                                                padding: 5,
                                               ),
-                                            )));
-                                  } else {
-                                    return Text(
-                                      'Error: ${snapshot.error}',
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 1,
-                                      softWrap: false,
-                                    );
-                                  }
-                                },
-                              )
-                            ],
-                          ),
+                                            ),
+                                          )));
+                                } else {
+                                  return Text(
+                                    'Error: ${snapshot.error}',
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                  );
+                                }
+                              },
+                            )
+                          ],
                         ),
                       )
                     ],

@@ -1185,11 +1185,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   SingleSelectTileWidget(
                                     selectedIndex: -1,
                                       spanCount: 3,
-                                      listOfItems: _packingList,
-                                      callback: (Packing value) {
+                                      listOfItems: _coneTypeList,
+                                      callback: (ConeType value) {
                                         if (_createRequestModel != null) {
-                                          _createRequestModel!.fpb_packing =
-                                              value.pacId.toString();
+                                          _createRequestModel!.cone_type_id =
+                                              value.yctId.toString();
                                         }
                                       }),
                                 ],
