@@ -938,7 +938,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 )),
 
                             //Lc Type
-                            Visibility(
+                           /* Visibility(
                               visible: _showLcType ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -961,7 +961,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       }),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Price Unit and Available Quantity
                             Row(
@@ -985,6 +985,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
                                           maxLines: 1,
+                                          maxLength: 6,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp("[0-9]")),
@@ -1033,6 +1034,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
                                             maxLines: 1,
+                                            maxLength: 6,
                                             inputFormatters: [
                                               FilteringTextInputFormatter.allow(
                                                   RegExp("[0-9]")),
@@ -1125,6 +1127,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
                                         maxLines: 1,
+                                        maxLength: 6,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp("[0-9]")),
