@@ -208,7 +208,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           Visibility(
             visible: checked,
             child: Padding(
-              padding: const EdgeInsets.only(top: 6,bottom: 6,),
+              padding: const EdgeInsets.only(top: 6,bottom: 6,left: 5,right: 5),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.check,color: darkBlueChip,size: 18,),

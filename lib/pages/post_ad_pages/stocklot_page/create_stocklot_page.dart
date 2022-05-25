@@ -57,12 +57,15 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   String? subCategoryName;
 
+  var familyID="0";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
     stocklotProvider.getStocklotData();
+
   }
 
   @override
@@ -116,6 +119,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       callback: (StockLotFamily value) {
                                         if (stocklotProvider
                                             .stocklotWasteList!.isEmpty) {
+
+                                          familyID=value.stocklotFamilyId.toString();
                                           stocklotProvider.getCategories(
                                               value.stocklotFamilyId.toString());
                                           stocklotProvider.setShowCategory(true);
@@ -198,6 +203,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           stocklotProvider.stocklotSubcategories!,
                                       selectedIndex: -1,
                                       callback: (StockLotFamily value) {
+
                                         stocklotCategories = value;
                                         stocklotProvider.getFilteredStocklotWaste(
                                             value.stocklotFamilyId ?? -1);
@@ -437,8 +443,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Currency'),
                                         items: stocklotProvider.countryList!
-                                            .map((value) => DropdownMenuItem(
-                                                  child: Text(value.toString(),
+                                            .map((Countries value) => DropdownMenuItem(
+                                                  child: Text(value.countryCurrencyCode.toString()+"("+value.countryCurrencySymbol.toString()+")",
                                                       textAlign:
                                                           TextAlign.center),
                                                   value: value,
@@ -716,6 +722,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return;
     }*/
 
+    print("Family ID"+familyID.toString());
     String? unitName;
     var stocklotWaste = StocklotWasteModel(
         unitOfCount: editWasteModel != null
@@ -808,7 +815,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                               .unitsList!
                                                               .where((element) =>
                                                           element.untCategoryIdfk ==
-                                                              "5").where((element) => element.unt_family_idfk=='1')
+                                                              "5").where((element) => element.unt_family_idfk==familyID.toString())
                                                               .toList(),
                                                           callback: (Units value) {
                                                             stocklotProvider.setUnitName(value.untName.toString());

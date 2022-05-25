@@ -134,7 +134,8 @@ Widget buildFabricRenewedAgainWidget(
                                         width: 8.w,
                                         height: 8.w,
                                         fit: BoxFit.fill,
-                                      )),
+                                      )
+                                  ),
                                 )
                               ],
                             ),
