@@ -93,7 +93,7 @@ class FabricSpecification {
   String? weightCone;
   String? weightBag;
   String? conesBag;
-  String? packing;
+  String? fpb_cone_type_name;
   String? paymentType;
   String? lcType;
   String? deliveryPeriod;
@@ -158,7 +158,7 @@ class FabricSpecification {
         this.weightCone,
         this.weightBag,
         this.conesBag,
-        this.packing,
+        this.fpb_cone_type_name,
         this.paymentType,
         this.lcType,
         this.deliveryPeriod,
@@ -223,7 +223,7 @@ class FabricSpecification {
     weightCone = json['weight_cone'];
     weightBag = json['weight_bag'];
     conesBag = json['cones_bag'];
-    packing = json['packing'];
+    fpb_cone_type_name = json['packing'];
     paymentType = json['payment_type'];
     lcType = json['lc_type'];
     deliveryPeriod = json['delivery_period'];
@@ -300,7 +300,7 @@ class FabricSpecification {
     data['weight_cone'] = this.weightCone;
     data['weight_bag'] = this.weightBag;
     data['cones_bag'] = this.conesBag;
-    data['packing'] = this.packing;
+    data['packing'] = this.fpb_cone_type_name;
     data['payment_type'] = this.paymentType;
     data['lc_type'] = this.lcType;
     data['delivery_period'] = this.deliveryPeriod;

@@ -131,7 +131,7 @@ class YarnSpecification {
     required this.weightCone,
     required this.weightBag,
     required this.conesBag,
-    this.packing,
+    this.fpb_cone_type_name,
     this.paymentType,
     this.lcType,
     this.is_offering,
@@ -203,7 +203,7 @@ class YarnSpecification {
   String? weightCone;
   String? weightBag;
   String? conesBag;
-  String? packing;
+  String? fpb_cone_type_name;
   String? paymentType;
   String? lcType;
   String? deliveryPeriod;
@@ -282,7 +282,7 @@ class YarnSpecification {
     is_offering = json['is_offering'];
     is_featured = json['is_featured'];
     is_verified = json['is_verified'];
-    packing = json['packing'];
+    fpb_cone_type_name = json['fpb_cone_type_name'];
     paymentType = json['payment_type'];
     lcType = json['lc_type'];
     deliveryPeriod = json['delivery_period'];
@@ -363,7 +363,7 @@ class YarnSpecification {
     _data['weight_bag'] = weightBag;
     _data['cones_bag'] = conesBag;
     _data['is_offering'] = is_offering;
-    _data['packing'] = packing;
+    _data['fpb_cone_type_name'] = fpb_cone_type_name;
     _data['payment_type'] = paymentType;
     _data['lc_type'] = lcType;
     _data['delivery_period'] = deliveryPeriod;

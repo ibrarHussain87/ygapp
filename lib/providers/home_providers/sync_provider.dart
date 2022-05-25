@@ -73,7 +73,6 @@ class SyncProvider extends ChangeNotifier {
               value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
               value.fiberAppearanceDoa.insertAllFiberAppearance(
               syncFiberResponse.data.fiber.apperance),
-              // value.packingDao.insertAllPacking(syncFiberResponse.data.fiber.packing
               // )
               ]
               );
@@ -145,8 +144,6 @@ class SyncProvider extends ChangeNotifier {
 
                 value.yarnAppearanceDao.insertAllYarnAppearance(
                     syncYarnResponse.data.yarn.apperance!),
-                // value.packingDao
-                //     .insertAllPacking(syncYarnResponse.data.yarn.packing!)
               ]);
             });
           }
