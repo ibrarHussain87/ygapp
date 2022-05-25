@@ -1762,7 +1762,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
               ? Utils.checkNullString(false)
               : widget.specification!.country!),*/
       GridTileModel(
-          'Packing',
+          'Price Terms',
           widget.specification!.priceTerms == null
               ? Utils.checkNullString(false)
               : widget.specification!.priceTerms!),
@@ -1834,6 +1834,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel('Appearance', fabricSpec.fabricApperance ?? Utils.checkNullString(false)),
       GridTileModel('Grade', fabricSpec.fabricGrade ?? Utils.checkNullString(false)),
     ];
+    _detailSpecification.add(formatFormations(fabricSpec.formation!));
     var newSpecifications = _detailSpecification.toList();
     _detailSpecification = newSpecifications
         .where((element) =>
@@ -1844,7 +1845,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     _detailPackaging = [
       GridTileModel('Unit of Counting', fabricSpec.unitCount ?? Utils.checkNullString(false)),
       // GridTileModel('Seller Location', fabricSpec.locality ?? Utils.checkNullString(false)),
-      GridTileModel('Packing', fabricSpec.priceTerms ?? Utils.checkNullString(false)),
+      GridTileModel('Price Terms', fabricSpec.priceTerms ?? Utils.checkNullString(false)),
       GridTileModel('Price', fabricSpec.priceUnit ?? Utils.checkNullString(false)),
       GridTileModel('Available Quantity', fabricSpec.available ?? Utils.checkNullString(false)),
       GridTileModel('Delivery Period', fabricSpec.deliveryPeriod ?? Utils.checkNullString(false)),
@@ -1898,11 +1899,6 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? widget.yarnSpecification!.dtyFilament!
                   : Utils.checkNullString(false)),*/
           GridTileModel(
-              'Quality',
-              widget.yarnSpecification!.yarnQuality == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnQuality!),
-          GridTileModel(
               'Ply',
               widget.yarnSpecification!.yarnPly == null
                   ? Utils.checkNullString(false)
@@ -1918,10 +1914,40 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnOrientation!),
           GridTileModel(
+              'Color Treatment Method',
+              widget.yarnSpecification!.yarnColorTreatmentMethod == null
+                  ? Utils.checkNullString(false)
+                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+          GridTileModel(
+              'Dying Method',
+              widget.yarnSpecification!.yarnDyingMethod == null
+                  ? Utils.checkNullString(false)
+                  : widget.yarnSpecification!.yarnDyingMethod!),
+          GridTileModel(
+              'Color',
+              widget.yarnSpecification!.color == null
+                  ? Utils.checkNullString(false)
+                  : widget.yarnSpecification!.color!),
+          GridTileModel(
               'Spun Technique',
               widget.yarnSpecification!.yarnSpunTechnique == null
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnSpunTechnique!),
+          GridTileModel(
+              'Quality',
+              widget.yarnSpecification!.yarnQuality == null
+                  ? Utils.checkNullString(false)
+                  : widget.yarnSpecification!.yarnQuality!),
+
+          GridTileModel(
+              'Yarn Appearance',
+              widget.yarnSpecification!.yarnApperance ??
+                  Utils.checkNullString(false)),
+          GridTileModel(
+              'Yarn Grade',
+              widget.yarnSpecification!.yarnGrade ??
+                  Utils.checkNullString(false)),
+
           GridTileModel(
               'Pattern',
               widget.yarnSpecification!.yarnPattern == null
@@ -1932,11 +1958,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
               widget.yarnSpecification!.yarnPatternCharectristic == null
                   ? Utils.checkNullString(false)
                   : widget.yarnSpecification!.yarnPatternCharectristic!),
+
           GridTileModel(
-              'Color Treatment Method',
-              widget.yarnSpecification!.yarnColorTreatmentMethod == null
-                  ? Utils.checkNullString(false)
-                  : widget.yarnSpecification!.yarnColorTreatmentMethod!),
+              'Yarn Certification',
+              widget.yarnSpecification!.yarnCertificationStr ??
+                  Utils.checkNullString(false)),
           /*GridTileModel(
               'Certification',
               (widget.yarnSpecification!.yarnCertificationStr == null ||
@@ -2421,7 +2447,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
     );
   }
 
-  GridTileModel formatFormations(List<YarnFormation> yarnFormation) {
+  GridTileModel formatFormations(List<GenericFormation> yarnFormation) {
     GridTileModel formationTileModel;
     switch(yarnFormation.length){
       case 1:

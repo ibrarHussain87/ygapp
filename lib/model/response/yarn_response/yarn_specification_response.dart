@@ -157,7 +157,7 @@ class YarnSpecification {
   String? locality;
   String? yarnFamilyId;
   String? yarnFamily;
-  List<YarnFormation>? yarnFormation;
+  List<GenericFormation>? yarnFormation;
   String? doublingMethod;
   String? yarnType;
   String? yarnBlend;
@@ -305,7 +305,7 @@ class YarnSpecification {
     }
     if (json['formation'] != null) {
       yarnFormation =
-          List.from(json['formation']).map((e) => YarnFormation.fromJson(e)).toList();
+          List.from(json['formation']).map((e) => GenericFormation.fromJson(e)).toList();
     }
   }
 
@@ -390,7 +390,7 @@ class YarnSpecification {
   }
 }
 
-class YarnFormation {
+class GenericFormation {
   int? formationId;
   String? categoryIdfk;
   String? categoryFamilyIdfk;
@@ -399,7 +399,7 @@ class YarnFormation {
   String? blendName;
   String? formationRatio;
 
-  YarnFormation(
+  GenericFormation(
       {this.formationId,
         this.categoryIdfk,
         this.categoryFamilyIdfk,
@@ -408,7 +408,7 @@ class YarnFormation {
         this.blendName,
         this.formationRatio});
 
-  YarnFormation.fromJson(Map<String, dynamic> json) {
+  GenericFormation.fromJson(Map<String, dynamic> json) {
     formationId = json['formation_id'];
     categoryIdfk = json['category_idfk'];
     categoryFamilyIdfk = json['category_family_idfk'];

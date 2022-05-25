@@ -380,7 +380,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                                title: weightCones)),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              top: 14.w, bottom: 4),
+                                              top: 14.w, ),
                                           child: TextFormField(
                                               controller: _coneWithController,
                                               keyboardType:
@@ -419,24 +419,21 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                             ),
 
                             //Selling Region
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 0.w, top: 8, bottom: 4),
-                                      child: TitleSmallBoldTextWidget(
-                                          title: sellingRegionStr)),
-                                  SingleSelectTileWidget(
-                                    spanCount: 2,
-                                    listOfItems: sellingRegion,
-                                    callback: (value) {},
-                                    selectedIndex: -1,
-                                  ),
-                                ],
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 0.w, top: 8, bottom: 4),
+                                    child: TitleSmallBoldTextWidget(
+                                        title: sellingRegionStr)),
+                                SingleSelectTileWidget(
+                                  spanCount: 2,
+                                  listOfItems: sellingRegion,
+                                  callback: (value) {},
+                                  selectedIndex: -1,
+                                ),
+                              ],
                             ),
 
                             //Country,port
@@ -804,7 +801,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                        title: priceTerms)),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 14.0, bottom: 4),
+                                      top: 18.0,),
                                   child: SizedBox(
                                     height: 40.w,
                                     child: Container(

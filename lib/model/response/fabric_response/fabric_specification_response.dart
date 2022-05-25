@@ -1,4 +1,5 @@
 import '../../certifications_model.dart';
+import '../yarn_response/yarn_specification_response.dart';
 
 class FabricSpecificationResponse {
   bool? status;
@@ -125,6 +126,8 @@ class FabricSpecification {
   String? date;
   int? matchedCount;
   int? proposalCount;
+  List<GenericFormation>? formation;
+
 
   FabricSpecification(
       {this.fsId,
@@ -187,7 +190,9 @@ class FabricSpecification {
         this.certificationStr,
         this.matchedCount,
         this.proposalCount,
-        this.date});
+        this.date,
+        this.formation,
+      });
 
   FabricSpecification.fromJson(Map<String, dynamic> json) {
     fsId = json['fs_id'];
@@ -259,6 +264,10 @@ class FabricSpecification {
     }
     certificationStr = json['certification_str'];
     date = json['date'];
+    if (json['formation'] != null) {
+      formation =
+          List.from(json['formation']).map((e) => GenericFormation.fromJson(e)).toList();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -320,6 +329,9 @@ class FabricSpecification {
     data['fabric_weave_pattern_name'] = this.fabricWeavePatternName;
     data['matched_count'] = this.matchedCount;
     data['proposal_count'] = this.proposalCount;
+    if (formation != null) {
+      data['formation'] = formation!.map((v) => v.toJson()).toList();
+    }
     if (this.pictures != null) {
       data['pictures'] = this.pictures!.map((v) => v.toJson()).toList();
     }
