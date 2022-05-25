@@ -117,144 +117,144 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             TitleTextWidget(
                               title: snapshot.data!.company, color: Colors.grey.shade700,),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.w),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey.shade300),
-                                    borderRadius: BorderRadius.circular(8.w),
-                                    color: Colors.white
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(8.w),
+                                  color: Colors.white
 
-                                ),
-                                child: ListView(
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){
-                                        openPersonalDetailsScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:5.0),
-                                            child: ProfileTileWidget(title: "Personal Details",
-                                                image: PROFILE_DETAILS_IMAGE),
-                                          ),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
-
-                                    Column(
+                              ),
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: (){
+                                      openPersonalDetailsScreen(context);
+                                    },
+                                    child: Column(
                                       children: [
-                                        ProfileTileWidget(title: "My Offerings",
-                                            image: ic_tag),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: ProfileTileWidget(title: "Personal Details",
+                                              image: PROFILE_DETAILS_IMAGE),
+                                        ),
                                         const Divider()
                                       ],
                                     ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){},
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "My Requirements",
-                                              image: ic_requirments),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){
-                                        openMyAdsScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "My Product",
-                                              image: ic_products),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){
-                                        openMyBidsScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "My Bids",
-                                              image: ic_universe),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
+                                  ),
 
-                                    Column(
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "My Offerings",
+                                  //         image: ic_tag),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
+                                  // GestureDetector(
+                                  //   behavior: HitTestBehavior.opaque,
+                                  //   onTap: (){},
+                                  //   child: Column(
+                                  //     children: [
+                                  //       ProfileTileWidget(title: "My Requirements",
+                                  //           image: ic_requirments),
+                                  //       const Divider()
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: (){
+                                      openMyAdsScreen(context);
+                                    },
+                                    child: Column(
                                       children: [
-                                        ProfileTileWidget(title: "Auctions",
-                                            image: AUCTION_IMAGE),
+                                        ProfileTileWidget(title: "My Product",
+                                            image: ic_products),
                                         const Divider()
                                       ],
                                     ),
+                                  ),
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: (){
+                                      openMyBidsScreen(context);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ProfileTileWidget(title: "My Bids",
+                                            image: ic_universe),
+                                        const Divider()
+                                      ],
+                                    ),
+                                  ),
+                                  //
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "Auctions",
+                                  //         image: AUCTION_IMAGE),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
 
-                                    Column(
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "Inquiries",
+                                  //         image: ic_inquiries),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: (){
+                                      openMembershipScreen(context);
+                                    },
+                                    child: Column(
                                       children: [
-                                        ProfileTileWidget(title: "Inquiries",
-                                            image: ic_inquiries),
+                                        ProfileTileWidget(title: "Membership",
+                                            image: ic_membership),
                                         const Divider()
                                       ],
                                     ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: (){
-                                        openMembershipScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "Membership",
-                                              image: ic_membership),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Customer & Supplier",
-                                            image: ic_suppliers),
-                                        const Divider()
-                                      ],
-                                    ),
+                                  ),
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "Customer & Supplier",
+                                  //         image: ic_suppliers),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
 
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "FAQs",
-                                            image: ic_faq),
-                                        const Divider()
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Activity Log",
-                                            image: ic_log),
-                                        const Divider()
-                                      ],
-                                    ),
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "FAQs",
+                                  //         image: ic_faq),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   children: [
+                                  //     ProfileTileWidget(title: "Activity Log",
+                                  //         image: ic_log),
+                                  //     const Divider()
+                                  //   ],
+                                  // ),
 
-                                    GestureDetector(
-                                      onTap:(){
-                                        openCustomerSupportScreen(context);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ProfileTileWidget(title: "Customer Support",
-                                              image: ic_support),
-                                          const Divider()
-                                        ],
-                                      ),
+                                  GestureDetector(
+                                    onTap:(){
+                                      openCustomerSupportScreen(context);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ProfileTileWidget(title: "Customer Support",
+                                            image: ic_support),
+                                        // const Divider()
+                                        SizedBox(height: 10.0.h,)
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

@@ -1754,8 +1754,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.specification!.unitCount == null
               ? Utils.checkNullString(false)
               : widget.specification!.unitCount!),
-      GridTileModel('Seller Location',
-          widget.specification!.locality ?? Utils.checkNullString(false)),
+      // GridTileModel('Seller Location',
+      //     widget.specification!.locality ?? Utils.checkNullString(false)),
       /*GridTileModel(
           'Country',
           widget.specification!.country == null
@@ -1843,7 +1843,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
     _detailPackaging = [
       GridTileModel('Unit of Counting', fabricSpec.unitCount ?? Utils.checkNullString(false)),
-      GridTileModel('Seller Location', fabricSpec.locality ?? Utils.checkNullString(false)),
+      // GridTileModel('Seller Location', fabricSpec.locality ?? Utils.checkNullString(false)),
       GridTileModel('Packing', fabricSpec.priceTerms ?? Utils.checkNullString(false)),
       GridTileModel('Price', fabricSpec.priceUnit ?? Utils.checkNullString(false)),
       GridTileModel('Available Quantity', fabricSpec.available ?? Utils.checkNullString(false)),
@@ -2271,8 +2271,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.c == null
               ? Utils.checkNullString(false)
               : widget.yarnSpecification!.c!),*/
-      GridTileModel('Seller Location',
-          widget.yarnSpecification!.locality ?? Utils.checkNullString(false)),
+      // GridTileModel('Seller Location',
+      //     widget.yarnSpecification!.locality ?? Utils.checkNullString(false)),
       GridTileModel(
           'Country',
           widget.yarnSpecification!.yarn_country == null

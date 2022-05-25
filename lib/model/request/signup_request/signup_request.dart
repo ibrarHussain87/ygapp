@@ -39,7 +39,7 @@ class SignUpRequestModel {
 //      'telephone_number': telephoneNumber!.trim()
       'company_id': comapnyId ?? '-1',
       'company_name': comapnyName ?? company,
-      'other_company': '1',
+      'other_company': otherCompany,
       'operator_id': '4'
     };
 

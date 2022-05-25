@@ -42,8 +42,8 @@ class BusinessInfoComponentState
   final confirmPasswordFocus = FocusNode();
   final businessAreaFocus = FocusNode();
   final companyFocus = FocusNode();
-  List<String> businessAreaList = ["Islamabad","Lahore","Karachi","Quetta","Peshwar"];
-  List<String> suggestionList = ["Uber","Careem","Foodpanda","Director","CEO"];
+  // List<String> businessAreaList = ["Islamabad","Lahore","Karachi","Quetta","Peshwar"];
+  // List<String> suggestionList = ["Uber","Careem","Foodpanda","Director","CEO"];
   List<Companies> companiesList = [];
   List<Categories> categoriesList = [];
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
@@ -109,7 +109,7 @@ class BusinessInfoComponentState
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // fontFamily: 'Metropolis',
                           fontWeight: FontWeight.w700),
                     ),
                   ),

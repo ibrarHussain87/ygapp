@@ -69,16 +69,16 @@ class PackagingDetailsState extends State<PackagingDetails>
   int? selectedCountryId;
   String? unitCountSelected;
 
-  late List<FPriceTerms> _priceTermList;
-  late List<Packing> _packingList;
-  late List<DeliveryPeriod> _deliverPeriodList;
-  late List<PaymentType> _paymentTypeList;
-  late List<LcType> _lcTypeList;
-  late List<Units> _unitsList;
-  late List<Countries> _countriesList;
-  late List<CityState> _cityStateList;
-  late List<Ports> _portsList;
-  late List<ConeType> _coneTypeList;
+  List<FPriceTerms> _priceTermList = [];
+  List<Packing> _packingList= [];
+  List<DeliveryPeriod> _deliverPeriodList= [];
+  List<PaymentType> _paymentTypeList= [];
+  List<LcType> _lcTypeList= [];
+  List<Units> _unitsList= [];
+  List<Countries> _countriesList= [];
+  List<CityState> _cityStateList= [];
+  List<Ports> _portsList = [];
+  List<ConeType> _coneTypeList = [];
 
   final _fiberPostProvider = locator<PostFiberProvider>();
   final _yarnPostProvider = locator<PostYarnProvider>();
@@ -123,23 +123,24 @@ class PackagingDetailsState extends State<PackagingDetails>
         .then((value) => setState(() => _lcTypeList = value));
     await AppDbInstance().getUnits().then((value) => setState(() {
           _unitsList = value;
-          _createRequestModel!
-              .fbp_count_unit_idfk =
-              value.where((element) =>
-              element.untCategoryIdfk ==
-                  _createRequestModel!
-                      .spc_category_idfk &&
-                  checkFamilyId(
-                      element.unt_family_idfk!))
-                  .toList().first.untId.toString();
+          _createRequestModel!.fbp_count_unit_idfk = value
+              .where((element) =>
+                  element.untCategoryIdfk ==
+                      _createRequestModel!.spc_category_idfk &&
+                  checkFamilyId(element.unt_family_idfk!))
+              .toList()
+              .first
+              .untId
+              .toString();
           setState(() {
-            unitCountSelected = value.where((element) =>
-            element.untCategoryIdfk ==
-                _createRequestModel!
-                    .spc_category_idfk &&
-                checkFamilyId(
-                    element.unt_family_idfk!))
-                .toList().first.untName;
+            unitCountSelected = value
+                .where((element) =>
+                    element.untCategoryIdfk ==
+                        _createRequestModel!.spc_category_idfk &&
+                    checkFamilyId(element.unt_family_idfk!))
+                .toList()
+                .first
+                .untName;
           });
         }));
     await AppDbInstance()
@@ -195,7 +196,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   @override
   Widget build(BuildContext context) {
-    _initialValuesRequestModel();
+    // _initialValuesRequestModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -215,22 +216,6 @@ class PackagingDetailsState extends State<PackagingDetails>
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-//                      GestureDetector(
-//                        onTap: () {
-//
-//                        },
-//                        child: Container(
-//                          margin: const EdgeInsets.only(
-//                              top: 5, right: 6, bottom: 4),
-//                          decoration: const BoxDecoration(
-//                            shape: BoxShape.circle,
-//                          ),
-//                          child: const Icon(Icons.keyboard_arrow_down_outlined,
-//                            size: 24,
-//                            color: Colors.grey,
-//                          ),
-//                        ),
-//                      ),
                       TitleTextWidget(
                         title: packingDetails,
                       ),
@@ -998,7 +983,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                             //Payment Type
                             Visibility(
-                                visible: _showPaymentType ?? false,
+                                visible: widget.locality == international,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1076,6 +1061,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           textAlign: TextAlign.center,
                                           cursorHeight: 16.w,
                                           maxLines: 1,
+                                          maxLength: 6,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
                                                 RegExp("[0-9]")),
@@ -1123,6 +1109,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                             textAlign: TextAlign.center,
                                             cursorHeight: 16.w,
                                             maxLines: 1,
+                                            maxLength: 6,
                                             inputFormatters: [
                                               FilteringTextInputFormatter.allow(
                                                   RegExp("[0-9]")),
@@ -1174,6 +1161,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
                                         maxLines: 1,
+                                        maxLength: 6,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp("[0-9]")),
@@ -1238,6 +1226,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                         textAlign: TextAlign.center,
                                         cursorHeight: 16.w,
                                         maxLines: 1,
+                                        maxLength: 6,
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
                                               RegExp("[0-9]")),
@@ -1662,14 +1651,19 @@ class PackagingDetailsState extends State<PackagingDetails>
   bool validateAndSave() {
     final form = globalFormKey.currentState;
 
+    if (_createRequestModel!.cone_type_id == null &&
+        widget.businessArea == yarn) {
+      Ui.showSnackBar(context, "Please select Packing");
+      return false;
+    }
+
     if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
       return false;
     }
 
-    if (_createRequestModel!.cone_type_id == null &&
-        widget.businessArea == yarn) {
-      Ui.showSnackBar(context, "Please select Cone Type");
+    if (_createRequestModel!.fbp_delivery_period_idfk == null) {
+      Ui.showSnackBar(context, "Please select delivery period");
       return false;
     }
 

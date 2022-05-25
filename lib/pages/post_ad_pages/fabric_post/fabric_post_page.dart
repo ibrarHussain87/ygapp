@@ -37,7 +37,6 @@ class FabricPostPage extends StatefulWidget {
 }
 
 class _FabricPostPageState extends State<FabricPostPage> {
-
   final postFabricProvider = locator<PostFabricProvider>();
   String blendString = "";
 
@@ -99,7 +98,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       showBlendsSheets(context);
                     },
                     child: Container(
@@ -113,8 +112,8 @@ class _FabricPostPageState extends State<FabricPostPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsets.only(top: 5.w, left: 8.w, bottom: 5.w),
+                            padding: EdgeInsets.only(
+                                top: 5.w, left: 8.w, bottom: 5.w),
                             child: Padding(
                               padding:
                                   EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
@@ -123,14 +122,15 @@ class _FabricPostPageState extends State<FabricPostPage> {
                                 children: [
                                   TitleMediumTextWidget(
                                     title: blendString.isEmpty
-                                        ? postFabricProvider.selectedFabricFamily
+                                        ? postFabricProvider
+                                                .selectedFabricFamily
                                                 .toString()
                                                 .isNotEmpty
                                             ? postFabricProvider
                                                 .selectedFabricFamily
                                                 .fabricFamilyName
                                             : 'Select'
-                                        : blendString,
+                                        : "${postFabricProvider.selectedFabricFamily.fabricFamilyName},$blendString",
                                     color: Colors.black54,
                                     weight: FontWeight.normal,
                                   )
@@ -213,12 +213,13 @@ class _FabricPostPageState extends State<FabricPostPage> {
           postFabricProvider.resetData();
           postFabricProvider.textFieldControllers.clear();
           postFabricProvider.notifyUI();
-          GenericBlendBottomSheet(context,postFabricProvider, postFabricProvider.blendList, 0, () {
-            setFormations();
+          GenericBlendBottomSheet(
+              context, postFabricProvider, postFabricProvider.blendList, 0, () {
+            blendString = setFormations();
             Navigator.pop(context);
           });
         } else {
-          setFormations();
+          blendString = setFormations();
           postFabricProvider.resetData();
           postFabricProvider.textFieldControllers.clear();
           blendString = '';
@@ -227,7 +228,6 @@ class _FabricPostPageState extends State<FabricPostPage> {
       }, postFabricProvider.fabricFamilyList, -1, "Fabric");
     }
   }
-
 
   String setFormations() {
     List<Map<String, dynamic>> formations = [];
@@ -256,8 +256,10 @@ class _FabricPostPageState extends State<FabricPostPage> {
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
-            BlendModel formationModel =
-            BlendModel(id: blend.blnId, relatedBlnId: null, ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio );
+            BlendModel formationModel = BlendModel(
+                id: blend.blnId,
+                relatedBlnId: null,
+                ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
           }
         }

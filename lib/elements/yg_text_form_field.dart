@@ -192,3 +192,33 @@ class YgTextFormFieldWithRangeNoValidation extends StatelessWidget {
         decoration: ygTextFieldDecoration(minMax,label,mandatoryField??true));
   }
 }
+class YgTextFormFieldWithoutRangeNoValidation extends StatelessWidget {
+  final String label;
+  final bool? mandatoryField;
+  final Function onSaved;
+
+  const YgTextFormFieldWithoutRangeNoValidation(
+      {Key? key,
+      required this.label,
+      required this.onSaved,
+        this.mandatoryField,
+      })
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.number,
+        cursorColor: lightBlueTabs,
+        style: TextStyle(fontSize: 11.sp),
+        textAlign: TextAlign.center,
+        cursorHeight: 16.w,
+        onSaved: (input) => onSaved(input),
+        inputFormatters: [
+          DecimalTextInputFormatter(decimalRange: 2),
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+        ],
+        decoration: ygTextFieldDecoration(label,label,mandatoryField??true));
+  }
+}

@@ -3,8 +3,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/filter_widget/filter_category_single_select_widget.dart';
-import 'package:yg_app/elements/filter_widget/filter_grid_tile_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
@@ -74,69 +72,65 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
             .where((element) => element.spun_technique_id == "1")
             .toList();
       }
-      return _patternList!
-          .where((element) => element.familyId == selectedFamilyId)
-          .toList();
+      return _patternList!;
     }
 
-    return _patternList!
-        .where((element) => element.familyId == selectedFamilyId)
-        .toList();
+    return _patternList!;
   }
 
   _getQuality() {
     if (_selectedSpunTechId != null) {
       if (_selectedSpunTechId == "1") {
-        return _qualityList!
-            .where((element) => element.spun_technique_id == "1")
-            .toList();
+        return _qualityList!;
       }
-      return _qualityList!
-          .where((element) => element.familyId == selectedFamilyId)
-          .toList();
+      return _qualityList!;
     }
 
-    return _qualityList!
-        .where((element) => element.familyId == selectedFamilyId)
-        .toList();
+    return _qualityList!;
   }
 
-  _getSyncedData() async {
-    await AppDbInstance().getYarnFamilyData()
-        .then((value) => setState(() => _familyList = value));
-    await AppDbInstance().getYarnBlendData()
-        .then((value) => setState(() => _blendsList = value));
-    await AppDbInstance().getYarnAppearance().then((value) => _appearanceList = value);
-    await AppDbInstance().getYarnTypeData()
-        .then((value) => setState(() => _yarnTypesList = value));
-    await AppDbInstance().getYarnUsage()
-        .then((value) => setState(() => _usageList = value));
-    await AppDbInstance().getColorTreatmentMethodData()
-        .then((value) => setState(() => _colorTreatmentMethodList = value));
-    await AppDbInstance().getYarnDyingMethod()
-        .then((value) => setState(() => _dyingMethodList = value));
-    await AppDbInstance().getYarnPly()
-        .then((value) => setState(() => _plyList = value));
-    await AppDbInstance().getDoublingMethod()
-        .then((value) => _doublingMethodList = value);
-    await AppDbInstance().getOrientationData()
-        .then((value) => _orientationList = value);
-    await AppDbInstance().getSpunTech().then((value) => _spunTechList = value);
-    await AppDbInstance().getYarnQuality().then((value) => _qualityList = value);
-    await AppDbInstance().getPattern().then((value) => _patternList = value);
-    await AppDbInstance().getTwistDirections().then((value) => _twistDirectionList = value);
-    await AppDbInstance().getPatternCharacteristics()
-        .then((value) => _patternCharList = value);
-    await AppDbInstance().getCertificationsData()
-        .then((value) => _certificationList = value);
-    await AppDbInstance().getYarnGradesDao().then((value) => _gradesList = value);
+  _getSyncedData(int? famId) async {
+    _getSpecificationRequestModel = GetSpecificationRequestModel();
+    _getSpecificationRequestModel!.categoryId = "2";
+    var dbInstance = await AppDbInstance().getDbInstance();
+    _familyList = await dbInstance.yarnFamilyDao.findAllYarnFamily();
+    selectedFamilyId = famId ?? _familyList!.first.famId!;
+    _getSpecificationRequestModel!.ysFamilyIdFk = [selectedFamilyId!];
+    _blendsList =
+        await dbInstance.yarnBlendDao.findAllYarnBlends(selectedFamilyId!, 2);
+    _appearanceList = await dbInstance.yarnAppearanceDao
+        .findYarnAppearanceWithFamilyId(selectedFamilyId!);
+    _yarnTypesList = await dbInstance.yarnTypesDao.findAllYarnTypes();
+    _usageList =
+        await dbInstance.usageDao.findYarnUsageWithFamilyId(selectedFamilyId!);
+    _colorTreatmentMethodList = await dbInstance.colorTreatmentMethodDao
+        .findYarnColorTreatmentMethodWithFamilyId(selectedFamilyId!);
+    _dyingMethodList = await dbInstance.dyingMethodDao.findAllDyingMethod();
+    _plyList =
+        await dbInstance.plyDao.findYarnPlyWithFamilyId(selectedFamilyId!);
+    _doublingMethodList =
+        await dbInstance.doublingMethodDao.findAllDoublingMethod();
+    _orientationList = await dbInstance.orientationDao
+        .findYarnOrientationWithFamilyId(selectedFamilyId!);
+    _spunTechList = await dbInstance.spunTechDao
+        .findYarnSpunTechniqueWithFamilyId(selectedFamilyId!);
+    _patternList =
+        await dbInstance.patternDao.findAllPatternWithFamily(selectedFamilyId!);
+    _qualityList = await dbInstance.qualityDao
+        .findYarnQualityWithFamilyId(selectedFamilyId!);
+    _twistDirectionList = await dbInstance.twistDirectionDao
+        .findYarnTwistDirectionWithFamilyId(selectedFamilyId!);
+    _patternCharList =
+        await dbInstance.patternCharDao.findAllPatternCharacteristics();
+    _certificationList =
+        await dbInstance.certificationDao.findAllCertifications();
+    _gradesList =
+        await dbInstance.yarnGradesDao.findGradeWithFamilyId(selectedFamilyId!);
     await AppDbInstance().getYarnSettings().then((value) {
       _yarnSettingsList = value;
-      selectedFamilyId = "1";
-      _getSpecificationRequestModel = GetSpecificationRequestModel();
-      _querySetting(int.parse(selectedFamilyId!));
+      _querySetting(selectedFamilyId!);
       /*added this to fix bug*/
-      _getSpecificationRequestModel!.ysFamilyIdFk = [1];
+      _getSpecificationRequestModel!.ysFamilyIdFk = [selectedFamilyId!];
       setState(() {
         _isGetSyncedData = true;
         _minMaxConfiguration();
@@ -184,7 +178,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   List<int> listOfPatternChar = [];
   List<int> listOfDoublingMethod = [];
 
-  String? selectedFamilyId;
+  int? selectedFamilyId;
   String? selectedBlendId;
 
   bool _isGetSyncedData = false;
@@ -247,9 +241,42 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   String? _selectedColorTreatMethodId;
   String? _selectedSpunTechId;
 
+  //Keys
+  final GlobalKey<SingleSelectTileRenewedWidgetState> _familyKey =
+  GlobalKey<SingleSelectTileRenewedWidgetState>();
+
+  final GlobalKey<BlendsWithImageListWidgetState> _blendKey =
+  GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _usageKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _plyKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _orientationKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _patternKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _spunTechKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
+  GlobalKey<SingleSelectTileWidgetState>();
+
+
+
   @override
   void initState() {
-    _getSyncedData();
+    _getSyncedData(null);
     super.initState();
   }
 
@@ -257,739 +284,650 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _isGetSyncedData ? Container(
-          padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleTextWidget(title: yarnCategory),
-                          SizedBox(
-                            height: 8.w,
-                          ),
-                          SizedBox(
-                            height: 0.04 * MediaQuery.of(context).size.height,
-                            child: SingleSelectTileRenewedWidget(
-                              spanCount: 4,
-                              listOfItems: _familyList!,
-                              callback: (value) {
-                                //Family Id
-
-                                setState(() {
-                                  selectedFamilyId =
-                                      (value as Family).famId!.toString();
-                                });
-                                _querySetting((value as Family).famId!);
-                                _getSpecificationRequestModel!.ysFamilyIdFk = [
-                                  (value).famId!
-                                ];
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.w,
-                          ),
-                        ],
-                      ),
-
-                      //Show Blends
-                      Visibility(
-                        visible: showBlend ?? false,
+        body: _isGetSyncedData
+            ? Container(
+                padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleTextWidget(title: blend)),
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: BlendsWithImageListWidget(
-                                listItem: _blendsList!
-                                    .where((element) =>
-                                        element.familyIdfk == selectedFamilyId)
-                                    .toList(),
-                                onClickCallback: (value) {
-                                  setState(() {
-                                    selectedBlendId = _blendsList!
-                                        .where((element) =>
-                                            element.familyIdfk == selectedFamilyId)
-                                        .toList()[value]
-                                        .blnId
-                                        .toString();
-                                  });
-                                  _getSpecificationRequestModel!.ysBlendIdFk = [
-                                    int.parse(selectedBlendId!)
-                                  ];
-                                  _querySettingWithBlend(
-                                      int.parse(selectedBlendId!),
-                                      int.parse(selectedFamilyId!));
-                                },
-                                selectedItem: -1,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Show Texturzed
-                      Visibility(
-                        visible: showTexturized ?? true,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child:
-                                TitleSmallTextWidget(title: yarnTexturedType)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _yarnTypesList!,
-                              callback: (YarnTypes yarnType) {
-                                _getSpecificationRequestModel!.yarnYypeId =
-                                    filterList(listOfYarnType, yarnType.ytId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Usage
-                      Visibility(
-                        visible: showUsage ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: usage)),
-                            SingleSelectTileWidget(
-                              spanCount: 2,
-                              listOfItems: _usageList!
-                                  .where((element) =>
-                              element.ysFamilyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (Usage usage) {
-                                _getSpecificationRequestModel!.yuId =
-                                    filterList(listOfUsageId, usage.yuId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Count
-                      Visibility(
-                        visible: showCount ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minCount,
-                              maxValue: maxCount,
-                              hintTxt: "Count",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Dannier
-                      Visibility(
-                        visible: showDannier ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minDannier,
-                              maxValue: maxDannier,
-                              hintTxt: "Dannier",
-                              // minCallback: (value) {
-                              //   minValueDannierParam = value;
-                              // },
-                              // maxCallback: (value) {
-                              //   maxValueDannierParam = value;
-                              // },
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Filament
-                      Visibility(
-                        visible: showFilament ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minFilament,
-                              maxValue: maxFilament,
-                              hintTxt: "Filament",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Ply
-                      Visibility(
-                        visible: showPly ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: ply)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _plyList!
-                                  .where((element) =>
-                              element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (Ply ply) {
-                                _getSpecificationRequestModel!.plyId =
-                                    filterList(listOfPlyId, ply.plyId!);
-                                _showDoublingMethod(ply);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Doubling Method
-                      Visibility(
-                        visible: showDoublingMethod ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: "Doubling Method")),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _doublingMethodList!
-                                  .where(
-                                      (element) => element.plyId == _selectedPlyId)
-                                  .toList(),
-                              callback: (DoublingMethod doublingMethod) {
-                                _getSpecificationRequestModel!.doublingMethodId =
-                                    filterList(
-                                        listOfDoublingMethod, doublingMethod.dmId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Orientation
-                      Visibility(
-                        visible: showOrientation ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: 'Orientation')),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 2,
-                              listOfItems: _orientationList!
-                                  .where((element) =>
-                              element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (OrientationTable orientation) {
-                                _getSpecificationRequestModel!.orientationId =
-                                    filterList(
-                                        listOfOrientation, orientation.yoId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Color Treatment Method
-                      Visibility(
-                        visible: showColorTreatmentMethod ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(
-                                    title: colorTreatmentMethod)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _colorTreatmentMethodList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback:
-                                  (ColorTreatmentMethod colorTreatmentMethod) {
-                                _getSpecificationRequestModel!.colorTreatmentId =
-                                    filterList(listOfColorTreatmentId,
-                                        colorTreatmentMethod.yctmId!);
-                                _showDyingMethod(colorTreatmentMethod);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show color dying method
-                      Visibility(
-                        visible: /*showDyingMethod ?? */false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: "Dying Method")),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _dyingMethodList!
-                                  .where((element) =>
-                                      element.ydmColorTreatmentMethodIdfk ==
-                                      _selectedColorTreatMethodId)
-                                  .toList(),
-                              callback: (DyingMethod dyingMethod) {
-                                _getSpecificationRequestModel!
-                                        .ys_dying_method_idfk =
-                                    filterList(
-                                        listOfDyingMethod, dyingMethod.ydmId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Color Code
-                      Visibility(
-                          visible: showDyingMethod ?? false,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child:
-                                      TitleSmallTextWidget(title: "Select Color"),
+                                TitleTextWidget(title: yarnCategory),
+                                SizedBox(
+                                  height: 8.w,
                                 ),
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                SizedBox(
+                                  height:
+                                      0.04 * MediaQuery.of(context).size.height,
+                                  child: SingleSelectTileRenewedWidget(
+                                    spanCount: 4,
+                                    listOfItems: _familyList!,
+                                    callback: (Family value) {
+                                      //Family Id
+
+                                      setState(() {
+                                        selectedFamilyId =
+                                            value.famId!;
+                                      });
+                                      // _querySetting((value as Family).famId!);
+                                      _getSyncedData(value.famId);
+
+                                      _getSpecificationRequestModel!
+                                          .ysFamilyIdFk = [(value).famId!];
+                                    },
                                   ),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.none,
-                                      controller: _textEditingController,
-                                      autofocus: false,
-                                      showCursor: false,
-                                      readOnly: true,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      onSaved: (input) =>
-                                          _getSpecificationRequestModel!
-                                              .ys_color_code = input,
-                                      validator: (input) {
-                                        if (input == null || input.isEmpty) {
-                                          return "Select Color Code";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide.none),
-                                          contentPadding: const EdgeInsets.all(2.0),
-                                          hintText: "Select Color",
-                                          filled: true,
-                                          fillColor: pickerColor),
-                                      onTap: () {
-                                        openDialogBox();
-                                      },
-                                    ),
-                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.w,
                                 ),
                               ],
                             ),
-                          )),
 
-                      //Show Appearance
-                      Visibility(
-                        visible: /*showAppearance ??*/ false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: apperance)),
-                            SingleSelectTileWidget(
-                                selectedIndex: -1,
-                                spanCount: 3,
-                                listOfItems: _appearanceList!
-                                    .where((element) =>
-                                        element.familyId == selectedFamilyId)
-                                    .toList(),
-                                callback: (YarnAppearance yarnAppearance) {
-                                  _getSpecificationRequestModel!.apperanceYarnId =
-                                      filterList(
-                                          listAppearanceId, yarnAppearance.yaId!);
-                                }),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-
-
-                     /* //Show Ratio
-                      Visibility(
-                        visible: *//*showRatio ?? *//*false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FilterRangeSlider(
-                              // minMaxRange: widget.syncFiberResponse.data.fiber
-                              //     .settings[0].micMinMax,
-                              minValue: minRatio,
-                              maxValue: maxRatio,
-                              hintTxt: "Ratio",
-                              valueCallback: (value) {},
-                            ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Divider(),
-                          ],
-                        ),
-                      ),*/
-
-
-
-
-                   /*   //Show Twist Direction
-                      Visibility(
-                        visible: showTwistDirection ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: twistDirection)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 2,
-                              listOfItems: _twistDirectionList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (TwistDirection twistDirection) {
-                                _getSpecificationRequestModel!.twistDirectionId =
-                                    filterList(listOfTwistDirectionId,
-                                        twistDirection.ytdId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),*/
-
-                      //Show Spun Technique
-                      Visibility(
-                        visible: showSpunTechnique ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: spunTech)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _spunTechList!
-                                  .where((element) =>
-                                      element.familyId == selectedFamilyId)
-                                  .toList(),
-                              callback: (SpunTechnique spunTech) {
-                                setState(() {
-                                  _selectedSpunTechId = spunTech.ystId.toString();
-                                });
-                                _getSpecificationRequestModel!.spunTechId =
-                                    filterList(listOfSpunTechId, spunTech.ystId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Quality
-                      Visibility(
-                        visible: showQuality ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: quality)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 2,
-                              listOfItems: _getQuality(),
-                              callback: (Quality quality) {
-                                _getSpecificationRequestModel!.qualityId =
-                                    filterList(listOfQualityId, quality.yqId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Pattern
-                      Visibility(
-                        visible: showPattern ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: pattern)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _getPattern(),
-                              callback: (PatternModel pattern) {
-                                _getSpecificationRequestModel!.patternId =
-                                    filterList(listOfPattern, pattern.ypId!);
-                                _showPatternChar(pattern);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-
-                      //Show Pattern characteristics
-                     /* Visibility(
-                        visible: showPatternCharc ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: TitleSmallTextWidget(title: patternChar)),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 2,
-                              listOfItems: _patternCharList!
-                                  .where((element) =>
-                                      element.ypcPatternIdfk ==
-                                      _selectedPatternId.toString())
-                                  .toList(),
-                              callback: (PatternCharectristic patterChar) {
-                                _getSpecificationRequestModel!.patternCharId =
-                                    filterList(
-                                        listOfPatternChar, patterChar.ypcId!);
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),*/
-
-                      //Show Grade
-                      Visibility(
-                        visible: showGrade ?? false,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.only(left: 8.w),
-                                  child: TitleSmallTextWidget(title: grades)),
-                              SingleSelectTileWidget(
-                                spanCount: 3,
-                                listOfItems: _gradesList!
-                                    .where((element) =>
-                                        element.familyId == selectedFamilyId)
-                                    .toList(),
-                                callback: (Grades grades) {
-                                  _getSpecificationRequestModel!.gradeId = [
-                                    grades.grdId!
-                                  ];
-                                },
+                            //Show Blends
+                            Visibility(
+                              visible: showBlend ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleTextWidget(title: blend)),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 8.w),
+                                    child: BlendsWithImageListWidget(
+                                      key: _blendKey,
+                                      listItem: _blendsList!,
+                                      onClickCallback: (value) {
+                                        setState(() {
+                                          selectedBlendId = _blendsList![value]
+                                              .blnId
+                                              .toString();
+                                        });
+                                        _getSpecificationRequestModel!
+                                            .ysBlendIdFk = [
+                                          int.parse(selectedBlendId!)
+                                        ];
+                                        // _querySettingWithBlend(
+                                        //     int.parse(selectedBlendId!),
+                                        //     selectedFamilyId!);
+                                        _getSpecificationRequestModel!.ysBlendIdFk = [_blendsList![value].blnId!];
+                                      },
+                                      selectedItem: -1,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 8.w,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+
+                            //Show Texturzed
+                            Visibility(
+                              visible: showTexturized ?? true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: yarnTexturedType)),
+                                  SingleSelectTileWidget(
+                                    key: _yarnTypeKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _yarnTypesList!,
+                                    callback: (YarnTypes yarnType) {
+                                      _getSpecificationRequestModel!
+                                              .yarnYypeId =
+                                          filterList(
+                                              listOfYarnType, yarnType.ytId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Usage
+                            Visibility(
+                              visible: showUsage ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child:
+                                          TitleSmallTextWidget(title: usage)),
+                                  SingleSelectTileWidget(
+                                    key: _usageKey,
+                                    spanCount: 2,
+                                    selectedIndex: -1,
+                                    listOfItems: _usageList!,
+                                    callback: (Usage usage) {
+                                      _getSpecificationRequestModel!.yuId =
+                                          filterList(
+                                              listOfUsageId, usage.yuId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Count
+                            Visibility(
+                              visible: showCount ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FilterRangeSlider(
+                                    // minMaxRange: widget.syncFiberResponse.data.fiber
+                                    //     .settings[0].micMinMax,
+                                    minValue: minCount,
+                                    maxValue: maxCount,
+                                    hintTxt: "Count",
+                                    valueCallback: (value) {},
+                                  ),
+                                  SizedBox(
+                                    height: 8.w,
+                                  ),
+                                  Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Dannier
+                            Visibility(
+                              visible: showDannier ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FilterRangeSlider(
+                                    // minMaxRange: widget.syncFiberResponse.data.fiber
+                                    //     .settings[0].micMinMax,
+                                    minValue: minDannier,
+                                    maxValue: maxDannier,
+                                    hintTxt: "Dannier",
+                                    // minCallback: (value) {
+                                    //   minValueDannierParam = value;
+                                    // },
+                                    // maxCallback: (value) {
+                                    //   maxValueDannierParam = value;
+                                    // },
+                                    valueCallback: (value) {},
+                                  ),
+                                  SizedBox(
+                                    height: 8.w,
+                                  ),
+                                  Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Filament
+                            Visibility(
+                              visible: showFilament ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FilterRangeSlider(
+                                    // minMaxRange: widget.syncFiberResponse.data.fiber
+                                    //     .settings[0].micMinMax,
+                                    minValue: minFilament,
+                                    maxValue: maxFilament,
+                                    hintTxt: "Filament",
+                                    valueCallback: (value) {},
+                                  ),
+                                  SizedBox(
+                                    height: 8.w,
+                                  ),
+                                  Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Ply
+                            Visibility(
+                              visible: showPly ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleSmallTextWidget(title: ply)),
+                                  SingleSelectTileWidget(
+                                    key: _plyKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _plyList!,
+                                    callback: (Ply ply) async{
+                                      _getSpecificationRequestModel!.plyId =
+                                          filterList(listOfPlyId, ply.plyId!);
+                                      var dbInstance = await AppDbInstance().getDbInstance();
+                                      _doublingMethodList = await dbInstance.doublingMethodDao.findYarnDoublingMethodWithPlyId(ply.plyId!);
+                                      _showDoublingMethod(ply);
+
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Doubling Method
+                            Visibility(
+                              visible: showDoublingMethod ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: "Doubling Method")),
+                                  SingleSelectTileWidget(
+                                    key: _doublingMethodKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _doublingMethodList!,
+                                    callback: (DoublingMethod doublingMethod) {
+                                      _getSpecificationRequestModel!
+                                              .doublingMethodId =
+                                          filterList(listOfDoublingMethod,
+                                              doublingMethod.dmId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+
+                            //Show Orientation
+                            Visibility(
+                              visible: showOrientation ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: 'Orientation')),
+                                  SingleSelectTileWidget(
+                                    key: _orientationKey,
+                                    selectedIndex: -1,
+                                    spanCount: 2,
+                                    listOfItems: _orientationList!,
+                                    callback: (OrientationTable orientation) {
+                                      _getSpecificationRequestModel!
+                                              .orientationId =
+                                          filterList(listOfOrientation,
+                                              orientation.yoId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Color Treatment Method
+                            Visibility(
+                              visible: showColorTreatmentMethod ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: colorTreatmentMethod)),
+                                  SingleSelectTileWidget(
+                                    key: _colorTreatmentMethodKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _colorTreatmentMethodList!,
+                                    callback: (ColorTreatmentMethod
+                                        colorTreatmentMethod) {
+                                      _getSpecificationRequestModel!
+                                              .colorTreatmentId =
+                                          filterList(listOfColorTreatmentId,
+                                              colorTreatmentMethod.yctmId!);
+                                      _showDyingMethod(colorTreatmentMethod);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show color dying method
+                            Visibility(
+                              visible: /*showDyingMethod ?? */ false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: const TitleSmallTextWidget(
+                                          title: "Dying Method")),
+                                  SingleSelectTileWidget(
+                                    key: _dyingMethodKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _dyingMethodList!,
+                                    callback: (DyingMethod dyingMethod) {
+                                      _getSpecificationRequestModel!
+                                              .ys_dying_method_idfk =
+                                          filterList(listOfDyingMethod,
+                                              dyingMethod.ydmId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Color Code
+                            Visibility(
+                                visible: showDyingMethod ?? false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8.0),
+                                        child: TitleSmallTextWidget(
+                                            title: "Select Color"),
+                                      ),
+                                      Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: TextFormField(
+                                            keyboardType: TextInputType.none,
+                                            controller: _textEditingController,
+                                            autofocus: false,
+                                            showCursor: false,
+                                            readOnly: true,
+                                            style: TextStyle(fontSize: 11.sp),
+                                            textAlign: TextAlign.center,
+                                            onSaved: (input) =>
+                                                _getSpecificationRequestModel!
+                                                    .ys_color_code = input,
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty) {
+                                                return "Select Color Code";
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    borderSide:
+                                                        BorderSide.none),
+                                                contentPadding:
+                                                    const EdgeInsets.all(2.0),
+                                                hintText: "Select Color",
+                                                filled: true,
+                                                fillColor: pickerColor),
+                                            onTap: () {
+                                              openDialogBox();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            //Show Appearance
+                            Visibility(
+                              visible: /*showAppearance ??*/ false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: apperance)),
+                                  SingleSelectTileWidget(
+                                    key: _appearanceKey,
+                                      selectedIndex: -1,
+                                      spanCount: 3,
+                                      listOfItems: _appearanceList!,
+                                      callback:
+                                          (YarnAppearance yarnAppearance) {
+                                        _getSpecificationRequestModel!
+                                                .apperanceYarnId =
+                                            filterList(listAppearanceId,
+                                                yarnAppearance.yaId!);
+                                      }),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Spun Technique
+                            Visibility(
+                              visible: showSpunTechnique ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child: TitleSmallTextWidget(
+                                          title: spunTech)),
+                                  SingleSelectTileWidget(
+                                    key: _spunTechKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _spunTechList!,
+                                    callback: (SpunTechnique spunTech) {
+                                      setState(() {
+                                        _selectedSpunTechId =
+                                            spunTech.ystId.toString();
+                                      });
+                                      _getSpecificationRequestModel!
+                                              .spunTechId =
+                                          filterList(listOfSpunTechId,
+                                              spunTech.ystId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Quality
+                            Visibility(
+                              visible: showQuality ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child:
+                                          TitleSmallTextWidget(title: quality)),
+                                  SingleSelectTileWidget(
+                                    key: _qualityKey,
+                                    selectedIndex: -1,
+                                    spanCount: 2,
+                                    listOfItems: _getQuality(),
+                                    callback: (Quality quality) {
+                                      _getSpecificationRequestModel!.qualityId =
+                                          filterList(
+                                              listOfQualityId, quality.yqId!);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Pattern
+                            Visibility(
+                              visible: showPattern ?? false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.w, bottom: 8.w),
+                                      child:
+                                          TitleSmallTextWidget(title: pattern)),
+                                  SingleSelectTileWidget(
+                                    key: _patternKey,
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _getPattern(),
+                                    callback: (PatternModel pattern) {
+                                      _getSpecificationRequestModel!.patternId =
+                                          filterList(
+                                              listOfPattern, pattern.ypId!);
+                                      _showPatternChar(pattern);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                            //Show Grade
+                            Visibility(
+                              visible: showGrade ?? false,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: grades)),
+                                    SingleSelectTileWidget(
+                                      key: _gradeKey,
+                                      spanCount: 3,
+                                      listOfItems: _gradesList!,
+                                      callback: (Grades grades) {
+                                        _getSpecificationRequestModel!.gradeId =
+                                            [grades.grdId!];
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      flex: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: ElevatedButtonWithoutIcon(
+                            callback: () {
+                              _resetData();
+                              setState(() {
+                                selectedFamilyId = _familyList!.first.famId!;
+                              });
+                              _querySetting(_familyList!.first.famId!);
+                            },
+                            color: Colors.grey.shade300,
+                            btnText: 'Reset',
+                            textColor: 'black',
                           ),
                         ),
-                      ),
-
-                      //Show Certifications
-                    /*  Visibility(
-                        visible: showCertification ?? false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 8.w, bottom: 8.w),
-                                child: const TitleSmallTextWidget(
-                                    title: "Certifications")),
-                            SingleSelectTileWidget(
-                              selectedIndex: -1,
-                              spanCount: 3,
-                              listOfItems: _certificationList!,
-                              callback: (Certification certification) {
-                                _getSpecificationRequestModel!.certificationId = [
-                                  certification.cerId
-                                ];
-                              },
-                            ),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const Divider(),
-                          ],
+                        SizedBox(
+                          width: 16.w,
                         ),
-                      ),*/
-                    ],
-                  ),
+                        Expanded(
+                          child: ElevatedButtonWithoutIcon(
+                              callback: () {
+                                Navigator.pop(
+                                    context, _getSpecificationRequestModel);
+                              },
+                              color: textColorBlue,
+                              btnText: 'Apply Filter'),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                flex: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ElevatedButtonWithoutIcon(
-                      callback: () {
-                        // _resetData();
-                        setState(() {
-                          selectedFamilyId = "1";
-                        });
-                        _querySetting(_familyList!.first.famId!);
-                      },
-                      color: Colors.grey.shade300,
-                      btnText: 'Reset',
-                      textColor: 'black',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16.w,
-                  ),
-                  Expanded(
-                    child: ElevatedButtonWithoutIcon(
-                        callback: () {
-                            Navigator.pop(context, _getSpecificationRequestModel);
-                        },
-                        color: textColorBlue,
-                        btnText: 'Apply Filter'),
-                  ),
-                ],
               )
-            ],
-          ),
-        ) : Container(),
+            : Container(),
       ),
     );
   }
@@ -1008,8 +946,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 for (var element in listOfSettings) {
                   _yarnSetting = value[0];
 
-                  if (element.ysFamilyIdfk ==
-                      _yarnSetting.ysFamilyIdfk) {
+                  if (element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk) {
                     isSettingInList = true;
                     break;
                   } else {
@@ -1019,8 +956,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
                 isSettingInList
                     ? listOfSettings.removeWhere((element) =>
-                        element.ysFamilyIdfk ==
-                        _yarnSetting.ysFamilyIdfk)
+                        element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk)
                     // ? listOfSettings.toSet().toList()
                     : listOfSettings.add(_yarnSetting);
               } else {
@@ -1047,8 +983,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
               for (var element in listOfSettings) {
                 _yarnSetting = value[0];
 
-                if (element.ysFamilyIdfk ==
-                    _yarnSetting.ysFamilyIdfk) {
+                if (element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk) {
                   isSettingInList = true;
                   break;
                 } else {
@@ -1058,8 +993,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
 
               isSettingInList
                   ? listOfSettings.removeWhere((element) =>
-                      element.ysFamilyIdfk ==
-                      _yarnSetting.ysFamilyIdfk)
+                      element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk)
                   // ? listOfSettings.toSet().toList()
                   : listOfSettings.add(_yarnSetting);
             } else {
@@ -1387,20 +1321,51 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   }
 
   void _resetData() {
+
+    if (_yarnTypeKey.currentState != null) {
+      _yarnTypeKey.currentState!.resetWidget();
+    }
+    if (_usageKey.currentState != null) {
+      _usageKey.currentState!.resetWidget();
+    }
+    if (_appearanceKey.currentState != null) {
+      _appearanceKey.currentState!.resetWidget();
+    }
+    if (_plyKey.currentState != null) _plyKey.currentState!.resetWidget();
+    if (_patternKey.currentState != null) {
+      _patternKey.currentState!.resetWidget();
+    }
+
+    if (_orientationKey.currentState != null) {
+      _orientationKey.currentState!.resetWidget();
+    }
+    if (_spunTechKey.currentState != null) {
+      _spunTechKey.currentState!.resetWidget();
+    }
+    if (_qualityKey.currentState != null) {
+      _qualityKey.currentState!.resetWidget();
+    }
+
+    if (_gradeKey.currentState != null) {
+      _gradeKey.currentState!.resetWidget();
+    }
+    if (_doublingMethodKey.currentState != null) {
+      _doublingMethodKey.currentState!.resetWidget();
+    }
+    if (_dyingMethodKey.currentState != null) {
+      _dyingMethodKey.currentState!.resetWidget();
+    }
+    if (_colorTreatmentMethodKey.currentState != null) {
+      _colorTreatmentMethodKey.currentState!.resetWidget();
+    }
+
     setState(() {
-      _getSpecificationRequestModel!.ysBlendIdFk = null;
-      _getSpecificationRequestModel!.yuId = null;
-      _getSpecificationRequestModel!.ys_color_code = null;
-      _getSpecificationRequestModel!.patternCharId = null;
-      _getSpecificationRequestModel!.patternId = null;
-      _getSpecificationRequestModel!.spunTechId = null;
-      _getSpecificationRequestModel!.orientationId = null;
-      _getSpecificationRequestModel!.ys_dying_method_idfk = null;
-      _getSpecificationRequestModel!.qualityId = null;
-      _getSpecificationRequestModel!.twistDirectionId = null;
-      _getSpecificationRequestModel!.colorTreatmentId = null;
-      _getSpecificationRequestModel!.yarnYypeId = null;
-      _getSpecificationRequestModel!.apperanceYarnId = null;
+     _getSpecificationRequestModel = GetSpecificationRequestModel();
+     _getSpecificationRequestModel!.categoryId = '2';
+     showDyingMethod = false;
+     showDoublingMethod = false;
+     showPatternCharc = false;
+
     });
   }
 }

@@ -15,16 +15,16 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
-
 class YarnPostAdPage extends StatefulWidget {
   final String? locality;
   final String? businessArea;
   final String? selectedTab;
 
-  const YarnPostAdPage({Key? key,
-    required this.businessArea,
-    required this.selectedTab,
-    required this.locality})
+  const YarnPostAdPage(
+      {Key? key,
+      required this.businessArea,
+      required this.selectedTab,
+      required this.locality})
       : super(key: key);
 
   @override
@@ -32,7 +32,6 @@ class YarnPostAdPage extends StatefulWidget {
 }
 
 class _YarnPostAdPageState extends State<YarnPostAdPage> {
-
   final _postYarnProvider = locator<PostYarnProvider>();
   String blendString = '';
 
@@ -76,25 +75,20 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                           showBlendsSheets(context);
                         },
                         child: SizedBox(
-                          height: 0.060 * MediaQuery
-                              .of(context)
-                              .size
-                              .height,
+                          height: 0.060 * MediaQuery.of(context).size.height,
                           child: Row(
                             children: [
                               Expanded(
                                 child: Container(
-                                  margin:
-                                  EdgeInsets.only(
+                                  margin: EdgeInsets.only(
                                       left: 0.w, right: 0.w, top: 2.w),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: Colors.black12),
-                                      borderRadius:
-                                      const BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(6))),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
@@ -104,19 +98,20 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                                           padding: EdgeInsets.only(
                                               left: 6.w, top: 6, bottom: 6),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               TitleMediumTextWidget(
                                                 title: blendString.isEmpty
                                                     ? _postYarnProvider
-                                                    .selectedYarnFamily
-                                                    .toString()
-                                                    .isNotEmpty
-                                                    ? _postYarnProvider
-                                                    .selectedYarnFamily.famName
-                                                    : 'Select'
-                                                    : blendString,
+                                                            .selectedYarnFamily
+                                                            .toString()
+                                                            .isNotEmpty
+                                                        ? _postYarnProvider
+                                                            .selectedYarnFamily
+                                                            .famName
+                                                        : 'Select'
+                                                    : "${_postYarnProvider.selectedYarnFamily.famName},$blendString",
                                                 color: Colors.black54,
                                                 weight: FontWeight.normal,
                                               )
@@ -178,12 +173,13 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.resetData();
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
-          GenericBlendBottomSheet(context,_postYarnProvider, _postYarnProvider.blendList, 0, () {
-            setFormations();
+          GenericBlendBottomSheet(
+              context, _postYarnProvider, _postYarnProvider.blendList, 0, () {
+            blendString = setFormations();
             Navigator.pop(context);
           });
         } else {
-          setFormations();
+          blendString = setFormations();
           _postYarnProvider.resetData();
           _postYarnProvider.textFieldControllers.clear();
           blendString = '';
@@ -192,7 +188,6 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
       }, _postYarnProvider.yarnFamilyList, -1, "Yarn");
     }
   }
-
 
   String setFormations() {
     List<Map<String, dynamic>> formations = [];
@@ -221,8 +216,10 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
-            BlendModel formationModel =
-            BlendModel(id: blend.blnId, relatedBlnId: null, ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio );
+            BlendModel formationModel = BlendModel(
+                id: blend.blnId,
+                relatedBlnId: null,
+                ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
           }
         }
@@ -246,15 +243,15 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     return value;
   }
 
-  //
-  // String getRelatedId(Blends blend) {
-  //   var blendModelArrayList = json.decode(blend.bln_ratio_json!);
-  //   List<BlendModelExtended> formationList = [];
-  //   for (var element in blendModelArrayList) {
-  //     formationList.add(BlendModelExtended.fromJson(element));
-  //   }
-  //   Logger().e(formationList.first.default_bln_id);
-  //   return formationList.first.default_bln_id.toString();
-  // }
+//
+// String getRelatedId(Blends blend) {
+//   var blendModelArrayList = json.decode(blend.bln_ratio_json!);
+//   List<BlendModelExtended> formationList = [];
+//   for (var element in blendModelArrayList) {
+//     formationList.add(BlendModelExtended.fromJson(element));
+//   }
+//   Logger().e(formationList.first.default_bln_id);
+//   return formationList.first.default_bln_id.toString();
+// }
 
 }
