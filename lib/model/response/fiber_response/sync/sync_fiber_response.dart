@@ -96,7 +96,7 @@ class FiberModel {
   late final List<CityState> cityState;
   late final List<Ports> ports;
   late final List<LcType> lcType;
-  late final List<Packing> packing;
+  // late final List<Packing> packing;
   late final List<FiberSettings> settings;
 
   FiberModel.fromJson(Map<String, dynamic> json) {
@@ -138,8 +138,8 @@ class FiberModel {
     ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();
     lcType =
         List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
-    packing =
-        List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
+    // packing =
+    //     List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
     settings = List.from(json['setting'])
         .map((e) => FiberSettings.fromJson(e))
         .toList();
@@ -165,7 +165,7 @@ class FiberModel {
     _data['city_state'] = cityState.map((e) => e.toJson()).toList();
     _data['ports'] = ports.map((e) => e.toJson()).toList();
     _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
-    _data['packing'] = packing.map((e) => e.toJson()).toList();
+    // _data['packing'] = packing.map((e) => e.toJson()).toList();
     _data['settings'] = settings.map((e) => e.toJson()).toList();
     return _data;
   }

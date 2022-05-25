@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             Container(
                               padding: EdgeInsets.only(top: 16.w, bottom: 2.w),
-                              child: TitleTextWidget(title: snapshot.data!.name),
+                              child: TitleTextWidget(title: snapshot.data!.username),
                             ),
                             Container(
                               padding: EdgeInsets.only(bottom: 8.w),
