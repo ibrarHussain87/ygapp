@@ -106,6 +106,8 @@ class PackagingDetailsState extends State<PackagingDetails>
     await AppDbInstance()
         .getPriceTerms()
         .then((value) => setState(() => _priceTermList = value));
+
+    ///REMOVED PACKING
     // await AppDbInstance().getPacking().then((value) => setState(() {
     //       _packingList = value;
     //       _packingList = _packingList
@@ -456,8 +458,8 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                             //Show Cone type
                             Visibility(
-                              visible:
-                                  widget.businessArea != yarn ? false : true,
+                              // visible:
+                              //     widget.businessArea != yarn ? false : true,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1253,7 +1255,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ),
                               ),
                             ),
-
+                            ///REMOVED PACKING
                             //Packing
                             // Visibility(
                             //   visible:
@@ -1569,6 +1571,7 @@ class PackagingDetailsState extends State<PackagingDetails>
           _createRequestModel!.spc_origin_idfk = user!.countryId;
         }
       }
+      _createRequestModel!.is_offering = widget.selectedTab;
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
@@ -1627,7 +1630,6 @@ class PackagingDetailsState extends State<PackagingDetails>
     // if (widget.locality == international) {
     //   _createRequestModel!.lc_type_idfk = _lcTypeList.first.lcId.toString();
     // }
-    // _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
     // _createRequestModel!.fbp_count_unit_idfk = _unitsList

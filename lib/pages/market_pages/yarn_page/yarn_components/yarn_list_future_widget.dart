@@ -34,6 +34,7 @@ class YarnSpecificationListFutureState
     yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context, listen: false);
     getRequestModel.locality = widget.locality;
     getRequestModel.categoryId = 2.toString();
+    getRequestModel.isOffering = "1";
     yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     super.initState();
   }

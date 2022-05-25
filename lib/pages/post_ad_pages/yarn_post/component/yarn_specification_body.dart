@@ -607,6 +607,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           widget.locality!.toUpperCase();
     }
 
+    _yarnPostProvider.createRequestModel!.is_offering = widget.selectedTab;
+
     ProgressDialogUtil.showDialog(context, 'Please wait...');
 
     ApiService.createSpecification(_yarnPostProvider.createRequestModel!,

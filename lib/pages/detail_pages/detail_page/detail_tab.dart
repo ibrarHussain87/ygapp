@@ -244,66 +244,71 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       height: 8.w,
                     ),
                     /*fixed lab parameters issue in fiber*/
-                    widget.yarnSpecification != null
-                        ? widget.yarnSpecification!.yarnFamilyId != '4'
+                    Visibility(
+                      visible: _getOfferingVisibility() ?? true,
+                      child: Container(
+                        child: widget.yarnSpecification != null
+                            ? widget.yarnSpecification!.yarnFamilyId != '4'
                             ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  widget.yarnSpecification != null
-                                      ? Column(
-                                          children: [
-                                            SizedBox(
-                                              height: 4.w,
-                                            ),
-                                            TitleTextWidget(
-                                              title: 'Lab Parameters'
-                                                  .toUpperCase(),
-                                              color: titleColor,
-                                            ),
-                                            SizedBox(
-                                              height: 12.w,
-                                            ),
-                                          ],
-                                        )
-                                      : SizedBox(
-                                          height: 4.w,
-                                        ),
-                                  ListView.separated(
-                                    itemCount: _labParameters.length,
-                                    shrinkWrap: true,
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            const Divider(),
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) =>
-                                        listDetailItemWidget(
-                                            context, _labParameters[index]),
-                                  ),
-                                  /*GridView.count(
-                                crossAxisCount: 3,
-                                childAspectRatio: 2.77,
-                                mainAxisSpacing: 3.w,
-                                crossAxisSpacing: 6.w,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: List.generate(_labParameters.length,
-                                    (index) {
-                                  return TextDetailWidget(
-                                      title: _labParameters[index]._title,
-                                      detail: _labParameters[index]._detail);
-                                }),
-                              ),*/
-                                  const Divider(),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                ],
-                              )
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            widget.yarnSpecification != null
+                                ? Column(
+                              children: [
+                                SizedBox(
+                                  height: 4.w,
+                                ),
+                                TitleTextWidget(
+                                  title: 'Lab Parameters'
+                                      .toUpperCase(),
+                                  color: titleColor,
+                                ),
+                                SizedBox(
+                                  height: 12.w,
+                                ),
+                              ],
+                            )
+                                : SizedBox(
+                              height: 4.w,
+                            ),
+                            ListView.separated(
+                              itemCount: _labParameters.length,
+                              shrinkWrap: true,
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                              const Divider(),
+                              physics:
+                              const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  listDetailItemWidget(
+                                      context, _labParameters[index]),
+                            ),
+                            /*GridView.count(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 2.77,
+                                  mainAxisSpacing: 3.w,
+                                  crossAxisSpacing: 6.w,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: List.generate(_labParameters.length,
+                                      (index) {
+                                    return TextDetailWidget(
+                                        title: _labParameters[index]._title,
+                                        detail: _labParameters[index]._detail);
+                                  }),
+                                ),*/
+                            const Divider(),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                          ],
+                        )
                             : Container()
-                        : SizedBox(
-                            height: 4.w,
-                          ),
+                            : SizedBox(
+                          height: 4.w,
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: 8.w,
                     ),
@@ -1616,6 +1621,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
             }),
           );
         });
+  }
+
+  bool? _getOfferingVisibility() {
+    if (widget.specification != null) {
+      return widget.specification!.is_offering == offering_type;
+    } else if (widget.yarnSpecification != null) {
+      return widget.yarnSpecification!.is_offering == offering_type;
+    } else if (widget.specObject is FabricSpecification) {
+      return (widget.specObject as FabricSpecification).isOffering == offering_type;
+    }else{
+      return true;
+    }
   }
 
   void placeBid(BuildContext context) {

@@ -425,60 +425,70 @@ class _DetailPageState extends State<DetailRenewedPage> {
                               children: [
                                 widget.specObj is StockLotSpecification
                                     ? stockLotPrice()
-                                    : Text.rich(TextSpan(children: [
-                                        TextSpan(
-                                          text: widget.specification != null
-                                              ? '${widget.specification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
-                                              : widget.yarnSpecification != null
-                                                  ? '${widget.yarnSpecification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
-                                                  : '${(widget.specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.sp,
-                                              /*fontFamily: 'Metropolis',*/
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        TextSpan(
-                                          text: widget.specification != null
-                                              ? widget.specification!.priceUnit
-                                                  .toString()
-                                                  .replaceAll(
-                                                      RegExp(r'[^0-9]'), '')
-                                              : widget.yarnSpecification != null
-                                                  ? widget.yarnSpecification!
-                                                      .priceUnit
-                                                      .toString()
-                                                      .replaceAll(
-                                                          RegExp(r'[^0-9]'), '')
-                                                  : (widget.specObj
-                                                          as FabricSpecification)
-                                                      .priceUnit
-                                                      .toString()
-                                                      .replaceAll(
-                                                          RegExp(r'[^0-9]'),
-                                                          ''),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 17.sp,
-                                              /*fontFamily: 'Metropolis',*/
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              "/ ${_isYarn() ? widget.yarnSpecification!.unitCount ?? "" : widget.specification != null ? widget.specification!.unitCount ?? "" : (widget.specObj as FabricSpecification).unitCount ?? ""}",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.sp,
-                                              /*fontFamily: 'Metropolis',*/
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ])),
+                                    /// REMOVING RICE FOR REQUIREMENT TYPE
+                                    : Visibility(
+                                        visible: _getPriceVisibility() ?? false,
+                                        child: Text.rich(TextSpan(children: [
+                                          TextSpan(
+                                            text: widget.specification != null
+                                                ? '${widget.specification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
+                                                : widget.yarnSpecification !=
+                                                        null
+                                                    ? '${widget.yarnSpecification!.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.'
+                                                    : '${(widget.specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12.sp,
+                                                /*fontFamily: 'Metropolis',*/
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          TextSpan(
+                                            text: widget.specification != null
+                                                ? widget
+                                                    .specification!.priceUnit
+                                                    .toString()
+                                                    .replaceAll(
+                                                        RegExp(r'[^0-9]'), '')
+                                                : widget.yarnSpecification !=
+                                                        null
+                                                    ? widget.yarnSpecification!
+                                                        .priceUnit
+                                                        .toString()
+                                                        .replaceAll(
+                                                            RegExp(r'[^0-9]'),
+                                                            '')
+                                                    : (widget.specObj
+                                                            as FabricSpecification)
+                                                        .priceUnit
+                                                        .toString()
+                                                        .replaceAll(
+                                                            RegExp(r'[^0-9]'),
+                                                            ''),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17.sp,
+                                                /*fontFamily: 'Metropolis',*/
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "/ ${_isYarn() ? widget.yarnSpecification!.unitCount ?? "" : widget.specification != null ? widget.specification!.unitCount ?? "" : (widget.specObj as FabricSpecification).unitCount ?? ""}",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12.sp,
+                                                /*fontFamily: 'Metropolis',*/
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ])),
+                                      ),
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                 Center(
+                                Center(
                                   child: TitleSmallNormalTextWidget(
-                                    title:_isYarn() ? widget.yarnSpecification!.deliveryPeriod ?? "" : widget.specification != null ? widget.specification!.deliveryPeriod ?? "" : (widget.specObj as FabricSpecification).deliveryPeriod ?? "" ,
+                                    title: _isYarn() ? widget.yarnSpecification!.deliveryPeriod ?? "" : widget.specification != null
+                                            ? widget.specification!.deliveryPeriod ?? ""
+                                            : (widget.specObj is FabricSpecification) ? (widget.specObj as FabricSpecification).deliveryPeriod ?? "":"",
                                     size: 7,
                                   ),
                                 )
@@ -779,6 +789,18 @@ class _DetailPageState extends State<DetailRenewedPage> {
                       ),
                     ]),
     );
+  }
+
+  bool? _getPriceVisibility() {
+    if (widget.specification != null) {
+      return widget.specification!.is_offering == offering_type;
+    } else if (widget.yarnSpecification != null) {
+      return widget.yarnSpecification!.is_offering == offering_type;
+    } else if (widget.specObj is FabricSpecification) {
+      return (widget.specObj as FabricSpecification).isOffering == offering_type;
+    }else{
+      return false;
+    }
   }
 }
 

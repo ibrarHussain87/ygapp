@@ -216,49 +216,52 @@ Widget buildFabricRenewedAgainWidget(
                               ),
                             ),
                             SizedBox(height: 13.w),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Wrap(
-                                    spacing: 4.0,
-                                    runSpacing: 3.0,
-                                    children: [
-                                      ShortDetailRenewedWidget(
-                                        title: specification.weightBag ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_BAG_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.weightCone ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_CONE_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_VAN_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.locality ==
-                                                international
-                                            ? specification.fabricCountry
-                                                ?.capitalizeAndLower()
-                                            : specification.locality
-                                                ?.capitalizeAndLower() /*:Utils.checkNullString(false)*/,
-                                        imageIcon: IC_LOCATION_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                            Visibility(
+                              visible: specification.isOffering == offering_type,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      spacing: 4.0,
+                                      runSpacing: 3.0,
+                                      children: [
+                                        ShortDetailRenewedWidget(
+                                          title: specification.weightBag ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_BAG_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.weightCone ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_CONE_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.deliveryPeriod ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: IC_VAN_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.locality ==
+                                                  international
+                                              ? specification.fabricCountry
+                                                  ?.capitalizeAndLower()
+                                              : specification.locality
+                                                  ?.capitalizeAndLower() /*:Utils.checkNullString(false)*/,
+                                          imageIcon: IC_LOCATION_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 8.h,
@@ -441,36 +444,39 @@ Widget buildFabricRenewedAgainWidget(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text.rich(TextSpan(children: [
-                                TextSpan(
-                                  text:
-                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                TextSpan(
-                                  text: specification.priceUnit
-                                      .toString()
-                                      .replaceAll(
-                                          RegExp(r'[^0-9]'), '') /*'1000'*/,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                TextSpan(
+                              Visibility(
+                                visible: specification.isOffering == offering_type,
+                                child: Text.rich(TextSpan(children: [
+                                  TextSpan(
                                     text:
-                                        "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
                                         /*fontFamily: 'Metropolis',*/
-                                        fontWeight: FontWeight.w500)),
-                              ])),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  TextSpan(
+                                    text: specification.priceUnit
+                                        .toString()
+                                        .replaceAll(
+                                            RegExp(r'[^0-9]'), '') /*'1000'*/,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12.sp,
+                                          /*fontFamily: 'Metropolis',*/
+                                          fontWeight: FontWeight.w500)),
+                                ])),
+                              ),
                               SizedBox(
                                 height: 1.h,
                               ),
@@ -514,33 +520,36 @@ Widget buildFabricRenewedAgainWidget(
                               const SizedBox(
                                 height: 7,
                               ),
-                              SizedBox(
-                                height: 20.h,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount:
-                                        specification.certifications!.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        decoration: BoxDecoration(
+                              Visibility(
+                                visible: false,
+                                child: SizedBox(
+                                  height: 20.h,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          specification.certifications!.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  color: Colors.grey.shade500)),
+                                          child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(25),
-                                            border: Border.all(
-                                                color: Colors.grey.shade500)),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          child: Image.network(
-                                            specification.certifications![index]
-                                                    .certification!.icon ??
-                                                'images/ic_list.png',
-                                            height: 20.w,
-                                            width: 20.h,
+                                            child: Image.network(
+                                              specification.certifications![index]
+                                                      .certification!.icon ??
+                                                  'images/ic_list.png',
+                                              height: 20.w,
+                                              width: 20.h,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
+                                        );
+                                      }),
+                                ),
                               ),
                               const SizedBox(
                                 height: 7,

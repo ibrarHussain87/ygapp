@@ -1124,6 +1124,7 @@ class FiberSpecificationComponentState
       _postFiberProvider.createRequestModel!.spc_local_international =
           widget.locality!.toUpperCase();
     }
+    _postFiberProvider.createRequestModel!.is_offering = widget.selectedTab;
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
 

@@ -206,45 +206,48 @@ Widget buildFiberRenewedWidget(
                             SizedBox(
                               height: 5.w,
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Wrap(
-                                    spacing: 4.0,
-                                    runSpacing: 3.0,
-                                    children: [
-                                      ShortDetailRenewedWidget(
-                                        title: specification.unitCount ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: 'images/img_bag.png',
-                                        size: 9.sp,
-                                        iconSize: 14,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.available ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: 'images/img_cone.png',
-                                        size: 9.sp,
-                                        iconSize: 14,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.deliveryPeriod ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: 'images/img_van.png',
-                                        size: 9.sp,
-                                        iconSize: 14,
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: specification.locality == international  ? specification.origin :specification.locality
-                                            /*Utils.checkNullString(false)*/,
-                                        imageIcon: 'images/img_location.png',
-                                        size: 9.sp,
-                                        iconSize: 14,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                            Visibility(
+                              visible: specification.is_offering == offering_type,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      spacing: 4.0,
+                                      runSpacing: 3.0,
+                                      children: [
+                                        ShortDetailRenewedWidget(
+                                          title: specification.unitCount ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: 'images/img_bag.png',
+                                          size: 9.sp,
+                                          iconSize: 14,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.available ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: 'images/img_cone.png',
+                                          size: 9.sp,
+                                          iconSize: 14,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.deliveryPeriod ??
+                                              Utils.checkNullString(false),
+                                          imageIcon: 'images/img_van.png',
+                                          size: 9.sp,
+                                          iconSize: 14,
+                                        ),
+                                        ShortDetailRenewedWidget(
+                                          title: specification.locality == international  ? specification.origin :specification.locality
+                                              /*Utils.checkNullString(false)*/,
+                                          imageIcon: 'images/img_location.png',
+                                          size: 9.sp,
+                                          iconSize: 14,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 5.h,
@@ -265,35 +268,38 @@ Widget buildFiberRenewedWidget(
                                   specification.priceUnit.toString() +
                                   "/KG",
                             ),*/
-                              Text.rich(TextSpan(children: [
-                                TextSpan(
-                                  text:
-                                      '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                TextSpan(
-                                  text: specification.priceUnit
-                                      .toString()
-                                      .replaceAll(RegExp(r'[^0-9]'), ''),
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                TextSpan(
-                                  text: "/ ${specification.unitCount ?? ''}",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12.sp,
-                                      /*fontFamily: 'Metropolis',*/
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ])),
+                              Visibility(
+                                visible: specification.is_offering == offering_type,
+                                child: Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text:
+                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  TextSpan(
+                                    text: specification.priceUnit
+                                        .toString()
+                                        .replaceAll(RegExp(r'[^0-9]'), ''),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  TextSpan(
+                                    text: "/ ${specification.unitCount ?? ''}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ])),
+                              ),
                               SizedBox(
                                 height: 1.h,
                               ),
@@ -334,28 +340,31 @@ Widget buildFiberRenewedWidget(
                           SizedBox(
                             height: 4.w,
                           ),
-                          SizedBox(
-                            height: 25.h,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: specification.certifications!.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(color: Colors.grey.shade500)
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                        specification.certifications![index].certification!.icon??'images/ic_list.png',
-                                        height: 24.w,
-                                        width: 24.h,
+                          Visibility(
+                            visible: false,
+                            child: SizedBox(
+                              height: 25.h,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: specification.certifications!.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          border: Border.all(color: Colors.grey.shade500)
                                       ),
-                                    ),
-                                  );
-                                }),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          specification.certifications![index].certification!.icon??'images/ic_list.png',
+                                          height: 24.w,
+                                          width: 24.h,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
                           ),
                           /*Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
