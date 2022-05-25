@@ -509,7 +509,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 ),
                               ],
                             ),
-                            Column(
+                            /*Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
 //                                Padding(
@@ -541,7 +541,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                             .availabilityList!
                                             .map((value) => DropdownMenuItem(
                                                   child: Text(
-                                                      /*value.conCurrency*/
+                                                      *//*value.conCurrency*//*
                                                       value.toString(),
                                                       textAlign:
                                                           TextAlign.center),
@@ -549,7 +549,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                 ))
                                             .toList(),
                                         isExpanded: true,
-                                        onChanged: (/*Countries?*/
+                                        onChanged: (*//*Countries?*//*
                                             AvailabilityModel? value) {
                                           stocklotProvider.stocklotRequestModel
                                                   .availability =
@@ -600,7 +600,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ),*/
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Column(children: [

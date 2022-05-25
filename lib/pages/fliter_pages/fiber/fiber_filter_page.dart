@@ -14,7 +14,6 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -544,7 +543,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                   ),
                                 ),
 
-                                Column(
+                              /*  Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
@@ -568,7 +567,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                       },
                                     ),
                                   ],
-                                ),
+                                ),*/
 
                                 SizedBox(
                                   height: 4.w,

@@ -5,12 +5,9 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/locators.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
-import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
@@ -19,7 +16,6 @@ import '../../elements/list_widgets/single_select_tile_widget.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../model/request/stocklot_request/stocklot_request.dart';
 import '../../model/response/common_response_models/unit_of_count.dart';
-import '../../model/response/family_data.dart';
 import '../../model/stocklot_waste_model.dart';
 
 class StocklotProvider extends ChangeNotifier {
@@ -44,7 +40,7 @@ class StocklotProvider extends ChangeNotifier {
   List<Units>? unitsList = [];
   List<FPriceTerms> priceTermsList = [];
   List<Countries>? countryList = [];
-  List<AvailabilityModel>? availabilityList = [];
+  // List<AvailabilityModel>? availabilityList = [];
   List<StocklotWasteModel>? stocklotWasteList = [];
   List<StocklotWasteModel>? filteredStocklotWasteList = [];
   List<StockLotSpecification> listStockLotSpec = [];
@@ -135,7 +131,7 @@ class StocklotProvider extends ChangeNotifier {
     priceTermsList =
         await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
-    availabilityList = await dbInstance.availabilityDao.findAllAvailability();
+    // availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
       getCategories(stocklots!.first.stocklotFamilyId.toString());
     }

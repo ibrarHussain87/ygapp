@@ -23,8 +23,6 @@ import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
@@ -64,19 +62,22 @@ class PackagingDetailsState extends State<PackagingDetails>
   final TextEditingController _coneWithController = TextEditingController();
   final TextEditingController _weigthPerBagController = TextEditingController();
   final TextEditingController _conePerBagController = TextEditingController();
-  bool? _showPaymentType;
-  bool? _showLcType;
+
+  // bool? _showPaymentType;
+  // bool? _showLcType;
   int? selectedCountryId;
   String? unitCountSelected;
 
   List<FPriceTerms> _priceTermList = [];
+
   // List<Packing> _packingList= [];
-  List<DeliveryPeriod> _deliverPeriodList= [];
-  List<PaymentType> _paymentTypeList= [];
-  List<LcType> _lcTypeList= [];
-  List<Units> _unitsList= [];
-  List<Countries> _countriesList= [];
-  List<CityState> _cityStateList= [];
+  List<DeliveryPeriod> _deliverPeriodList = [];
+  List<PaymentType> _paymentTypeList = [];
+
+  // List<LcType> _lcTypeList= [];
+  List<Units> _unitsList = [];
+  List<Countries> _countriesList = [];
+  List<CityState> _cityStateList = [];
   List<Ports> _portsList = [];
   List<ConeType> _coneTypeList = [];
 
@@ -88,101 +89,80 @@ class PackagingDetailsState extends State<PackagingDetails>
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
 
-  List<FPriceTerms> _getPriceTerms() {
-    if (widget.businessArea == yarn) {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "2"))
-          .toList();
-    } else {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "1"))
-          .toList();
-    }
-  }
+  // List<FPriceTerms> _getPriceTerms() {
+  //   if (widget.businessArea == yarn) {
+  //     return _priceTermList
+  //         .where((element) => (element.ptr_locality == widget.locality &&
+  //             element.ptrCategoryIdfk == "2"))
+  //         .toList();
+  //   } else {
+  //     return _priceTermList
+  //         .where((element) => (element.ptr_locality == widget.locality &&
+  //             element.ptrCategoryIdfk == "1"))
+  //         .toList();
+  //   }
+  // }
 
   _getPackingDetailData() async {
-    await AppDbInstance()
-        .getPriceTerms()
-        .then((value) => setState(() => _priceTermList = value));
+    var dbInstance = await AppDbInstance().getDbInstance();
 
-    ///REMOVED PACKING
-    // await AppDbInstance().getPacking().then((value) => setState(() {
-    //       _packingList = value;
-    //       _packingList = _packingList
-    //           .where((element) => element.pacIsActive == "1")
-    //           .toList();
-    //     }));
-    await AppDbInstance()
-        .getDeliveryPeriod()
-        .then((value) => setState(() => _deliverPeriodList = value));
-    await AppDbInstance()
-        .getPaymentType()
-        .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance()
-        .getLcType()
-        .then((value) => setState(() => _lcTypeList = value));
-    await AppDbInstance().getUnits().then((value) => setState(() {
-          _unitsList = value;
-          _createRequestModel!.fbp_count_unit_idfk = value
-              .where((element) =>
-                  element.untCategoryIdfk ==
-                      _createRequestModel!.spc_category_idfk &&
-                  checkFamilyId(element.unt_family_idfk!))
-              .toList()
-              .first
-              .untId
-              .toString();
-          setState(() {
-            unitCountSelected = value
-                .where((element) =>
-                    element.untCategoryIdfk ==
-                        _createRequestModel!.spc_category_idfk &&
-                    checkFamilyId(element.unt_family_idfk!))
-                .toList()
-                .first
-                .untName;
-          });
-        }));
-    await AppDbInstance()
-        .getOriginsData()
-        .then((value) => setState(() => _countriesList = value));
-    await AppDbInstance()
-        .getCityState()
-        .then((value) => setState(() => _cityStateList = value));
-    await AppDbInstance()
-        .getPorts()
-        .then((value) => setState(() => _portsList = value));
-    await AppDbInstance()
-        .getConeTypes()
-        .then((value) => setState(() => _coneTypeList = value));
+    _priceTermList = await dbInstance.priceTermsDao
+        .findYarnFPriceTermsWithCatId(
+            int.parse(_createRequestModel!.spc_category_idfk!));
+    _deliverPeriodList = await dbInstance.deliveryPeriodDao
+        .findAllDeliveryPeriodWithCatId(
+            int.parse(_createRequestModel!.spc_category_idfk!));
+    _paymentTypeList = await dbInstance.paymentTypeDao.findAllPaymentTypes();
+
+    _countriesList = await dbInstance.countriesDao.findAllCountries();
+    _cityStateList = await dbInstance.cityStateDao.findAllCityState();
+    _portsList = await dbInstance.portsDao.findAllPorts();
+
+    if (_createRequestModel!.spc_category_idfk == "1") {
+      _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
+          1, int.parse(_createRequestModel!.spc_fiber_family_idfk!));
+
+      _coneTypeList = await dbInstance.coneTypeDao.findAllConeType();
+          // .findAllConeTypeWithCatAndFamID(
+          //     int.parse(_createRequestModel!.spc_fiber_family_idfk!), 1);
+    } else {
+      _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
+          2, int.parse(_createRequestModel!.ys_family_idfk!));
+
+      _coneTypeList = await dbInstance.coneTypeDao
+          .findAllConeTypeWithCatAndFamID(
+              int.parse(_createRequestModel!.ys_family_idfk!), 2);
+    }
+
+    setState(() {
+
+    });
   }
 
   @override
   void initState() {
     //INITIAL VALUES
     // Utils.disableClick = true;
-    _getPackingDetailData();
     selectedCountryId = -1;
     sellingRegion.add(widget.locality.toString());
 
     super.initState();
 
-    if (_fiberPostProvider.createRequestModel != null) {
+    if (widget.businessArea == "Fiber") {
       _createRequestModel = _fiberPostProvider.createRequestModel;
-    }
-
-    if (_yarnPostProvider.createRequestModel != null) {
+    }else if (_yarnPostProvider.createRequestModel != null) {
       _createRequestModel = _yarnPostProvider.createRequestModel;
-    }
-    if (_createRequestModel!.spc_category_idfk != null &&
-        _createRequestModel!.spc_category_idfk == '1') {
-      _createRequestModel = _fiberPostProvider.createRequestModel;
-    } else if (_createRequestModel!.spc_category_idfk != null &&
-        _createRequestModel!.spc_category_idfk == '2') {
       _yarnPostProvider.familyDisabled = true;
+
     }
+    // if (_createRequestModel!.spc_category_idfk != null &&
+    //     _createRequestModel!.spc_category_idfk == '1') {
+    //   _createRequestModel = _fiberPostProvider.createRequestModel;
+    // } else if (_createRequestModel!.spc_category_idfk != null &&
+    //     _createRequestModel!.spc_category_idfk == '2') {
+    // }
+
+    _getPackingDetailData();
   }
 
   @override
@@ -240,14 +220,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       selectedIndex: 0,
                                       spanCount: 3,
-                                      listOfItems: _unitsList
-                                          .where((element) =>
-                                              element.untCategoryIdfk ==
-                                                  _createRequestModel!
-                                                      .spc_category_idfk &&
-                                              checkFamilyId(
-                                                  element.unt_family_idfk!))
-                                          .toList(),
+                                      listOfItems: _unitsList,
                                       callback: (Units value) {
                                         setState(() {
                                           unitCountSelected = value.untName;
@@ -471,12 +444,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,
-                                      listOfItems: _coneTypeList
-                                          .where((element) =>
-                                              element.familyId ==
-                                              _createRequestModel!
-                                                  .ys_family_idfk)
-                                          .toList(),
+                                      listOfItems: _coneTypeList,
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =
                                             value.yctId.toString();
@@ -897,7 +865,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               Radius.circular(5.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Price Terms'),
-                                        items: _getPriceTerms()
+                                        items: _priceTermList
                                             .map((value) => DropdownMenuItem(
                                                   child: Text(
                                                       value.ptrName ??
@@ -914,10 +882,10 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               .requestFocus(FocusNode());
                                           setState(() {
                                             if (value!.ptrId == 3) {
-                                              _showPaymentType = true;
+                                              // _showPaymentType = true;
                                             } else {
-                                              _showPaymentType = false;
-                                              _showLcType = false;
+                                              // _showPaymentType = false;
+                                              // _showLcType = false;
                                               _createRequestModel!
                                                   .payment_type_idfk = null;
                                               _createRequestModel!
@@ -1016,7 +984,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 )),
 
                             //Lc Type
-                            Visibility(
+                            /*Visibility(
                               visible: _showLcType ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1038,7 +1006,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       }),
                                 ],
                               ),
-                            ),
+                            ),*/
 
                             //Price Unit and Available Quantity
                             Padding(
@@ -1255,6 +1223,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ),
                               ),
                             ),
+
                             ///REMOVED PACKING
                             //Packing
                             // Visibility(
@@ -1594,8 +1563,10 @@ class PackagingDetailsState extends State<PackagingDetails>
             );
           } else {
             if (_createRequestModel!.spc_category_idfk == "1") {
+              _fiberPostProvider.createRequestModel = null;
               _fiberSpecificationProvider.getUpdatedFiberSpecificationsData();
             } else if (_createRequestModel!.spc_category_idfk == "2") {
+              _yarnPostProvider.createRequestModel = null;
               _yarnSpecificationProvider.getUpdatedYarnSpecificationsData();
             }
             Navigator.pop(context);

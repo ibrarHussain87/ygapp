@@ -7,7 +7,6 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
@@ -25,7 +24,7 @@ class FiberSpecificationProvider extends ChangeNotifier {
   List<FiberAppearance>? fiberAppearances;
   List<Grades>? fiberGrades;
   List<Certification>? fiberCertifications;
-  List<Packing>? fiberPacking;
+  // List<Packing>? fiberPacking;
   List<FiberSettings>? listOfSettings;
   List<int> listOfMaterials = [];
   List<int> listOfGrades = [];
@@ -292,7 +291,6 @@ class FiberSpecificationProvider extends ChangeNotifier {
         await dbInstance.fiberAppearanceDoa.findAllFiberAppearance();
     var fiberCertifications =
         await dbInstance.certificationDao.findAllCertifications();
-    var fiberPacking = await dbInstance.packingDao.findYarnPackingWithCatId(1);
     var fiberSettings = await dbInstance.fiberSettingDao.findFiberSettings(fiberBlends.first.blnId!);
     this.fiberFamily = fiberFamily;
     fiberBlends = fiberBlends;
@@ -300,7 +298,7 @@ class FiberSpecificationProvider extends ChangeNotifier {
     this.countries = countries;
     this.fiberAppearances = fiberAppearance;
     this.fiberCertifications = fiberCertifications;
-    this.fiberPacking = fiberPacking;
+    // this.fiberPacking = fiberPacking;
     this.listOfSettings = [fiberSettings!];
     isFilterPageLoading = false;
     _minMaxConfiguration();

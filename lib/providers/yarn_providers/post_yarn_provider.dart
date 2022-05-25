@@ -13,7 +13,7 @@ class PostYarnProvider extends ChangeNotifier {
   List<DoublingMethod>? doublingMethodList = [];
   List<DyingMethod>? dyingMethodList = [];
   List<OrientationTable>? orientationList = [];
-  List<TwistDirection>? twistDirectionList = [];
+  // List<TwistDirection>? twistDirectionList = [];
   List<SpunTechnique>? spunTechList = [];
   List<Quality>? qualityList = [];
   List<PatternModel>? patternList = [];
@@ -114,8 +114,8 @@ class PostYarnProvider extends ChangeNotifier {
         .findYarnQualityWithFamilyId(_selectedYarnFamily!.famId!);
     patternList = await dbInstance.patternDao
         .findAllPatternWithFamily(_selectedYarnFamily!.famId!);
-    twistDirectionList = await dbInstance.twistDirectionDao
-        .findYarnTwistDirectionWithFamilyId(_selectedYarnFamily!.famId!);
+    // twistDirectionList = await dbInstance.twistDirectionDao
+    //     .findYarnTwistDirectionWithFamilyId(_selectedYarnFamily!.famId!);
     gradesList = await dbInstance.yarnGradesDao
         .findGradeWithFamilyId(_selectedYarnFamily!.famId!);
     patternCharList =

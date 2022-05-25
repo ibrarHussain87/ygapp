@@ -1069,7 +1069,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             ),
 
             //Show Twist Direction
-            Visibility(
+            /*Visibility(
               visible: Ui.showHide(
                   _yarnPostProvider.yarnSetting!.showTwistDirection),
               child: Padding(
@@ -1094,7 +1094,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ],
                 ),
               ),
-            ),
+            ),*/
 
             //Show Spun Technique
             Visibility(
@@ -1530,7 +1530,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             ),
 
             //Show Twist Direction
-            Visibility(
+            /*Visibility(
               visible: Ui.showHide(
                   _yarnPostProvider.yarnSetting!.showTwistDirection),
               child: Padding(
@@ -1555,7 +1555,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ],
                 ),
               ),
-            ),
+            ),*/
 
             //Show Spun Technique
             Visibility(

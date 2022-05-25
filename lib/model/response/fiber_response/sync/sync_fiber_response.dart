@@ -6,8 +6,6 @@ import 'package:yg_app/model/response/common_response_models/companies_reponse.d
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
@@ -75,7 +73,7 @@ class FiberModel {
     required this.units,
     required this.grades,
     required this.priceTerms,
-    required this.availbleForMarket,
+    // required this.availbleForMarket,
     required this.settings,
   });
 
@@ -90,12 +88,12 @@ class FiberModel {
   late final List<Brands> brands;
   late final List<Grades> grades;
   late final List<FPriceTerms> priceTerms;
-  late final List<FiberAvailbleForMarket> availbleForMarket;
+  // late final List<FiberAvailbleForMarket> availbleForMarket;
   late final List<Companies> companies;
   late final List<PaymentType> paymentType;
   late final List<CityState> cityState;
   late final List<Ports> ports;
-  late final List<LcType> lcType;
+  // late final List<LcType> lcType;
   // late final List<Packing> packing;
   late final List<FiberSettings> settings;
 
@@ -124,9 +122,9 @@ class FiberModel {
     priceTerms = List.from(json['priceTerms'])
         .map((e) => FPriceTerms.fromJson(e))
         .toList();
-    availbleForMarket = List.from(json['availbleForMarket'])
-        .map((e) => FiberAvailbleForMarket.fromJson(e))
-        .toList();
+    // availbleForMarket = List.from(json['availbleForMarket'])
+    //     .map((e) => FiberAvailbleForMarket.fromJson(e))
+    //     .toList();
     companies =
         List.from(json['companies']).map((e) => Companies.fromJson(e)).toList();
     paymentType = List.from(json['payment_types'])
@@ -136,8 +134,8 @@ class FiberModel {
         .map((e) => CityState.fromJson(e))
         .toList();
     ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();
-    lcType =
-        List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
+    // lcType =
+    //     List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
     // packing =
     //     List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
     settings = List.from(json['setting'])
@@ -158,13 +156,13 @@ class FiberModel {
     _data['brands'] = units.map((e) => e.toJson()).toList();
     _data['grades'] = grades.map((e) => e.toJson()).toList();
     _data['priceTerms'] = priceTerms.map((e) => e.toJson()).toList();
-    _data['availbleForMarket'] =
-        availbleForMarket.map((e) => e.toJson()).toList();
+    // _data['availbleForMarket'] =
+    //     availbleForMarket.map((e) => e.toJson()).toList();
     _data['companies'] = companies.map((e) => e.toJson()).toList();
     _data['payment_types'] = paymentType.map((e) => e.toJson()).toList();
     _data['city_state'] = cityState.map((e) => e.toJson()).toList();
     _data['ports'] = ports.map((e) => e.toJson()).toList();
-    _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
+    // _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
     // _data['packing'] = packing.map((e) => e.toJson()).toList();
     _data['settings'] = settings.map((e) => e.toJson()).toList();
     return _data;

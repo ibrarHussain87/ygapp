@@ -7,8 +7,6 @@ import 'package:yg_app/model/response/common_response_models/companies_reponse.d
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
-import 'package:yg_app/model/response/common_response_models/lc_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/packing_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
@@ -138,10 +136,10 @@ class AppDbInstance {
     return getDbInstance().then((value) => value.yarnGradesDao.findAllGrades());
   }
 
-  Future<List<TwistDirection>> getTwistDirections() {
-    return getDbInstance()
-        .then((value) => value.twistDirectionDao.findAllTwistDirection());
-  }
+  // Future<List<TwistDirection>> getTwistDirections() {
+  //   return getDbInstance()
+  //       .then((value) => value.twistDirectionDao.findAllTwistDirection());
+  // }
 
   Future<List<CityState>> getCityState() {
     return getDbInstance()
@@ -163,13 +161,13 @@ class AppDbInstance {
         .then((value) => value.deliveryPeriodDao.findAllDeliveryPeriod());
   }
 
-  Future<List<LcType>> getLcType() {
-    return getDbInstance().then((value) => value.lcTypeDao.findAllLcType());
-  }
-
-  Future<List<Packing>> getPacking() {
-    return getDbInstance().then((value) => value.packingDao.findAllPacking());
-  }
+  // Future<List<LcType>> getLcType() {
+  //   return getDbInstance().then((value) => value.lcTypeDao.findAllLcType());
+  // }
+  //
+  // Future<List<Packing>> getPacking() {
+  //   return getDbInstance().then((value) => value.packingDao.findAllPacking());
+  // }
 
   Future<List<PaymentType>> getPaymentType() {
     return getDbInstance()

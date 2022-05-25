@@ -62,8 +62,8 @@ class SyncProvider extends ChangeNotifier {
 //                  .insertAllCountry(syncFiberResponse.data.fiber.countries),
               value.deliveryPeriodDao.insertAllDeliveryPeriods(
               syncFiberResponse.data.fiber.deliveryPeriod),
-              value.lcTypeDao
-                  .insertAllLcType(syncFiberResponse.data.fiber.lcType),
+              // value.lcTypeDao
+              //     .insertAllLcType(syncFiberResponse.data.fiber.lcType),
               value.paymentTypeDao.insertAllPaymentType(
               syncFiberResponse.data.fiber.paymentType),
               value.portsDao
@@ -73,7 +73,6 @@ class SyncProvider extends ChangeNotifier {
               value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
               value.fiberAppearanceDoa.insertAllFiberAppearance(
               syncFiberResponse.data.fiber.apperance),
-              // value.packingDao.insertAllPacking(syncFiberResponse.data.fiber.packing
               // )
               ]
               );
@@ -112,8 +111,8 @@ class SyncProvider extends ChangeNotifier {
 //                    .insertAllCountry(syncYarnResponse.data.yarn.countries!),
                 value.deliveryPeriodDao.insertAllDeliveryPeriods(
                     syncYarnResponse.data.yarn.deliveryPeriod!),
-                value.lcTypeDao
-                    .insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
+                // value.lcTypeDao
+                //     .insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
                 value.paymentTypeDao.insertAllPaymentType(
                     syncYarnResponse.data.yarn.paymentTypes!),
                 value.portsDao
@@ -136,8 +135,8 @@ class SyncProvider extends ChangeNotifier {
                 value.plyDao.insertAllPly(syncYarnResponse.data.yarn.ply!),
                 value.qualityDao
                     .insertAllQuality(syncYarnResponse.data.yarn.quality!),
-                value.twistDirectionDao.insertAllTwistDirection(
-                    syncYarnResponse.data.yarn.twistDirection!),
+                // value.twistDirectionDao.insertAllTwistDirection(
+                //     syncYarnResponse.data.yarn.twistDirection!),
                 value.usageDao
                     .insertAllUsage(syncYarnResponse.data.yarn.usage!),
                 value.yarnTypesDao
@@ -145,8 +144,6 @@ class SyncProvider extends ChangeNotifier {
 
                 value.yarnAppearanceDao.insertAllYarnAppearance(
                     syncYarnResponse.data.yarn.apperance!),
-                // value.packingDao
-                //     .insertAllPacking(syncYarnResponse.data.yarn.packing!)
               ]);
             });
           }
@@ -162,12 +159,12 @@ class SyncProvider extends ChangeNotifier {
                     response.data!.stocklot!.stocklots!),
                 // if(response.data!.stocklot!.stocklots != null) value.stocklotDao
                 //     .insertAllStocklots(response.data!.stocklot!.stocklots!),
-                value.availabilityDao.insertAllAvailability(
-                    response.data!.stocklot!.availabilityList!),
+                // value.availabilityDao.insertAllAvailability(
+                //     response.data!.stocklot!.availabilityList!),
                 value.priceTermsDao.insertAllFPriceTerms(
                     response.data!.stocklot!.priceTerms!),
-                value.lcTypeDao.insertAllLcType(
-                    response.data!.stocklot!.lcTypes!),
+                // value.lcTypeDao.insertAllLcType(
+                //     response.data!.stocklot!.lcTypes!),
                 value.paymentTypeDao.insertAllPaymentType(
                     response.data!.stocklot!.paymentTypes!)
               ]);
@@ -213,7 +210,8 @@ class SyncProvider extends ChangeNotifier {
                 value.fabricDenimTypesDao.insertAllFabricDenimTypes(
                     response.data!.fabric!.denimTypes!),
                 value.deliveryPeriodDao.insertAllDeliveryPeriods(
-                    response.data!.fabric!.deliveryPeriod!)
+                    response.data!.fabric!.deliveryPeriod!),
+                value.certificationDao.insertAllCertification(response.data!.fabric!.certification!)
               ]);
             });
           }
