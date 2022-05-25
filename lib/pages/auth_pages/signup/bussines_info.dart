@@ -260,6 +260,9 @@ class BusinessInfoComponentState
                 onSaved: (value) {
                   print("Value"+value.toString());
                   _signupRequestModel?.company = value;
+                  if(companiesList.where((element) => element.name == value).toList().isEmpty){
+                    _signupRequestModel!.otherCompany = "1";
+                  }
                 }
 
               ),

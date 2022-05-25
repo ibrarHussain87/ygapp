@@ -138,7 +138,7 @@ class PersonalInfoComponentState
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // fontFamily: 'Metropolis',
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -935,7 +935,7 @@ class PersonalInfoComponentState
         _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(_signupRequestModel?.toJson());
         ApiService.signup(_signupRequestModel!).then((value) {
-          Logger().e(value.toJson());
+          // Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {
             value.errors!.forEach((key, error) {

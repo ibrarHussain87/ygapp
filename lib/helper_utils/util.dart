@@ -82,6 +82,7 @@ class Utils {
         }
       }
     });
+
     return resultString;
   }
 

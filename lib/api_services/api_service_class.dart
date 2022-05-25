@@ -81,7 +81,7 @@ class ApiService {
   static const String COUNTRY_END_POINT = "/get-pre-login-sync";
 
 //  static const String COUNTRY_END_POINT = "/get-countries";
-  static const String COMPANIES_END_POINT = "/company/search/Outfitters";
+    static const String COMPANIES_END_POINT = "/company";
   static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
@@ -136,11 +136,14 @@ class ApiService {
   static Future<AuthResponse> signup(SignUpRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: requestModel.toJson());
-      return AuthResponse.fromJson(
-        json.decode(response.body),
-      );
+      // final response = await http.post(Uri.parse(url),
+      //     headers: headerMap, body: requestModel.toJson());
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(requestModel.toJson()));
+
+      return AuthResponse.fromJson(response.data);
     } catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -199,7 +202,7 @@ class ApiService {
   static Future<SyncFiberResponse> syncFiber(
       SyncRequestModel syncRequestModel) async {
     try {
-      var userToken =
+      var userToken=
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';

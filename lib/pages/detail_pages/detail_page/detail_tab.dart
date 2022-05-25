@@ -2198,21 +2198,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
     GridTileModel formationTileModel;
     switch(yarnFormation.length){
       case 1:
-        formationTileModel = GridTileModel('Blends Formation', yarnFormation.first.blendName?? Utils.checkNullString(false));
+        if(yarnFormation.first.formationRatio == "100"){
+          formationTileModel = GridTileModel('Blends Formation', '');
+        }else{
+          formationTileModel = GridTileModel('Blends Formation', "${yarnFormation.first.blendName} :${yarnFormation.first.formationRatio}");
+        }
         break;
         case 2:
-        formationTileModel = GridTileModel('Blends Formation', '${yarnFormation.first.formationRatio?? Utils.checkNullString(false)}:'
-            '${yarnFormation[1].formationRatio?? Utils.checkNullString(false)}');
+        formationTileModel = GridTileModel('Blends Formation', '${yarnFormation.first.blendName?? Utils.checkNullString(false)} : ${yarnFormation.first.formationRatio?? Utils.checkNullString(false)},'
+            '${yarnFormation[1].blendName?? Utils.checkNullString(false)} : ${yarnFormation[1].formationRatio?? Utils.checkNullString(false)}');
         break;
       default:
         String? blendString = '';
-        yarnFormation.forEach((element) { 
+        for (var element in yarnFormation) {
           if(blendString!.isEmpty){
-            blendString = blendString!+'${element.blendName}(${element.formationRatio}%)';
+            blendString = blendString+'${element.blendName}:${element.formationRatio}%';
           }else{
-            blendString = blendString!+',${element.blendName}(${element.formationRatio}%)';
+            blendString = blendString+',${element.blendName}:${element.formationRatio}%';
           }
-        });
+        }
         formationTileModel = GridTileModel('Blends Formation', blendString?? Utils.checkNullString(false));
         break;
     }

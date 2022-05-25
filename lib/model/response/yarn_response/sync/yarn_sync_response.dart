@@ -79,7 +79,7 @@ class Yarn {
     required this.ports,
     required this.lcTypes,
     required this.paymentTypes,
-    required this.packing,
+    // required this.packing,
     required this.yarnTypes,
     required this.setting,
     required this.spunTechnique,
@@ -111,7 +111,7 @@ class Yarn {
   List<Ports>? ports;
   List<LcType>? lcTypes;
   List<PaymentType>? paymentTypes;
-  List<Packing>? packing;
+  // List<Packing>? packing;
   List<YarnTypes>? yarnTypes;
   List<YarnSetting>? setting;
   List<SpunTechnique>? spunTechnique;
@@ -159,8 +159,8 @@ class Yarn {
     paymentTypes = List.from(json['payment_types'])
         .map((e) => PaymentType.fromJson(e))
         .toList();
-    packing =
-        List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
+    // packing =
+    //     List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
     yarnTypes = List.from(json['yarn_types'])
         .map((e) => YarnTypes.fromJson(e))
         .toList();
@@ -214,7 +214,7 @@ class Yarn {
     _data['ports'] = ports!.map((e) => e.toJson()).toList();
     _data['lc_types'] = lcTypes!.map((e) => e.toJson()).toList();
     _data['payment_types'] = paymentTypes!.map((e) => e.toJson()).toList();
-    _data['packing'] = packing!.map((e) => e.toJson()).toList();
+    // _data['packing'] = packing!.map((e) => e.toJson()).toList();
     _data['yarn_types'] = yarnTypes!.map((e) => e.toJson()).toList();
     _data['setting'] = setting!.map((e) => e.toJson()).toList();
     _data['spun_technique'] = spunTechnique!.map((e) => e.toJson()).toList();
