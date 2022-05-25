@@ -270,7 +270,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `color_treatment_method` (`yctmId` INTEGER, `familyId` TEXT, `yctmName` TEXT, `yctmColorMethodIdfk` TEXT, `yctmDescription` TEXT, `yctmIsActive` TEXT, `yctmSortid` TEXT, PRIMARY KEY (`yctmId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `corn_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
+            'CREATE TABLE IF NOT EXISTS `cone_type` (`yctId` INTEGER, `familyId` TEXT, `yctName` TEXT, `yctDescription` TEXT, `yctIsActive` TEXT, `yctSortid` TEXT, PRIMARY KEY (`yctId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `doubling_method` (`dmId` INTEGER, `plyId` TEXT, `dmName` TEXT, `catIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`dmId`))');
         await database.execute(
@@ -4152,7 +4152,7 @@ class _$ConeTypeDao extends ConeTypeDao {
       : _queryAdapter = QueryAdapter(database),
         _coneTypeInsertionAdapter = InsertionAdapter(
             database,
-            'corn_type',
+            'cone_type',
             (ConeType item) => <String, Object?>{
                   'yctId': item.yctId,
                   'familyId': item.familyId,

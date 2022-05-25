@@ -131,7 +131,7 @@ class YarnSpecification {
     required this.weightCone,
     required this.weightBag,
     required this.conesBag,
-    this.packing,
+    this.fpb_cone_type_name,
     this.paymentType,
     this.lcType,
     this.is_offering,
@@ -157,7 +157,7 @@ class YarnSpecification {
   String? locality;
   String? yarnFamilyId;
   String? yarnFamily;
-  List<YarnFormation>? yarnFormation;
+  List<GenericFormation>? yarnFormation;
   String? doublingMethod;
   String? yarnType;
   String? yarnBlend;
@@ -203,7 +203,7 @@ class YarnSpecification {
   String? weightCone;
   String? weightBag;
   String? conesBag;
-  String? packing;
+  String? fpb_cone_type_name;
   String? paymentType;
   String? lcType;
   String? deliveryPeriod;
@@ -282,7 +282,7 @@ class YarnSpecification {
     is_offering = json['is_offering'];
     is_featured = json['is_featured'];
     is_verified = json['is_verified'];
-    packing = json['packing'];
+    fpb_cone_type_name = json['fpb_cone_type_name'];
     paymentType = json['payment_type'];
     lcType = json['lc_type'];
     deliveryPeriod = json['delivery_period'];
@@ -305,7 +305,7 @@ class YarnSpecification {
     }
     if (json['formation'] != null) {
       yarnFormation =
-          List.from(json['formation']).map((e) => YarnFormation.fromJson(e)).toList();
+          List.from(json['formation']).map((e) => GenericFormation.fromJson(e)).toList();
     }
   }
 
@@ -363,7 +363,7 @@ class YarnSpecification {
     _data['weight_bag'] = weightBag;
     _data['cones_bag'] = conesBag;
     _data['is_offering'] = is_offering;
-    _data['packing'] = packing;
+    _data['fpb_cone_type_name'] = fpb_cone_type_name;
     _data['payment_type'] = paymentType;
     _data['lc_type'] = lcType;
     _data['delivery_period'] = deliveryPeriod;
@@ -390,7 +390,7 @@ class YarnSpecification {
   }
 }
 
-class YarnFormation {
+class GenericFormation {
   int? formationId;
   String? categoryIdfk;
   String? categoryFamilyIdfk;
@@ -399,7 +399,7 @@ class YarnFormation {
   String? blendName;
   String? formationRatio;
 
-  YarnFormation(
+  GenericFormation(
       {this.formationId,
         this.categoryIdfk,
         this.categoryFamilyIdfk,
@@ -408,7 +408,7 @@ class YarnFormation {
         this.blendName,
         this.formationRatio});
 
-  YarnFormation.fromJson(Map<String, dynamic> json) {
+  GenericFormation.fromJson(Map<String, dynamic> json) {
     formationId = json['formation_id'];
     categoryIdfk = json['category_idfk'];
     categoryFamilyIdfk = json['category_family_idfk'];

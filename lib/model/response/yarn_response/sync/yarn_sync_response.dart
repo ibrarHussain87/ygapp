@@ -1191,7 +1191,7 @@ class Blends {
   }
 }
 
-@Entity(tableName: "corn_type")
+@Entity(tableName: "cone_type")
 class ConeType {
   @PrimaryKey(autoGenerate: false)
   int? yctId;
