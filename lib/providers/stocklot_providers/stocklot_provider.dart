@@ -280,4 +280,35 @@ class StocklotProvider extends ChangeNotifier {
     setSubCatIndex(-1);
     stocklotRequestModel = StocklotRequestModel();
   }
+
+  //created by asad_m
+  resetValues()
+  {
+    if (stocklotKey.currentState != null) {
+      stocklotKey.currentState!.checkedTile = 0;
+    }
+    if (categoryKey.currentState != null) {
+      categoryKey.currentState!.checkedTile = -1;
+    }
+
+    if (subCategoryKey.currentState != null) {
+      subCategoryKey.currentState!.checkedTile = -1;
+    }
+
+    stocklotWasteList = [];
+    filteredStocklotWasteList = [];
+    loading = false;
+    ignoreClick = false;
+    showCategory=false;
+    showSubCategory=false;
+    selectedSubCategoryId = -1;
+    categoryId = -1;
+    subcategoryId = -1;
+    expandStockLostWast = true;
+    imageFiles = [];
+    setSubCatIndex(-1);
+    setCatIndex(-1);
+    stocklotRequestModel.subcategoryId = null;
+    stocklotRequestModel = StocklotRequestModel();
+  }
 }

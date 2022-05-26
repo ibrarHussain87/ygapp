@@ -61,9 +61,9 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
+    stocklotProvider.resetValues();
     stocklotProvider.getStocklotData();
 
   }
@@ -203,7 +203,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                           stocklotProvider.stocklotSubcategories!,
                                       selectedIndex: -1,
                                       callback: (StockLotFamily value) {
-
+                                        print("FamilyLot"+value.stocklotFamilyId.toString());
                                         stocklotCategories = value;
                                         stocklotProvider.getFilteredStocklotWaste(
                                             value.stocklotFamilyId ?? -1);
@@ -1021,10 +1021,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
-    if (stocklotProvider.stocklotRequestModel.availability == null) {
-      Ui.showSnackBar(context, "Please select availability");
-      return false;
-    }
+//    if (stocklotProvider.stocklotRequestModel.availability == null) {
+//      Ui.showSnackBar(context, "Please select availability");
+//      return false;
+//    }
 
     if(stocklotProvider.stocklotRequestModel.description == null){
       Ui.showSnackBar(context, "Please enter description");

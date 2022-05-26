@@ -38,7 +38,6 @@ class SpecSelectTileWidgetState extends State<SpecSelectTileWidget> {
 
   @override
   void initState() {
-    print("Index"+widget.selectedIndex.toString());
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
       aspectRatio = 4.5;
@@ -78,6 +77,7 @@ class SpecSelectTileWidgetState extends State<SpecSelectTileWidget> {
         setState(() {
           checkedTile = index;
         });
+
         widget.callback!(widget.listOfItems[index]);
         widget.selectedValue!(checkedTile);
 
