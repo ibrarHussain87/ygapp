@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 @dao

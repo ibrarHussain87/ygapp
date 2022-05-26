@@ -27,7 +27,7 @@
     </queries>
 
     <application
-        android:label="Yurn Guru"
+        android:label="Yarn Guru"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

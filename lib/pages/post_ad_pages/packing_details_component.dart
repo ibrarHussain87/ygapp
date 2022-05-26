@@ -21,6 +21,7 @@ import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
@@ -107,8 +108,8 @@ class PackagingDetailsState extends State<PackagingDetails>
     var dbInstance = await AppDbInstance().getDbInstance();
 
     _priceTermList = await dbInstance.priceTermsDao
-        .findYarnFPriceTermsWithCatId(
-            int.parse(_createRequestModel!.spc_category_idfk!));
+        .findYarnFPriceTermsWithCatIdLocality(
+            int.parse(_createRequestModel!.spc_category_idfk!),widget.locality!);
     _deliverPeriodList = await dbInstance.deliveryPeriodDao
         .findAllDeliveryPeriodWithCatId(
             int.parse(_createRequestModel!.spc_category_idfk!));
@@ -122,11 +123,10 @@ class PackagingDetailsState extends State<PackagingDetails>
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           1, int.parse(_createRequestModel!.spc_fiber_family_idfk!));
 
-      _coneTypeList = await dbInstance.coneTypeDao/*.findAllConeType();*/
-          .findAllConeTypeWithCatAndFamID(
+      _coneTypeList = await dbInstance.coneTypeDao.findAllConeType();
+         /* .findAllConeTypeWithCatAndFamID(
               int.parse(_createRequestModel!.spc_fiber_family_idfk!), 1);
-
-      unitCountSelected = _coneTypeList.first.yctName;
+*/
     } else {
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           2, int.parse(_createRequestModel!.ys_family_idfk!));
@@ -135,9 +135,9 @@ class PackagingDetailsState extends State<PackagingDetails>
           .findAllConeTypeWithCatAndFamID(
               int.parse(_createRequestModel!.ys_family_idfk!), 2);
 
-      unitCountSelected = _coneTypeList.first.yctName;
     }
-
+    unitCountSelected = _coneTypeList.first.yctName;
+    _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
     setState(() {
 
     });

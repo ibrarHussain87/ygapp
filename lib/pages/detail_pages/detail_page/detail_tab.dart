@@ -2300,7 +2300,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       case 2:
         formationTileModel = GridTileModel(
             'Blends Formation',
-            '${yarnFormation.first.blendName ?? Utils.checkNullString(false)} : ${yarnFormation.first.formationRatio ?? Utils.checkNullString(false)},'
+            '${yarnFormation.first.blendName ?? Utils.checkNullString(false)} : ${yarnFormation.first.formationRatio ?? Utils.checkNullString(false)} '
                 '${yarnFormation[1].blendName ?? Utils.checkNullString(false)} : ${yarnFormation[1].formationRatio ?? Utils.checkNullString(false)}');
         break;
       default:
@@ -2308,10 +2308,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
         for (var element in yarnFormation) {
           if (blendString!.isEmpty) {
             blendString =
-                blendString + '${element.blendName}:${element.formationRatio}%';
+                blendString + '${element.blendName}:${element.formationRatio} ';
           } else {
             blendString = blendString +
-                ',${element.blendName}:${element.formationRatio}%';
+                ': ${element.blendName}:${element.formationRatio} ';
           }
         }
         formationTileModel = GridTileModel(

@@ -1,7 +1,9 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
+import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
+import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 import '../../common_response_models/brands_response.dart';
 import '../../common_response_models/city_state_response.dart';
@@ -48,8 +50,7 @@ class Data {
   Data({this.fabric});
 
   Data.fromJson(Map<String, dynamic> json) {
-    fabric =
-    json['fabric'] != null ? Fabric.fromJson(json['fabric']) : null;
+    fabric = json['fabric'] != null ? Fabric.fromJson(json['fabric']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +80,8 @@ class Fabric {
   List<FabricGrades>? grades;
   List<FabricLoom>? loom;
   List<FabricSalvedge>? salvedge;
+  List<ConeType>? coneType;
+
   List<FabricWeave>? weave;
   List<FabricLayyer>? layyer;
   List<FPriceTerms>? priceTerms;
@@ -90,30 +93,31 @@ class Fabric {
 
   Fabric(
       {this.setting,
-        this.family,
-        this.blends,
-        this.denimTypes,
-        this.countries,
-        this.cityState,
-        this.ports,
-        this.paymentTypes,
-        this.appearance,
-        this.knittingTypes,
-        this.ply,
-        this.colorTreatmentMethod,
-        this.dyingTechniques,
-        this.quality,
-        this.grades,
-        this.loom,
-        this.salvedge,
-        this.weave,
-        this.layyer,
-        this.priceTerms,
-        this.deliveryPeriod,
-        this.units,
-        this.companies,
-        this.brands,
-        this.certification});
+      this.family,
+      this.blends,
+      this.denimTypes,
+      this.countries,
+      this.cityState,
+      this.ports,
+      this.paymentTypes,
+      this.appearance,
+      this.knittingTypes,
+      this.ply,
+      this.colorTreatmentMethod,
+      this.dyingTechniques,
+      this.quality,
+      this.grades,
+      this.loom,
+      this.salvedge,
+      this.weave,
+      this.layyer,
+      this.priceTerms,
+      required this.coneType,
+      this.deliveryPeriod,
+      this.units,
+      this.companies,
+      this.brands,
+      this.certification});
 
   Fabric.fromJson(Map<String, dynamic> json) {
     if (json['setting'] != null) {
@@ -156,6 +160,12 @@ class Fabric {
       ports = <Ports>[];
       json['ports'].forEach((v) {
         ports!.add(Ports.fromJson(v));
+      });
+    }
+    if (json['cone_type'] != null) {
+      coneType = <ConeType>[];
+      json['cone_type'].forEach((v) {
+        coneType!.add(ConeType.fromJson(v));
       });
     }
     if (json['payment_types'] != null) {
@@ -238,7 +248,7 @@ class Fabric {
     }
     if (json['delivery_period'] != null) {
       deliveryPeriod = <DeliveryPeriod>[];
-      if(json['delivery_period'] is List) {
+      if (json['delivery_period'] is List) {
         json['delivery_period'].forEach((v) {
           deliveryPeriod!.add(DeliveryPeriod.fromJson(v));
         });
@@ -294,15 +304,13 @@ class Fabric {
       data['ports'] = ports!.map((v) => v.toJson()).toList();
     }
     if (paymentTypes != null) {
-      data['payment_types'] =
-          paymentTypes!.map((v) => v.toJson()).toList();
+      data['payment_types'] = paymentTypes!.map((v) => v.toJson()).toList();
     }
     if (appearance != null) {
       data['appearance'] = appearance!.map((v) => v.toJson()).toList();
     }
     if (knittingTypes != null) {
-      data['knitting_types'] =
-          knittingTypes!.map((v) => v.toJson()).toList();
+      data['knitting_types'] = knittingTypes!.map((v) => v.toJson()).toList();
     }
     if (ply != null) {
       data['ply'] = ply!.map((v) => v.toJson()).toList();
@@ -314,6 +322,11 @@ class Fabric {
     if (dyingTechniques != null) {
       data['dying_techniques'] =
           dyingTechniques!.map((v) => v.toJson()).toList();
+    }
+
+    if (coneType != null) {
+      data['cone_type'] =
+          coneType!.map((v) => v.toJson()).toList();
     }
     if (quality != null) {
       data['quality'] = quality!.map((v) => v.toJson()).toList();
@@ -337,8 +350,7 @@ class Fabric {
       data['price_terms'] = priceTerms!.map((v) => v.toJson()).toList();
     }
     if (deliveryPeriod != null) {
-      data['delivery_period'] =
-          deliveryPeriod!.map((v) => v.toJson()).toList();
+      data['delivery_period'] = deliveryPeriod!.map((v) => v.toJson()).toList();
     }
     if (units != null) {
       data['units'] = units!.map((v) => v.toJson()).toList();
@@ -350,8 +362,7 @@ class Fabric {
       data['brands'] = brands!.map((v) => v.toJson()).toList();
     }
     if (certification != null) {
-      data['certification'] =
-          certification!.map((v) => v.toJson()).toList();
+      data['certification'] = certification!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -404,46 +415,46 @@ class FabricSetting {
 
   FabricSetting(
       {this.fabricSettingId,
-        this.fabricFamilyIdfk,
-        this.showCount,
-        this.countMinMax,
-        this.showPly,
-        this.showBlend,
-        this.showGsm,
-        this.gsmCountMinMax,
-        this.showRatio,
-        this.showKnittingType,
-        this.showAppearance,
-        this.showColorTreatmentMethod,
-        this.showDyingMethod,
-        this.showColor,
-        this.showQuality,
-        this.showGrade,
-        this.showCertification,
-        this.showWarpCount,
-        this.warpCountMinMax,
-        this.showWarpPly,
-        this.showNoOfEndsWarp,
-        this.noOfEndsWarpMinMax,
-        this.showWeftCount,
-        this.weftCountMinMax,
-        this.showWeftPly,
-        this.showNoOfPickWeft,
-        this.noOfPickWeftMinMax,
-        this.showWidth,
-        this.widthMinMax,
-        this.showWeave,
-        this.showLoom,
-        this.showSalvedge,
-        this.showTuckinWidth,
-        this.showTuckinWidthMinMax,
-        this.showOnce,
-        this.onceMinMax,
-        this.showLayyer,
-        this.showWeavePatternes,
-        this.showDenimType,
-        this.fabricSettingIsActive,
-        this.fabricSettingSortid});
+      this.fabricFamilyIdfk,
+      this.showCount,
+      this.countMinMax,
+      this.showPly,
+      this.showBlend,
+      this.showGsm,
+      this.gsmCountMinMax,
+      this.showRatio,
+      this.showKnittingType,
+      this.showAppearance,
+      this.showColorTreatmentMethod,
+      this.showDyingMethod,
+      this.showColor,
+      this.showQuality,
+      this.showGrade,
+      this.showCertification,
+      this.showWarpCount,
+      this.warpCountMinMax,
+      this.showWarpPly,
+      this.showNoOfEndsWarp,
+      this.noOfEndsWarpMinMax,
+      this.showWeftCount,
+      this.weftCountMinMax,
+      this.showWeftPly,
+      this.showNoOfPickWeft,
+      this.noOfPickWeftMinMax,
+      this.showWidth,
+      this.widthMinMax,
+      this.showWeave,
+      this.showLoom,
+      this.showSalvedge,
+      this.showTuckinWidth,
+      this.showTuckinWidthMinMax,
+      this.showOnce,
+      this.onceMinMax,
+      this.showLayyer,
+      this.showWeavePatternes,
+      this.showDenimType,
+      this.fabricSettingIsActive,
+      this.fabricSettingSortid});
 
   FabricSetting.fromJson(Map<String, dynamic> json) {
     fabricSettingId = json['fabric_setting_id'];
@@ -550,13 +561,13 @@ class FabricFamily {
 
   FabricFamily(
       {this.fabricFamilyId,
-        this.fabricFamilyName,
-        this.iconSelected,
-        this.iconUnselected,
-        this.fabricFamilyType,
-        this.fabricFamilyDescription,
-        this.fabricFamilyActive,
-        this.fabricFamilySortid});
+      this.fabricFamilyName,
+      this.iconSelected,
+      this.iconUnselected,
+      this.fabricFamilyType,
+      this.fabricFamilyDescription,
+      this.fabricFamilyActive,
+      this.fabricFamilySortid});
 
   FabricFamily.fromJson(Map<String, dynamic> json) {
     fabricFamilyId = json['fabric_family_id'];
@@ -614,24 +625,24 @@ class FabricBlends {
 
   FabricBlends(
       {this.blnId,
-        this.blnCategoryIdfk,
-        this.familyIdfk,
-        this.blnName,
-        this.blnAbrv,
-        this.minMax,
-        this.has_blend_id_1,
-        this.has_blend_id_2,
-        this.has_blend_name_1,
-        this.has_blend_name_2,
-        this.is_popular,
-        this.iconSelected,
-        this.iconUnselected,
-        this.blnIsActive,
-        this.isSelected,
-        this.blendRatio,
-        this.blnNature,
-        this.bln_ratio_json,
-        this.blnSortid});
+      this.blnCategoryIdfk,
+      this.familyIdfk,
+      this.blnName,
+      this.blnAbrv,
+      this.minMax,
+      this.has_blend_id_1,
+      this.has_blend_id_2,
+      this.has_blend_name_1,
+      this.has_blend_name_2,
+      this.is_popular,
+      this.iconSelected,
+      this.iconUnselected,
+      this.blnIsActive,
+      this.isSelected,
+      this.blendRatio,
+      this.blnNature,
+      this.bln_ratio_json,
+      this.blnSortid});
 
   FabricBlends.fromJson(Map<String, dynamic> json) {
     blnId = json['bln_id'];
@@ -677,7 +688,7 @@ class FabricBlends {
 
   @override
   String toString() {
-    return blnAbrv ?? blnName??'';
+    return blnAbrv ?? blnName ?? '';
   }
 }
 
@@ -690,8 +701,8 @@ class DenimTypes {
 
   DenimTypes(
       {this.fabricDenimTypeId,
-        this.fabricDenimTypeName,
-        this.fabricFamilyIdfk});
+      this.fabricDenimTypeName,
+      this.fabricFamilyIdfk});
 
   DenimTypes.fromJson(Map<String, dynamic> json) {
     fabricDenimTypeId = json['fabric_denim_type_id'];
@@ -724,10 +735,10 @@ class FabricAppearance {
 
   FabricAppearance(
       {this.fabricAppearanceId,
-        this.fabricAppearanceName,
-        this.fabricAppearanceSortid,
-        this.fabricAppearanceIsActive,
-        this.fabricFamilyIdfk});
+      this.fabricAppearanceName,
+      this.fabricAppearanceSortid,
+      this.fabricAppearanceIsActive,
+      this.fabricFamilyIdfk});
 
   FabricAppearance.fromJson(Map<String, dynamic> json) {
     fabricAppearanceId = json['fabric_appearance_id'];
@@ -746,6 +757,7 @@ class FabricAppearance {
     data['fabric_family_idfk'] = fabricFamilyIdfk;
     return data;
   }
+
   @override
   String toString() {
     return fabricAppearanceName ?? '';
@@ -761,8 +773,8 @@ class KnittingTypes {
 
   KnittingTypes(
       {this.fabricKnittingTypeId,
-        this.fabricKnittingTypeName,
-        this.fabricFamilyIdfk});
+      this.fabricKnittingTypeName,
+      this.fabricFamilyIdfk});
 
   KnittingTypes.fromJson(Map<String, dynamic> json) {
     fabricKnittingTypeId = json['fabric_knitting_type_id'];
@@ -797,12 +809,12 @@ class FabricPly {
 
   FabricPly(
       {this.fabricPlyId,
-        this.fabricFamilyIdfk,
-        this.fabricPlyType,
-        this.fabricPlyName,
-        this.fabricPlyDescription,
-        this.fabricPlyIsActive,
-        this.fabricPlySortid});
+      this.fabricFamilyIdfk,
+      this.fabricPlyType,
+      this.fabricPlyName,
+      this.fabricPlyDescription,
+      this.fabricPlyIsActive,
+      this.fabricPlySortid});
 
   FabricPly.fromJson(Map<String, dynamic> json) {
     fabricPlyId = json['fabric_ply_id'];
@@ -829,7 +841,7 @@ class FabricPly {
   @override
   String toString() {
     // TODO: implement toString
-    return fabricPlyName??'';
+    return fabricPlyName ?? '';
   }
 }
 
@@ -845,11 +857,11 @@ class FabricColorTreatmentMethod {
 
   FabricColorTreatmentMethod(
       {this.fctmId,
-        this.fabricFamilyIdfk,
-        this.fctmName,
-        this.fctmDescription,
-        this.fctmIsActive,
-        this.fctmSortid});
+      this.fabricFamilyIdfk,
+      this.fctmName,
+      this.fctmDescription,
+      this.fctmIsActive,
+      this.fctmSortid});
 
   FabricColorTreatmentMethod.fromJson(Map<String, dynamic> json) {
     fctmId = json['fctm_id'];
@@ -890,11 +902,11 @@ class FabricDyingTechniques {
 
   FabricDyingTechniques(
       {this.fdtId,
-        this.fctmIdfk,
-        this.fabricFamilyIdfk,
-        this.fdtName,
-        this.fdtIsActive,
-        this.fdtSortid});
+      this.fctmIdfk,
+      this.fabricFamilyIdfk,
+      this.fdtName,
+      this.fdtIsActive,
+      this.fdtSortid});
 
   FabricDyingTechniques.fromJson(Map<String, dynamic> json) {
     fdtId = json['fdt_id'];
@@ -960,7 +972,8 @@ class FabricGrades {
   String? fabricGradeName;
   String? fabricFamilyIdfk;
 
-  FabricGrades({this.fabricGradeId, this.fabricGradeName, this.fabricFamilyIdfk});
+  FabricGrades(
+      {this.fabricGradeId, this.fabricGradeName, this.fabricFamilyIdfk});
 
   FabricGrades.fromJson(Map<String, dynamic> json) {
     fabricGradeId = json['fabric_grade_id'];
@@ -978,7 +991,7 @@ class FabricGrades {
 
   @override
   String toString() {
-    return fabricGradeName??'';
+    return fabricGradeName ?? '';
   }
 }
 
@@ -1007,7 +1020,7 @@ class FabricLoom {
 
   @override
   String toString() {
-    return fabricLoomName??'';
+    return fabricLoomName ?? '';
   }
 }
 
@@ -1037,7 +1050,7 @@ class FabricSalvedge {
 
   @override
   String toString() {
-    return fabricSalvedgeName??'';
+    return fabricSalvedgeName ?? '';
   }
 }
 
@@ -1048,7 +1061,8 @@ class FabricWeave {
   String? fabricWeaveName;
   String? fabricFamilyIdfk;
 
-  FabricWeave({this.fabricWeaveId, this.fabricWeaveName, this.fabricFamilyIdfk});
+  FabricWeave(
+      {this.fabricWeaveId, this.fabricWeaveName, this.fabricFamilyIdfk});
 
   FabricWeave.fromJson(Map<String, dynamic> json) {
     fabricWeaveId = json['fabric_weave_id'];
@@ -1066,7 +1080,7 @@ class FabricWeave {
 
   @override
   String toString() {
-    return fabricWeaveName??'';
+    return fabricWeaveName ?? '';
   }
 }
 
@@ -1077,7 +1091,8 @@ class FabricLayyer {
   String? fabricLayyerName;
   String? fabricFamilyIdfk;
 
-  FabricLayyer({this.fabricLayyerId, this.fabricLayyerName, this.fabricFamilyIdfk});
+  FabricLayyer(
+      {this.fabricLayyerId, this.fabricLayyerName, this.fabricFamilyIdfk});
 
   FabricLayyer.fromJson(Map<String, dynamic> json) {
     fabricLayyerId = json['fabric_layyer_id'];
@@ -1095,8 +1110,6 @@ class FabricLayyer {
 
   @override
   String toString() {
-    return fabricLayyerName??'';
+    return fabricLayyerName ?? '';
   }
 }
-
-

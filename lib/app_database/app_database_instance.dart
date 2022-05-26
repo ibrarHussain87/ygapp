@@ -4,6 +4,7 @@ import 'package:yg_app/model/response/common_response_models/category_response.d
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
+import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
@@ -174,25 +175,12 @@ class AppDbInstance {
         .then((value) => value.paymentTypeDao.findAllPaymentTypes());
   }
 
-  Future<List<Ports>> getPorts() {
-    return getDbInstance().then((value) => value.portsDao.findAllPorts());
-  }
 
-  Future<List<FPriceTerms>> getPriceTerms() {
-    return getDbInstance()
-        .then((value) => value.priceTermsDao.findAllFPriceTerms());
-  }
 
-  Future<List<Units>> getUnits() {
-    return getDbInstance().then((value) => value.unitDao.findAllUnit());
-  }
 
   Future<List<YarnSetting>> getYarnSettings() {
     return getDbInstance()
         .then((value) => value.yarnSettingsDao.findAllYarnSettings());
   }
 
-  Future<List<ConeType>> getConeTypes() {
-    return getDbInstance().then((value) => value.coneTypeDao.findAllConeType());
-  }
 }

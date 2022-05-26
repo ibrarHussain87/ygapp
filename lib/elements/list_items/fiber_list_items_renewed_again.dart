@@ -238,16 +238,15 @@ Widget buildFiberRenewedAgainWidget(
                                       size: 10.sp,
                                       iconSize: 12,
                                     ),
-                                    ShortDetailRenewedWidget(
-                                      title: specification.locality ==
-                                              international
-                                          ? specification.origin
-                                              ?.capitalizeAndLower()
-                                          : specification.locality
-                                              ?.capitalizeAndLower() /*:Utils.checkNullString(false)*/,
-                                      imageIcon: IC_LOCATION_RENEWED,
-                                      size: 10.sp,
-                                      iconSize: 12,
+                                    Visibility(
+                                      visible: specification.locality != local,
+                                      child: ShortDetailRenewedWidget(
+                                        title:specification.origin?.capitalizeAndLower()
+                                           /*:Utils.checkNullString(false)*/,
+                                        imageIcon: IC_LOCATION_RENEWED,
+                                        size: 10.sp,
+                                        iconSize: 12,
+                                      ),
                                     ),
                                   ],
                                 ),
