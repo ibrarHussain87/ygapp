@@ -149,7 +149,7 @@ class StocklotProvider extends ChangeNotifier {
     if (loading) {
       ProgressDialogUtil.showDialog(context, "Please wait...");
     }
-    ApiService.createStockLot(stocklotRequestModel, imageFiles.first).then(
+    ApiService.createStockLot(stocklotRequestModel, imageFiles.isNotEmpty ? imageFiles[0].path : "").then(
         (value) {
       if (value != null && value.status!) {
         loading = false;
