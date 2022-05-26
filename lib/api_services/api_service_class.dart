@@ -611,7 +611,7 @@ class ApiService {
           "Accept": "application/json",
           "Authorization": "Bearer $userToken"
         };
-
+        Logger().e(stocklotRequestModel.toJson().toString());
         //[3] ADDING EXTRA INFO
         var formData = dio.FormData.fromMap(stocklotRequestModel.toJson());
 
@@ -655,7 +655,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      getRequestModel.spcUserIdfk = userID;
+     // getRequestModel.spcUserIdfk = userID;
       logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
           options: Options(headers: headerMap),

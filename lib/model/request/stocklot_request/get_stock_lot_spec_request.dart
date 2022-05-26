@@ -20,14 +20,14 @@ class GetStockLotSpecRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'spc_user_idfk': spcUserIdfk!.trim(),
-      'category_id': categoryId!.trim(),
-      'is_offering': isOffering!.trim(),
-      'locality': localInternational!.trim(),
-      'stocklot_family_idfk[]': stocklotFamilyId,
-      'stocklot_family_parent_idfk[]': stocklotParentFamilyId,
-      'price_term_id': priceTermId,
-      'avability_id': avalibilityId,
+      'spc_user_idfk': spcUserIdfk??'',
+      'category_id': categoryId??'',
+      'is_offering': isOffering??'',
+      'locality': localInternational??'',
+      'stocklot_family_idfk[]': stocklotFamilyId??'',
+      'stocklot_family_parent_idfk[]': stocklotParentFamilyId??'',
+      'price_term_id': priceTermId??'',
+      'avability_id': avalibilityId??'',
     };
 
     return map;

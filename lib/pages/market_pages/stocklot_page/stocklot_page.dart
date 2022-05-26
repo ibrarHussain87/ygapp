@@ -41,6 +41,7 @@ class StockLotPageState extends State<StockLotPage> {
         .then((value) => setState(() => _countries = value));
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
+    stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = '';
     stocklotProvider.getStocklotData();
   }
 
