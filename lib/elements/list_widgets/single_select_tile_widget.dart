@@ -99,7 +99,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
           dropdownValue.value=value.toString();
           widget.callback!(value);
-//          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }, listOfItems,selectedIndex);
       },
       child: Container(

@@ -23,6 +23,7 @@ import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/top_round_corners.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/response/common_response_models/ports_response.dart';
 import '../../../model/response/common_response_models/price_term.dart';
 import '../../../model/response/common_response_models/unit_of_count.dart';
 
@@ -59,12 +60,15 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   var familyID="0";
 
+  int? selectedCountryId;
+
   @override
   void initState() {
     super.initState();
     stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
     stocklotProvider.resetValues();
     stocklotProvider.getStocklotData();
+    selectedCountryId = -1;
 
   }
 
@@ -413,6 +417,259 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                   ),
                                 ),
                               ],
+                            ),
+
+                            //Country,port
+                            Visibility(
+                              visible: widget.locality == international
+                                  ? true
+                                  : false,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                              padding: EdgeInsets.only(
+                                top:18.w,
+                                left: 8.w,
+                                right: 8.w,
+                              ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+//                                          Padding(
+//                                              padding:
+//                                                  EdgeInsets.only(left: 8.w,bottom: 4),
+//                                              child: TitleSmallTextWidget(
+//                                                  title: country)),
+                                          SizedBox(
+                                            height: 36.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade300,
+                                                    width:
+                                                    1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.w))),
+                                              child: DropdownButtonFormField(
+                                                hint: const Text(
+                                                    'Select Country'),
+                                                items: stocklotProvider.countryList!
+                                                    .map((value) =>
+                                                    DropdownMenuItem(
+                                                      child: Text(
+                                                          value.conName ??
+                                                              Utils.checkNullString(
+                                                                  false),
+                                                          textAlign:
+                                                          TextAlign
+                                                              .center),
+                                                      value: value,
+                                                    ))
+                                                    .toList(),
+                                                isExpanded: true,
+                                                onChanged: (Countries? value) {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                      FocusNode());
+                                                  selectedCountryId =
+                                                      value!.conId;
+                                                  stocklotProvider.stocklotRequestModel.countryId=
+                                                      value.conId.toString();
+                                                },
+
+                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                                decoration: InputDecoration(
+                                                  label: Row(
+                                                    mainAxisSize:
+                                                    MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        country,
+                                                        style: TextStyle(
+                                                            color:
+                                                            Colors.black87,
+                                                            fontSize: 14.sp,
+                                                            backgroundColor:
+                                                            Colors.white,
+                                                            fontFamily:
+                                                            'Metropolis',
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500),
+                                                      ),
+                                                      Text("*",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 16.sp,
+                                                              fontFamily:
+                                                              'Metropolis',
+                                                              backgroundColor:
+                                                              Colors.white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w500)),
+                                                    ],
+                                                  ),
+                                                  floatingLabelBehavior:
+                                                  FloatingLabelBehavior
+                                                      .always,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                                  contentPadding:
+                                                  EdgeInsets.only(
+                                                      left: 16.w,
+                                                      right: 6.w,
+                                                      top: 0,
+                                                      bottom: 0),
+                                                  border:
+                                                  const OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide.none),
+                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 11.sp,
+                                                    color: textColorGrey),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        top:18.w,
+                                        left: 8.w,
+                                        right: 8.w,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+//                                          Padding(
+//                                              padding:
+//                                                  EdgeInsets.only(left: 8.w,bottom: 4),
+//                                              child: TitleSmallTextWidget(
+//                                                  title: port)),
+                                          SizedBox(
+                                            height: 36.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade300,
+                                                    width:
+                                                    1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.w))),
+                                              child: DropdownButtonFormField(
+                                                hint: const Text('Select Port'),
+                                                items: stocklotProvider.portsList!
+                                                    .where((element) =>
+                                                element
+                                                    .prtCountryIdfk ==
+                                                    selectedCountryId
+                                                        .toString())
+                                                    .toList()
+                                                    .map((value) =>
+                                                    DropdownMenuItem(
+                                                      child: Text(
+                                                          value.prtName ??
+                                                              Utils.checkNullString(
+                                                                  false),
+                                                          textAlign:
+                                                          TextAlign
+                                                              .center),
+                                                      value: value,
+                                                    ))
+                                                    .toList(),
+                                                isExpanded: true,
+                                                onChanged: (Ports? value) {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                      FocusNode());
+                                                 stocklotProvider.stocklotRequestModel
+                                                      .fbp_port_idfk =
+                                                      value!.prtId.toString();
+                                                },
+
+                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                                decoration: InputDecoration(
+                                                  label: Row(
+                                                    mainAxisSize:
+                                                    MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        port,
+                                                        style: TextStyle(
+                                                            color:
+                                                            Colors.black87,
+                                                            fontSize: 14.sp,
+                                                            backgroundColor:
+                                                            Colors.white,
+                                                            fontFamily:
+                                                            'Metropolis',
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500),
+                                                      ),
+                                                      Text("*",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 16.sp,
+                                                              fontFamily:
+                                                              'Metropolis',
+                                                              backgroundColor:
+                                                              Colors.white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w500)),
+                                                    ],
+                                                  ),
+                                                  floatingLabelBehavior:
+                                                  FloatingLabelBehavior
+                                                      .always,
+//                                                      hintText: hintLabel,
+//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+
+                                                  contentPadding:
+                                                  EdgeInsets.only(
+                                                      left: 16.w,
+                                                      right: 6.w,
+                                                      top: 0,
+                                                      bottom: 0),
+                                                  border:
+                                                  const OutlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide.none),
+                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 11.sp,
+                                                    color: textColorGrey),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1014,6 +1271,20 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     if (stocklotProvider.stocklotRequestModel.priceTermsId == null) {
       Ui.showSnackBar(context, "Please select price terms");
       return false;
+    }
+
+    if (widget.locality == international) {
+      if (stocklotProvider.stocklotRequestModel.countryId == null) {
+        Ui.showSnackBar(context, "Please select country");
+        return false;
+      }
+    }
+
+    if (widget.locality == international) {
+      if (stocklotProvider.stocklotRequestModel.fbp_port_idfk == null) {
+        Ui.showSnackBar(context, "Please select port");
+        return false;
+      }
     }
 
     if (stocklotProvider.stocklotRequestModel.currency == null) {
