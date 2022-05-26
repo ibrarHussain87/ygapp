@@ -122,9 +122,11 @@ class PackagingDetailsState extends State<PackagingDetails>
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           1, int.parse(_createRequestModel!.spc_fiber_family_idfk!));
 
-      _coneTypeList = await dbInstance.coneTypeDao.findAllConeType();
-          // .findAllConeTypeWithCatAndFamID(
-          //     int.parse(_createRequestModel!.spc_fiber_family_idfk!), 1);
+      _coneTypeList = await dbInstance.coneTypeDao/*.findAllConeType();*/
+          .findAllConeTypeWithCatAndFamID(
+              int.parse(_createRequestModel!.spc_fiber_family_idfk!), 1);
+
+      unitCountSelected = _coneTypeList.first.yctName;
     } else {
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           2, int.parse(_createRequestModel!.ys_family_idfk!));
@@ -132,6 +134,8 @@ class PackagingDetailsState extends State<PackagingDetails>
       _coneTypeList = await dbInstance.coneTypeDao
           .findAllConeTypeWithCatAndFamID(
               int.parse(_createRequestModel!.ys_family_idfk!), 2);
+
+      unitCountSelected = _coneTypeList.first.yctName;
     }
 
     setState(() {
