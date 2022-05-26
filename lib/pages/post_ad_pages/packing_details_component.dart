@@ -117,7 +117,7 @@ class PackagingDetailsState extends State<PackagingDetails>
     _countriesList = await dbInstance.countriesDao.findAllCountries();
     _cityStateList = await dbInstance.cityStateDao.findAllCityState();
     _portsList = await dbInstance.portsDao.findAllPorts();
-
+//    print("fiber"+_createRequestModel!.spc_fiber_family_idfk.toString());
     if (_createRequestModel!.spc_category_idfk == "1") {
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           1, int.parse(_createRequestModel!.spc_fiber_family_idfk!));
@@ -153,6 +153,7 @@ class PackagingDetailsState extends State<PackagingDetails>
     super.initState();
 
     if (widget.businessArea == "Fiber") {
+
       _createRequestModel = _fiberPostProvider.createRequestModel;
     }else if (_yarnPostProvider.createRequestModel != null) {
       _createRequestModel = _yarnPostProvider.createRequestModel;
@@ -444,7 +445,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       padding:
                                           EdgeInsets.only(top: 8.w, left: 8.w),
                                       child: const TitleSmallBoldTextWidget(
-                                          title: "Packing")),
+                                          title: "Cone Type")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
                                       selectedIndex: -1,

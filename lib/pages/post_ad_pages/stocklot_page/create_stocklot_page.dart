@@ -1302,10 +1302,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       return false;
     }
 
-    if (stocklotProvider.imageFiles.isEmpty) {
-      Ui.showSnackBar(context, "Image is required");
-      return false;
-    }
+//    if (stocklotProvider.imageFiles.isEmpty) {
+//      Ui.showSnackBar(context, "Image is required");
+//      return false;
+//    }
 
     if (form!.validate()) {
       form.save();
