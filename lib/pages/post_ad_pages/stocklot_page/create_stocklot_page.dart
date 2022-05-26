@@ -69,6 +69,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     stocklotProvider.resetValues();
     stocklotProvider.getStocklotData();
     selectedCountryId = -1;
+    stocklotProvider.stocklotRequestModel.isOffering=widget.selectedTab;
 
   }
 
@@ -1257,7 +1258,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
 
   bool validateAndSave() {
     final form = _globalFormKey.currentState;
-
     if (stocklotProvider.stocklotRequestModel.subcategoryId == null) {
       Ui.showSnackBar(context, "Please select category");
       return false;
