@@ -15,6 +15,7 @@ import '../../app_database/app_database_instance.dart';
 import '../../elements/list_widgets/single_select_tile_widget.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../model/request/stocklot_request/stocklot_request.dart';
+import '../../model/response/common_response_models/ports_response.dart';
 import '../../model/response/common_response_models/unit_of_count.dart';
 import '../../model/stocklot_waste_model.dart';
 
@@ -40,6 +41,7 @@ class StocklotProvider extends ChangeNotifier {
   List<Units>? unitsList = [];
   List<FPriceTerms> priceTermsList = [];
   List<Countries>? countryList = [];
+  List<Ports>? portsList = [];
   // List<AvailabilityModel>? availabilityList = [];
   List<StocklotWasteModel>? stocklotWasteList = [];
   List<StocklotWasteModel>? filteredStocklotWasteList = [];
@@ -118,6 +120,7 @@ class StocklotProvider extends ChangeNotifier {
     unitsList!.clear();
     priceTermsList.clear();
     countryList!.clear();
+    portsList!.clear();
     stocklotWasteList!.clear();
     ignoreClick = false;
     var dbInstance = await AppDbInstance().getDbInstance();
@@ -131,6 +134,7 @@ class StocklotProvider extends ChangeNotifier {
     priceTermsList =
         await dbInstance.priceTermsDao.findYarnFPriceTermsWithCatId(5);
     countryList = await dbInstance.countriesDao.findAllCountries();
+    portsList=await dbInstance.portsDao.findAllPorts();
     // availabilityList = await dbInstance.availabilityDao.findAllAvailability();
     if (stocklots != null) {
       getCategories(stocklots!.first.stocklotFamilyId.toString());
@@ -278,6 +282,37 @@ class StocklotProvider extends ChangeNotifier {
     stocklotRequestModel.subcategoryId = null;
     setCatIndex(-1);
     setSubCatIndex(-1);
+    stocklotRequestModel = StocklotRequestModel();
+  }
+
+  //created by asad_m
+  resetValues()
+  {
+    if (stocklotKey.currentState != null) {
+      stocklotKey.currentState!.checkedTile = 0;
+    }
+    if (categoryKey.currentState != null) {
+      categoryKey.currentState!.checkedTile = -1;
+    }
+
+    if (subCategoryKey.currentState != null) {
+      subCategoryKey.currentState!.checkedTile = -1;
+    }
+
+    stocklotWasteList = [];
+    filteredStocklotWasteList = [];
+    loading = false;
+    ignoreClick = false;
+    showCategory=false;
+    showSubCategory=false;
+    selectedSubCategoryId = -1;
+    categoryId = -1;
+    subcategoryId = -1;
+    expandStockLostWast = true;
+    imageFiles = [];
+    setSubCatIndex(-1);
+    setCatIndex(-1);
+    stocklotRequestModel.subcategoryId = null;
     stocklotRequestModel = StocklotRequestModel();
   }
 }
