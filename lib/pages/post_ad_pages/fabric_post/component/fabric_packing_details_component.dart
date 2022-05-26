@@ -22,6 +22,7 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
+import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
@@ -95,31 +96,58 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _getPackingDetailData() async {
-    await AppDbInstance()
-        .getPriceTerms()
-        .then((value) => setState(() => _priceTermList = value));
-    await AppDbInstance()
-        .getDeliveryPeriod()
-        .then((value) => setState(() => _deliverPeriodList = value));
-    await AppDbInstance()
-        .getPaymentType()
-        .then((value) => setState(() => _paymentTypeList = value));
-    await AppDbInstance()
-        .getUnits()
-        .then((value) => setState(() => _unitsList = value));
-    await AppDbInstance()
-        .getOriginsData()
-        .then((value) => setState(() => _countriesList = value));
-    await AppDbInstance()
-        .getCityState()
-        .then((value) => setState(() => _cityStateList = value));
-    await AppDbInstance()
-        .getPorts()
-        .then((value) => setState(() => _portsList = value));
-    await AppDbInstance()
-        .getConeTypes()
-        .then((value) => setState(() => _coneTypeList = value));
+    var dbInstance = await AppDbInstance().getDbInstance();
+
+    _priceTermList = await dbInstance.priceTermsDao
+        .findYarnFPriceTermsWithCatIdLocality(
+            int.parse(_createRequestModel!.spc_category_idfk!),
+            widget.locality!);
+    _deliverPeriodList = await dbInstance.deliveryPeriodDao
+        .findAllDeliveryPeriodWithCatId(
+            int.parse(_createRequestModel!.spc_category_idfk!));
+    _paymentTypeList = await dbInstance.paymentTypeDao.findAllPaymentTypes();
+
+    _countriesList = await dbInstance.countriesDao.findAllCountries();
+    _cityStateList = await dbInstance.cityStateDao.findAllCityState();
+    _portsList = await dbInstance.portsDao.findAllPorts();
+
+    _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
+        3, int.parse(_createRequestModel!.fs_family_idfk!));
+
+    _coneTypeList = await dbInstance.coneTypeDao.findAllConeTypeWithCatAndFamID(
+        int.parse(_createRequestModel!.fs_family_idfk!), 3);
+
+    unitCountSelected = _coneTypeList.first.yctName;
+    _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
+    setState(() {});
   }
+
+  // _getPackingDetailData() async {
+  //   await AppDbInstance()
+  //       .getPriceTerms()
+  //       .then((value) => setState(() => _priceTermList = value));
+  //   await AppDbInstance()
+  //       .getDeliveryPeriod()
+  //       .then((value) => setState(() => _deliverPeriodList = value));
+  //   await AppDbInstance()
+  //       .getPaymentType()
+  //       .then((value) => setState(() => _paymentTypeList = value));
+  //   await AppDbInstance()
+  //       .getUnits()
+  //       .then((value) => setState(() => _unitsList = value));
+  //   await AppDbInstance()
+  //       .getOriginsData()
+  //       .then((value) => setState(() => _countriesList = value));
+  //   await AppDbInstance()
+  //       .getCityState()
+  //       .then((value) => setState(() => _cityStateList = value));
+  //   await AppDbInstance()
+  //       .getPorts()
+  //       .then((value) => setState(() => _portsList = value));
+  //   await AppDbInstance()
+  //       .getConeTypes()
+  //       .then((value) => setState(() => _coneTypeList = value));
+  // }
 
   @override
   void initState() {
@@ -367,7 +395,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                                title: weightCones)),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              top: 14.w, ),
+                                            top: 14.w,
+                                          ),
                                           child: TextFormField(
                                               controller: _coneWithController,
                                               keyboardType:
@@ -433,7 +462,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 8.w),
+                                      padding: EdgeInsets.only(top: 18.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -549,7 +578,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   SizedBox(width: 16.w),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 8.w),
+                                      padding: EdgeInsets.only(top: 18.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -674,7 +703,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                     ? true
                                     : false,
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 8.w),
+                                  padding: EdgeInsets.only(top: 18.w),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -788,7 +817,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 //                                        title: priceTerms)),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 18.0,),
+                                    top: 18.0,
+                                  ),
                                   child: SizedBox(
                                     height: 40.w,
                                     child: Container(
@@ -922,7 +952,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 )),
 
                             //Lc Type
-                           /* Visibility(
+                            /* Visibility(
                               visible: _showLcType ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1167,7 +1197,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       child: TitleSmallBoldTextWidget(
                                           title: packing)),
                                   SingleSelectTileWidget(
-                                    selectedIndex: -1,
+                                      selectedIndex: -1,
                                       spanCount: 3,
                                       listOfItems: _coneTypeList,
                                       callback: (ConeType value) {
@@ -1491,23 +1521,22 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _initialValuesRequestModel() {
-
     _createRequestModel!.is_offering = widget.selectedTab;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
-    _createRequestModel!.fbp_count_unit_idfk = _unitsList
-        .where((element) =>
-            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
-        .toList()
-        .first
-        .untId
-        .toString();
-    unitCountSelected ??= _unitsList
-        .where((element) =>
-            element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
-        .toList()
-        .first
-        .untName;
+    // _createRequestModel!.fbp_count_unit_idfk = _unitsList
+    //     .where((element) =>
+    //         element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+    //     .toList()
+    //     .first
+    //     .untId
+    //     .toString();
+    // unitCountSelected ??= _unitsList
+    //     .where((element) =>
+    //         element.untCategoryIdfk == _createRequestModel!.spc_category_idfk)
+    //     .toList()
+    //     .first
+    //     .untName;
     // _createRequestModel!.fpb_packing = _packingList.first.pacId.toString();
     // _createRequestModel!.fbp_delivery_period_idfk =
     //     _deliverPeriodList.first.dprId.toString();
@@ -1521,7 +1550,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       return false;
     }
 
-     if (_createRequestModel!.fbp_delivery_period_idfk == null) {
+    if (_createRequestModel!.fbp_delivery_period_idfk == null) {
       Ui.showSnackBar(context, "Please select delivery period");
       return false;
     }

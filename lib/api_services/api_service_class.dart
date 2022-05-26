@@ -594,7 +594,7 @@ class ApiService {
   }
 
   static Future<CreateStockLotResponse?> createStockLot(
-      StocklotRequestModel stocklotRequestModel, PickedFile imageFile) async {
+      StocklotRequestModel stocklotRequestModel, String imagePath) async {
     // //for multipart Request
     try {
       var userToken =
@@ -611,17 +611,19 @@ class ApiService {
           "Accept": "application/json",
           "Authorization": "Bearer $userToken"
         };
-
+        Logger().e(stocklotRequestModel.toJson().toString());
         //[3] ADDING EXTRA INFO
         var formData = dio.FormData.fromMap(stocklotRequestModel.toJson());
 
         //[4] ADD IMAGE TO UPLOAD
-        var file = await dio.MultipartFile.fromFile(
-          imageFile.path,
-          filename: imageFile.path.split("/").last,
-        );
-
-        formData.files.add(MapEntry('fpc_picture[]', file));
+        if (imagePath != "") {
+          //[4] ADD IMAGE TO UPLOAD
+          var file = await dio.MultipartFile.fromFile(
+            imagePath,
+            filename: imagePath.split("/").last,
+          );
+          formData.files.add(MapEntry('fpc_picture[]', file));
+        }
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(
@@ -655,7 +657,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-      getRequestModel.spcUserIdfk = userID;
+     // getRequestModel.spcUserIdfk = userID;
       logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
           options: Options(headers: headerMap),

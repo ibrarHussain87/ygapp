@@ -78,7 +78,7 @@ fabricPlySheet(
                           Padding(
                             padding: const EdgeInsets.all(0.0),
                             child: Text(
-                              "Enter Ply Details",
+                              "Enter Count Details",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 18.0.sp,

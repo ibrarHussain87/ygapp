@@ -1837,6 +1837,15 @@ class _$PriceTermsDao extends PriceTermsDao {
   }
 
   @override
+  Future<List<FPriceTerms>> findYarnFPriceTermsWithCatIdLocality(
+      int id, String locality) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM price_terms_table where ptrCategoryIdfk = ?1 and ptr_locality = ?2',
+        mapper: (Map<String, Object?> row) => FPriceTerms(ptrId: row['ptrId'] as int, ptrCategoryIdfk: row['ptrCategoryIdfk'] as String?, ptr_locality: row['ptr_locality'] as String?, ptrName: row['ptrName'] as String?, ptrIsActive: row['ptrIsActive'] as String?),
+        arguments: [id, locality]);
+  }
+
+  @override
   Future<void> deleteFPriceTerms(int id) async {
     await _queryAdapter.queryNoReturn(
         'delete from price_terms_table where ptrId = ?1',

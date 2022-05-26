@@ -273,15 +273,18 @@ Widget buildYarnRenewedAgainWidget(
                                           size: 10.sp,
                                           iconSize: 12,
                                         ),
-                                        ShortDetailRenewedWidget(
-                                          title: /*specification.locality ==
-                                                  international
-                                              ? */specification.yarn_country?.capitalizeAndLower()
-                                              /*: specification.locality
-                                                  ?.capitalizeAndLower()*/ /*:Utils.checkNullString(false)*/,
-                                          imageIcon: IC_LOCATION_RENEWED,
-                                          size: 10.sp,
-                                          iconSize: 12,
+                                        Visibility(
+                                          visible: specification.locality != local,
+                                          child: ShortDetailRenewedWidget(
+                                            title: /*specification.locality ==
+                                                    international
+                                                ? */specification.yarn_country?.capitalizeAndLower()
+                                                /*: specification.locality
+                                                    ?.capitalizeAndLower()*/ /*:Utils.checkNullString(false)*/,
+                                            imageIcon: IC_LOCATION_RENEWED,
+                                            size: 10.sp,
+                                            iconSize: 12,
+                                          ),
                                         ),
                                       ],
                                     ),
