@@ -22,7 +22,7 @@ GlobalKey<FormState> blendedFormKey = GlobalKey<FormState>();
 
 final ValueNotifier<int> blendTypesNotifier = ValueNotifier(1);
 
-GenericBlendBottomSheet(BuildContext context, dynamic provider,
+genericBlendBottomSheet(BuildContext context, dynamic provider,
     List<dynamic> blends, int index, Function callback) {
   List<BlendModel> values = [];
   late List<String> _natureYarnList = ["Pure", "Blended"];
@@ -33,18 +33,18 @@ GenericBlendBottomSheet(BuildContext context, dynamic provider,
 
   if (provider is PostYarnProvider) {
     _yarnPostProvider = provider;
-    if (_yarnPostProvider.textFieldControllers.isEmpty) {
-      for (var i = 0; i < blends.length; i++) {
-        _yarnPostProvider.textFieldControllers.add(TextEditingController());
-      }
-    }
+    // if (_yarnPostProvider.textFieldControllers.isEmpty) {
+    //   for (var i = 0; i < blends.length; i++) {
+    //     _yarnPostProvider.textFieldControllers.add(TextEditingController());
+    //   }
+    // }
   } else if (provider is PostFabricProvider) {
     _fabricPostProvider = provider;
-    if (_fabricPostProvider.textFieldControllers.isEmpty) {
-      for (var i = 0; i < blends.length; i++) {
-        _fabricPostProvider.textFieldControllers.add(TextEditingController());
-      }
-    }
+    // if (_fabricPostProvider.textFieldControllers.isEmpty) {
+    //   for (var i = 0; i < blends.length; i++) {
+    //     _fabricPostProvider.textFieldControllers.add(TextEditingController());
+    //   }
+    // }
   }
 
   showModalBottomSheet<int>(
@@ -300,10 +300,17 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
               builder: (context, int notifierValue, child) {
                 if (notifierValue == 1) {
                   //  createTextControllers(blends);
+                  List<dynamic> filteredList = [];
+                  if(provider is PostYarnProvider){
+                    filteredList = blends.cast<Blends>().where((element) => element.bln_nature != "Pure").toList();
+                  }else if(provider is PostFabricProvider){
+                    filteredList = blends.cast<FabricBlends>().where((element) => element.blnNature != "Pure").toList();
+                  }
                   return getPopularBlends(
-                      index, blends, provider, values, callback);
+                      index, filteredList, provider, values, callback);
                 } else {
                   //   createTextControllers(blends.where((element) => (element as Blends).bln_nature == 'Pure').toList());
+
                   return getCustomBlends(
                       index, blends, provider, values, callback);
                 }
@@ -326,6 +333,7 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
 
 Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
     List<BlendModel> values, Function callback) {
+
   return Column(
     children: [
       Expanded(
@@ -400,9 +408,7 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
 
                         var count = 0.0;
                         if (provider.selectedBlends.length == 1) {
-                          if (int.parse(
-                                  (provider.selectedBlends.first as Blends)
-                                      .blendRatio!) >=
+                          if (int.parse((provider.selectedBlends.first as Blends).blendRatio!) >=
                               100) {
                             addRatio = false;
                             Fluttertoast.showToast(
@@ -479,6 +485,7 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
 
 Column getCustomBlends(int index, List<dynamic> blends, dynamic provider,
     List<BlendModel> values, Function callback) {
+
   return Column(
     children: [
       Expanded(
@@ -657,9 +664,21 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
     provider = widget.provider;
     if (provider is PostYarnProvider) {
       yarnProvider = provider;
+      yarnProvider.textFieldControllers.clear();
+      if (yarnProvider.textFieldControllers.isEmpty) {
+        for (var i = 0; i <  widget.listOfItems.length; i++) {
+          yarnProvider.textFieldControllers.add(TextEditingController());
+        }
+      }
       yarnProvider.addListener(updateUI);
     } else if (provider is PostFabricProvider) {
       fabricProvider = provider;
+      fabricProvider.textFieldControllers.clear();
+      if (fabricProvider.textFieldControllers.isEmpty) {
+        for (var i = 0; i <  widget.listOfItems.length; i++) {
+          fabricProvider.textFieldControllers.add(TextEditingController());
+        }
+      }
       fabricProvider.addListener(updateUI);
     }
     /*_isChecked[widget.selectedIndex] = true;
@@ -729,8 +748,8 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: BlendTextFormFieldWithRangeNonDecimal(
                   errorText: "count",
                   minMax: "1-100",
-                  validation: widget.listOfItems[index].isSelected ?? false,
-                  isEnabled: widget.listOfItems[index].isSelected ?? false,
+                  validation: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
+                  isEnabled: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
                   textEditingController: provider is PostYarnProvider
                       ? yarnProvider.textFieldControllers[index]
                       : fabricProvider.textFieldControllers[index],

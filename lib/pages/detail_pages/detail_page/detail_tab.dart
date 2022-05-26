@@ -249,41 +249,42 @@ class _DetailTabPageState extends State<DetailTabPage> {
                       child: Container(
                         child: widget.yarnSpecification != null
                             ? widget.yarnSpecification!.yarnFamilyId != '4'
-                            ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            widget.yarnSpecification != null
                                 ? Column(
-                              children: [
-                                SizedBox(
-                                  height: 4.w,
-                                ),
-                                TitleTextWidget(
-                                  title: 'Lab Parameters'
-                                      .toUpperCase(),
-                                  color: titleColor,
-                                ),
-                                SizedBox(
-                                  height: 12.w,
-                                ),
-                              ],
-                            )
-                                : SizedBox(
-                              height: 4.w,
-                            ),
-                            ListView.separated(
-                              itemCount: _labParameters.length,
-                              shrinkWrap: true,
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                              const Divider(),
-                              physics:
-                              const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) =>
-                                  listDetailItemWidget(
-                                      context, _labParameters[index]),
-                            ),
-                            /*GridView.count(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      widget.yarnSpecification != null
+                                          ? Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 4.w,
+                                                ),
+                                                TitleTextWidget(
+                                                  title: 'Lab Parameters'
+                                                      .toUpperCase(),
+                                                  color: titleColor,
+                                                ),
+                                                SizedBox(
+                                                  height: 12.w,
+                                                ),
+                                              ],
+                                            )
+                                          : SizedBox(
+                                              height: 4.w,
+                                            ),
+                                      ListView.separated(
+                                        itemCount: _labParameters.length,
+                                        shrinkWrap: true,
+                                        separatorBuilder:
+                                            (BuildContext context, int index) =>
+                                                const Divider(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            listDetailItemWidget(
+                                                context, _labParameters[index]),
+                                      ),
+                                      /*GridView.count(
                                   crossAxisCount: 3,
                                   childAspectRatio: 2.77,
                                   mainAxisSpacing: 3.w,
@@ -297,16 +298,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                         detail: _labParameters[index]._detail);
                                   }),
                                 ),*/
-                            const Divider(),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                          ],
-                        )
-                            : Container()
+                                      const Divider(),
+                                      SizedBox(
+                                        height: 4.w,
+                                      ),
+                                    ],
+                                  )
+                                : Container()
                             : SizedBox(
-                          height: 4.w,
-                        ),
+                                height: 4.w,
+                              ),
                       ),
                     ),
                     SizedBox(
@@ -385,7 +386,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                     /* SizedBox(
                       height: 8.w,
                     ),*/
-                    Visibility(
+                    /* Visibility(
                       visible: getDescriptionVisibility(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +421,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
                     /*SizedBox(
                       height: 8.w,
                     ),
@@ -964,26 +965,33 @@ class _DetailTabPageState extends State<DetailTabPage> {
                   btnText: 'Place Bid'),
             ),*/
             !_showBidContainer
-                ? ElevatedButtonWithoutIcon(
-                    callback: () {
-                      widget.yarnSpecification != null
-                          ? Utils.updateDialog(
-                              context, widget.yarnSpecification, null, null)
-                          : widget.specification != null
+                ? Visibility(
+                    visible: _getOfferingVisibility()?? true,
+                    child: ElevatedButtonWithoutIcon(
+                        callback: () {
+                          widget.yarnSpecification != null
                               ? Utils.updateDialog(
-                                  context, null, widget.specification, null)
-                              : (widget.specObject is StockLotSpecification)
-                                  ? Fluttertoast.showToast(
-                                      msg: 'Delete coming soon')
-                                  : Utils.updateDialog(context, null, null,
-                                      widget.specObject as FabricSpecification);
-                    },
-                    color: (widget.specObject is StockLotSpecification)
-                        ? Colors.red.shade400
-                        : btnColorLogin,
-                    btnText: (widget.specObject is StockLotSpecification)
-                        ? 'Delete'
-                        : 'Update')
+                                  context, widget.yarnSpecification, null, null)
+                              : widget.specification != null
+                                  ? Utils.updateDialog(
+                                      context, null, widget.specification, null)
+                                  : (widget.specObject is StockLotSpecification)
+                                      ? Fluttertoast.showToast(
+                                          msg: 'Delete coming soon')
+                                      : Utils.updateDialog(
+                                          context,
+                                          null,
+                                          null,
+                                          widget.specObject
+                                              as FabricSpecification);
+                        },
+                        color: (widget.specObject is StockLotSpecification)
+                            ? Colors.red.shade400
+                            : btnColorLogin,
+                        btnText: (widget.specObject is StockLotSpecification)
+                            ? 'Delete'
+                            : 'Update'),
+                  )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1629,8 +1637,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
     } else if (widget.yarnSpecification != null) {
       return widget.yarnSpecification!.is_offering == offering_type;
     } else if (widget.specObject is FabricSpecification) {
-      return (widget.specObject as FabricSpecification).isOffering == offering_type;
-    }else{
+      return (widget.specObject as FabricSpecification).isOffering ==
+          offering_type;
+    } else {
       return true;
     }
   }
@@ -1838,33 +1847,57 @@ class _DetailTabPageState extends State<DetailTabPage> {
   _fabricDetails() {
     var fabricSpec = (widget.specObject as FabricSpecification);
     _detailSpecification = [
-      GridTileModel('Fabric Family', fabricSpec.fabricFamily ?? Utils.checkNullString(false)),
+      GridTileModel('Fabric Family',
+          fabricSpec.fabricFamily ?? Utils.checkNullString(false)),
       GridTileModel('Count', fabricSpec.count ?? Utils.checkNullString(false)),
-      GridTileModel('Ply', fabricSpec.fabricPly ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Ply', fabricSpec.fabricPly ?? Utils.checkNullString(false)),
       GridTileModel('GSM', fabricSpec.gsmCount ?? Utils.checkNullString(false)),
       GridTileModel('Once', fabricSpec.once ?? Utils.checkNullString(false)),
-      GridTileModel('Wrap Count', fabricSpec.warpCount ?? Utils.checkNullString(false)),
-      GridTileModel('Wrap Ply', fabricSpec.fabricWarpPlyName ?? Utils.checkNullString(false)),
-      GridTileModel('No of Ends(Warp)', fabricSpec.noOfEndsWarp ?? Utils.checkNullString(false)),
-      GridTileModel('Weft Count', fabricSpec.weftCount ?? Utils.checkNullString(false)),
-      GridTileModel('Weft Ply', fabricSpec.fabricWeftPlyName ?? Utils.checkNullString(false)),
-      GridTileModel('No of Picks(Weft)', fabricSpec.noOfPickWeft ?? Utils.checkNullString(false)),
-      GridTileModel('Type of Denim', fabricSpec.fabricDenimTypeName ?? Utils.checkNullString(false)),
-      GridTileModel('Knitting Type', fabricSpec.fabricKnittingTypeName ?? Utils.checkNullString(false)),
-      GridTileModel('Layyer', fabricSpec.fabricLayyerName ?? Utils.checkNullString(false)),
-      GridTileModel('Loom', fabricSpec.fabricLoomName ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Wrap Count', fabricSpec.warpCount ?? Utils.checkNullString(false)),
+      GridTileModel('Wrap Ply',
+          fabricSpec.fabricWarpPlyName ?? Utils.checkNullString(false)),
+      GridTileModel('No of Ends(Warp)',
+          fabricSpec.noOfEndsWarp ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Weft Count', fabricSpec.weftCount ?? Utils.checkNullString(false)),
+      GridTileModel('Weft Ply',
+          fabricSpec.fabricWeftPlyName ?? Utils.checkNullString(false)),
+      GridTileModel('No of Picks(Weft)',
+          fabricSpec.noOfPickWeft ?? Utils.checkNullString(false)),
+      GridTileModel('Type of Denim',
+          fabricSpec.fabricDenimTypeName ?? Utils.checkNullString(false)),
+      GridTileModel('Knitting Type',
+          fabricSpec.fabricKnittingTypeName ?? Utils.checkNullString(false)),
+      GridTileModel('Layyer',
+          fabricSpec.fabricLayyerName ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Loom', fabricSpec.fabricLoomName ?? Utils.checkNullString(false)),
       GridTileModel('Width', fabricSpec.width ?? Utils.checkNullString(false)),
-      GridTileModel('Salvedge', fabricSpec.fabricSalvedgeName ?? Utils.checkNullString(false)),
-      GridTileModel('Tucking Width', fabricSpec.tuckinWidth ?? Utils.checkNullString(false)),
-      GridTileModel('Weave', fabricSpec.fabricWeaveName ?? Utils.checkNullString(false)),
-      GridTileModel('Weave Pattern', fabricSpec.fabricWeavePatternName ?? Utils.checkNullString(false)),
-      GridTileModel('Color Treatment Method', fabricSpec.fabricColorTreatmentMethod ?? Utils.checkNullString(false)),
-      GridTileModel('Dying Technique', fabricSpec.fabricDyingTechnique ?? Utils.checkNullString(false)),
+      GridTileModel('Salvedge',
+          fabricSpec.fabricSalvedgeName ?? Utils.checkNullString(false)),
+      GridTileModel('Tucking Width',
+          fabricSpec.tuckinWidth ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Weave', fabricSpec.fabricWeaveName ?? Utils.checkNullString(false)),
+      GridTileModel('Weave Pattern',
+          fabricSpec.fabricWeavePatternName ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Color Treatment Method',
+          fabricSpec.fabricColorTreatmentMethod ??
+              Utils.checkNullString(false)),
+      GridTileModel('Dying Technique',
+          fabricSpec.fabricDyingTechnique ?? Utils.checkNullString(false)),
       GridTileModel('Color', fabricSpec.color ?? Utils.checkNullString(false)),
-      GridTileModel('Appearance', fabricSpec.fabricApperance ?? Utils.checkNullString(false)),
-      GridTileModel('Quality', fabricSpec.fabricQuality ?? Utils.checkNullString(false)),
-      GridTileModel('Grade', fabricSpec.fabricGrade ?? Utils.checkNullString(false)),
-      GridTileModel('Certification', fabricSpec.certificationStr ?? Utils.checkNullString(false)),
+      GridTileModel('Appearance',
+          fabricSpec.fabricApperance ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Quality', fabricSpec.fabricQuality ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Grade', fabricSpec.fabricGrade ?? Utils.checkNullString(false)),
+      GridTileModel('Certification',
+          fabricSpec.certificationStr ?? Utils.checkNullString(false)),
     ];
     _detailSpecification.add(formatFormations(fabricSpec.formation!));
     var newSpecifications = _detailSpecification.toList();
@@ -1874,7 +1907,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
             element._detail.toUpperCase() != "N/A")
         .toList();
 
-   /* _detailPackaging = [
+    /* _detailPackaging = [
       GridTileModel('Unit of Counting',
           fabricSpec.unitCount ?? Utils.checkNullString(false)),
       // GridTileModel('Seller Location', fabricSpec.locality ?? Utils.checkNullString(false)),
@@ -1894,11 +1927,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
           'Unit of Counting',
           fabricSpec.unitCount == null
               ? Utils.checkNullString(false)
-              : fabricSpec.unitCount??""),
-      GridTileModel(
-          'Packing',
-          fabricSpec.fpb_cone_type_name ??
-              Utils.checkNullString(false)),
+              : fabricSpec.unitCount ?? ""),
+      GridTileModel('Packing',
+          fabricSpec.fpb_cone_type_name ?? Utils.checkNullString(false)),
       GridTileModel(
           'Cones/Bags',
           fabricSpec.conesBag == null
@@ -1939,17 +1970,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
           fabricSpec.fabricCountry == null
               ? Utils.checkNullString(false)
               : fabricSpec.fabricCountry!),
-      GridTileModel('Port',
-          fabricSpec.portName ?? Utils.checkNullString(false)),
+      GridTileModel(
+          'Port', fabricSpec.portName ?? Utils.checkNullString(false)),
       GridTileModel(
           'Payment Type',
           fabricSpec.paymentType == null
               ? Utils.checkNullString(false)
               : fabricSpec.paymentType!),
-      GridTileModel(
-          'Description',
-          fabricSpec.description ??
-              Utils.checkNullString(false)),
+      GridTileModel('Description',
+          fabricSpec.description ?? Utils.checkNullString(false)),
     ];
     if (fabricSpec.locality!.toUpperCase() == international) {
       _detailPackaging.add(GridTileModel('Port', 'fabricSpec.port'));

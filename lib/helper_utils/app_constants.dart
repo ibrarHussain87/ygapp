@@ -1,5 +1,5 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
-const int APP_DATABASE_VERSION = 11;
+const int APP_DATABASE_VERSION = 12;
 List<String> plyStringList = [
   "Single",
   "Double",
@@ -13,6 +13,7 @@ String USER_DEVICE_TOKEN_KEY = "USER_DEVICE_TOKEN_KEY";
 String USER_ID_KEY = "USER_ID";
 String IS_LOGIN = "USER_LOGIN";
 String SYNCED_KEY = "DATA SYNCED";
+String PRE_SYNCED_KEY = "PRE DATA SYNCED";
 
 //APPLICATION STRINGS
 String letsGetStarted = "Let's get started";

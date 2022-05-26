@@ -66,6 +66,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
   // bool? _showPaymentType;
   // bool? _showLcType;
+  bool? noOfDaysTF = false;
   int? selectedCountryId;
   String? unitCountSelected;
 
@@ -1319,116 +1320,70 @@ class PackagingDetailsState extends State<PackagingDetails>
                                               : value.toString())
                                           .toList(),
                                       callback: (String? value) {
-                                        _createRequestModel!.spc_no_of_days =
-                                            value!.toString();
+                                        if(value == 'Other'){
+                                          setState(() {
+                                            noOfDaysTF = true;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            noOfDaysTF = false;
+
+                                          });
+
+                                          _createRequestModel!.spc_no_of_days =
+                                              value!.toString();
+                                        }
+
                                       }),
                                 ],
                               ),
                             ),
-
-                            /* Visibility(
-                              visible: noOfDays,
+                            Visibility(
+                              visible: noOfDaysTF??false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 8.h,),
 //                                  Padding(
 //                                      padding:
-//                                          EdgeInsets.only(top: 8.w, left: 8.w),
+//                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
 //                                      child: const TitleSmallTextWidget(
 //                                          title: "No of Days")),
-                                  SizedBox(
-                                    height: 12.w,
-                                  ),
-                                  SizedBox(
-                                    height: 40.w,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey.shade300,
-                                            width:
-                                                1, //                   <--- border width here
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(24.w))),
-                                      child: DropdownButtonFormField(
-                                        hint: const Text('Select Number'),
-                                        items: Iterable<int>.generate(101)
-                                            .toList()
-                                            .map((value) => DropdownMenuItem(
-                                                  child: Text(value.toString(),
-                                                      textAlign:
-                                                          TextAlign.center),
-                                                  value: value,
-                                                ))
-                                            .toList(),
-                                        isExpanded: true,
-                                        validator: (value) => value == null
-                                            ? 'field required'
-                                            : null,
-                                        onChanged: (int? value) {
-                                          FocusScope.of(context)
-                                              .requestFocus(FocusNode());
-                                          _createRequestModel!.spc_no_of_days =
-                                              value!.toString();
-                                        },
-
-                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                        decoration: InputDecoration(
-                                          label: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "No of Days",
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 14.sp,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    */ /*fontFamily: 'Metropolis',*/ /*
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Text("*",
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 16.sp,
-                                                      */ /*fontFamily: 'Metropolis',*/ /*
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                            ],
-                                          ),
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.always,
-//                                                      hintText: hintLabel,
-//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-
-                                          contentPadding: EdgeInsets.only(
-                                              left: 16.w,
-                                              right: 6.w,
-                                              top: 0,
-                                              bottom: 0),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide.none),
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: 11.sp,
-                                            color: textColorGrey),
-                                      ),
-                                    ),
-                                  ),
+                                  TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      maxLength: 6,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.spc_no_of_days= input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return "No of days";
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (String value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.spc_no_of_days= value;
+                                        }
+                                      },
+                                      decoration: ygTextFieldDecoration(
+                                          "No of days", "No of days", true)),
                                 ],
                               ),
-                            ),*/
-
-                            //Description
-//                            Padding(
-//                                padding: EdgeInsets.only(top: 8.w, left: 8.w),
-//                                child: TitleSmallTextWidget(
-//                                    title: descriptionStr)),
+                            ),
 
                             Padding(
                               padding: const EdgeInsets.only(top: 18.0),
@@ -1644,7 +1599,7 @@ class PackagingDetailsState extends State<PackagingDetails>
       return false;
     }
 
-    if (_createRequestModel!.spc_no_of_days == null && noOfDays) {
+    if (_createRequestModel!.spc_no_of_days == null && noOfDays && !noOfDaysTF!) {
       Ui.showSnackBar(context, "Please select number of days");
       return false;
     }

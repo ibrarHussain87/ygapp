@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -95,7 +96,7 @@ class Utils {
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.bln_abrv ?? ''}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} /${formatFormations(specification.yarnFormation??[])}';
         break;
       case '3':
         familyData =
@@ -115,6 +116,41 @@ class Utils {
   }*/
     return familyData;
   }
+
+
+  static String formatFormations(List<GenericFormation> yarnFormation) {
+    String formationTileModel;
+    switch (yarnFormation.length) {
+      case 1:
+        if (yarnFormation.first.formationRatio == "100") {
+          formationTileModel = '';
+        } else {
+          formationTileModel =
+          "${yarnFormation.first.blendName != null? yarnFormation.first.blendName![0]:""} :${yarnFormation.first.formationRatio}";
+        }
+        break;
+      case 2:
+        formationTileModel =
+        '${yarnFormation.first.blendName != null? yarnFormation.first.blendName![0]:""} : ${yarnFormation.first.formationRatio ?? Utils.checkNullString(false)} '
+            '${yarnFormation[1].blendName != null? yarnFormation[1].blendName![0]:""} : ${yarnFormation[1].formationRatio ?? Utils.checkNullString(false)}';
+        break;
+      default:
+        String? blendString = '';
+        for (var element in yarnFormation) {
+          if (blendString!.isEmpty) {
+            blendString =
+                blendString + '${element.blendName != null? element.blendName![0]:""}:${element.formationRatio ?? Utils.checkNullString(false)}';
+          } else {
+            blendString =
+                blendString + ':${element.blendName != null? element.blendName![0]:""}:${element.formationRatio ?? Utils.checkNullString(false)} ';
+          }
+        }
+        formationTileModel = blendString ?? Utils.checkNullString(false);
+        break;
+    }
+    return formationTileModel;
+  }
+
 
   static String setFabricFamilyData(FabricSpecification specification) {
     String familyData = "";
@@ -1279,10 +1315,8 @@ class Utils {
                                           openMyAdsScreen(context);
                                         });
                                       } else {
-                                        log(value.message!);
                                         Navigator.pop(context);
                                         if (yarnSpecification != null) {
-                                          log('yarn s');
                                           final yarnSpecificationsProvider =
                                           Provider.of<
                                               YarnSpecificationsProvider>(

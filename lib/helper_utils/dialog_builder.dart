@@ -9,9 +9,10 @@ import 'package:yg_app/helper_utils/loading_indicator.dart';
 class DialogBuilder {
 
   final BuildContext context;
-  DialogBuilder(this.context);
+  final String? title;
+   DialogBuilder(this.context, {this.title});
 
-  showSyncDialog(){
+  showLoadingDialog(){
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -23,7 +24,7 @@ class DialogBuilder {
                   borderRadius: BorderRadius.all(Radius.circular(8.0))
               ),
               backgroundColor: Colors.white,
-              content:LoadingIndicator(text: '',),
+              content:LoadingIndicator(text: title??"",),
             )
         );
       },

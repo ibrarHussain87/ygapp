@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
-import 'package:yg_app/elements/bottom_sheets/fabric_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
-import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/locators.dart';
