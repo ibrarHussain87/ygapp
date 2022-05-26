@@ -462,7 +462,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 8.w),
+                                      padding: EdgeInsets.only(top: 18.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -578,7 +578,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                   SizedBox(width: 16.w),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 8.w),
+                                      padding: EdgeInsets.only(top: 18.w),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -703,7 +703,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                     ? true
                                     : false,
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 8.w),
+                                  padding: EdgeInsets.only(top: 18.w),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
