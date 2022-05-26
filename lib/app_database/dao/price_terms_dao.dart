@@ -13,6 +13,9 @@ abstract class PriceTermsDao{
   @Query('SELECT * FROM price_terms_table where ptrCategoryIdfk = :id')
   Future<List<FPriceTerms>> findYarnFPriceTermsWithCatId(int id);
 
+  @Query('SELECT * FROM price_terms_table where ptrCategoryIdfk = :id and ptr_locality = :locality')
+  Future<List<FPriceTerms>> findYarnFPriceTermsWithCatIdLocality(int id,String locality);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertFPriceTerms(FPriceTerms certifications);
 

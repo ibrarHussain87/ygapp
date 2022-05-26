@@ -201,6 +201,8 @@ class SyncProvider extends ChangeNotifier {
                     response.data!.fabric!.grades!),
                 value.fabricLoomDao.insertAllFabricLoom(
                     response.data!.fabric!.loom!),
+                value.coneTypeDao
+                    .insertAllConeType(response.data!.fabric!.coneType!),
                 value.fabricSalvedgeDao.insertAllFabricSalvedge(
                     response.data!.fabric!.salvedge!),
                 value.fabricWeaveDao.insertAllFabricWeave(
