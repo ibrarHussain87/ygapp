@@ -65,7 +65,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   final TextEditingController _weigthPerBagController = TextEditingController();
   final TextEditingController _conePerBagController = TextEditingController();
   bool? _showPaymentType;
-  bool? _showLcType;
+  bool? noOfDaysTF = false;
   int? selectedCountryId;
   String? unitCountSelected;
 
@@ -81,19 +81,19 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   TextEditingController availableQuantityController = TextEditingController();
   TextEditingController minimumQuantityController = TextEditingController();
 
-  List<FPriceTerms> _getPriceTerms() {
-    if (widget.businessArea == yarn) {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "2"))
-          .toList();
-    } else {
-      return _priceTermList
-          .where((element) => (element.ptr_locality == widget.locality &&
-              element.ptrCategoryIdfk == "1"))
-          .toList();
-    }
-  }
+  // List<FPriceTerms> _getPriceTerms() {
+  //   if (widget.businessArea == yarn) {
+  //     return _priceTermList
+  //         .where((element) => (element.ptr_locality == widget.locality &&
+  //             element.ptrCategoryIdfk == "2"))
+  //         .toList();
+  //   } else {
+  //     return _priceTermList
+  //         .where((element) => (element.ptr_locality == widget.locality &&
+  //             element.ptrCategoryIdfk == "1"))
+  //         .toList();
+  //   }
+  // }
 
   _getPackingDetailData() async {
     var dbInstance = await AppDbInstance().getDbInstance();
@@ -213,25 +213,18 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       padding: EdgeInsets.only(
                                           left: 0.w, top: 8, bottom: 4),
                                       child: TitleSmallBoldTextWidget(
-                                          title: unitCounting)),
+                                          title: packing)),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
-                                      listOfItems: _unitsList
-                                          .where((element) =>
-                                              element.untCategoryIdfk ==
-                                                  _createRequestModel!
-                                                      .spc_category_idfk &&
-                                              checkFamilyId(
-                                                  element.unt_family_idfk!))
-                                          .toList(),
-                                      callback: (Units value) {
+                                      listOfItems: _coneTypeList,
+                                      callback: (ConeType value) {
                                         setState(() {
-                                          unitCountSelected = value.untName;
+                                          unitCountSelected = value.yctName;
                                         });
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              value.untId.toString();
+                                              value.yctId.toString();
                                         }
                                       }),
                                 ],
@@ -240,7 +233,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //Weight of count calculation
                             Visibility(
-                              visible: true,
+                              visible: false,
                               child: Container(
                                 margin: EdgeInsets.only(top: 8.w),
                                 child: Column(
@@ -435,21 +428,24 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                             ),
 
                             //Selling Region
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0.w, top: 8, bottom: 4),
-                                    child: TitleSmallBoldTextWidget(
-                                        title: sellingRegionStr)),
-                                SingleSelectTileWidget(
-                                  spanCount: 2,
-                                  listOfItems: sellingRegion,
-                                  callback: (value) {},
-                                  selectedIndex: -1,
-                                ),
-                              ],
+                            Visibility(
+                              visible: false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
+                                          title: sellingRegionStr)),
+                                  SingleSelectTileWidget(
+                                    spanCount: 2,
+                                    listOfItems: sellingRegion,
+                                    callback: (value) {},
+                                    selectedIndex: -1,
+                                  ),
+                                ],
+                              ),
                             ),
 
                             //Country,port
@@ -529,8 +525,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                                 Colors.white,
-                                                            fontFamily:
-                                                                'Metropolis',
+                                                            // fontFamily:
+                                                            //     'Metropolis',
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -539,8 +535,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                                  'Metropolis',
+                                                              // fontFamily:
+                                                              //     'Metropolis',
                                                               backgroundColor:
                                                                   Colors.white,
                                                               fontWeight:
@@ -648,8 +644,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                                 Colors.white,
-                                                            fontFamily:
-                                                                'Metropolis',
+                                                            // fontFamily:
+                                                            //     'Metropolis',
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -766,8 +762,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                         fontSize: 14.sp,
                                                         backgroundColor:
                                                             Colors.white,
-                                                        fontFamily:
-                                                            'Metropolis',
+                                                        // fontFamily:
+                                                        //     'Metropolis',
                                                         fontWeight:
                                                             FontWeight.w500),
                                                   ),
@@ -775,8 +771,8 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                       style: TextStyle(
                                                           color: Colors.red,
                                                           fontSize: 16.sp,
-                                                          fontFamily:
-                                                              'Metropolis',
+                                                          // fontFamily:
+                                                          //     'Metropolis',
                                                           backgroundColor:
                                                               Colors.white,
                                                           fontWeight:
@@ -832,7 +828,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               Radius.circular(5.w))),
                                       child: DropdownButtonFormField(
                                         hint: const Text('Select Price Terms'),
-                                        items: _getPriceTerms()
+                                        items: _priceTermList
                                             .map((value) => DropdownMenuItem(
                                                   child: Text(
                                                       value.ptrName ??
@@ -847,18 +843,19 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                         onChanged: (FPriceTerms? value) {
                                           FocusScope.of(context)
                                               .requestFocus(FocusNode());
-                                          setState(() {
-                                            if (value!.ptrId == 3) {
-                                              _showPaymentType = true;
-                                            } else {
-                                              _showPaymentType = false;
-                                              _showLcType = false;
+                                          // setState(() {
+                                            // if (value!.ptrId == 3) {
+                                            //   // _showPaymentType = true;
+                                            // } else {
+                                              // _showPaymentType = false;
+                                              // _showLcType = false;
                                               _createRequestModel!
                                                   .fpb_payment_type_idfk = null;
                                               _createRequestModel!
                                                   .fpb_lc_type_idfk = null;
-                                            }
-                                          });
+                                            // }
+                                          // });
+
                                           _createRequestModel!
                                                   .fbp_price_terms_idfk =
                                               value!.ptrId.toString();
@@ -880,7 +877,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    fontFamily: 'Metropolis',
+                                                    // fontFamily: 'Metropolis',
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -888,7 +885,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      fontFamily: 'Metropolis',
+                                                      // fontFamily: 'Metropolis',
                                                       backgroundColor:
                                                           Colors.white,
                                                       fontWeight:
@@ -920,7 +917,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //Payment Type
                             Visibility(
-                                visible: true,
+                                visible: widget.locality == international,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -939,13 +936,13 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               value.payId;
 
                                           setState(() {
-                                            if (value.payId == "1") {
-                                              _showLcType = true;
-                                            } else {
-                                              _showLcType = false;
+                                            // if (value.payId == "1") {
+                                            //   // _showLcType = true;
+                                            // } else {
+                                              // _showLcType = false;
                                               _createRequestModel!
                                                   .fpb_lc_type_idfk = null;
-                                            }
+                                            // }
                                           });
                                         }),
                                   ],
@@ -1187,7 +1184,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
                             //Packing
                             Visibility(
-                              visible: true,
+                              visible: false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -1265,102 +1262,70 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                               : value.toString())
                                           .toList(),
                                       callback: (String? value) {
-                                        _createRequestModel!.fbp_no_of_days =
-                                            value!.toString();
+                                        if(value == 'Other'){
+                                          setState(() {
+                                            noOfDaysTF = true;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            noOfDaysTF = false;
+                                          });
+                                          _createRequestModel!.fbp_no_of_days =
+                                              value!.toString();
+                                        }
+
                                       }),
                                 ],
                               ),
                             ),
 
-                            /*Visibility(
-                              visible: noOfDays,
+                            Visibility(
+                              visible: noOfDaysTF??false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 8.h,),
 //                                  Padding(
 //                                      padding:
 //                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
 //                                      child: const TitleSmallTextWidget(
 //                                          title: "No of Days")),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 14.0,bottom: 4),
-                                    child: SizedBox(
-                                      height: 40.w,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                              width:
-                                                  1, //                   <--- border width here
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5.w))),
-                                        child: DropdownButtonFormField(
-                                          hint: const Text('Select Number'),
-                                          items: Iterable<int>.generate(101)
-                                              .toList()
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(value.toString(),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
-                                          isExpanded: true,
-                                          validator: (value) => value == null
-                                              ? 'field required'
-                                              : null,
-                                          onChanged: (int? value) {
-                                            FocusScope.of(context)
-                                                .requestFocus(FocusNode());
-                                            _createRequestModel!.fbp_no_of_days =
-                                                value!.toString();
-                                          },
+                                  TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      maxLength: 6,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.fbp_no_of_days= input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return "No of days";
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (String value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.fbp_no_of_days= value;
+                                        }
+                                      },
+                                      decoration: ygTextFieldDecoration(
+                                          "No of days", "No of days", true)),
 
-                                          // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                          decoration: InputDecoration(
-                                            label: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Text("No of Days",style:TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 14.sp,
-                                                    backgroundColor: Colors.white,
-                                                    fontFamily: 'Metropolis',
-                                                    fontWeight: FontWeight.w500),),
-                                                Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                    fontFamily: 'Metropolis',
-                                                    backgroundColor: Colors.white,
-                                                    fontWeight: FontWeight.w500)),
-                                              ],
-                                            ),
-                                            floatingLabelBehavior:FloatingLabelBehavior.always ,
-//                                                      hintText: hintLabel,
-//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-
-                                            contentPadding:
-                                            EdgeInsets.only(
-                                                left: 16.w,
-                                                right: 6.w,
-                                                top: 0,
-                                                bottom: 0),
-                                            border:
-                                            const OutlineInputBorder(
-                                                borderSide:
-                                                BorderSide
-                                                    .none),
-                                          ),
-                                          style: TextStyle(
-                                              fontSize: 11.sp,
-                                              color: textColorGrey),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
-                            ),*/
+                            ),
 
                             //Description
 //                            Padding(
@@ -1555,7 +1520,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
       return false;
     }
 
-    if (_createRequestModel!.fbp_no_of_days == null && noOfDays) {
+    if (_createRequestModel!.fbp_no_of_days == null && noOfDays && !noOfDaysTF!) {
       Ui.showSnackBar(context, "Please select number of days");
       return false;
     }

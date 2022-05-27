@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
+import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
 import '../../helper_utils/blend_text_form_field.dart';
 import '../../locators.dart';
@@ -50,9 +51,21 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
     checkedTile = widget.selectedIndex;
     if(widget.provider is PostYarnProvider){
       yarnProvider = widget.provider;
+      yarnProvider!.textFieldControllers.clear();
+      if (yarnProvider!.textFieldControllers.isEmpty) {
+        for (var i = 0; i <  widget.listOfItems.length; i++) {
+          yarnProvider!.textFieldControllers.add(TextEditingController());
+        }
+      }
       yarnProvider!.addListener(updateUI);
     }else if(widget.provider is PostFabricProvider){
       fabricProvider = widget.provider;
+      yarnProvider!.textFieldControllers.clear();
+      if (fabricProvider!.textFieldControllers.isEmpty) {
+        for (var i = 0; i < widget.listOfItems.length; i++) {
+          fabricProvider!.textFieldControllers.add(TextEditingController());
+        }
+      }
       fabricProvider!.addListener(updateUI);
     }
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -108,8 +121,8 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
              }
               checkedTile = index;
             });
-            selectedBlend = widget.listOfItems[index];
-            widget.callback!(widget.listOfItems[index]);
+            selectedBlend = widget.listOfItems[checkedTile!];
+            widget.callback!(widget.listOfItems[checkedTile!]);
           },
           child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Expanded(
@@ -141,15 +154,17 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
               child: BlendTextFormFieldWithRangeNonDecimal(
                 errorText: "count",
                 minMax: "1-100",
-                validation: widget.provider.blendList[index].isSelected ??
-                    false,
-                isEnabled: widget.provider.blendList[index].isSelected ??
-                    false,
-                textEditingController: widget.provider
-                    .textFieldControllers[index],
+                validation: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
+                isEnabled: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
+                textEditingController: widget.provider is PostYarnProvider
+                    ? yarnProvider!.textFieldControllers[index]
+                    : fabricProvider!.textFieldControllers[index],
                 onSaved: (input) {
-                  widget.provider.setBlendRatio(
-                      index, widget.listController[index].text);
+                  if(widget.provider is PostYarnProvider){
+                    yarnProvider!.selectedBlends.cast<Blends>().first.blendRatio = yarnProvider!.textFieldControllers[checkedTile!].text;
+                  }else{
+                    fabricProvider!.selectedBlends.cast<FabricBlends>().first.blendRatio = fabricProvider!.textFieldControllers[checkedTile!].text;
+                  }
                 },
               ),
             ),

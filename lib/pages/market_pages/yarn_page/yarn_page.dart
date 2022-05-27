@@ -22,7 +22,7 @@ import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dar
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
-import '../../../elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
+import '../../../elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';

@@ -63,9 +63,8 @@ class _MainPageState extends State<MainPage> {
     _syncProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       _syncProvider.syncAppData(context);
-
     });
   }
 
@@ -75,15 +74,11 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _syncProvider.isDataSynced
-        ? SafeArea(
-            child: Scaffold(
-                body: _screens![_selectedIndex],
-                bottomNavigationBar: _generateBottomBar()),
-          )
-        : Scaffold(
-            bottomNavigationBar: _generateBottomBar(),
-          );
+    return SafeArea(
+      child: Scaffold(
+          body: _screens![_selectedIndex],
+          bottomNavigationBar: _generateBottomBar()),
+    );
   }
 
   BottomNavigationBar _generateBottomBar() {

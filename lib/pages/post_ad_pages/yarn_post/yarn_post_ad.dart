@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
-import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
@@ -173,7 +173,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.resetData();
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
-          GenericBlendBottomSheet(
+          genericBlendBottomSheet(
               context, _postYarnProvider, _postYarnProvider.blendList, 0, () {
             blendString = setFormations();
             Navigator.pop(context);
@@ -230,12 +230,10 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           bln_id: "0",
           related_bln_id: "0",
           percentage: null);
-      // BlendModel formationModel = BlendModel(
-      //     id: _postYarnProvider.selectedYarnFamily.famId,
-      //     relatedBlnId: null,
-      //     ratio: "100");
       formations.add(blendModelExtended.toJson());
     }
+
+
     value = Utils.createStringFromList(stringList);
     Logger().e(formations.toString());
     _postYarnProvider.createRequestModel!.ys_formation = formations;

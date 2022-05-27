@@ -6,9 +6,8 @@ import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logger/logger.dart';
-import 'package:yg_app/elements/bottom_sheets/fabric_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
-import 'package:yg_app/elements/bottom_sheets/yarn_blend_bottom_sheet.dart';
+import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -213,7 +212,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
           postFabricProvider.resetData();
           postFabricProvider.textFieldControllers.clear();
           postFabricProvider.notifyUI();
-          GenericBlendBottomSheet(
+          genericBlendBottomSheet(
               context, postFabricProvider, postFabricProvider.blendList, 0, () {
             blendString = setFormations();
             Navigator.pop(context);

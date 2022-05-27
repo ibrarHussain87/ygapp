@@ -39,10 +39,7 @@ Widget buildYarnRenewedAgainWidget(
         elevation: 10,
         shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: border_color,
-              width: 1,
-              style: BorderStyle.solid
-          ),
+              color: border_color, width: 1, style: BorderStyle.solid),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(
@@ -244,7 +241,8 @@ Widget buildYarnRenewedAgainWidget(
                             ),
                             SizedBox(height: 13.w),
                             Visibility(
-                              visible: specification.is_offering == offering_type,
+                              visible:
+                                  specification.is_offering == offering_type,
                               child: Row(
                                 children: [
                                   Expanded(
@@ -274,12 +272,15 @@ Widget buildYarnRenewedAgainWidget(
                                           iconSize: 12,
                                         ),
                                         Visibility(
-                                          visible: specification.locality != local,
+                                          visible:
+                                              specification.locality != local,
                                           child: ShortDetailRenewedWidget(
                                             title: /*specification.locality ==
                                                     international
-                                                ? */specification.yarn_country?.capitalizeAndLower()
-                                                /*: specification.locality
+                                                ? */
+                                                specification.yarn_country
+                                                    ?.capitalizeAndLower()
+                                            /*: specification.locality
                                                     ?.capitalizeAndLower()*/ /*:Utils.checkNullString(false)*/,
                                             imageIcon: IC_LOCATION_RENEWED,
                                             size: 10.sp,
@@ -472,7 +473,8 @@ Widget buildYarnRenewedAgainWidget(
                             Column(
                               children: [
                                 Visibility(
-                                  visible: specification.is_offering == offering_type,
+                                  visible: specification.is_offering ==
+                                      offering_type,
                                   child: Text.rich(TextSpan(children: [
                                     TextSpan(
                                       text:
@@ -505,16 +507,19 @@ Widget buildYarnRenewedAgainWidget(
                                     ),
                                   ])),
                                 ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
+                                // SizedBox(
+                                //   height: 1.h,
+                                // ),
                               ],
                             ),
-
-                             Center(
-                              child: TitleSmallNormalTextWidget(
-                                title: "Ex- Factory"/*specification.deliveryPeriod*/,
-                                size: 8,
+                            Visibility(
+                              visible: specification.is_offering != requirement_type,
+                              child: const Center(
+                                child: TitleSmallNormalTextWidget(
+                                  title:
+                                      "Ex- Factory" /*specification.deliveryPeriod*/,
+                                  size: 8,
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -542,8 +547,7 @@ Widget buildYarnRenewedAgainWidget(
                                         .format(DateTime.parse(
                                             specification.date ?? "")),
                                     style: TextStyle(
-                                        fontSize: 10.sp,
-                                        color: lightBlueLabel),
+                                        fontSize: 10.sp, color: lightBlueLabel),
                                   )
                                 ])),
                               ],
@@ -552,7 +556,8 @@ Widget buildYarnRenewedAgainWidget(
                               height: 7,
                             ),
                             Visibility(
-                              visible: specification.is_offering == offering_type,
+                              visible:
+                                  specification.is_offering == offering_type,
                               child: SizedBox(
                                 height: 20.h,
                                 child: ListView.builder(
@@ -589,39 +594,41 @@ Widget buildYarnRenewedAgainWidget(
                               future: Utils.getUserId(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 4.w,
-                                        right: 4.w,
-                                      ),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            if (snapshot.data ==
-                                                specification.ys_user_id) {
-                                              Utils.updateDialog(context,
-                                                  specification, null, null);
-                                            } else {
-                                              openDetailsScreen(context,
-                                                  yarnSpecification:
-                                                      specification,
-                                                  sendProposal: true);
-                                            }
-                                          },
-                                          child: SizedBox(
-                                            width: 80,
-                                            height: 22,
-                                            child: Center(
-                                              child: BidNowWidget(
-                                                title: snapshot.data !=
-                                                        specification
-                                                            .ys_user_id
-                                                    ? 'Send Proposal'
-                                                    : "Update",
-                                                size: 10.sp,
-                                                padding: 5,
+                                  return Visibility(
+                                    visible: snapshot.data != specification.ys_user_id,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 4.w,
+                                          right: 4.w,
+                                        ),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              if (snapshot.data ==
+                                                  specification.ys_user_id) {
+                                                Utils.updateDialog(context,
+                                                    specification, null, null);
+                                              } else {
+                                                openDetailsScreen(context,
+                                                    yarnSpecification:
+                                                        specification,
+                                                    sendProposal: true);
+                                              }
+                                            },
+                                            child: SizedBox(
+                                              width: 80,
+                                              height: 22,
+                                              child: Center(
+                                                child: BidNowWidget(
+                                                  title: snapshot.data !=
+                                                          specification.ys_user_id
+                                                      ? 'Send Proposal'
+                                                      : "Update",
+                                                  size: 10.sp,
+                                                  padding: 5,
+                                                ),
                                               ),
-                                            ),
-                                          )));
+                                            ))),
+                                  );
                                 } else {
                                   return Text(
                                     'Error: ${snapshot.error}',
@@ -667,6 +674,7 @@ Widget buildYarnRenewedAgainWidget(
         )),
   );
 }
+
 
 /*String setFamilyData(YarnSpecification specification){
   String familyData = "";

@@ -4,9 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'app_colors.dart';
 
 class LoadingIndicator extends StatelessWidget {
-  LoadingIndicator({this.text = ''});
+  final String? text;
+  LoadingIndicator({this.text});
 
-  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class LoadingIndicator extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _getLoadingIndicator(),
-              _getHeading(context),
-              // _getText(displayedText)
+              _getHeading(context,text),
+              // _getText(displayedText!)
             ]
         )
     );
@@ -39,12 +39,12 @@ Padding _getLoadingIndicator() {
       padding: EdgeInsets.only(bottom: 16)
   );
 }
-
-Widget _getHeading(context) {
+//
+Widget _getHeading(context,String? text) {
   return
      Padding(
         child: Text(
-          'Syncing please wait …',
+          text??"",
           style: TextStyle(
               color: btnColorLogin,
               fontSize: 12
@@ -55,13 +55,13 @@ Widget _getHeading(context) {
     );
 }
 
-Text _getText(String displayedText) {
-  return Text(
-    displayedText,
-    style: const TextStyle(
-        color: Colors.white,
-        fontSize: 14
-    ),
-    textAlign: TextAlign.center,
-  );
-}
+// Text _getText(String displayedText) {
+//   return Text(
+//     displayedText,
+//     style: const TextStyle(
+//         color: Colors.white,
+//         fontSize: 14
+//     ),
+//     textAlign: TextAlign.center,
+//   );
+// }

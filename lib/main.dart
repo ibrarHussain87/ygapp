@@ -49,13 +49,12 @@ void main() async {
 
 Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   ///Set preferred orientation to portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocators();
   await FCM.initialize(flutterLocalNotificationsPlugin);
   await Firebase.initializeApp();
-
-
 }
 
 class YgApp extends StatelessWidget {
@@ -63,29 +62,37 @@ class YgApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<StocklotProvider>(create: (_) => StocklotProvider()),
-        ChangeNotifierProvider<YarnSpecificationsProvider>(create: (_) => YarnSpecificationsProvider()),
-        ChangeNotifierProvider<FabricSpecificationsProvider>(create: (_) => FabricSpecificationsProvider()),
-        ChangeNotifierProvider<PostFabricProvider>(create: (_) => PostFabricProvider()),
-        ChangeNotifierProvider<FilterFabricProvider>(create: (_) => FilterFabricProvider()),
-        ChangeNotifierProvider(create: (_)=> locator<PostYarnProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<FiberSpecificationProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<PostFiberProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<FamilyListProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<SyncProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<SpecificationLocalFilterProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<StocklotProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<PostFabricProvider>()),
-        ChangeNotifierProvider(create: (_)=> locator<YarnSpecificationsProvider>()),
+        ChangeNotifierProvider<StocklotProvider>(
+            create: (_) => StocklotProvider()),
+        ChangeNotifierProvider<YarnSpecificationsProvider>(
+            create: (_) => YarnSpecificationsProvider()),
+        ChangeNotifierProvider<FabricSpecificationsProvider>(
+            create: (_) => FabricSpecificationsProvider()),
+        ChangeNotifierProvider<PostFabricProvider>(
+            create: (_) => PostFabricProvider()),
+        ChangeNotifierProvider<FilterFabricProvider>(
+            create: (_) => FilterFabricProvider()),
+        ChangeNotifierProvider(create: (_) => locator<PostYarnProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<FiberSpecificationProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<PostFiberProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<FamilyListProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<SyncProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<SpecificationLocalFilterProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<StocklotProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<YarnSpecificationsProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',
         theme: ThemeData(
-            primaryColor: lightBlueTabs,
-            primarySwatch: Colors.green,
-            /*/*fontFamily: 'Metropolis',*/*/
-            textTheme:
-            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),),
+          primaryColor: lightBlueTabs,
+          primarySwatch: Colors.green,
+          /*/*fontFamily: 'Metropolis',*/*/
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+        ),
         home: YgAppPage(),
         debugShowCheckedModeBanner: false,
       ),
@@ -113,7 +120,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
-
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {
       setState(() {
@@ -130,7 +136,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     }
     // FirebaseCrashlytics.instance.crash();
   }
-
 
   void _incrementCounter() {
     setState(() {
@@ -157,10 +162,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.streamCtlr.stream.listen(_changeData);
     firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
-
     _firebaseCrash();
-    _preLoginSynData();
-
     super.initState();
 
     _controller = AnimationController(
@@ -171,31 +173,37 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
-
     _controller.forward();
+    _preLoginSynData().then((value) {
 
-    Timer(const Duration(seconds: 5), () async {
-      bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+      if(value){
+        Timer(const Duration(seconds: 5), () async {
+          bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+          bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
 
-      check().then((intenet) {
-        if (intenet) {
-          // Internet Present Case
-          if (userLogin) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const MainPage()));
-          } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SignInPage()));
+          check().then((intenet) {
+            if (intenet) {
+              // Internet Present Case
+              if (userLogin) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const MainPage()));
+              } else {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const SignInPage()));
 //                MaterialPageRoute(builder: (context) => const LoginPage()));
-          }
-        } else {
-          showInternetDialog(
-              no_internet_available_msg, check_internet_msg, context, () {
-            Navigator.pop(context);
+              }
+            } else {
+              showInternetDialog(
+                  no_internet_available_msg, check_internet_msg, context, () {
+                Navigator.pop(context);
+              });
+            }
           });
-        }
-      });
+        });
+      }
+
     });
+
   }
 
   _changeData(String msg) {
@@ -303,49 +311,36 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     );
   }
 
-
   Future<bool> _preLoginSynData() async {
-    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(SYNCED_KEY);
-    Logger().e(dataSynced.toString());
+    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
     if (!dataSynced) {
       await Future.wait([
         // For getting countries
-        ApiService.syncCountriesCall().then((
-            CountriesSyncResponse response) {
+        ApiService.syncCountriesCall()
+            .then((CountriesSyncResponse response) async {
           if (response.status!) {
-            Logger().e("Countries Sync got successfully : " +
-                response.toString());
-            AppDbInstance().getDbInstance().then((value) async {
-              await Future.wait([
-                value.countriesDao
-                    .insertAllCountry(response.data!.countries),
-                value.categoriesDao
-                    .insertAllCategories(response.data!.categories),
-              ]);
-            });
+            Logger()
+                .e("Countries Sync got successfully : " + response.toString());
+            var dbInstance = await AppDbInstance().getDbInstance();
+            await dbInstance.countriesDao
+                .insertAllCountry(response.data!.countries);
+            await dbInstance.categoriesDao
+                .insertAllCategories(response.data!.categories);
           }
         }),
 
-
         // For getting companies
-        ApiService.syncCompaniesCall().then((
-            CompaniesSyncResponse response) {
+        ApiService.syncCompaniesCall().then((CompaniesSyncResponse response) async{
           if (response.status!) {
-            Logger().e("Companies Sync got successfully : " +
-                response.toString());
-            AppDbInstance().getDbInstance().then((value) async {
-              await Future.wait([
-                value.companiesDao.insertAllCompanies(response.companies),
-              ]);
-            });
+            var dbInstance = await AppDbInstance().getDbInstance();
+            dbInstance.companiesDao.insertAllCompanies(response.companies);
           }
         })
-
-
       ]);
+
+      await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,true);
     }
 
     return true;
   }
-
 }
