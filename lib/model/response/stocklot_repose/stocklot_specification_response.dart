@@ -165,6 +165,7 @@ class StockLotSpecification {
     String? description,
     String? country_name,
     String? port_name,
+    String? currency_name,
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
@@ -188,6 +189,7 @@ class StockLotSpecification {
     _description = description;
     _country_name = country_name;
     _port_name = port_name;
+    _currency_name = currency_name;
     _specDetails = specDetails;
     _pictures = pictures;
     _matchedCount = matchedCount;
@@ -214,6 +216,7 @@ class StockLotSpecification {
     _description = json['description'];
     _country_name = json['country_name'];
     _port_name = json['port_name'];
+    _currency_name = json['currency_name'];
     _matchedCount = json['matched_count'];
     _proposalCount = json['proposal_count'];
     _isFeatured = json['is_featured'];
@@ -249,6 +252,7 @@ class StockLotSpecification {
   String? _description;
   String? _country_name;
   String? _port_name;
+  String? _currency_name;
   int? _matchedCount;
   int? _proposalCount;
   List<SpecDetails>? _specDetails;
@@ -273,6 +277,7 @@ class StockLotSpecification {
     String? description,
     String? country_name,
     String? port_name,
+    String? currency_name,
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
@@ -297,6 +302,7 @@ class StockLotSpecification {
         description: description ?? _description,
         country_name: country_name ?? _country_name,
         port_name: port_name ?? _port_name,
+        currency_name: currency_name ?? _currency_name,
         specDetails: specDetails ?? _specDetails,
         pictures: pictures ?? _pictures,
         date: date ?? _date,
@@ -335,6 +341,7 @@ class StockLotSpecification {
   String? get description => _description;
   String? get country_name => _country_name;
   String? get port_name => _port_name;
+  String? get currency_name => _currency_name;
 
   List<SpecDetails>? get specDetails => _specDetails;
 
@@ -361,6 +368,7 @@ class StockLotSpecification {
     map['description'] = _description;
     map['country_name'] = _country_name;
     map['port_name'] = _port_name;
+    map['currency_name'] = _currency_name;
     map['matched_count'] = _matchedCount;
     map['proposal_count'] = _proposalCount;
     if (_specDetails != null) {
