@@ -199,6 +199,7 @@ class _SignInPageState extends State<SignInPage> {
                                       ),
                                       TextFormField(
                                           keyboardType: TextInputType.emailAddress,
+                                          textInputAction: TextInputAction.next,
                                           cursorColor: Colors.black,
                                           onSaved: (input) => _loginRequestModel.email = input!,
                                           validator: (input) {
@@ -247,6 +248,7 @@ class _SignInPageState extends State<SignInPage> {
                                       TextFormField(
                                         keyboardType: TextInputType.phone,
                                         cursorColor: Colors.black,
+                                        textInputAction: TextInputAction.next,
                                         onSaved: (input) => _loginRequestModel.phone = "+$code"+input!,
                                         inputFormatters: <TextInputFormatter>[
                                           /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
@@ -466,6 +468,7 @@ class _SignInPageState extends State<SignInPage> {
                                   obscureText: !_showPassword,
                                   keyboardType: TextInputType.text,
                                   cursorColor: Colors.black,
+                                  textInputAction: TextInputAction.done,
                                   onSaved: (input) =>
                                   _loginRequestModel.password = input!,
                                   validator: (input) {

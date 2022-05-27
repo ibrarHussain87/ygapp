@@ -1077,6 +1077,13 @@ class _DetailTabPageState extends State<DetailTabPage> {
       } else if (specification.description!.isEmpty) {
         visible = false;
       }
+    }else if (widget.specObject is StockLotSpecification) {
+      var specification = widget.specObject as StockLotSpecification;
+      if (specification.description == null) {
+        visible = false;
+      } else if (specification.description!.isEmpty) {
+        visible = false;
+      }
     } else {
       visible = false;
     }
@@ -2226,19 +2233,35 @@ class _DetailTabPageState extends State<DetailTabPage> {
   _stockLotDetails() {
     _detailSpecification = [
       GridTileModel(
-          'Category',
-          (widget.specObject as StockLotSpecification).category ??
+          'Waste',
+          (widget.specObject as StockLotSpecification).stocklotParentFamilyName ??
               Utils.checkNullString(false)),
+      GridTileModel(
+          'Category',
+          (widget.specObject as StockLotSpecification).spc_category_name ??
+              Utils.checkNullString(false)),
+      GridTileModel(
+          'Price Terms',
+          (widget.specObject as StockLotSpecification).priceTerm != null
+              ? '${(widget.specObject as StockLotSpecification).priceTerm} '
+              : Utils.checkNullString(false)),
       GridTileModel(
           'Availability',
           (widget.specObject as StockLotSpecification).availablity != null
               ? '${(widget.specObject as StockLotSpecification).availablity}'
               : Utils.checkNullString(false)),
       GridTileModel(
-          'Price Terms',
-          (widget.specObject as StockLotSpecification).priceTerm != null
-              ? '${(widget.specObject as StockLotSpecification).priceTerm} '
-              : Utils.checkNullString(false)),
+          'Country',
+          (widget.specObject as StockLotSpecification).country_name ??
+              Utils.checkNullString(false)),
+      GridTileModel(
+          'Port',
+          (widget.specObject as StockLotSpecification).port_name ??
+              Utils.checkNullString(false)),
+      GridTileModel(
+          'Description',
+          (widget.specObject as StockLotSpecification).description ??
+              Utils.checkNullString(false)),
     ];
     var newSpecifications = _detailSpecification.toList();
     _detailSpecification = newSpecifications
