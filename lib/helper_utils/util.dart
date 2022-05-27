@@ -156,13 +156,22 @@ class Utils {
     String familyData = "";
     switch (specification.fabricFamilyId) {
       case '101':
-        familyData =
-        '${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}/${specification.gsmCount ?? Utils.checkNullString(false)}/${specification.fabricBlend ?? Utils.checkNullString(false)}';
+        /*familyData = '${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}/${specification.gsmCount ?? Utils.checkNullString(false)}/${specification.fabricBlend ?? Utils.checkNullString(false)}';*/
+        familyData = '${specification.count ?? Utils.checkNullString(false)}'
+            '/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}';
         break;
       case '102':
+       /* familyData =
+        '${specification.fabricLoomName ?? Utils.checkNullString(false)},${specification.count ?? Utils.checkNullString(false)}/'
+            '${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
+            'x${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
+            'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';*/
         familyData =
-        '${specification.fabricLoomName ?? Utils.checkNullString(false)},${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
-            'x${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';
+        '${specification.fabricLoomName ?? Utils.checkNullString(false)} ${specification.warpCount ?? Utils.checkNullString(false)}/'
+            '${specification.fabricWarpPlyName ?? Utils.checkNullString(false)}'
+            'x${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
+            'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';
+
         break;
       case '103':
         familyData =
@@ -191,7 +200,7 @@ class Utils {
     switch (specification.fabricFamilyId) {
       case '101':
         titleData =
-        '${specification.formationDisplayText ?? Utils.checkNullString(false)},${specification.fabricKnittingTypeName ?? Utils.checkNullString(false)}';
+        '${specification.gsmCount ?? Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}';
         break;
       case '102':
         titleData =

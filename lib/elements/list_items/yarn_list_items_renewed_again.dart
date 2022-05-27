@@ -557,7 +557,8 @@ Widget buildYarnRenewedAgainWidget(
                             ),
                             Visibility(
                               visible:
-                                  specification.is_offering == offering_type,
+                                  specification.is_offering == offering_type &&
+                                      specification.certifications!.isNotEmpty,
                               child: SizedBox(
                                 height: 20.h,
                                 child: ListView.builder(
