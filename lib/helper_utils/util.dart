@@ -191,11 +191,11 @@ class Utils {
     switch (specification.fabricFamilyId) {
       case '101':
         titleData =
-        'Blend Ratio,${specification.fabricKnittingTypeName ?? Utils.checkNullString(false)}';
+        '${specification.formationDisplayText ?? Utils.checkNullString(false)},${specification.fabricKnittingTypeName ?? Utils.checkNullString(false)}';
         break;
       case '102':
         titleData =
-        '${specification.fabricWeavePatternName ?? Utils.checkNullString(false)},${specification.width ?? Utils.checkNullString(false)},${specification.fabricBlend ?? Utils.checkNullString(false)}/Blend Ratio';
+        '${specification.fabricWeavePatternName ?? Utils.checkNullString(false)},${specification.width ?? Utils.checkNullString(false)},${specification.fabricBlend ?? Utils.checkNullString(false)}/${specification.formationDisplayText ?? Utils.checkNullString(false)}';
         break;
       case '103':
         titleData =

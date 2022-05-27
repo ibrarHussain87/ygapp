@@ -105,6 +105,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_pattern_charectristic_thickness = input!,
                   label: 'Thickness',
+                  mandatoryField: false,
                 ),
               ],
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,6 +129,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_length_pattern_charactristics = input!,
                   label: 'Length',
+                  mandatoryField: false,
                 ),
               ],
             ),
@@ -147,6 +149,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
                 YgTextFormFieldWithoutRangeNoValidation(
                   label: 'Pause',
+                  mandatoryField: false,
                   onSaved: (input) => _yarnPostProvider.createRequestModel!
                       .ys_pause_patteren_charactristics = input!,
                 ),

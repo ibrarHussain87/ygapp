@@ -1856,6 +1856,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
     _detailSpecification = [
       GridTileModel('Fabric Family',
           fabricSpec.fabricFamily ?? Utils.checkNullString(false)),
+      GridTileModel('Blends Formation',
+          fabricSpec.formationDisplayText ?? Utils.checkNullString(false)),
       GridTileModel('Count', fabricSpec.count ?? Utils.checkNullString(false)),
       GridTileModel(
           'Ply', fabricSpec.fabricPly ?? Utils.checkNullString(false)),
@@ -1906,7 +1908,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
       GridTileModel('Certification',
           fabricSpec.certificationStr ?? Utils.checkNullString(false)),
     ];
-    _detailSpecification.add(formatFormations(fabricSpec.formation!));
+    /*_detailSpecification.add(formatFormations(fabricSpec.formation!));*/
     var newSpecifications = _detailSpecification.toList();
     _detailSpecification = newSpecifications
         .where((element) =>
@@ -2002,6 +2004,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
     _detailSpecification = [
       GridTileModel('Yarn Family',
           widget.yarnSpecification!.yarnFamily ?? Utils.checkNullString(false)),
+      GridTileModel('Blends Formation',
+          widget.yarnSpecification!.formationDisplayText ?? Utils.checkNullString(false)),
       GridTileModel('Yarn Usage',
           widget.yarnSpecification!.yarnUsage ?? Utils.checkNullString(false)),
       GridTileModel(
@@ -2070,8 +2074,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
           widget.yarnSpecification!.yarnCertificationStr ??
               Utils.checkNullString(false)),
     ];
-    _detailSpecification
-        .add(formatFormations(widget.yarnSpecification!.yarnFormation!));
+    /*_detailSpecification
+        .add(formatFormations(widget.yarnSpecification!.yarnFormation!));*/
     var newSpecifications = _detailSpecification.toList();
     _detailSpecification = newSpecifications
         .where((element) =>
