@@ -69,8 +69,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
     stocklotProvider.resetValues();
     stocklotProvider.getStocklotData();
     selectedCountryId = -1;
-    stocklotProvider.stocklotRequestModel.isOffering=widget.selectedTab;
-
+    //stocklotProvider.stocklotRequestModel.isOffering=widget.selectedTab;
   }
 
   @override

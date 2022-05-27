@@ -31,9 +31,9 @@ class StocklotRequestModel {
       'description': description!.trim(),
       'price_term_id': priceTermsId!.trim(),
       'country_id': countryId!.trim(),
-      'fbp_port_idfk': fbp_port_idfk ?? "",
+      'port_id': fbp_port_idfk ?? "",
       'avability_id': availability?.trim() ?? "",
-      'locality': locality,
+      'local_international': locality,
       'is_offering': isOffering,
       'stocklot_specification_details': stocklotWasteModelList!.map((e) => e.toJson()).toList(),
     };
