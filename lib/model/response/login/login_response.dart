@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:yg_app/helper_utils/type_converter.dart';
 
 class AuthResponse {
   AuthResponse({
@@ -109,6 +110,69 @@ class Data {
   }
 }
 
+
+class BusinessInfo {
+
+
+  String? employmentRole;
+  String? ntn_number;
+  String? trade_mark;
+  String? name;
+  String? id;
+  String? designation_idfk;
+  String? postalCode;
+  String? countryId;
+  String? userId;
+  String? cityStateId;
+  String? city;
+  String? website;
+  String? address;
+
+  BusinessInfo({this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employmentRole,this.trade_mark,this.userId
+  });
+
+
+
+  Map<String, dynamic> toJson() {
+  Map<String, dynamic> map = {
+    'ubi_id': id!.trim(),
+  'ubi_gst_ntn_number': ntn_number!.trim(),
+  'ubi_name': name!.trim(),
+  'ubi_country_idfk': countryId!.trim(),
+  'ubi_state_idfk': cityStateId!.trim(),
+  'ubi_user_idfk': userId!.trim(),
+  'ubi_website': website!.trim(),
+  'ubi_address': address!.trim(),
+  'ubi_city_idfk': city!.trim(),
+  'ubi_zipcode': postalCode!.trim(),
+  'ubi_trade_mark': trade_mark!.trim(),
+  'ubi_employment_role': employmentRole!.trim(),
+  'ubi_designation_idfk': designation_idfk!.trim()
+  };
+
+  return map;
+  }
+
+  BusinessInfo.fromJson(Map<String, dynamic> json){
+    id = json['ubi_id'];
+    name = json['ubi_name'];
+    userId = json['ubi_user_idfk'];
+    website = json['ubi_website'];
+    address = json['ubi_address'];
+    city = json['ubi_city_idfk'];
+    postalCode = json['ubi_zipcode'];
+    trade_mark = json['ubi_trade_mark'];
+    employmentRole = json['ubi_employment_role'];
+    designation_idfk = json['ubi_designation_idfk'];
+    countryId = json['ubi_country_idfk'];
+    cityStateId = json['ubi_state_idfk'];
+    ntn_number = json['ubi_gst_ntn_number'];
+  }
+
+
+}
+
+//@TypeConverters([JsonConverter])
 @Entity(tableName: 'user_table')
 class User{
   User({
@@ -136,6 +200,7 @@ class User{
     this.deletedAt,
     required this.createdAt,
     required this.updatedAt,
+//    required this.businessInfo,
     // required this.certifications,
   });
   @PrimaryKey(autoGenerate: false)
@@ -155,6 +220,7 @@ class User{
   String? email;
   String? emailVerifiedAt;
   String? company;
+  String? companyId;
   String? ntn_number;
   String? user_country;
   String? city_state_name;
@@ -163,8 +229,10 @@ class User{
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
+//  BusinessInfo? businessInfo;
   // @ignore
   // late final List<dynamic> certifications;
+
 
   User.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -183,6 +251,7 @@ class User{
     email = json['email'];
     emailVerifiedAt = null;
     company = json['company'];
+    companyId= json['company_idfk'];
     ntn_number = json['ntn_number'];
     user_country = json['user_country'];
     city_state_name = json['city_state_name'];
@@ -191,6 +260,7 @@ class User{
     deletedAt = null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+//    businessInfo = BusinessInfo.fromJson(json['business_info']);
     // certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 
@@ -212,6 +282,7 @@ class User{
     _data['email'] = email;
     _data['email_verified_at'] = emailVerifiedAt;
     _data['company'] = company;
+    _data['company_idfk'] = countryId;
     _data['ntn_number'] = ntn_number;
     _data['user_country'] = user_country;
     _data['city_state_name'] = city_state_name;
@@ -220,6 +291,7 @@ class User{
     _data['deleted_at'] = deletedAt;
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
+//    _data['business_info'] = businessInfo;
     // _data['certifications'] = certifications;
     return _data;
   }

@@ -98,7 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           if (snapshot.hasData && snapshot.data != null) {
             countryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
             _updateProfileRequestModel.countryId=snapshot.data?.countryId;
-            _updateBusinessRequestModel.countryId=snapshot.data?.countryId;
+//            _updateBusinessRequestModel.countryId=snapshot.data?.businessInfo?.countryId;
 
             return ChangeNotifierProvider(
               create: (context) => UserNotifier(snapshot.data!),
@@ -441,11 +441,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
               TextFormField(
                 // For changing initial value
-                  key: Key(userNotifier.getUser().ntn_number.toString()),
+                  key: Key(userNotifier.getUser().businessInfo.ntn_number.toString()),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 
-                  initialValue: userNotifier.getUser().ntn_number ?? '',
+                  initialValue: userNotifier.getUser().businessInfo.ntn_number ?? '',
                   onSaved: (input) =>
                   _updateBusinessRequestModel.ntn_number = input! /*'44'*/,
                   validator: (input) {
@@ -470,7 +470,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: snapshot.data!.company ?? '',
+//                  initialValue: snapshot.data!.businessInfo?.name ?? '',
                   onSaved: (input) =>
                   _updateBusinessRequestModel.name = input!,
                   validator: (input) {
@@ -521,7 +521,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
+//                  initialValue:snapshot.data?.businessInfo?.trade_mark,
                   onSaved: (input) =>
                                           _updateBusinessRequestModel.trade_mark = input!,
                   validator: (input) {
@@ -546,9 +546,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
-                  onSaved: (input) =>
-                                          _updateBusinessRequestModel.employment_role = input!,
+//                  initialValue:snapshot.data?.businessInfo?.employmentRole,
+                  onSaved: (input) => _updateBusinessRequestModel.employment_role = input!,
                   validator: (input) {
                   if (input == null ||
                                                 input.isEmpty) {
@@ -607,9 +606,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                 onSaved: (input) =>
-                                          _updateBusinessRequestModel.address = input!,
-                  initialValue: '',
+                 onSaved: (input) => _updateBusinessRequestModel.address = input!,
+//                  initialValue:snapshot.data?.businessInfo?.address,
                   validator: (input) {
                     if (input == null ||
                                                 input.isEmpty) {
@@ -884,9 +882,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  onSaved: (input) =>
-                                          _updateBusinessRequestModel.postalCode = input!,
-                  initialValue: snapshot.data!.postalCode ?? '',
+                  onSaved: (input) => _updateBusinessRequestModel.postalCode = input!,
+//                  initialValue: snapshot.data!.businessInfo?.postalCode ?? '',
                   validator: (input) {
                     /*if (input == null ||
                                                 input.isEmpty) {
@@ -910,7 +907,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
+//                  initialValue:snapshot.data?.businessInfo?.website ?? '',
                   onSaved: (input) =>
                                           _updateBusinessRequestModel.website = input!,
                   validator: (input) {

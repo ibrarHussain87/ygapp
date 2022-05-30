@@ -180,7 +180,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `username` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `username` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `companyId` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_family` (`fiberFamilyId` INTEGER NOT NULL, `fiberFamilyCategoryIdFk` TEXT, `fiberFamilyParentId` TEXT, `fiberFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fiberFamilyIsActive` TEXT, `fiberFamilySortId` TEXT, PRIMARY KEY (`fiberFamilyId`))');
         await database.execute(
@@ -595,6 +595,7 @@ class _$UserDao extends UserDao {
                   'email': item.email,
                   'emailVerifiedAt': item.emailVerifiedAt,
                   'company': item.company,
+                  'companyId': item.companyId,
                   'ntn_number': item.ntn_number,
                   'user_country': item.user_country,
                   'city_state_name': item.city_state_name,
