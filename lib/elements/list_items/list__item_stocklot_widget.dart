@@ -133,7 +133,7 @@ class _ListItemStockLotState extends State<ListItemStockLot> {
                         height: 3,
                       ),
                       Text(
-                        widget.stocklotWaste.unitOfCount!,
+                        widget.stocklotWaste.unitOfCount??'',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 15.sp,
@@ -188,10 +188,11 @@ class _ListItemStockLotState extends State<ListItemStockLot> {
 // NOTE: even you didnt select item this method will be called with null of value so you should call your call back with checking if value is not null
       if (value != null) {
         if (value == 2) {
-          widget.callback(widget.stocklotWaste);
+          widget.callback(widget.stocklotWaste,value);
+        }else if (value == 1) {
+          widget.callback(widget.stocklotWaste,value);
         }
       }
-      ;
     });
   }
 }

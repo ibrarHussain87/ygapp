@@ -191,8 +191,7 @@ Widget buildFabricRenewedAgainWidget(
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricBlendAbrv ??
-                                          specification.fabricBlend ??
+                                      title: specification.fabricFamily ??
                                           Utils.checkNullString(false),
                                     ),
                                     flex: 1,

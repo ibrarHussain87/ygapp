@@ -90,6 +90,7 @@ class YarnSpecification {
     required this.locality,
     required this.yarnFamilyId,
     required this.yarnFamily,
+    this.formationDisplayText,
     this.yarnFormation,
     required this.yarnBlend,
     required this.yarnRtio,
@@ -157,6 +158,7 @@ class YarnSpecification {
   String? locality;
   String? yarnFamilyId;
   String? yarnFamily;
+  String? formationDisplayText;
   List<GenericFormation>? yarnFormation;
   String? doublingMethod;
   String? yarnType;
@@ -236,6 +238,7 @@ class YarnSpecification {
     locality = json['locality'];
     yarnFamilyId = json['yarn_family_id'];
     yarnFamily = json['yarn_family'];
+    formationDisplayText = json['formation_display_text'];
     yarnBlend = json['yarn_blend'];
     yarnRtio = json['yarn_rtio'];
     bln_abrv = json['yarn_blend_abrv'];
@@ -323,6 +326,7 @@ class YarnSpecification {
     _data['locality'] = locality;
     _data['yarn_family_id'] = yarnFamilyId;
     _data['yarn_family'] = yarnFamily;
+    _data['formation_display_text'] = formationDisplayText;
     _data['yarn_blend'] = yarnBlend;
     _data['yarn_rtio'] = yarnRtio;
     _data['yarn_usage'] = yarnUsage;

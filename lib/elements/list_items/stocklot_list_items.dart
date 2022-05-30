@@ -258,13 +258,17 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                         size: 10.sp,
                                         iconSize: 12,
                                       ),
-                                      ShortDetailRenewedWidget(
-                                        title:
-                                            widget.specification.availablity ??
-                                                Utils.checkNullString(false),
-                                        imageIcon: IC_CONE_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
+                                      Visibility(
+                                        visible: widget.specification.currency_name != null ?
+                                        widget.specification.currency_name!.isNotEmpty ? true : false:false,
+                                        child: ShortDetailRenewedWidget(
+                                          title:
+                                              widget.specification.currency_name ??
+                                                  Utils.checkNullString(false),
+                                          imageIcon: IC_CONE_RENEWED,
+                                          size: 10.sp,
+                                          iconSize: 12,
+                                        ),
                                       ),
                                       ShortDetailRenewedWidget(
                                         title: widget.specification.locality,

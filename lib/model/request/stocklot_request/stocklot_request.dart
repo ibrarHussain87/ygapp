@@ -35,6 +35,7 @@ class StocklotRequestModel {
       'avability_id': availability?.trim() ?? "",
       'local_international': locality,
       'is_offering': isOffering,
+      'currency_id': currency,
       'stocklot_specification_details': stocklotWasteModelList!.map((e) => e.toJson()).toList(),
     };
 

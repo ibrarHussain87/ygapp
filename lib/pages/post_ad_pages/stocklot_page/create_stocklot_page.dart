@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/custom_header.dart';
@@ -311,10 +312,19 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                                 .filteredStocklotWasteList!
                                                                 .length -
                                                             1,
-                                                    callback: (value) {
-                                                      stocklotProvider
-                                                          .removeStockWaste(
-                                                              value);
+                                                    callback: (value,index) {
+                                                      if(index == 2){
+                                                        stocklotProvider
+                                                            .removeStockWaste(
+                                                            value);
+                                                      }else if(index == 1){
+                                                        if(stocklotCategories == null){
+                                                          toast('Something went wrong. Please try again later');
+                                                        }else{
+                                                          showStocklotBottomSheet(stocklotCategories!,
+                                                              stocklotProvider, value);
+                                                        }
+                                                      }
                                                     },
                                                     i: index + 1);
                                               },
@@ -986,14 +996,16 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
             ? editWasteModel.unitOfCount
             : stocklotProvider.unitsList!.where((element) =>
         element.untCategoryIdfk ==
-            "5").toList()[0].untName,
+            "5").toList()[0].untId.toString(),
         name: editWasteModel != null ? editWasteModel.name : value.stocklotFamilyName,
         price: editWasteModel != null ? editWasteModel.price : '',
         quantity: editWasteModel != null ? editWasteModel.quantity : '',
         // description: editWasteModel != null ? editWasteModel.description : '',
         id: editWasteModel != null ? editWasteModel.id : value.stocklotFamilyId.toString());
     unitName =  editWasteModel != null
-        ? editWasteModel.unitOfCount
+        ? stocklotProvider.unitsList!.where((element) =>
+    element.untCategoryIdfk ==
+        "5").toList().where((element) => element.untId.toString() == editWasteModel.unitOfCount).toList().first.untName
         : stocklotProvider.unitsList!.where((element) =>
     element.untCategoryIdfk ==
         "5").toList().first.untName;
@@ -1062,9 +1074,11 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           spanCount: 3,
                                                           selectedIndex: editWasteModel !=
                                                               null
-                                                              ? stocklotProvider.unitsList!
+                                                              ? stocklotProvider.unitsList!.where((element) =>
+                                                          element.untCategoryIdfk ==
+                                                              "5").toList()
                                                               .indexWhere((element) =>
-                                                          element.untName ==
+                                                          element.untId.toString() ==
                                                               editWasteModel
                                                                   .unitOfCount)
                                                               : 0,
@@ -1077,7 +1091,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           callback: (Units value) {
                                                             stocklotProvider.setUnitName(value.untName.toString());
                                                             stocklotWaste.unitOfCount =
-                                                                value.untName;
+                                                                value.untId.toString();
 
                                                             setState((){
                                                               unitName = value.untName.toString();

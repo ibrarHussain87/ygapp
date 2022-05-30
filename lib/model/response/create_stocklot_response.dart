@@ -28,6 +28,7 @@ class CreateStockLotResponse {
 
 class Data {
   int? userId;
+  String? spc_category_name;
   String? spcCategoryIdfk;
   String? subCategoryId;
   String? avability;
@@ -41,6 +42,7 @@ class Data {
   Data(
       {this.userId,
         this.spcCategoryIdfk,
+        this.spc_category_name,
         this.subCategoryId,
         this.avability,
         this.priceTermId,
@@ -52,6 +54,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
+    spc_category_name  = json['spc_category_name'].toString();
     spcCategoryIdfk = json['spc_category_idfk'].toString();
     subCategoryId = json['sub_category_id'];
     avability = json['availablity'];
@@ -73,6 +76,7 @@ class Data {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['user_id'] = this.userId;
     data['spc_category_idfk'] = this.spcCategoryIdfk;
+    data['spc_category_name'] = this.spc_category_name;
     data['sub_category_id'] = this.subCategoryId;
     data['avability_id'] = this.avability;
     data['price_term_id'] = this.priceTermId;

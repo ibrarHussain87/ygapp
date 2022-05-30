@@ -73,6 +73,7 @@ class FabricSpecification {
   String? locality;
   String? fabricFamilyId;
   String? fabricFamily;
+  String? formationDisplayText;
   String? fabricBlend;
   String? fabricBlendAbrv;
   String? fabricRtio;
@@ -138,6 +139,7 @@ class FabricSpecification {
         this.locality,
         this.fabricFamilyId,
         this.fabricFamily,
+        this.formationDisplayText,
         this.fabricBlend,
         this.fabricBlendAbrv,
         this.fabricRtio,
@@ -203,6 +205,7 @@ class FabricSpecification {
     locality = json['locality'];
     fabricFamilyId = json['fabric_family_id'];
     fabricFamily = json['fabric_family'];
+    formationDisplayText = json['formation_display_text'];
     fabricBlend = json['fabric_blend'];
     fabricBlendAbrv = json['fabric_blend_abrv'];
     fabricRtio = json['fabric_rtio'];
@@ -280,6 +283,7 @@ class FabricSpecification {
     data['locality'] = this.locality;
     data['fabric_family_id'] = this.fabricFamilyId;
     data['fabric_family'] = this.fabricFamily;
+    data['formation_display_text'] = formationDisplayText;
     data['fabric_blend'] = this.fabricBlend;
     data['fabric_blend_abrv'] = this.fabricBlendAbrv;
     data['fabric_rtio'] = this.fabricRtio;

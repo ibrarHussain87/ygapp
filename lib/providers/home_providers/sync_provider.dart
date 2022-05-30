@@ -47,12 +47,12 @@ class SyncProvider extends ChangeNotifier {
               //insert Common objects for fiber
               value.gradesDao
                   .insertAllGrades(syncFiberResponse.data.fiber.grades),
-              value.brandsDao
-                  .insertAllBrands(syncFiberResponse.data.fiber.brands),
+              /*value.brandsDao
+                  .insertAllBrands(syncFiberResponse.data.fiber.brands),*/
               value.certificationDao.insertAllCertification(
               syncFiberResponse.data.fiber.certification),
-              value.cityStateDao
-                  .insertAllCityState(syncFiberResponse.data.fiber.cityState),
+              /*value.cityStateDao
+                  .insertAllCityState(syncFiberResponse.data.fiber.cityState),*/
               value.companiesDao
                   .insertAllCompanies(syncFiberResponse.data.fiber.companies),
 //              value.countriesDao
@@ -61,10 +61,10 @@ class SyncProvider extends ChangeNotifier {
               syncFiberResponse.data.fiber.deliveryPeriod),
               // value.lcTypeDao
               //     .insertAllLcType(syncFiberResponse.data.fiber.lcType),
-              value.paymentTypeDao.insertAllPaymentType(
-              syncFiberResponse.data.fiber.paymentType),
-              value.portsDao
-                  .insertAllPorts(syncFiberResponse.data.fiber.ports),
+              /*value.paymentTypeDao.insertAllPaymentType(
+              syncFiberResponse.data.fiber.paymentType),*/
+              /*value.portsDao
+                  .insertAllPorts(syncFiberResponse.data.fiber.ports),*/
               value.priceTermsDao.insertAllFPriceTerms(
               syncFiberResponse.data.fiber.priceTerms),
               value.unitDao.insertAllUnit(syncFiberResponse.data.fiber.units),
@@ -96,12 +96,12 @@ class SyncProvider extends ChangeNotifier {
                 //Insert All Common Objects for yarn
                 value.yarnGradesDao
                     .insertAllGrades(syncYarnResponse.data.yarn.grades!),
-                value.brandsDao
-                    .insertAllBrands(syncYarnResponse.data.yarn.brands!),
+                /*value.brandsDao
+                    .insertAllBrands(syncYarnResponse.data.yarn.brands!),*/
                 value.certificationDao.insertAllCertification(
                     syncYarnResponse.data.yarn.certification!),
-                value.cityStateDao
-                    .insertAllCityState(syncYarnResponse.data.yarn.cityState!),
+                /*value.cityStateDao
+                    .insertAllCityState(syncYarnResponse.data.yarn.cityState!),*/
                 value.companiesDao
                     .insertAllCompanies(syncYarnResponse.data.yarn.companies!),
 //                value.countriesDao
@@ -110,10 +110,10 @@ class SyncProvider extends ChangeNotifier {
                     syncYarnResponse.data.yarn.deliveryPeriod!),
                 // value.lcTypeDao
                 //     .insertAllLcType(syncYarnResponse.data.yarn.lcTypes!),
-                value.paymentTypeDao.insertAllPaymentType(
+                /*value.paymentTypeDao.insertAllPaymentType(
                     syncYarnResponse.data.yarn.paymentTypes!),
                 value.portsDao
-                    .insertAllPorts(syncYarnResponse.data.yarn.ports!),
+                    .insertAllPorts(syncYarnResponse.data.yarn.ports!),*/
                 value.priceTermsDao.insertAllFPriceTerms(
                     syncYarnResponse.data.yarn.priceTerms!),
                 value.unitDao.insertAllUnit(syncYarnResponse.data.yarn.units!),
@@ -162,8 +162,8 @@ class SyncProvider extends ChangeNotifier {
                     response.data!.stocklot!.priceTerms!),
                 // value.lcTypeDao.insertAllLcType(
                 //     response.data!.stocklot!.lcTypes!),
-                value.paymentTypeDao.insertAllPaymentType(
-                    response.data!.stocklot!.paymentTypes!)
+                /*value.paymentTypeDao.insertAllPaymentType(
+                    response.data!.stocklot!.paymentTypes!)*/
               ]);
             });
           }

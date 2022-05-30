@@ -152,6 +152,7 @@ class StockLotSpecification {
     String? userId,
     String? company,
     String? stocklotCategoryId,
+    String? spc_category_name,
     String? stocklotParentFamilyName,
     String? category,
     dynamic unit,
@@ -161,6 +162,10 @@ class StockLotSpecification {
     String? locality,
     String? isVerified,
     String? isFeatured,
+    String? description,
+    String? country_name,
+    String? port_name,
+    String? currency_name,
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
@@ -171,6 +176,7 @@ class StockLotSpecification {
     _userId = userId;
     _company = company;
     _stocklotCategoryId = stocklotCategoryId;
+    _spc_category_name = spc_category_name;
     _stocklotParentFamilyName = stocklotParentFamilyName;
     _category = category;
     _unit = unit;
@@ -180,6 +186,10 @@ class StockLotSpecification {
     _locality = locality;
     _isVerified = isVerified;
     _isFeatured = isFeatured;
+    _description = description;
+    _country_name = country_name;
+    _port_name = port_name;
+    _currency_name = currency_name;
     _specDetails = specDetails;
     _pictures = pictures;
     _matchedCount = matchedCount;
@@ -192,6 +202,7 @@ class StockLotSpecification {
     _userId = json['user_id'];
     _company = json['company'];
     _stocklotCategoryId = json['spc_category_idfk'];
+    _spc_category_name = json['spc_category_name'];
     _stocklotParentFamilyName = json['stocklot_parent_family_name'];
     _category = json['category'];
     _unit = json['unit'];
@@ -201,6 +212,11 @@ class StockLotSpecification {
     _locality = json['locality'];
     _isVerified = json['is_verified'];
     _isFeatured = json['is_featured'];
+    _description = json['description'];
+    _description = json['description'];
+    _country_name = json['country_name'];
+    _port_name = json['port_name'];
+    _currency_name = json['currency_name'];
     _matchedCount = json['matched_count'];
     _proposalCount = json['proposal_count'];
     _isFeatured = json['is_featured'];
@@ -223,6 +239,7 @@ class StockLotSpecification {
   String? _userId;
   String? _company;
   String? _stocklotCategoryId;
+  String? _spc_category_name;
   String? _stocklotParentFamilyName;
   String? _category;
   dynamic _unit;
@@ -232,6 +249,10 @@ class StockLotSpecification {
   String? _locality;
   String? _isVerified;
   String? _isFeatured;
+  String? _description;
+  String? _country_name;
+  String? _port_name;
+  String? _currency_name;
   int? _matchedCount;
   int? _proposalCount;
   List<SpecDetails>? _specDetails;
@@ -243,6 +264,7 @@ class StockLotSpecification {
     String? userId,
     String? company,
     String? stocklotCategoryId,
+    String? spc_category_name,
     String? stocklotParentFamilyName,
     String? category,
     dynamic unit,
@@ -252,6 +274,10 @@ class StockLotSpecification {
     String? locality,
     String? isVerified,
     String? isFeatured,
+    String? description,
+    String? country_name,
+    String? port_name,
+    String? currency_name,
     List<SpecDetails>? specDetails,
     List<dynamic>? pictures,
     String? date,
@@ -263,6 +289,7 @@ class StockLotSpecification {
         userId: userId ?? _userId,
         company: company ?? _company,
         stocklotCategoryId: stocklotCategoryId ?? _stocklotCategoryId,
+        spc_category_name: spc_category_name ?? _spc_category_name,
         stocklotParentFamilyName: stocklotParentFamilyName ?? _stocklotParentFamilyName,
         category: category ?? _category,
         unit: unit ?? _unit,
@@ -272,6 +299,10 @@ class StockLotSpecification {
         locality: locality ?? _locality,
         isVerified: isVerified ?? _isVerified,
         isFeatured: isFeatured ?? _isFeatured,
+        description: description ?? _description,
+        country_name: country_name ?? _country_name,
+        port_name: port_name ?? _port_name,
+        currency_name: currency_name ?? _currency_name,
         specDetails: specDetails ?? _specDetails,
         pictures: pictures ?? _pictures,
         date: date ?? _date,
@@ -286,6 +317,7 @@ class StockLotSpecification {
   String? get company => _company;
 
   String? get stocklotCategoryId => _stocklotCategoryId;
+  String? get spc_category_name => _spc_category_name;
   String? get stocklotParentFamilyName => _stocklotParentFamilyName;
 
   String? get category => _category;
@@ -306,6 +338,11 @@ class StockLotSpecification {
 
   String? get isFeatured => _isFeatured;
 
+  String? get description => _description;
+  String? get country_name => _country_name;
+  String? get port_name => _port_name;
+  String? get currency_name => _currency_name;
+
   List<SpecDetails>? get specDetails => _specDetails;
 
   List<dynamic>? get pictures => _pictures;
@@ -318,6 +355,7 @@ class StockLotSpecification {
     map['user_id'] = _userId;
     map['company'] = _company;
     map['stocklot_category_id'] = _stocklotCategoryId;
+    map['spc_category_name'] = _spc_category_name;
     map['stocklot_parent_family_name'] = _stocklotParentFamilyName;
     map['category'] = _category;
     map['unit'] = _unit;
@@ -327,6 +365,10 @@ class StockLotSpecification {
     map['locality'] = _locality;
     map['is_verified'] = _isVerified;
     map['is_featured'] = _isFeatured;
+    map['description'] = _description;
+    map['country_name'] = _country_name;
+    map['port_name'] = _port_name;
+    map['currency_name'] = _currency_name;
     map['matched_count'] = _matchedCount;
     map['proposal_count'] = _proposalCount;
     if (_specDetails != null) {
