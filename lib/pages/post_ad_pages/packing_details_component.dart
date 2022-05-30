@@ -124,7 +124,10 @@ class PackagingDetailsState extends State<PackagingDetails>
       _unitsList = await dbInstance.unitDao.findAllUnitWithCatIdFamId(
           1, int.parse(_createRequestModel!.spc_fiber_family_idfk!));
 
-      _coneTypeList = await dbInstance.coneTypeDao.findAllConeType();
+    //  _coneTypeList = await dbInstance.coneTypeDao.findAllConeType();
+      _coneTypeList = await dbInstance.coneTypeDao.findAllConeTypeWithCatAndFamID(
+        int.parse(_createRequestModel!.spc_fiber_family_idfk!),1
+          );
          /* .findAllConeTypeWithCatAndFamID(
               int.parse(_createRequestModel!.spc_fiber_family_idfk!), 1);
 */
@@ -139,6 +142,7 @@ class PackagingDetailsState extends State<PackagingDetails>
     }
     unitCountSelected = _coneTypeList.first.yctName;
     _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
+    _createRequestModel!.fbp_count_unit_idfk = _unitsList.first.untId.toString();
     setState(() {
 
     });
@@ -449,7 +453,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                           title: "Cone Type")),
                                   SingleSelectTileWidget(
                                       spanCount: 3,
-                                      selectedIndex: -1,
+                                      selectedIndex: 0,
                                       listOfItems: _coneTypeList,
                                       callback: (ConeType value) {
                                         _createRequestModel!.cone_type_id =

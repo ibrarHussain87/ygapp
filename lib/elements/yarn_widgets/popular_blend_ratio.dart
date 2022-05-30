@@ -60,7 +60,7 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
       yarnProvider!.addListener(updateUI);
     }else if(widget.provider is PostFabricProvider){
       fabricProvider = widget.provider;
-      yarnProvider!.textFieldControllers.clear();
+      fabricProvider!.textFieldControllers.clear();
       if (fabricProvider!.textFieldControllers.isEmpty) {
         for (var i = 0; i < widget.listOfItems.length; i++) {
           fabricProvider!.textFieldControllers.add(TextEditingController());

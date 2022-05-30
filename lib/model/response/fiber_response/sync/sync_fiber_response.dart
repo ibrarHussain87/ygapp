@@ -12,6 +12,8 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 
+import '../../common_response_models/cone_type_reponse.dart';
+
 class SyncFiberResponse {
   SyncFiberResponse({
     required this.status,
@@ -96,6 +98,8 @@ class FiberModel {
   // late final List<LcType> lcType;
   // late final List<Packing> packing;
   late final List<FiberSettings> settings;
+  late final List<ConeType> coneType;
+
 
   FiberModel.fromJson(Map<String, dynamic> json) {
     categories = List.from(json['categories'])
@@ -141,6 +145,8 @@ class FiberModel {
     settings = List.from(json['setting'])
         .map((e) => FiberSettings.fromJson(e))
         .toList();
+    coneType =
+        List.from(json['cone_type']).map((e) => ConeType.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -165,6 +171,7 @@ class FiberModel {
     // _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
     // _data['packing'] = packing.map((e) => e.toJson()).toList();
     _data['settings'] = settings.map((e) => e.toJson()).toList();
+    _data['cone_type'] = coneType.map((e) => e.toJson()).toList();
     return _data;
   }
 }

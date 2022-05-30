@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -8,13 +9,22 @@ import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.
 import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
+import '../list_widgets/single_select_tile_widget.dart';
+import '../title_text_widget.dart';
 
 
 List<TextEditingController> textFieldControllers = [];
 GlobalKey<FormState> weftFormKey = GlobalKey<FormState>();
 
-weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestModel? fabricCreateRequestModel, Function callback)
+weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestModel? fabricCreateRequestModel,
+    Function callback, String familyId, List<FabricPly> plyList)
 {
+
+  String? selectedWeftPlyId;
+  if(fabricCreateRequestModel!.fs_weft_ply_idfk !=null){
+    selectedWeftPlyId = fabricCreateRequestModel.fs_weft_ply_idfk;
+  }
+
   showModalBottomSheet<int>(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
@@ -94,7 +104,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 
                             ],
                           ),
-                          SizedBox(height:10.w ,),
+                          /*SizedBox(height:10.w ,),
                           Row(
                             children: [
                               Visibility(
@@ -122,6 +132,36 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                               ),
 
                             ],
+                          ),*/
+                          //Show Warp Ply
+                          Visibility(
+                            visible: Ui.showHide(fabricSetting.showWeftPly),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 8.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(title: 'Weft Ply' + '*')),
+                                  SingleSelectTileWidget(
+                                    selectedIndex: fabricCreateRequestModel.fs_weft_ply_idfk == null
+                                        ? -1 :  plyList.where((element) =>
+                                    element.fabricFamilyIdfk == familyId)
+                                        .toList().indexWhere((element) => element.fabricPlyId.toString() == fabricCreateRequestModel.fs_weft_ply_idfk),
+                                    spanCount: 3,
+                                    listOfItems: plyList.where((element) =>
+                                    element.fabricFamilyIdfk == familyId)
+                                        .toList(),
+                                    callback: (FabricPly value) {
+                                      /*_createRequestModel.fs_ply_idfk =
+                                              value.fabricPlyId.toString();*/
+                                      selectedWeftPlyId = value.fabricPlyId.toString();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           SizedBox(height:10.w ,),
                           Row(
@@ -177,8 +217,9 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                             side: BorderSide(
                                                 color: Colors.transparent)))),
                                 onPressed: () {
-                                  if (validateAndSaveWeft()) {
+                                  if (validationAllPage(fabricSetting,selectedWeftPlyId)) {
                                     FocusScope.of(context).unfocus();
+                                    fabricCreateRequestModel.fs_weft_ply_idfk = selectedWeftPlyId;
                                     callback.call();
                                     Navigator.of(context).pop();
                                   }
@@ -203,5 +244,16 @@ bool validateAndSaveWeft() {
   return false;
 }
 
-
+bool validationAllPage(FabricSetting fabricSetting, String? selectedPlyId) {
+  if (validateAndSaveWeft()) {
+    if ((selectedPlyId == null || selectedPlyId == '') &&
+        Ui.showHide(fabricSetting.showWeftPly)) {
+      Fluttertoast.showToast(msg: 'Please Select Weft Ply');
+      return false;
+    }else{
+      return true;
+    }
+  }
+  return false;
+}
 

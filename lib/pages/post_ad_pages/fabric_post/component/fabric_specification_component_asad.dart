@@ -539,7 +539,7 @@ class FabricSpecificationComponentState
                                           _createRequestModel, () {
                                             _notifierWarpSheet.value =
                                             !_notifierWarpSheet.value;
-                                          });
+                                          },familyId!,_plyList);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 12),
@@ -702,7 +702,7 @@ class FabricSpecificationComponentState
                                           _createRequestModel, () {
                                             _notifierWeftSheet.value =
                                             !_notifierWeftSheet.value;
-                                          });
+                                          },familyId!,_plyList);
                                     },
                                     child: ValueListenableBuilder(
                                       valueListenable: _notifierWeftSheet,
@@ -2540,7 +2540,15 @@ class FabricSpecificationComponentState
   String? getWarpList(FabricCreateRequestModel createRequestModel) {
     List<String?> list = [];
     list.add(createRequestModel.fs_warp_count);
-    list.add(createRequestModel.fs_warp_ply_idfk);
+   // list.add(createRequestModel.fs_warp_ply_idfk);
+    if (_createRequestModel!.fs_warp_ply_idfk != null) {
+      list.add(_plyList
+          .where((element) =>
+      element.fabricPlyId.toString() == createRequestModel.fs_warp_ply_idfk)
+          .toList()
+          .first
+          .fabricPlyName);
+    }
     list.add(createRequestModel.fs_no_of_ends_warp);
     var responseString = Utils.createStringFromList(list);
     if (responseString.isNotEmpty) {
@@ -2553,7 +2561,15 @@ class FabricSpecificationComponentState
   String? getWeftList(FabricCreateRequestModel createRequestModel) {
     List<String?> list = [];
     list.add(createRequestModel.fs_weft_count);
-    list.add(createRequestModel.fs_weft_ply_idfk);
+   // list.add(createRequestModel.fs_weft_ply_idfk);
+    if (_createRequestModel!.fs_weft_ply_idfk != null) {
+      list.add(_plyList
+          .where((element) =>
+      element.fabricPlyId.toString() == createRequestModel.fs_weft_ply_idfk)
+          .toList()
+          .first
+          .fabricPlyName);
+    }
     list.add(createRequestModel.fs_no_of_pick_weft);
     var responseString = Utils.createStringFromList(list);
     if (responseString.isNotEmpty) {

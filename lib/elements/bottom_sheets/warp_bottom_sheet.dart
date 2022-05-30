@@ -16,13 +16,22 @@ import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../locators.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
+import '../list_widgets/single_select_tile_widget.dart';
 
 
 List<TextEditingController> textFieldControllers = [];
 GlobalKey<FormState> wrapFormKey = GlobalKey<FormState>();
 
-warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestModel? fabricCreateRequestModel, Function callback)
+warpSheet(BuildContext context,FabricSetting? fabricSetting,
+    FabricCreateRequestModel? fabricCreateRequestModel, Function callback, String familyId, List<FabricPly> plyList)
 {
+
+  String? selectedWarpPlyId;
+  if(fabricCreateRequestModel!.fs_warp_ply_idfk !=null){
+    selectedWarpPlyId = fabricCreateRequestModel.fs_warp_ply_idfk;
+  }
+
+
   showModalBottomSheet<int>(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
@@ -102,7 +111,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
 
                             ],
                           ),
-                          SizedBox(height:10.w ,),
+                          /*SizedBox(height:10.w ,),
                           Row(
                             children: [
                               Visibility(
@@ -130,6 +139,36 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                               ),
 
                             ],
+                          ),*/
+                          //Show Warp Ply
+                          Visibility(
+                            visible: Ui.showHide(fabricSetting.showWarpPly),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 8.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(title: 'Warp Ply' + '*')),
+                                  SingleSelectTileWidget(
+                                    selectedIndex: fabricCreateRequestModel.fs_warp_ply_idfk == null
+                                        ? -1 :  plyList.where((element) =>
+                                    element.fabricFamilyIdfk == familyId)
+                                        .toList().indexWhere((element) => element.fabricPlyId.toString() == fabricCreateRequestModel.fs_warp_ply_idfk),
+                                    spanCount: 3,
+                                    listOfItems: plyList.where((element) =>
+                                    element.fabricFamilyIdfk == familyId)
+                                        .toList(),
+                                    callback: (FabricPly value) {
+                                      /*_createRequestModel.fs_ply_idfk =
+                                              value.fabricPlyId.toString();*/
+                                      selectedWarpPlyId = value.fabricPlyId.toString();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           SizedBox(height:10.w ,),
                           Row(
@@ -185,8 +224,9 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                             side: BorderSide(
                                                 color: Colors.transparent)))),
                                 onPressed: () {
-                                  if (validateAndSaveWrap()) {
+                                  if (validationAllPage(fabricSetting,selectedWarpPlyId)) {
                                     FocusScope.of(context).unfocus();
+                                    fabricCreateRequestModel.fs_warp_ply_idfk = selectedWarpPlyId;
                                     callback.call();
                                     Navigator.of(context).pop();
                                   }
@@ -211,5 +251,18 @@ bool validateAndSaveWrap() {
   return false;
 }
 
+
+bool validationAllPage(FabricSetting fabricSetting, String? selectedPlyId) {
+  if (validateAndSaveWrap()) {
+    if ((selectedPlyId == null || selectedPlyId == '') &&
+        Ui.showHide(fabricSetting.showWarpPly)) {
+      Fluttertoast.showToast(msg: 'Please Select Warp Ply');
+      return false;
+    }else{
+      return true;
+    }
+  }
+  return false;
+}
 
 
