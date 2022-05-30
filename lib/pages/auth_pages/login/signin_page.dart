@@ -672,6 +672,8 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _loginCall() {
+
+
     check().then((value) {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
@@ -683,6 +685,7 @@ class _SignInPageState extends State<SignInPage> {
               await db.userDao.insertUser(value.data!.user!);
             });
 
+            Logger().e(value.data!.user!.toJson());
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());
             SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data!.token!);

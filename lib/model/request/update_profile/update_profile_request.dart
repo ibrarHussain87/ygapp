@@ -24,7 +24,7 @@ class UpdateProfileRequestModel {
       'name': name!.trim(),
       'country_id': countryId!.trim(),
       'company_id': '1',
-      'state_id': cityStateId!.trim(),
+      'state_id': cityStateId?.trim() ?? "",
       'whatsapp': whatsapp!.trim(),
       'address': address!.trim(),
       'city': city!.trim(),

@@ -11,6 +11,6 @@ class JsonConverter extends TypeConverter<BusinessInfo,String >  {
 
   @override
   String encode(BusinessInfo value) {
-    return json.encode(value.toJson());
+    return json.encode(value.toJson()).toString();
   }
 }
