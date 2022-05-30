@@ -73,6 +73,18 @@ class _$AppDatabase extends AppDatabase {
 
   GradesDao? _gradesDaoInstance;
 
+  GenericCategoriesDao? _genericCategoriesDaoInstance;
+
+  CitiesDao? _citiesDaoInstance;
+
+  StatesDao? _statesDaoInstance;
+
+  DesignationsDao? _designationsDaoInstance;
+
+  SubscriptionPlansDao? _subscriptionPlansDaoInstance;
+
+  ServiceTypesDao? _serviceTypesDaoInstance;
+
   BrandsDao? _brandsDaoInstance;
 
   CertificationsDao? _certificationDaoInstance;
@@ -270,6 +282,18 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `orientation_table` (`yoId` INTEGER, `familyId` TEXT, `yoName` TEXT, `yoDescription` TEXT, `yoIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`yoId`))');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `generic_categories` (`catId` INTEGER, `catName` TEXT, PRIMARY KEY (`catId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `states` (`stateId` INTEGER, `stateName` TEXT, `countryIdfk` TEXT, `stateIsActive` TEXT, `stateSortid` TEXT, PRIMARY KEY (`stateId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `cities` (`cityId` INTEGER, `countryIdfk` TEXT, `stateIdfk` TEXT, `cityName` TEXT, `citySortid` TEXT, `cityIsActive` TEXT, PRIMARY KEY (`cityId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `designations` (`designationId` INTEGER, `designationTitle` TEXT, `designationStatus` TEXT, PRIMARY KEY (`designationId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `subscription_plans` (`spId` INTEGER, `spName` TEXT, `spDisplayTitle` TEXT, `spStatus` TEXT, `spLongDescription` TEXT, `spShortDescription` TEXT, `spPrice` TEXT, `spDurationType` TEXT, `spDurationCount` TEXT, PRIMARY KEY (`spId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `service_types` (`serviceTypeId` INTEGER, `serviceTypeName` TEXT, `serviceTypeStatus` TEXT, PRIMARY KEY (`serviceTypeId`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `pattern_characteristics_table` (`ypcId` INTEGER, `ypcName` TEXT, `ypcPatternIdfk` TEXT, `ypcDescription` TEXT, `ypcIsActive` TEXT, `ypcSortid` TEXT, PRIMARY KEY (`ypcId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `pattern_table` (`ypId` INTEGER, `familyId` TEXT, `ypName` TEXT, `spun_technique_id` TEXT, `ypDescription` TEXT, `ypIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ypId`))');
@@ -324,6 +348,40 @@ class _$AppDatabase extends AppDatabase {
   @override
   GradesDao get gradesDao {
     return _gradesDaoInstance ??= _$GradesDao(database, changeListener);
+  }
+
+  @override
+  GenericCategoriesDao get genericCategoriesDao {
+    return _genericCategoriesDaoInstance ??=
+        _$GenericCategoriesDao(database, changeListener);
+  }
+
+  @override
+  CitiesDao get citiesDao {
+    return _citiesDaoInstance ??= _$CitiesDao(database, changeListener);
+  }
+
+  @override
+  StatesDao get statesDao {
+    return _statesDaoInstance ??= _$StatesDao(database, changeListener);
+  }
+
+  @override
+  DesignationsDao get designationsDao {
+    return _designationsDaoInstance ??=
+        _$DesignationsDao(database, changeListener);
+  }
+
+  @override
+  SubscriptionPlansDao get subscriptionPlansDao {
+    return _subscriptionPlansDaoInstance ??=
+        _$SubscriptionPlansDao(database, changeListener);
+  }
+
+  @override
+  ServiceTypesDao get serviceTypesDao {
+    return _serviceTypesDaoInstance ??=
+        _$ServiceTypesDao(database, changeListener);
   }
 
   @override
@@ -1086,6 +1144,422 @@ class _$GradesDao extends GradesDao {
   Future<List<int>> insertAllGrades(List<Grades> grades) {
     return _gradesInsertionAdapter.insertListAndReturnIds(
         grades, OnConflictStrategy.replace);
+  }
+}
+
+class _$GenericCategoriesDao extends GenericCategoriesDao {
+  _$GenericCategoriesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _genericCategoriesInsertionAdapter = InsertionAdapter(
+            database,
+            'generic_categories',
+            (GenericCategories item) => <String, Object?>{
+                  'catId': item.catId,
+                  'catName': item.catName
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<GenericCategories> _genericCategoriesInsertionAdapter;
+
+  @override
+  Future<List<GenericCategories>> findAllGenericCategories() async {
+    return _queryAdapter.queryList('SELECT * FROM generic_categories',
+        mapper: (Map<String, Object?> row) => GenericCategories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?));
+  }
+
+  @override
+  Future<GenericCategories?> findGenericCategoriesWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM generic_categories where catId = ?1',
+        mapper: (Map<String, Object?> row) => GenericCategories(
+            catId: row['catId'] as int?, catName: row['catName'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteGenericCategory(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from generic_categories where catId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from generic_categories');
+  }
+
+  @override
+  Future<void> insertGenericCategory(
+      GenericCategories genericCategories) async {
+    await _genericCategoriesInsertionAdapter.insert(
+        genericCategories, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllGenericCategories(
+      List<GenericCategories> genericCategories) {
+    return _genericCategoriesInsertionAdapter.insertListAndReturnIds(
+        genericCategories, OnConflictStrategy.replace);
+  }
+}
+
+class _$CitiesDao extends CitiesDao {
+  _$CitiesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _citiesInsertionAdapter = InsertionAdapter(
+            database,
+            'cities',
+            (Cities item) => <String, Object?>{
+                  'cityId': item.cityId,
+                  'countryIdfk': item.countryIdfk,
+                  'stateIdfk': item.stateIdfk,
+                  'cityName': item.cityName,
+                  'citySortid': item.citySortid,
+                  'cityIsActive': item.cityIsActive
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Cities> _citiesInsertionAdapter;
+
+  @override
+  Future<List<Cities>> findAllCities() async {
+    return _queryAdapter.queryList('SELECT * FROM cities',
+        mapper: (Map<String, Object?> row) => Cities(
+            cityId: row['cityId'] as int?,
+            countryIdfk: row['countryIdfk'] as String?,
+            stateIdfk: row['stateIdfk'] as String?,
+            cityName: row['cityName'] as String?,
+            citySortid: row['citySortid'] as String?,
+            cityIsActive: row['cityIsActive'] as String?));
+  }
+
+  @override
+  Future<Cities?> findCitiesWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM cities where cityId = ?1',
+        mapper: (Map<String, Object?> row) => Cities(
+            cityId: row['cityId'] as int?,
+            countryIdfk: row['countryIdfk'] as String?,
+            stateIdfk: row['stateIdfk'] as String?,
+            cityName: row['cityName'] as String?,
+            citySortid: row['citySortid'] as String?,
+            cityIsActive: row['cityIsActive'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteCity(int id) async {
+    await _queryAdapter
+        .queryNoReturn('delete from cities where cityId = ?1', arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from cities');
+  }
+
+  @override
+  Future<void> insertCity(Cities cities) async {
+    await _citiesInsertionAdapter.insert(cities, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCities(List<Cities> cities) {
+    return _citiesInsertionAdapter.insertListAndReturnIds(
+        cities, OnConflictStrategy.replace);
+  }
+}
+
+class _$StatesDao extends StatesDao {
+  _$StatesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _statesInsertionAdapter = InsertionAdapter(
+            database,
+            'states',
+            (States item) => <String, Object?>{
+                  'stateId': item.stateId,
+                  'stateName': item.stateName,
+                  'countryIdfk': item.countryIdfk,
+                  'stateIsActive': item.stateIsActive,
+                  'stateSortid': item.stateSortid
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<States> _statesInsertionAdapter;
+
+  @override
+  Future<List<States>> findAllStates() async {
+    return _queryAdapter.queryList('SELECT * FROM states',
+        mapper: (Map<String, Object?> row) => States(
+            stateId: row['stateId'] as int?,
+            stateName: row['stateName'] as String?,
+            countryIdfk: row['countryIdfk'] as String?,
+            stateIsActive: row['stateIsActive'] as String?,
+            stateSortid: row['stateSortid'] as String?));
+  }
+
+  @override
+  Future<States?> findStatesWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM states where stateId = ?1',
+        mapper: (Map<String, Object?> row) => States(
+            stateId: row['stateId'] as int?,
+            stateName: row['stateName'] as String?,
+            countryIdfk: row['countryIdfk'] as String?,
+            stateIsActive: row['stateIsActive'] as String?,
+            stateSortid: row['stateSortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteState(int id) async {
+    await _queryAdapter.queryNoReturn('delete from states where stateId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from states');
+  }
+
+  @override
+  Future<void> insertState(States states) async {
+    await _statesInsertionAdapter.insert(states, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllStates(List<States> states) {
+    return _statesInsertionAdapter.insertListAndReturnIds(
+        states, OnConflictStrategy.replace);
+  }
+}
+
+class _$DesignationsDao extends DesignationsDao {
+  _$DesignationsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _designationsInsertionAdapter = InsertionAdapter(
+            database,
+            'designations',
+            (Designations item) => <String, Object?>{
+                  'designationId': item.designationId,
+                  'designationTitle': item.designationTitle,
+                  'designationStatus': item.designationStatus
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Designations> _designationsInsertionAdapter;
+
+  @override
+  Future<List<Designations>> findAllDesignations() async {
+    return _queryAdapter.queryList('SELECT * FROM designations',
+        mapper: (Map<String, Object?> row) => Designations(
+            designationId: row['designationId'] as int?,
+            designationTitle: row['designationTitle'] as String?,
+            designationStatus: row['designationStatus'] as String?));
+  }
+
+  @override
+  Future<Designations?> findDesignationsWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM designations where designationId = ?1',
+        mapper: (Map<String, Object?> row) => Designations(
+            designationId: row['designationId'] as int?,
+            designationTitle: row['designationTitle'] as String?,
+            designationStatus: row['designationStatus'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteDesignation(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from designations where designationId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from designations');
+  }
+
+  @override
+  Future<void> insertDesignation(Designations designations) async {
+    await _designationsInsertionAdapter.insert(
+        designations, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllDesignations(List<Designations> designations) {
+    return _designationsInsertionAdapter.insertListAndReturnIds(
+        designations, OnConflictStrategy.replace);
+  }
+}
+
+class _$SubscriptionPlansDao extends SubscriptionPlansDao {
+  _$SubscriptionPlansDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _subscriptionPlansInsertionAdapter = InsertionAdapter(
+            database,
+            'subscription_plans',
+            (SubscriptionPlans item) => <String, Object?>{
+                  'spId': item.spId,
+                  'spName': item.spName,
+                  'spDisplayTitle': item.spDisplayTitle,
+                  'spStatus': item.spStatus,
+                  'spLongDescription': item.spLongDescription,
+                  'spShortDescription': item.spShortDescription,
+                  'spPrice': item.spPrice,
+                  'spDurationType': item.spDurationType,
+                  'spDurationCount': item.spDurationCount
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<SubscriptionPlans> _subscriptionPlansInsertionAdapter;
+
+  @override
+  Future<List<SubscriptionPlans>> findAllSubscriptionPlans() async {
+    return _queryAdapter.queryList('SELECT * FROM subscription_plans',
+        mapper: (Map<String, Object?> row) => SubscriptionPlans(
+            spId: row['spId'] as int?,
+            spName: row['spName'] as String?,
+            spDisplayTitle: row['spDisplayTitle'] as String?,
+            spStatus: row['spStatus'] as String?,
+            spLongDescription: row['spLongDescription'] as String?,
+            spShortDescription: row['spShortDescription'] as String?,
+            spPrice: row['spPrice'] as String?,
+            spDurationType: row['spDurationType'] as String?,
+            spDurationCount: row['spDurationCount'] as String?));
+  }
+
+  @override
+  Future<SubscriptionPlans?> findSubscriptionPlansWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM subscription_plans where spId = ?1',
+        mapper: (Map<String, Object?> row) => SubscriptionPlans(
+            spId: row['spId'] as int?,
+            spName: row['spName'] as String?,
+            spDisplayTitle: row['spDisplayTitle'] as String?,
+            spStatus: row['spStatus'] as String?,
+            spLongDescription: row['spLongDescription'] as String?,
+            spShortDescription: row['spShortDescription'] as String?,
+            spPrice: row['spPrice'] as String?,
+            spDurationType: row['spDurationType'] as String?,
+            spDurationCount: row['spDurationCount'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteSubscriptionPlan(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from subscription_plans where spId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from subscription_plans');
+  }
+
+  @override
+  Future<void> insertSubscriptionPlan(
+      SubscriptionPlans subscriptionPlans) async {
+    await _subscriptionPlansInsertionAdapter.insert(
+        subscriptionPlans, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllSubscriptionPlans(
+      List<SubscriptionPlans> subscriptionPlans) {
+    return _subscriptionPlansInsertionAdapter.insertListAndReturnIds(
+        subscriptionPlans, OnConflictStrategy.replace);
+  }
+}
+
+class _$ServiceTypesDao extends ServiceTypesDao {
+  _$ServiceTypesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _serviceTypesInsertionAdapter = InsertionAdapter(
+            database,
+            'service_types',
+            (ServiceTypes item) => <String, Object?>{
+                  'serviceTypeId': item.serviceTypeId,
+                  'serviceTypeName': item.serviceTypeName,
+                  'serviceTypeStatus': item.serviceTypeStatus
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<ServiceTypes> _serviceTypesInsertionAdapter;
+
+  @override
+  Future<List<ServiceTypes>> findAllServiceTypes() async {
+    return _queryAdapter.queryList('SELECT * FROM service_types',
+        mapper: (Map<String, Object?> row) => ServiceTypes(
+            serviceTypeId: row['serviceTypeId'] as int?,
+            serviceTypeName: row['serviceTypeName'] as String?,
+            serviceTypeStatus: row['serviceTypeStatus'] as String?));
+  }
+
+  @override
+  Future<ServiceTypes?> findServiceTypesWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM service_types where serviceTypeId = ?1',
+        mapper: (Map<String, Object?> row) => ServiceTypes(
+            serviceTypeId: row['serviceTypeId'] as int?,
+            serviceTypeName: row['serviceTypeName'] as String?,
+            serviceTypeStatus: row['serviceTypeStatus'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteServiceType(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from service_types where serviceTypeId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from service_types');
+  }
+
+  @override
+  Future<void> insertServiceType(ServiceTypes serviceTypes) async {
+    await _serviceTypesInsertionAdapter.insert(
+        serviceTypes, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllServiceTypes(List<ServiceTypes> serviceTypes) {
+    return _serviceTypesInsertionAdapter.insertListAndReturnIds(
+        serviceTypes, OnConflictStrategy.replace);
   }
 }
 

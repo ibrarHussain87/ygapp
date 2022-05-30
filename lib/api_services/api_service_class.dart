@@ -35,6 +35,7 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_syn
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
+import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
@@ -82,6 +83,7 @@ class ApiService {
 
 //  static const String COUNTRY_END_POINT = "/get-countries";
     static const String COMPANIES_END_POINT = "/company";
+    static const String PRE_SYNC_END_POINT = "/get-pre-login-sync";
   static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
@@ -1088,6 +1090,33 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headerMap);
 
       return CompaniesSyncResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  // Pre login sync call
+  static Future<PreLoginResponse> preLoginSyncCall() async {
+    try {
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      headerMap['Authorization'] = 'Bearer $userToken';
+
+      String url = BASE_API_URL + PRE_SYNC_END_POINT;
+
+      final response = await http.post(Uri.parse(url), headers: headerMap);
+
+      return PreLoginResponse.fromJson(
         json.decode(response.body),
       );
     } on Exception catch (e) {

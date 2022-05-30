@@ -5,10 +5,12 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:yg_app/app_database/dao/brands_dao.dart';
 import 'package:yg_app/app_database/dao/category_dao.dart';
 import 'package:yg_app/app_database/dao/certifications_dao.dart';
+import 'package:yg_app/app_database/dao/cities_dao.dart';
 import 'package:yg_app/app_database/dao/city_state_dao.dart';
 import 'package:yg_app/app_database/dao/companies_dao.dart';
 import 'package:yg_app/app_database/dao/countries_dao.dart';
 import 'package:yg_app/app_database/dao/deliver_period_dao.dart';
+import 'package:yg_app/app_database/dao/designations_dao.dart';
 import 'package:yg_app/app_database/dao/fabric_dao/fabric_family_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_appearance_dao.dart';
 import 'package:yg_app/app_database/dao/fiber_dao/fiber_material_dao.dart';
@@ -16,7 +18,10 @@ import 'package:yg_app/app_database/dao/fiber_dao/fiber_nature_dao.dart';
 import 'package:yg_app/app_database/dao/payment_type_dao.dart';
 import 'package:yg_app/app_database/dao/port_dao.dart';
 import 'package:yg_app/app_database/dao/price_terms_dao.dart';
+import 'package:yg_app/app_database/dao/service_types_dao.dart';
+import 'package:yg_app/app_database/dao/states_dao.dart';
 import 'package:yg_app/app_database/dao/stocklot_dao/stocklot_categories_dao.dart';
+import 'package:yg_app/app_database/dao/subscription_plans_dao.dart';
 import 'package:yg_app/app_database/dao/unit_dao.dart';
 import 'package:yg_app/app_database/dao/user_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/color_treatment_method_dao.dart';
@@ -36,6 +41,7 @@ import 'package:yg_app/app_database/dao/yarn_dao/yarn_family_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_settings_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_types_dao.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -71,6 +77,7 @@ import 'dao/fabric_dao/fabric_salvedge_dao.dart';
 import 'dao/fabric_dao/fabric_settings_dao.dart';
 import 'dao/fabric_dao/fabric_weave_dao.dart';
 import 'dao/fabric_dao/knitting_types_dao.dart';
+import 'dao/generic_categories_dao.dart';
 import 'dao/grades_dao.dart';
 import 'dao/fiber_dao/fiber_settings_dao.dart';
 
@@ -89,7 +96,9 @@ part 'app_database.g.dart'; // the generated code will be there
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
-ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily])
+ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
+  GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,
+  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -102,6 +111,13 @@ abstract class AppDatabase extends FloorDatabase {
   FiberAppearanceDao get fiberAppearanceDoa;
 
   GradesDao get gradesDao;
+
+  GenericCategoriesDao get genericCategoriesDao;
+  CitiesDao get citiesDao;
+  StatesDao get statesDao;
+  DesignationsDao get designationsDao;
+  SubscriptionPlansDao get subscriptionPlansDao;
+  ServiceTypesDao get serviceTypesDao;
 
   BrandsDao get brandsDao;
 

@@ -14,6 +14,7 @@ String USER_ID_KEY = "USER_ID";
 String IS_LOGIN = "USER_LOGIN";
 String SYNCED_KEY = "DATA SYNCED";
 String PRE_SYNCED_KEY = "PRE DATA SYNCED";
+String PRE_LOGIN_SYNCED_KEY = "PRE LOGIN DATA SYNCED";
 
 //APPLICATION STRINGS
 String letsGetStarted = "Let's get started";

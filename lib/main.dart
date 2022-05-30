@@ -16,6 +16,7 @@ import 'package:yg_app/model/response/common_response_models/companies_reponse.d
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/pre_login_sync_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -78,6 +79,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<PostFiberProvider>()),
         ChangeNotifierProvider(create: (_) => locator<FamilyListProvider>()),
         ChangeNotifierProvider(create: (_) => locator<SyncProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<PreLoginSyncProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<SpecificationLocalFilterProvider>()),
         ChangeNotifierProvider(create: (_) => locator<StocklotProvider>()),
@@ -336,6 +338,9 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             dbInstance.companiesDao.insertAllCompanies(response.companies);
           }
         })
+
+
+
       ]);
 
       await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,true);

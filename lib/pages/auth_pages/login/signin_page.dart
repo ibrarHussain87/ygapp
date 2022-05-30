@@ -19,7 +19,9 @@ import 'package:yg_app/pages/main_page.dart';
 
 import '../../../elements/circle_icon_widget.dart';
 import '../../../helper_utils/navigation_utils.dart';
+import '../../../locators.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../../providers/pre_login_sync_provider.dart';
 import '../signup/country_search_page.dart';
 
 class SignInPage extends StatefulWidget {
@@ -39,6 +41,8 @@ class _SignInPageState extends State<SignInPage> {
   String? code;
   var phoneController=TextEditingController();
   var emailController=TextEditingController();
+  final _syncProvider = locator<PreLoginSyncProvider>();
+
   void _togglevisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -58,6 +62,29 @@ class _SignInPageState extends State<SignInPage> {
     });
 
     super.initState();
+    _syncProvider.addListener(() {
+      updateUI();
+    });
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
+      if(!dataSynced){
+        check().then((intenet) {
+          if (intenet) {
+            // Internet Present Case
+            _syncProvider.syncAppData(context);
+          } else {
+            showInternetDialog(
+                no_internet_available_msg, check_internet_msg, context, () {
+              Navigator.pop(context);
+            });
+          }
+        });
+      }
+    });
+  }
+
+  updateUI() {
+    setState(() {});
   }
 
   @override

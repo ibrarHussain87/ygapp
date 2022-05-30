@@ -19,6 +19,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   GlobalKey<HomePageState> homePageState = GlobalKey<HomePageState>();
   final _syncProvider = locator<SyncProvider>();
   List<Widget>? _screens;
