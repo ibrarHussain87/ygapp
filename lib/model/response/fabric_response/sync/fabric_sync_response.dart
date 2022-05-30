@@ -67,10 +67,10 @@ class Fabric {
   List<FabricFamily>? family;
   List<FabricBlends>? blends;
   List<DenimTypes>? denimTypes;
-  List<Countries>? countries;
-  List<CityState>? cityState;
-  List<Ports>? ports;
-  List<PaymentType>? paymentTypes;
+ // List<Countries>? countries;
+ // List<CityState>? cityState;
+ // List<Ports>? ports;
+ // List<PaymentType>? paymentTypes;
   List<FabricAppearance>? appearance;
   List<KnittingTypes>? knittingTypes;
   List<FabricPly>? ply;
@@ -88,7 +88,7 @@ class Fabric {
   List<DeliveryPeriod>? deliveryPeriod;
   List<Units>? units;
   List<Companies>? companies;
-  List<Brands>? brands;
+ // List<Brands>? brands;
   List<Certification>? certification;
 
   Fabric(
@@ -96,10 +96,10 @@ class Fabric {
       this.family,
       this.blends,
       this.denimTypes,
-      this.countries,
-      this.cityState,
-      this.ports,
-      this.paymentTypes,
+     // this.countries,
+     // this.cityState,
+     // this.ports,
+    //  this.paymentTypes,
       this.appearance,
       this.knittingTypes,
       this.ply,
@@ -116,7 +116,7 @@ class Fabric {
       this.deliveryPeriod,
       this.units,
       this.companies,
-      this.brands,
+     // this.brands,
       this.certification});
 
   Fabric.fromJson(Map<String, dynamic> json) {
@@ -144,7 +144,7 @@ class Fabric {
         denimTypes!.add(new DenimTypes.fromJson(v));
       });
     }
-    if (json['countries'] != null) {
+    /*if (json['countries'] != null) {
       countries = <Countries>[];
       json['countries'].forEach((v) {
         countries!.add(Countries.fromJson(v));
@@ -161,19 +161,19 @@ class Fabric {
       json['ports'].forEach((v) {
         ports!.add(Ports.fromJson(v));
       });
-    }
+    }*/
     if (json['cone_type'] != null) {
       coneType = <ConeType>[];
       json['cone_type'].forEach((v) {
         coneType!.add(ConeType.fromJson(v));
       });
     }
-    if (json['payment_types'] != null) {
+    /*if (json['payment_types'] != null) {
       paymentTypes = <PaymentType>[];
       json['payment_types'].forEach((v) {
         paymentTypes!.add(PaymentType.fromJson(v));
       });
-    }
+    }*/
     if (json['appearance'] != null) {
       appearance = <FabricAppearance>[];
       json['appearance'].forEach((v) {
@@ -266,12 +266,12 @@ class Fabric {
         companies!.add(Companies.fromJson(v));
       });
     }
-    if (json['brands'] != null) {
+    /*if (json['brands'] != null) {
       brands = <Brands>[];
       json['brands'].forEach((v) {
         brands!.add(Brands.fromJson(v));
       });
-    }
+    }*/
     if (json['certification'] != null) {
       certification = <Certification>[];
       json['certification'].forEach((v) {
@@ -294,7 +294,7 @@ class Fabric {
     if (denimTypes != null) {
       data['denim_types'] = denimTypes!.map((v) => v.toJson()).toList();
     }
-    if (countries != null) {
+    /*if (countries != null) {
       data['countries'] = countries!.map((v) => v.toJson()).toList();
     }
     if (cityState != null) {
@@ -305,7 +305,7 @@ class Fabric {
     }
     if (paymentTypes != null) {
       data['payment_types'] = paymentTypes!.map((v) => v.toJson()).toList();
-    }
+    }*/
     if (appearance != null) {
       data['appearance'] = appearance!.map((v) => v.toJson()).toList();
     }
@@ -358,9 +358,9 @@ class Fabric {
     if (companies != null) {
       data['companies'] = companies!.map((v) => v.toJson()).toList();
     }
-    if (brands != null) {
+    /*if (brands != null) {
       data['brands'] = brands!.map((v) => v.toJson()).toList();
-    }
+    }*/
     if (certification != null) {
       data['certification'] = certification!.map((v) => v.toJson()).toList();
     }

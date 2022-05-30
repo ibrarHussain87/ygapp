@@ -71,11 +71,11 @@ class Yarn {
     required this.patternCharectristic,
     required this.ply,
     required this.quality,
-    required this.countries,
-    required this.cityState,
-    required this.ports,
+   // required this.countries,
+   // required this.cityState,
+   // required this.ports,
     // required this.lcTypes,
-    required this.paymentTypes,
+   // required this.paymentTypes,
     // required this.packing,
     required this.yarnTypes,
     required this.setting,
@@ -92,7 +92,7 @@ class Yarn {
     required this.deliveryPeriod,
     required this.units,
     required this.companies,
-    required this.brands,
+   // required this.brands,
   });
 
   List<ColorTreatmentMethod>? colorTreatmentMethod;
@@ -103,11 +103,11 @@ class Yarn {
   List<PatternCharectristic>? patternCharectristic;
   List<Ply>? ply;
   List<Quality>? quality;
-  List<Countries>? countries;
-  List<CityState>? cityState;
-  List<Ports>? ports;
+  //List<Countries>? countries;
+ // List<CityState>? cityState;
+ // List<Ports>? ports;
   // List<LcType>? lcTypes;
-  List<PaymentType>? paymentTypes;
+ // List<PaymentType>? paymentTypes;
   // List<Packing>? packing;
   List<YarnTypes>? yarnTypes;
   List<YarnSetting>? setting;
@@ -124,7 +124,7 @@ class Yarn {
   List<DeliveryPeriod>? deliveryPeriod;
   List<Units>? units;
   List<Companies>? companies;
-  List<Brands>? brands;
+  //List<Brands>? brands;
 
   Yarn.fromJson(Map<String, dynamic> json) {
     colorTreatmentMethod = List.from(json['color_treatment_method'])
@@ -145,7 +145,7 @@ class Yarn {
     ply = List.from(json['ply']).map((e) => Ply.fromJson(e)).toList();
     quality =
         List.from(json['quality']).map((e) => Quality.fromJson(e)).toList();
-    countries =
+    /*countries =
         List.from(json['countries']).map((e) => Countries.fromJson(e)).toList();
     cityState = List.from(json['city_state'])
         .map((e) => CityState.fromJson(e))
@@ -155,7 +155,7 @@ class Yarn {
     //     List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
     paymentTypes = List.from(json['payment_types'])
         .map((e) => PaymentType.fromJson(e))
-        .toList();
+        .toList();*/
     // packing =
     //     List.from(json['packing']).map((e) => Packing.fromJson(e)).toList();
     yarnTypes = List.from(json['yarn_types'])
@@ -191,7 +191,7 @@ class Yarn {
     units = List.from(json['units']).map((e) => Units.fromJson(e)).toList();
     companies =
         List.from(json['companies']).map((e) => Companies.fromJson(e)).toList();
-    brands = List.from(json['brands']).map((e) => Brands.fromJson(e)).toList();
+   // brands = List.from(json['brands']).map((e) => Brands.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -206,11 +206,11 @@ class Yarn {
         patternCharectristic!.map((e) => e.toJson()).toList();
     _data['ply'] = ply!.map((e) => e.toJson()).toList();
     _data['quality'] = quality!.map((e) => e.toJson()).toList();
-    _data['countries'] = countries!.map((e) => e.toJson()).toList();
-    _data['city_state'] = cityState!.map((e) => e.toJson()).toList();
-    _data['ports'] = ports!.map((e) => e.toJson()).toList();
+    //_data['countries'] = countries!.map((e) => e.toJson()).toList();
+   // _data['city_state'] = cityState!.map((e) => e.toJson()).toList();
+   // _data['ports'] = ports!.map((e) => e.toJson()).toList();
     // _data['lc_types'] = lcTypes!.map((e) => e.toJson()).toList();
-    _data['payment_types'] = paymentTypes!.map((e) => e.toJson()).toList();
+   // _data['payment_types'] = paymentTypes!.map((e) => e.toJson()).toList();
     // _data['packing'] = packing!.map((e) => e.toJson()).toList();
     _data['yarn_types'] = yarnTypes!.map((e) => e.toJson()).toList();
     _data['setting'] = setting!.map((e) => e.toJson()).toList();
@@ -227,7 +227,7 @@ class Yarn {
     _data['delivery_period'] = deliveryPeriod!.map((e) => e.toJson()).toList();
     _data['units'] = units!.map((e) => e.toJson()).toList();
     _data['companies'] = companies!.map((e) => e.toJson()).toList();
-    _data['brands'] = brands!.map((e) => e.toJson()).toList();
+   // _data['brands'] = brands!.map((e) => e.toJson()).toList();
     return _data;
   }
 }

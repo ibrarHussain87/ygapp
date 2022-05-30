@@ -56,11 +56,11 @@ class Data {
 class Stocklot {
   // List<StocklotCategories>? stocklotCategories;
   List<StockLotFamily>? stocklots;
-  List<Countries>? countries;
-  List<CityState>? cityState;
+ // List<Countries>? countries;
+ // List<CityState>? cityState;
   List<FPriceTerms>? priceTerms;
   // List<AvailabilityModel>? availabilityList;
-  List<PaymentType>? paymentTypes;
+ // List<PaymentType>? paymentTypes;
   List<Units>? units;
   List<DeliveryPeriod>? deliveryPeriod;
 
@@ -68,11 +68,11 @@ class Stocklot {
       {
       //   this.stocklotCategories,
       this.stocklots,
-      this.countries,
-      this.cityState,
+    //  this.countries,
+   //   this.cityState,
       this.priceTerms,
       // this.availabilityList,
-      this.paymentTypes,
+   //   this.paymentTypes,
       this.units,
       this.deliveryPeriod});
 
@@ -89,18 +89,18 @@ class Stocklot {
         stocklots!.add(StockLotFamily.fromJson(v));
       });
     }
-    if (json['countries'] != null) {
+    /*if (json['countries'] != null) {
       countries = <Countries>[];
       json['countries'].forEach((v) {
         countries!.add(Countries.fromJson(v));
       });
-    }
-    if (json['city_state'] != null) {
+    }*/
+    /*if (json['city_state'] != null) {
       cityState = <CityState>[];
       json['city_state'].forEach((v) {
         cityState!.add(CityState.fromJson(v));
       });
-    }
+    }*/
     if (json['price_terms'] != null) {
       priceTerms = <FPriceTerms>[];
       json['price_terms'].forEach((v) {
@@ -121,12 +121,12 @@ class Stocklot {
     //   });
     // }
 
-    if (json['payment_types'] != null) {
+    /*if (json['payment_types'] != null) {
       paymentTypes = <PaymentType>[];
       json['payment_types'].forEach((v) {
         paymentTypes!.add(PaymentType.fromJson(v));
       });
-    }
+    }*/
     if (json['units'] != null) {
       units = <Units>[];
       json['units'].forEach((v) {
@@ -150,20 +150,20 @@ class Stocklot {
     if (this.stocklots != null) {
       data['family'] = this.stocklots!.map((v) => v.toJson()).toList();
     }
-    if (this.countries != null) {
+    /*if (this.countries != null) {
       data['countries'] = this.countries!.map((v) => v.toJson()).toList();
-    }
-    if (this.cityState != null) {
+    }*/
+    /*if (this.cityState != null) {
       data['city_state'] = this.cityState!.map((v) => v.toJson()).toList();
-    }
+    }*/
     if (this.priceTerms != null) {
       data['price_terms'] = this.priceTerms!.map((v) => v.toJson()).toList();
     }
 
-    if (this.paymentTypes != null) {
+    /*if (this.paymentTypes != null) {
       data['payment_types'] =
           this.paymentTypes!.map((v) => v.toJson()).toList();
-    }
+    }*/
     if (this.units != null) {
       data['units'] = this.units!.map((v) => v.toJson()).toList();
     }

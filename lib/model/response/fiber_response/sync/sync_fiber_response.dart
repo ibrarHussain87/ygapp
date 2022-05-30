@@ -66,8 +66,8 @@ class FiberModel {
     required this.fiberFamily,
     required this.fiberBlends,
     required this.apperance,
-    required this.brands,
-    required this.countries,
+    //required this.brands,
+   // required this.countries,
     required this.certification,
     required this.deliveryPeriod,
     required this.units,
@@ -81,18 +81,18 @@ class FiberModel {
   late final List<FiberFamily> fiberFamily;
   late final List<FiberBlends> fiberBlends;
   late final List<FiberAppearance> apperance;
-  late final List<Countries> countries;
+ // late final List<Countries> countries;
   late final List<Certification> certification;
   late final List<DeliveryPeriod> deliveryPeriod;
   late final List<Units> units;
-  late final List<Brands> brands;
+  //late final List<Brands> brands;
   late final List<Grades> grades;
   late final List<FPriceTerms> priceTerms;
   // late final List<FiberAvailbleForMarket> availbleForMarket;
   late final List<Companies> companies;
-  late final List<PaymentType> paymentType;
-  late final List<CityState> cityState;
-  late final List<Ports> ports;
+  //late final List<PaymentType> paymentType;
+  //late final List<CityState> cityState;
+  //late final List<Ports> ports;
   // late final List<LcType> lcType;
   // late final List<Packing> packing;
   late final List<FiberSettings> settings;
@@ -108,9 +108,9 @@ class FiberModel {
     apperance = List.from(json['apperance'])
         .map((e) => FiberAppearance.fromJson(e))
         .toList();
-    brands = List.from(json['brands']).map((e) => Brands.fromJson(e)).toList();
-    countries =
-        List.from(json['countries']).map((e) => Countries.fromJson(e)).toList();
+    /*brands = List.from(json['brands']).map((e) => Brands.fromJson(e)).toList();*/
+    /*countries =
+        List.from(json['countries']).map((e) => Countries.fromJson(e)).toList();*/
     certification = List.from(json['certification'])
         .map((e) => Certification.fromJson(e))
         .toList();
@@ -127,13 +127,13 @@ class FiberModel {
     //     .toList();
     companies =
         List.from(json['companies']).map((e) => Companies.fromJson(e)).toList();
-    paymentType = List.from(json['payment_types'])
+    /*paymentType = List.from(json['payment_types'])
         .map((e) => PaymentType.fromJson(e))
-        .toList();
-    cityState = List.from(json['city_state'])
+        .toList();*/
+    /*cityState = List.from(json['city_state'])
         .map((e) => CityState.fromJson(e))
         .toList();
-    ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();
+    ports = List.from(json['ports']).map((e) => Ports.fromJson(e)).toList();*/
     // lcType =
     //     List.from(json['lc_types']).map((e) => LcType.fromJson(e)).toList();
     // packing =
@@ -148,8 +148,8 @@ class FiberModel {
     _data['categories'] = categories.map((e) => e.toJson()).toList();
     _data['material'] = fiberBlends.map((e) => e.toJson()).toList();
     _data['apperance'] = apperance.map((e) => e.toJson()).toList();
-    _data['brands'] = brands.map((e) => e.toJson()).toList();
-    _data['countries'] = countries.map((e) => e.toJson()).toList();
+   // _data['brands'] = brands.map((e) => e.toJson()).toList();
+   // _data['countries'] = countries.map((e) => e.toJson()).toList();
     _data['certification'] = certification.map((e) => e.toJson()).toList();
     _data['deliveryPeriod'] = deliveryPeriod.map((e) => e.toJson()).toList();
     _data['units'] = units.map((e) => e.toJson()).toList();
@@ -159,9 +159,9 @@ class FiberModel {
     // _data['availbleForMarket'] =
     //     availbleForMarket.map((e) => e.toJson()).toList();
     _data['companies'] = companies.map((e) => e.toJson()).toList();
-    _data['payment_types'] = paymentType.map((e) => e.toJson()).toList();
-    _data['city_state'] = cityState.map((e) => e.toJson()).toList();
-    _data['ports'] = ports.map((e) => e.toJson()).toList();
+    /*_data['payment_types'] = paymentType.map((e) => e.toJson()).toList();*/
+   // _data['city_state'] = cityState.map((e) => e.toJson()).toList();
+  //  _data['ports'] = ports.map((e) => e.toJson()).toList();
     // _data['lc_types'] = lcType.map((e) => e.toJson()).toList();
     // _data['packing'] = packing.map((e) => e.toJson()).toList();
     _data['settings'] = settings.map((e) => e.toJson()).toList();
