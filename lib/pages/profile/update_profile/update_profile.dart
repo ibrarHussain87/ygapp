@@ -600,7 +600,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         if (value) {
           ProgressDialogUtil.showDialog(context, 'Please wait...');
           /*remove operator and added static data for parameter*/
-          _updateProfileRequestModel.operator = '1';
+          _updateProfileRequestModel.postalCode = '1';
           _updateProfileRequestModel.countryId = '1';
           _updateProfileRequestModel.cityStateId = '1';
           _updateProfileRequestModel.id = user.id.toString();
@@ -609,12 +609,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           ApiService.updateProfile(_updateProfileRequestModel).then((value) {
             Logger().e(value.toJson());
             ProgressDialogUtil.hideDialog();
-            if (value.errors != null) {
-              value.errors!.forEach((key, error) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(error.toString())));
-              });
-            } else if (value.success!) {
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+              if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
                 await db.userDao.insertUser(value.data!.user!);
               });

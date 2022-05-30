@@ -45,6 +45,47 @@ class AuthResponse {
   }
 }
 
+
+class UpdateProfileResponse {
+  UpdateProfileResponse({
+    required this.code,
+    required this.status,
+    required this.message,
+    required this.responseCode,
+    required this.data,
+  });
+  int? code;
+  bool? status;
+  String? message;
+  int? responseCode;
+  Data? data;
+
+  UpdateProfileResponse.fromJson(Map<String, dynamic> json){
+    code = json['code'];
+    status = json['status'];
+    message = json['message'];
+    responseCode = json['response_code'];
+//    if (json['data'] != null) {
+//      data = Data.fromJson(json['data']);
+//    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['code'] = code;
+    _data['status'] = status;
+    _data['message'] = message;
+//    if(errors != null) {
+//      _data['errors'] = errors;
+//    }
+    _data['response_code'] = responseCode;
+    if(data!= null){
+      _data['data'] = data!.toJson();
+    }
+    return _data;
+  }
+}
+
 class Data {
   Data({
     required this.user,
