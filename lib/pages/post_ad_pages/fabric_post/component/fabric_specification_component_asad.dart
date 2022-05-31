@@ -1080,7 +1080,6 @@ class FabricSpecificationComponentState
 //                                    ),
 //                                  ],
 //                                ),
-                                // Width
                                 //Show Layyer
                                 Visibility(
                                   visible: Ui.showHide(
@@ -1115,6 +1114,7 @@ class FabricSpecificationComponentState
                                   ),
                                 ),
 
+                                // Width
                                 Visibility(
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWidth),
@@ -1133,7 +1133,7 @@ class FabricSpecificationComponentState
                                        // SizedBox(height: 12.w,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'Width',
-                                            label: 'Width',
+                                            label: 'Width(Inches)',
                                             minMax: _fabricSettings!
                                                 .widthMinMax ?? 'n/a',
                                             onSaved: (input) {
