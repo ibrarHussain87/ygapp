@@ -204,6 +204,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 relatedBlnId: blend.blnId.toString(),
                 ratio: element.blendRatio);
             formations.add(formationModel.toJson());
+            stringList.add('${element.blendRatio}%');
           }
 
           if (blend.has_blend_id_2 != null) {
@@ -212,6 +213,8 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 relatedBlnId: blend.blnId.toString(),
                 ratio: (100 - int.parse(element.blendRatio!)).toString());
             formations.add(formationModel.toJson());
+            stringList.removeLast();
+            stringList.add('${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
@@ -220,6 +223,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 relatedBlnId: null,
                 ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
+            stringList.add(blend.blendRatio!.isEmpty ? "100%" : '${blend.blendRatio}%');
           }
         }
       }
