@@ -115,7 +115,7 @@ class FabricSpecificationComponentState
   String? weavePatternA;
   String? weavePatternB;
 
-  final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
+  final List<int> _colorTreatmentIdList = [3,4, 5, 8, 11, 13];
 
 
   final GlobalKey<SingleSelectTileWidgetState> _plyKey = GlobalKey<
@@ -1315,7 +1315,7 @@ class FabricSpecificationComponentState
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
-                                                SizedBox(height: 12.w,),
+                                                SizedBox(height: 16.w,),
                                                 Row(
                                                   children: [
                                                     Expanded(
@@ -2082,7 +2082,7 @@ class FabricSpecificationComponentState
           .familyIdfk
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId ?? '';
-      _createRequestModel!.fabric_weave_pattern_idfk =
+      _createRequestModel!.fabric_weave_pattern =
       '$weavePatternA/$weavePatternB';
       /*if(_createRequestModel!.fs_ply_idfk == null){
         _createRequestModel!.fs_ply_idfk = null;

@@ -117,8 +117,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
     _coneTypeList = await dbInstance.coneTypeDao.findAllConeTypeWithCatAndFamID(
         int.parse(_createRequestModel!.fs_family_idfk!), 3);
 
-    unitCountSelected = _coneTypeList.first.yctName;
-    _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
+    unitCountSelected = _unitsList.first.untName;
+   // _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
+    _createRequestModel!.fbp_count_unit_idfk = _unitsList.first.untId.toString();
     setState(() {});
   }
 
@@ -203,9 +204,9 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            //Unit of count and Counting
+                            //Packing
                             Visibility(
-                              visible: /*widget.locality == international*/ true,
+                              visible: widget.locality == international,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -215,16 +216,42 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                       child: TitleSmallBoldTextWidget(
                                           title: packing)),
                                   SingleSelectTileWidget(
+                                      selectedIndex: -1,
                                       spanCount: 3,
                                       listOfItems: _coneTypeList,
                                       callback: (ConeType value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!
+                                              .cone_type_id =
+                                              value.yctId.toString();
+                                        }
+                                      }),
+                                ],
+                              ),
+                            ),
+                            //Unit of count and Counting
+                            Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: TitleSmallBoldTextWidget(
+                                          title: unitCount)),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      selectedIndex: 0,
+                                      listOfItems: _unitsList,
+                                      callback: (Units value) {
                                         setState(() {
-                                          unitCountSelected = value.yctName;
+                                          unitCountSelected = value.untName;
                                         });
                                         if (_createRequestModel != null) {
                                           _createRequestModel!
                                                   .fbp_count_unit_idfk =
-                                              value.yctId.toString();
+                                              value.untId.toString();
                                         }
                                       }),
                                 ],
@@ -1512,6 +1539,11 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
 
     if (_createRequestModel!.fbp_price_terms_idfk == null) {
       Ui.showSnackBar(context, "Please select price terms");
+      return false;
+    }
+
+    if (_createRequestModel!.cone_type_id == null && widget.locality == international) {
+      Ui.showSnackBar(context, "Please select Packing");
       return false;
     }
 

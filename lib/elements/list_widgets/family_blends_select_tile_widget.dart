@@ -102,14 +102,14 @@ class FamilyBlendsSelectTileWidgetState
       castingCheckPos = 0;
     } else if (widget.listOfItems is List<Blends>) {
       var blend = widget.listOfItems.cast<Blends>()[index];
-      name = blend.bln_abrv ?? blend.blnName;
+      name = blend.bln_abrv2 ?? blend.blnName;
       castingCheckPos = 1;
     } else if (widget.listOfItems is List<Family>) {
       name = widget.listOfItems.cast<Family>()[index].famName;
       castingCheckPos = 2;
     } else if (widget.listOfItems is List<FabricBlends>) {
       var fabricBlend = widget.listOfItems.cast<FabricBlends>()[index];
-      name = fabricBlend.blnAbrv ?? fabricBlend.blnName;
+      name = fabricBlend.blnAbrv2 ?? fabricBlend.blnName;
       castingCheckPos = 3;
     } else if (widget.listOfItems is List<FabricFamily>) {
       var fabricFamily = widget.listOfItems.cast<FabricFamily>()[index];

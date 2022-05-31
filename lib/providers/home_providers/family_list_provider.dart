@@ -29,7 +29,7 @@ class FamilyListProvider extends ChangeNotifier{
     if(yarnList.isNotEmpty && yarnList.length >= 4){
       yarnList = yarnList.take(4).toList()..shuffle();
       for (var element in yarnList) {
-        familyList!.add(FamilyData(element.blnId!, element.iconSelected??"", element.iconUnselected??"", element.blnName??element.bln_abrv??""));
+        familyList!.add(FamilyData(element.blnId!, element.iconSelected??"", element.iconUnselected??"", element.blnName??element.bln_abrv2??""));
       }
     }
     loading = false;

@@ -607,6 +607,7 @@ class FabricBlends {
   String? blnCategoryIdfk;
   String? familyIdfk;
   String? blnName;
+  String? blnAbrv2;
   String? blnAbrv;
   String? minMax;
   String? has_blend_id_1;
@@ -628,6 +629,7 @@ class FabricBlends {
       this.blnCategoryIdfk,
       this.familyIdfk,
       this.blnName,
+      this.blnAbrv2,
       this.blnAbrv,
       this.minMax,
       this.has_blend_id_1,
@@ -649,6 +651,7 @@ class FabricBlends {
     blnCategoryIdfk = json['bln_category_idfk'];
     familyIdfk = json['family_idfk'];
     blnName = json['bln_name'];
+    blnAbrv2 = json['bln_abrv2'];
     blnAbrv = json['bln_abrv'];
     minMax = json['min_max'];
     has_blend_id_1 = json['has_blend_id_1'];
@@ -670,6 +673,7 @@ class FabricBlends {
     data['bln_category_idfk'] = blnCategoryIdfk;
     data['family_idfk'] = familyIdfk;
     data['bln_name'] = blnName;
+    data['bln_abrv2'] = blnAbrv2;
     data['bln_abrv'] = blnAbrv;
     data['min_max'] = minMax;
     data['has_blend_id_1'] = has_blend_id_1;
@@ -688,7 +692,7 @@ class FabricBlends {
 
   @override
   String toString() {
-    return blnAbrv ?? blnName ?? '';
+    return blnAbrv2 ?? blnName ?? '';
   }
 }
 

@@ -191,7 +191,7 @@ Widget buildFabricRenewedAgainWidget(
                                 children: [
                                   Expanded(
                                     child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricFamily ??
+                                      title: specification.fabricApperance ??
                                           Utils.checkNullString(false),
                                     ),
                                     flex: 1,
@@ -217,7 +217,7 @@ Widget buildFabricRenewedAgainWidget(
                             ),
                             SizedBox(height: 13.w),
                             Visibility(
-                              visible: specification.isOffering == offering_type,
+                              visible: specification.isOffering == requirement_type,
                               child: Row(
                                 children: [
                                   Expanded(
@@ -225,26 +225,35 @@ Widget buildFabricRenewedAgainWidget(
                                       spacing: 4.0,
                                       runSpacing: 3.0,
                                       children: [
-                                        ShortDetailRenewedWidget(
-                                          title: specification.weightBag ??
-                                              Utils.checkNullString(false),
-                                          imageIcon: IC_BAG_RENEWED,
-                                          size: 10.sp,
-                                          iconSize: 12,
+                                        Visibility(
+                                          visible: specification.fpb_cone_type_name != null,
+                                          child: ShortDetailRenewedWidget(
+                                            title: specification.fpb_cone_type_name ??
+                                                Utils.checkNullString(false),
+                                            imageIcon: IC_BAG_RENEWED,
+                                            size: 10.sp,
+                                            iconSize: 12,
+                                          ),
                                         ),
-                                        ShortDetailRenewedWidget(
-                                          title: specification.weightCone ??
-                                              Utils.checkNullString(false),
-                                          imageIcon: IC_CONE_RENEWED,
-                                          size: 10.sp,
-                                          iconSize: 12,
+                                        Visibility(
+                                          visible: specification.unitCount != null,
+                                          child: ShortDetailRenewedWidget(
+                                            title: specification.unitCount ??
+                                                Utils.checkNullString(false),
+                                            imageIcon: IC_CONE_RENEWED,
+                                            size: 10.sp,
+                                            iconSize: 12,
+                                          ),
                                         ),
-                                        ShortDetailRenewedWidget(
-                                          title: specification.deliveryPeriod ??
-                                              Utils.checkNullString(false),
-                                          imageIcon: IC_VAN_RENEWED,
-                                          size: 10.sp,
-                                          iconSize: 12,
+                                        Visibility(
+                                          visible: specification.deliveryPeriod != null,
+                                          child: ShortDetailRenewedWidget(
+                                            title: specification.deliveryPeriod ??
+                                                Utils.checkNullString(false),
+                                            imageIcon: IC_VAN_RENEWED,
+                                            size: 10.sp,
+                                            iconSize: 12,
+                                          ),
                                         ),
                                         Visibility(
                                           visible: specification.locality != local,
@@ -448,11 +457,10 @@ Widget buildFabricRenewedAgainWidget(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Visibility(
-                                visible: specification.isOffering == offering_type,
+                                visible: specification.isOffering == requirement_type,
                                 child: Text.rich(TextSpan(children: [
                                   TextSpan(
-                                    text:
-                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                    text: '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,

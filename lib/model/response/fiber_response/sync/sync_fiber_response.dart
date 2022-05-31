@@ -275,6 +275,7 @@ class FiberBlends {
   String? familyIdfk;
   String? blnNature;
   String? blnName;
+  String? blnAbrv2;
   String? blnAbrv;
   String? minMax;
   String? blnRatioJson;
@@ -289,6 +290,7 @@ class FiberBlends {
       this.familyIdfk,
       this.blnNature,
       this.blnName,
+      this.blnAbrv2,
       this.blnAbrv,
       this.minMax,
       this.blnRatioJson,
@@ -303,6 +305,7 @@ class FiberBlends {
     familyIdfk = json['family_idfk'];
     blnNature = json['bln_nature'];
     blnName = json['bln_name'];
+    blnAbrv2 = json['bln_abrv2'];
     blnAbrv = json['bln_abrv'];
     minMax = json['min_max'];
     blnRatioJson = json['bln_ratio_json'];
@@ -319,6 +322,7 @@ class FiberBlends {
     data['family_idfk'] = this.familyIdfk;
     data['bln_nature'] = this.blnNature;
     data['bln_name'] = this.blnName;
+    data['bln_abrv2'] = this.blnAbrv2;
     data['bln_abrv'] = this.blnAbrv;
     data['min_max'] = this.minMax;
     data['bln_ratio_json'] = this.blnRatioJson;
@@ -332,7 +336,7 @@ class FiberBlends {
   @override
   String toString() {
     // TODO: implement toString
-    return blnAbrv ?? blnName ?? "";
+    return blnAbrv2 ?? blnName ?? "";
   }
 }
 

@@ -68,14 +68,14 @@ class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
       castingCheckPos = 0;
     } else if (widget.listItem is List<Blends>) {
       var blend = widget.listItem!.cast<Blends>()[index];
-      name = blend.bln_abrv ?? blend.blnName;
+      name = blend.bln_abrv2 ?? blend.blnName;
       castingCheckPos = 1;
     }else if (widget.listItem is List<Family>) {
       name = widget.listItem!.cast<Family>()[index].famName;
       castingCheckPos = 2;
     }else if (widget.listItem is List<FabricBlends>) {
       var fabricBlend = widget.listItem!.cast<FabricBlends>()[index];
-      name = fabricBlend.blnAbrv ?? fabricBlend.blnName;
+      name = fabricBlend.blnAbrv2 ?? fabricBlend.blnName;
       castingCheckPos = 3;
     }else if (widget.listItem is List<FabricFamily>) {
       var fabricFamily = widget.listItem!.cast<FabricFamily>()[index];

@@ -72,7 +72,7 @@ class FabricListBodyState extends State<FabricListBody> {
                   },
                   child: buildFabricRenewedAgainWidget(
                     _fabricFilteredSpecification![index],
-                    context,
+                    context,showCounts: false
                   ));
             })
         : const Center(

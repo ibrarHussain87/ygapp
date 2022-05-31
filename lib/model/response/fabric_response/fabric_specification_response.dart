@@ -74,6 +74,7 @@ class FabricSpecification {
   String? fabricFamilyId;
   String? fabricFamily;
   String? formationDisplayText;
+  String? formation_display_name;
   String? fabricBlend;
   String? fabricBlendAbrv;
   String? fabricRtio;
@@ -140,6 +141,7 @@ class FabricSpecification {
         this.fabricFamilyId,
         this.fabricFamily,
         this.formationDisplayText,
+        this.formation_display_name,
         this.fabricBlend,
         this.fabricBlendAbrv,
         this.fabricRtio,
@@ -206,6 +208,7 @@ class FabricSpecification {
     fabricFamilyId = json['fabric_family_id'];
     fabricFamily = json['fabric_family'];
     formationDisplayText = json['formation_display_text'];
+    formation_display_name = json['formation_display_name'];
     fabricBlend = json['fabric_blend'];
     fabricBlendAbrv = json['fabric_blend_abrv'];
     fabricRtio = json['fabric_rtio'];
@@ -284,6 +287,7 @@ class FabricSpecification {
     data['fabric_family_id'] = this.fabricFamilyId;
     data['fabric_family'] = this.fabricFamily;
     data['formation_display_text'] = formationDisplayText;
+    data['formation_display_name'] = formation_display_name;
     data['fabric_blend'] = this.fabricBlend;
     data['fabric_blend_abrv'] = this.fabricBlendAbrv;
     data['fabric_rtio'] = this.fabricRtio;

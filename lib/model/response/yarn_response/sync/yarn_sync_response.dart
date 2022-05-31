@@ -1105,6 +1105,7 @@ class Blends {
   String? blnName;
   String? bln_category_idfk;
   String? bln_nature;
+  String? bln_abrv2;
   String? bln_abrv;
   String? minMax;
   String? has_blend_id_1;
@@ -1126,6 +1127,7 @@ class Blends {
         this.blnName,
         this.bln_category_idfk,
         this.bln_nature,
+        this.bln_abrv2,
         this.bln_abrv,
         this.minMax,
         this.has_blend_id_1,
@@ -1147,6 +1149,7 @@ class Blends {
     blnName = json['bln_name'];
     bln_category_idfk = json['bln_category_idfk'];
     bln_nature = json['bln_nature'];
+    bln_abrv2 = json['bln_abrv2'];
     bln_abrv = json['bln_abrv'];
     minMax = json['min_max'];
     has_blend_id_1 = json['has_blend_id_1'];
@@ -1168,6 +1171,7 @@ class Blends {
     data['bln_name'] = blnName;
     data['bln_category_idfk'] = bln_category_idfk;
     data['bln_nature'] = bln_nature;
+    data['bln_abrv2'] = bln_abrv2;
     data['bln_abrv'] = bln_abrv;
     data['min_max'] = minMax;
     data['has_blend_id_1'] = has_blend_id_1;
@@ -1184,7 +1188,7 @@ class Blends {
   }
   @override
   String toString() {
-    return bln_abrv != null ? bln_abrv.toString():blnName.toString();
+    return bln_abrv2 != null ? bln_abrv2.toString():blnName.toString();
   }
 }
 

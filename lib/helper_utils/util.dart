@@ -224,10 +224,15 @@ class Utils {
     switch (specification.fabricFamilyId) {
       case '101':
         List<String?> list = [
-          specification.fabricApperance,
-          specification.fabricColorTreatmentMethod,
-          specification.fabricDyingTechnique
+          specification.fabricKnittingTypeName,
+          specification.fabricColorTreatmentMethod
         ];
+        if(specification.fabricDyingTechnique != null){
+          list.add(specification.fabricDyingTechnique);
+        }
+        if(specification.color != null){
+          list.add(specification.color);
+        }
         detailsData = Utils.createStringFromList(list);
         break;
       case '102':

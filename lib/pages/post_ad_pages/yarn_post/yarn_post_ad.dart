@@ -211,10 +211,20 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
             BlendModel formationModel = BlendModel(
                 id: int.parse(blend.has_blend_id_2!),
                 relatedBlnId: blend.blnId.toString(),
-                ratio: (100 - int.parse(element.blendRatio!)).toString());
+                ratio: element.blendRatio!.isNotEmpty
+                    ? (100 - int.parse(element.blendRatio!)).toString()
+                    : '');
             formations.add(formationModel.toJson());
-            stringList.removeLast();
-            stringList.add('${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
+            if (element.blendRatio!.isNotEmpty) {
+              stringList.removeLast();
+              if (element.bln_abrv2 != null) {
+                stringList.add(
+                    '${element.bln_abrv2}(${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%)');
+              } else {
+                stringList.add(
+                    '${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
+              }
+            }
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
@@ -223,7 +233,9 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 relatedBlnId: null,
                 ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
-            stringList.add(blend.blendRatio!.isEmpty ? "100%" : '${blend.blendRatio}%');
+            if (blend.blendRatio!.isNotEmpty) {
+              stringList.add('${blend.blendRatio}%');
+            }
           }
         }
       }
@@ -236,7 +248,6 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           percentage: null);
       formations.add(blendModelExtended.toJson());
     }
-
 
     value = Utils.createStringFromList(stringList);
     Logger().e(formations.toString());

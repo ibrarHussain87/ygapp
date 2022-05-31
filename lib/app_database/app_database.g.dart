@@ -202,7 +202,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_categories` (`catId` INTEGER NOT NULL, `catName` TEXT NOT NULL, `catIsActive` TEXT NOT NULL, PRIMARY KEY (`catId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fiber_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnNature` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `blnRatioJson` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fiber_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnNature` TEXT, `blnName` TEXT, `blnAbrv2` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `blnRatioJson` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
         await database.execute(
@@ -234,13 +234,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `yarn_family` (`famId` INTEGER, `famName` TEXT, `iconSelected` TEXT, `iconUnSelected` TEXT, `famType` TEXT, `famDescription` TEXT, `catIsActive` TEXT, PRIMARY KEY (`famId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_category_idfk` TEXT, `bln_nature` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `yarn_blend` (`blnId` INTEGER, `familyIdfk` TEXT, `blnName` TEXT, `bln_category_idfk` TEXT, `bln_nature` TEXT, `bln_abrv2` TEXT, `bln_abrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_settings` (`fabricSettingId` INTEGER, `fabricFamilyIdfk` TEXT, `showCount` TEXT, `countMinMax` TEXT, `showPly` TEXT, `showBlend` TEXT, `showGsm` TEXT, `gsmCountMinMax` TEXT, `showRatio` TEXT, `showKnittingType` TEXT, `showAppearance` TEXT, `showColorTreatmentMethod` TEXT, `showDyingMethod` TEXT, `showColor` TEXT, `showQuality` TEXT, `showGrade` TEXT, `showCertification` TEXT, `showWarpCount` TEXT, `warpCountMinMax` TEXT, `showWarpPly` TEXT, `showNoOfEndsWarp` TEXT, `noOfEndsWarpMinMax` TEXT, `showWeftCount` TEXT, `weftCountMinMax` TEXT, `showWeftPly` TEXT, `showNoOfPickWeft` TEXT, `noOfPickWeftMinMax` TEXT, `showWidth` TEXT, `widthMinMax` TEXT, `showWeave` TEXT, `showLoom` TEXT, `showSalvedge` TEXT, `showTuckinWidth` TEXT, `showTuckinWidthMinMax` TEXT, `showOnce` TEXT, `onceMinMax` TEXT, `showLayyer` TEXT, `showWeavePatternes` TEXT, `showDenimType` TEXT, `fabricSettingIsActive` TEXT, `fabricSettingSortid` TEXT, PRIMARY KEY (`fabricSettingId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_family` (`fabricFamilyId` INTEGER, `fabricFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fabricFamilyType` TEXT, `fabricFamilyDescription` TEXT, `fabricFamilyActive` TEXT, `fabricFamilySortid` TEXT, PRIMARY KEY (`fabricFamilyId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
+            'CREATE TABLE IF NOT EXISTS `fabric_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnName` TEXT, `blnAbrv2` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `has_blend_id_1` TEXT, `has_blend_id_2` TEXT, `has_blend_name_1` TEXT, `has_blend_name_2` TEXT, `is_popular` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, `blnNature` TEXT, `bln_ratio_json` TEXT, `isSelected` INTEGER, `blendRatio` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fabric_denim_types` (`fabricDenimTypeId` INTEGER, `fabricDenimTypeName` TEXT, `fabricFamilyIdfk` TEXT, PRIMARY KEY (`fabricDenimTypeId`))');
         await database.execute(
@@ -940,6 +940,7 @@ class _$FiberBlendsDao extends FiberBlendsDao {
                   'familyIdfk': item.familyIdfk,
                   'blnNature': item.blnNature,
                   'blnName': item.blnName,
+                  'blnAbrv2': item.blnAbrv2,
                   'blnAbrv': item.blnAbrv,
                   'minMax': item.minMax,
                   'blnRatioJson': item.blnRatioJson,
@@ -966,6 +967,7 @@ class _$FiberBlendsDao extends FiberBlendsDao {
             familyIdfk: row['familyIdfk'] as String?,
             blnNature: row['blnNature'] as String?,
             blnName: row['blnName'] as String?,
+            blnAbrv2: row['blnAbrv2'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
             blnRatioJson: row['blnRatioJson'] as String?,
@@ -985,6 +987,7 @@ class _$FiberBlendsDao extends FiberBlendsDao {
             familyIdfk: row['familyIdfk'] as String?,
             blnNature: row['blnNature'] as String?,
             blnName: row['blnName'] as String?,
+            blnAbrv2: row['blnAbrv2'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
             blnRatioJson: row['blnRatioJson'] as String?,
@@ -1005,6 +1008,7 @@ class _$FiberBlendsDao extends FiberBlendsDao {
             familyIdfk: row['familyIdfk'] as String?,
             blnNature: row['blnNature'] as String?,
             blnName: row['blnName'] as String?,
+            blnAbrv2: row['blnAbrv2'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
             blnRatioJson: row['blnRatioJson'] as String?,
@@ -2795,6 +2799,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
                   'blnCategoryIdfk': item.blnCategoryIdfk,
                   'familyIdfk': item.familyIdfk,
                   'blnName': item.blnName,
+                  'blnAbrv2': item.blnAbrv2,
                   'blnAbrv': item.blnAbrv,
                   'minMax': item.minMax,
                   'has_blend_id_1': item.has_blend_id_1,
@@ -2830,6 +2835,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            blnAbrv2: row['blnAbrv2'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
             has_blend_id_1: row['has_blend_id_1'] as String?,
@@ -2858,6 +2864,7 @@ class _$FabricBlendsDao extends FabricBlendsDao {
             blnCategoryIdfk: row['blnCategoryIdfk'] as String?,
             familyIdfk: row['familyIdfk'] as String?,
             blnName: row['blnName'] as String?,
+            blnAbrv2: row['blnAbrv2'] as String?,
             blnAbrv: row['blnAbrv'] as String?,
             minMax: row['minMax'] as String?,
             has_blend_id_1: row['has_blend_id_1'] as String?,
@@ -4064,6 +4071,7 @@ class _$YarnBlendDao extends YarnBlendDao {
                   'blnName': item.blnName,
                   'bln_category_idfk': item.bln_category_idfk,
                   'bln_nature': item.bln_nature,
+                  'bln_abrv2': item.bln_abrv2,
                   'bln_abrv': item.bln_abrv,
                   'minMax': item.minMax,
                   'has_blend_id_1': item.has_blend_id_1,
@@ -4099,6 +4107,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnName: row['blnName'] as String?,
             bln_category_idfk: row['bln_category_idfk'] as String?,
             bln_nature: row['bln_nature'] as String?,
+            bln_abrv2: row['bln_abrv2'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
             has_blend_id_1: row['has_blend_id_1'] as String?,
@@ -4121,7 +4130,7 @@ class _$YarnBlendDao extends YarnBlendDao {
   Future<List<Blends>> findAllYarnBlends(int famId, int catId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM yarn_blend where familyIdfk = ?1 and bln_category_idfk = ?2',
-        mapper: (Map<String, Object?> row) => Blends(blnId: row['blnId'] as int?, familyIdfk: row['familyIdfk'] as String?, blnName: row['blnName'] as String?, bln_category_idfk: row['bln_category_idfk'] as String?, bln_nature: row['bln_nature'] as String?, bln_abrv: row['bln_abrv'] as String?, minMax: row['minMax'] as String?, has_blend_id_1: row['has_blend_id_1'] as String?, has_blend_id_2: row['has_blend_id_2'] as String?, has_blend_name_1: row['has_blend_name_1'] as String?, has_blend_name_2: row['has_blend_name_2'] as String?, is_popular: row['is_popular'] as String?, iconSelected: row['iconSelected'] as String?, iconUnselected: row['iconUnselected'] as String?, blnIsActive: row['blnIsActive'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, blendRatio: row['blendRatio'] as String?, bln_ratio_json: row['bln_ratio_json'] as String?, blnSortid: row['blnSortid'] as String?),
+        mapper: (Map<String, Object?> row) => Blends(blnId: row['blnId'] as int?, familyIdfk: row['familyIdfk'] as String?, blnName: row['blnName'] as String?, bln_category_idfk: row['bln_category_idfk'] as String?, bln_nature: row['bln_nature'] as String?, bln_abrv2: row['bln_abrv2'] as String?, bln_abrv: row['bln_abrv'] as String?, minMax: row['minMax'] as String?, has_blend_id_1: row['has_blend_id_1'] as String?, has_blend_id_2: row['has_blend_id_2'] as String?, has_blend_name_1: row['has_blend_name_1'] as String?, has_blend_name_2: row['has_blend_name_2'] as String?, is_popular: row['is_popular'] as String?, iconSelected: row['iconSelected'] as String?, iconUnselected: row['iconUnselected'] as String?, blnIsActive: row['blnIsActive'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, blendRatio: row['blendRatio'] as String?, bln_ratio_json: row['bln_ratio_json'] as String?, blnSortid: row['blnSortid'] as String?),
         arguments: [famId, catId]);
   }
 
@@ -4134,6 +4143,7 @@ class _$YarnBlendDao extends YarnBlendDao {
             blnName: row['blnName'] as String?,
             bln_category_idfk: row['bln_category_idfk'] as String?,
             bln_nature: row['bln_nature'] as String?,
+            bln_abrv2: row['bln_abrv2'] as String?,
             bln_abrv: row['bln_abrv'] as String?,
             minMax: row['minMax'] as String?,
             has_blend_id_1: row['has_blend_id_1'] as String?,

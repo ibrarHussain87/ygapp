@@ -251,10 +251,17 @@ class _FabricPostPageState extends State<FabricPostPage> {
             BlendModel formationModel = BlendModel(
                 id: int.parse(blend.has_blend_id_2!),
                 relatedBlnId: blend.blnId.toString(),
-                ratio: (100 - int.parse(element.blendRatio!)).toString());
+                ratio: element.blendRatio!.isNotEmpty ?
+                (100 - int.parse(element.blendRatio!)).toString():'');
             formations.add(formationModel.toJson());
-            stringList.removeLast();
-            stringList.add('${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
+            if(element.blendRatio!.isNotEmpty){
+              stringList.removeLast();
+              if(element.blnAbrv2 != null){
+                stringList.add('${element.blnAbrv2}(${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%)');
+              }else{
+                stringList.add('${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
+              }
+            }
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
@@ -263,7 +270,9 @@ class _FabricPostPageState extends State<FabricPostPage> {
                 relatedBlnId: null,
                 ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
-            stringList.add(blend.blendRatio!.isEmpty ? "100%" : '${blend.blendRatio}%');
+            if(blend.blendRatio!.isNotEmpty){
+              stringList.add('${blend.blendRatio}%');
+            }
           }
         }
       }

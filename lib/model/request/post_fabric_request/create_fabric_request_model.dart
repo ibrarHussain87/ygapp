@@ -9,7 +9,7 @@ class FabricCreateRequestModel {
   String? fs_user_idfk;
   String? fs_family_idfk;
   String? fabric_denim_type_idfk;
-  String? fabric_weave_pattern_idfk;
+  String? fabric_weave_pattern;
   String? fs_blend_idfk;
   String? fs_fdt_idfk;
   String? fs_appearance_idfk;
@@ -71,7 +71,7 @@ class FabricCreateRequestModel {
         this.fs_user_idfk,
         this.fs_family_idfk,
         this.fabric_denim_type_idfk,
-        this.fabric_weave_pattern_idfk,
+        this.fabric_weave_pattern,
         this.fs_blend_idfk,
         this.fs_fdt_idfk,
         this.fs_appearance_idfk,
@@ -134,7 +134,7 @@ class FabricCreateRequestModel {
       'fs_formation': fs_formation ?? [],
       'fs_family_idfk': fs_family_idfk ?? "",
       'fabric_denim_type_idfk': fabric_denim_type_idfk ?? "",
-      'fabric_weave_pattern_idfk': fabric_weave_pattern_idfk ?? "",
+      'fabric_weave_pattern': fabric_weave_pattern ?? "",
       'fs_blend_idfk': fs_blend_idfk ?? "",
       'fs_fdt_idfk': fs_fdt_idfk ?? "",
       'fs_appearance_idfk': fs_appearance_idfk ?? "",
