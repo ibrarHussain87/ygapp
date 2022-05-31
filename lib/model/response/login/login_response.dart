@@ -59,7 +59,7 @@ class UpdateProfileResponse {
   bool? status;
   String? message;
   int? responseCode;
-  Data? data;
+  User? data;
 
   UpdateProfileResponse.fromJson(Map<String, dynamic> json){
     code = json['code'];
@@ -67,7 +67,7 @@ class UpdateProfileResponse {
     message = json['message'];
     responseCode = json['response_code'];
     if (json['data'] != null) {
-      data = Data.fromJson(json['data']);
+      data = User.fromJson(json['data']);
     }
   }
 

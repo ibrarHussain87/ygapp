@@ -617,13 +617,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 //            } else
               if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
-                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
               });
-              SharedPreferenceUtil.addStringToSF(
-                  USER_ID_KEY, value.data!.user!.id.toString());
-              SharedPreferenceUtil.addStringToSF(
-                  USER_TOKEN_KEY, value.data!.token!);
-              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
               Fluttertoast.showToast(
                   msg: value.message ?? "",
@@ -634,7 +634,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/
               var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!.user!);
+//              userNotifier.updateUser(value.data!.user!);
+              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:country_list_pick/country_list_pick.dart';
-import 'package:country_list_pick/country_selection_theme.dart';
 
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,14 +8,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
@@ -102,14 +98,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           _updateProfileRequestModel.countryId=snapshot.data?.countryId;
 //            _updateBusinessRequestModel.countryId=snapshot.data?.businessInfo?.countryId;
 
-            Logger().e(jsonDecode(snapshot.data!.businessInfo!));
+
 
             if(snapshot.data?.businessInfo!=null &&  _updateBusinessRequestModel.countryId==null)
               {
 //                companyCountryName=countriesList.where((element) => element.conId.toString()==BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).countryId).first.conName ?? "";
-                Logger().e(_updateBusinessRequestModel.countryId);
                 _updateBusinessRequestModel.countryId=BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).countryId;
-                Logger().e(_updateBusinessRequestModel.countryId);
+
               }
 
             return ChangeNotifierProvider(
@@ -746,7 +741,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                 decoration: dropDownProfile(
                     'Select', "Company State/District"),
-//                validator: (value) => value == null ? 'Please select sate/district' : null,
+                validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
             ],
           ),
@@ -863,7 +858,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSaveBusinessInfo()) {
-                        _UpdateBusinessCall(snapshot.data, context1);
+                        _updateBusinessCall(snapshot.data, context1);
                       }
                     });
               })),
@@ -1047,63 +1042,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                 decoration: dropDownProfile(
                     'Select', "State/District"),
-//                validator: (value) => value == null ? 'Please select sate/district' : null,
+                validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
-//          FutureBuilder<List<CityState>?>(
-//                  future: AppDbInstance().getDbInstance()
-//                      .then((value) => value.cityStateDao.findAllCityState()),
-//                  builder: (context, snapshot) {
-//                    if (snapshot.hasData && snapshot.data != null) {
-//                      return DropdownButtonFormField<String>(
-//
-//                        decoration: dropDownProfile(
-//                            'Select', "State/District") ,
-//                        isDense: true,
-//                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-//                        isExpanded: true,
-//                        iconSize: 20,
-//                        items:snapshot.data?.map((location) {
-//                          return DropdownMenuItem<String>(
-//                            child: Text(location.name ?? "Empty"),
-//                            value: location.countryId.toString(),
-//
-//                          );
-//                        }).toList(),
-//
-//                        onChanged: (newValue) {
-//                          setState(() {
-//                            _updateProfileRequestModel.cityStateId = newValue!;
-//                          });
-//                        },
-//
-//
-//                        validator: (value) => value == null ? '*' : null,
-//
-//                      );
-//                    }
-//                    else {
-//                      return DropdownButtonFormField<String>(
-//
-//                        decoration: dropDownProfile(
-//                            'Select', "State/District") ,
-//                        isDense: true,
-//                        hint:Text("Select",style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-//                        isExpanded: true,
-//                        iconSize: 20,
-//                        items: const [
-//
-//                        ],
-//
-//                        onChanged: (newValue) {
-//
-//                        },
-//
-//
-//                        validator: (value) => value == null ? 'Please select country name' : null,
-//
-//                      );
-//                    }
-//                  }),
 
 
             ],
@@ -1147,49 +1087,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
 
-//        Padding(
-//          padding:
-//          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: [
-//
-//              SizedBox(
-//                height: 40.w,
-//                child: DropdownButtonFormField<String>(
-//
-//                  decoration: dropDownProfile(
-//                      'Select', "City") ,
-////                    value: priceTerm,
-//                  isDense: true,
-//                  hint:Text("Select Cty",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-//                  isExpanded: true,
-//                  iconSize: 21,
-//                  items:citiesList
-//                      .toList()
-//                      .map((value) =>
-//                      DropdownMenuItem(
-//                        child: Text(
-//                            value ,
-//                            textAlign:
-//                            TextAlign
-//                                .center),
-//                        value: value,
-//                      ))
-//                      .toList(),
-//                  onChanged: (newValue) {
-//                   _updateProfileRequestModel.city=newValue;
-//                  },
-//
-//
-//                  validator: (value) => value == null ? '*' : null,
-//
-//                ),
-//              ),
-//
-//            ],
-//          ),
-//        ),
+
 
         Padding(
           padding:
@@ -1204,9 +1102,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                  onSaved: (input) => _updateProfileRequestModel.postalCode = input!,
                   initialValue: snapshot.data!.postalCode ?? '',
                   validator: (input) {
-                if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter zip code";
+                if (input == null || input.isEmpty) {
+                      return "Please enter zip code";
                                             }
                     return null;
                   },
@@ -1317,7 +1214,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     onPressed: () {
                       if (validateAndSave()) {
                         FocusScope.of(context).requestFocus(FocusNode());
-                        _UpdateProfileCall(snapshot.data, context1);
+                        _updateProfileCall(snapshot.data, context1);
                       }
                     });
               })),
@@ -1361,7 +1258,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return false;
   }
 
-  void _UpdateProfileCall(User? user, BuildContext context1) {
+  void _updateProfileCall(User? user, BuildContext context1) {
     if (user != null) {
       check().then((value) {
         if (value) {
@@ -1374,7 +1271,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 //          _updateProfileRequestModel.name = user.name.toString();
           Logger().e(_updateProfileRequestModel.toJson());
           ApiService.updateProfile(_updateProfileRequestModel).then((value) {
-            Logger().e(value.toJson());
+//            Logger().e(value.toJson());
             ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {
@@ -1384,29 +1281,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
 //            } else
               if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
-                await db.userDao.insertUser(value.data!.user!);
+//                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
               });
-              SharedPreferenceUtil.addStringToSF(
-                  USER_ID_KEY, value.data!.user!.id.toString());
-              SharedPreferenceUtil.addStringToSF(
-                  USER_TOKEN_KEY, value.data!.token!);
-              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.user!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
               Fluttertoast.showToast(
                   msg: value.message ?? "",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1);
-              /*Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                      (Route<dynamic> route) => false);*/
               var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!.user!);
+              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));
             }
           }).onError((error, stackTrace) {
+
             ProgressDialogUtil.hideDialog();
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(error.toString())));
@@ -1420,7 +1316,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
-  void _UpdateBusinessCall(User? user, BuildContext context1) {
+  void _updateBusinessCall(User? user, BuildContext context1) {
     if (user != null) {
       check().then((value) {
         if (value) {
@@ -1443,14 +1339,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 //            } else
               if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
-                await db.userDao.insertUser(value.data!.user!);
+//                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
               });
 
-              SharedPreferenceUtil.addStringToSF(
-                  USER_ID_KEY, value.data!.user!.id.toString());
-              SharedPreferenceUtil.addStringToSF(
-                  USER_TOKEN_KEY, value.data!.token!);
-              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.user!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
               Fluttertoast.showToast(
                   msg: value.message ?? "",
@@ -1461,7 +1358,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/
               var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!.user!);
+//              userNotifier.updateUser(value.data!.user!);
+              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));
