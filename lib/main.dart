@@ -121,6 +121,8 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late Timer _timer;
   late AnimationController _controller;
   late Animation<double> _animation;
+  final _syncProvider = locator<PreLoginSyncProvider>();
+
 
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {
@@ -176,36 +178,31 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
     _controller.forward();
-    _preLoginSynData().then((value) {
+    _preLoginSynData();
+  }
 
-      if(value){
-        Timer(const Duration(seconds: 5), () async {
-          bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
-          bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
-
-          check().then((intenet) {
-            if (intenet) {
-              // Internet Present Case
-              if (userLogin) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MainPage()));
-              } else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const SignInPage()));
-//                MaterialPageRoute(builder: (context) => const LoginPage()));
-              }
-            } else {
-              showInternetDialog(
-                  no_internet_available_msg, check_internet_msg, context, () {
-                Navigator.pop(context);
-              });
-            }
+  Future<void> initTimer() async {
+    Timer(const Duration(seconds: 5), () async {
+      bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+      check().then((internet) {
+        if (internet) {
+          // Internet Present Case
+          if (userLogin) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const MainPage()));
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SignInPage()));
+    //                MaterialPageRoute(builder: (context) => const LoginPage()));
+          }
+        } else {
+          showInternetDialog(
+              no_internet_available_msg, check_internet_msg, context, () {
+            Navigator.pop(context);
           });
-        });
-      }
-
+        }
+      });
     });
-
   }
 
   _changeData(String msg) {
@@ -313,7 +310,27 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     );
   }
 
-  Future<bool> _preLoginSynData() async {
+   _preLoginSynData() async {
+    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
+    if(!dataSynced){
+      check().then((intenet)async {
+        if (intenet) {
+          // Internet Present Case
+         await _syncProvider.syncAppData(context);
+         await initTimer();
+        } else {
+          showInternetDialog(
+              no_internet_available_msg, check_internet_msg, context, () {
+            Navigator.pop(context);
+          });
+        }
+      });
+    }else{
+      await initTimer();
+    }
+  }
+
+  /*Future<bool> _preLoginSynData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
     if (!dataSynced) {
       await Future.wait([
@@ -347,5 +364,5 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     }
 
     return true;
-  }
+  }*/
 }

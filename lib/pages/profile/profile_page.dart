@@ -295,7 +295,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             await SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
                             await SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
                             await SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
-                            await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,false);
+                           // await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,false);
                             var dbInstance = await AppDbInstance().getDbInstance();
                             await
                             dbInstance.userDao.deleteUserData();

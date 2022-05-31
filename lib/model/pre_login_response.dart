@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
@@ -42,6 +43,7 @@ class Data {
   List<Countries>? countries;
   List<States>? states;
   List<Cities>? cities;
+  List<Companies>? companies;
   List<Designations>? designations;
   List<Ports>? ports;
   List<PaymentType>? paymentTypes;
@@ -54,6 +56,7 @@ class Data {
         this.countries,
         this.states,
         this.cities,
+        this.companies,
         this.designations,
         this.ports,
         this.paymentTypes,
@@ -89,6 +92,12 @@ class Data {
       cities = <Cities>[];
       json['cities'].forEach((v) {
         cities!.add(Cities.fromJson(v));
+      });
+    }
+    if (json['companies'] != null) {
+      companies = <Companies>[];
+      json['companies'].forEach((v) {
+        companies!.add(Companies.fromJson(v));
       });
     }
     if (json['designations'] != null) {
@@ -139,6 +148,9 @@ class Data {
     }
     if (this.cities != null) {
       data['cities'] = this.cities!.map((v) => v.toJson()).toList();
+    }
+    if (this.companies != null) {
+      data['companies'] = this.companies!.map((v) => v.toJson()).toList();
     }
     if (this.designations != null) {
       data['designations'] = this.designations!.map((v) => v.toJson()).toList();

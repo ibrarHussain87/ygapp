@@ -20,13 +20,13 @@ class PreLoginSyncProvider extends ChangeNotifier {
   syncAppData(context) async {
       DialogBuilder(context,title: "Syncing Please wait ...").showLoadingDialog();
       loading = true;
-      isDataSynced = await _synData();
+      isDataSynced = await synData();
       loading = false;
       DialogBuilder(context).hideDialog();
       notifyListeners();
   }
 
-  Future<bool> _synData() async {
+  Future<bool> synData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
     Logger().e(dataSynced.toString());
     if (!dataSynced) {
@@ -42,6 +42,7 @@ class PreLoginSyncProvider extends ChangeNotifier {
                   value.countriesDao.insertAllCountry(syncResponse.data!.countries!),
                   value.statesDao.insertAllStates(syncResponse.data!.states!),
                   value.citiesDao.insertAllCities(syncResponse.data!.cities!),
+                  value.companiesDao.insertAllCompanies(syncResponse.data!.companies!),
                   value.designationsDao.insertAllDesignations(syncResponse.data!.designations!),
                   value.portsDao.insertAllPorts(syncResponse.data!.ports!),
                   value.paymentTypeDao.insertAllPaymentType(syncResponse.data!.paymentTypes!),

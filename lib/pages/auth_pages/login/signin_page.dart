@@ -62,10 +62,10 @@ class _SignInPageState extends State<SignInPage> {
     });
 
     super.initState();
-    _syncProvider.addListener(() {
+    /*_syncProvider.addListener(() {
       updateUI();
-    });
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    });*/
+    /*WidgetsBinding.instance?.addPostFrameCallback((_) async {
       bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
       if(!dataSynced){
         check().then((intenet) {
@@ -80,7 +80,7 @@ class _SignInPageState extends State<SignInPage> {
           }
         });
       }
-    });
+    });*/
   }
 
   updateUI() {
