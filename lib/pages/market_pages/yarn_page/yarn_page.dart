@@ -89,6 +89,8 @@ class YarnPageState extends State<YarnPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
+              _postYarnProvider.resetData();
+              _postYarnProvider.selectedYarnFamily = null;
               openYarnPostPage(context, widget.locality, yarn, value);
             });
           },

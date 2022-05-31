@@ -174,7 +174,6 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
         const SizedBox(
           height: 10,
         ),
-//<<<<<<< HEAD
         Expanded(
           child: ListView(
             children: [

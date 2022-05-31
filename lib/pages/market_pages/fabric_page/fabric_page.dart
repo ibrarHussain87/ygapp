@@ -83,7 +83,8 @@ class FabricPageState extends State<FabricPage> {
                   openFabricPostPage(context, widget.locality,"Fabric", value);
                 }
               }, _postFabricProvider.fabricFamilyList, -1, "Fabric");*/
-
+              _postFabricProvider.resetData();
+              _postFabricProvider.selectedFabricFamily = null;
               openFabricPostPage(context, widget.locality,value, "Fabric");
             });
           },

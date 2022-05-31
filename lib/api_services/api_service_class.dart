@@ -422,12 +422,12 @@ class ApiService {
       // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
 
-      logger.e(json.encode(getRequestModel.toJson()));
+      logger.e(getRequestModel.toJson().toString());
 
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
           data: json.encode(getRequestModel.toJson()));
-
+      logger.e(response.data.toString());
       return FabricSpecificationResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {

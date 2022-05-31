@@ -1883,11 +1883,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
           fabricSpec.fabricLayyerName ?? Utils.checkNullString(false)),
       GridTileModel(
           'Loom', fabricSpec.fabricLoomName ?? Utils.checkNullString(false)),
-      GridTileModel('Width', fabricSpec.width ?? Utils.checkNullString(false)),
+      GridTileModel('Width', fabricSpec.width == null ? Utils.checkNullString(false):'${fabricSpec.width} inch'),
       GridTileModel('Salvedge',
           fabricSpec.fabricSalvedgeName ?? Utils.checkNullString(false)),
       GridTileModel('Tucking Width',
-          fabricSpec.tuckinWidth ?? Utils.checkNullString(false)),
+          fabricSpec.tuckinWidth == null ? Utils.checkNullString(false):'${fabricSpec.tuckinWidth} mm'),
       GridTileModel(
           'Weave', fabricSpec.fabricWeaveName ?? Utils.checkNullString(false)),
       GridTileModel('Weave Pattern',
