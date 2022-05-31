@@ -30,6 +30,7 @@ import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
@@ -90,6 +91,8 @@ class PackagingDetailsState extends State<PackagingDetails>
   final _fabricPostProvider = locator<PostFabricProvider>();
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
+
+  String? selectedCountryName;
 
   // List<FPriceTerms> _getPriceTerms() {
   //   if (widget.businessArea == yarn) {
@@ -488,6 +491,9 @@ class PackagingDetailsState extends State<PackagingDetails>
                             ),
 
                             //Country,port
+
+
+
                             Visibility(
                               visible: widget.locality == international
                                   ? true
@@ -496,56 +502,29 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: Padding(
+                                    child:Padding(
                                       padding: EdgeInsets.only(top: 8.w),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
-//                                          Padding(
-//                                              padding:
-//                                                  EdgeInsets.only(left: 8.w),
-//                                              child: TitleSmallTextWidget(
-//                                                  title: country)),
                                           SizedBox(
                                             height: 12.w,
                                           ),
-                                          SizedBox(
-                                            height: 40.w,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.grey.shade300,
-                                                    width:
-                                                        1, //                   <--- border width here
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              5.w))),
-                                              child: DropdownButtonFormField(
-                                                hint: const Text(
-                                                    'Select Country'),
-                                                items: _countriesList
-                                                    .map((value) =>
-                                                        DropdownMenuItem(
-                                                          child: Text(
-                                                              value.conName ??
-                                                                  Utils.checkNullString(
-                                                                      false),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                          value: value,
-                                                        ))
-                                                    .toList(),
-                                                isExpanded: true,
-                                                onChanged: (Countries? value) {
-                                                  FocusScope.of(context)
+                                          GestureDetector(
+                                            onTap: (){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries value)=>{
+                                                    setState(() {
+                                                     FocusScope.of(context)
                                                       .requestFocus(
                                                           FocusNode());
                                                   selectedCountryId =
-                                                      value!.conId;
+                                                      value.conId;
+                                                  selectedCountryName =
+                                                      value.conName;
 
                                                   if (widget.businessArea ==
                                                       yarn) {
@@ -557,67 +536,214 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                             .ys_origin_idfk =
                                                         value.conId.toString();
                                                   }
-                                                },
+                                                    }
+                                                    )
 
-                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                                decoration: InputDecoration(
-                                                  label: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        country,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black87,
-                                                            fontSize: 14.sp,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            /*fontFamily: 'Metropolis',*/
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                      Text("*",
+
+                                                  },
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: SizedBox(
+                                              height: 40.w,
+                                              child:Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey.shade300,
+                                                      width:
+                                                      1, //                   <--- border width here
+                                                    ),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(5.w))),
+                                                child: InputDecorator(
+                                                  decoration: InputDecoration(
+                                                    label: Row(
+                                                      mainAxisSize:
+                                                      MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          'Country',
                                                           style: TextStyle(
-                                                              color: Colors.red,
-                                                              fontSize: 16.sp,
+                                                              color: Colors.black87,
+                                                              fontSize: 14.sp,
                                                               /*fontFamily: 'Metropolis',*/
                                                               backgroundColor:
-                                                                  Colors.white,
+                                                              Colors.white,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
+                                                              FontWeight.w500),
+                                                        ),
+                                                        Text("*",
+                                                            style: TextStyle(
+                                                                color: Colors.red,
+                                                                fontSize: 16.sp,
+                                                                /*fontFamily: 'Metropolis',*/
+                                                                backgroundColor:
+                                                                Colors.white,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500)),
+                                                      ],
+                                                    ),
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 10.w,
+                                                        right: 6.w,
+                                                        top: 0,
+                                                        bottom: 0),
+                                                    suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
+                                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                                    hintText:'Select Country',
+                                                    border: const OutlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide.none),
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 11.sp,
+                                                        color: textColorGrey),
+                                                  ),
+
+                                                  child: Row(
+                                                    children: [
+
+                                                      Expanded(
+                                                          flex:8,
+                                                          child: Text(
+                                                             selectedCountryName ?? "Select Country",textAlign: TextAlign.start,style:TextStyle(
+                                                              fontSize: 11.sp,
+                                                              color: textColorGrey))),
+
                                                     ],
                                                   ),
-                                                  floatingLabelBehavior:
-                                                      FloatingLabelBehavior
-                                                          .always,
-//                                                      hintText: hintLabel,
-//                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 16.w,
-                                                          right: 6.w,
-                                                          top: 0,
-                                                          bottom: 0),
-                                                  border:
-                                                      const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide.none),
                                                 ),
-                                                style: TextStyle(
-                                                    fontSize: 11.sp,
-                                                    color: textColorGrey),
                                               ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
+//                                    Padding(
+//                                      padding: EdgeInsets.only(top: 8.w),
+//                                      child: Column(
+//                                        crossAxisAlignment:
+//                                            CrossAxisAlignment.start,
+//                                        children: [
+////                                          Padding(
+////                                              padding:
+////                                                  EdgeInsets.only(left: 8.w),
+////                                              child: TitleSmallTextWidget(
+////                                                  title: country)),
+//                                          SizedBox(
+//                                            height: 12.w,
+//                                          ),
+//                                          SizedBox(
+//                                            height: 40.w,
+//                                            child: Container(
+//                                              decoration: BoxDecoration(
+//                                                  border: Border.all(
+//                                                    color: Colors.grey.shade300,
+//                                                    width:
+//                                                        1, //                   <--- border width here
+//                                                  ),
+//                                                  borderRadius:
+//                                                      BorderRadius.all(
+//                                                          Radius.circular(
+//                                                              5.w))),
+//                                              child: DropdownButtonFormField(
+//                                                hint: const Text(
+//                                                    'Select Country'),
+//                                                items: _countriesList
+//                                                    .map((value) =>
+//                                                        DropdownMenuItem(
+//                                                          child: Text(
+//                                                              value.conName ??
+//                                                                  Utils.checkNullString(
+//                                                                      false),
+//                                                              textAlign:
+//                                                                  TextAlign
+//                                                                      .center),
+//                                                          value: value,
+//                                                        ))
+//                                                    .toList(),
+//                                                isExpanded: true,
+//                                                onChanged: (Countries? value) {
+//                                                  FocusScope.of(context)
+//                                                      .requestFocus(
+//                                                          FocusNode());
+//                                                  selectedCountryId =
+//                                                      value!.conId;
+//
+//                                                  if (widget.businessArea ==
+//                                                      yarn) {
+//                                                    _createRequestModel!
+//                                                            .ys_origin_idfk =
+//                                                        value.conId.toString();
+//                                                  } else {
+//                                                    _createRequestModel!
+//                                                            .ys_origin_idfk =
+//                                                        value.conId.toString();
+//                                                  }
+//                                                },
+//
+//                                                // value: widget.syncFiberResponse.data.fiber.brands.first,
+//                                                decoration: InputDecoration(
+//                                                  label: Row(
+//                                                    mainAxisSize:
+//                                                        MainAxisSize.min,
+//                                                    mainAxisAlignment:
+//                                                        MainAxisAlignment.start,
+//                                                    children: [
+//                                                      Text(
+//                                                        country,
+//                                                        style: TextStyle(
+//                                                            color:
+//                                                                Colors.black87,
+//                                                            fontSize: 14.sp,
+//                                                            backgroundColor:
+//                                                                Colors.white,
+//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            fontWeight:
+//                                                                FontWeight
+//                                                                    .w500),
+//                                                      ),
+//                                                      Text("*",
+//                                                          style: TextStyle(
+//                                                              color: Colors.red,
+//                                                              fontSize: 16.sp,
+//                                                              /*fontFamily: 'Metropolis',*/
+//                                                              backgroundColor:
+//                                                                  Colors.white,
+//                                                              fontWeight:
+//                                                                  FontWeight
+//                                                                      .w500)),
+//                                                    ],
+//                                                  ),
+//                                                  floatingLabelBehavior:
+//                                                      FloatingLabelBehavior
+//                                                          .always,
+////                                                      hintText: hintLabel,
+////                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+//
+//                                                  contentPadding:
+//                                                      EdgeInsets.only(
+//                                                          left: 16.w,
+//                                                          right: 6.w,
+//                                                          top: 0,
+//                                                          bottom: 0),
+//                                                  border:
+//                                                      const OutlineInputBorder(
+//                                                          borderSide:
+//                                                              BorderSide.none),
+//                                                ),
+//                                                style: TextStyle(
+//                                                    fontSize: 11.sp,
+//                                                    color: textColorGrey),
+//                                              ),
+//                                            ),
+//                                          ),
+//                                        ],
+//                                      ),
+//                                    ),
                                   ),
                                   SizedBox(width: 16.w),
                                   Expanded(

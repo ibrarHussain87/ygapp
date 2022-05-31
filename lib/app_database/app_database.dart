@@ -42,6 +42,7 @@ import 'package:yg_app/app_database/dao/yarn_dao/yarn_settings_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_types_dao.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/pre_login_response.dart';
+import 'package:yg_app/helper_utils/type_converter.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
@@ -91,8 +92,7 @@ part 'app_database.g.dart'; // the generated code will be there
 ///flutter clean
 ///flutter pub get
 ///flutter packages pub run build_runner build --delete-conflicting-outputs
-
-
+///
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,

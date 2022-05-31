@@ -88,7 +88,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNonDecimal(
                                           errorText: 'Weft Count',
-                                          value: fabricCreateRequestModel!.fs_weft_count,
+                                          value: fabricCreateRequestModel.fs_weft_count,
                                           label:'Weft Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: fabricSetting.weftCountMinMax??'n/a',

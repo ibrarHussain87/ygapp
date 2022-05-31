@@ -1,5 +1,5 @@
-import 'package:country_list_pick/country_list_pick.dart';
-import 'package:country_list_pick/country_selection_theme.dart';
+import 'dart:convert';
+
 
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,23 +8,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/profile/profile_segment_component.dart';
 import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
-import '../../../elements/title_text_widget.dart';
+import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
+import '../../../model/request/update_profile/update_business_request.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../auth_pages/signup/country_search_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -40,17 +40,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
    GlobalKey<FormState> bussinessFormKey = GlobalKey<FormState>();
 
   late UpdateProfileRequestModel _updateProfileRequestModel;
+  late UpdateBusinessRequestModel _updateBusinessRequestModel;
   String userName = "";
-  String countryName = "";
-  String companyCountryName = "";
+  String? countryName;
+  String? companyCountryName ;
+  String? countryId ;
   String stateName = "";
   String companyStateName = "";
   int stateId = 0;
   int companyStateId = 0;
   int selectedValue = 1;
   List<String> roleList = ["Developer","Engineer","Manager","Director","CEO"];
+  List<String> citiesList = ["Lahore","Islamabad","Peshawar","Quetta","Karachi"];
   List<TagModel> _tags=[];
-
+  List<Countries> countriesList = [];
+  List<CityState> cityStateList = [];
   var brandController=TextEditingController();
 
   @override
@@ -63,6 +67,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
           TagModel(id: "4", title: 'Gul Ahmed'),
         ]);
     _updateProfileRequestModel = UpdateProfileRequestModel();
+    _updateBusinessRequestModel = UpdateBusinessRequestModel();
+    AppDbInstance().getDbInstance().then((value) => {
+      value.countriesDao.findAllCountries().then((value) {
+        setState(() {
+          countriesList = value;
+        });
+      }),
+    value.cityStateDao.findAllCityState().then((value) {
+        setState(() {
+          cityStateList = value;
+        });
+      })
+    });
     super.initState();
   }
 
@@ -77,6 +94,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .then((value) => value.userDao.getUser()),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
+            countryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
+          _updateProfileRequestModel.countryId=snapshot.data?.countryId;
+//            _updateBusinessRequestModel.countryId=snapshot.data?.businessInfo?.countryId;
+
+
+
+            if(snapshot.data?.businessInfo!=null &&  _updateBusinessRequestModel.countryId==null)
+              {
+//                companyCountryName=countriesList.where((element) => element.conId.toString()==BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).countryId).first.conName ?? "";
+                _updateBusinessRequestModel.countryId=BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).countryId;
+
+              }
+
             return ChangeNotifierProvider(
               create: (context) => UserNotifier(snapshot.data!),
               lazy: false,
@@ -418,18 +448,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
               TextFormField(
                 // For changing initial value
-                  key: Key(userNotifier.getUser().ntn_number.toString()),
+//                  key: Key(userNotifier.getUser().businessInfo.ntn_number.toString()),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 
-                  initialValue: userNotifier.getUser().ntn_number ?? '',
+                  initialValue:  BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).ntn_number ?? '',
                   onSaved: (input) =>
-                  _updateProfileRequestModel.ntn_number = input! /*'44'*/,
+                  _updateBusinessRequestModel.ntn_number = input! /*'44'*/,
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter";
-                                            }*/
+                 if (input == null || input.isEmpty) {
+                    return "Please enter ntn number";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -447,9 +476,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: snapshot.data!.company ?? '',
+//                  initialValue: snapshot.data!.businessInfo?.name ?? '',
+                  initialValue: BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).name ?? '',
                   onSaved: (input) =>
-                  _updateProfileRequestModel.company = input!,
+                  _updateBusinessRequestModel.name = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter company name";
@@ -498,14 +528,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+//                  initialValue:snapshot.data?.businessInfo?.trade_mark,
+                  initialValue:BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).trade_mark,
+                  onSaved: (input) =>
+                                          _updateBusinessRequestModel.trade_mark = input!,
                   validator: (input) {
-                    /*if (input == null ||
+                if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter trade mark";
-                                            }*/
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -523,14 +554,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+//                  initialValue:snapshot.data?.businessInfo?.employmentRole,
+                  initialValue:BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).employmentRole,
+                  onSaved: (input) => _updateBusinessRequestModel.employment_role = input!,
                   validator: (input) {
-                    /*if (input == null ||
+                  if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter employment role";
-                                            }*/
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -563,11 +594,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 }).toList(),
 
                 onChanged: (newValue) {
-
+                _updateBusinessRequestModel.designation_idfk=newValue;
                 },
 
 
-                validator: (value) => value == null ? '*' : null,
+                validator: (value) => value == null ? 'PLease select designation' : null,
 
               ),
 
@@ -584,14 +615,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
-                  initialValue: '',
+                 onSaved: (input) => _updateBusinessRequestModel.address = input!,
+//                  initialValue:snapshot.data?.businessInfo?.address,
+                  initialValue:BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).address,
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter address";
-                                            }*/
+                    if (input == null || input.isEmpty) {
+                       return "Please enter address";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -599,259 +629,162 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ],
           ),
         ),
+
         Padding(
           padding:
           EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//              CountryListPick(
-//                  appBar: AppBar(
-//                    leading: BackButton(
-//                        color: Colors.black
-//                    ),
-//                    titleSpacing: 0,
-//                    backgroundColor: Colors.white,
-//                    title: const Text('Choose a Country',style:TextStyle(color: Colors.black),),
-//                  ),
-//
-//                  // if you need custome picker use this
-////                   pickerBuilder: (context, CountryCode? countryCode){
-////                     return Row(
-////                       children: [
-////                         Image.asset(
-////                           countryCode?.flagUri ?? "",
-////                           package: 'country_list_pick',
-////                         ),
-////                         Text(countryCode?.code ?? ""),
-////                         Text(countryCode?.dialCode ?? ""),
-////                       ],
-////                     );
-////                   },
-//
-//                  // To disable option set to false
-//                  theme: CountryTheme(
-//                    isShowFlag: true,
-//                    isShowTitle: true,
-//                    isShowCode: true,
-//                    isDownIcon: true,
-//                    showEnglishName: true,
-//                  ),
-//                  // Set default value
-//                  initialSelection: '+92',
-//                  // or
-//                  // initialSelection: 'US'
-//                  onChanged: (CountryCode? code) {
-//                    print(code?.name);
-//                    print(code?.code);
-//                    print(code?.dialCode);
-//                    print(code?.flagUri);
-//                  },
-//                  // Whether to allow the widget to set a custom UI overlay
-//                  useUiOverlay: true,
-//                  // Whether the country list should be wrapped in a SafeArea
-//                  useSafeArea: false
-//              ),
 
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries value)=>{
+                        setState(() {
 
-              FutureBuilder<List<Countries>?>(
-                  future: AppDbInstance().getDbInstance()
-                      .then((value) => value.countriesDao.findAllCountries()),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return
-//          DropdownButtonFormField<String>(
-//
-//          decoration: dropDownProfile(
-//              'Select', "Country") ,
-//          isDense: true,
-//          hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-//          isExpanded: true,
-//          iconSize: 20,
-//          items:snapshot.data?.map((location) {
-//            return DropdownMenuItem<String>(
-//              child: Text(location.conName ?? "Empty"),
-//              value: location.conName ?? "Empty",
-//
-//            );
-//          }).toList(),
-//
-//          onChanged: (newValue) {
-//            setState(() {
-//              countryName = newValue!;
-//            });
-//          },
-//
-//
-//          validator: (value) => value == null ? '*' : null,
-//
-//        );
-                        SearchChoices.single(
-                          displayClearIcon: false,
-                          hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                          isExpanded: true,
-                          fieldPresentationFn: (Widget fieldWidget, {bool? selectionIsValid}) {
-                            return Container(
-                              child: InputDecorator(
-                                decoration:dropDownProfile(
-                                    'Select', "Company Country") ,
-                                child: fieldWidget,
-                              ),
-                            );
-                          },
-                          iconSize: 20,
-                          items:  snapshot.data?.map((value) =>
-                              DropdownMenuItem(
-                                child: Text(
-                                  value.conName ??
-                                      Utils.checkNullString(false),
-                                  textAlign: TextAlign
-                                      .center,style: TextStyle(fontSize: 10.sp,   overflow: TextOverflow.ellipsis,),),
-                                value: value,
-                              ))
-                              .toList(),
-                          isCaseSensitiveSearch: false,
-                          onChanged: (value) {
-                            setState(() {
-                              companyCountryName = value;
-                            });  },
-                          style: TextStyle(
-                            fontSize: 10.sp,
-                            color: textColorGrey,),
-                        );
-                    }
-                    else {
-                      return DropdownButtonFormField<String>(
-
-                        decoration: dropDownProfile(
-                            'Select', "Company Country") ,
-                        isDense: true,
-                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                        isExpanded: true,
-                        iconSize: 20,
-                        items: const [
-
+                          FocusScope.of(context)
+                              .requestFocus(
+                              FocusNode());
+                          _updateBusinessRequestModel.countryId = value.conId.toString();
+                          countryId = value.conId.toString();
+                          companyCountryName = value.conName.toString();
+                        }
+                        )
+                      },
+                      ),
+                    ),
+                  );
+                },
+                child: InputDecorator(
+                  decoration:InputDecoration(
+                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                      label: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Text("Company Country"),
+                          Text("*", style: TextStyle(color: Colors.red)),
                         ],
+                      ),
+                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
+                      floatingLabelBehavior:FloatingLabelBehavior.always ,
+                      hintText: "Select",
+                      hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                      border: OutlineInputBorder(
+                          borderRadius:const BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          borderSide: BorderSide(color: newColorGrey)
+                      )
+                  ),
 
-                        onChanged: (newValue) {
+                  child: Row(
+                    children: [
 
-                        },
+                      Expanded(
+                          flex:8,
+                          child: Text(
+                            companyCountryName ?? "Select Country",textAlign: TextAlign.start,)),
 
-
-                        validator: (value) => value == null ? 'Please select country name' : null,
-
-                      );
-                    }
-                  }),
+                    ],
+                  ),
+                ),
+              ),
 
 
             ],
           ),
         ),
+
+
+
+
         Padding(
           padding:
           EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
-              FutureBuilder<List<CityState>?>(
-                  future: AppDbInstance().getDbInstance()
-                      .then((value) => value.cityStateDao.findAllCityState()),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return DropdownButtonFormField<String>(
-
-                        decoration: dropDownProfile(
-                            'Select', "Company State/District") ,
-                        isDense: true,
-                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                        isExpanded: true,
-                        iconSize: 20,
-                        items:snapshot.data?.map((location) {
-                          return DropdownMenuItem<String>(
-                            child: Text(location.name ?? "Empty"),
-                            value: location.countryId ?? "Empty",
-
-                          );
-                        }).toList(),
-
-                        onChanged: (newValue) {
-                          setState(() {
-                            countryName = newValue!;
-                          });
-                        },
-
-
-                        validator: (value) => value == null ? '*' : null,
-
-                      );
-                    }
-                    else {
-                      return DropdownButtonFormField<String>(
-
-                        decoration: dropDownProfile(
-                            'Select', "State/District") ,
-                        isDense: true,
-                        hint:Text("Select",style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                        isExpanded: true,
-                        iconSize: 20,
-                        items: const [
-
-                        ],
-
-                        onChanged: (newValue) {
-
-                        },
-
-
-                        validator: (value) => value == null ? 'Please select country name' : null,
-
-                      );
-                    }
-                  }),
-
-
-            ],
-          ),
-        ),
-        Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              DropdownButtonFormField<String>(
-
-                decoration: dropDownProfile('Select', "Company City") ,
-                isDense: true,
-                hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+              DropdownButtonFormField(
+                hint: const Text('Select State'),
+                items: cityStateList
+                    .where((element) =>
+                element
+                    .countryId ==
+                    _updateBusinessRequestModel.countryId
+                        .toString())
+                    .toList()
+                    .map((value) =>
+                    DropdownMenuItem(
+                      child: Text(
+                          value.name ??
+                              Utils.checkNullString(
+                                  false),
+                          textAlign:
+                          TextAlign
+                              .center),
+                      value: value,
+                    ))
+                    .toList(),
                 isExpanded: true,
-                iconSize: 21,
-                items: const [
-                  DropdownMenuItem(child: Text("Islamabad",style: TextStyle(fontSize: 12),), value: "A"),
-                  DropdownMenuItem(child: Text("Lahore",style: TextStyle(fontSize: 12),), value: "B"),
-                  DropdownMenuItem(child: Text("Karachi",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Peshawar",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Quetta",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Rawalpindi",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Gilgit",style: TextStyle(fontSize: 12),), value: "C"),
-                ],
-
-                onChanged: (newValue) {
-
+                onChanged: (CityState? value) {
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _updateBusinessRequestModel.cityStateId =
+                      value!.id.toString();
                 },
 
+                decoration: dropDownProfile(
+                    'Select', "Company State/District"),
+                validator: (value) => value == null ? 'Please select sate/district' : null,
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding:
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButtonFormField(
+                hint: const Text('Select City'),
+                items: citiesList
+                    .toList()
+                    .map((value) =>
+                    DropdownMenuItem(
+                      child: Text(
+                          value,
+                          textAlign:
+                          TextAlign
+                              .center),
+                      value: value,
+                    ))
+                    .toList(),
+                isExpanded: true,
+                onChanged: (value) {
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _updateBusinessRequestModel.city =
+                      value.toString();
+                },
 
-                validator: (value) => value == null ? '*' : null,
-
+                decoration: dropDownProfile(
+                    'Select', "City"),
+                validator: (value) => value == null ? 'Please select city' : null,
               ),
 
             ],
           ),
         ),
+
+
+
         Padding(
           padding:
           EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
@@ -860,16 +793,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
-                  initialValue: snapshot.data!.postalCode ?? '',
+                  onSaved: (input) => _updateBusinessRequestModel.postalCode = input!,
+//                  initialValue: snapshot.data!.businessInfo?.postalCode ?? '',
+                  initialValue: BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).postalCode ?? '',
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter zip code";
-                                            }*/
+                 if (input == null || input.isEmpty) {
+                    return "Please enter zip code";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -888,14 +820,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+//                  initialValue:snapshot.data?.businessInfo?.website ?? '',
+                  initialValue:BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).website ?? '',
+                  onSaved: (input) =>
+                                          _updateBusinessRequestModel.website = input!,
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter web url";
-                                            }*/
+                  if (input == null || input.isEmpty) {
+                     return "Please enter web url";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -925,7 +857,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSaveBusinessInfo()) {
-//                        _UpdateProfileCall(snapshot.data, context1);
+                        _updateBusinessCall(snapshot.data, context1);
                       }
                     });
               })),
@@ -948,6 +880,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
 
               TextFormField(
                   keyboardType: TextInputType.text,
@@ -974,17 +907,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
+
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  /*onSaved: (input) =>
-               _signupRequestModel.name = input!,*/
-                  initialValue: '',
+                  onSaved: (input) =>
+               _updateProfileRequestModel.address = input!,
+                  initialValue:'',
                   validator: (input) {
-                    /*if (input == null ||
+                    if (input == null ||
                                                 input.isEmpty) {
                                               return "Please enter address";
-                                            }*/
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -999,100 +933,74 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-    FutureBuilder<List<Countries>?>(
-    future: AppDbInstance().getDbInstance()
-        .then((value) => value.countriesDao.findAllCountries()),
-    builder: (context, snapshot) {
-    if (snapshot.hasData && snapshot.data != null) {
-        return
-//          DropdownButtonFormField<String>(
-//
-//          decoration: dropDownProfile(
-//              'Select', "Country") ,
-//          isDense: true,
-//          hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-//          isExpanded: true,
-//          iconSize: 20,
-//          items:snapshot.data?.map((location) {
-//            return DropdownMenuItem<String>(
-//              child: Text(location.conName ?? "Empty"),
-//              value: location.conName ?? "Empty",
-//
-//            );
-//          }).toList(),
-//
-//          onChanged: (newValue) {
-//            setState(() {
-//              countryName = newValue!;
-//            });
-//          },
-//
-//
-//          validator: (value) => value == null ? '*' : null,
-//
-//        );
-        SearchChoices.single(
-          displayClearIcon: false,
-          hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-          isExpanded: true,
-          fieldPresentationFn: (Widget fieldWidget, {bool? selectionIsValid}) {
-            return Container(
-              child: InputDecorator(
-                decoration:dropDownProfile(
-              'Select', "Country") ,
-                child: fieldWidget,
+
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries value)=>{
+                        setState(() {
+                          FocusScope.of(context)
+                              .requestFocus(
+                              FocusNode());
+                          _updateProfileRequestModel.countryId =
+                              value.conId.toString();
+                          countryName =
+                              value.conName.toString();
+
+                        }
+                        )
+
+
+                      },
+                      ),
+                    ),
+                  );
+                },
+                child: InputDecorator(
+                  decoration:InputDecoration(
+                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                  label: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: const [
+                                      Text("Country"),
+                                      Text("*", style: TextStyle(color: Colors.red)),
+                                    ],
+                                  ),
+                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
+                      floatingLabelBehavior:FloatingLabelBehavior.always ,
+                      hintText: "Select",
+                      hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                      border: OutlineInputBorder(
+                          borderRadius:const BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          borderSide: BorderSide(color: newColorGrey)
+                      )
+                  ),
+
+                  child: Row(
+                    children: [
+
+                      Expanded(
+                          flex:8,
+                          child: Text(
+                              countryName ?? "Select Country",textAlign: TextAlign.start,)),
+
+                    ],
+                  ),
+                ),
               ),
-            );
-          },
-          iconSize: 20,
-          items:  snapshot.data?.map((value) =>
-              DropdownMenuItem(
-                child: Text(
-                  value.conName ??
-                      Utils.checkNullString(false),
-                  textAlign: TextAlign
-                      .center,style: TextStyle(fontSize: 11.sp,   overflow: TextOverflow.ellipsis,),),
-                value: value,
-              ))
-              .toList(),
-          isCaseSensitiveSearch: false,
-          onChanged: (Countries? value) {
-            setState(() {
-              countryName = value?.conName ?? Utils.checkNullString(false);
-            });  },
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: textColorGrey,),
-        );
-    }
-    else {
-      return DropdownButtonFormField<String>(
-
-        decoration: dropDownProfile(
-            'Select', "Country") ,
-        isDense: true,
-        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-        isExpanded: true,
-        iconSize: 20,
-        items: const [
-
-        ],
-
-        onChanged: (newValue) {
-
-        },
-
-
-        validator: (value) => value == null ? 'Please select country name' : null,
-
-      );
-    }
-    }),
 
 
             ],
           ),
         ),
+
+
+
 
         Padding(
           padding:
@@ -1100,106 +1008,84 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-          FutureBuilder<List<CityState>?>(
-                  future: AppDbInstance().getDbInstance()
-                      .then((value) => value.cityStateDao.findAllCityState()),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return DropdownButtonFormField<String>(
-
-                        decoration: dropDownProfile(
-                            'Select', "State/District") ,
-                        isDense: true,
-                        hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                        isExpanded: true,
-                        iconSize: 20,
-                        items:snapshot.data?.map((location) {
-                          return DropdownMenuItem<String>(
-                            child: Text(location.name ?? "Empty"),
-                            value: location.countryId ?? "Empty",
-
-                          );
-                        }).toList(),
-
-                        onChanged: (newValue) {
-                          setState(() {
-                            countryName = newValue!;
-                          });
-                        },
-
-
-                        validator: (value) => value == null ? '*' : null,
-
-                      );
-                    }
-                    else {
-                      return DropdownButtonFormField<String>(
-
-                        decoration: dropDownProfile(
-                            'Select', "State/District") ,
-                        isDense: true,
-                        hint:Text("Select",style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
-                        isExpanded: true,
-                        iconSize: 20,
-                        items: const [
-
-                        ],
-
-                        onChanged: (newValue) {
-
-                        },
-
-
-                        validator: (value) => value == null ? 'Please select country name' : null,
-
-                      );
-                    }
-                  }),
-
-
-            ],
-          ),
-        ),
-
-        Padding(
-          padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              DropdownButtonFormField<String>(
-
-                decoration: dropDownProfile(
-                    'Select', "City") ,
-//                    value: priceTerm,
-                isDense: true,
-                hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+              DropdownButtonFormField(
+                hint: const Text('Select State'),
+                items: cityStateList
+                    .where((element) =>
+                element
+                    .countryId ==
+                    _updateProfileRequestModel.countryId
+                        .toString())
+                    .toList()
+                    .map((value) =>
+                    DropdownMenuItem(
+                      child: Text(
+                          value.name ??
+                              Utils.checkNullString(
+                                  false),
+                          textAlign:
+                          TextAlign
+                              .center),
+                      value: value,
+                    ))
+                    .toList(),
                 isExpanded: true,
-                iconSize: 21,
-                items: const [
-                  DropdownMenuItem(child: Text("Islamabad",style: TextStyle(fontSize: 12),), value: "A"),
-                  DropdownMenuItem(child: Text("Lahore",style: TextStyle(fontSize: 12),), value: "B"),
-                  DropdownMenuItem(child: Text("Karachi",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Peshawar",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Quetta",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Rawalpindi",style: TextStyle(fontSize: 12),), value: "C"),
-                  DropdownMenuItem(child: Text("Gilgit",style: TextStyle(fontSize: 12),), value: "C"),
-                ],
-
-                onChanged: (newValue) {
-
+                onChanged: (CityState? value) {
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _updateProfileRequestModel.cityStateId =
+                      value!.id.toString();
                 },
 
-
-                validator: (value) => value == null ? '*' : null,
-
+                decoration: dropDownProfile(
+                    'Select', "State/District"),
+                validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
+
 
             ],
           ),
         ),
+        Padding(
+          padding:
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButtonFormField(
+                hint: const Text('Select City'),
+                items: citiesList
+                    .toList()
+                    .map((value) =>
+                    DropdownMenuItem(
+                      child: Text(
+                          value,
+                          textAlign:
+                          TextAlign
+                              .center),
+                      value: value,
+                    ))
+                    .toList(),
+                isExpanded: true,
+                onChanged: (value) {
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _updateProfileRequestModel.city =
+                      value.toString();
+                },
+
+                decoration: dropDownProfile(
+                    'Select', "City"),
+                validator: (value) => value == null ? 'Please select city' : null,
+              ),
+
+              ],
+          ),
+        ),
+
+
 
         Padding(
           padding:
@@ -1209,20 +1095,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+                 onSaved: (input) => _updateProfileRequestModel.postalCode = input!,
                   initialValue: snapshot.data!.postalCode ?? '',
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter zip code";
-                                            }*/
+                if (input == null || input.isEmpty) {
+                      return "Please enter zip code";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Zip Code")),
+                      '', "Postal Code")),
             ],
           ),
         ),
@@ -1234,17 +1118,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
+
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   initialValue: '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+                  onSaved: (input) => _updateProfileRequestModel.whatsapp = input!,
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
+               if (input == null || input.isEmpty) {
                                               return "Please enter whatsapp number";
-                                            }*/
+                                            }
                     return null;
                   },
                   decoration: textFormWhatsAppProfile(
@@ -1261,7 +1144,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   initialValue: snapshot.data!.telephoneNumber ?? '',
                   onSaved: (input) =>
@@ -1285,13 +1168,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
+
               TextFormField(
-                  readOnly: true,
+//                  readOnly: true,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
                   initialValue: snapshot.data!.email ?? '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.email = input!,*/
+                 onSaved: (input) => _updateProfileRequestModel.email = input!,
                   validator: (input) {
                     if (input == null ||
                         input.isEmpty ||
@@ -1328,7 +1211,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSave()) {
-                        _UpdateProfileCall(snapshot.data, context1);
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        _updateProfileCall(snapshot.data, context1);
                       }
                     });
               })),
@@ -1348,6 +1232,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   bool validateAndSave() {
     final form = globalFormKey.currentState;
+    if (_updateProfileRequestModel.countryId == null || _updateProfileRequestModel.countryId=="") {
+      Ui.showSnackBar(context, "Please select country");
+      return false;
+    }
     if (form!.validate()) {
       form.save();
       return true;
@@ -1357,6 +1245,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   bool validateAndSaveBusinessInfo() {
     final form = bussinessFormKey.currentState;
+    if (_updateBusinessRequestModel.countryId == null || _updateBusinessRequestModel.countryId=="") {
+      Ui.showSnackBar(context, "Please select country");
+      return false;
+    }
     if (form!.validate()) {
       form.save();
       return true;
@@ -1364,35 +1256,96 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return false;
   }
 
-  void _UpdateProfileCall(User? user, BuildContext context1) {
+  void _updateProfileCall(User? user, BuildContext context1) {
     if (user != null) {
       check().then((value) {
         if (value) {
           ProgressDialogUtil.showDialog(context, 'Please wait...');
           /*remove operator and added static data for parameter*/
-          _updateProfileRequestModel.operator = '1';
-          _updateProfileRequestModel.countryId = '1';
-          _updateProfileRequestModel.cityStateId = '1';
-          _updateProfileRequestModel.id = user.id.toString();
-          _updateProfileRequestModel.name = user.name.toString();
+//          _updateProfileRequestModel.postalCode = '1';
+//          _updateProfileRequestModel.countryId = '1';
+//          _updateProfileRequestModel.cityStateId = '1';
+//          _updateProfileRequestModel.id = user.id.toString();
+//          _updateProfileRequestModel.name = user.name.toString();
           Logger().e(_updateProfileRequestModel.toJson());
           ApiService.updateProfile(_updateProfileRequestModel).then((value) {
+//            Logger().e(value.toJson());
+            ProgressDialogUtil.hideDialog();
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+              if (value.status!) {
+              AppDbInstance().getDbInstance().then((db) async {
+//                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
+              });
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.user!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+
+              Fluttertoast.showToast(
+                  msg: value.message ?? "",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1);
+              var userNotifier = context1.read<UserNotifier>();
+              userNotifier.updateUser(value.data!);
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+            }
+          }).onError((error, stackTrace) {
+
+            ProgressDialogUtil.hideDialog();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(error.toString())));
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("No internet available.".toString())));
+        }
+      });
+    }
+  }
+
+
+  void _updateBusinessCall(User? user, BuildContext context1) {
+    if (user != null) {
+      check().then((value) {
+        if (value) {
+          ProgressDialogUtil.showDialog(context, 'Please wait...');
+          /*remove operator and added static data for parameter*/
+//          _updateProfileRequestModel.postalCode = '1';
+//          _updateProfileRequestModel.countryId = '1';
+//          _updateProfileRequestModel.cityStateId = '1';
+//          _updateProfileRequestModel.id = user.id.toString();
+//          _updateProfileRequestModel.name = user.name.toString();
+          Logger().e(_updateBusinessRequestModel.toJson());
+          ApiService.updateBusinessInfo(_updateBusinessRequestModel).then((value) {
             Logger().e(value.toJson());
             ProgressDialogUtil.hideDialog();
-            if (value.errors != null) {
-              value.errors!.forEach((key, error) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(error.toString())));
-              });
-            } else if (value.success!) {
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+              if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
-                await db.userDao.insertUser(value.data!.user!);
+//                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
               });
-              SharedPreferenceUtil.addStringToSF(
-                  USER_ID_KEY, value.data!.user!.id.toString());
-              SharedPreferenceUtil.addStringToSF(
-                  USER_TOKEN_KEY, value.data!.token!);
-              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.user!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
               Fluttertoast.showToast(
                   msg: value.message ?? "",
@@ -1403,7 +1356,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/
               var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!.user!);
+//              userNotifier.updateUser(value.data!.user!);
+              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));

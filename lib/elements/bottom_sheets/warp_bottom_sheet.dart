@@ -95,7 +95,7 @@ warpSheet(BuildContext context,FabricSetting? fabricSetting,
                                       SizedBox(height:12.w ,),
                                       YgTextFormFieldWithRangeNonDecimal(
                                           errorText: 'Warp Count',
-                                          value: fabricCreateRequestModel!.fs_warp_count,
+                                          value: fabricCreateRequestModel.fs_warp_count,
                                           label:'Warp Count',
                                           // onChanged:(value) => globalFormKey.currentState!.reset(),
                                           minMax: fabricSetting.warpCountMinMax??'n/a',

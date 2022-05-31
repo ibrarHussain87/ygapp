@@ -600,7 +600,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         if (value) {
           ProgressDialogUtil.showDialog(context, 'Please wait...');
           /*remove operator and added static data for parameter*/
-          _updateProfileRequestModel.operator = '1';
+          _updateProfileRequestModel.postalCode = '1';
           _updateProfileRequestModel.countryId = '1';
           _updateProfileRequestModel.cityStateId = '1';
           _updateProfileRequestModel.id = user.id.toString();
@@ -609,20 +609,21 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           ApiService.updateProfile(_updateProfileRequestModel).then((value) {
             Logger().e(value.toJson());
             ProgressDialogUtil.hideDialog();
-            if (value.errors != null) {
-              value.errors!.forEach((key, error) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(error.toString())));
-              });
-            } else if (value.success!) {
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+              if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
-                await db.userDao.insertUser(value.data!.user!);
+                await db.userDao.insertUser(value.data!);
               });
-              SharedPreferenceUtil.addStringToSF(
-                  USER_ID_KEY, value.data!.user!.id.toString());
-              SharedPreferenceUtil.addStringToSF(
-                  USER_TOKEN_KEY, value.data!.token!);
-              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_ID_KEY, value.data!.id.toString());
+//              SharedPreferenceUtil.addStringToSF(
+//                  USER_TOKEN_KEY, value.data!.token!);
+//              SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
               Fluttertoast.showToast(
                   msg: value.message ?? "",
@@ -633,7 +634,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/
               var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!.user!);
+//              userNotifier.updateUser(value.data!.user!);
+              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));
