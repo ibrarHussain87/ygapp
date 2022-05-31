@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -359,25 +360,43 @@ class FabricSpecificationComponentState
                                       child: ValueListenableBuilder(
                                         valueListenable: _notifierPlySheet,
                                         builder: (context, bool value, child) {
-                                          return TextFormField(
-                                              key: Key(getPlyList(
-                                                  _createRequestModel!)
-                                                  .toString()),
-                                              initialValue: getPlyList(
-                                                  _createRequestModel!) ??
-                                                  '',
-                                              textInputAction: TextInputAction
-                                                  .done,
-                                              keyboardType: TextInputType
-                                                  .number,
-                                              cursorColor: lightBlueTabs,
-                                              enabled: false,
-                                              style: TextStyle(fontSize: 11.sp),
-                                              textAlign: TextAlign.center,
-                                              cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration(
-                                                  'Enter count details',
-                                                  'Count', true));
+                                          return Stack(
+                                            children: [
+                                              TextFormField(
+                                                  key: Key(getPlyList(
+                                                      _createRequestModel!)
+                                                      .toString()),
+                                                  initialValue: getPlyList(
+                                                      _createRequestModel!) ??
+                                                      '',
+                                                  textInputAction: TextInputAction
+                                                      .done,
+                                                  keyboardType: TextInputType
+                                                      .number,
+                                                  cursorColor: lightBlueTabs,
+                                                  enabled: false,
+                                                  style: TextStyle(fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  decoration: ygTextFieldDecoration(
+                                                      'Enter count details',
+                                                      'Count', true)),
+                                              Align(
+                                                alignment: AlignmentDirectional.centerEnd,
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 8, right: 6, bottom: 10),
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                    size: 24,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          );
                                         },
                                       ),
                                     ),
@@ -546,23 +565,41 @@ class FabricSpecificationComponentState
                                       child: ValueListenableBuilder(
                                         valueListenable: _notifierWarpSheet,
                                         builder: (context, bool value, child) {
-                                          return TextFormField(
-                                              key: Key(getWarpList(
-                                                  _createRequestModel!)
-                                                  .toString()),
-                                              initialValue: getWarpList(
-                                                  _createRequestModel!) ?? '',
-                                              textInputAction: TextInputAction
-                                                  .done,
-                                              keyboardType: TextInputType
-                                                  .number,
-                                              cursorColor: lightBlueTabs,
-                                              enabled: false,
-                                              style: TextStyle(fontSize: 11.sp),
-                                              textAlign: TextAlign.center,
-                                              cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration(
-                                                  'Enter Warp', 'Warp', true));
+                                          return Stack(
+                                            children: [
+                                              TextFormField(
+                                                  key: Key(getWarpList(
+                                                      _createRequestModel!)
+                                                      .toString()),
+                                                  initialValue: getWarpList(
+                                                      _createRequestModel!) ?? '',
+                                                  textInputAction: TextInputAction
+                                                      .done,
+                                                  keyboardType: TextInputType
+                                                      .number,
+                                                  cursorColor: lightBlueTabs,
+                                                  enabled: false,
+                                                  style: TextStyle(fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  decoration: ygTextFieldDecoration(
+                                                      'Enter Warp', 'Warp', true)),
+                                              Align(
+                                                alignment: AlignmentDirectional.centerEnd,
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 8, right: 6, bottom: 10),
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                    size: 24,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          );
                                         },
                                       ),
                                     ),
@@ -710,23 +747,41 @@ class FabricSpecificationComponentState
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               top: 12),
-                                          child: TextFormField(
-                                              key: Key(getWeftList(
-                                                  _createRequestModel!)
-                                                  .toString()),
-                                              initialValue: getWeftList(
-                                                  _createRequestModel!) ?? '',
-                                              textInputAction: TextInputAction
-                                                  .done,
-                                              keyboardType: TextInputType
-                                                  .number,
-                                              cursorColor: lightBlueTabs,
-                                              enabled: false,
-                                              style: TextStyle(fontSize: 11.sp),
-                                              textAlign: TextAlign.center,
-                                              cursorHeight: 16.w,
-                                              decoration: ygTextFieldDecoration(
-                                                  'Enter Weft', 'Weft', true)),
+                                          child: Stack(
+                                            children: [
+                                              TextFormField(
+                                                  key: Key(getWeftList(
+                                                      _createRequestModel!)
+                                                      .toString()),
+                                                  initialValue: getWeftList(
+                                                      _createRequestModel!) ?? '',
+                                                  textInputAction: TextInputAction
+                                                      .done,
+                                                  keyboardType: TextInputType
+                                                      .number,
+                                                  cursorColor: lightBlueTabs,
+                                                  enabled: false,
+                                                  style: TextStyle(fontSize: 11.sp),
+                                                  textAlign: TextAlign.center,
+                                                  cursorHeight: 16.w,
+                                                  decoration: ygTextFieldDecoration(
+                                                      'Enter Weft', 'Weft', true)),
+                                              Align(
+                                                alignment: AlignmentDirectional.centerEnd,
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 8, right: 6,),
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                    size: 24,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         );
                                       },
                                     ),
@@ -1064,7 +1119,7 @@ class FabricSpecificationComponentState
                                   visible: Ui.showHide(
                                       _fabricSettings!.showWidth),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
+                                    padding: EdgeInsets.only(top: 12.w),
                                     child: Column(
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
@@ -1075,7 +1130,7 @@ class FabricSpecificationComponentState
 //                                                left: 8.w,bottom: 4),
 //                                            child: const TitleSmallTextWidget(
 //                                                title: 'Width')),
-                                        SizedBox(height: 12.w,),
+                                       // SizedBox(height: 12.w,),
                                         YgTextFormFieldWithRange(
                                             errorText: 'Width',
                                             label: 'Width',

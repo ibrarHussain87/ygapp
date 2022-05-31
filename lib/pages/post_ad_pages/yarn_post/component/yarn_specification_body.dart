@@ -717,22 +717,40 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
                     builder: (context, bool value, child) {
-                      return TextFormField(
-                          key: Key(
-                              getPlyList(_yarnPostProvider.createRequestModel!)
-                                  .toString()),
-                          initialValue: getPlyList(
+                      return Stack(
+                        children: [
+                          TextFormField(
+                              key: Key(
+                                  getPlyList(_yarnPostProvider.createRequestModel!)
+                                      .toString()),
+                              initialValue: getPlyList(
                                   _yarnPostProvider.createRequestModel!) ??
-                              '',
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.number,
-                          cursorColor: lightBlueTabs,
-                          enabled: false,
-                          style: TextStyle(fontSize: 11.sp),
-                          textAlign: TextAlign.center,
-                          cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration(
-                              'Enter count details', 'Count', true));
+                                  '',
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.number,
+                              cursorColor: lightBlueTabs,
+                              enabled: false,
+                              style: TextStyle(fontSize: 11.sp),
+                              textAlign: TextAlign.center,
+                              cursorHeight: 16.w,
+                              decoration: ygTextFieldDecoration(
+                                  'Enter count details', 'Count', true)),
+                          Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  top: 8, right: 6, bottom: 10),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                size: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        ],
+                      );
                     },
                   ),
                 ),
@@ -1369,22 +1387,40 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
                     builder: (context, bool value, child) {
-                      return TextFormField(
-                          key: Key(
-                              getPlyList(_yarnPostProvider.createRequestModel!)
-                                  .toString()),
-                          initialValue: getPlyList(
-                              _yarnPostProvider.createRequestModel!) ??
-                              '',
-                          textInputAction: TextInputAction.done,
-                          keyboardType: TextInputType.number,
-                          cursorColor: lightBlueTabs,
-                          enabled: false,
-                          style: TextStyle(fontSize: 11.sp),
-                          textAlign: TextAlign.center,
-                          cursorHeight: 16.w,
-                          decoration: ygTextFieldDecoration(
-                              'Enter count details', 'Count', true));
+                      return Stack(
+                        children: [
+                          TextFormField(
+                              key: Key(
+                                  getPlyList(_yarnPostProvider.createRequestModel!)
+                                      .toString()),
+                              initialValue: getPlyList(
+                                  _yarnPostProvider.createRequestModel!) ??
+                                  '',
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.number,
+                              cursorColor: lightBlueTabs,
+                              enabled: false,
+                              style: TextStyle(fontSize: 11.sp),
+                              textAlign: TextAlign.center,
+                              cursorHeight: 16.w,
+                              decoration: ygTextFieldDecoration(
+                                  'Enter count details', 'Count', true)),
+                          Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  top: 8, right: 6, bottom: 10),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                size: 24,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        ],
+                      );
                     },
                   ),
                 ),
