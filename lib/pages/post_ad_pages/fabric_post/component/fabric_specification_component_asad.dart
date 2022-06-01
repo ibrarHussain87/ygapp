@@ -50,12 +50,13 @@ class FabricSpecificationComponent extends StatefulWidget {
   final String? businessArea;
   final String? selectedTab;
 
-  const FabricSpecificationComponent({Key? key,
-    // required this.syncFiberResponse,
-    required this.callback,
-    required this.locality,
-    required this.businessArea,
-    required this.selectedTab})
+  const FabricSpecificationComponent(
+      {Key? key,
+      // required this.syncFiberResponse,
+      required this.callback,
+      required this.locality,
+      required this.businessArea,
+      required this.selectedTab})
       : super(key: key);
 
   @override
@@ -66,7 +67,6 @@ class FabricSpecificationComponent extends StatefulWidget {
 class FabricSpecificationComponentState
     extends State<FabricSpecificationComponent>
     with AutomaticKeepAliveClientMixin {
-
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
   // from key (asad_m)
@@ -102,7 +102,6 @@ class FabricSpecificationComponentState
   late List<FabricLayyer> _layyerList;
   late List<DenimTypes> _denimTypesList;
 
-
   Color pickerColor = const Color(0xffffffff);
   String? _selectedPlyId;
   bool _showDyingMethod = false;
@@ -115,40 +114,38 @@ class FabricSpecificationComponentState
   String? weavePatternA;
   String? weavePatternB;
 
-  final List<int> _colorTreatmentIdList = [3,4, 5, 8, 11, 13];
+  final List<int> _colorTreatmentIdList = [3, 4, 5, 8, 11, 13,16,17];
 
-
-  final GlobalKey<SingleSelectTileWidgetState> _plyKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _knittingTypeKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<
-      SingleSelectTileWidgetState> _colorTreatmentMethodKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _qualityKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _gradeKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _certificationKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _weaveKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _loomKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _layyerKey = GlobalKey<
-      SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _denimTypeKey = GlobalKey<
-      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _plyKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _knittingTypeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _certificationKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _weaveKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _loomKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _salvedgeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _layyerKey =
+      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _denimTypeKey =
+      GlobalKey<SingleSelectTileWidgetState>();
 
   //Nature Fabric key (asad_m)
-  final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey = GlobalKey<
-      SingleSelectTileWidgetState>();
+  final GlobalKey<SingleSelectTileWidgetState> _natureFabricKey =
+      GlobalKey<SingleSelectTileWidgetState>();
 
   // Nature of fabric List
   late List<String> _natureFabricList = ["Pure", "Blended"];
@@ -159,7 +156,7 @@ class FabricSpecificationComponentState
   final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
   final ValueNotifier<bool> _notifierWarpSheet = ValueNotifier(false);
   final ValueNotifier<bool> _notifierWeftSheet = ValueNotifier(false);
-
+  final ValueNotifier<bool> _notifierShowTuckingWidth = ValueNotifier(false);
 
   var checked = false;
 
@@ -167,16 +164,15 @@ class FabricSpecificationComponentState
   String blendString = "";
   List<BlendModel> values = [];
 
-
   _getFabricSyncedData(PostFabricProvider postFabricProvider) async {
     var dbInstance = await AppDbInstance().getDbInstance();
 
-    AppDbInstance().getFabricBlendsData().then((value) =>
-        setState(() {
+    AppDbInstance().getFabricBlendsData().then((value) => setState(() {
           _fabricBlendsList = value;
           _selectedMaterial = value
               .where((element) =>
-          element.familyIdfk == postFabricProvider.firstFamilyId.toString())
+                  element.familyIdfk ==
+                  postFabricProvider.firstFamilyId.toString())
               .toList()
               .first
               .blnId;
@@ -188,39 +184,43 @@ class FabricSpecificationComponentState
         }));
     _fabricFamilyList = await dbInstance.fabricFamilyDao.findAllFabricFamily();
     _fabricAppearanceList =
-    await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
+        await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
     _fabricGradesList = await dbInstance.fabricGradesDao.findAllFabricGrade();
     _plyList = await dbInstance.fabricPlyDao.findAllFabricPly();
     _knittingTypeList =
-    await dbInstance.knittingTypesDao.findAllKnittingTypes();
+        await dbInstance.knittingTypesDao.findAllKnittingTypes();
     _appearanceList =
-    await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
+        await dbInstance.fabricAppearanceDao.findAllFabricAppearance();
     _colorTreatmentMethodList = await dbInstance.fabricColorTreatmentMethodDao
         .findAllFabricColorTreatmentMethod();
     _qualityList = await dbInstance.fabricQualityDao.findAllFabricQuality();
     _gradeList = await dbInstance.fabricGradesDao.findAllFabricGrade();
     _dyingMethodList =
-    await dbInstance.fabricDyingTechniqueDao.findAllFabricDyingTechniques();
+        await dbInstance.fabricDyingTechniqueDao.findAllFabricDyingTechniques();
     _weaveList = await dbInstance.fabricWeaveDao.findAllFabricWeave();
     _loomList = await dbInstance.fabricLoomDao.findAllFabricLoom();
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
     _denimTypesList =
-    await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
+        await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
     Logger().e("message");
-    AppDbInstance().getFiberBrandsData()
+    AppDbInstance()
+        .getFiberBrandsData()
         .then((value) => setState(() => _brands = value));
-    AppDbInstance().getOriginsData()
+    AppDbInstance()
+        .getOriginsData()
         .then((value) => setState(() => _countries = value));
-    AppDbInstance().getCityState()
+    AppDbInstance()
+        .getCityState()
         .then((value) => setState(() => _citySateList = value));
 
-    _certificationList = await dbInstance.certificationDao.findCertificationWithCatId(3);
+    _certificationList =
+        await dbInstance.certificationDao.findCertificationWithCatId(3);
   }
 
   final ValueNotifier<bool> _notifier = ValueNotifier(false);
-  final ValueNotifier<Color> _notifierColor = ValueNotifier(
-      const Color(0xffffffff));
+  final ValueNotifier<Color> _notifierColor =
+      ValueNotifier(const Color(0xffffffff));
 
   // Pure text notifier (asad_m)
   final ValueNotifier<String> _notifierPureText = ValueNotifier("");
@@ -234,7 +234,7 @@ class FabricSpecificationComponentState
   @override
   void initState() {
     final postFabricProvider =
-    Provider.of<PostFabricProvider>(context, listen: false);
+        Provider.of<PostFabricProvider>(context, listen: false);
     _createRequestModel = postFabricProvider.fabricCreateRequestModel;
     _resetData();
     _getFabricSyncedData(postFabricProvider);
@@ -252,6 +252,7 @@ class FabricSpecificationComponentState
     _notifierPlySheet.dispose();
     _notifierWarpSheet.dispose();
     _notifierWeftSheet.dispose();
+    _notifierShowTuckingWidth.dispose();
     super.dispose();
   }
 
@@ -280,7 +281,7 @@ class FabricSpecificationComponentState
               _resetData();
               ApiService.logger.e(_createRequestModel!.toJson());
               _fabricSettings = /*snapshot.data![0]*/
-              postFabricProvider.fabricSetting!.first;
+                  postFabricProvider.fabricSetting!.first;
             }
           }
           return Scaffold(
@@ -294,8 +295,7 @@ class FabricSpecificationComponentState
               children: [
                 Expanded(
                   child: Padding(
-                    padding:
-                    EdgeInsets.only(top: 8.w, left: 0.w, right: 0.w),
+                    padding: EdgeInsets.only(top: 8.w, left: 0.w, right: 0.w),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,18 +318,22 @@ class FabricSpecificationComponentState
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 4,),
+                                const SizedBox(
+                                  height: 4,
+                                ),
                                 //Show Ratio
                                 Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showRatio),
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showRatio),
                                   child: Column(
                                     children: [
                                       // Modified by (asad_m)
 //                                            Padding(
 //                                                padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                child: TitleSmallTextWidget(title: ratio + '*')),
-                                      SizedBox(height: 12.w,),
+                                      SizedBox(
+                                        height: 12.w,
+                                      ),
                                       YgTextFormFieldWithoutRange(
                                           errorText: ratio,
                                           label: ratio,
@@ -338,24 +342,24 @@ class FabricSpecificationComponentState
                                                 input;
                                           })
                                     ],
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                   ),
                                 ),
                                 // show bottom sheet
                                 Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showPly) ||
-                                      Ui.showHide(_fabricSettings!.showGsm),
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showPly) ||
+                                          Ui.showHide(_fabricSettings!.showGsm),
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 12),
                                     child: GestureDetector(
                                       onTap: () {
                                         fabricPlySheet(context, _fabricSettings,
                                             _createRequestModel, () {
-                                              _notifierPlySheet.value =
+                                          _notifierPlySheet.value =
                                               !_notifierPlySheet.value;
-                                            }, _plyList, familyId!);
+                                        }, _plyList, familyId!);
                                       },
                                       child: ValueListenableBuilder(
                                         valueListenable: _notifierPlySheet,
@@ -364,32 +368,41 @@ class FabricSpecificationComponentState
                                             children: [
                                               TextFormField(
                                                   key: Key(getPlyList(
-                                                      _createRequestModel!)
+                                                          _createRequestModel!)
                                                       .toString()),
                                                   initialValue: getPlyList(
-                                                      _createRequestModel!) ??
+                                                          _createRequestModel!) ??
                                                       '',
-                                                  textInputAction: TextInputAction
-                                                      .done,
-                                                  keyboardType: TextInputType
-                                                      .number,
+                                                  textInputAction:
+                                                      TextInputAction.done,
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   cursorColor: lightBlueTabs,
                                                   enabled: false,
-                                                  style: TextStyle(fontSize: 11.sp),
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
                                                   cursorHeight: 16.w,
-                                                  decoration: ygTextFieldDecoration(
-                                                      'Enter count details',
-                                                      'Count', true)),
+                                                  decoration:
+                                                      ygTextFieldDecoration(
+                                                          'Enter count details',
+                                                          'Count',
+                                                          true)),
                                               Align(
-                                                alignment: AlignmentDirectional.centerEnd,
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
                                                 child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      top: 8, right: 6, bottom: 10),
-                                                  decoration: const BoxDecoration(
+                                                      top: 8,
+                                                      right: 6,
+                                                      bottom: 10),
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                  child: const Icon(
+                                                    Icons
+                                                        .keyboard_arrow_down_outlined,
                                                     size: 24,
                                                     color: Colors.grey,
                                                   ),
@@ -520,27 +533,28 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Knitting Type' + '*')),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title:
+                                                        'Knitting Type' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _knittingTypeKey,
                                           spanCount: 2,
                                           listOfItems: _knittingTypeList
-                                              .where(
-                                                  (element) =>
-                                              element.fabricFamilyIdfk ==
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
                                                   familyId)
                                               .toList(),
                                           callback: (KnittingTypes value) {
                                             _createRequestModel!
-                                                .fs_knitting_type_idfk =
+                                                    .fs_knitting_type_idfk =
                                                 value.fabricKnittingTypeId
                                                     .toString();
                                           },
@@ -556,9 +570,9 @@ class FabricSpecificationComponentState
                                     onTap: () {
                                       warpSheet(context, _fabricSettings,
                                           _createRequestModel, () {
-                                            _notifierWarpSheet.value =
+                                        _notifierWarpSheet.value =
                                             !_notifierWarpSheet.value;
-                                          },familyId!,_plyList);
+                                      }, familyId!, _plyList);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 12),
@@ -569,30 +583,41 @@ class FabricSpecificationComponentState
                                             children: [
                                               TextFormField(
                                                   key: Key(getWarpList(
-                                                      _createRequestModel!)
+                                                          _createRequestModel!)
                                                       .toString()),
                                                   initialValue: getWarpList(
-                                                      _createRequestModel!) ?? '',
-                                                  textInputAction: TextInputAction
-                                                      .done,
-                                                  keyboardType: TextInputType
-                                                      .number,
+                                                          _createRequestModel!) ??
+                                                      '',
+                                                  textInputAction:
+                                                      TextInputAction.done,
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   cursorColor: lightBlueTabs,
                                                   enabled: false,
-                                                  style: TextStyle(fontSize: 11.sp),
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
                                                   cursorHeight: 16.w,
-                                                  decoration: ygTextFieldDecoration(
-                                                      'Enter Warp', 'Warp', true)),
+                                                  decoration:
+                                                      ygTextFieldDecoration(
+                                                          'Enter Warp',
+                                                          'Warp',
+                                                          true)),
                                               Align(
-                                                alignment: AlignmentDirectional.centerEnd,
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
                                                 child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      top: 8, right: 6, bottom: 10),
-                                                  decoration: const BoxDecoration(
+                                                      top: 8,
+                                                      right: 6,
+                                                      bottom: 10),
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                  child: const Icon(
+                                                    Icons
+                                                        .keyboard_arrow_down_outlined,
                                                     size: 24,
                                                     color: Colors.grey,
                                                   ),
@@ -737,44 +762,55 @@ class FabricSpecificationComponentState
                                     onTap: () {
                                       weftSheet(context, _fabricSettings,
                                           _createRequestModel, () {
-                                            _notifierWeftSheet.value =
+                                        _notifierWeftSheet.value =
                                             !_notifierWeftSheet.value;
-                                          },familyId!,_plyList);
+                                      }, familyId!, _plyList);
                                     },
                                     child: ValueListenableBuilder(
                                       valueListenable: _notifierWeftSheet,
                                       builder: (context, bool value, child) {
                                         return Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 12),
+                                          padding:
+                                              const EdgeInsets.only(top: 12),
                                           child: Stack(
                                             children: [
                                               TextFormField(
                                                   key: Key(getWeftList(
-                                                      _createRequestModel!)
+                                                          _createRequestModel!)
                                                       .toString()),
                                                   initialValue: getWeftList(
-                                                      _createRequestModel!) ?? '',
-                                                  textInputAction: TextInputAction
-                                                      .done,
-                                                  keyboardType: TextInputType
-                                                      .number,
+                                                          _createRequestModel!) ??
+                                                      '',
+                                                  textInputAction:
+                                                      TextInputAction.done,
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   cursorColor: lightBlueTabs,
                                                   enabled: false,
-                                                  style: TextStyle(fontSize: 11.sp),
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
                                                   textAlign: TextAlign.center,
                                                   cursorHeight: 16.w,
-                                                  decoration: ygTextFieldDecoration(
-                                                      'Enter Weft', 'Weft', true)),
+                                                  decoration:
+                                                      ygTextFieldDecoration(
+                                                          'Enter Weft',
+                                                          'Weft',
+                                                          true)),
                                               Align(
-                                                alignment: AlignmentDirectional.centerEnd,
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
                                                 child: Container(
                                                   margin: const EdgeInsets.only(
-                                                      top: 8, right: 6,),
-                                                  decoration: const BoxDecoration(
+                                                    top: 8,
+                                                    right: 6,
+                                                  ),
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  child: const Icon(Icons.keyboard_arrow_down_outlined,
+                                                  child: const Icon(
+                                                    Icons
+                                                        .keyboard_arrow_down_outlined,
                                                     size: 24,
                                                     color: Colors.grey,
                                                   ),
@@ -908,7 +944,6 @@ class FabricSpecificationComponentState
                                     ),
                                   ),
                                 ),*/
-
 
                                 //Show Warp count and No of Ends
 //                                Row(
@@ -1082,30 +1117,32 @@ class FabricSpecificationComponentState
 //                                ),
                                 //Show Layyer
                                 Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showLayyer),
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showLayyer),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Layyer' + '*')),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Layyer' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _layyerKey,
                                           spanCount: 3,
-                                          listOfItems: _layyerList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _layyerList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricLayyer value) {
                                             _createRequestModel!
-                                                .fs_layyer_idfk =
+                                                    .fs_layyer_idfk =
                                                 value.fabricLayyerId.toString();
                                           },
                                         ),
@@ -1114,179 +1151,30 @@ class FabricSpecificationComponentState
                                   ),
                                 ),
 
-                                // Width
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showWidth),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 12.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        // Modified by (asad_m)
-//                                        Padding(
-//                                            padding: EdgeInsets.only(
-//                                                left: 8.w,bottom: 4),
-//                                            child: const TitleSmallTextWidget(
-//                                                title: 'Width')),
-                                       // SizedBox(height: 12.w,),
-                                        YgTextFormFieldWithRange(
-                                            errorText: 'Width',
-                                            label: 'Width(Inches)',
-                                            minMax: _fabricSettings!
-                                                .widthMinMax ?? 'n/a',
-                                            onSaved: (input) {
-                                              _createRequestModel!
-                                                  .fs_width =
-                                                  input;
-                                            }),
-                                        SizedBox(
-                                          width: 16.w,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                //Show Nature of Fabric (asad_mehmood)
-                                Visibility(
-                                  visible: false,
-//                                  visible: Ui.showHide(_fabricSettings!.showWeave),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Nature of Fabric' +
-                                                    '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _natureFabricKey,
-                                          spanCount: 2,
-//                                          listOfItems: _natureFabricList.where((element) =>
-//                                          element.fabricFamilyIdfk == familyId)
-//                                              .toList(),
-                                          listOfItems: _natureFabricList
-                                              .toList(),
-                                          callback: (String value) {
-                                            if (value == "Pure") {
-                                              blendValue.clear();
-                                              textFieldControllers.clear();
-                                              _notifierBlendText.value = "";
-                                              pureSheet(context,
-                                                  _fabricBlendsList.where((
-                                                      element) =>
-                                                  element.familyIdfk ==
-                                                      familyId)
-                                                      .toList());
-                                            }
-                                            else {
-                                              pureValue = FabricBlends();
-                                              _notifierPureText.value = "";
-                                              blendedSheet(context,
-                                                  _fabricBlendsList.where((
-                                                      element) =>
-                                                  element.familyIdfk ==
-                                                      familyId)
-                                                      .toList());
-                                            }
-//                                            _createRequestModel!.fs_weave_idfk =
-//                                                value.fabricWeaveId.toString();
-
-                                          },
-                                        ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .spaceAround,
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: ValueListenableBuilder(
-                                                    valueListenable: _notifierPureText,
-                                                    builder: (context,
-                                                        String string, child) {
-                                                      return Visibility(
-                                                          visible: string != ""
-                                                              ? true
-                                                              : false,
-                                                          child: Text(
-                                                            _notifierPureText
-                                                                .value,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              fontSize: 10
-                                                                  .sp,),));
-                                                    }
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: ValueListenableBuilder(
-                                                    valueListenable: _notifierBlendText,
-                                                    builder: (context,
-                                                        String string, child) {
-                                                      return Visibility(
-                                                          maintainState: false,
-                                                          maintainSize: false,
-                                                          visible: string != ""
-                                                              ? true
-                                                              : false,
-                                                          child: Text(
-                                                            _notifierBlendText
-                                                                .value,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              fontSize: 10
-                                                                  .sp,),));
-                                                    }
-                                                ),
-                                              ),
-                                            ],
-
-
-                                          ),
-                                        ),
-
-
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-
                                 //Show Weave
                                 Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showWeave),
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showWeave),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Weave' + '*')),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Weave' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _weaveKey,
                                           spanCount: 3,
-                                          listOfItems: _weaveList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _weaveList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricWeave value) {
                                             _createRequestModel!.fs_weave_idfk =
@@ -1303,8 +1191,8 @@ class FabricSpecificationComponentState
                                       _fabricSettings!.showWeavePatternes),
                                   child: IntrinsicHeight(
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .stretch,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
                                       children: [
                                         Visibility(
                                           visible: true,
@@ -1315,18 +1203,23 @@ class FabricSpecificationComponentState
 //                                              Padding(
 //                                                  padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                                  child: const TitleSmallTextWidget(title: 'Weave Pattern' + '*')),
-                                                SizedBox(height: 16.w,),
+                                                SizedBox(
+                                                  height: 16.w,
+                                                ),
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      child: YgTextFormFieldWithoutRange(
-                                                          errorText: 'Weave Pattern',
-                                                          label: 'Weave Pattern',
-                                                          onSaved: (input) {
-                                                            // _createRequestModel!.fs_ratio = input;
-                                                            weavePatternA =
-                                                                input;
-                                                          }),
+                                                      child:
+                                                          YgTextFormFieldWithoutRange(
+                                                              errorText:
+                                                                  'Weave Pattern',
+                                                              label:
+                                                                  'Weave Pattern',
+                                                              onSaved: (input) {
+                                                                // _createRequestModel!.fs_ratio = input;
+                                                                weavePatternA =
+                                                                    input;
+                                                              }),
                                                     ),
                                                     Container(
                                                       color: Colors.white,
@@ -1335,21 +1228,205 @@ class FabricSpecificationComponentState
                                                           child: Text('/')),
                                                     ),
                                                     Expanded(
-                                                      child: YgTextFormFieldWithoutRange(
-                                                          errorText: 'Weave Pattern',
-                                                          label: 'Weave Pattern',
-                                                          onSaved: (input) {
-                                                            // _createRequestModel!.fs_ratio = input;
-                                                            weavePatternB =
-                                                                input;
-                                                          }),
+                                                      child:
+                                                          YgTextFormFieldWithoutRange(
+                                                              errorText:
+                                                                  'Weave Pattern',
+                                                              label:
+                                                                  'Weave Pattern',
+                                                              onSaved: (input) {
+                                                                // _createRequestModel!.fs_ratio = input;
+                                                                weavePatternB =
+                                                                    input;
+                                                              }),
                                                     )
                                                   ],
                                                 )
                                               ],
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                             ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Loom
+                                Visibility(
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showLoom),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Loom' + '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _loomKey,
+                                          spanCount: 3,
+                                          listOfItems: _loomList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
+                                              .toList(),
+                                          callback: (FabricLoom value) {
+                                            _createRequestModel!.fs_loom_idfk =
+                                                value.fabricLoomId.toString();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                // Width
+                                Visibility(
+                                  visible:
+                                      Ui.showHide(_fabricSettings!.showWidth),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 16.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Modified by (asad_m)
+//                                        Padding(
+//                                            padding: EdgeInsets.only(
+//                                                left: 8.w,bottom: 4),
+//                                            child: const TitleSmallTextWidget(
+//                                                title: 'Width')),
+                                        // SizedBox(height: 12.w,),
+                                        YgTextFormFieldWithRange(
+                                            errorText: 'Width',
+                                            label: 'Width(Inches)',
+                                            minMax:
+                                                _fabricSettings!.widthMinMax ??
+                                                    'n/a',
+                                            onSaved: (input) {
+                                              _createRequestModel!.fs_width =
+                                                  input;
+                                            }),
+                                        SizedBox(
+                                          width: 16.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                //Show Nature of Fabric (asad_mehmood)
+                                Visibility(
+                                  visible: false,
+//                                  visible: Ui.showHide(_fabricSettings!.showWeave),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 0.w, top: 4, bottom: 4),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Nature of Fabric' +
+                                                        '*')),
+                                        SingleSelectTileWidget(
+                                          selectedIndex: -1,
+                                          key: _natureFabricKey,
+                                          spanCount: 2,
+//                                          listOfItems: _natureFabricList.where((element) =>
+//                                          element.fabricFamilyIdfk == familyId)
+//                                              .toList(),
+                                          listOfItems:
+                                              _natureFabricList.toList(),
+                                          callback: (String value) {
+                                            if (value == "Pure") {
+                                              blendValue.clear();
+                                              textFieldControllers.clear();
+                                              _notifierBlendText.value = "";
+                                              pureSheet(
+                                                  context,
+                                                  _fabricBlendsList
+                                                      .where((element) =>
+                                                          element.familyIdfk ==
+                                                          familyId)
+                                                      .toList());
+                                            } else {
+                                              pureValue = FabricBlends();
+                                              _notifierPureText.value = "";
+                                              blendedSheet(
+                                                  context,
+                                                  _fabricBlendsList
+                                                      .where((element) =>
+                                                          element.familyIdfk ==
+                                                          familyId)
+                                                      .toList());
+                                            }
+//                                            _createRequestModel!.fs_weave_idfk =
+//                                                value.fabricWeaveId.toString();
+                                          },
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: ValueListenableBuilder(
+                                                    valueListenable:
+                                                        _notifierPureText,
+                                                    builder: (context,
+                                                        String string, child) {
+                                                      return Visibility(
+                                                          visible: string != ""
+                                                              ? true
+                                                              : false,
+                                                          child: Text(
+                                                            _notifierPureText
+                                                                .value,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                            ),
+                                                          ));
+                                                    }),
+                                              ),
+                                              Expanded(
+                                                flex: 1,
+                                                child: ValueListenableBuilder(
+                                                    valueListenable:
+                                                        _notifierBlendText,
+                                                    builder: (context,
+                                                        String string, child) {
+                                                      return Visibility(
+                                                          maintainState: false,
+                                                          maintainSize: false,
+                                                          visible: string != ""
+                                                              ? true
+                                                              : false,
+                                                          child: Text(
+                                                            _notifierBlendText
+                                                                .value,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                            ),
+                                                          ));
+                                                    }),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -1364,25 +1441,27 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Denim Type' + '*')),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Denim Type' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _denimTypeKey,
                                           spanCount: 3,
-                                          listOfItems: _denimTypesList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _denimTypesList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (DenimTypes value) {
                                             _createRequestModel!
-                                                .fabric_denim_type_idfk =
+                                                    .fabric_denim_type_idfk =
                                                 value.fabricDenimTypeId
                                                     .toString();
                                           },
@@ -1392,38 +1471,6 @@ class FabricSpecificationComponentState
                                   ),
                                 ),
 
-                                //Show Loom
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showLoom),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Loom' + '*')),
-                                        SingleSelectTileWidget(
-                                          selectedIndex: -1,
-                                          key: _loomKey,
-                                          spanCount: 3,
-                                          listOfItems: _loomList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
-                                              .toList(),
-                                          callback: (FabricLoom value) {
-                                            _createRequestModel!.fs_loom_idfk =
-                                                value.fabricLoomId.toString();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
                                 //Show Salvedge
                                 Visibility(
                                   visible: Ui.showHide(
@@ -1431,27 +1478,34 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 left: 0.w, top: 4, bottom: 4),
-                                            child: const TitleSmallBoldTextWidget(
-                                                title: 'Salvedge' + '*')),
+                                            child:
+                                                const TitleSmallBoldTextWidget(
+                                                    title: 'Salvedge' + '*')),
                                         SingleSelectTileWidget(
                                           selectedIndex: -1,
                                           key: _salvedgeKey,
                                           spanCount: 3,
-                                          listOfItems: _salvedgeList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _salvedgeList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricSalvedge value) {
                                             _createRequestModel!
-                                                .fs_salvedge_idfk =
+                                                    .fs_salvedge_idfk =
                                                 value.fabricSalvedgeId
                                                     .toString();
+                                            if(value.fabricSalvedgeId == 2 /*Tuckin*/){
+                                            _notifierShowTuckingWidth.value = true;
+                                            }else{
+                                              _notifierShowTuckingWidth.value = false;
+                                            }
                                           },
                                         ),
                                       ],
@@ -1459,28 +1513,35 @@ class FabricSpecificationComponentState
                                   ),
                                 ),
                                 //Show Tuckin Width
-                                Visibility(
-                                  visible: Ui.showHide(
-                                      _fabricSettings!.showTuckinWidth),
-                                  child: Column(
-                                    children: [
-                                      //Modified by (asad_m)
+                                ValueListenableBuilder(
+                                    valueListenable: _notifierShowTuckingWidth,
+                                    builder: (context, bool value, child) {
+                                      return Visibility(
+                                        visible: Ui.showHide(
+                                            _fabricSettings!.showTuckinWidth) && _notifierShowTuckingWidth.value,
+                                        child: Column(
+                                          children: [
+                                            //Modified by (asad_m)
 //                                      Padding(
 //                                          padding: EdgeInsets.only(left: 4.w, top: 8.w,bottom: 4),
 //                                          child: const TitleSmallTextWidget(title: 'Tuckin Width' + '*')),
-                                      SizedBox(height: 18.w,),
-                                      YgTextFormFieldWithoutRange(
-                                          errorText: 'Tuckin Width',
-                                          label: 'Tuckin Width',
-                                          onSaved: (input) {
-                                            _createRequestModel!
-                                                .fs_tuckin_width = input;
-                                          })
-                                    ],
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                  ),
-                                ),
+                                            SizedBox(
+                                              height: 18.w,
+                                            ),
+                                            YgTextFormFieldWithoutRange(
+                                                errorText: 'Tuckin Width',
+                                                label: 'Tuckin Width',
+                                                onSaved: (input) {
+                                                  _createRequestModel!
+                                                      .fs_tuckin_width = input;
+                                                })
+                                          ],
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                        ),
+                                      );
+                                    }),
+
                                 /*//Show Ply
                                 Visibility(
                                   visible: Ui.showHide(_fabricSettings!.showPly),
@@ -1582,8 +1643,8 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -1597,27 +1658,32 @@ class FabricSpecificationComponentState
                                           spanCount: 3,
                                           listOfItems: _colorTreatmentMethodList
                                               .where((element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
-                                          callback: (
-                                              FabricColorTreatmentMethod value) {
+                                          callback: (FabricColorTreatmentMethod
+                                              value) {
                                             _createRequestModel!
-                                                .fs_color_treatment_method_idfk =
+                                                    .fs_color_treatment_method_idfk =
                                                 value.fctmId.toString();
 
-                                            if (_colorTreatmentIdList.contains(
-                                                value.fctmId)) {
+                                            if (_colorTreatmentIdList
+                                                .contains(value.fctmId)) {
                                               _showDyingMethod = true;
                                               _notifier.value = true;
                                               _selectedColorTreatMethodId =
                                                   value.fctmId.toString();
+                                              _createRequestModel!
+                                                  .fs_dying_method_idfk = null;
+                                              _createRequestModel!.fs_color = null;
                                             } else {
                                               _showDyingMethod = false;
                                               _notifier.value = false;
+                                              _selectedColorTreatMethodId = null;
                                               _createRequestModel!
                                                   .fs_dying_method_idfk = null;
                                               _createRequestModel!.fs_color =
-                                              null;
+                                                  null;
                                             }
                                           },
                                         ),
@@ -1630,40 +1696,42 @@ class FabricSpecificationComponentState
                                   valueListenable: _notifier,
                                   builder: (context, bool value, child) {
                                     return Visibility(
-                                      visible: /*_notifier.value*/value,
+                                      visible: /*_notifier.value*/ value,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           //Show Color dying Method
                                           Visibility(
                                             visible: true,
                                             child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 8.w),
+                                              padding:
+                                                  EdgeInsets.only(top: 8.w),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 0.w,
                                                           top: 4,
                                                           bottom: 4),
-                                                      child: const TitleSmallBoldTextWidget(
-                                                          title: "Dying Method" +
-                                                              '*')),
+                                                      child:
+                                                          const TitleSmallBoldTextWidget(
+                                                              title:
+                                                                  "Dying Method" +
+                                                                      '*')),
                                                   SingleSelectTileWidget(
                                                     selectedIndex: -1,
                                                     key: _dyingMethodKey,
                                                     spanCount: 3,
                                                     listOfItems: _dyingMethodList
                                                         .where((element) =>
-                                                    element.fabricFamilyIdfk ==
-                                                        familyId)
+                                                    element.fabricFamilyIdfk == familyId && _selectedColorTreatMethodId != null ?
+                                                    element.fctmIdfk == _selectedColorTreatMethodId : false)
                                                         .toList() /*_yarnData!.dyingMethod!.where((element) {
                                       if (element.ydmColorTreatmentMethodIdfk != _selectedColorTreatMethodId) {
                                         return element
@@ -1677,10 +1745,11 @@ class FabricSpecificationComponentState
                                       }
                                   }).toList()*/
                                                     ,
-                                                    callback: (
-                                                        FabricDyingTechniques value) {
+                                                    callback:
+                                                        (FabricDyingTechniques
+                                                            value) {
                                                       _createRequestModel!
-                                                          .fs_dying_method_idfk =
+                                                              .fs_dying_method_idfk =
                                                           value.fdtId
                                                               .toString();
                                                     },
@@ -1696,37 +1765,43 @@ class FabricSpecificationComponentState
                                                 padding: const EdgeInsets.only(
                                                     top: 8.0),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 8.0, bottom: 4),
-                                                      child: TitleSmallBoldTextWidget(
-                                                          title: "Select Color"),
+                                                      child:
+                                                          TitleSmallBoldTextWidget(
+                                                              title:
+                                                                  "Select Color"),
                                                     ),
                                                     Card(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius
-                                                            .circular(10.0),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
                                                       ),
                                                       child: SizedBox(
                                                         width: double.infinity,
                                                         child: TextFormField(
-                                                          keyboardType: TextInputType
-                                                              .none,
-                                                          controller: _textEditingController,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .none,
+                                                          controller:
+                                                              _textEditingController,
                                                           autofocus: false,
                                                           showCursor: false,
                                                           readOnly: true,
                                                           style: TextStyle(
                                                               fontSize: 11.sp),
-                                                          textAlign: TextAlign
-                                                              .center,
+                                                          textAlign:
+                                                              TextAlign.center,
                                                           onSaved: (input) =>
-                                                          _createRequestModel!
-                                                              .fs_color =
-                                                          input!,
+                                                              _createRequestModel!
+                                                                      .fs_color =
+                                                                  input!,
                                                           // validator: (input) {
                                                           //   if (input == null ||
                                                           //       input.isEmpty) {
@@ -1736,16 +1811,21 @@ class FabricSpecificationComponentState
                                                           // },
                                                           decoration: InputDecoration(
                                                               border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius
-                                                                      .circular(
-                                                                      10.0),
-                                                                  borderSide: BorderSide
-                                                                      .none),
-                                                              contentPadding: const EdgeInsets
-                                                                  .all(2.0),
-                                                              hintText: "Select Color",
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                              contentPadding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              hintText:
+                                                                  "Select Color",
                                                               filled: true,
-                                                              fillColor: pickerColor),
+                                                              fillColor:
+                                                                  pickerColor),
                                                           onTap: () {
                                                             _openDialogBox();
                                                           },
@@ -1762,14 +1842,14 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Color
                                 Visibility(
-                                    visible: _fabricSettings!
-                                        .fabricFamilyIdfk ==
-                                        FABRIC_MIRCOFIBER_ID,
+                                    visible:
+                                        _fabricSettings!.fabricFamilyIdfk ==
+                                            FABRIC_MIRCOFIBER_ID,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Padding(
                                             padding: EdgeInsets.only(
@@ -1783,22 +1863,24 @@ class FabricSpecificationComponentState
                                                   child) {
                                                 return Card(
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(10.0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
                                                   ),
                                                   child: SizedBox(
                                                     width: double.infinity,
                                                     child: TextFormField(
-                                                      keyboardType: TextInputType
-                                                          .none,
-                                                      controller: _textEditingController,
+                                                      keyboardType:
+                                                          TextInputType.none,
+                                                      controller:
+                                                          _textEditingController,
                                                       autofocus: false,
                                                       showCursor: false,
                                                       readOnly: true,
                                                       style: TextStyle(
                                                           fontSize: 11.sp),
-                                                      textAlign: TextAlign
-                                                          .center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       onSaved: (input) {
                                                         if (input == null ||
                                                             input.isEmpty) {
@@ -1818,14 +1900,18 @@ class FabricSpecificationComponentState
                                                       // },
                                                       decoration: InputDecoration(
                                                           border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .circular(
-                                                                  10.0),
-                                                              borderSide: BorderSide
-                                                                  .none),
-                                                          contentPadding: const EdgeInsets
-                                                              .all(2.0),
-                                                          hintText: "Select Color",
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          hintText:
+                                                              "Select Color",
                                                           filled: true,
                                                           fillColor: color),
                                                       onTap: () {
@@ -1834,8 +1920,7 @@ class FabricSpecificationComponentState
                                                     ),
                                                   ),
                                                 );
-                                              }
-                                          ),
+                                              }),
                                         ],
                                       ),
                                     )),
@@ -1847,8 +1932,8 @@ class FabricSpecificationComponentState
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -1859,13 +1944,14 @@ class FabricSpecificationComponentState
                                           selectedIndex: -1,
                                           key: _appearanceKey,
                                           spanCount: 3,
-                                          listOfItems: _appearanceList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _appearanceList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricAppearance value) {
                                             _createRequestModel!
-                                                .fs_appearance_idfk =
+                                                    .fs_appearance_idfk =
                                                 value.fabricAppearanceId
                                                     .toString();
 
@@ -1890,12 +1976,14 @@ class FabricSpecificationComponentState
                                 //Show Quality
                                 Visibility(
                                   visible: Ui.showHide(
-                                      _fabricSettings!.showQuality),
+                                          _fabricSettings!.showQuality) &&
+                                      Utils.setCottonVisibility(
+                                          postFabricProvider.selectedBlends),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -1908,11 +1996,12 @@ class FabricSpecificationComponentState
                                           spanCount: 2,
                                           listOfItems: _qualityList
                                               .where((element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricQuality value) {
                                             _createRequestModel!
-                                                .fs_quality_idfk =
+                                                    .fs_quality_idfk =
                                                 value.fabricQualityId
                                                     .toString();
                                           },
@@ -1924,13 +2013,16 @@ class FabricSpecificationComponentState
                                 //Show Grade
                                 Visibility(
                                   visible: Ui.showHide(
-                                      _fabricSettings!.showGrade),
+                                          _fabricSettings!.showGrade) &&
+                                      Utils.setPolyesterVisibility(
+                                          postFabricProvider.selectedBlends),
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 8.w,),
+                                      top: 8.w,
+                                    ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -1941,9 +2033,10 @@ class FabricSpecificationComponentState
                                           selectedIndex: -1,
                                           key: _gradeKey,
                                           spanCount: 3,
-                                          listOfItems: _gradeList.where((
-                                              element) =>
-                                          element.fabricFamilyIdfk == familyId)
+                                          listOfItems: _gradeList
+                                              .where((element) =>
+                                                  element.fabricFamilyIdfk ==
+                                                  familyId)
                                               .toList(),
                                           callback: (FabricGrades value) {
                                             _createRequestModel!.fs_grade_idfk =
@@ -1957,12 +2050,14 @@ class FabricSpecificationComponentState
                                 //Show Certification
                                 Visibility(
                                   visible: Ui.showHide(
-                                      _fabricSettings!.showCertification),
+                                          _fabricSettings!.showCertification) &&
+                                      Utils.setCottonVisibility(
+                                          postFabricProvider.selectedBlends),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8.w),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                             padding: EdgeInsets.only(
@@ -1976,7 +2071,7 @@ class FabricSpecificationComponentState
                                           listOfItems: _certificationList,
                                           callback: (Certification value) {
                                             _createRequestModel!
-                                                .fs_certification_idfk =
+                                                    .fs_certification_idfk =
                                                 value.cerId.toString();
                                           },
                                         ),
@@ -2017,7 +2112,8 @@ class FabricSpecificationComponentState
         /*else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
-        }*/ else {
+        }*/
+        else {
           return const Center(
             child: SpinKitWave(
               color: Colors.green,
@@ -2083,7 +2179,7 @@ class FabricSpecificationComponentState
           .toString();*/
       _createRequestModel!.fs_family_idfk = familyId ?? '';
       _createRequestModel!.fabric_weave_pattern =
-      '$weavePatternA/$weavePatternB';
+          '$weavePatternA/$weavePatternB';
       /*if(_createRequestModel!.fs_ply_idfk == null){
         _createRequestModel!.fs_ply_idfk = null;
       }
@@ -2103,7 +2199,7 @@ class FabricSpecificationComponentState
           context,
           StylishDialogType.WARNING,
           'Yes',
-              () {
+          () {
             submitData(context);
           },
         );
@@ -2126,7 +2222,7 @@ class FabricSpecificationComponentState
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
       ApiService.createFabricSpecification(_createRequestModel!,
-          imageFiles.isNotEmpty ? imageFiles[0].path : "")
+              imageFiles.isNotEmpty ? imageFiles[0].path : "")
           .then((value) {
         ProgressDialogUtil.hideDialog();
         if (value.status) {
@@ -2138,17 +2234,15 @@ class FabricSpecificationComponentState
               context,
               StylishDialogType.WARNING,
               'Update',
-                  () {
+              () {
                 openMyAdsScreen(context);
               },
             );
           } else {
             final fabricSpecificationsProvider =
-            Provider.of<FabricSpecificationsProvider>(
-                context,
-                listen: false);
-            fabricSpecificationsProvider
-                .getUpdatedFabricSpecificationsData();
+                Provider.of<FabricSpecificationsProvider>(context,
+                    listen: false);
+            fabricSpecificationsProvider.getUpdatedFabricSpecificationsData();
             Navigator.pop(context);
           }
         } else {
@@ -2159,7 +2253,7 @@ class FabricSpecificationComponentState
             context,
             StylishDialogType.ERROR,
             'Yes',
-                () {},
+            () {},
           );
         }
       }).onError((error, stackTrace) {
@@ -2171,12 +2265,11 @@ class FabricSpecificationComponentState
           context,
           StylishDialogType.ERROR,
           'Yes',
-              () {},
+          () {},
         );
       });
     }
   }
-
 
   _resetData() {
     _showDyingMethod = false;
@@ -2221,29 +2314,23 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showWarpCount)) {
         Ui.showSnackBar(context, 'Please Enter Warp Count');
         return false;
-      }
-      else if (_createRequestModel!.fs_warp_ply_idfk == null &&
+      } else if (_createRequestModel!.fs_warp_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showWarpPly)) {
         Ui.showSnackBar(context, 'Please Enter Warp Ply');
         return false;
-      }
-      else if (_createRequestModel!.fs_no_of_ends_warp == null &&
+      } else if (_createRequestModel!.fs_no_of_ends_warp == null &&
           Ui.showHide(_fabricSettings!.showNoOfEndsWarp)) {
         Ui.showSnackBar(context, 'Please Enter No of Ends');
         return false;
-      }
-
-      else if (_createRequestModel!.fs_weft_count == null &&
+      } else if (_createRequestModel!.fs_weft_count == null &&
           Ui.showHide(_fabricSettings!.showWeftCount)) {
         Ui.showSnackBar(context, 'Please Enter Weft Count');
         return false;
-      }
-      else if (_createRequestModel!.fs_weft_ply_idfk == null &&
+      } else if (_createRequestModel!.fs_weft_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showWeftPly)) {
         Ui.showSnackBar(context, 'Please Enter Weft Ply');
         return false;
-      }
-      else if (_createRequestModel!.fs_no_of_pick_weft == null &&
+      } else if (_createRequestModel!.fs_no_of_pick_weft == null &&
           Ui.showHide(_fabricSettings!.showNoOfPickWeft)) {
         Ui.showSnackBar(context, 'Please Enter No of Picks');
         return false;
@@ -2253,7 +2340,8 @@ class FabricSpecificationComponentState
           Ui.showHide(_fabricSettings!.showBlend)) {
         Ui.showSnackBar(context, 'Please Select Blend');
         return false;
-      }*/ else if (_createRequestModel!.fs_ply_idfk == null &&
+      }*/
+      else if (_createRequestModel!.fs_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showPly)) {
         Ui.showSnackBar(context, 'Please Select Ply');
         return false;
@@ -2264,6 +2352,10 @@ class FabricSpecificationComponentState
       } else if (_createRequestModel!.fs_dying_method_idfk == null &&
           _showDyingMethod) {
         Ui.showSnackBar(context, 'Please Select Dying Method');
+        return false;
+      } else if ((_createRequestModel!.fs_color == null || _createRequestModel!.fs_color!.isEmpty) &&
+          _showDyingMethod) {
+        Ui.showSnackBar(context, 'Please Select Color');
         return false;
       } else if (_createRequestModel!.fs_knitting_type_idfk == null &&
           Ui.showHide(_fabricSettings!.showKnittingType)) {
@@ -2286,11 +2378,13 @@ class FabricSpecificationComponentState
         Ui.showSnackBar(context, 'Please Select Layyer');
         return false;
       } else if (_createRequestModel!.fs_quality_idfk == null &&
-          Ui.showHide(_fabricSettings!.showQuality)) {
+          Ui.showHide(_fabricSettings!.showQuality) &&
+          Utils.setCottonVisibility(postFabricProvider.selectedBlends)) {
         Ui.showSnackBar(context, 'Please Select Quality');
         return false;
       } else if (_createRequestModel!.fs_grade_idfk == null &&
-          Ui.showHide(_fabricSettings!.showGrade)) {
+          Ui.showHide(_fabricSettings!.showGrade) &&
+          Utils.setPolyesterVisibility(postFabricProvider.selectedBlends)) {
         Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_createRequestModel!.fs_color == null &&
@@ -2302,7 +2396,8 @@ class FabricSpecificationComponentState
         Ui.showSnackBar(context, 'Please Select Appearance');
         return false;
       } else if (_createRequestModel!.fs_certification_idfk == null &&
-          Ui.showHide(_fabricSettings!.showCertification)) {
+          Ui.showHide(_fabricSettings!.showCertification) &&
+          Utils.setCottonVisibility(postFabricProvider.selectedBlends)) {
         Ui.showSnackBar(context, 'Please Select Certification');
         return false;
       } else if (_createRequestModel!.fs_gsm_count == null &&
@@ -2329,23 +2424,12 @@ class FabricSpecificationComponentState
   void handleReadOnlyInputClick(context) {
     showBottomSheet(
         context: context,
-        builder: (BuildContext context) =>
-            Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 2,
+        builder: (BuildContext context) => Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
               child: YearPicker(
-                selectedDate: DateTime(DateTime
-                    .now()
-                    .year),
-                firstDate: DateTime(DateTime
-                    .now()
-                    .year - 4),
+                selectedDate: DateTime(DateTime.now().year),
+                firstDate: DateTime(DateTime.now().year - 4),
                 lastDate: DateTime.now(),
                 onChanged: (val) {
                   _textEditingController.text = val.year.toString();
@@ -2363,77 +2447,78 @@ class FabricSpecificationComponentState
       builder: (context) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter state) {
-              return NatureFabricSheet(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5, top: 8),
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(Icons.close),
-                            ),
-                          )),
-                      Text(sheet_title,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 20.0.sp,
-                            color: headingColor,
-                            fontWeight: FontWeight.w700),),
-                      const SizedBox(height: 10,),
-                      PureTileWidget(
-                        selectedIndex: pureValue,
-                        listOfItems: blends,
-                        callback: (FabricBlends value) {
-                          pureValue = value;
-                        },
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(16.w),
-                        child: SizedBox(
-                            width: double.infinity,
-                            child: Builder(builder: (BuildContext context1) {
-                              return ElevatedButton(
-                                  child: Text("Add",
-                                      style: TextStyle(
-                                          fontFamily: 'Metropolis',
-                                          fontSize: 14.sp)),
-                                  style: ButtonStyle(
-                                      foregroundColor:
+          return NatureFabricSheet(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5, top: 8),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.close),
+                        ),
+                      )),
+                  Text(
+                    sheet_title,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 20.0.sp,
+                        color: headingColor,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  PureTileWidget(
+                    selectedIndex: pureValue,
+                    listOfItems: blends,
+                    callback: (FabricBlends value) {
+                      pureValue = value;
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: SizedBox(
+                        width: double.infinity,
+                        child: Builder(builder: (BuildContext context1) {
+                          return ElevatedButton(
+                              child: Text("Add",
+                                  style: TextStyle(
+                                      fontFamily: 'Metropolis',
+                                      fontSize: 14.sp)),
+                              style: ButtonStyle(
+                                  foregroundColor:
                                       MaterialStateProperty.all<Color>(
                                           Colors.white),
-                                      backgroundColor:
+                                  backgroundColor:
                                       MaterialStateProperty.all<Color>(
                                           btnColorLogin),
-                                      shape: MaterialStateProperty.all<
+                                  shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
-                                          const RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius.circular(8)),
-                                              side: BorderSide(
-                                                  color: Colors.transparent)))),
-                                  onPressed: () {
-                                    if (pureValue != "") {
-                                      _notifierPureText.value =
-                                          pureValue.toString();
-                                      Navigator.of(context).pop();
-                                    }
-                                  });
-                            })),
-                      ),
-                    ],
+                                      const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          side: BorderSide(
+                                              color: Colors.transparent)))),
+                              onPressed: () {
+                                if (pureValue != "") {
+                                  _notifierPureText.value =
+                                      pureValue.toString();
+                                  Navigator.of(context).pop();
+                                }
+                              });
+                        })),
                   ),
-                ),
-              );
-            }
-        );
+                ],
+              ),
+            ),
+          );
+        });
       },
     );
   }
@@ -2455,118 +2540,116 @@ class FabricSpecificationComponentState
       builder: (context) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              return NatureFabricSheet(
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: blendedFormKey,
-                    child: Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5, top: 8),
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Icon(Icons.close),
-                              ),
-                            )),
-                        Text(sheet_title,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 20.0.sp,
-                              color: headingColor,
-                              fontWeight: FontWeight.w700),),
-                        const SizedBox(height: 10,),
-                        BlendedTileWidget(
-                          selectedIndex: blendValue,
-                          listOfItems: blends,
-                          listController: textFieldControllers,
-                          blendsValue: values,
-                          callback: (List<FabricBlends> value) {
-                            blendValue = value;
-                          },
-                          textFieldcallback: (List<BlendModel> value) {
-                            values = value;
-                          },
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.all(16.w),
-                          child: SizedBox(
-                              width: double.infinity,
-                              child: Builder(builder: (BuildContext context1) {
-                                return ElevatedButton(
-                                    child: Text("Add",
-                                        style: TextStyle(
-                                            fontFamily: 'Metropolis',
-                                            fontSize: 14.sp)),
-                                    style: ButtonStyle(
-                                        foregroundColor:
+          return NatureFabricSheet(
+            child: SingleChildScrollView(
+              child: Form(
+                key: blendedFormKey,
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 5, top: 8),
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(Icons.close),
+                          ),
+                        )),
+                    Text(
+                      sheet_title,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 20.0.sp,
+                          color: headingColor,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlendedTileWidget(
+                      selectedIndex: blendValue,
+                      listOfItems: blends,
+                      listController: textFieldControllers,
+                      blendsValue: values,
+                      callback: (List<FabricBlends> value) {
+                        blendValue = value;
+                      },
+                      textFieldcallback: (List<BlendModel> value) {
+                        values = value;
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: SizedBox(
+                          width: double.infinity,
+                          child: Builder(builder: (BuildContext context1) {
+                            return ElevatedButton(
+                                child: Text("Add",
+                                    style: TextStyle(
+                                        fontFamily: 'Metropolis',
+                                        fontSize: 14.sp)),
+                                style: ButtonStyle(
+                                    foregroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Colors.white),
-                                        backgroundColor:
+                                    backgroundColor:
                                         MaterialStateProperty.all<Color>(
                                             btnColorLogin),
-                                        shape: MaterialStateProperty.all<
+                                    shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.circular(8)),
-                                                side: BorderSide(color: Colors
-                                                    .transparent)))),
-                                    onPressed: () {
-                                      if (validateAndSaveBlend()) {
-                                        blendString = "";
-                                        for (int i = 0; i <
-                                            values.length; i++) {
-                                          blendString +=
-                                              values[i].id.toString() + "(" +
-                                                  values[i].ratio.toString() +
-                                                  "),";
+                                        const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8)),
+                                            side: BorderSide(
+                                                color: Colors.transparent)))),
+                                onPressed: () {
+                                  if (validateAndSaveBlend()) {
+                                    blendString = "";
+                                    for (int i = 0; i < values.length; i++) {
+                                      blendString += values[i].id.toString() +
+                                          "(" +
+                                          values[i].ratio.toString() +
+                                          "),";
 
-                                          result += int.parse(
-                                              values[i].ratio.toString());
+                                      result +=
+                                          int.parse(values[i].ratio.toString());
+                                    }
+                                    if (blendString.toString() != "") {
+                                      print(
+                                          "Percent(%):\t" + result.toString());
+                                      if (result > 100) {
+                                        result = 0.0;
+                                        values.clear();
+
+                                        Fluttertoast.showToast(
+                                            msg: blend_message,
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1);
+                                      } else {
+                                        if (blendString.endsWith(",")) {
+                                          blendString = blendString.substring(
+                                              0, blendString.length - 1);
                                         }
-                                        if (blendString.toString() != "") {
-                                          print("Percent(%):\t" +
-                                              result.toString());
-                                          if (result > 100) {
-                                            result = 0.0;
-                                            values.clear();
+                                        _notifierBlendText.value =
+                                            blendString.toString();
 
-                                            Fluttertoast.showToast(
-                                                msg: blend_message,
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1);
-                                          }
-                                          else {
-                                            if (blendString.endsWith(",")) {
-                                              blendString =
-                                                  blendString.substring(0,
-                                                      blendString.length - 1);
-                                            }
-                                            _notifierBlendText.value =
-                                                blendString.toString();
-
-                                            Navigator.of(context).pop();
-                                          }
-                                        }
+                                        Navigator.of(context).pop();
                                       }
-                                    });
-                              })),
-                        ),
-                      ],
+                                    }
+                                  }
+                                });
+                          })),
                     ),
-                  ),
+                  ],
                 ),
-              );
-            }
-        );
+              ),
+            ),
+          );
+        });
       },
     );
   }
@@ -2577,7 +2660,7 @@ class FabricSpecificationComponentState
     if (_createRequestModel!.fs_ply_idfk != null) {
       list.add(_plyList
           .where((element) =>
-      element.fabricPlyId.toString() == createRequestModel.fs_ply_idfk)
+              element.fabricPlyId.toString() == createRequestModel.fs_ply_idfk)
           .toList()
           .first
           .fabricPlyName);
@@ -2595,11 +2678,12 @@ class FabricSpecificationComponentState
   String? getWarpList(FabricCreateRequestModel createRequestModel) {
     List<String?> list = [];
     list.add(createRequestModel.fs_warp_count);
-   // list.add(createRequestModel.fs_warp_ply_idfk);
+    // list.add(createRequestModel.fs_warp_ply_idfk);
     if (_createRequestModel!.fs_warp_ply_idfk != null) {
       list.add(_plyList
           .where((element) =>
-      element.fabricPlyId.toString() == createRequestModel.fs_warp_ply_idfk)
+              element.fabricPlyId.toString() ==
+              createRequestModel.fs_warp_ply_idfk)
           .toList()
           .first
           .fabricPlyName);
@@ -2616,11 +2700,12 @@ class FabricSpecificationComponentState
   String? getWeftList(FabricCreateRequestModel createRequestModel) {
     List<String?> list = [];
     list.add(createRequestModel.fs_weft_count);
-   // list.add(createRequestModel.fs_weft_ply_idfk);
+    // list.add(createRequestModel.fs_weft_ply_idfk);
     if (_createRequestModel!.fs_weft_ply_idfk != null) {
       list.add(_plyList
           .where((element) =>
-      element.fabricPlyId.toString() == createRequestModel.fs_weft_ply_idfk)
+              element.fabricPlyId.toString() ==
+              createRequestModel.fs_weft_ply_idfk)
           .toList()
           .first
           .fabricPlyName);
@@ -2634,7 +2719,4 @@ class FabricSpecificationComponentState
     }
   }
 
-
 }
-
-

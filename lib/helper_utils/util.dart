@@ -28,6 +28,7 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../providers/fabric_providers/fabric_specifications_provider.dart';
 import '../providers/yarn_providers/yarn_specifications_provider.dart';
 import '../model/request/update_fabric_request/update_fabric_request.dart';
@@ -47,6 +48,26 @@ class Utils {
   static double splitMax(String? minMax) {
     var splitValue = minMax!.split('-');
     return double.parse(splitValue[1]);
+  }
+
+  static bool setCottonVisibility(List<dynamic> list) {
+    bool showCotton = false;
+    list.forEach((element) {
+      if(element.blnName!.toLowerCase() == 'cotton'){
+        showCotton = true;
+      }
+    });
+    return showCotton;
+  }
+
+  static bool setPolyesterVisibility(List<dynamic> list) {
+    bool showCotton = false;
+    list.forEach((element) {
+      if(element.blnAbrv!.toLowerCase() == 'p'){
+        showCotton = true;
+      }
+    });
+    return showCotton;
   }
 
   static String checkNullString(bool prefix) {
@@ -168,8 +189,8 @@ class Utils {
             'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';*/
         familyData =
         '${specification.fabricLoomName ?? Utils.checkNullString(false)} ${specification.warpCount ?? Utils.checkNullString(false)}/'
-            '${specification.fabricWarpPlyName ?? Utils.checkNullString(false)}'
-            'x${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
+            '${getPlyString(specification.fabricWarpPlyName ?? Utils.checkNullString(false))}'
+            'x${specification.weftCount ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricWeftPlyName ?? Utils.checkNullString(false))}'
             'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';
 
         break;
@@ -204,7 +225,7 @@ class Utils {
         break;
       case '102':
         titleData =
-        '${specification.fabricWeavePatternName ?? Utils.checkNullString(false)},${specification.width ?? Utils.checkNullString(false)},${specification.fabricBlend ?? Utils.checkNullString(false)}/${specification.formationDisplayText ?? Utils.checkNullString(false)}';
+        '${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)},${specification.formationDisplayText ?? Utils.checkNullString(false)}';
         break;
       case '103':
         titleData =
@@ -237,9 +258,9 @@ class Utils {
         break;
       case '102':
         List<String?> list = [
-          specification.fabricApperance,
-          specification.fabricColorTreatmentMethod,
-          specification.fabricDyingTechnique
+          specification.fabricWeaveName,
+          specification.fabricWeavePatternName,
+          specification.fabricApperance
         ];
         detailsData = Utils.createStringFromList(list);
         break;

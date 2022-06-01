@@ -190,27 +190,39 @@ Widget buildFabricRenewedAgainWidget(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricApperance ??
-                                          Utils.checkNullString(false),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 8.w),
+                                      child: BgLightBlueNormalTextWidget(
+                                        title: specification.fabricApperance ??
+                                            Utils.checkNullString(false),
+                                      ),
                                     ),
                                     flex: 1,
                                   ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricQuality ??
-                                          Utils.checkNullString(false),
+                                  //SizedBox(width: 8.w),
+                                  Visibility(
+                                    visible: specification.fabricQuality != null,
+                                    child: Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 8.w),
+                                        child: BgLightBlueNormalTextWidget(
+                                          title: specification.fabricQuality ??
+                                              Utils.checkNullString(false),
+                                        ),
+                                      ),
+                                      flex: 1,
                                     ),
-                                    flex: 1,
                                   ),
-                                  SizedBox(width: 8.w),
-                                  Expanded(
-                                    child: BgLightBlueNormalTextWidget(
-                                      title: specification.fabricGrade ??
-                                          Utils.checkNullString(false),
+                                 // SizedBox(width: 8.w),
+                                  Visibility(
+                                    visible: specification.fabricGrade != null,
+                                    child: Expanded(
+                                      child: BgLightBlueNormalTextWidget(
+                                        title: specification.fabricGrade ??
+                                            Utils.checkNullString(false),
+                                      ),
+                                      flex: 1,
                                     ),
-                                    flex: 1,
                                   ),
                                 ],
                               ),
