@@ -49,6 +49,7 @@ class Data {
   List<PaymentType>? paymentTypes;
   List<SubscriptionPlans>? subscriptionPlans;
   List<ServiceTypes>? serviceTypes;
+  List<CustomerSupportTypes>? customerSupportTypes;
 
   Data(
       {this.categories,
@@ -61,6 +62,7 @@ class Data {
         this.ports,
         this.paymentTypes,
         this.subscriptionPlans,
+        this.customerSupportTypes,
         this.serviceTypes});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -118,6 +120,12 @@ class Data {
         paymentTypes!.add(PaymentType.fromJson(v));
       });
     }
+    if (json['customer_support_types'] != null) {
+      customerSupportTypes = <CustomerSupportTypes>[];
+      json['customer_support_types'].forEach((v) {
+        customerSupportTypes!.add(new CustomerSupportTypes.fromJson(v));
+      });
+    }
     if (json['subscription_plans'] != null) {
       subscriptionPlans = <SubscriptionPlans>[];
       json['subscription_plans'].forEach((v) {
@@ -161,6 +169,10 @@ class Data {
     if (this.paymentTypes != null) {
       data['payment_types'] =
           this.paymentTypes!.map((v) => v.toJson()).toList();
+    }
+    if (this.customerSupportTypes != null) {
+      data['customer_support_types'] =
+          this.customerSupportTypes!.map((v) => v.toJson()).toList();
     }
     if (this.subscriptionPlans != null) {
       data['subscription_plans'] =
@@ -291,6 +303,30 @@ class Designations {
     data['designation_id'] = this.designationId;
     data['designation_title'] = this.designationTitle;
     data['designation_status'] = this.designationStatus;
+    return data;
+  }
+}
+
+@Entity(tableName: 'customer_support_types')
+class CustomerSupportTypes {
+  @PrimaryKey(autoGenerate: false)
+  int? cstypeId;
+  String? cstypeName;
+  String? cstypeStatus;
+
+  CustomerSupportTypes({this.cstypeId, this.cstypeName, this.cstypeStatus});
+
+  CustomerSupportTypes.fromJson(Map<String, dynamic> json) {
+    cstypeId = json['cstype_id'];
+    cstypeName = json['cstype_name'];
+    cstypeStatus = json['cstype_status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['cstype_id'] = this.cstypeId;
+    data['cstype_name'] = this.cstypeName;
+    data['cstype_status'] = this.cstypeStatus;
     return data;
   }
 }

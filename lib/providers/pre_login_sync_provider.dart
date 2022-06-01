@@ -48,6 +48,7 @@ class PreLoginSyncProvider extends ChangeNotifier {
                   value.paymentTypeDao.insertAllPaymentType(syncResponse.data!.paymentTypes!),
                   value.subscriptionPlansDao.insertAllSubscriptionPlans(syncResponse.data!.subscriptionPlans!),
                   value.serviceTypesDao.insertAllServiceTypes(syncResponse.data!.serviceTypes!),
+                  value.customerSupportTypesDao.insertAllCustomerSupportTypes(syncResponse.data!.customerSupportTypes!),
                 ]
                 );
               });

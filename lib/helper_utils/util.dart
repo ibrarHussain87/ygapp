@@ -50,6 +50,21 @@ class Utils {
     return double.parse(splitValue[1]);
   }
 
+  static String getPropertyIcon(int index) {
+    switch(index){
+        case 0:
+        return IC_BAG_RENEWED;
+        case 1:
+        return IC_CONE_RENEWED;
+        case 2:
+        return IC_VAN_RENEWED;
+        case 3:
+        return IC_LOCATION_RENEWED;
+        default:
+        return IC_BAG_RENEWED;
+    }
+  }
+
   static bool setCottonVisibility(List<dynamic> list) {
     bool showCotton = false;
     list.forEach((element) {
@@ -177,17 +192,11 @@ class Utils {
     String familyData = "";
     switch (specification.fabricFamilyId) {
       case '101':
-        /*familyData = '${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}/${specification.gsmCount ?? Utils.checkNullString(false)}/${specification.fabricBlend ?? Utils.checkNullString(false)}';*/
         familyData = '${specification.count ?? Utils.checkNullString(false)}'
             '/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}';
         break;
       case '102':
-       /* familyData =
-        '${specification.fabricLoomName ?? Utils.checkNullString(false)},${specification.count ?? Utils.checkNullString(false)}/'
-            '${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
-            'x${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}'
-            'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';*/
-        familyData =
+       familyData =
         '${specification.fabricLoomName ?? Utils.checkNullString(false)} ${specification.warpCount ?? Utils.checkNullString(false)}/'
             '${getPlyString(specification.fabricWarpPlyName ?? Utils.checkNullString(false))}'
             'x${specification.weftCount ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricWeftPlyName ?? Utils.checkNullString(false))}'
@@ -200,7 +209,7 @@ class Utils {
         break;
       case '104':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}/${specification.gsmCount ?? Utils.checkNullString(false)}';
+        '${specification.fabricLayyerName != null ? '${specification.fabricLayyerName} Layer' : Utils.checkNullString(false)}, ${specification.gsmCount != null ? '${specification.gsmCount} Grams' : Utils.checkNullString(false)}';
         break;
     }
     return familyData;
@@ -229,11 +238,10 @@ class Utils {
         break;
       case '103':
         titleData =
-        '${specification.fabricDenimTypeName ?? Utils.checkNullString(false)},${specification.fabricApperance ?? Utils.checkNullString(false)}';
+        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}';
         break;
       case '104':
-        titleData =
-            specification.fabricLayyerName ?? Utils.checkNullString(false);
+        titleData ='${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
         break;
     }
     return titleData;

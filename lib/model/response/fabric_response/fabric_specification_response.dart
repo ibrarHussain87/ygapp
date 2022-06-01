@@ -257,7 +257,7 @@ class FabricSpecification {
     proposalCount = json['proposal_count'];
     fabricKnittingTypeName = json['fabric_knitting_type_name'];
     fabricDenimTypeName = json['fabric_denim_type_name'];
-    fabricWeavePatternName = json['fabric_weave_pattern_name'];
+    fabricWeavePatternName = json['fabric_weave_pattern'];
     if (json['pictures'] != null) {
       pictures = <Pictures>[];
       json['pictures'].forEach((v) {
@@ -334,7 +334,7 @@ class FabricSpecification {
     data['port_name'] = this.portName;
     data['fabric_knitting_type_name'] = this.fabricKnittingTypeName;
     data['fabric_denim_type_name'] = this.fabricDenimTypeName;
-    data['fabric_weave_pattern_name'] = this.fabricWeavePatternName;
+    data['fabric_weave_pattern'] = this.fabricWeavePatternName;
     data['matched_count'] = this.matchedCount;
     data['proposal_count'] = this.proposalCount;
     if (formation != null) {

@@ -85,6 +85,8 @@ class _$AppDatabase extends AppDatabase {
 
   ServiceTypesDao? _serviceTypesDaoInstance;
 
+  CustomerSupportTypesDao? _customerSupportTypesDaoInstance;
+
   BrandsDao? _brandsDaoInstance;
 
   CertificationsDao? _certificationDaoInstance;
@@ -294,6 +296,8 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `service_types` (`serviceTypeId` INTEGER, `serviceTypeName` TEXT, `serviceTypeStatus` TEXT, PRIMARY KEY (`serviceTypeId`))');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `customer_support_types` (`cstypeId` INTEGER, `cstypeName` TEXT, `cstypeStatus` TEXT, PRIMARY KEY (`cstypeId`))');
+        await database.execute(
             'CREATE TABLE IF NOT EXISTS `pattern_characteristics_table` (`ypcId` INTEGER, `ypcName` TEXT, `ypcPatternIdfk` TEXT, `ypcDescription` TEXT, `ypcIsActive` TEXT, `ypcSortid` TEXT, PRIMARY KEY (`ypcId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `pattern_table` (`ypId` INTEGER, `familyId` TEXT, `ypName` TEXT, `spun_technique_id` TEXT, `ypDescription` TEXT, `ypIsActive` TEXT, `catSortid` TEXT, PRIMARY KEY (`ypId`))');
@@ -382,6 +386,12 @@ class _$AppDatabase extends AppDatabase {
   ServiceTypesDao get serviceTypesDao {
     return _serviceTypesDaoInstance ??=
         _$ServiceTypesDao(database, changeListener);
+  }
+
+  @override
+  CustomerSupportTypesDao get customerSupportTypesDao {
+    return _customerSupportTypesDaoInstance ??=
+        _$CustomerSupportTypesDao(database, changeListener);
   }
 
   @override
@@ -1567,6 +1577,74 @@ class _$ServiceTypesDao extends ServiceTypesDao {
   Future<List<int>> insertAllServiceTypes(List<ServiceTypes> serviceTypes) {
     return _serviceTypesInsertionAdapter.insertListAndReturnIds(
         serviceTypes, OnConflictStrategy.replace);
+  }
+}
+
+class _$CustomerSupportTypesDao extends CustomerSupportTypesDao {
+  _$CustomerSupportTypesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _customerSupportTypesInsertionAdapter = InsertionAdapter(
+            database,
+            'customer_support_types',
+            (CustomerSupportTypes item) => <String, Object?>{
+                  'cstypeId': item.cstypeId,
+                  'cstypeName': item.cstypeName,
+                  'cstypeStatus': item.cstypeStatus
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CustomerSupportTypes>
+      _customerSupportTypesInsertionAdapter;
+
+  @override
+  Future<List<CustomerSupportTypes>> findAllCustomerSupportTypes() async {
+    return _queryAdapter.queryList('SELECT * FROM customer_support_types',
+        mapper: (Map<String, Object?> row) => CustomerSupportTypes(
+            cstypeId: row['cstypeId'] as int?,
+            cstypeName: row['cstypeName'] as String?,
+            cstypeStatus: row['cstypeStatus'] as String?));
+  }
+
+  @override
+  Future<CustomerSupportTypes?> findCustomerSupportTypesWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM customer_support_types where cstype_id = ?1',
+        mapper: (Map<String, Object?> row) => CustomerSupportTypes(
+            cstypeId: row['cstypeId'] as int?,
+            cstypeName: row['cstypeName'] as String?,
+            cstypeStatus: row['cstypeStatus'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteCustomerSupportType(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from customer_support_types where cstype_id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from customer_support_types');
+  }
+
+  @override
+  Future<void> insertCustomerSupportType(
+      CustomerSupportTypes customerSupportTypes) async {
+    await _customerSupportTypesInsertionAdapter.insert(
+        customerSupportTypes, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCustomerSupportTypes(
+      List<CustomerSupportTypes> customerSupportTypes) {
+    return _customerSupportTypesInsertionAdapter.insertListAndReturnIds(
+        customerSupportTypes, OnConflictStrategy.replace);
   }
 }
 

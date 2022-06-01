@@ -64,6 +64,7 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import '../model/response/common_response_models/category_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import 'dao/customer_support_types_dao.dart';
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
 import 'dao/fabric_dao/fabric_blends_dao.dart';
 import 'dao/fabric_dao/fabric_color_treatment_dao.dart';
@@ -97,7 +98,7 @@ part 'app_database.g.dart'; // the generated code will be there
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
-  GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,
+  GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,CustomerSupportTypes,
   PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
@@ -118,6 +119,7 @@ abstract class AppDatabase extends FloorDatabase {
   DesignationsDao get designationsDao;
   SubscriptionPlansDao get subscriptionPlansDao;
   ServiceTypesDao get serviceTypesDao;
+  CustomerSupportTypesDao get customerSupportTypesDao;
 
   BrandsDao get brandsDao;
 
