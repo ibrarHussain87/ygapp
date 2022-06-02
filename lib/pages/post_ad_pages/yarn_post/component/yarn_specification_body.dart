@@ -204,7 +204,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    } */else {
+    }*/ else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
@@ -476,8 +476,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   final List<int> _plyIdList = [1, 5, 9, 13];
   final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
-  final List<int> _patternTLPIdList = [2, 9, 12, 14];
-  final List<int> _patternGRIdList = [10, 16];
+  final List<int> _patternTLPIdList = [1,2,3,4, 9, 12, 14];
+  final List<int> _patternGRIdList = [20,13,8];
 
   //Show Hide on dependency
   bool _showDyingMethod = false;
