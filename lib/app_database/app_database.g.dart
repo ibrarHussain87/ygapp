@@ -63,6 +63,10 @@ class _$AppDatabase extends AppDatabase {
 
   UserDao? _userDaoInstance;
 
+  BusinessInfoDao? _businessInfoDaoInstance;
+
+  UserBrandsDao? _userBrandsDaoInstance;
+
   FiberSettingDao? _fiberSettingDaoInstance;
 
   FiberFamilyDao? _fiberFamilyDaoInstance;
@@ -194,7 +198,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `username` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `companyId` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, `businessInfo` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user_table` (`id` INTEGER, `name` TEXT, `username` TEXT, `telephoneNumber` TEXT, `operatorId` TEXT, `status` TEXT, `lastActive` TEXT, `fcmToken` TEXT, `otp` TEXT, `postalCode` TEXT, `countryId` TEXT, `cityStateId` TEXT, `profileStatus` TEXT, `email` TEXT, `emailVerifiedAt` TEXT, `company` TEXT, `companyId` TEXT, `ntn_number` TEXT, `user_country` TEXT, `city_state_name` TEXT, `address` TEXT, `city` TEXT, `whatsApp` TEXT, `roleId` TEXT, `apiToken` TEXT, `deletedAt` TEXT, `createdAt` TEXT, `updatedAt` TEXT, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_family` (`fiberFamilyId` INTEGER NOT NULL, `fiberFamilyCategoryIdFk` TEXT, `fiberFamilyParentId` TEXT, `fiberFamilyName` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `fiberFamilyIsActive` TEXT, `fiberFamilySortId` TEXT, PRIMARY KEY (`fiberFamilyId`))');
         await database.execute(
@@ -313,6 +317,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `yarn_types_table` (`ytId` INTEGER, `ytBlendIdfk` TEXT, `ytName` TEXT, `dannierRange` TEXT, `filamentRange` TEXT, `ytIsActive` TEXT, `ytSortid` TEXT, PRIMARY KEY (`ytId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `stocklots_family` (`stocklotFamilyId` INTEGER, `stocklotFamilyParentId` TEXT, `stocklotFamilyName` TEXT, `stocklotFamilyActive` TEXT, `stocklotFamilySortid` TEXT, PRIMARY KEY (`stocklotFamilyId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `business_info_table` (`employmentRole` TEXT, `ntn_number` TEXT, `trade_mark` TEXT, `name` TEXT, `id` INTEGER, `designation_idfk` TEXT, `postalCode` TEXT, `countryId` TEXT, `userId` TEXT, `cityStateId` TEXT, `city` TEXT, `website` TEXT, `address` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `user_brands` (`brdId` INTEGER, `brdName` TEXT, PRIMARY KEY (`brdId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -323,6 +331,17 @@ class _$AppDatabase extends AppDatabase {
   @override
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
+
+  @override
+  BusinessInfoDao get businessInfoDao {
+    return _businessInfoDaoInstance ??=
+        _$BusinessInfoDao(database, changeListener);
+  }
+
+  @override
+  UserBrandsDao get userBrandsDao {
+    return _userBrandsDaoInstance ??= _$UserBrandsDao(database, changeListener);
   }
 
   @override
@@ -667,12 +686,14 @@ class _$UserDao extends UserDao {
                   'ntn_number': item.ntn_number,
                   'user_country': item.user_country,
                   'city_state_name': item.city_state_name,
+                  'address': item.address,
+                  'city': item.city,
+                  'whatsApp': item.whatsApp,
                   'roleId': item.roleId,
                   'apiToken': item.apiToken,
                   'deletedAt': item.deletedAt,
                   'createdAt': item.createdAt,
-                  'updatedAt': item.updatedAt,
-                  'businessInfo': item.businessInfo
+                  'updatedAt': item.updatedAt
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -699,6 +720,9 @@ class _$UserDao extends UserDao {
             postalCode: row['postalCode'] as String?,
             countryId: row['countryId'] as String?,
             cityStateId: row['cityStateId'] as String?,
+            address: row['address'] as String?,
+            whatsApp: row['whatsApp'] as String?,
+            city: row['city'] as String?,
             profileStatus: row['profileStatus'] as String?,
             email: row['email'] as String?,
             emailVerifiedAt: row['emailVerifiedAt'] as String?,
@@ -710,8 +734,7 @@ class _$UserDao extends UserDao {
             apiToken: row['apiToken'] as String?,
             deletedAt: row['deletedAt'] as String?,
             createdAt: row['createdAt'] as String?,
-            updatedAt: row['updatedAt'] as String?,
-            businessInfo: row['businessInfo'] as String?));
+            updatedAt: row['updatedAt'] as String?));
   }
 
   @override
@@ -722,6 +745,125 @@ class _$UserDao extends UserDao {
   @override
   Future<void> insertUser(User user) async {
     await _userInsertionAdapter.insert(user, OnConflictStrategy.replace);
+  }
+}
+
+class _$BusinessInfoDao extends BusinessInfoDao {
+  _$BusinessInfoDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _businessInfoInsertionAdapter = InsertionAdapter(
+            database,
+            'business_info_table',
+            (BusinessInfo item) => <String, Object?>{
+                  'employmentRole': item.employmentRole,
+                  'ntn_number': item.ntn_number,
+                  'trade_mark': item.trade_mark,
+                  'name': item.name,
+                  'id': item.id,
+                  'designation_idfk': item.designation_idfk,
+                  'postalCode': item.postalCode,
+                  'countryId': item.countryId,
+                  'userId': item.userId,
+                  'cityStateId': item.cityStateId,
+                  'city': item.city,
+                  'website': item.website,
+                  'address': item.address
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<BusinessInfo> _businessInfoInsertionAdapter;
+
+  @override
+  Future<BusinessInfo?> getBusinessInfo() async {
+    return _queryAdapter.query('SELECT * FROM business_info_table',
+        mapper: (Map<String, Object?> row) => BusinessInfo(
+            website: row['website'] as String?,
+            postalCode: row['postalCode'] as String?,
+            ntn_number: row['ntn_number'] as String?,
+            address: row['address'] as String?,
+            city: row['city'] as String?,
+            designation_idfk: row['designation_idfk'] as String?,
+            name: row['name'] as String?,
+            countryId: row['countryId'] as String?,
+            cityStateId: row['cityStateId'] as String?,
+            employmentRole: row['employmentRole'] as String?,
+            trade_mark: row['trade_mark'] as String?,
+            userId: row['userId'] as String?));
+  }
+
+  @override
+  Future<void> deleteBusinessInfoData() async {
+    await _queryAdapter.queryNoReturn('delete FROM business_info_table');
+  }
+
+  @override
+  Future<void> insertBusinessInfo(BusinessInfo businessInfo) async {
+    await _businessInfoInsertionAdapter.insert(
+        businessInfo, OnConflictStrategy.replace);
+  }
+}
+
+class _$UserBrandsDao extends UserBrandsDao {
+  _$UserBrandsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _userBrandsInsertionAdapter = InsertionAdapter(
+            database,
+            'user_brands',
+            (UserBrands item) => <String, Object?>{
+                  'brdId': item.brdId,
+                  'brdName': item.brdName
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<UserBrands> _userBrandsInsertionAdapter;
+
+  @override
+  Future<List<UserBrands>> findAllUserBrands() async {
+    return _queryAdapter.queryList('SELECT * FROM user_brands',
+        mapper: (Map<String, Object?> row) => UserBrands(
+            brdId: row['brdId'] as int?, brdName: row['brdName'] as String?));
+  }
+
+  @override
+  Future<UserBrands?> findUserBrandWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM user_brands where brdId = ?1',
+        mapper: (Map<String, Object?> row) => UserBrands(
+            brdId: row['brdId'] as int?, brdName: row['brdName'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteUserBrand(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from user_brands where brdId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from user_brands');
+  }
+
+  @override
+  Future<void> insertUserBrands(UserBrands brands) async {
+    await _userBrandsInsertionAdapter.insert(
+        brands, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllUserBrands(List<UserBrands> brands) {
+    return _userBrandsInsertionAdapter.insertListAndReturnIds(
+        brands, OnConflictStrategy.replace);
   }
 }
 
@@ -5507,6 +5649,3 @@ class _$YarnAppearanceDao extends YarnAppearanceDao {
         yarnAppearance, OnConflictStrategy.replace);
   }
 }
-
-// ignore_for_file: unused_element
-final _jsonConverter = JsonConverter();

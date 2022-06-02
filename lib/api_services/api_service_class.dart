@@ -38,6 +38,7 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
+import '../model/request/update_profile/brands_request_model.dart';
 import '../model/request/update_profile/update_business_request.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
 import '../model/response/common_response_models/countries_response.dart';
@@ -66,7 +67,8 @@ class ApiService {
   static const String LOGIN_END_POINT = "/login";
   static const String SIGN_UP_END_POINT = "/register";
   static const String PROFILE_UPDATE_END_POINT = "/update-personal-info";
-  static const String BUSINESS_UPDATE_END_POINT = "/pdate-business-info";
+  static const String BUSINESS_UPDATE_END_POINT = "/update-business-info";
+  static const String BRANDS_UPDATE_END_POINT = "/update-brands";
   static const String SPEC_USER_END_POINT = "/spec_user";
 
   // static const String SYNC_FIBER_END_POINT = "/sync";
@@ -212,6 +214,34 @@ class ApiService {
       throw (err.toString());
     }
   }
+
+
+  static Future<UpdateProfileResponse> updateBrands(
+      BrandsRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + BRANDS_UPDATE_END_POINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return UpdateProfileResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
 
   static Future<SpecificationUserResponse> getSpecificationUser(
       SpecificationRequestModel requestModel) async {

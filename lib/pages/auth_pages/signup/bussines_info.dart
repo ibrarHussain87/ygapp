@@ -9,6 +9,7 @@ import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/common_response_models/category_response.dart';
 
 import '../../../app_database/app_database_instance.dart';
@@ -45,11 +46,11 @@ class BusinessInfoComponentState
   // List<String> businessAreaList = ["Islamabad","Lahore","Karachi","Quetta","Peshwar"];
   // List<String> suggestionList = ["Uber","Careem","Foodpanda","Director","CEO"];
   List<Companies> companiesList = [];
-  List<Categories> categoriesList = [];
+  List<GenericCategories> categoriesList = [];
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   SignUpRequestModel? _signupRequestModel;
 
-  var _typeAheadController=TextEditingController();
+  final _typeAheadController=TextEditingController();
 
   @override
   bool get wantKeepAlive => true;
@@ -63,7 +64,7 @@ class BusinessInfoComponentState
           companiesList=value;
         });
       }),
-      value.categoriesDao.findAllCategories().then((value) {
+      value.genericCategoriesDao.findAllGenericCategories().then((value) {
         setState(() {
           categoriesList=value;
         });
@@ -83,9 +84,7 @@ class BusinessInfoComponentState
     super.build(context);
 
     _signupRequestModel = Provider.of<SignUpRequestModel?>(context);
-    if (kDebugMode) {
-      print("COuntry"+_signupRequestModel!.countryId.toString());
-    }
+
     return  Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -243,6 +242,7 @@ class BusinessInfoComponentState
                   _typeAheadController.text = suggestion.name.toString();
                   _signupRequestModel?.comapnyId=suggestion.id.toString();
                   _signupRequestModel?.comapnyName=suggestion.name.toString();
+                  _signupRequestModel!.otherCompany = "0";
                 },
                 errorBuilder:(BuildContext context, Object? error) =>
                     Text(
@@ -260,9 +260,9 @@ class BusinessInfoComponentState
                 onSaved: (value) {
                   print("Value"+value.toString());
                   _signupRequestModel?.company = value;
-                  if(companiesList.where((element) => element.name == value).toList().isEmpty){
-                    _signupRequestModel!.otherCompany = "1";
-                  }
+//                  if(companiesList.where((element) => element.name == value).toList().isEmpty){
+//                    _signupRequestModel!.otherCompany = "1";
+//                  }
                 }
 
               ),
@@ -285,7 +285,7 @@ class BusinessInfoComponentState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              DropdownButtonFormField<Categories>(
+              DropdownButtonFormField<GenericCategories>(
 
                 decoration:InputDecoration(
                   contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
@@ -302,7 +302,7 @@ class BusinessInfoComponentState
                 isExpanded: true,
                 iconSize: 21,
                 items:categoriesList.map((location) {
-                  return DropdownMenuItem<Categories>(
+                  return DropdownMenuItem<GenericCategories>(
                     child: Text(location.catName.toString()),
                     value: location,
 

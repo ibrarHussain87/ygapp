@@ -602,7 +602,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           /*remove operator and added static data for parameter*/
           _updateProfileRequestModel.postalCode = '1';
           _updateProfileRequestModel.countryId = '1';
-          _updateProfileRequestModel.cityStateId = '1';
+//          _updateProfileRequestModel.cityStateId = '1';
           _updateProfileRequestModel.id = user.id.toString();
           _updateProfileRequestModel.name = user.name.toString();
           Logger().e(_updateProfileRequestModel.toJson());
