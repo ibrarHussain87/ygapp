@@ -78,8 +78,6 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                         value.stocklotFamilyId.toString());
                                     stocklotProvider.setShowCategory(true);
                                     stocklotProvider.setShowSubCategory(true);
-                                    // stocklotProvider.setSubCatIndex(-1);
-                                    // stocklotProvider.setCatIndex(-1);
                                     stocklotProvider.getStockLotSpecRequestModel
                                         .stocklotFamilyId = null;
                                   },
@@ -114,12 +112,10 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                           stocklotProvider.stocklotCategories!,
                                       selectedIndex: -1,
                                       callback: (StockLotFamily value) {
-                                        stocklotProvider.stocklotRequestModel
-                                                .subcategoryId =
+                                        stocklotProvider
+                                            .getStockLotSpecRequestModel
+                                            .stocklotFamilyId =
                                             value.stocklotFamilyId.toString();
-                                        // _getStockLotSpecRequestModel.categoryId = value.stocklotFamilyId.toString();
-                                        stocklotProvider.getSubcategories(
-                                            value.stocklotFamilyId.toString());
                                       },
                                     ),
                                   )
@@ -127,7 +123,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                               ),
                             ),
                           ),
-                          Visibility(
+                          /*Visibility(
                             visible: stocklotProvider.showSubCategory,
                             child: Container(
                               padding: EdgeInsets.only(
@@ -164,7 +160,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                 ],
                               ),
                             ),
-                          ),
+                          ),*/
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

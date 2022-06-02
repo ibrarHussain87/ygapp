@@ -20,7 +20,7 @@ class GetStockLotSpecRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'spc_user_idfk': spcUserIdfk??'',
+      'user_id': spcUserIdfk??'',
       'category_id': categoryId??'',
       'is_offering': isOffering??'',
       'locality': localInternational??'',

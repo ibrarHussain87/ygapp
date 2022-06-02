@@ -131,10 +131,12 @@ fabricPlySheet(
                                         selectedIndex: _createRequestModel.fs_ply_idfk == null
                                             ? -1 :  _plyList.where((element) =>
                                         element.fabricFamilyIdfk == familyId)
-                                            .toList().indexWhere((element) => element.fabricPlyId.toString() == _createRequestModel.fs_ply_idfk),
+                                            .toList().indexWhere((element) =>
+                                        element.fabricPlyId.toString() == _createRequestModel.fs_ply_idfk
+                                            && element.fabricPlyType == '0'),
                                         spanCount: 3,
                                         listOfItems: _plyList.where((element) =>
-                                        element.fabricFamilyIdfk == familyId)
+                                        element.fabricFamilyIdfk == familyId && element.fabricPlyType == '0')
                                             .toList(),
                                         callback: (FabricPly value) {
                                           /*_createRequestModel.fs_ply_idfk =

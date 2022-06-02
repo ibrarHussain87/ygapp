@@ -1513,7 +1513,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
   }
 
   _initialValuesRequestModel() {
-    _createRequestModel!.is_offering = widget.selectedTab;
+    _createRequestModel!.is_offering = widget.businessArea;
     // _createRequestModel!.fbp_price_terms_idfk =
     //     widget.priceTerms!.first.ptrId.toString();
     // _createRequestModel!.fbp_count_unit_idfk = _unitsList

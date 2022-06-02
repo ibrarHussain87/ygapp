@@ -36,7 +36,7 @@ class FabricSpecificationListFutureState extends State<FabricSpecificationListFu
   void initState() {
     getRequestModel.locality = widget.locality;
     getRequestModel.category_id = 3.toString();
-    //getRequestModel.is_offering = "1";
+    getRequestModel.is_offering = "1";
     fabricSpecificationsProvider = Provider.of<FabricSpecificationsProvider>(context, listen: false);
     fabricSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
     super.initState();

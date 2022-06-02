@@ -158,7 +158,7 @@ class FabricCreateRequestModel {
       'fs_quality_idfk': fs_quality_idfk ?? "",
       'fs_grade_idfk': fs_grade_idfk ?? "",
       'fs_certification_idfk': fs_certification_idfk ?? "",
-      'fs_color_treatment_method_idfk': fs_color_treatment_method_idfk ?? "",
+      'fs_fctm_idfk': fs_color_treatment_method_idfk ?? "",
       'fs_dying_method_idfk': fs_dying_method_idfk ?? "",
       'fs_color': fs_color ?? "",
       'fs_tuckin_width': fs_tuckin_width ?? "",

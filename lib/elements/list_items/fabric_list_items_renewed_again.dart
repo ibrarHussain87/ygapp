@@ -743,7 +743,7 @@ Row setFabricBlueTags(FabricSpecification specification) {
 }
 
 void addProperty(String? property, List<dynamic> list) {
-  if (property != null) {
+  if (property != null && property.isNotEmpty) {
     list.add(property);
   }
 }
