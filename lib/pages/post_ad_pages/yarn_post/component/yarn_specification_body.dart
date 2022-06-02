@@ -477,7 +477,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final List<int> _plyIdList = [1, 5, 9, 13];
   final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
   final List<int> _patternTLPIdList = [1,2,3,4, 9, 12, 14];
-  final List<int> _patternGRIdList = [20,13,8];
+  final List<int> _patternGRIdList = [20,10,16];
 
   //Show Hide on dependency
   bool _showDyingMethod = false;
@@ -883,47 +883,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 )),
 
-            //Show Appearance
-            Visibility(
-              visible:
-                  Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance),
-              child: Padding(
-                padding: EdgeInsets.only(top: 8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding:
-                            const EdgeInsets.only(left: 0, top: 4, bottom: 4),
-                        child:
-                            TitleSmallBoldTextWidget(title: apperance + '*')),
-                    SingleSelectTileWidget(
-                      selectedIndex: -1,
-                      key: _appearanceKey,
-                      spanCount: 3,
-                      listOfItems: _yarnPostProvider.appearanceList!,
-                      callback: (YarnAppearance value) {
-                        _yarnPostProvider.createRequestModel!.ys_apperance_idfk =
-                            value.yaId.toString();
 
-                        if (value.yaId == 3) {
-                          _showDyingMethod = true;
-                          _yarnPostProvider
-                              .getDyingMethodListWithAprId(value.yaId!);
-                        } else {
-                          _showDyingMethod = false;
-                          _yarnPostProvider
-                              .createRequestModel!.ys_dying_method_idfk = null;
-                          _yarnPostProvider.createRequestModel!.ys_color_code =
-                              null;
-                        }
-                        _yarnPostProvider.notifyUI();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
 
             //Show Quality
             Visibility(
@@ -951,7 +911,47 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 ),
               ),
             ),
+            //Show Appearance
+            Visibility(
+              visible:
+              Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance),
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding:
+                        const EdgeInsets.only(left: 0, top: 4, bottom: 4),
+                        child:
+                        TitleSmallBoldTextWidget(title: apperance + '*')),
+                    SingleSelectTileWidget(
+                      selectedIndex: -1,
+                      key: _appearanceKey,
+                      spanCount: 3,
+                      listOfItems: _yarnPostProvider.appearanceList!,
+                      callback: (YarnAppearance value) {
+                        _yarnPostProvider.createRequestModel!.ys_apperance_idfk =
+                            value.yaId.toString();
 
+                        if (value.yaId == 3) {
+                          _showDyingMethod = true;
+                          _yarnPostProvider
+                              .getDyingMethodListWithAprId(value.yaId!);
+                        } else {
+                          _showDyingMethod = false;
+                          _yarnPostProvider
+                              .createRequestModel!.ys_dying_method_idfk = null;
+                          _yarnPostProvider.createRequestModel!.ys_color_code =
+                          null;
+                        }
+                        _yarnPostProvider.notifyUI();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
             //Show Grade
             Visibility(
               visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showGrade),
@@ -1760,40 +1760,50 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   bool get wantKeepAlive => true;
 
   String? getPlyList(CreateRequestModel createRequestModel) {
-    List<String?> list = [];
-    list.add(createRequestModel.ys_count);
-    list.add(createRequestModel.ys_dty_filament);
-    list.add(createRequestModel.ys_fdy_filament);
-    if (_yarnPostProvider.createRequestModel!.ys_ply_idfk != null) {
-      list.add(_yarnPostProvider.plyList!
-          .where((element) =>
-              element.plyId.toString() == createRequestModel.ys_ply_idfk)
-          .toList()
-          .first
-          .plyName);
-    }
-    if (_yarnPostProvider.createRequestModel!.ys_doubling_method_idFk != null) {
-      list.add(_yarnPostProvider.doublingMethodList!
-          .where((element) =>
-              element.dmId.toString() ==
-              createRequestModel.ys_doubling_method_idFk)
-          .toList()
-          .first
-          .dmName);
-    }
-    if (_yarnPostProvider.createRequestModel!.ys_orientation_idfk != null) {
-      list.add(_yarnPostProvider.orientationList!
-          .where((element) =>
-              element.yoId.toString() == createRequestModel.ys_orientation_idfk)
-          .toList()
-          .first
-          .yoName);
-    }
-    var responseString = Utils.createStringFromList(list);
-    if (responseString.isNotEmpty) {
-      return Utils.createStringFromList(list);
-    } else {
-      return '';
+    // check if ply reset
+    var newPlyList = _yarnPostProvider.plyList!
+        .where((element) =>
+    element.plyId.toString() == createRequestModel.ys_ply_idfk)
+        .toList();
+    if(newPlyList.isNotEmpty){
+      List<String?> list = [];
+      Utils.addProperty(createRequestModel.ys_count, list);
+      Utils.addProperty(createRequestModel.ys_dty_filament, list);
+      Utils.addProperty(createRequestModel.ys_fdy_filament, list);
+      if (_yarnPostProvider.createRequestModel!.ys_ply_idfk != null) {
+        var localPlyList = _yarnPostProvider.plyList!
+            .where((element) =>
+        element.plyId.toString() == createRequestModel.ys_ply_idfk)
+            .toList();
+        if(localPlyList.isNotEmpty){
+          list.add(localPlyList.first.plyName);
+        }
+      }
+      if (_yarnPostProvider.createRequestModel!.ys_doubling_method_idFk != null) {
+        var localDoublingMethodList = _yarnPostProvider.doublingMethodList!
+            .where((element) =>
+        element.dmId.toString() ==
+            createRequestModel.ys_doubling_method_idFk)
+            .toList();
+        if(localDoublingMethodList.isNotEmpty){
+          list.add(localDoublingMethodList.first.dmName);
+        }
+      }
+      if (_yarnPostProvider.createRequestModel!.ys_orientation_idfk != null) {
+        var localOrientationList = _yarnPostProvider.orientationList!
+            .where((element) =>
+        element.yoId.toString() == createRequestModel.ys_orientation_idfk)
+            .toList();
+        if(localOrientationList.isNotEmpty){
+          list.add(localOrientationList.first.yoName);
+        }
+      }
+      var responseString = Utils.createStringFromList(list);
+      if (responseString.isNotEmpty) {
+        return Utils.createStringFromList(list);
+      } else {
+        return '';
+      }
     }
   }
 

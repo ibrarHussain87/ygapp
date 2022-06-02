@@ -143,7 +143,7 @@ class PackagingDetailsState extends State<PackagingDetails>
               int.parse(_createRequestModel!.ys_family_idfk!), 2);
 
     }
-    unitCountSelected = _coneTypeList.first.yctName;
+    unitCountSelected = _unitsList.first.untName;
     _createRequestModel!.cone_type_id = _coneTypeList.first.yctId.toString();
     _createRequestModel!.fbp_count_unit_idfk = _unitsList.first.untId.toString();
     setState(() {
@@ -247,7 +247,29 @@ class PackagingDetailsState extends State<PackagingDetails>
                                 ],
                               ),
                             ),
-
+                            //Show Cone type
+                            Visibility(
+                              // visible:
+                              //     widget.businessArea != yarn ? false : true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                      EdgeInsets.only(top: 8.w, left: 8.w),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: "Packing")),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      selectedIndex: 0,
+                                      listOfItems: _coneTypeList,
+                                      callback: (ConeType value) {
+                                        _createRequestModel!.cone_type_id =
+                                            value.yctId.toString();
+                                      }),
+                                ],
+                              ),
+                            ),
                             //Weight of count calculation
                             Visibility(
                               visible:
@@ -442,29 +464,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                               ),
                             ),
 
-                            //Show Cone type
-                            Visibility(
-                              // visible:
-                              //     widget.businessArea != yarn ? false : true,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 8.w, left: 8.w),
-                                      child: const TitleSmallBoldTextWidget(
-                                          title: "Cone Type")),
-                                  SingleSelectTileWidget(
-                                      spanCount: 3,
-                                      selectedIndex: 0,
-                                      listOfItems: _coneTypeList,
-                                      callback: (ConeType value) {
-                                        _createRequestModel!.cone_type_id =
-                                            value.yctId.toString();
-                                      }),
-                                ],
-                              ),
-                            ),
+
 
                             //Selling Region
                             Visibility(
@@ -1144,104 +1144,135 @@ class PackagingDetailsState extends State<PackagingDetails>
                               ),
                             ),*/
 
-                            //Price Unit and Available Quantity
+                            //Price Unit
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
 //                                    Padding(
 //                                        padding: EdgeInsets.only(
 //                                            top: 8.w, left: 8.w),
 //                                        child: TitleSmallTextWidget(
 //                                            title: priceUnits)),
-                                      SizedBox(height: 12.w),
-                                      TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          cursorColor: lightBlueTabs,
-                                          style: TextStyle(fontSize: 11.sp),
-                                          textAlign: TextAlign.center,
-                                          cursorHeight: 16.w,
-                                          maxLines: 1,
-                                          maxLength: 6,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp("[0-9]")),
-                                          ],
-                                          onSaved: (input) {
-                                            if (_createRequestModel != null) {
-                                              _createRequestModel!.fbp_price =
-                                                  input!;
-                                            }
-                                          },
-                                          validator: (input) {
-                                            if (input == null ||
-                                                input.isEmpty ||
-                                                int.parse(input) < 1) {
-                                              return priceUnits;
-                                            }
-                                            return null;
-                                          },
-                                          decoration: ygTextFieldDecoration(
-                                              priceUnits, priceUnits, true)),
-                                    ],
-                                  )),
-                                  SizedBox(width: 16.w),
-                                  Expanded(
-                                    child:
-                                        //Available Quantity
-                                        Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 12.w,
-                                        ),
+                                  SizedBox(height: 12.w),
+                                  TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      maxLength: 6,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.fbp_price =
+                                          input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return priceUnits;
+                                        }
+                                        return null;
+                                      },
+                                      decoration: ygTextFieldDecoration(
+                                          priceUnits, priceUnits, true)),
+                                ],
+                              ),
+                            ),
+                            // Delivery Period
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 0.w, top: 8, bottom: 4),
+                                    child: TitleSmallBoldTextWidget(
+                                        title: deliveryPeriod)),
+                                SingleSelectTileWidget(
+                                    selectedIndex: -1,
+                                    spanCount: 3,
+                                    listOfItems: _deliverPeriodList
+                                        .where((element) =>
+                                    element.dprCategoryIdfk ==
+                                        _createRequestModel!
+                                            .spc_category_idfk)
+                                        .toList(),
+                                    callback: (DeliveryPeriod value) {
+                                      if (_createRequestModel != null) {
+                                        _createRequestModel!
+                                            .fbp_delivery_period_idfk =
+                                            value.dprId.toString();
+                                        if (value.dprId == 3 ||
+                                            value.dprId == 9) {
+                                          setState(() {
+                                            noOfDays = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            noOfDays = false;
+                                          });
+                                        }
+                                      }
+                                    }),
+                              ],
+                            ),
+                            // Available Quantity
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 12.w,
+                                  ),
 //                                      Padding(
 //                                          padding: EdgeInsets.only(
 //                                              top: 8.w, left: 8.w),
 //                                          child: const TitleSmallTextWidget(
 //                                              title: "Available Quantity")),
-                                        TextFormField(
-                                            controller:
-                                                availableQuantityController,
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            style: TextStyle(fontSize: 11.sp),
-                                            textAlign: TextAlign.center,
-                                            cursorHeight: 16.w,
-                                            maxLines: 1,
-                                            maxLength: 6,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")),
-                                            ],
-                                            onSaved: (input) {
-                                              if (_createRequestModel != null) {
-                                                _createRequestModel!
-                                                        .fbp_available_quantity =
-                                                    input!;
-                                              }
-                                            },
-                                            validator: (input) {
-                                              if (input == null ||
-                                                  input.isEmpty ||
-                                                  int.parse(input) < 1) {
-                                                return "Available Quantity";
-                                              }
-                                              return null;
-                                            },
-                                            decoration: ygTextFieldDecoration(
-                                                "Available Quantity",
-                                                "Available Qunatity",
-                                                true)),
+                                  TextFormField(
+                                      controller:
+                                      availableQuantityController,
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      maxLength: 6,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
                                       ],
-                                    ),
-                                  ),
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!
+                                              .fbp_available_quantity =
+                                          input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return "Available Quantity";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: ygTextFieldDecoration(
+                                          "Available Quantity",
+                                          "Available Qunatity",
+                                          true)),
                                 ],
                               ),
                             ),
@@ -1394,42 +1425,6 @@ class PackagingDetailsState extends State<PackagingDetails>
                             // ),
 
                             //Delivery Period
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0.w, top: 8, bottom: 4),
-                                    child: TitleSmallBoldTextWidget(
-                                        title: deliveryPeriod)),
-                                SingleSelectTileWidget(
-                                    selectedIndex: -1,
-                                    spanCount: 3,
-                                    listOfItems: _deliverPeriodList
-                                        .where((element) =>
-                                            element.dprCategoryIdfk ==
-                                            _createRequestModel!
-                                                .spc_category_idfk)
-                                        .toList(),
-                                    callback: (DeliveryPeriod value) {
-                                      if (_createRequestModel != null) {
-                                        _createRequestModel!
-                                                .fbp_delivery_period_idfk =
-                                            value.dprId.toString();
-                                        if (value.dprId == 3 ||
-                                            value.dprId == 9) {
-                                          setState(() {
-                                            noOfDays = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            noOfDays = false;
-                                          });
-                                        }
-                                      }
-                                    }),
-                              ],
-                            ),
 
                             //No of Days
                             Visibility(
@@ -1546,7 +1541,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
                             Visibility(
                               visible:
-                                  widget.businessArea != yarn ? true : false,
+                                  /*widget.businessArea != yarn ? true : false*/true,
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Column(

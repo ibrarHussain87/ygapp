@@ -174,7 +174,8 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
           genericBlendBottomSheet(
-              context, _postYarnProvider, _postYarnProvider.blendList, 0, () {
+              context, _postYarnProvider, _postYarnProvider.blendList, 0, (){
+                resetYarnPlySheet(_postYarnProvider);
             blendString = setFormations();
             Navigator.pop(context);
           });
@@ -253,6 +254,15 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     Logger().e(formations.toString());
     _postYarnProvider.createRequestModel!.ys_formation = formations;
     return value;
+  }
+
+   resetYarnPlySheet(PostYarnProvider postYarnProvider) {
+    _postYarnProvider.createRequestModel!.ys_count = null;
+    _postYarnProvider.createRequestModel!.ys_dty_filament = null;
+    _postYarnProvider.createRequestModel!.ys_fdy_filament = null;
+    _postYarnProvider.createRequestModel!.ys_ply_idfk = null;
+    _postYarnProvider.createRequestModel!.ys_doubling_method_idFk = null;
+    _postYarnProvider.createRequestModel!.ys_orientation_idfk = null;
   }
 
 //

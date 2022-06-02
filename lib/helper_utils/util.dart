@@ -65,6 +65,13 @@ class Utils {
     }
   }
 
+  static void addProperty(String? property, List<dynamic> list) {
+    if (property != null && property.isNotEmpty) {
+      list.add(property);
+    }
+  }
+
+
   static bool setCottonVisibility(List<dynamic> list) {
     bool showCotton = false;
     list.forEach((element) {
