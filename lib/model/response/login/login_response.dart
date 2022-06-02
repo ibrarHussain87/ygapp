@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/helper_utils/type_converter.dart';
+import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 
 class AuthResponse {
   AuthResponse({
@@ -111,68 +111,6 @@ class Data {
 }
 
 
-class BusinessInfo {
-
-
-  String? employmentRole;
-  String? ntn_number;
-  String? trade_mark;
-  String? name;
-  String? id;
-  String? designation_idfk;
-  String? postalCode;
-  String? countryId;
-  String? userId;
-  String? cityStateId;
-  String? city;
-  String? website;
-  String? address;
-
-  BusinessInfo({this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employmentRole,this.trade_mark,this.userId
-  });
-
-
-
-  Map<String, dynamic>? toJson() {
-  Map<String, dynamic>? map = {
-    'ubi_id': id?.trim(),
-  'ubi_gst_ntn_number': ntn_number?.trim(),
-  'ubi_name': name?.trim(),
-  'ubi_country_idfk': countryId?.trim(),
-  'ubi_state_idfk': cityStateId?.trim(),
-  'ubi_user_idfk': userId?.trim(),
-  'ubi_website': website?.trim(),
-  'ubi_address': address?.trim(),
-  'ubi_city_idfk': city?.trim(),
-  'ubi_zipcode': postalCode?.trim(),
-  'ubi_trade_mark': trade_mark?.trim(),
-  'ubi_employment_role': employmentRole?.trim(),
-  'ubi_designation_idfk': designation_idfk?.trim()
-  };
-
-  return map;
-  }
-
-  BusinessInfo.fromJson(Map<String, dynamic>? json){
-    id = json?['ubi_id'];
-    name = json?['ubi_name'];
-    userId = json?['ubi_user_idfk'];
-    website = json?['ubi_website'];
-    address = json?['ubi_address'];
-    city = json?['ubi_city_idfk'];
-    postalCode = json?['ubi_zipcode'];
-    trade_mark = json?['ubi_trade_mark'];
-    employmentRole = json?['ubi_employment_role'];
-    designation_idfk = json?['ubi_designation_idfk'];
-    countryId = json?['ubi_country_idfk'];
-    cityStateId = json?['ubi_state_idfk'];
-    ntn_number = json?['ubi_gst_ntn_number'];
-  }
-
-
-}
-
-
 @Entity(tableName: 'user_table')
 class User{
   User({
@@ -188,6 +126,9 @@ class User{
     this.postalCode,
     required this.countryId,
     this.cityStateId,
+    this.address,
+    this.whatsApp,
+    this.city,
     this.profileStatus,
     required this.email,
     this.emailVerifiedAt,
@@ -200,7 +141,8 @@ class User{
     this.deletedAt,
     required this.createdAt,
     required this.updatedAt,
-    required this.businessInfo,
+    this.businessInfo,
+    this.brands,
     // required this.certifications,
   });
   @PrimaryKey(autoGenerate: false)
@@ -224,13 +166,19 @@ class User{
   String? ntn_number;
   String? user_country;
   String? city_state_name;
+  String? address;
+  String? city;
+  String? whatsApp;
   String? roleId;
   String? apiToken;
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
-//  BusinessInfo? businessInfo;
-  String? businessInfo;
+  @ignore
+  BusinessInfo? businessInfo;
+//  String? businessInfo;
+  @ignore
+  List<UserBrands>? brands;
   // @ignore
   // late final List<dynamic> certifications;
 
@@ -248,6 +196,9 @@ class User{
     postalCode = json['postal_code'];
     countryId = json['country_id'];
     cityStateId = json['city_state_id'];
+    address = json['address'];
+    city = json['city'];
+    whatsApp = json['whatsapp'];
     profileStatus = json['profile_status'];
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
@@ -261,9 +212,10 @@ class User{
     deletedAt = null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-//    businessInfo = BusinessInfo.fromJson(json['business_info']);
-    businessInfo = json['business_info'].toString();
-    // certifications = List.castFrom<dynamic, dynamic>(json['certifications']);
+    businessInfo = BusinessInfo.fromJson(json['business_info']);
+//    businessInfo = '${BusinessInfo.fromJson(json['business_info'])}';
+    brands = json['brands'].map<UserBrands>((json) {return UserBrands.fromJson(json);}).toList();
+//    brands = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 
   Map<String, dynamic>? toJson() {
@@ -280,6 +232,9 @@ class User{
     _data['postal_code'] = postalCode;
     _data['country_id'] = countryId;
     _data['city_state_id'] = cityStateId;
+    _data['address'] = address;
+    _data['city'] = city;
+    _data['whatsapp'] = whatsApp;
     _data['profile_status'] = profileStatus;
     _data['email'] = email;
     _data['email_verified_at'] = emailVerifiedAt;
@@ -294,8 +249,74 @@ class User{
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
     _data['business_info'] = businessInfo;
+    _data['brands'] = brands;
     // _data['certifications'] = certifications;
     return _data;
   }
+
+}
+
+
+@Entity(tableName: 'business_info_table')
+class BusinessInfo {
+
+
+  String? employmentRole;
+  String? ntn_number;
+  String? trade_mark;
+  String? name;
+  @PrimaryKey(autoGenerate: false)
+  int? id;
+  String? designation_idfk;
+  String? postalCode;
+  String? countryId;
+  String? userId;
+  String? cityStateId;
+  String? city;
+  String? website;
+  String? address;
+
+  BusinessInfo({this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employmentRole,this.trade_mark,this.userId
+  });
+
+
+
+  Map<String, dynamic>? toJson() {
+    Map<String, dynamic>? map = {
+      'ubi_id': id,
+      'ubi_gst_ntn_number': ntn_number?.trim(),
+      'ubi_name': name?.trim(),
+      'ubi_country_idfk': countryId?.trim(),
+      'ubi_state_idfk': cityStateId?.trim(),
+      'ubi_user_idfk': userId?.trim(),
+      'ubi_website': website?.trim(),
+      'ubi_address': address?.trim(),
+      'ubi_city_idfk': city?.trim(),
+      'ubi_zipcode': postalCode?.trim(),
+      'ubi_trade_mark': trade_mark?.trim(),
+      'ubi_employment_role': employmentRole?.trim(),
+      'ubi_designation_idfk': designation_idfk?.trim()
+    };
+
+    return map;
+  }
+
+  BusinessInfo.fromJson(Map<String, dynamic>? json){
+    id = json?['ubi_id'];
+    name = json?['ubi_name'];
+    userId = json?['ubi_user_idfk'];
+    website = json?['ubi_website'];
+    address = json?['ubi_address'];
+    city = json?['ubi_city_idfk'];
+    postalCode = json?['ubi_zipcode'];
+    trade_mark = json?['ubi_trade_mark'];
+    employmentRole = json?['ubi_employment_role'];
+    designation_idfk = json?['ubi_designation_idfk'];
+    countryId = json?['ubi_country_idfk'];
+    cityStateId = json?['ubi_state_idfk'];
+    ntn_number = json?['ubi_gst_ntn_number'];
+  }
+
+
 
 }

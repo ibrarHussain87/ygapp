@@ -45,7 +45,7 @@ class SignUpRequestModel {
       'telephone_number': telephoneNumber.toString().trim(),
       'company_id': comapnyId,
       'company_name': comapnyName ?? company,
-      'other_company': otherCompany,
+      'other_company': otherCompany ?? "1",
       'operator_id': '4'
     };
 

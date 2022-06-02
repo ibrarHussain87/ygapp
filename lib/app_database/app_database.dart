@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:yg_app/app_database/dao/brands_dao.dart';
+import 'package:yg_app/app_database/dao/business_info_dao.dart';
 import 'package:yg_app/app_database/dao/category_dao.dart';
 import 'package:yg_app/app_database/dao/certifications_dao.dart';
 import 'package:yg_app/app_database/dao/cities_dao.dart';
@@ -40,6 +41,7 @@ import 'package:yg_app/app_database/dao/yarn_dao/yarn_blend_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_family_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_settings_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_types_dao.dart';
+import 'package:yg_app/app_database/user_brands_dao.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/helper_utils/type_converter.dart';
@@ -98,9 +100,13 @@ part 'app_database.g.dart'; // the generated code will be there
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
   GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,
-  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily])
+  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily,BusinessInfo,UserBrands])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
+
+  BusinessInfoDao get businessInfoDao;
+
+  UserBrandsDao get userBrandsDao;
 
   FiberSettingDao get fiberSettingDao;
 

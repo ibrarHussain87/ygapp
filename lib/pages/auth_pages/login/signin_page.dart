@@ -710,9 +710,12 @@ class _SignInPageState extends State<SignInPage> {
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.businessInfoDao.insertBusinessInfo(value.data!.user!.businessInfo!);
+              await db.userBrandsDao.insertAllUserBrands(value.data!.user!.brands!);
             });
 
             Logger().e(value.data!.user!.toJson());
+            Logger().e(value.data!.user!.businessInfo!.toJson());
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());
             SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data!.token!);

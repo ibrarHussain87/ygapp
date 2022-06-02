@@ -318,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             await dbInstance.fiberFamilyDao.deleteAll();
                             await dbInstance.patternDao.deleteAll();
                             await dbInstance.patternCharDao.deleteAll();
-                            await dbInstance.paymentTypeDao.deleteAll();
+//                            await dbInstance.paymentTypeDao.deleteAll();
                             await dbInstance.deliveryPeriodDao.deleteAll();
                             await dbInstance.yarnGradesDao.deleteAll();
                             await dbInstance.fiberAppearanceDoa.deleteAll();
@@ -335,11 +335,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             await dbInstance.orientationDao.deleteAll();
                             await dbInstance.plyDao.deleteAll();
                             await dbInstance.qualityDao.deleteAll();
-                            await dbInstance.brandsDao.deleteAll();
-                            await dbInstance.cityStateDao.deleteAll();
-                            await dbInstance.companiesDao.deleteAll();
+//                            await dbInstance.brandsDao.deleteAll();
+//                            await dbInstance.cityStateDao.deleteAll();
+//                            await dbInstance.companiesDao.deleteAll();
 //                          await dbInstanceue.countriesDao.deleteAll();
-                            await dbInstance.portsDao.deleteAll();
+//                            await dbInstance.portsDao.deleteAll();
                             await dbInstance.fabricBlendsDao
                                 .deleteFabricBlends();
                             await dbInstance.fabricFamilyDao
