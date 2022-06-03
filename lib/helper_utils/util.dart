@@ -139,7 +139,7 @@ class Utils {
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} /${formatFormations(specification.yarnFormation??[])}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?'/ ${specification.formationDisplayText}':''}';
         break;
       case '3':
         familyData =
