@@ -113,45 +113,36 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             .then((value) => value.businessInfoDao.getBusinessInfo()),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-             designations=designationsList.where((element) => element.designationId.toString()==snapshot.data?.designation_idfk).single;
-             _updateBusinessRequestModel.designation_idfk=snapshot.data?.designation_idfk;
+             if(designationsList.isNotEmpty)
+               {
+                 designations=designationsList.where((element) => element.designationId.toString()==snapshot.data?.designation_idfk).single;
+
+               }
+            _updateBusinessRequestModel.designation_idfk=snapshot.data?.designation_idfk;
              _updateBusinessRequestModel.city=snapshot.data?.city;
-             companyCountryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
-             _updateBusinessRequestModel.countryId=snapshot.data?.countryId;
-             city?.cityName=snapshot.data!.city;
-             state=cityStateList.where((element) => element.stateId.toString()==snapshot.data?.cityStateId).single;
-             city=citiesList.where((element) => element.cityId.toString()==snapshot.data?.city).single;
-             _companyTypeAheadController.text=snapshot.data!.name!;
+             if(countriesList.isNotEmpty)
+               {
+                 companyCountryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
+
+               }
+            _updateBusinessRequestModel.countryId=snapshot.data?.countryId;
+//             city?.cityName=snapshot.data!.city;
+            if(cityStateList.isNotEmpty)
+              {
+                state=cityStateList.where((element) => element.stateId.toString()==snapshot.data?.cityStateId).single;
+
+              }
+            if(citiesList.isNotEmpty)
+              {
+               city=citiesList.where((element) => element.cityId.toString()==snapshot.data?.city).single;
+
+              }
+
+            _companyTypeAheadController.text=snapshot.data!.name!;
              return Scaffold(
 //              key: scaffoldKey,
               resizeToAvoidBottomInset: true,
               backgroundColor: Colors.white,
-//              appBar: AppBar(
-//                backgroundColor: Colors.white,
-//                centerTitle: true,
-//                leading: GestureDetector(
-//                  behavior: HitTestBehavior.opaque,
-//                  onTap: () {
-//                    Navigator.pop(context);
-//                  },
-//                  child: Padding(
-//                      padding: EdgeInsets.all(12.w),
-//                      child: Card(
-//                        child: Padding(
-//                            padding: EdgeInsets.only(left: 4.w),
-//                            child: Icon(
-//                              Icons.arrow_back_ios,
-//                              color: Colors.black,
-//                              size: 12.w,
-//                            )),
-//                      )),
-//                ),
-//                title: Text('Update Profile',
-//                    style: TextStyle(
-//                        fontSize: 16.0.w,
-//                        color: appBarTextColor,
-//                        fontWeight: FontWeight.w400)),
-//              ),
               body: Column(
                 children: [
                   Form(
@@ -171,7 +162,28 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
               ),
             );
           } else {
-            return Container();
+            return Scaffold(
+//              key: scaffoldKey,
+              resizeToAvoidBottomInset: true,
+              backgroundColor: Colors.white,
+              body: Column(
+                children: [
+                  Form(
+                    key: bussinessFormKey,
+                    child: Expanded(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: Builder(builder: (BuildContext context2) {
+                            return buildBusinessDataColumn(snapshot, context2);
+                          }),
+                        ),
+                      ),
+                    ),
+                  )
+
+                ],
+              ),
+            );
           }
         },
       ),
@@ -220,22 +232,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-////                  initialValue: snapshot.data!.businessInfo?.name ?? '',
-//                  initialValue: BusinessInfo.fromJson(jsonDecode(snapshot.data!.businessInfo!)).name ?? '',
-//                  onSaved: (input) =>
-//                  _updateBusinessRequestModel.name = input!,
-//                  validator: (input) {
-//                    if (input == null || input.isEmpty) {
-//                      return "Please enter company name";
-//                    }
-//                    return null;
-//                  },
-//                  decoration: textFieldProfile(
-//                      'Enter Company Name', "Company Name")
-//              ),
 
               TypeAheadFormField(
 //                  initialValue: snapshot.data?.name ?? '',
@@ -566,6 +562,16 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     state=value;
                     _updateBusinessRequestModel.cityStateId =
                         value!.stateId.toString();
+                    if(citiesList.isNotEmpty)
+                    {
+                      citiesList=citiesList
+                          .where((element) =>
+                      element.stateIdfk ==
+                          value.stateId
+                              .toString())
+                          .toList();
+                      _updateBusinessRequestModel.city=null;
+                    }
                   });
                 },
 
@@ -608,6 +614,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       FocusNode());
                   _updateBusinessRequestModel.city =
                       value?.cityId.toString();
+                  city=value;
                 },
 
                 decoration: dropDownProfile(
