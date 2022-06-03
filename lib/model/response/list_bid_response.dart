@@ -17,9 +17,10 @@ class ListBidResponse {
   ListBidResponse.fromJson(Map<String, dynamic> json)
       : status = json['status'] as bool?,
         responseCode = json['response_code'] as int?,
-        data = (json['data'] as List?)
+
+        data = (json['data'] as List?)!.isNotEmpty ? (json['data'] as List?)
             ?.map((dynamic e) => BidData.fromJson(e as Map<String, dynamic>))
-            .toList(),
+            .toList() : List.empty(),
         message = json['message'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -68,12 +69,19 @@ class BidData {
         quantity = json['quantity'],
         status = json['status'] as String?,
         date = json['date'] as String?,
-        specification = (json['specification'] as Map<String, dynamic>?) != null
+        /*specification = (json['specification'] as Map<String, dynamic>?) != null
             ? json['category_id'] == "1"
                 ? Specification.fromJson(
                     json['specification'] as Map<String, dynamic>)
                 : YarnSpecification.fromJson(
                     json['specification'] as Map<String, dynamic>)
+            : null;*/
+        specification = json['specification'] != null
+            ? json['category_id'] == "1"
+            ? (json['specification'] as Map<String, dynamic>).isNotEmpty ? Specification.fromJson(
+            json['specification'] as Map<String, dynamic>):null
+            : (json['specification'] as Map<String, dynamic>).isNotEmpty ? YarnSpecification.fromJson(
+            json['specification'] as Map<String, dynamic>):null
             : null;
 
   Map<String, dynamic> toJson() => {
