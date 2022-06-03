@@ -528,6 +528,8 @@ class YgServicePageState extends State<YgServicePage>
                           });
                         },
                         onConfirm: (date) {
+
+                          FocusScope.of(context).requestFocus(FocusNode());
                           print('confirm $date');
                           dateTime= formatDate(date);
 //                          dateTime=date.toString();
