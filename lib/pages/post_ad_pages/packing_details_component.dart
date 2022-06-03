@@ -1225,6 +1225,90 @@ class PackagingDetailsState extends State<PackagingDetails>
                                     }),
                               ],
                             ),
+                            // No of days
+                            Visibility(
+                              visible: noOfDays,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, top: 8, bottom: 4),
+                                      child: const TitleSmallBoldTextWidget(
+                                          title: 'No of Days')),
+                                  SingleSelectTileWidget(
+                                      spanCount: 3,
+                                      listOfItems: Iterable<int>.generate(102)
+                                          .toList()
+                                          .map((value) => value == 101
+                                          ? 'Other'
+                                          : value.toString())
+                                          .toList(),
+                                      callback: (String? value) {
+                                        if(value == 'Other'){
+                                          setState(() {
+                                            noOfDaysTF = true;
+                                          });
+                                        }else{
+                                          setState(() {
+                                            noOfDaysTF = false;
+
+                                          });
+
+                                          _createRequestModel!.spc_no_of_days =
+                                              value!.toString();
+                                        }
+
+                                      }),
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: noOfDaysTF??false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 8.h,),
+//                                  Padding(
+//                                      padding:
+//                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
+//                                      child: const TitleSmallTextWidget(
+//                                          title: "No of Days")),
+                                  TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      style: TextStyle(fontSize: 11.sp),
+                                      textAlign: TextAlign.center,
+                                      cursorHeight: 16.w,
+                                      maxLines: 1,
+                                      maxLength: 6,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onSaved: (input) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.spc_no_of_days= input!;
+                                        }
+                                      },
+                                      validator: (input) {
+                                        if (input == null ||
+                                            input.isEmpty ||
+                                            int.parse(input) < 1) {
+                                          return "No of days";
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (String value) {
+                                        if (_createRequestModel != null) {
+                                          _createRequestModel!.spc_no_of_days= value;
+                                        }
+                                      },
+                                      decoration: ygTextFieldDecoration(
+                                          "No of days", "No of days", true)),
+                                ],
+                              ),
+                            ),
                             // Available Quantity
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
@@ -1427,89 +1511,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                             //Delivery Period
 
                             //No of Days
-                            Visibility(
-                              visible: noOfDays,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 0.w, top: 8, bottom: 4),
-                                      child: const TitleSmallBoldTextWidget(
-                                          title: 'No of Days')),
-                                  SingleSelectTileWidget(
-                                      spanCount: 3,
-                                      listOfItems: Iterable<int>.generate(102)
-                                          .toList()
-                                          .map((value) => value == 101
-                                              ? 'Other'
-                                              : value.toString())
-                                          .toList(),
-                                      callback: (String? value) {
-                                        if(value == 'Other'){
-                                          setState(() {
-                                            noOfDaysTF = true;
-                                          });
-                                        }else{
-                                          setState(() {
-                                            noOfDaysTF = false;
 
-                                          });
-
-                                          _createRequestModel!.spc_no_of_days =
-                                              value!.toString();
-                                        }
-
-                                      }),
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: noOfDaysTF??false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 8.h,),
-//                                  Padding(
-//                                      padding:
-//                                          EdgeInsets.only(top: 8.w, left: 8.w,bottom: 4),
-//                                      child: const TitleSmallTextWidget(
-//                                          title: "No of Days")),
-                                  TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      cursorColor: lightBlueTabs,
-                                      style: TextStyle(fontSize: 11.sp),
-                                      textAlign: TextAlign.center,
-                                      cursorHeight: 16.w,
-                                      maxLines: 1,
-                                      maxLength: 6,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]")),
-                                      ],
-                                      onSaved: (input) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.spc_no_of_days= input!;
-                                        }
-                                      },
-                                      validator: (input) {
-                                        if (input == null ||
-                                            input.isEmpty ||
-                                            int.parse(input) < 1) {
-                                          return "No of days";
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (String value) {
-                                        if (_createRequestModel != null) {
-                                          _createRequestModel!.spc_no_of_days= value;
-                                        }
-                                      },
-                                      decoration: ygTextFieldDecoration(
-                                          "No of days", "No of days", true)),
-                                ],
-                              ),
-                            ),
 
                             Padding(
                               padding: const EdgeInsets.only(top: 18.0),

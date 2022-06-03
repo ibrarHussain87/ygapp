@@ -174,8 +174,8 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
           genericBlendBottomSheet(
-              context, _postYarnProvider, _postYarnProvider.blendList, 0, (){
-                resetYarnPlySheet(_postYarnProvider);
+              context, _postYarnProvider, _postYarnProvider.blendList, 0, () {
+            resetYarnPlySheet(_postYarnProvider);
             blendString = setFormations();
             Navigator.pop(context);
           });
@@ -198,14 +198,14 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
       for (var element in _postYarnProvider.selectedBlends) {
         if (element.isSelected ?? false) {
           var blend = element as Blends;
-          stringList.add(element.blnName);
+         // stringList.add(element.blnName);
           if (blend.has_blend_id_1 != null) {
             BlendModel formationModel = BlendModel(
                 id: int.parse(blend.has_blend_id_1!),
                 relatedBlnId: blend.blnId.toString(),
                 ratio: element.blendRatio);
             formations.add(formationModel.toJson());
-            stringList.add('${element.blendRatio}%');
+            // stringList.add('${element.blendRatio}%');
           }
 
           if (blend.has_blend_id_2 != null) {
@@ -216,7 +216,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                     ? (100 - int.parse(element.blendRatio!)).toString()
                     : '');
             formations.add(formationModel.toJson());
-            if (element.blendRatio!.isNotEmpty) {
+            /*if (element.blendRatio!.isNotEmpty) {
               stringList.removeLast();
               if (element.bln_abrv2 != null) {
                 stringList.add(
@@ -225,7 +225,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 stringList.add(
                     '${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
               }
-            }
+            }*/
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
@@ -234,9 +234,54 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 relatedBlnId: null,
                 ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
-            if (blend.blendRatio!.isNotEmpty) {
+            /*if (blend.blendRatio!.isNotEmpty) {
               stringList.add('${blend.blendRatio}%');
+            }*/
+          }
+        }
+      }
+      if ((_postYarnProvider.selectedBlends.first as Blends).bln_nature ==
+          'Blended') {
+        Logger().e('Blended : ${_postYarnProvider.selectedBlends.length}');
+        _postYarnProvider.selectedBlends.forEach((element) {
+          if (element.isSelected ?? false) {
+            var blend = element as Blends;
+            if (blend.blendRatio!.isNotEmpty) {
+              var blendFormat =
+                  '${blend.bln_abrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              stringList.add(blendFormat);
             }
+          }
+        });
+      } else {
+        Logger().e('Pure : ${_postYarnProvider.selectedBlends.length}');
+        if (_postYarnProvider.selectedBlends.length == 1) {
+          var blend = _postYarnProvider.selectedBlends.first as Blends;
+          if (blend.isSelected ?? false) {
+            stringList.add(blend.bln_abrv);
+          }
+        } else {
+          var blendAbrevs = '';
+          var blendRatios = '';
+          _postYarnProvider.selectedBlends.forEach((element) {
+            if (element.isSelected ?? false) {
+              var blend = element as Blends;
+              if(blend.bln_abrv != null && blend.bln_abrv!.isNotEmpty){
+                blendAbrevs += blend.bln_abrv!;
+              }
+              if(blend.blendRatio != null && blend.blendRatio!.isNotEmpty){
+                if(blendRatios.isEmpty){
+                  blendRatios += blend.blendRatio!;
+                }else{
+                  blendRatios += ':';
+                  blendRatios += blend.blendRatio!;
+                }
+              }
+            }
+          });
+          if(blendAbrevs.isNotEmpty && blendRatios.isNotEmpty){
+            var blendFormat = '$blendAbrevs ($blendRatios)';
+            stringList.add(blendFormat);
           }
         }
       }
@@ -256,7 +301,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     return value;
   }
 
-   resetYarnPlySheet(PostYarnProvider postYarnProvider) {
+  resetYarnPlySheet(PostYarnProvider postYarnProvider) {
     _postYarnProvider.createRequestModel!.ys_count = null;
     _postYarnProvider.createRequestModel!.ys_dty_filament = null;
     _postYarnProvider.createRequestModel!.ys_fdy_filament = null;
