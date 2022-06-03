@@ -241,7 +241,7 @@ class Utils {
         break;
       case '102':
         titleData =
-        '${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)},${specification.formationDisplayText ?? Utils.checkNullString(false)}';
+        specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false);
         break;
       case '103':
         titleData =
@@ -273,6 +273,7 @@ class Utils {
         break;
       case '102':
         List<String?> list = [
+          specification.formationDisplayText,
           specification.fabricWeaveName,
           specification.fabricWeavePatternName,
           specification.fabricApperance
@@ -313,7 +314,7 @@ class Utils {
         "" /* specification.yarnType ?? Utils.checkNullString(false)*/;
         break;
       case '5':
-        titleData = specification.yarnBlend ?? Utils.checkNullString(false);
+        titleData = specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':'';
         break;
     }
     /*if(titleData.isEmpty){

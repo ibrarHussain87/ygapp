@@ -58,8 +58,11 @@ class _BidsListPageState extends State<BidsListPage> {
               return ListView.builder(
                   itemCount: snapshot.data!.data!.length,
                   itemBuilder: (context, index) {
-                    return BidsListItem(
-                        bidData: snapshot.data!.data![index]);
+                   var bidItem = snapshot.data!.data![index];
+                    return bidItem.specification != null ? BidsListItem(bidData: bidItem) : const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Bid Specification does not exist'),
+                    );
                   });
             } else if(snapshot.data != null && snapshot.data!.data!.isEmpty){
               return const Center(
