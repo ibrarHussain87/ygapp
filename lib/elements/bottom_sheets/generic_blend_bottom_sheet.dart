@@ -53,98 +53,101 @@ genericBlendBottomSheet(BuildContext context, dynamic provider,
     context: context,
     isDismissible: false,
     builder: (context) {
-      return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-        return Container(
-          decoration: getRoundedTopCorners(),
-          height: MediaQuery.of(context).size.height * 0.7,
-          child: Form(
-              key: blendedFormKey,
-              child: Column(
-                children: [
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8, top: 8),
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            _yarnPostProvider != null
-                                ? _yarnPostProvider.isBlendSelected = false
-                                : _fabricPostProvider!.isBlendSelected = false;
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.close),
-                        ),
-                      )),
-                  Center(
-                    child: Text(
-                      "Select Yarn Nature",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16.0.sp,
-                          color: headingColor,
-                          fontWeight: FontWeight.w700),
+      return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            decoration: getRoundedTopCorners(),
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: Form(
+                key: blendedFormKey,
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8, top: 8),
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              _yarnPostProvider != null
+                                  ? _yarnPostProvider.isBlendSelected = false
+                                  : _fabricPostProvider!.isBlendSelected = false;
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(Icons.close),
+                          ),
+                        )),
+                    Center(
+                      child: Text(
+                        "Select Nature",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 16.0.sp,
+                            color: headingColor,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  const Divider(),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: Visibility(
-                      visible: true,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 8.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 18, right: 18),
-                              child: SingleSelectTileWidget(
-                                selectedIndex: 0,
-                                spanCount: 2,
-                                listOfItems: _natureYarnList.toList(),
-                                callback: (String value) {
-                                  if (value == "Pure") {
-                                    _notifierNatureSheet.value = false;
-                                  } else {
-                                    _notifierNatureSheet.value = true;
-                                  }
-                                },
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                      child: Visibility(
+                        visible: true,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 8.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 18, right: 18),
+                                child: SingleSelectTileWidget(
+                                  selectedIndex: 0,
+                                  spanCount: 2,
+                                  listOfItems: _natureYarnList.toList(),
+                                  callback: (String value) {
+                                    if (value == "Pure") {
+                                      _notifierNatureSheet.value = false;
+                                    } else {
+                                      _notifierNatureSheet.value = true;
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: ValueListenableBuilder(
-                                    valueListenable: _notifierNatureSheet,
-                                    builder:
-                                        (context, bool notifierValue, child) {
-                                      return getWidget(
-                                          index,
-                                          blends,
-                                          _yarnPostProvider ??
-                                              _fabricPostProvider,
-                                          values,
-                                          callback,
-                                          notifierValue);
-                                    }),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: ValueListenableBuilder(
+                                      valueListenable: _notifierNatureSheet,
+                                      builder:
+                                          (context, bool notifierValue, child) {
+                                        return getWidget(
+                                            index,
+                                            blends,
+                                            _yarnPostProvider ??
+                                                _fabricPostProvider,
+                                            values,
+                                            callback,
+                                            notifierValue);
+                                      }),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
-        );
-      });
+                  ],
+                )),
+          );
+        }),
+      );
     },
   );
 }
@@ -162,7 +165,7 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              "Select Pure Yarn",
+              "Select Pure",
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontSize: 14.0.sp,

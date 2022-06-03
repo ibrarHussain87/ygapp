@@ -236,7 +236,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
       for (var element in postFabricProvider.selectedBlends) {
         if (element.isSelected ?? false) {
           var blend = element as FabricBlends;
-          stringList.add(element.blnName);
+        //  stringList.add(element.blnName);
 
           if (blend.has_blend_id_1 != null) {
             BlendModel formationModel = BlendModel(
@@ -244,7 +244,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
                 relatedBlnId: blend.blnId.toString(),
                 ratio: element.blendRatio);
             formations.add(formationModel.toJson());
-            stringList.add('${element.blendRatio}%');
+          //  stringList.add('${element.blendRatio}%');
           }
 
           if (blend.has_blend_id_2 != null) {
@@ -254,14 +254,14 @@ class _FabricPostPageState extends State<FabricPostPage> {
                 ratio: element.blendRatio!.isNotEmpty ?
                 (100 - int.parse(element.blendRatio!)).toString():'');
             formations.add(formationModel.toJson());
-            if(element.blendRatio!.isNotEmpty){
+            /*if(element.blendRatio!.isNotEmpty){
               stringList.removeLast();
               if(element.blnAbrv2 != null){
                 stringList.add('${element.blnAbrv2}(${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%)');
               }else{
                 stringList.add('${element.blendRatio}% : ${(100 - int.parse(element.blendRatio!)).toString()}%');
               }
-            }
+            }*/
           }
 
           if (blend.has_blend_id_1 == null && blend.has_blend_id_2 == null) {
@@ -270,9 +270,54 @@ class _FabricPostPageState extends State<FabricPostPage> {
                 relatedBlnId: null,
                 ratio: blend.blendRatio!.isEmpty ? "100" : blend.blendRatio);
             formations.add(formationModel.toJson());
-            if(blend.blendRatio!.isNotEmpty){
+            /*if(blend.blendRatio!.isNotEmpty){
               stringList.add('${blend.blendRatio}%');
+            }*/
+          }
+        }
+      }
+      if ((postFabricProvider.selectedBlends.first as FabricBlends).blnNature ==
+          'Blended') {
+        Logger().e('Blended : ${postFabricProvider.selectedBlends.length}');
+        postFabricProvider.selectedBlends.forEach((element) {
+          if (element.isSelected ?? false) {
+            var blend = element as FabricBlends;
+            if (blend.blendRatio!.isNotEmpty) {
+              var blendFormat =
+                  '${blend.blnAbrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              stringList.add(blendFormat);
             }
+          }
+        });
+      } else {
+        Logger().e('Pure : ${postFabricProvider.selectedBlends.length}');
+        if (postFabricProvider.selectedBlends.length == 1) {
+          var blend = postFabricProvider.selectedBlends.first as FabricBlends;
+          if (blend.isSelected ?? false) {
+            stringList.add(blend.blnAbrv);
+          }
+        } else {
+          var blendAbrevs = '';
+          var blendRatios = '';
+          postFabricProvider.selectedBlends.forEach((element) {
+            if (element.isSelected ?? false) {
+              var blend = element as FabricBlends;
+              if(blend.blnAbrv != null && blend.blnAbrv!.isNotEmpty){
+                blendAbrevs += blend.blnAbrv!;
+              }
+              if(blend.blendRatio != null && blend.blendRatio!.isNotEmpty){
+                if(blendRatios.isEmpty){
+                  blendRatios += blend.blendRatio!;
+                }else{
+                  blendRatios += ':';
+                  blendRatios += blend.blendRatio!;
+                }
+              }
+            }
+          });
+          if(blendAbrevs.isNotEmpty && blendRatios.isNotEmpty){
+            var blendFormat = '$blendAbrevs ($blendRatios)';
+            stringList.add(blendFormat);
           }
         }
       }
