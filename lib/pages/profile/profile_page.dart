@@ -17,6 +17,8 @@ import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/auth_pages/login_page.dart';
 
+import '../../elements/custom_header.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -41,10 +43,10 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return Scaffold(
-              appBar: AppBar(
+              appBar: /*AppBar(
                 backgroundColor: Colors.white,
                 centerTitle: true,
-                /*leading: GestureDetector(
+                *//*leading: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     Navigator.pop(context);
@@ -60,13 +62,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 12.w,
                             )),
                       )),
-                ),*/
+                ),*//*
                 title: Text('Profile',
                     style: TextStyle(
                         fontSize: 16.0.w,
                         color: appBarTextColor,
                         fontWeight: FontWeight.w400)),
-              ),
+              )*/appBar(context,"Profile",isBackVisible: false),
               key: scaffoldKey,
               backgroundColor: Colors.grey.shade200,
               body: Column(

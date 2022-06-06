@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     end: Alignment.bottomRight,
                     colors: <Color>[appBarColor2,appBarColor1]) ,
                 borderRadius:const BorderRadius.only(
-                    bottomRight:  Radius.circular(20.0),
-                    bottomLeft: Radius.circular(20.0))
+                    bottomRight:  Radius.circular(/*20.0*/0),
+                    bottomLeft: Radius.circular(/*20.0*/0))
 
             ),
             child: Stack(
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     widget.callback(4);
                   },
                   child: Padding(
-                      padding: EdgeInsets.only(left: 10.w,top: 8.w),
+                      padding: EdgeInsets.only(left: 4.w,top: 8.w),
                       child: Icon(
                         Icons.segment,
                         color: Colors.white,
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text("Yarn Guru",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20.0.w,
+                          fontSize: 16.0.w,
                           color: Colors.white,
                           fontWeight: FontWeight.w600)),
                 ),

@@ -87,13 +87,13 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: TextStyle(color: formFieldLabel),),
+          Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
           const Text("*", style: TextStyle(color: Colors.red)),
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
-      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+      hintStyle: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
       border: OutlineInputBorder(
           borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
@@ -111,16 +111,15 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: TextStyle(color: formFieldLabel),),
+          Text(title,style: TextStyle(color: formFieldLabel,fontSize: 13),),
           const Text("*", style: TextStyle(color: Colors.red)),
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
-      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
-
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:Colors.black),
       border: OutlineInputBorder(
-          borderRadius:BorderRadius.all(
+          borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
           ),
           borderSide: BorderSide(color: newColorGrey)

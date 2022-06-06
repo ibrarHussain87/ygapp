@@ -90,7 +90,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 14.0,),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 18.w, right: 18.w),
+                padding: EdgeInsets.only(left: 10.w, right: 10.w),
                 child: ProfileSegmentComponent(
                   selectedTab: "1",
                   stepsCallback: (value) {
@@ -101,8 +101,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

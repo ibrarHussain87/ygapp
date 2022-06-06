@@ -93,18 +93,18 @@ class FabricPageState extends State<FabricPage> {
           heroTag: null,
         ),
         body: Container(
-          color: Colors.grey.shade100,
-          child: Material(
-            elevation: 5,
-            color: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))
-            ),
-            child: Column(
-              children: [
-                Container(
+          color: bgColor,
+          child: Column(
+            children: [
+              Material(
+                elevation: 5,
+                color: Colors.white,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))
+                ),
+                child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   /*decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
@@ -236,17 +236,17 @@ class FabricPageState extends State<FabricPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 8.w),
-                    child: FabricSpecificationListFuture(
-                      key: fabricSpecificationListState,
-                      locality: widget.locality!,
-                    ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(top: 8.w),
+                  child: FabricSpecificationListFuture(
+                    key: fabricSpecificationListState,
+                    locality: widget.locality!,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

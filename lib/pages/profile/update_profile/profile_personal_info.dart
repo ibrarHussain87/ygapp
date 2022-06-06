@@ -121,7 +121,6 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 //                key: scaffoldKey,
               resizeToAvoidBottomInset: true,
               backgroundColor: Colors.white,
-
               body: Column(
                 children: [
                   Form(
@@ -154,21 +153,21 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 
     return Column(
       children: [
-
         Padding(
           padding:
           EdgeInsets.only(top: 30.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   initialValue: snapshot.data!.name ?? '',
                   onSaved: (input) =>
                   _updateProfileRequestModel.name = input!,
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter name";
@@ -187,14 +186,15 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) =>
                   _updateProfileRequestModel.address = input!,
                   initialValue:snapshot.data?.address ?? '',
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter address";
@@ -213,7 +213,6 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               GestureDetector(
                 onTap: (){
                   Navigator.push(
@@ -228,11 +227,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                               value.conId.toString();
                           countryName =
                               value.conName.toString();
-
                         }
                         )
-
-
                       },
                       ),
                     ),
@@ -245,14 +241,14 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
-                          Text("Country"),
+                          Text("Country",style: TextStyle(fontSize: 13)),
                           Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
                       floatingLabelBehavior:FloatingLabelBehavior.always ,
                       hintText: "Select",
-                      hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                      hintStyle:  TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:Colors.black),
                       border: OutlineInputBorder(
                           borderRadius:const BorderRadius.all(
                             Radius.circular(5.0),
@@ -260,27 +256,19 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                           borderSide: BorderSide(color: newColorGrey)
                       )
                   ),
-
                   child: Row(
                     children: [
-
                       Expanded(
                           flex:8,
                           child: Text(
-                            countryName ?? "Select Country",textAlign: TextAlign.start,)),
-
+                            countryName ?? "Select Country",textAlign: TextAlign.start,style: const TextStyle(fontSize: 13),)),
                     ],
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
-
-
-
 
         Padding(
           padding:
@@ -289,8 +277,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint: const Text('Select State'),
-
+                hint: const Text('Select State',style: TextStyle(fontSize: 13,color: Colors.black)),
                 items: cityStateList
                     .where((element) =>
                 element
@@ -306,7 +293,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                                   false),
                           textAlign:
                           TextAlign
-                              .center),
+                              .center,style: const TextStyle(fontSize: 13)),
                       value: value,
                     ))
                     .toList(),
@@ -327,20 +314,14 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 //                            .toList();
                         print("cities"+citiesList.toString());
                         _updateProfileRequestModel.city=null;
-
-
-
                     _updateProfileRequestModel.cityStateId =
                         value?.stateId.toString();
                   });
                 },
-
                 decoration: dropDownProfile(
                     'Select', "State/District"),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
-
-
             ],
           ),
         ),
@@ -351,7 +332,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint: const Text('Select City'),
+                hint: const Text('Select City',style: TextStyle(fontSize: 13,color: Colors.black)),
                 items: citiesList
                     .where((element) =>
                 element.stateIdfk ==
@@ -363,9 +344,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                       child: Text(
                           value.cityName ??  Utils.checkNullString(
                               false),
-                          textAlign:
-                          TextAlign
-                              .center),
+                          textAlign: TextAlign.center,style: const TextStyle(fontSize: 13)),
                       value: value.cityName,
                     ))
                     .toList(),
@@ -381,17 +360,13 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         value?.toString();
                   });
                 },
-
                 decoration: dropDownProfile(
                     'Select', "City"),
                 validator: (value) => value == null || _updateProfileRequestModel.city==null ? 'Please select city' : null,
               ),
-
             ],
           ),
         ),
-
-
 
         Padding(
           padding:
@@ -399,12 +374,14 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               TextFormField(
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateProfileRequestModel.postalCode = input!,
                   initialValue: snapshot.data!.postalCode ?? '',
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter zip code";
@@ -423,13 +400,14 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   initialValue:snapshot.data?.whatsApp ?? '',
                   onSaved: (input) => _updateProfileRequestModel.whatsapp = input!,
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter whatsapp number";
@@ -448,13 +426,15 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               TextFormField(
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   initialValue: snapshot.data!.telephoneNumber ?? '',
                   onSaved: (input) =>
                   _updateProfileRequestModel.telephoneNumber = input!,
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter number";
@@ -473,14 +453,15 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
 //                  readOnly: true,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
                   initialValue: snapshot.data!.email ?? '',
                   onSaved: (input) => _updateProfileRequestModel.email = input!,
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null ||
                         input.isEmpty ||
@@ -513,7 +494,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                             RoundedRectangleBorder>(
                             const RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                BorderRadius.all(Radius.circular(6)),
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSave()) {
