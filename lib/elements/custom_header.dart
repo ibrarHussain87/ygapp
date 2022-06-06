@@ -19,8 +19,8 @@ PreferredSize appBar(BuildContext context,String title)
               end: Alignment.bottomRight,
               colors: <Color>[appBarColor2,appBarColor1]) ,
           borderRadius:const BorderRadius.only(
-              bottomRight:  Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0))
+              bottomRight:  Radius.circular(/*20.0*/0),
+              bottomLeft: Radius.circular(/*20.0*/0))
 
         ),
         child: Stack(
@@ -31,7 +31,7 @@ PreferredSize appBar(BuildContext context,String title)
                 Navigator.pop(context);
               },
               child: Padding(
-                  padding: EdgeInsets.only(left: 10.w,top: 8.w),
+                  padding: EdgeInsets.only(left: 4.w,top: 8.w),
                   child: Icon(
                     Icons.arrow_back,
                     color: Colors.white,
