@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 16.0.w,
                         color: appBarTextColor,
                         fontWeight: FontWeight.w400)),
-              )*/appBar(context,"Profile",isBackVisible: false),
+              )*/appBar(context,"Profile & Settings",isBackVisible: false),
               key: scaffoldKey,
               backgroundColor: Colors.grey.shade200,
               body: Column(
@@ -377,7 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   route) => false,);
 //                              MaterialPageRoute(builder: (context) => const LoginPage()),(route) => false,);
                           });
-                        }, color: Colors.green, btnText: "Logout"),
+                        }, color: redColorLight, btnText: "Logout"),
                   ))
                 ],
               ),

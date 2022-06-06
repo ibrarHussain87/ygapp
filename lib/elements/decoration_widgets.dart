@@ -88,7 +88,7 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
-          const Text("*", style: TextStyle(color: Colors.red)),
+          /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
@@ -112,7 +112,7 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(title,style: TextStyle(color: formFieldLabel,fontSize: 13),),
-          const Text("*", style: TextStyle(color: Colors.red)),
+          /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
@@ -138,7 +138,7 @@ InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(title,style: TextStyle(color: formFieldLabel),),
-          const Text("*", style: TextStyle(color: Colors.red)),
+          /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
@@ -146,7 +146,7 @@ InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
       prefixStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color: Colors.black87),
 
       border: OutlineInputBorder(
-          borderRadius:BorderRadius.all(
+          borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
           ),
           borderSide: BorderSide(color: newColorGrey)));

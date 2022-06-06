@@ -70,15 +70,12 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           citiesList = value;
         });
       }),
-
-
     });
     super.initState();
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -169,9 +166,9 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    /*if (input == null || input.isEmpty) {
                       return "Please enter name";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -196,9 +193,9 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    /*if (input == null || input.isEmpty) {
                       return "Please enter address";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -242,7 +239,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
                           Text("Country",style: TextStyle(fontSize: 13)),
-                          Text("*", style: TextStyle(color: Colors.red)),
+                          /*Text("*", style: TextStyle(color: Colors.red)),*/
                         ],
                       ),
                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
@@ -383,9 +380,9 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    /*if (input == null || input.isEmpty) {
                       return "Please enter zip code";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -409,9 +406,9 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    /*if (input == null || input.isEmpty) {
                       return "Please enter whatsapp number";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFormWhatsAppProfile(
@@ -436,9 +433,9 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    /*if (input == null || input.isEmpty) {
                       return "Please enter number";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -463,11 +460,11 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    if (input == null ||
+                    /*if (input == null ||
                         input.isEmpty ||
                         !input.isValidEmail()) {
                       return "Please check your email";
-                    }
+                    }*/
                     return null;
                   },
                   decoration: textFieldProfile(
