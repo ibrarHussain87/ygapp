@@ -133,12 +133,12 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                }
             _updateBusinessRequestModel.countryId=snapshot.data?.countryId;
 //             city?.cityName=snapshot.data!.city;
-            if(cityStateList.isNotEmpty)
+            if(cityStateList != null && cityStateList.isNotEmpty)
               {
                 state=cityStateList.where((element) => element.stateId.toString()==snapshot.data?.cityStateId).single;
 
               }
-            if(citiesList.isNotEmpty)
+            if(citiesList != null && citiesList.isNotEmpty)
               {
                city=citiesList.where((element) => element.cityId.toString()==snapshot.data?.city).single;
 
@@ -775,6 +775,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 //              var userNotifier = context1.read<UserNotifier>();
 //              userNotifier.updateUser(value.data!);
             } else {
+
+              ProgressDialogUtil.hideDialog();
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));
             }

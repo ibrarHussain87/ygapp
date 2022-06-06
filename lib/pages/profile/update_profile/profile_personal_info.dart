@@ -384,7 +384,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 
                 decoration: dropDownProfile(
                     'Select', "City"),
-                validator: (value) => value == null || _updateProfileRequestModel.city==null ? 'Please select city' : null,
+                validator: (value) => value == null ? 'Please select city' : null,
               ),
 
             ],
