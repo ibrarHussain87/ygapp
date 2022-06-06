@@ -40,6 +40,7 @@ import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/request/update_profile/brands_request_model.dart';
 import '../model/request/update_profile/update_business_request.dart';
+import '../model/request/yg_service/yg_service_request_model.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
 import '../model/response/common_response_models/countries_response.dart';
 import '../model/response/common_response_models/pre_config_model.dart';
@@ -50,6 +51,8 @@ import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
 import '../model/response/spec_user_response.dart';
 import 'package:dio/dio.dart' as dio;
+
+import '../model/response/yg_service_response.dart';
 
 class ApiService {
   static var logger = Logger();
@@ -90,6 +93,7 @@ class ApiService {
     static const String COMPANIES_END_POINT = "/company";
     static const String PRE_SYNC_END_POINT = "/get-pre-login-sync";
   static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
+  static const String CREATE_YG_SERVICE_ENPOINT = "/create-yg-service";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
     try {
@@ -159,6 +163,32 @@ class ApiService {
       } else {
         throw (e.toString());
       }
+    }
+  }
+
+  static Future<YGServiceResponse> createYGService(
+      YGServiceRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + CREATE_YG_SERVICE_ENPOINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return YGServiceResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 

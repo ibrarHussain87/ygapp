@@ -45,7 +45,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
   String? countryName;
   String? countryId ;
   States? state;
-  Cities? city;
+  String? city;
   int stateId = 0;
   List<Countries> countriesList = [];
   List<States> cityStateList = [];
@@ -94,61 +94,50 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             .then((value) => value.userDao.getUser()),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            countryName= countryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
+            if(countriesList.isNotEmpty) {
+              countryName = countryName = countriesList
+                  .where((element) =>
+              element.conId.toString() == snapshot.data?.countryId)
+                  .first
+                  .conName;
+            }
         _updateProfileRequestModel.countryId=snapshot.data?.countryId;
-          city?.cityName=snapshot.data!.city;
-         state=cityStateList.where((element) => element.stateId.toString()==snapshot.data?.cityStateId).single;
-         city=citiesList.where((element) => element.cityName.toString()==snapshot.data?.city).single;
-            return ChangeNotifierProvider(
-              create: (context) => UserNotifier(snapshot.data!),
-              lazy: false,
-              child: Scaffold(
+        _updateProfileRequestModel.cityStateId=snapshot.data?.cityStateId;
+        if(cityStateList.isNotEmpty) {
+          state = cityStateList
+              .where((element) =>
+          element.stateId.toString() == snapshot.data?.cityStateId)
+              .single;
+        }
+//         if(citiesList.isNotEmpty) {
+//           city = citiesList
+//               .where((element) =>
+//           element.cityName.toString() == snapshot.data?.city)
+//               .single;
+//         }
+        _updateProfileRequestModel.city=snapshot.data?.city;
+        city=snapshot.data?.city;
+            return Scaffold(
 //                key: scaffoldKey,
-                resizeToAvoidBottomInset: true,
-                backgroundColor: Colors.white,
-//                appBar: AppBar(
-//                  backgroundColor: Colors.white,
-//                  centerTitle: true,
-//                  leading: GestureDetector(
-//                    behavior: HitTestBehavior.opaque,
-//                    onTap: () {
-//                      Navigator.pop(context);
-//                    },
-//                    child: Padding(
-//                        padding: EdgeInsets.all(12.w),
-//                        child: Card(
-//                          child: Padding(
-//                              padding: EdgeInsets.only(left: 4.w),
-//                              child: Icon(
-//                                Icons.arrow_back_ios,
-//                                color: Colors.black,
-//                                size: 12.w,
-//                              )),
-//                        )),
-//                  ),
-//                  title: Text('Update Profile',
-//                      style: TextStyle(
-//                          fontSize: 16.0.w,
-//                          color: appBarTextColor,
-//                          fontWeight: FontWeight.w400)),
-//                ),
-                body: Column(
-                  children: [
-                    Form(
-                      key: globalFormKey,
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                          child: Center(
-                            child: Builder(builder: (BuildContext context2) {
-                              return buildUserDataColumn(snapshot, context2);
-                            }),
-                          ),
+              resizeToAvoidBottomInset: true,
+              backgroundColor: Colors.white,
+
+              body: Column(
+                children: [
+                  Form(
+                    key: globalFormKey,
+                    child: Expanded(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: Builder(builder: (BuildContext context2) {
+                            return buildUserDataColumn(snapshot, context2);
+                          }),
                         ),
                       ),
-                    )
+                    ),
+                  )
 
-                  ],
-                ),
+                ],
               ),
             );
           } else {
@@ -324,12 +313,26 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                 isExpanded: true,
                 value: state,
                 onChanged: (States? value) {
-                  FocusScope.of(context)
-                      .requestFocus(
-                      FocusNode());
-                  state=value;
-                  _updateProfileRequestModel.cityStateId =
-                      value?.stateId.toString();
+                  setState(() {
+                    FocusScope.of(context)
+                        .requestFocus(
+                        FocusNode());
+                    state=value;
+
+//                        citiesList=citiesList
+//                            .where((element) =>
+//                        element.stateIdfk ==
+//                            value?.stateId
+//                                .toString())
+//                            .toList();
+                        print("cities"+citiesList.toString());
+                        _updateProfileRequestModel.city=null;
+
+
+
+                    _updateProfileRequestModel.cityStateId =
+                        value?.stateId.toString();
+                  });
                 },
 
                 decoration: dropDownProfile(
@@ -363,23 +366,25 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                           textAlign:
                           TextAlign
                               .center),
-                      value: value,
+                      value: value.cityName,
                     ))
                     .toList(),
                 isExpanded: true,
                 value:city,
-                onChanged: (Cities? value) {
-                  FocusScope.of(context)
-                      .requestFocus(
-                      FocusNode());
-                  city=value;
-                  _updateProfileRequestModel.city =
-                      value?.cityName.toString();
+                onChanged: (String? value) {
+                  setState(() {
+                    FocusScope.of(context)
+                        .requestFocus(
+                        FocusNode());
+                    city=value;
+                    _updateProfileRequestModel.city =
+                        value?.toString();
+                  });
                 },
 
                 decoration: dropDownProfile(
                     'Select', "City"),
-                validator: (value) => value == null ? 'Please select city' : null,
+                validator: (value) => value == null || _updateProfileRequestModel.city==null ? 'Please select city' : null,
               ),
 
             ],
@@ -571,8 +576,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1);
-              var userNotifier = context1.read<UserNotifier>();
-              userNotifier.updateUser(value.data!);
+//              var userNotifier = context1.read<UserNotifier>();
+//              userNotifier.updateUser(value.data!);
             } else {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(value.message ?? "")));
