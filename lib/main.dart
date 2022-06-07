@@ -17,7 +17,8 @@ import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
-import 'package:yg_app/providers/user_brands_provider.dart';
+import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
+import 'providers/profile_providers/user_brands_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -89,6 +90,8 @@ class YgApp extends StatelessWidget {
             create: (_) => locator<YarnSpecificationsProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<UserBrandsProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<ProfileInfoProvider>()),
 
       ],
       child: MaterialApp(

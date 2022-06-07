@@ -5,8 +5,9 @@ import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
+import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
 import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
-import 'package:yg_app/providers/user_brands_provider.dart';
+import 'providers/profile_providers/user_brands_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
@@ -86,5 +87,9 @@ void setupLocators() {
           () => UserBrandsProvider(),
     );
   }
-
+  if(!locator.isRegistered<ProfileInfoProvider>()) {
+    locator.registerLazySingleton<ProfileInfoProvider>(
+          () => ProfileInfoProvider(),
+    );
+  }
 }

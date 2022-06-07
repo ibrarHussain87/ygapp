@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/bottom_sheets/bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -30,6 +31,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
   @override
   void initState() {
+    super.initState();
 
     _csRequestModel = CustomerSupportRequestModel();
     AppDbInstance().getDbInstance().then((value) => {
@@ -41,7 +43,6 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
 
     });
-    super.initState();
   }
 
   @override
@@ -54,32 +55,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         resizeToAvoidBottomInset:false,
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
-                      )),
-                )),
-          ),
-          title: Text('Customer Support',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        ),
+        appBar: appBar(context,"Customer Support"),
         body:Stack(
           children: [
             Form(
@@ -277,7 +253,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                 decoration: dropDownProfile(
                     'Choose Query Type', "Help") ,
                 isDense: true,
-                hint:Text("Choose Query Type",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+                hint:Text("Choose Query Type",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
 //                hint:Text("How can i help you?",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
                 isExpanded: true,
                 iconSize: 21,
@@ -335,6 +311,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
               Row(
                 children: [
                   Checkbox(
+                    activeColor: signInColor,
                     value: agree,
                     onChanged: (value) {
                       setState(() {
