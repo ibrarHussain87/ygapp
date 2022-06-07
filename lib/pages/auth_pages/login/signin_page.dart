@@ -586,7 +586,7 @@ class _SignInPageState extends State<SignInPage> {
                               SizedBox(
                                   height: 50.w,
                                   width: double.infinity,
-                                  child: ElevatedButton(
+                                  child: TextButton(
                                       child:Row(
                                         children: [
                                           Expanded(child: Center(child:

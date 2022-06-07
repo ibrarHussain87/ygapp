@@ -118,7 +118,7 @@ Widget buildSuperMembershipWidget(
                       width: double.infinity,
                       height: height/15,
                       child: Builder(builder: (BuildContext context1) {
-                        return ElevatedButton(
+                        return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
                                     fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),
@@ -226,7 +226,7 @@ Widget buildFreeMembershipWidget(
                       width: double.infinity,
                       height: height/15,
                       child: Builder(builder: (BuildContext context1) {
-                        return ElevatedButton(
+                        return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
                                     fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),
@@ -369,7 +369,7 @@ Widget buildPremiumMembershipWidget(
                       width: double.infinity,
                       height: height/15,
                       child: Builder(builder: (BuildContext context1) {
-                        return ElevatedButton(
+                        return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
                                     fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),

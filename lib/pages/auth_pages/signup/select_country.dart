@@ -202,7 +202,7 @@ class CountryComponentState extends State<CountryComponent>
                         child: SizedBox(
                             height: 50.w,
                             width: double.infinity,
-                            child: ElevatedButton(
+                            child: TextButton(
                                 child: Text("Proceed",
                                     style: TextStyle(
                                       fontSize: 14.sp,

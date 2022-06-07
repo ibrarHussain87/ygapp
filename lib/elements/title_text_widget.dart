@@ -44,7 +44,9 @@ class NormalTitleTextWidget extends StatelessWidget {
 
   final String? title;
   final Color? color;
-  const NormalTitleTextWidget({Key? key, required this.title,this.color}) : super(key: key);
+  final double? fontSize;
+  final FontWeight? fontWeight;
+  const NormalTitleTextWidget({Key? key, required this.title,this.color,this.fontSize,this.fontWeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +54,9 @@ class NormalTitleTextWidget extends StatelessWidget {
       title??Utils.checkNullString(false),
       style: TextStyle(
           color: color??Colors.black,
-          fontSize: 13.sp,
+          fontSize: fontSize??13.sp,
           /*fontFamily: 'Metropolis',*/
-          fontWeight: FontWeight.w500),
+          fontWeight: fontWeight??FontWeight.w500),
     );
   }
 }

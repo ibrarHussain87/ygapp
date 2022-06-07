@@ -144,7 +144,7 @@ class UpdatePasswordPageState
                           child: SizedBox(
                               height: 50.w,
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   child:  Text("Reset Password",
                                       style: TextStyle(
                                         fontSize: 14.sp,

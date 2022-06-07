@@ -19,11 +19,11 @@ Widget buildFiberRenewedAgainWidget(
     Specification specification, BuildContext context,
     {bool? showCount}) {
   var size = MediaQuery.of(context).size;
-  double paddingStart = 10;
+  double paddingStart = 14;
   double paddingStartFeatured = 20;
-  double paddingTop = 8;
-  double paddingBottom = 8;
-  double paddingEnd = 8;
+  double paddingTop = 10;
+  double paddingBottom = 10;
+  double paddingEnd = 10;
 
   return Padding(
     padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
@@ -53,7 +53,7 @@ Widget buildFiberRenewedAgainWidget(
                 child: Row(
                   children: [
                     SizedBox(
-                      width: size.width * 0.65,
+                      width: size.width * 0.63,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -129,7 +129,7 @@ Widget buildFiberRenewedAgainWidget(
                             ],
                           ),
                           const SizedBox(
-                            height: 13,
+                            height: 8,
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,13 +163,13 @@ Widget buildFiberRenewedAgainWidget(
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 8,
                           ),
                           TitleSmallBoldTextWidget(
                             title: Utils.getFiberSubtitle(specification),
                             /*title:'Weaving,Ring Frame,Carded,Regular',*/
                             color: Colors.black87,
-                            size: 11,
+                            size: 12,
                             weight: FontWeight.w500,
                           ),
                           const SizedBox(
@@ -209,7 +209,7 @@ Widget buildFiberRenewedAgainWidget(
                               ],
                             ),
                           ),
-                          SizedBox(height: 13.w),
+                          SizedBox(height: 8.w),
                           Row(
                             children: [
                               Expanded(
@@ -393,9 +393,9 @@ Widget buildFiberRenewedAgainWidget(
                                     '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 12.sp,
+                                    fontSize: 11.sp,
                                     /*fontFamily: 'Metropolis',*/
-                                    fontWeight: FontWeight.w500),
+                                    fontWeight: FontWeight.w600),
                               ),
                               TextSpan(
                                 text: specification.priceUnit
@@ -413,9 +413,9 @@ Widget buildFiberRenewedAgainWidget(
                                     "/${specification.unitCount ?? Utils.checkNullString(false)}",
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 12.sp,
+                                    fontSize: 11.sp,
                                     /*fontFamily: 'Metropolis',*/
-                                    fontWeight: FontWeight.w500),
+                                    fontWeight: FontWeight.w600),
                               ),
                             ])),
                           ),
@@ -494,7 +494,7 @@ Widget buildFiberRenewedAgainWidget(
                             ),
                           ),
                           const SizedBox(
-                            height: 7,
+                            height: 10,
                           ),
                           FutureBuilder<String>(
                             future: Utils.getUserId(),
@@ -529,7 +529,7 @@ Widget buildFiberRenewedAgainWidget(
                                                   ? 'Send Proposal'
                                                   : "Update",
                                               size: 10.sp,
-                                              padding: 5,
+                                              padding: 10,
                                             ),
                                           ),
                                         )));

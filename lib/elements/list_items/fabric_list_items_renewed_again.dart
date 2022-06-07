@@ -27,11 +27,12 @@ import '../elevated_button_widget_2.dart';
 Widget buildFabricRenewedAgainWidget(
     FabricSpecification specification, BuildContext context,
     {bool? showCounts}) {
+
   var size = MediaQuery.of(context).size;
-  double paddingStart = 10;
+  double paddingStart = 14;
   double paddingStartFeatured = 20;
-  double paddingTop = 15;
-  double paddingBottom = 10;
+  double paddingTop = 10;
+  double paddingBottom = 5 ;
   double paddingEnd = 10;
 
   return Padding(
@@ -60,7 +61,7 @@ Widget buildFabricRenewedAgainWidget(
                   child: Row(
                     children: [
                       Container(
-                        width: size.width * 0.65,
+                        width: size.width * 0.63,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -136,7 +137,7 @@ Widget buildFabricRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 13,
+                              height: 8,
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,12 +170,12 @@ Widget buildFabricRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             TitleSmallBoldTextWidget(
                               title: Utils.setFabricDetails(specification),
                               color: Colors.black87,
-                              size: 11,
+                              size: 12,
                               weight: FontWeight.w500,
                             ),
                             const SizedBox(
@@ -184,7 +185,7 @@ Widget buildFabricRenewedAgainWidget(
                               width: size.width * 0.55,
                               child: setFabricBlueTags(specification),
                             ),
-                            SizedBox(height: 13.w),
+                            SizedBox(height: 8.w),
                             Visibility(
                               visible:
                                   specification.isOffering == offering_type,
@@ -380,9 +381,9 @@ Widget buildFabricRenewedAgainWidget(
                                         '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 12.sp,
+                                        fontSize: 11.sp,
                                         /*fontFamily: 'Metropolis',*/
-                                        fontWeight: FontWeight.w500),
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
                                     text: specification.priceUnit
@@ -400,9 +401,9 @@ Widget buildFabricRenewedAgainWidget(
                                           "/${specification.unitCount ?? Utils.checkNullString(false)}",
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12.sp,
+                                          fontSize: 11.sp,
                                           /*fontFamily: 'Metropolis',*/
-                                          fontWeight: FontWeight.w500)),
+                                          fontWeight: FontWeight.w600)),
                                 ])),
                               ),
                               SizedBox(
@@ -482,7 +483,7 @@ Widget buildFabricRenewedAgainWidget(
                                 ),
                               ),
                               const SizedBox(
-                                height: 7,
+                                height: 10,
                               ),
                               FutureBuilder<String>(
                                 future: Utils.getUserId(),
@@ -516,7 +517,7 @@ Widget buildFabricRenewedAgainWidget(
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
-                                                  padding: 5,
+                                                  padding: 10,
                                                 ),
                                               ),
                                             )));

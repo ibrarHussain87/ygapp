@@ -232,7 +232,7 @@ class ForgetPasswordPageState
                           child: SizedBox(
                               height: 50.w,
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   child:  Text("Send Code",
                                       style: TextStyle(
                                         fontSize: 14.sp,

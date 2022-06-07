@@ -628,7 +628,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             padding: EdgeInsets.all(16.w),
                             child: SizedBox(
                                 width: double.infinity,
-                                child: ElevatedButton(
+                                child: TextButton(
                                     child: Text("Sign Up",
                                         style: TextStyle(
                                             // fontFamily: 'Metropolis',

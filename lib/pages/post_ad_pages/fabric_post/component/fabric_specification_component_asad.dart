@@ -2139,7 +2139,7 @@ class FabricSpecificationComponentState
             ),
           ),
           actions: <Widget>[
-            ElevatedButton(
+            TextButton(
               child: const Text('Got it'),
               onPressed: () {
                 //  setState(() => pickerColor = pickerColor);
@@ -2486,7 +2486,7 @@ class FabricSpecificationComponentState
                     child: SizedBox(
                         width: double.infinity,
                         child: Builder(builder: (BuildContext context1) {
-                          return ElevatedButton(
+                          return TextButton(
                               child: Text("Add",
                                   style: TextStyle(
                                       fontFamily: 'Metropolis',
