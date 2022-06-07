@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
@@ -56,8 +57,10 @@ class ProfileInfoProvider extends ChangeNotifier {
     notifyUI();
   }
 
-  getPersonalInfoData() {
+  getPersonalInfoData() async {
     if (user != null) {
+
+      var dbInstance = await AppDbInstance().getDbInstance();
       if (user!.countryId != null && countriesList.isNotEmpty &&
           countriesList != null) {
         updateProfileRequestModel.countryId=
@@ -91,59 +94,46 @@ class ProfileInfoProvider extends ChangeNotifier {
     }
   }
   getBusinessInfoData()
-  {
+  async {
     if(user?.businessInfo!=null)
     {
-      if (user?.businessInfo!.countryId != null && countriesList.isNotEmpty &&
-          countriesList != null) {
+
+      var dbInstance = await AppDbInstance().getDbInstance();
+      if (user?.businessInfo!.countryId != null) {
         updateBusinessRequestModel.countryId=
             user?.businessInfo!.countryId.toString();
-        selectedCompanyCountry =
-            countriesList.firstWhere((element) =>
-            element.conId.toString() ==
-                user?.businessInfo!.countryId.toString());
+        selectedCompanyCountry =await dbInstance.countriesDao
+            .findYarnCountryWithId(int.parse(user!.businessInfo!.countryId.toString()));
       }
 
-      if (user?.businessInfo!.cityStateId != null && statesList.isNotEmpty &&
-          statesList != null) {
+      if (user?.businessInfo!.cityStateId != null) {
         updateBusinessRequestModel.cityStateId=
             user?.businessInfo!.cityStateId.toString();
-        selectedCompanyState =
-            statesList.firstWhere((element) =>
-            element.stateId.toString() ==
-                user?.businessInfo!.cityStateId.toString());
+        selectedCompanyState =await dbInstance.statesDao
+            .findStatesWithId(int.parse(user!.cityStateId.toString()));
       }
 
-      if (user?.businessInfo!.city != null && citiesList.isNotEmpty &&
-          citiesList != null) {
+      if (user?.businessInfo!.city != null ) {
         updateBusinessRequestModel.city=
             user?.businessInfo!.city.toString();
-        selectedCompanyCity =
-            citiesList.firstWhere((element) =>
-            element.cityId.toString() ==
-                user?.businessInfo!.city.toString());
+        selectedCompanyCity = await dbInstance.citiesDao
+            .findCitiesWithId(int.parse(user!.businessInfo!.city.toString()));
       }
 
-      if (user?.businessInfo!.designation_idfk != null && designationsList.isNotEmpty &&
-          designationsList != null) {
+      if (user?.businessInfo!.designation_idfk != null ) {
         updateBusinessRequestModel.designation_idfk=
             user?.businessInfo!.designation_idfk.toString();
-        selectedDesignation =
-            designationsList.firstWhere((element) =>
-            element.designationId.toString() ==
-                user?.businessInfo!.designation_idfk.toString());
+        selectedDesignation =await dbInstance.designationsDao
+            .findDesignationsWithId(int.parse(user!.businessInfo!.designation_idfk.toString()));
       }
 
-      if (user?.businessInfo!.name != null && companiesList.isNotEmpty &&
-          companiesList != null) {
+      if (user?.businessInfo!.name != null) {
         updateBusinessRequestModel.name=
             user?.businessInfo!.name.toString();
         updateBusinessRequestModel.company=
             user?.businessInfo!.name.toString();
-        selectedCompany =
-            companiesList.firstWhere((element) =>
-            element.name.toString() ==
-                user?.businessInfo!.name.toString());
+        selectedCompany =await dbInstance.companiesDao
+            .findCompaniesWithId(int.parse(user!.businessInfo!.name.toString()));
       }
 
       notifyUI();
@@ -173,4 +163,25 @@ class ProfileInfoProvider extends ChangeNotifier {
   notifyUI() {
     notifyListeners();
   }
+
+  resetData() {
+    companiesList = [];
+    countriesList = [];
+    citiesList = [];
+    statesList = [];
+    categoriesList = [];
+    isLoading = false;
+    user=null;
+    selectedCountry=null;
+    selectedCity=null;
+    selectedState=null;
+    selectedCompanyCountry=null;
+    selectedCompanyCity=null;
+    selectedCompanyState=null;
+    selectedDesignation=null;
+    selectedCompany=null;
+    updateBusinessRequestModel = UpdateBusinessRequestModel();
+    updateProfileRequestModel = UpdateProfileRequestModel();
+  }
+
 }
