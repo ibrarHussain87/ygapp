@@ -99,17 +99,17 @@ class YarnPageState extends State<YarnPage> {
           heroTag: null,
         ),
         body: Container(
-          color: Colors.grey.shade100,
-          child: Material(
-            elevation: 5,
-            color: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            child: Column(
-              children: [
-                Container(
+          color: bgColor,
+          child: Column(
+            children: [
+              Material(
+                elevation: 5,
+                color: Colors.white,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))),
+                child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   /*decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
@@ -312,17 +312,17 @@ class YarnPageState extends State<YarnPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 8.w),
-                    child: YarnSpecificationListFuture(
-                      key: yarnSpecificationListState,
-                      locality: widget.locality!,
-                    ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(top: 8.w),
+                  child: YarnSpecificationListFuture(
+                    key: yarnSpecificationListState,
+                    locality: widget.locality!,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

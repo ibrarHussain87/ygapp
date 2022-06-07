@@ -78,17 +78,17 @@ class FiberPageState extends State<FiberPage> {
           heroTag: null,
         ),
         body: Container(
-          color: Colors.grey.shade100,
-          child: Material(
-            elevation: 5,
-            color: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            child: Column(
-              children: [
-                Container(
+          color: bgColor,
+          child: Column(
+            children: [
+              Material(
+                elevation: 5,
+                color: Colors.white,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))),
+                child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     children: [
@@ -173,6 +173,9 @@ class FiberPageState extends State<FiberPage> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 8.w,
+                                    ),
                                   ],
                                 ),
                               )
@@ -255,48 +258,48 @@ class FiberPageState extends State<FiberPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(top: 8.w),
-                      child: FutureBuilder<FiberSpecificationResponse>(
-                        future: _fiberSpecificationProvider
-                            .getFibers(widget.locality),
-                        builder: (BuildContext context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.data != null) {
-                            return Container(
-                              child: snapshot
-                                      .data!.data.specification.isNotEmpty
-                                  ? FiberListingBody(
-                                      specification: _fiberSpecificationProvider
-                                          .fiberSpecificationResponse!
-                                          .data
-                                          .specification,
-                                    )
-                                  : const Center(
-                                      child: TitleSmallTextWidget(
-                                        title: 'No Data Found',
-                                      ),
+              ),
+              Expanded(
+                child: Container(
+                    margin: EdgeInsets.only(top: 8.w),
+                    child: FutureBuilder<FiberSpecificationResponse>(
+                      future: _fiberSpecificationProvider
+                          .getFibers(widget.locality),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.done &&
+                            snapshot.data != null) {
+                          return Container(
+                            child: snapshot
+                                    .data!.data.specification.isNotEmpty
+                                ? FiberListingBody(
+                                    specification: _fiberSpecificationProvider
+                                        .fiberSpecificationResponse!
+                                        .data
+                                        .specification,
+                                  )
+                                : const Center(
+                                    child: TitleSmallTextWidget(
+                                      title: 'No Data Found',
                                     ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Center(
-                                child: TitleSmallTextWidget(
-                                    title: snapshot.error.toString()));
-                          } else {
-                            return const Center(
-                              child: SpinKitWave(
-                                color: Colors.green,
-                                size: 24.0,
-                              ),
-                            );
-                          }
-                        },
-                      )),
-                ),
-              ],
-            ),
+                                  ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: TitleSmallTextWidget(
+                                  title: snapshot.error.toString()));
+                        } else {
+                          return const Center(
+                            child: SpinKitWave(
+                              color: Colors.green,
+                              size: 24.0,
+                            ),
+                          );
+                        }
+                      },
+                    )),
+              ),
+            ],
           ),
         ),
       ),

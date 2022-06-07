@@ -78,7 +78,8 @@ class SingleSelectTileRenewedWidgetState extends State<SingleSelectTileRenewedWi
           width: MediaQuery.of(context).size.width*0.25,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.transparent,
+                color: checked
+                    ? darkBlueChip : Colors.grey,
               ),
               color: checked
                   ? darkBlueChip

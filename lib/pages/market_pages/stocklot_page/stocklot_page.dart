@@ -65,172 +65,174 @@ class StockLotPageState extends State<StockLotPage> {
                   heroTag: null,
                 ),
                 body: Container(
-                  color: Colors.grey.shade100,
-                  child: Material(
-                    elevation: 5,
-                    color: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25))),
-                    child: Column(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  color: bgColor,
+                  child: Column(
+                    children: [
+                      Material(
+                        elevation: 5,
+                        color: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25))),
+                        child: Column(
                           children: [
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0, vertical: 4),
-                              child: Padding(
-                                  padding: const EdgeInsets.only(top: 2.0),
-                                  child: BlendsWithImageListWidget(
-                                      listItem: stocklotProvider.stocklots!,
-                                      onClickCallback: (value) {
-                                        stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = stocklotProvider.stocklots![value]
-                                            .stocklotFamilyId
-                                            .toString();
-                                        stocklotProvider.getCategories(
-                                            stocklotProvider.stocklots![value]
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8.w,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 4),
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(top: 2.0),
+                                      child: BlendsWithImageListWidget(
+                                          listItem: stocklotProvider.stocklots!,
+                                          onClickCallback: (value) {
+                                            stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = stocklotProvider.stocklots![value]
                                                 .stocklotFamilyId
-                                                .toString());
-                                        stocklotProvider.categoryId = -1;
-                                        stocklotProvider
-                                            .getStockLotSpecRequestModel
-                                            .avalibilityId = null;
-                                        stocklotProvider
-                                            .getStockLotSpecRequestModel
-                                            .priceTermId = null;
+                                                .toString();
+                                            stocklotProvider.getCategories(
+                                                stocklotProvider.stocklots![value]
+                                                    .stocklotFamilyId
+                                                    .toString());
+                                            stocklotProvider.categoryId = -1;
+                                            stocklotProvider
+                                                .getStockLotSpecRequestModel
+                                                .avalibilityId = null;
+                                            stocklotProvider
+                                                .getStockLotSpecRequestModel
+                                                .priceTermId = null;
 
-                                        stocklotProvider
-                                            .getStockLotSpecRequestModel
-                                            .stocklotFamilyId = null;
-                                        stocklotProvider.setShowCategory(true);
+                                            stocklotProvider
+                                                .getStockLotSpecRequestModel
+                                                .stocklotFamilyId = null;
+                                            stocklotProvider.setShowCategory(true);
 
-                                        if (stocklotProvider
+                                            if (stocklotProvider
                                                 .subFamilyKey.currentState !=
-                                            null) {
-                                          stocklotProvider.subFamilyKey
-                                              .currentState!.checkedTile = -1;
-                                        }
-                                      })),
-                            ),
-                            Visibility(
-                              visible: stocklotProvider.showCategory,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height:
+                                                null) {
+                                              stocklotProvider.subFamilyKey
+                                                  .currentState!.checkedTile = -1;
+                                            }
+                                          })),
+                                ),
+                                Visibility(
+                                  visible: stocklotProvider.showCategory,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height:
                                       0.04 * MediaQuery.of(context).size.height,
-                                  child: SingleSelectTileRenewedWidget(
-                                    key: stocklotProvider.subFamilyKey,
-                                    spanCount: 2,
-                                    selectedIndex:
+                                      child: SingleSelectTileRenewedWidget(
+                                        key: stocklotProvider.subFamilyKey,
+                                        spanCount: 2,
+                                        selectedIndex:
                                         stocklotProvider.selectedIndex,
-                                    listOfItems:
+                                        listOfItems:
                                         stocklotProvider.stocklotCategories!,
-                                    callback: (StockLotFamily value) {
-                                      // stocklotProvider.getSubcategories(
-                                      //     stocklotProvider.stocklotId
-                                      //         .toString());
-                                      stocklotProvider.categoryId =
-                                          value.stocklotFamilyId;
-                                      stocklotProvider.getSubcategories(
-                                          value.stocklotFamilyId.toString());
-                                    },
+                                        callback: (StockLotFamily value) {
+                                          // stocklotProvider.getSubcategories(
+                                          //     stocklotProvider.stocklotId
+                                          //         .toString());
+                                          stocklotProvider.categoryId =
+                                              value.stocklotFamilyId;
+                                          stocklotProvider.getSubcategories(
+                                              value.stocklotFamilyId.toString());
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: false,
-                              child: Padding(
-                                padding:
+                                Visibility(
+                                  visible: false,
+                                  child: Padding(
+                                    padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: SizedBox(
-                                    height: 0.04 *
-                                        MediaQuery.of(context).size.height,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 2.0),
-                                      child: SingleSelectTileRenewedWidget(
-                                        spanCount: 2,
-                                        selectedIndex: -1,
-                                        listOfItems: stocklotProvider
-                                            .stocklotSubcategories!,
-                                        callback: (StockLotFamily value) {
-                                          // stocklotCategories = value;
-                                          // stocklotProvider
-                                          //     .getFilteredStocklotWaste(
-                                          //     value.id ?? -1);
-                                          stocklotProvider.subcategoryId =
-                                              value.stocklotFamilyId;
-                                        },
-                                      ),
-                                    )),
-                              ),
+                                    child: SizedBox(
+                                        height: 0.04 *
+                                            MediaQuery.of(context).size.height,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 2.0),
+                                          child: SingleSelectTileRenewedWidget(
+                                            spanCount: 2,
+                                            selectedIndex: -1,
+                                            listOfItems: stocklotProvider
+                                                .stocklotSubcategories!,
+                                            callback: (StockLotFamily value) {
+                                              // stocklotCategories = value;
+                                              // stocklotProvider
+                                              //     .getFilteredStocklotWaste(
+                                              //     value.id ?? -1);
+                                              stocklotProvider.subcategoryId =
+                                                  value.stocklotFamilyId;
+                                            },
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: widget.locality == international
-                                          ? 8
-                                          : 10,
-                                      child:
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: widget.locality == international
+                                              ? 8
+                                              : 10,
+                                          child:
                                           OfferingRequirementSegmentComponent(
-                                        callback: (value) {
-                                          stocklotProvider
-                                              .setIsOffering(value.toString());
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: widget.locality == international,
-                                      maintainState: false,
-                                      maintainSize: false,
-                                      child: Expanded(
-                                        child: Image.asset(
-                                          ic_products,
-                                          width: 12,
-                                          height: 12,
+                                            callback: (value) {
+                                              stocklotProvider
+                                                  .setIsOffering(value.toString());
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: widget.locality == international
-                                          ? 3
-                                          : 0,
-                                      child: Visibility(
-                                          maintainSize: false,
+                                        Visibility(
+                                          visible: widget.locality == international,
                                           maintainState: false,
-                                          visible:
+                                          maintainSize: false,
+                                          child: Expanded(
+                                            child: Image.asset(
+                                              ic_products,
+                                              width: 12,
+                                              height: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: widget.locality == international
+                                              ? 3
+                                              : 0,
+                                          child: Visibility(
+                                              maintainSize: false,
+                                              maintainState: false,
+                                              visible:
                                               widget.locality == international,
-                                          child: SearchChoices.single(
-                                            displayClearIcon: false,
-                                            isExpanded: true,
-                                            hint:
+                                              child: SearchChoices.single(
+                                                displayClearIcon: false,
+                                                isExpanded: true,
+                                                hint:
                                                 const TitleExtraSmallBoldTextWidget(
                                                     title: 'Country'),
-                                            items: _countries
-                                                .map((value) =>
+                                                items: _countries
+                                                    .map((value) =>
                                                     DropdownMenuItem(
                                                       child: Text(
                                                         value.conName ??
                                                             Utils
                                                                 .checkNullString(
-                                                                    false),
+                                                                false),
                                                         textAlign:
-                                                            TextAlign.center,
+                                                        TextAlign.center,
                                                         style: TextStyle(
                                                           fontSize: 12.sp,
                                                           overflow: TextOverflow
@@ -239,15 +241,15 @@ class StockLotPageState extends State<StockLotPage> {
                                                       ),
                                                       value: value,
                                                     ))
-                                                .toList(),
-                                            isCaseSensitiveSearch: false,
-                                            onChanged: (Countries? value) {},
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: textColorGrey,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          )
+                                                    .toList(),
+                                                isCaseSensitiveSearch: false,
+                                                onChanged: (Countries? value) {},
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: textColorGrey,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              )
 
 //                                        DropdownButtonFormField(
 //                                          isExpanded: true,
@@ -279,42 +281,44 @@ class StockLotPageState extends State<StockLotPage> {
 //                                              color: textColorGrey),
 //                                        ),
                                           ),
-                                    ),
-                                    Visibility(
-                                      visible: false,
-                                      child: Center(
-                                        child: GestureDetector(
-                                          behavior: HitTestBehavior.opaque,
-                                          onTap: () async {},
-                                          child: Card(
-                                              color: Colors.white,
-                                              elevation: 1,
-                                              child: Padding(
-                                                  padding: EdgeInsets.all(4.w),
-                                                  child: Icon(
-                                                    Icons.filter_alt_sharp,
-                                                    color: lightBlueTabs,
-                                                    size: 16.w,
-                                                  ))),
                                         ),
-                                      ),
+                                        Visibility(
+                                          visible: false,
+                                          child: Center(
+                                            child: GestureDetector(
+                                              behavior: HitTestBehavior.opaque,
+                                              onTap: () async {},
+                                              child: Card(
+                                                  color: Colors.white,
+                                                  elevation: 1,
+                                                  child: Padding(
+                                                      padding: EdgeInsets.all(4.w),
+                                                      child: Icon(
+                                                        Icons.filter_alt_sharp,
+                                                        color: lightBlueTabs,
+                                                        size: 16.w,
+                                                      ))),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8.w),
+                          child: StockLotListingFuture(
+                            locality: widget.locality!,
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 8.w),
-                            child: StockLotListingFuture(
-                              locality: widget.locality!,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               )
