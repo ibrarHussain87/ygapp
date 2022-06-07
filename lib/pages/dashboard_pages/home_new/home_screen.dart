@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function callback;
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeModel(id: "2", title: 'Yarn',subTitle: 'over 410 ads',image:yarnImage),
     HomeModel(id: "3", title: 'Fabrics',subTitle: 'over 115 ads',image: fabricsImage),
     HomeModel(id: "4", title: 'Stocklots',subTitle: 'over 40 ads',image: stockLotsImage),
+    HomeModel(id: "5", title: 'YG Services',subTitle: 'over 5 services',image: servicesImage),
   ];
 
 
@@ -38,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     end: Alignment.bottomRight,
                     colors: <Color>[appBarColor2,appBarColor1]) ,
                 borderRadius:const BorderRadius.only(
-                    bottomRight:  Radius.circular(20.0),
-                    bottomLeft: Radius.circular(20.0))
+                    bottomRight:  Radius.circular(/*20.0*/0),
+                    bottomLeft: Radius.circular(/*20.0*/0))
 
             ),
             child: Stack(
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     widget.callback(4);
                   },
                   child: Padding(
-                      padding: EdgeInsets.only(left: 10.w,top: 8.w),
+                      padding: EdgeInsets.only(left: 4.w,top: 8.w),
                       child: Icon(
                         Icons.segment,
                         color: Colors.white,
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text("Yarn Guru",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 20.0.w,
+                          fontSize: 16.0.w,
                           color: Colors.white,
                           fontWeight: FontWeight.w600)),
                 ),
@@ -119,44 +121,52 @@ class _HomeScreenState extends State<HomeScreen> {
                       topRight: Radius.circular(24.0),
                     )),
                 child:  ListView.builder(
+
                   physics: BouncingScrollPhysics(),
                   itemCount: homeList.length,
                   shrinkWrap: true,
                   primary: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return Stack(
-                      children: <Widget>[
-                        Container(
-                            padding: const EdgeInsets.all(5),
-                            child: Image.asset(
-                                homeList[index].image.toString(),
-                                fit: BoxFit.cover
-                            )
-                        ),
-                        Positioned(
-                            left: 25,
-                            bottom: 25,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(0, 0, 0, 0.1)
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                       Text(homeList[index].title.toString(), style: TextStyle(fontSize: 18.sp, color: Colors.white,fontWeight: FontWeight.bold)),
-                                       Text(homeList[index].subTitle.toString() , style: TextStyle(fontSize: 10.sp, color: Colors.white))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                        )
-                      ],
+                    return GestureDetector(
+                      onTap: (){
+                        if (index==4) {
+                   openYGServiceScreen(context);
+                        }
+                      },
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                              padding: const EdgeInsets.all(5),
+                              child: Image.asset(
+                                  homeList[index].image.toString(),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                          Positioned(
+                              left: 25,
+                              bottom: 25,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Color.fromRGBO(0, 0, 0, 0.1)
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                         Text(homeList[index].title.toString(), style: TextStyle(fontSize: 18.sp, color: Colors.white,fontWeight: FontWeight.bold)),
+                                         Text(homeList[index].subTitle.toString() , style: TextStyle(fontSize: 10.sp, color: Colors.white))
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      ),
                     );
                   },
                 ),

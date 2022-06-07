@@ -29,10 +29,10 @@ Widget buildFabricRenewedAgainWidget(
     padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
     child: Material(
         color: Colors.white,
-        elevation: 10,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: border_color, width: 1, style: BorderStyle.solid),
+              color: newColorGrey, width: 1, style: BorderStyle.solid),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(

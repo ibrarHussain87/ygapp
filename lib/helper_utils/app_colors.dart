@@ -21,6 +21,7 @@ var tagsBackground = HexColor.fromHex('#E3ECFF');
 var tagsTextColor = HexColor.fromHex('#2E59B1');
 var tagsIconColor = HexColor.fromHex('#BAC5DC');
 var addBtnColor = HexColor.fromHex('#1AC646');
+var redColorLight = HexColor.fromHex('#EC4F4F');
 var text_color_customer = HexColor.fromHex('#2E59B1');
 var border_color_customer = HexColor.fromHex('#4977D6');
 var border_color = HexColor.fromHex('#e3e3e3');

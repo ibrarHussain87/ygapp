@@ -72,5 +72,6 @@ String fiberImage = "images/fiber.png";
 String fabricsImage = "images/fabrics.png";
 String yarnImage = "images/yarn.png";
 String stockLotsImage = "images/stocklots.png";
+String servicesImage = "images/services.png";
 
 

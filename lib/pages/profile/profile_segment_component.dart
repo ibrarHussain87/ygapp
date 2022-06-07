@@ -15,25 +15,26 @@ class ProfileSegmentComponent extends StatefulWidget {
 
   const ProfileSegmentComponent(
       {Key? key,
-        required this.stepsCallback,
-        required this.selectedTab,
-        this.stepsMapping})
+      required this.stepsCallback,
+      required this.selectedTab,
+      this.stepsMapping})
       : super(key: key);
 
   @override
-  ProfileSegmentComponentState createState() =>
-      ProfileSegmentComponentState();
+  ProfileSegmentComponentState createState() => ProfileSegmentComponentState();
 }
 
-class ProfileSegmentComponentState
-    extends State<ProfileSegmentComponent> {
+class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
   int selectedValue = 1;
   late PageController _pageController;
   late List<Widget> _samplePages;
 
-  final GlobalKey<ProfilePersonalInfoPageState> _personalInfoState = GlobalKey<ProfilePersonalInfoPageState>();
-  final GlobalKey<ProfileBusinessInfoPageState> _businessInfoKey = GlobalKey<ProfileBusinessInfoPageState>();
-  final GlobalKey<ProfileBrandsInfoPageState> _brandsState = GlobalKey<ProfileBrandsInfoPageState>();
+  final GlobalKey<ProfilePersonalInfoPageState> _personalInfoState =
+      GlobalKey<ProfilePersonalInfoPageState>();
+  final GlobalKey<ProfileBusinessInfoPageState> _businessInfoKey =
+      GlobalKey<ProfileBusinessInfoPageState>();
+  final GlobalKey<ProfileBrandsInfoPageState> _brandsState =
+      GlobalKey<ProfileBrandsInfoPageState>();
 
   @override
   void initState() {
@@ -66,7 +67,6 @@ class ProfileSegmentComponentState
               curve: Curves.easeInOut);
         },
       ),
-
       ProfileBrandsInfoPage(
         key: _brandsState,
         selectedTab: widget.selectedTab,
@@ -97,135 +97,139 @@ class ProfileSegmentComponentState
             Expanded(
               child: Container(
                 width: double.infinity,
-                height: 38,
+                height: 50,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: tabBackground
-                ),
+                    borderRadius: BorderRadius.circular(5),
+                    color: tabBackground),
                 padding: const EdgeInsets.all(0),
-                child:
-                CustomSlidingSegmentedControl<int>(
-                  initialValue: selectedValue,
-
-                  children: {
-                    1: Container(
-
-                      padding: EdgeInsets.all(5.w),
-                      child: Text(
-                        "Personal Info",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11.sp,
-                          color: selectedValue == 1
-                              ? Colors.white
-                              : textColorGrey,
+                child: Padding(
+                  padding: const EdgeInsets.all(7),
+                  child: CustomSlidingSegmentedControl<int>(
+                    initialValue: selectedValue,
+                    children: {
+                      1: Container(
+                        height: 45,
+                        /*width: width*0.23,*/
+                        padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Personal Info",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                              color: selectedValue == 1
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
                         ),
                       ),
+                      2: Container(
+                        height: 45,
+                        /*width: width*0.23,*/
+                        padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Business Info",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: selectedValue == 2
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      3: Container(
+                        width: /*width*0.23*/ width / 5,
+                        height: 45,
+                        padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Brands",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: selectedValue == 3
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    },
+                    decoration: BoxDecoration(
+                      color: tabBackground,
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    2: Container(
-
-                      padding: EdgeInsets.all(5.w),
-                      child: Text(
-                        "Business Info",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11.sp,
-                          color: selectedValue == 2
-                              ? Colors.white
-                              : textColorGrey,
+                    thumbDecoration: BoxDecoration(
+                      /*color: lightBlueTabs,*/
+                      gradient:LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[appBarColor2,appBarColor1]),
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.3),
+                          blurRadius: 4.0,
+                          spreadRadius: 1.0,
+                          offset: const Offset(
+                            0.0,
+                            2.0,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    3: Container(
-                      width: width/4.5,
-                      padding: EdgeInsets.all(5.w),
-                      child: Text(
-                        "Brands",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11.sp,
-                          color: selectedValue == 3
-                              ? Colors.white
-                              : textColorGrey,
-                        ),
-                      ),
-                    ),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInToLinear,
+                    onValueChanged: (value) {
+                      switch (value) {
+                        case 1:
+                          if (selectedValue == 3) {
+                            if (_brandsState.currentState != null) {
+                              _moveToNextPage(value);
+                            }
+                          }
 
-                  },
-                  decoration: BoxDecoration(
-                    color:tabBackground,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  thumbDecoration: BoxDecoration(
-                    color: lightBlueTabs,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.3),
-                        blurRadius: 4.0,
-                        spreadRadius: 1.0,
-                        offset: const Offset(
-                          0.0,
-                          2.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInToLinear,
-              onValueChanged: (value) {
+                          if (selectedValue == 2) {
+                            if (_businessInfoKey.currentState != null) {
+                              _moveToNextPage(value);
+                            }
+                          }
+                          break;
+                        case 2:
+                          if (selectedValue == 1) {
+                            if (_personalInfoState.currentState != null) {
+                              _personalInfoState.currentState!
+                                  .handleNextClick();
+                            }
+                          }
 
-                switch (value) {
-                  case 1:
+                          if (selectedValue == 3) {
+                            if (_brandsState.currentState != null) {
+                              _moveToNextPage(value);
+                            }
+                          }
+                          break;
 
-                if (selectedValue == 3) {
-                  if (_brandsState.currentState != null) {
-                    _moveToNextPage(value);
-                  }
-                }
-
-                if (selectedValue == 2) {
-                  if (_businessInfoKey.currentState != null) {
-                    _moveToNextPage(value);
-                  }
-                }
-                break;
-                case 2:
-                if (selectedValue == 1) {
-
-                if(_personalInfoState.currentState != null){
-
-                _personalInfoState.currentState!.handleNextClick();
-                }
-
-                }
-                
-                if (selectedValue == 3) {
-
-                if(_brandsState.currentState != null){
-
-                _moveToNextPage(value);
-                }
-
-                }
-                break;
-
-                case 3:
-                if (selectedValue == 2) {
-
-                if(_businessInfoKey.currentState != null){
-                _businessInfoKey.currentState!.handleNextClick();
-                }
-                }
-                if (selectedValue == 1) {
-                  if (_personalInfoState.currentState != null) {
+                        case 3:
+                          if (selectedValue == 2) {
+                            if (_businessInfoKey.currentState != null) {
+                              _businessInfoKey.currentState!.handleNextClick();
+                            }
+                          }
+                          if (selectedValue == 1) {
+                            if (_personalInfoState.currentState != null) {
 //                   _businessInfoKey.currentState!.handleNextClick();
-                   _moveToNextPage(value);
-                  }
-
-                }
-                }
-                  },
+                              _moveToNextPage(value);
+                            }
+                          }
+                      }
+                    },
+                  ),
                 ),
               ),
             ),
@@ -245,15 +249,12 @@ class ProfileSegmentComponentState
     );
   }
 
-  _moveToNextPage(value){
+  _moveToNextPage(value) {
     setState(() {
       selectedValue = value as int;
     });
     widget.stepsCallback!(value);
     _pageController.animateToPage(selectedValue - 1,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
   }
-
-
 }

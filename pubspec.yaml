@@ -99,6 +99,9 @@ dependencies:
   timer_button: ^2.0.0
   flutter_countdown_timer: ^4.1.0
   flutter_launch: ^0.3.0
+  flutter_datetime_picker: ^1.5.1
+  date_format: ^2.0.6
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
