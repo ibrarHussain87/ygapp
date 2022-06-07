@@ -18,7 +18,7 @@ class ElevatedButtonWithIcon extends StatefulWidget {
 class _ElevatedButtonWithIconState extends State<ElevatedButtonWithIcon> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
         child: Row(
           children: [
             Expanded(child: Center(child: Text(widget.btnText!.toUpperCase(), style: TextStyle(fontSize: 14.sp))),flex: 9,),

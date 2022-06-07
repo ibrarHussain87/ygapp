@@ -315,10 +315,14 @@ class YarnPageState extends State<YarnPage> {
               ),
               Expanded(
                 child: Container(
+                  color: Colors.white,
                   margin: EdgeInsets.only(top: 8.w),
-                  child: YarnSpecificationListFuture(
-                    key: yarnSpecificationListState,
-                    locality: widget.locality!,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: YarnSpecificationListFuture(
+                      key: yarnSpecificationListState,
+                      locality: widget.locality!,
+                    ),
                   ),
                 ),
               )

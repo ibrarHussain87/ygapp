@@ -26,9 +26,9 @@ Widget buildYarnRenewedAgainWidget(
     YarnSpecification specification, BuildContext context,
     {bool? showCount}) {
   var size = MediaQuery.of(context).size;
-  double paddingStart = 10;
+  double paddingStart = 14;
   double paddingStartFeatured = 20;
-  double paddingTop = 15;
+  double paddingTop = 10;
   double paddingBottom = 10;
   double paddingEnd = 10;
 
@@ -58,7 +58,7 @@ Widget buildYarnRenewedAgainWidget(
                   child: Row(
                     children: [
                       Container(
-                        width: size.width * 0.65,
+                        width: size.width * 0.63,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -134,7 +134,7 @@ Widget buildYarnRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 13,
+                              height: 8,
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,13 +168,13 @@ Widget buildYarnRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             TitleSmallBoldTextWidget(
                               title: Utils.setDetailsData(specification),
                               /*title:'Weaving,Ring Frame,Carded,Regular',*/
                               color: Colors.black87,
-                              size: 11,
+                              size: 12,
                               weight: FontWeight.w500,
                             ),
                             const SizedBox(
@@ -239,7 +239,7 @@ Widget buildYarnRenewedAgainWidget(
                                       ],
                                     ),
                             ),
-                            SizedBox(height: 13.w),
+                            SizedBox(height: 8.w),
                             Visibility(
                               visible:
                                   specification.is_offering == offering_type,
@@ -475,15 +475,17 @@ Widget buildYarnRenewedAgainWidget(
                                 Visibility(
                                   visible: specification.is_offering ==
                                       offering_type,
-                                  child: Text.rich(TextSpan(children: [
+                                  child: RichText(
+                                      overflow: TextOverflow.ellipsis,
+                                      text:TextSpan(children: [
                                     TextSpan(
                                       text:
                                           '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12.sp,
+                                          fontSize: 11.sp,
                                           // /*fontFamily: 'Metropolis',*/,
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     TextSpan(
                                       text: specification.priceUnit
@@ -501,9 +503,9 @@ Widget buildYarnRenewedAgainWidget(
                                           "/${specification.unitCount ?? Utils.checkNullString(false)}",
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12.sp,
+                                          fontSize: 11.sp,
                                           // /*fontFamily: 'Metropolis',*/,
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ])),
                                 ),
@@ -589,7 +591,7 @@ Widget buildYarnRenewedAgainWidget(
                               ),
                             ),
                             const SizedBox(
-                              height: 7,
+                              height: 10,
                             ),
                             FutureBuilder<String>(
                               future: Utils.getUserId(),
@@ -625,7 +627,7 @@ Widget buildYarnRenewedAgainWidget(
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
-                                                  padding: 5,
+                                                  padding: 10,
                                                 ),
                                               ),
                                             ))),

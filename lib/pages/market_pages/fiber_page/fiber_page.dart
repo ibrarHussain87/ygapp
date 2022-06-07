@@ -261,42 +261,46 @@ class FiberPageState extends State<FiberPage> {
               ),
               Expanded(
                 child: Container(
+                  color: Colors.white,
                     margin: EdgeInsets.only(top: 8.w),
-                    child: FutureBuilder<FiberSpecificationResponse>(
-                      future: _fiberSpecificationProvider
-                          .getFibers(widget.locality),
-                      builder: (BuildContext context, snapshot) {
-                        if (snapshot.connectionState ==
-                                ConnectionState.done &&
-                            snapshot.data != null) {
-                          return Container(
-                            child: snapshot
-                                    .data!.data.specification.isNotEmpty
-                                ? FiberListingBody(
-                                    specification: _fiberSpecificationProvider
-                                        .fiberSpecificationResponse!
-                                        .data
-                                        .specification,
-                                  )
-                                : const Center(
-                                    child: TitleSmallTextWidget(
-                                      title: 'No Data Found',
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: FutureBuilder<FiberSpecificationResponse>(
+                        future: _fiberSpecificationProvider
+                            .getFibers(widget.locality),
+                        builder: (BuildContext context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.data != null) {
+                            return Container(
+                              child: snapshot
+                                      .data!.data.specification.isNotEmpty
+                                  ? FiberListingBody(
+                                      specification: _fiberSpecificationProvider
+                                          .fiberSpecificationResponse!
+                                          .data
+                                          .specification,
+                                    )
+                                  : const Center(
+                                      child: TitleSmallTextWidget(
+                                        title: 'No Data Found',
+                                      ),
                                     ),
-                                  ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                              child: TitleSmallTextWidget(
-                                  title: snapshot.error.toString()));
-                        } else {
-                          return const Center(
-                            child: SpinKitWave(
-                              color: Colors.green,
-                              size: 24.0,
-                            ),
-                          );
-                        }
-                      },
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: TitleSmallTextWidget(
+                                    title: snapshot.error.toString()));
+                          } else {
+                            return const Center(
+                              child: SpinKitWave(
+                                color: Colors.green,
+                                size: 24.0,
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     )),
               ),
             ],

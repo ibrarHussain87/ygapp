@@ -570,7 +570,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
-                return ElevatedButton(
+                return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
                           /*fontFamily: 'Metropolis',*/ fontSize: 14.sp)),

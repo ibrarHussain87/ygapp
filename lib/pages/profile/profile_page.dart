@@ -70,222 +70,242 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontWeight: FontWeight.w400)),
               )*/appBar(context,"Profile & Settings",isBackVisible: false),
               key: scaffoldKey,
-              backgroundColor: Colors.grey.shade200,
+              backgroundColor: Colors.white,
               body: Column(
                 children: [
                   Expanded(
                     flex: 8,
                     child: Container(
-                      padding: EdgeInsets.only(top: 24.w),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 48,
-                              backgroundColor: Color(0xff132D5A),
-                              child: Stack(
-                                  children: const [
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: CircleAvatar(
-                                        radius: 38,
-                                        backgroundColor: Colors.transparent,
-                                        child: Icon(
-                                          Icons.person, color: Colors.white,
-                                          size: 74,),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: CircleAvatar(
-                                        radius: 18,
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(CupertinoIcons.camera,
-                                          color: Colors.white,),
-                                      ),
-                                    ),
-                                  ]
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(top: 16.w, bottom: 2.w),
-                              child: TitleTextWidget(
-                                  title: snapshot.data!.username),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 8.w),
-                              child: TitleSmallTextWidget(
-                                title: "Lahore, Pakistan",
-                                color: Colors.grey.shade600,),
-                            ),
-                            Container(
-                              child: TitleSmallTextWidget(title: "Seller Type",
-                                color: Colors.grey.shade600,
-                                padding: 4,),
-                            ),
-                            TitleTextWidget(
-                              title: snapshot.data!.company,
-                              color: Colors.grey.shade700,),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 8.w, vertical: 8.w),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey.shade300),
-                                  borderRadius: BorderRadius.circular(8.w),
-                                  color: Colors.white
-
-                              ),
-                              child: ListView(
-                                shrinkWrap: true,
-                                children: [
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      openPersonalDetailsScreen(context);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5.0),
-                                          child: ProfileTileWidget(
-                                              title: "Personal Details",
-                                              image: PROFILE_DETAILS_IMAGE),
+                      padding: EdgeInsets.only(top: 14.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Container(
+                                        child: Image.asset('images/image_not_available.png',
+                                            height: 50.w,
+                                            width: 60.w,
+                                            fit: BoxFit.fill,
                                         ),
-                                        const Divider()
-                                      ],
+                                      ),
                                     ),
-                                  ),
-
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "My Offerings",
-                                  //         image: ic_tag),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-                                  // GestureDetector(
-                                  //   behavior: HitTestBehavior.opaque,
-                                  //   onTap: (){},
-                                  //   child: Column(
-                                  //     children: [
-                                  //       ProfileTileWidget(title: "My Requirements",
-                                  //           image: ic_requirments),
-                                  //       const Divider()
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      openMyAdsScreen(context);
-                                    },
-                                    child: Column(
+                                    const SizedBox(width: 10,),
+                                    Column(
                                       children: [
-                                        ProfileTileWidget(title: "My Product",
-                                            image: ic_products),
-                                        const Divider()
+                                        Container(
+                                          padding: EdgeInsets.only(top: 16.w, bottom: 2.w),
+                                          child: TitleTextWidget(
+                                              title: snapshot.data!.username),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 8.w),
+                                          child: TitleSmallTextWidget(
+                                            title: "Lahore, Pakistan",
+                                            color: Colors.grey.shade600,),
+                                        ),
+                                        /*Container(
+                                          child: TitleSmallTextWidget(title: "Seller Type",
+                                            color: Colors.grey.shade600,
+                                            padding: 4,),
+                                        ),
+                                        TitleTextWidget(
+                                          title: snapshot.data!.company,
+                                          color: Colors.grey.shade700,),*/
                                       ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      openMyBidsScreen(context);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ProfileTileWidget(title: "My Bids",
-                                            image: ic_universe),
-                                        const Divider()
-                                      ],
-                                    ),
-                                  ),
-                                  //
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "Auctions",
-                                  //         image: AUCTION_IMAGE),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "Inquiries",
-                                  //         image: ic_inquiries),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      openMembershipScreen(context);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ProfileTileWidget(title: "Membership",
-                                            image: ic_membership),
-                                        const Divider()
-                                      ],
-                                    ),
-                                  ),
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "Customer & Supplier",
-                                  //         image: ic_suppliers),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "FAQs",
-                                  //         image: ic_faq),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-                                  // Column(
-                                  //   children: [
-                                  //     ProfileTileWidget(title: "Activity Log",
-                                  //         image: ic_log),
-                                  //     const Divider()
-                                  //   ],
-                                  // ),
-
-                                  GestureDetector(
-                                    onTap: () {
-                                      openCustomerSupportScreen(context);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ProfileTileWidget(
-                                            title: "Customer Support",
-                                            image: ic_support),
-                                        // const Divider()
-                                        SizedBox(height: 10.0.h,)
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 18,),
+                              child: Divider()
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Align(
+                                alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 18,top: 15),
+                                    child: TitleTextWidget(
+                                        title: 'Settings'
+                                    ),
+                                  )
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 8.w),
+                                decoration: BoxDecoration(
+                                    /*border: Border.all(
+                                        color: Colors.grey.shade300),*/
+                                    borderRadius: BorderRadius.circular(8.w),
+                                    color: Colors.white
+
+                                ),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        openPersonalDetailsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0),
+                                            child: ProfileTileWidget(
+                                                title: "Personal Details",
+                                                image: PROFILE_DETAILS_IMAGE),
+                                          ),
+                                          /*const Divider()*/
+                                          SizedBox(height: 5.0.h,)
+                                        ],
+                                      ),
+                                    ),
+
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "My Offerings",
+                                    //         image: ic_tag),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+                                    // GestureDetector(
+                                    //   behavior: HitTestBehavior.opaque,
+                                    //   onTap: (){},
+                                    //   child: Column(
+                                    //     children: [
+                                    //       ProfileTileWidget(title: "My Requirements",
+                                    //           image: ic_requirments),
+                                    //       const Divider()
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        openMyAdsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "My Product",
+                                              image: ic_products),
+                                          /*const Divider()*/
+                                          SizedBox(height: 5.0.h,)
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        openMyBidsScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "My Bids",
+                                              image: ic_universe),
+                                          /*const Divider()*/
+                                          SizedBox(height: 5.0.h,)
+                                        ],
+                                      ),
+                                    ),
+                                    //
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "Auctions",
+                                    //         image: AUCTION_IMAGE),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "Inquiries",
+                                    //         image: ic_inquiries),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        openMembershipScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(title: "Membership",
+                                              image: ic_membership),
+                                          /*const Divider()*/
+                                          SizedBox(height: 5.0.h,)
+                                        ],
+                                      ),
+                                    ),
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "Customer & Supplier",
+                                    //         image: ic_suppliers),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "FAQs",
+                                    //         image: ic_faq),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+                                    // Column(
+                                    //   children: [
+                                    //     ProfileTileWidget(title: "Activity Log",
+                                    //         image: ic_log),
+                                    //     const Divider()
+                                    //   ],
+                                    // ),
+
+                                    GestureDetector(
+                                      onTap: () {
+                                        openCustomerSupportScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ProfileTileWidget(
+                                              title: "Customer Support",
+                                              image: ic_support),
+                                          // const Divider()
+                                          SizedBox(height: 10.0.h,)
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
                   Expanded(flex: 1, child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade200),
+                        /*border: Border.all(color: Colors.grey.shade200),*/
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(16.w),
                             topLeft: Radius.circular(16.w)),
                         color: Colors.white
                     ),
-                    padding: EdgeInsets.all(16.w),
+                    padding: const EdgeInsets.only(left: 16,right: 16,top: 13,bottom: 13),
                     child: ElevatedButtonWithoutIcon(
                         callback: () {
                           showLogoutDialog(
@@ -297,7 +317,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             await SharedPreferenceUtil.addBoolToSF(IS_LOGIN, false);
                             await SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, "");
                             await SharedPreferenceUtil.addStringToSF(USER_ID_KEY, "");
-                           // await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,false);
+                            // await SharedPreferenceUtil.addBoolToSF(PRE_SYNCED_KEY,false);
                             var dbInstance = await AppDbInstance().getDbInstance();
                             await
                             dbInstance.userDao.deleteUserData();
@@ -336,11 +356,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             await dbInstance.orientationDao.deleteAll();
                             await dbInstance.plyDao.deleteAll();
                             await dbInstance.qualityDao.deleteAll();
-                           // await dbInstance.brandsDao.deleteAll();
-                          //  await dbInstance.cityStateDao.deleteAll();
-                           // await dbInstance.companiesDao.deleteAll();
+                            // await dbInstance.brandsDao.deleteAll();
+                            //  await dbInstance.cityStateDao.deleteAll();
+                            // await dbInstance.companiesDao.deleteAll();
 //                          await dbInstanceue.countriesDao.deleteAll();
-                           // await dbInstance.portsDao.deleteAll();
+                            // await dbInstance.portsDao.deleteAll();
                             await dbInstance.fabricBlendsDao
                                 .deleteFabricBlends();
                             await dbInstance.fabricFamilyDao

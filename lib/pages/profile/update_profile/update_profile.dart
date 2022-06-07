@@ -558,7 +558,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
-                return ElevatedButton(
+                return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
                             fontFamily: 'Metropolis',

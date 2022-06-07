@@ -237,7 +237,7 @@ class PersonalInfoComponentState
                           child: SizedBox(
                               height: 50.w,
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   child:  Text("Register",
                                       style: TextStyle(
                                         fontSize: 14.sp,

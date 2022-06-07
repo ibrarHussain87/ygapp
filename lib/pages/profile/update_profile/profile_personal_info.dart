@@ -427,7 +427,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
-                return ElevatedButton(
+                return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
                             fontFamily: 'Metropolis', fontSize: 14.sp)),

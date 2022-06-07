@@ -27,7 +27,7 @@ class ElevatedButtonWithoutIcon extends StatefulWidget {
 class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
         child: Center(
             child: Text(widget.btnText!,
                 style: TextStyle(

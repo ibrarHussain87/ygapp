@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           SizedBox(
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   child: Text("Sign in".toUpperCase(),
                                       style: TextStyle(
                                         fontSize: 14.sp,
