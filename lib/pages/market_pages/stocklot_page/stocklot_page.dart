@@ -312,9 +312,13 @@ class StockLotPageState extends State<StockLotPage> {
                       ),
                       Expanded(
                         child: Container(
+                          color: Colors.white,
                           margin: EdgeInsets.only(top: 8.w),
-                          child: StockLotListingFuture(
-                            locality: widget.locality!,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: StockLotListingFuture(
+                              locality: widget.locality!,
+                            ),
                           ),
                         ),
                       )

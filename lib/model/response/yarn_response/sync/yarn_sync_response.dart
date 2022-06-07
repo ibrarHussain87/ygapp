@@ -1149,7 +1149,7 @@ class Blends {
     blnName = json['bln_name'];
     bln_category_idfk = json['bln_category_idfk'];
     bln_nature = json['bln_nature'];
-    bln_abrv2 = json['bln_abrv2'];
+    bln_abrv2 = json['bln_abv2'];
     bln_abrv = json['bln_abrv'];
     minMax = json['min_max'];
     has_blend_id_1 = json['has_blend_id_1'];
@@ -1171,7 +1171,7 @@ class Blends {
     data['bln_name'] = blnName;
     data['bln_category_idfk'] = bln_category_idfk;
     data['bln_nature'] = bln_nature;
-    data['bln_abrv2'] = bln_abrv2;
+    data['bln_abv2'] = bln_abrv2;
     data['bln_abrv'] = bln_abrv;
     data['min_max'] = minMax;
     data['has_blend_id_1'] = has_blend_id_1;

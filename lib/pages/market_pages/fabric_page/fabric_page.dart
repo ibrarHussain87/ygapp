@@ -239,10 +239,14 @@ class FabricPageState extends State<FabricPage> {
               ),
               Expanded(
                 child: Container(
+                  color: Colors.white,
                   margin: EdgeInsets.only(top: 8.w),
-                  child: FabricSpecificationListFuture(
-                    key: fabricSpecificationListState,
-                    locality: widget.locality!,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: FabricSpecificationListFuture(
+                      key: fabricSpecificationListState,
+                      locality: widget.locality!,
+                    ),
                   ),
                 ),
               )

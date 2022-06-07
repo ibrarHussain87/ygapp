@@ -462,7 +462,9 @@ class _StockLotListItemState extends State<StockLotListItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text.rich(TextSpan(children: priceStockLotSpec,)),
+                              RichText(
+                                  overflow: TextOverflow.ellipsis,
+                                  text:TextSpan(children: priceStockLotSpec,)),
                               SizedBox(
                                 height: 1.h,
                               ),

@@ -651,7 +651,7 @@ class FabricBlends {
     blnCategoryIdfk = json['bln_category_idfk'];
     familyIdfk = json['family_idfk'];
     blnName = json['bln_name'];
-    blnAbrv2 = json['bln_abrv2'];
+    blnAbrv2 = json['bln_abv2'];
     blnAbrv = json['bln_abrv'];
     minMax = json['min_max'];
     has_blend_id_1 = json['has_blend_id_1'];
@@ -673,7 +673,7 @@ class FabricBlends {
     data['bln_category_idfk'] = blnCategoryIdfk;
     data['family_idfk'] = familyIdfk;
     data['bln_name'] = blnName;
-    data['bln_abrv2'] = blnAbrv2;
+    data['bln_abv2'] = blnAbrv2;
     data['bln_abrv'] = blnAbrv;
     data['min_max'] = minMax;
     data['has_blend_id_1'] = has_blend_id_1;

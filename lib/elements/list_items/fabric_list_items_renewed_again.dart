@@ -375,7 +375,9 @@ Widget buildFabricRenewedAgainWidget(
                               Visibility(
                                 visible: specification.isOffering ==
                                     offering_type,
-                                child: Text.rich(TextSpan(children: [
+                                child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                   text: TextSpan(children: [
                                   TextSpan(
                                     text:
                                         '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
