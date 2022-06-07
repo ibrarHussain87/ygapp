@@ -513,7 +513,7 @@ Widget buildFiberRenewedAgainWidget(
                                                 null, specification, null);
                                           } else {
                                             openDetailsScreen(context,
-                                                specification:
+                                                specObj:
                                                     specification,
                                                 sendProposal: true);
                                           }

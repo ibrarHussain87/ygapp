@@ -532,7 +532,7 @@ class YarnBidsItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      yarnSpecification: bidData.specification
+                                      specObj: bidData.specification
                                           as YarnSpecification,
                                       isFromBid: true);
                                 },

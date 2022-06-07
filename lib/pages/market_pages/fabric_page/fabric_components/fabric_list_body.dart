@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:yg_app/elements/list_items/yarn_list_items_renewed.dart';
-import 'package:yg_app/elements/list_items/yarn_market_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/util.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../../../../elements/list_items/fabric_list_items_renewed_again.dart';
-import '../../../../elements/list_items/yarn_list_items_renewed_again.dart';
 import '../../../../model/response/fabric_response/fabric_specification_response.dart';
-import '../../../detail_pages/detail_page/detail_page_renewed.dart';
 
 class FabricListBody extends StatefulWidget {
 

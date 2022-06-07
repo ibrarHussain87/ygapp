@@ -6,96 +6,92 @@ import '../../helper_utils/top_round_corners.dart';
 import '../list_widgets/family_select_tile_widget.dart';
 import '../list_widgets/single_select_tile_widget.dart';
 
-
 final GlobalKey<SingleSelectTileWidgetState> _specKey =
-GlobalKey<SingleSelectTileWidgetState>();
+    GlobalKey<SingleSelectTileWidgetState>();
 
-familySheet(BuildContext context,
-    Function checkedIndex,
-    Function callback,
-    List listOfItems,
-    int selectedIndex,
-    String title
-    )
-{
-
+familySheet(BuildContext context, Function checkedIndex, Function callback,
+    List listOfItems, int selectedIndex, String title) {
   showModalBottomSheet<int>(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) {
-      return StatefulBuilder(
-          builder: (BuildContext contextBuilder, StateSetter setState) {
-            return SingleChildScrollView(
-              child: Container(
-                decoration: getRoundedTopCorners(),
-                /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                  left: 15.0,right: 15.0,),
-//              height: MediaQuery.of(context).size.height/1.5,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-
-                    Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Icon(Icons.close),
-                              ),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Text(
-                            "Select $title Family",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 18.0.sp,
-                                color: headingColor,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                        const Divider(color: Colors.black12,),
-                        SizedBox(height:2.w ,),
-
-                      ],
-                    ),
-                    SizedBox(height: 12.w,),
-                    FamilySelectTileWidget(
-                      selectedIndex: selectedIndex,
-                      key: _specKey,
-                      spanCount: 2,
-                      listOfItems: listOfItems,
-                      selectedValue: (int checkedValue)
-                      {
-                        checkedIndex(checkedValue);
-                      },
-                      callback: (value) {
-                        callback(value);
-                      },
-                    ),
-                    SizedBox(height:10.w ,),
-
-                  ],
-                ),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: StatefulBuilder(
+            builder: (BuildContext contextBuilder, StateSetter setState) {
+          return SingleChildScrollView(
+            child: Container(
+              decoration: getRoundedTopCorners(),
+              /*padding: const EdgeInsets.only(left: 15.0,right: 15.0),*/
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 15.0,
+                right: 15.0,
               ),
-            );
-          });
+//              height: MediaQuery.of(context).size.height/1.5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(Icons.close),
+                            ),
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Text(
+                          "Select $title Family",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 18.0.sp,
+                              color: headingColor,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      const Divider(
+                        color: Colors.black12,
+                      ),
+                      SizedBox(
+                        height: 2.w,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 12.w,
+                  ),
+                  FamilySelectTileWidget(
+                    selectedIndex: selectedIndex,
+                    key: _specKey,
+                    spanCount: 2,
+                    listOfItems: listOfItems,
+                    selectedValue: (int checkedValue) {
+                      checkedIndex(checkedValue);
+                    },
+                    callback: (value) {
+                      callback(value);
+                    },
+                  ),
+                  SizedBox(
+                    height: 10.w,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+      );
     },
   );
-
-
-
 }
-
-
-

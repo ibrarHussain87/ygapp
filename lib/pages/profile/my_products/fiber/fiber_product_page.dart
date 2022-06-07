@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/fiber_list_items_renewed_again.dart';
-import 'package:yg_app/elements/list_items/fiber_porduct_list_item.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -152,7 +151,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 openDetailsScreen(
-                                    context,specification: widget.specification![index]!);
+                                    context,specObj: widget.specification![index]!);
                               },
                               child: buildFiberRenewedAgainWidget(
                                   _filteredSpecification![index]!,context,showCount: true)),

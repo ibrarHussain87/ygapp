@@ -24,17 +24,13 @@ import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 import '../pages/post_ad_pages/fabric_post/fabric_post_page.dart';
 
 void openDetailsScreen(BuildContext context,
-    {Specification? specification,
-    YarnSpecification? yarnSpecification,
-    dynamic specObj,
+    {dynamic specObj,
     bool? isFromBid,
     bool? sendProposal}) {
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => DetailRenewedPage(
-        specification: specification,
-        yarnSpecification: yarnSpecification,
         specObj: specObj,
         isFromBid: isFromBid,
         sendProposal: sendProposal,

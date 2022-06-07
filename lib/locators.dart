@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:yg_app/pages/profile/update_profile/brands_notifier.dart';
+import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -84,6 +85,12 @@ void setupLocators() {
   if(!locator.isRegistered<UserBrandsProvider>()) {
     locator.registerLazySingleton<UserBrandsProvider>(
           () => UserBrandsProvider(),
+    );
+  }
+
+  if(!locator.isRegistered<DetailPageProvider>()) {
+    locator.registerLazySingleton<DetailPageProvider>(
+          () => DetailPageProvider(),
     );
   }
 

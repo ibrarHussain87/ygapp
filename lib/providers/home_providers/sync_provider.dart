@@ -41,8 +41,7 @@ class SyncProvider extends ChangeNotifier {
               syncFiberResponse.data.fiber.settings),
               value.gradesDao
                   .insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.coneTypeDao
-                  .insertAllConeType(syncFiberResponse.data.fiber.coneType),
+                value.coneTypeDao.insertAllConeType(syncFiberResponse.data.fiber.coneType),
               value.fiberFamilyDao.insertAllFiberNatures(
               syncFiberResponse.data.fiber.fiberFamily),
 

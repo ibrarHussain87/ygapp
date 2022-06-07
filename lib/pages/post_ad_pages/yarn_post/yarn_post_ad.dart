@@ -243,27 +243,36 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
       if ((_postYarnProvider.selectedBlends.first as Blends).bln_nature ==
           'Blended') {
         Logger().e('Blended : ${_postYarnProvider.selectedBlends.length}');
-        _postYarnProvider.selectedBlends.forEach((element) {
+        for (var element in _postYarnProvider.selectedBlends) {
           if (element.isSelected ?? false) {
             var blend = element as Blends;
             if (blend.blendRatio!.isNotEmpty) {
-              var blendFormat =
-                  '${blend.bln_abrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              String blendFormat;
+              if(blend.bln_nature == "Pure"){
+                blendFormat = '${blend.blnName} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              }else{
+                blendFormat = '${blend.bln_abrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              }
               stringList.add(blendFormat);
             }
           }
-        });
+        }
       } else {
         Logger().e('Pure : ${_postYarnProvider.selectedBlends.length}');
         if (_postYarnProvider.selectedBlends.length == 1) {
           var blend = _postYarnProvider.selectedBlends.first as Blends;
           if (blend.isSelected ?? false) {
-            stringList.add(blend.bln_abrv);
+            if(blend.bln_nature == "Pure"){
+              stringList.add(blend.blnName);
+            }else{
+              stringList.add(blend.bln_abrv);
+
+            }
           }
         } else {
           var blendAbrevs = '';
           var blendRatios = '';
-          _postYarnProvider.selectedBlends.forEach((element) {
+          for (var element in _postYarnProvider.selectedBlends) {
             if (element.isSelected ?? false) {
               var blend = element as Blends;
               if(blend.bln_abrv != null && blend.bln_abrv!.isNotEmpty){
@@ -278,7 +287,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
                 }
               }
             }
-          });
+          }
           if(blendAbrevs.isNotEmpty && blendRatios.isNotEmpty){
             var blendFormat = '$blendAbrevs ($blendRatios)';
             stringList.add(blendFormat);

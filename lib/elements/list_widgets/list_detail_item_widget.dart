@@ -6,11 +6,12 @@ import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yg_app/elements/bottom_sheets/phone_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/detail_tile_model.dart';
 import 'package:yg_app/model/enum_phone.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 
 Widget listDetailItemWidget(
-    BuildContext context, GridTileModel detailSpecification) {
+    BuildContext context, DetailTileModel detailSpecification) {
   double width = MediaQuery.of(context).size.width;
   return SizedBox(
     width: width,
@@ -42,7 +43,7 @@ Widget listDetailItemWidget(
 }
 
 Widget listItemContactCard(BuildContext context,
-    GridTileModel detailSpecification, bool showCallIcon) {
+    DetailTileModel detailSpecification, bool showCallIcon) {
   double width = MediaQuery.of(context).size.width;
   return Container(
     width: width,

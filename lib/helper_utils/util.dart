@@ -139,7 +139,7 @@ class Utils {
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?'/ ${specification.formationDisplayText}':''}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':''}';
         break;
       case '3':
         familyData =
@@ -147,7 +147,8 @@ class Utils {
         break;
       case '4':
         familyData =
-        '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
+        '${specification.ys_yarn_type ?? ""} ${specification.dtyFilament != null ? "${specification.dtyFilament}" : ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} /${specification.yarnPly ?? ''}';
+        // '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '5':
         familyData =
@@ -241,11 +242,11 @@ class Utils {
         break;
       case '102':
         titleData =
-        specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false);
+        '${specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false)}, ${specification.formationDisplayText}';
         break;
       case '103':
         titleData =
-        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}';
+        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}/*, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}*/';
         break;
       case '104':
         titleData ='${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
@@ -261,7 +262,7 @@ class Utils {
       case '101':
         List<String?> list = [
           specification.fabricKnittingTypeName,
-          specification.fabricColorTreatmentMethod
+          specification.fabricColorTreatmentMethod,
         ];
         if(specification.fabricDyingTechnique != null){
           list.add(specification.fabricDyingTechnique);
@@ -273,7 +274,6 @@ class Utils {
         break;
       case '102':
         List<String?> list = [
-          specification.formationDisplayText,
           specification.fabricWeaveName,
           specification.fabricWeavePatternName,
           specification.fabricApperance
@@ -283,7 +283,6 @@ class Utils {
       case '103':
         List<String?> list = [
           specification.fabricApperance,
-          specification.fabricColorTreatmentMethod,
           specification.fabricDyingTechnique
         ];
         detailsData = Utils.createStringFromList(list);
@@ -303,7 +302,7 @@ class Utils {
         '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
         break;
       case '2':
-        titleData = specification.yarnFamily ?? Utils.checkNullString(false);
+        titleData = "";/*specification.yarnFamily ?? Utils.checkNullString(false);*/
         break;
       case '3':
         titleData =
@@ -356,7 +355,7 @@ class Utils {
         List<String?> list = [
           specification.yarnApperance,
           specification.yarnColorTreatmentMethod,
-          specification.doublingMethod,
+          specification.color,
         ];
         detailsData = Utils.createStringFromList(list);
         break;

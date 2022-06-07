@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yg_app/elements/list_items/yarn_list_items_renewed.dart';
-import 'package:yg_app/elements/list_items/yarn_market_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../../../../elements/list_items/yarn_list_items_renewed_again.dart';
@@ -69,8 +63,7 @@ class YarnListBodyState extends State<YarnListBody> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailRenewedPage(
-                          specification: null,
-                          yarnSpecification: _yarnFilteredSpecification![index],
+                          specObj:_yarnFilteredSpecification![index] ,
                           isFromBid: null,
                         ),
                       ),

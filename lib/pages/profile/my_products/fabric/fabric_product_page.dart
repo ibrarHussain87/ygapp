@@ -3,19 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/fabric_list_items_renewed_again.dart';
-import 'package:yg_app/elements/list_items/fiber_porduct_list_item.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/model/request/filter_request/fabric_filter_request.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/fabric_page/fabric_components/fabric_blend_body.dart';
-import 'package:yg_app/pages/profile/my_products/fiber/fiber_family_component.dart';
 
 class FabricProductPage extends StatefulWidget {
   final List<FabricSpecification?>? specification;
