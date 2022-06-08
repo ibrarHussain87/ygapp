@@ -88,17 +88,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderRadius: BorderRadius.circular(20.0),
                                       child: Container(
                                         child: Image.asset('images/image_not_available.png',
                                             height: 50.w,
-                                            width: 60.w,
+                                            width: 55.w,
                                             fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
                                     const SizedBox(width: 10,),
                                     Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           padding: EdgeInsets.only(top: 16.w, bottom: 2.w),

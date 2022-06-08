@@ -5,9 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../../../helper_utils/app_colors.dart';
+import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/fabric_response/fabric_specification_response.dart';
@@ -17,16 +19,15 @@ import '../../list_widgets/short_detail_renewed_widget.dart';
 import '../../title_text_widget.dart';
 import '../fabric_list_items_renewed_again.dart';
 
-class FabricBidsItem extends StatelessWidget {
-
+class StockLotBidsItem extends StatelessWidget {
   final BidData bidData;
 
-  const FabricBidsItem({Key? key, required this.bidData}) : super(key: key);
+  const StockLotBidsItem({Key? key, required this.bidData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    FabricSpecification fabricSpecification = bidData.specification as FabricSpecification;
+    StockLotSpecification stockLotSpecification =
+        bidData.specification as StockLotSpecification;
 
     return Card(
         color: Colors.white,
@@ -48,7 +49,7 @@ class FabricBidsItem extends StatelessWidget {
                       children: [
                         SizedBox(
                           child: Text(
-                            fabricSpecification.company ??
+                            stockLotSpecification.company ??
                                 Utils.checkNullString(false),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
@@ -72,7 +73,7 @@ class FabricBidsItem extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 2.w),
                           child: Visibility(
                               visible:
-                                  Ui.showHide(fabricSpecification.isVerified),
+                                  Ui.showHide(stockLotSpecification.isVerified),
                               maintainSize: true,
                               maintainState: true,
                               maintainAnimation: true,
@@ -110,8 +111,8 @@ class FabricBidsItem extends StatelessWidget {
                                             horizontal: 5, vertical: 1),
                                         child: Center(
                                           child: TitleMediumBoldSmallTextWidget(
-                                            title: Utils.setFabricFamilyData(
-                                                fabricSpecification),
+                                            title: stockLotSpecification
+                                                .stocklotParentFamilyName,
                                             color: Colors.white,
                                             textSize: 12,
                                           ),
@@ -120,42 +121,85 @@ class FabricBidsItem extends StatelessWidget {
                                   SizedBox(
                                     width: 2.w,
                                   ),
-                                  Expanded(
+                                  /*Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 1),
                                       child: TitleMediumTextWidget(
-                                        title: Utils.setFabricTitle(fabricSpecification),
+                                        title: Utils.setStocklotTitle(StocklotSpecification),
                                         color: Colors.black87,
                                         weight: FontWeight.w600,
                                         size: 13,
                                       ),
                                     ),
                                     flex: 1,
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               Padding(
                                 padding:
                                     EdgeInsets.only(bottom: 6.0.w, top: 8.w),
                                 child: TitleSmallBoldTextWidget(
-                                  title: Utils.setFabricDetails(fabricSpecification),
+                                  title: Utils.stockLotSubCategoryTitle(
+                                      stockLotSpecification),
                                   /*title:'Weaving,Ring Frame,Carded,Regular',*/
                                   color: Colors.black87,
                                   size: 10,
                                   weight: FontWeight.w500,
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 0.w, right: 35.w),
-                                child:Container(
-                                  width: MediaQuery.of(context).size.width * 0.55,
-                                  child: Utils.setFabricBlueTags(fabricSpecification),
-                                ),
-                              ),
                               SizedBox(
                                 height: 5.w,
                               ),
-                              Utils.setPropertiesWithIcons(fabricSpecification),
+                              stockLotSpecification.specDetails!.isNotEmpty
+                                  ? Row(
+                                      children: [
+                                        Expanded(
+                                          child: Wrap(
+                                            spacing: 4.0,
+                                            runSpacing: 3.0,
+                                            children: [
+                                              ShortDetailRenewedWidget(
+                                                title: stockLotSpecification
+                                                        .priceTerm ??
+                                                    Utils.checkNullString(
+                                                        false),
+                                                imageIcon: IC_BAG_RENEWED,
+                                                size: 10.sp,
+                                                iconSize: 12,
+                                              ),
+                                              Visibility(
+                                                visible: stockLotSpecification
+                                                            .currency_name !=
+                                                        null
+                                                    ? stockLotSpecification
+                                                            .currency_name!
+                                                            .isNotEmpty
+                                                        ? true
+                                                        : false
+                                                    : false,
+                                                child: ShortDetailRenewedWidget(
+                                                  title: stockLotSpecification
+                                                          .currency_name ??
+                                                      Utils.checkNullString(
+                                                          false),
+                                                  imageIcon: IC_CONE_RENEWED,
+                                                  size: 10.sp,
+                                                  iconSize: 12,
+                                                ),
+                                              ),
+                                              ShortDetailRenewedWidget(
+                                                title: stockLotSpecification
+                                                    .locality,
+                                                imageIcon: IC_VAN_RENEWED,
+                                                size: 10.sp,
+                                                iconSize: 12,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
                               SizedBox(
                                 height: 2.h,
                               ),
@@ -173,36 +217,9 @@ class FabricBidsItem extends StatelessWidget {
                               children: [
                                 RichText(
                                     overflow: TextOverflow.ellipsis,
-                                    text:TextSpan(children: [
-                                  TextSpan(
-                                    text:
-                                        '${fabricSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  TextSpan(
-                                    text: fabricSpecification.priceUnit
-                                        .toString()
-                                        .replaceAll(RegExp(r'[^0-9]'), ''),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                    text:
-                                        "/${fabricSpecification.unitCount ?? Utils.checkNullString(false)}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ])),
+                                    text: TextSpan(
+                                      children: priceStockLot(stockLotSpecification),
+                                    )),
                                 SizedBox(
                                   height: 1.h,
                                 ),
@@ -259,7 +276,7 @@ class FabricBidsItem extends StatelessWidget {
                                 callback: () {
                                   openDetailsScreen(context,
                                       specObj: bidData.specification
-                                          as FabricSpecification,
+                                          as StockLotSpecification,
                                       isFromBid: true);
                                 },
                                 color: Colors.green,
@@ -276,7 +293,7 @@ class FabricBidsItem extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 0.w, right: 0.w, top: 0.w,bottom: 0.w),
+                      left: 0.w, right: 0.w, top: 0.w, bottom: 0.w),
                   child: Utils.buildContainer(bidData),
                 )
               ],
@@ -288,7 +305,7 @@ class FabricBidsItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Visibility(
-                    visible: Ui.showHide(fabricSpecification.isFeatured),
+                    visible: Ui.showHide(stockLotSpecification.isFeatured),
                     maintainSize: true,
                     maintainState: true,
                     maintainAnimation: true,
@@ -331,7 +348,8 @@ class FabricBidsItem extends StatelessWidget {
                           ),
                           TextSpan(
                             text: DateFormat("MMM dd, yyyy").format(
-                                DateTime.parse(fabricSpecification.date ?? "")),
+                                DateTime.parse(
+                                    stockLotSpecification.date ?? "")),
                             style: TextStyle(
                                 fontSize: 5.sp,
                                 color: Colors.black87,
@@ -348,9 +366,51 @@ class FabricBidsItem extends StatelessWidget {
         ));
   }
 
+  priceStockLot(StockLotSpecification stockLotSpecification){
+    return stockLotSpecification.specDetails!.isNotEmpty ? stockLotSpecification.specDetails!
+        .length >
+        1
+        ? Utils.stockLotPriceRange(
+        stockLotSpecification)
+        :  [
+      TextSpan(
+        text: stockLotSpecification.specDetails!.first.price/*'1000'*/,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 17.sp,
+            // /*fontFamily: 'Metropolis',*/,
+            fontWeight: FontWeight.w600),
+      ),
+      TextSpan(
+        text:
+        "/${stockLotSpecification.specDetails!.first.priceUnit!= null?stockLotSpecification.specDetails!.first.priceUnit!.split(" ").first : ""}",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 11.sp,
+            // /*fontFamily: 'Metropolis',*/,
+            fontWeight: FontWeight.w600),
+      ),
+    ] : [
+      TextSpan(
+        text: "",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 17.sp,
+            // /*fontFamily: 'Metropolis',*/,
+            fontWeight: FontWeight.w600),
+      ),
+      TextSpan(
+        text:
+        "",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 11.sp,
+            // /*fontFamily: 'Metropolis',*/,
+            fontWeight: FontWeight.w600),
+      ),
+    ];
+
+
+  }
 
 }
-
-
-
-

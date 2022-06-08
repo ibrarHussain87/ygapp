@@ -424,7 +424,9 @@ class YarnBidsItem extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text.rich(TextSpan(children: [
+                                RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text:TextSpan(children: [
                                   TextSpan(
                                     text:
                                         '${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',

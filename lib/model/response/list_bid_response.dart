@@ -1,5 +1,6 @@
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 class ListBidResponse {
@@ -84,7 +85,9 @@ class BidData {
             : json['category_id'] == "2" ?
             (json['specification'] as Map<String, dynamic>).isNotEmpty ? YarnSpecification.fromJson(
             json['specification'] as Map<String, dynamic>):null
-            :(json['specification'] as Map<String, dynamic>).isNotEmpty ? FabricSpecification.fromJson(
+            :json['category_id'] == "3" ? (json['specification'] as Map<String, dynamic>).isNotEmpty ? FabricSpecification.fromJson(
+            json['specification'] as Map<String, dynamic>):null
+            :(json['specification'] as Map<String, dynamic>).isNotEmpty ? StockLotSpecification.fromJson(
             json['specification'] as Map<String, dynamic>):null
             : null;
 
