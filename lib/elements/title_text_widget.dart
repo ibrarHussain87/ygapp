@@ -6,15 +6,19 @@ class TitleTextWidget extends StatelessWidget {
 
   final String? title;
   final Color? color;
-  const TitleTextWidget({Key? key, required this.title,this.color}) : super(key: key);
+  final double? fontSize;
+  const TitleTextWidget({Key? key, required this.title,this.color,this.fontSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title??Utils.checkNullString(false),
+      overflow: TextOverflow.fade,
+      maxLines: 1,
+      softWrap: false,
       style: TextStyle(
           color: color??Colors.black,
-          fontSize: 14.sp,
+          fontSize: fontSize??14.sp,
           /*fontFamily: 'Metropolis',*/
           fontWeight: FontWeight.bold),
     );

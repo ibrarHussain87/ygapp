@@ -187,6 +187,9 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
+                  style: TextStyle(fontSize: 13.sp),
+                  textAlign: TextAlign.start,
+                  cursorHeight: 16.w,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter name";
@@ -335,7 +338,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         ),
 
         Padding(
-          padding: EdgeInsets.all(8.w),
+          padding: EdgeInsets.all(16.w),
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
@@ -352,7 +355,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                             RoundedRectangleBorder>(
                             const RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(20)),
+                                BorderRadius.all(Radius.circular(8)),
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSave()) {

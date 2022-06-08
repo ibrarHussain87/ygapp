@@ -8,8 +8,9 @@ class ElevatedButtonWithIcon extends StatefulWidget {
   final Function? callback;
   final Color? color;
   final String? btnText;
+  final IconData? icons;
 
-  const ElevatedButtonWithIcon({Key? key,required this.callback,required this.color,required this.btnText}) : super(key: key);
+  const ElevatedButtonWithIcon({Key? key,required this.callback,required this.color,required this.btnText,this.icons}) : super(key: key);
 
   @override
   _ElevatedButtonWithIconState createState() => _ElevatedButtonWithIconState();
@@ -21,9 +22,17 @@ class _ElevatedButtonWithIconState extends State<ElevatedButtonWithIcon> {
     return TextButton(
         child: Row(
           children: [
-            Expanded(child: Center(child: Text(widget.btnText!.toUpperCase(), style: TextStyle(fontSize: 14.sp))),flex: 9,),
-            const Icon(
-              Icons.navigate_next,
+            Expanded(
+              child: Center(
+                  child: Text(
+                      widget.btnText!.toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 14.sp
+                      )
+                  )
+              ),flex: 9,),
+             Icon(
+              widget.icons??Icons.navigate_next,
               color: Colors.white,
             ),
           ],
@@ -35,7 +44,7 @@ class _ElevatedButtonWithIconState extends State<ElevatedButtonWithIcon> {
             MaterialStateProperty.all<Color>(widget.color!),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                     side: BorderSide(color: Colors.transparent)))),
         onPressed: () {
           widget.callback!();
