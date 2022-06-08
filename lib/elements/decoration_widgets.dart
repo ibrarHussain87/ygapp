@@ -80,7 +80,7 @@ InputDecoration textFormFieldDecProfile(String hintLabel,String assetName) {
 }
 
 //////////Edit profile
-InputDecoration textFieldProfile(String hintLabel,String title) {
+InputDecoration textFieldProfile(String hintLabel,String title,bool isMandatory) {
   return InputDecoration(
       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       label: Row(
@@ -88,7 +88,7 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
-          /*const Text("*", style: TextStyle(color: Colors.red)),*/
+          Visibility(visible:isMandatory,child: const Text("*", style: TextStyle(color: Colors.red))),
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,

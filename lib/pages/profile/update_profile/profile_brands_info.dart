@@ -126,7 +126,7 @@ updateUI() {
                         controller: _typeAheadController,
 
                         decoration: textFieldProfile(
-                            'Enter Brand', "Brand"),
+                            'Enter Brand', "Brand",true),
                       ),
                       suggestionsCallback: (pattern) {
                         return brandsList.where(

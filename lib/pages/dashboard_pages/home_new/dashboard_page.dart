@@ -72,7 +72,7 @@ class DashboardPageState extends State<DashboardPage> {
                           padding: EdgeInsets.only(left: 4.w,top: 8.w),
                           child: Image.asset(
                               navImage,
-                            scale:1.2 ,
+                            scale:1.3 ,
 
                           )),
                     ),
@@ -82,8 +82,9 @@ class DashboardPageState extends State<DashboardPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 18.0.w,
-                              color: appBarTitleColor,
-                              fontWeight: FontWeight.w600)),
+                              fontFamily: 'Metropolis',
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
                     ),
 
                     Align(
@@ -97,8 +98,7 @@ class DashboardPageState extends State<DashboardPage> {
                             padding: EdgeInsets.only(left: 10.w,top: 6.w),
                             child: Image.asset(
                               bellImage,
-                              scale:1.2 ,
-
+                              scale:1.3 ,
                             )),
                       ),
                     ),
@@ -134,17 +134,19 @@ class DashboardPageState extends State<DashboardPage> {
                           padding: const EdgeInsets.only(left: 20,top: 3),
                           child: const TitleTextWidget(title: "Services"),
                         ),
-                        AbsorbPointer(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            // height: 0.6 * MediaQuery.of(context).size.height,
-                            child: HomeCardWidget(spanCount:2,listOfItems:homeList,callback:(HomeModel value){
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          // height: 0.6 * MediaQuery.of(context).size.height,
+                          child: HomeCardWidget(spanCount:2,listOfItems:homeList,callback:(HomeModel value){
 
-                              openYGServiceScreen(context);
-                              print("Value"+value.toString());
+                            if(value.id=="5")
+                              {
 
-                            },),
-                          ),
+                                openYGServiceScreen(context);
+                              }
+                            print("Value"+value.toString());
+
+                          },),
                         ),
                       ],
                     ),

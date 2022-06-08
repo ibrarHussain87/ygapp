@@ -25,15 +25,15 @@ class YGServiceRequestModel {
       'ygservice_email': email?.trim(),
       'ygservice_name': name?.trim(),
       'ygservice_contact_details': contactDetails?.trim(),
-      'ygservice_company_name': companyName!.trim(),
+      'ygservice_company_name': companyName?.trim(),
       'ygservice_nearest_landmark': landMark?.trim(),
       'ygservice_special_instruction': specialInstructions?.trim(),
       'ygservice_address': address?.trim(),
       'ygservice_suitable_datetime': dateTime?.trim(),
-      'ygservice_details': details!.trim(),
-      'ygservice_contact_number': telephoneNumber!.trim(),
-      'ygservice_secondry_contact_name': secName!.trim(),
-      'ygservice_secondry_contact_number': secNumber!.trim(),
+      'ygservice_details': details?.trim(),
+      'ygservice_contact_number': telephoneNumber?.trim(),
+      'ygservice_secondry_contact_name': secName?.trim(),
+      'ygservice_secondry_contact_number': secNumber?.trim(),
     };
 
     return map;

@@ -134,7 +134,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter NTN No.', "GST (NTN Number)")),
+                      'Enter NTN No.', "GST (NTN Number)",true)),
             ],
           ),
         ),
@@ -151,7 +151,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   textFieldConfiguration: TextFieldConfiguration(
                     controller: _companyTypeAheadController,
                     decoration: textFieldProfile(
-                        'Enter Company Name', "Company Name"),
+                        'Enter Company Name', "Company Name",true),
                   ),
                   suggestionsCallback: (pattern) {
                     return _profileInfoProvider.companiesList.where(
@@ -210,7 +210,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
               DropdownButtonFormField<GenericCategories>(
 
                 decoration:textFieldProfile(
-                    'Select Business Area', "Business Area"),
+                    'Select Business Area', "Business Area",true),
                 isDense: true,
                 isExpanded: true,
                 iconSize: 21,
@@ -258,7 +258,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Trade Mark', "Trade Mark")),
+                      'Enter Trade Mark', "Trade Mark",true)),
             ],
           ),
         ),
@@ -283,7 +283,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Role', "Employment Role")),
+                      'Enter Role', "Employment Role",true)),
             ],
           ),
         ),
@@ -298,7 +298,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
               DropdownButtonFormField<Designations?>(
 
                 decoration: textFieldProfile(
-                    'Select', "Designation") ,
+                    'Select', "Designation",true) ,
                 isDense: true,
                 hint:Text("Select Designation",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 isExpanded: true,
@@ -345,7 +345,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Company Address")),
+                      '', "Company Address",true)),
             ],
           ),
         ),
@@ -404,7 +404,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       Expanded(
                           flex:8,
                           child: Text(
-                            _profileInfoProvider.selectedCompanyCountry?.conName  ?? "Select Country",textAlign: TextAlign.start,style: TextStyle(fontSize: 13.sp))),
+                            _profileInfoProvider.selectedCompanyCountry?.conName  ?? "Select Country",textAlign: TextAlign.start,style: TextStyle(color:_profileInfoProvider.selectedCompanyCountry?.conName!=null ? textColorGrey : newColorGrey,fontSize: 13.sp))),
 
                     ],
                   ),
@@ -460,7 +460,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 },
 
                 decoration: textFieldProfile(
-                    'Select', "Company State/District"),
+                    'Select', "Company State/District",true),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
             ],
@@ -503,7 +503,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 },
 
                 decoration: textFieldProfile(
-                    'Select', "City"),
+                    'Select', "City",true),
                 validator: (value) => value == null ? 'Please select city' : null,
               ),
 
@@ -527,14 +527,14 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 //                  initialValue: snapshot.data!.businessInfo?.postalCode ?? '',
                   initialValue: snapshot?.postalCode ?? '',
 //                  controller: postalController,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter zip code";
-                    }
-                    return null;
-                  },
+//                   validator: (input) {
+//                     if (input == null || input.isEmpty) {
+//                       return "Please enter zip code";
+//                     }
+//                     return null;
+//                   },
                   decoration: textFieldProfile(
-                      '', "Company Zip Code")),
+                      '', "Company Zip Code",false)),
             ],
           ),
         ),
@@ -554,14 +554,14 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 //                  controller: webController,
                   onSaved: (input) =>
                   _updateBusinessRequestModel.website = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter web url";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter web url";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      '', "Website")),
+                      '', "Website",false)),
             ],
           ),
         ),

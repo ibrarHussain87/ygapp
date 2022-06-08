@@ -169,7 +169,7 @@ class YgServicePageState extends State<YgServicePage>
                 },
 
                 decoration: textFieldProfile(
-                    'Select', "Service Type"),
+                    'Select', "Service Type",true),
                 validator: (value) => value == null ? 'Please select service type' : null,
               ),
 
@@ -228,7 +228,7 @@ class YgServicePageState extends State<YgServicePage>
                   textFieldConfiguration: TextFieldConfiguration(
                     controller: _companyTypeAheadController,
                     decoration: textFieldProfile(
-                        'Enter Company Name', "Company Name"),
+                        'Enter Company Name', "Company Name",true),
                   ),
                   suggestionsCallback: (pattern) {
                     return companiesList.where(
@@ -294,7 +294,7 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Name', "Name")),
+                      'Enter Name', "Name",true)),
             ],
           ),
         ),
@@ -320,7 +320,7 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Contact Number', "Contact Number")),
+                      'Enter Contact Number', "Contact Number",true)),
             ],
           ),
         ),
@@ -347,7 +347,7 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Address', "Address")),
+                      'Enter Address', "Address",true)),
             ],
           ),
         ),
@@ -376,7 +376,7 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Email', "Email")),
+                      'Enter Email', "Email",true)),
             ],
           ),
         ),
@@ -393,14 +393,14 @@ class YgServicePageState extends State<YgServicePage>
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.landMark = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter nearest landmark";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter nearest landmark";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter Landmark', "Landmark")),
+                      'Enter Landmark', "Landmark",false)),
             ],
           ),
         ),
@@ -417,14 +417,14 @@ class YgServicePageState extends State<YgServicePage>
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secName = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter secondary contact name";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter secondary contact name";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter Secondary Contact Name', "Secondary Contact Name")),
+                      'Enter Secondary Contact Name', "Secondary Contact Name",false)),
             ],
           ),
         ),
@@ -440,14 +440,14 @@ class YgServicePageState extends State<YgServicePage>
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secNumber = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter secondary number";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter secondary number";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter Secondary Contact Number', "Secondary Contact Number")),
+                      'Enter Secondary Contact Number', "Secondary Contact Number",false)),
             ],
           ),
         ),
@@ -465,14 +465,14 @@ class YgServicePageState extends State<YgServicePage>
                   cursorColor: Colors.black,
                   maxLines: 5,
                   onSaved: (input) => _ygServiceRequestModel.details = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter details";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter details";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      '', "Details")),
+                      '', "Details",false)),
             ],
           ),
         ),
@@ -489,14 +489,14 @@ class YgServicePageState extends State<YgServicePage>
                   cursorColor: Colors.black,
                   maxLines: 5,
                   onSaved: (input) => _ygServiceRequestModel.specialInstructions = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter special instructions";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter special instructions";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      '', "Special Instructions")),
+                      '', "Special Instructions",false)),
             ],
           ),
         ),
@@ -541,14 +541,14 @@ class YgServicePageState extends State<YgServicePage>
                 child: SizedBox(
                   height: 40.w,
                   child:Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: newColorGrey,
-                          width:
-                          1, //                   <--- border width here
-                        ),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(5.w))),
+                    // decoration: BoxDecoration(
+                    //     border: Border.all(
+                    //       color: newColorGrey,
+                    //       width:
+                    //       1, //                   <--- border width here
+                    //     ),
+                    //     borderRadius: BorderRadius.all(
+                    //         Radius.circular(5.w))),
                     child: InputDecorator(
                       decoration: InputDecoration(
                         label: Row(
@@ -578,9 +578,12 @@ class YgServicePageState extends State<YgServicePage>
                         suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
                         floatingLabelBehavior:FloatingLabelBehavior.always ,
                         hintText:'Select Date/Time',
-                        border: const OutlineInputBorder(
-                            borderSide:
-                            BorderSide.none),
+                        border: OutlineInputBorder(
+                            borderRadius:const BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
+                            borderSide: BorderSide(color: newColorGrey)
+                        ),
                         hintStyle: TextStyle(
                             fontSize: 11.sp,
                             color: textColorGrey),
@@ -593,8 +596,8 @@ class YgServicePageState extends State<YgServicePage>
                               flex:8,
                               child: Text(
                                   dateTime ?? "Select Date/Time",textAlign: TextAlign.start,style:TextStyle(
-                                  fontSize: 11.sp,
-                                  color: textColorGrey))),
+                                  fontSize: 13.sp,
+                                  color:dateTime!=null ? textColorGrey : newColorGrey))),
 
                         ],
                       ),

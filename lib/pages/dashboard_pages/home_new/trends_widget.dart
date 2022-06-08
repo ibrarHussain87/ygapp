@@ -23,8 +23,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 8.w,top: 8.w),
-      margin: EdgeInsets.only(bottom: 4.w),
+      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 2.w,top: 8.w),
+      margin: EdgeInsets.only(bottom: 2.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +34,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.12 * MediaQuery.of(context).size.height,
+              height: 0.09 * MediaQuery.of(context).size.height,
 
               child: ListView.builder(
                 itemCount: trendsList.length,
@@ -43,7 +43,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                   return Row(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(8.w),
+                        // borderRadius: BorderRadius.circular(8.w),
                         child: Center(
                           child: Container(
                             width: MediaQuery.of(context).size.width/2.4,
@@ -51,11 +51,11 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                             color: trendsBgColor
                             ),
                             child: Padding(
-                              padding: EdgeInsets.all(8.w),
+                              padding: EdgeInsets.all(6.w),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                // mainAxisAlignment:
+                                // MainAxisAlignment.center,
                                 children: [
                                   Row(
                                     mainAxisAlignment:
@@ -64,7 +64,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       Text(
                                         trendsList[index].title.toString(),
                                         style: TextStyle(
-                                            color: cardTitleColor, fontSize: 11.sp,fontWeight: FontWeight.w400),
+                                            color: cardTitleColor, fontSize: 12.sp,fontWeight: FontWeight.w400),
                                       ),
                                       Icon(
                                         Icons.arrow_circle_right_outlined,
@@ -73,6 +73,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       )
                                     ],
                                   ),
+                                  const SizedBox(height: 3,),
                                   Row(
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -80,31 +81,36 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       Text(
                                         trendsList[index].subTitle.toString(),
                                         style: TextStyle(
-                                            color: Colors.black87, fontSize: 11.sp,fontWeight: FontWeight.w700),
+
+                                            fontFamily: 'Metropolis',
+                                            color: Colors.black, fontSize: 12.sp,fontWeight: FontWeight.bold),
                                       ),
                                       Text(
                                         trendsList[index].percent.toString(),
                                         style: TextStyle(
-                                            color: trendsList[index].isDrop==true ? Colors.red : Colors.green,
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.w600),
+                                            color: trendsList[index].isDrop==true ? redDownColor : greenUpColor,
+                                            fontSize: 12.sp,
+
+                                            fontFamily: 'Metropolis',
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(height: 10,),
                                   Row(
                                     children: [
 
                                       Image.asset(
                                         trendsList[index].isDrop==true ? red : green,
-                                        scale:1.00 ,
+                                        scale:1.2 ,
 
                                       ),
                                       const SizedBox(width: 3,),
                                       Text(
                                         trendsList[index].isDrop==true ? "Drop Quickly" : "Rose Quickly",
                                         style: TextStyle(
-                                            color: trendsList[index].isDrop==true ? Colors.red : Colors.green,
-                                            fontSize: 10.sp,
+                                            color: trendsList[index].isDrop==true ? redDownColor : greenUpColor,
+                                            fontSize: 9.sp,
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ],

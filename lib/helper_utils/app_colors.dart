@@ -94,6 +94,8 @@ var appBarTitleColor = HexColor.fromHex('#363839');
 var homeBgColor = HexColor.fromHex('#F4F4F4');
 var trendsBgColor = HexColor.fromHex('#EDF1F6');
 var cardTitleColor = HexColor.fromHex('#72818F');
+var redDownColor = HexColor.fromHex('#E70808');
+var greenUpColor = HexColor.fromHex('#20DA5F');
 
 var lightBlueChip = const Color(0xFFE3ECFF);
 var darkBlueChip = const Color(0xFF2E59B1);

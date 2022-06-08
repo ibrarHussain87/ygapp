@@ -129,7 +129,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Name', "Name")),
+                      'Enter Name', "Name",false)),
             ],
           ),
         ),
@@ -156,7 +156,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Address")),
+                      '', "Address",false)),
             ],
           ),
         ),
@@ -216,7 +216,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                       Expanded(
                           flex:8,
                           child: Text(
-                            _profileInfoProvider.selectedCountry?.conName ?? "Select Country",textAlign: TextAlign.start,style: const TextStyle(fontSize: 13),)),
+                            _profileInfoProvider.selectedCountry?.conName ?? "Select Country",textAlign: TextAlign.start,style:  TextStyle(color:_profileInfoProvider.selectedCountry?.conName!=null ? textColorGrey : newColorGrey,fontSize: 13),)),
                     ],
                   ),
                 ),
@@ -265,7 +265,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                       value?.stateId.toString();
                 },
                 decoration: textFieldProfile(
-                    'Select', "State/District"),
+                    'Select', "State/District",true),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
             ],
@@ -308,7 +308,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 
                 },
                 decoration: textFieldProfile(
-                    'Select', "City"),
+                    'Select', "City",true),
                 validator: (value) => value == null ? 'Please select city' : null,
               ),
             ],
@@ -336,7 +336,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Postal Code")),
+                      '', "Postal Code",false)),
             ],
           ),
         ),
@@ -389,7 +389,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Telephone")),
+                      '', "Telephone",false)),
             ],
           ),
         ),
@@ -418,7 +418,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Email")),
+                      '', "Email",false)),
             ],
           ),
         ),

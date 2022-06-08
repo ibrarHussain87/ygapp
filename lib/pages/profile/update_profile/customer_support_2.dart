@@ -78,10 +78,11 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                 child: Row(
                   children: [
                     Container(
+                      height: 50,
                       width: MediaQuery.of(context).size.width*(1/3),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12.0,
-                        vertical: 12.0,
+                        vertical: 10.0,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: contact_color_customer,width: 0.5),
@@ -92,7 +93,6 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                            const Expanded(
-                               flex: 1,
                                child: Icon(
                                    Icons.email_outlined,
                                    size: 25,
@@ -115,6 +115,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
                     ),
                     Container(
+
+                      height: 50,
                       width: MediaQuery.of(context).size.width*(1/3),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12.0,
@@ -140,6 +142,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                         shareSheet(context)
                       },
                       child: Container(
+
+                        height: 50,
                         width: MediaQuery.of(context).size.width*(1/3),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
@@ -195,7 +199,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Name', "Name")),
+                      'Enter Name', "Name",true)),
             ],
           ),
         ),
@@ -217,7 +221,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Phone', "Phone")),
+                      'Enter Phone', "Phone",true)),
             ],
           ),
         ),
@@ -240,7 +244,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     return null;
                   },
                   decoration: textFieldProfile(
-                      'Enter Email', "Email")),
+                      'Enter Email', "Email",true)),
             ],
           ),
         ),
@@ -302,7 +306,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Message")),
+                      '', "Message",true)),
             ],
           ),
         ),

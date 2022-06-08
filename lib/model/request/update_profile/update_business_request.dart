@@ -22,19 +22,19 @@ class UpdateBusinessRequestModel {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
 //      'id': id!.trim(),
-      'ubi_gst_ntn_number': ntn_number!.trim(),
+      'ubi_gst_ntn_number': ntn_number?.trim(),
 //      'ntn_number': ntn_number!.trim(),
-      'ubi_name': name!.trim(),
-      'ubi_country_idfk': countryId!.trim(),
-      'company_id': company?.trim() ?? "1",
-      'ubi_state_idfk': cityStateId?.trim() ?? "1",
-      'ubi_website': website!.trim(),
-      'ubi_address': address!.trim(),
-      'ubi_city_idfk': city!.trim(),
-      'ubi_zipcode': postalCode!.trim(),
-      'ubi_trade_mark': trade_mark!.trim(),
-      'ubi_employment_role': employment_role!.trim(),
-      'ubi_designation_idfk': designation_idfk!.trim()
+      'ubi_name': name?.trim(),
+      'ubi_country_idfk': countryId?.trim(),
+      'company_id': company?.trim(),
+      'ubi_state_idfk': cityStateId?.trim(),
+      'ubi_website': website?.trim(),
+      'ubi_address': address?.trim(),
+      'ubi_city_idfk': city?.trim(),
+      'ubi_zipcode': postalCode?.trim(),
+      'ubi_trade_mark': trade_mark?.trim(),
+      'ubi_employment_role': employment_role?.trim(),
+      'ubi_designation_idfk': designation_idfk?.trim()
     };
 
     return map;
