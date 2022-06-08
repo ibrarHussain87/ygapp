@@ -12,7 +12,7 @@ class ProfileTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0,bottom: 5),
+      padding: const EdgeInsets.only(top:8.0,left: 0.0,right: 8.0,bottom: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

@@ -150,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 8.w),
+                                    horizontal: 0.w, vertical: 8.w),
                                 decoration: BoxDecoration(
                                     /*border: Border.all(
                                         color: Colors.grey.shade300),*/
