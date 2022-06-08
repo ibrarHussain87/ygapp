@@ -857,6 +857,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['user_id'] = '$userID';
       headerMap['device_token'] = '$userDeviceToken';
+      Logger().e(data.toString());
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
 

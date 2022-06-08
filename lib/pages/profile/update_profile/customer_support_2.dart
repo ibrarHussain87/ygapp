@@ -6,6 +6,8 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 
+import '../../../elements/custom_header.dart';
+
 class CustomerSupportPage2 extends StatefulWidget {
   const CustomerSupportPage2({Key? key}) : super(key: key);
 
@@ -33,7 +35,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         resizeToAvoidBottomInset:false,
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: AppBar(
+        appBar: /*AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
@@ -58,7 +60,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   fontSize: 16.0.w,
                   color: appBarTextColor,
                   fontWeight: FontWeight.w400)),
-        ),
+        )*/appBar(context,"Customer Support"),
         body:Stack(
           children: [
             Form(

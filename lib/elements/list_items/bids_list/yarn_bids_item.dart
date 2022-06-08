@@ -143,8 +143,8 @@ class YarnBidsItem extends StatelessWidget {
                                 children: [
                                   Container(
                                       color: blueBackgroundColor,
-                                      constraints:
-                                          const BoxConstraints(maxHeight: 14),
+                                      /*constraints:
+                                          const BoxConstraints(maxHeight: 14),*/
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),

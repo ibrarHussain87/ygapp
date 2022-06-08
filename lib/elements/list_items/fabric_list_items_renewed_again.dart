@@ -183,13 +183,13 @@ Widget buildFabricRenewedAgainWidget(
                             ),
                             Container(
                               width: size.width * 0.55,
-                              child: setFabricBlueTags(specification),
+                              child: Utils.setFabricBlueTags(specification),
                             ),
                             SizedBox(height: 8.w),
                             Visibility(
                               visible:
                                   specification.isOffering == offering_type,
-                              child: setPropertiesWithIcons(specification),
+                              child: Utils.setPropertiesWithIcons(specification),
                             ),
                             SizedBox(
                               height: 8.h,
@@ -570,180 +570,8 @@ Widget buildFabricRenewedAgainWidget(
   );
 }
 
-Row setPropertiesWithIcons(FabricSpecification specification) {
-  var list = List.empty().toList();
-  switch (specification.fabricFamilyId) {
-    case '101':
-      addProperty(specification.fpb_cone_type_name, list);
-      addProperty(specification.unitCount, list);
-      addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
-        addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
-      }
-      break;
-    case '102':
-      addProperty(specification.fpb_cone_type_name, list);
-      addProperty(specification.unitCount, list);
-      addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
-        addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
-      }
-      break;
-    case '103':
-      addProperty(specification.fpb_cone_type_name, list);
-      addProperty(specification.unitCount, list);
-      addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
-        addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
-      }
-      break;
-    case '104':
-      addProperty(specification.fpb_cone_type_name, list);
-      addProperty(specification.unitCount, list);
-      addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
-        addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
-      }
-      break;
-  }
-  return Row(
-    children: [
-      Expanded(
-        child: Wrap(
-          spacing: 4.0,
-          runSpacing: 3.0,
-          children: [
-            for (var property in list)
-              ShortDetailRenewedWidget(
-                title: property,
-                imageIcon: Utils.getPropertyIcon(list.indexOf(property)),
-                size: 10.sp,
-                iconSize: 12,
-              ),
-            /*Visibility(
-              visible: specification.fpb_cone_type_name != null,
-              child: ShortDetailRenewedWidget(
-                title: specification.fpb_cone_type_name ??
-                    Utils.checkNullString(false),
-                imageIcon: IC_BAG_RENEWED,
-                size: 10.sp,
-                iconSize: 12,
-              ),
-            ),
-            Visibility(
-              visible: specification.unitCount != null,
-              child: ShortDetailRenewedWidget(
-                title: specification.unitCount ?? Utils.checkNullString(false),
-                imageIcon: IC_CONE_RENEWED,
-                size: 10.sp,
-                iconSize: 12,
-              ),
-            ),
-            Visibility(
-              visible: specification.deliveryPeriod != null,
-              child: ShortDetailRenewedWidget(
-                title: specification.deliveryPeriod ??
-                    Utils.checkNullString(false),
-                imageIcon: IC_VAN_RENEWED,
-                size: 10.sp,
-                iconSize: 12,
-              ),
-            ),
-            Visibility(
-              visible: specification.locality != local,
-              child: ShortDetailRenewedWidget(
-                title: specification.locality == international
-                    ? specification.fabricCountry?.capitalizeAndLower()
-                    : specification.locality
-                        ?.capitalizeAndLower() *//*:Utils.checkNullString(false)*//*,
-                imageIcon: IC_LOCATION_RENEWED,
-                size: 10.sp,
-                iconSize: 12,
-              ),
-            ),*/
-          ],
-        ),
-      )
-    ],
-  );
-}
 
 
-Row setFabricBlueTags(FabricSpecification specification) {
-  var list = List.empty().toList();
-  switch (specification.fabricFamilyId) {
-    case '101':
-      addProperty(specification.fabricApperance, list);
-      addProperty(specification.fabricQuality, list);
-      addProperty(specification.fabricGrade, list);
-      break;
-    case '102':
-      addProperty(specification.fabricSalvedgeName, list);
-      addProperty(specification.fabricQuality, list);
-      addProperty(specification.fabricColorTreatmentMethod, list);
-      break;
-    case '103':
-      addProperty(specification.fabricQuality, list);
-      addProperty(specification.fabricGrade, list);
-      addProperty(specification.certificationStr, list);
-      break;
-    case '104':
-      // Nothing to add
-      break;
-  }
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      for (var property in list)
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 8.w),
-            child: BgLightBlueNormalTextWidget(
-              title: property,
-            ),
-          ),
-          flex: 1,
-        ),
-      /*Visibility(
-        visible: specification.fabricApperance != null,
-        child: Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 8.w),
-            child: BgLightBlueNormalTextWidget(
-              title:
-                  specification.fabricApperance ?? Utils.checkNullString(false),
-            ),
-          ),
-          flex: 1,
-        ),
-      ),
-      //SizedBox(width: 8.w),
-      Visibility(
-        visible: specification.fabricQuality != null,
-        child: Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 8.w),
-            child: BgLightBlueNormalTextWidget(
-              title:
-                  specification.fabricQuality ?? Utils.checkNullString(false),
-            ),
-          ),
-          flex: 1,
-        ),
-      ),
-      // SizedBox(width: 8.w),
-      Visibility(
-        visible: specification.fabricGrade != null,
-        child: Expanded(
-          child: BgLightBlueNormalTextWidget(
-            title: specification.fabricGrade ?? Utils.checkNullString(false),
-          ),
-          flex: 1,
-        ),
-      ),*/
-    ],
-  );
-}
 
 void addProperty(String? property, List<dynamic> list) {
   if (property != null && property.isNotEmpty) {

@@ -28,6 +28,8 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import '../elements/list_widgets/bg_light_blue_normal_text_widget.dart';
+import '../elements/list_widgets/short_detail_renewed_widget.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../providers/fabric_providers/fabric_specifications_provider.dart';
 import '../providers/yarn_providers/yarn_specifications_provider.dart';
@@ -38,6 +40,8 @@ import 'app_colors.dart';
 import 'app_constants.dart';
 import 'app_images.dart';
 import 'navigation_utils.dart';
+import 'package:yg_app/helper_utils/extensions.dart';
+
 
 class Utils {
   static double splitMin(String? minMax) {
@@ -528,7 +532,7 @@ class Utils {
                           height: 5.w,
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomBrandWidget(
                               title: "Quantity:",
@@ -1540,4 +1544,180 @@ class Utils {
       }
     }
   }
+
+  static Row setFabricBlueTags(FabricSpecification specification) {
+    var list = List.empty().toList();
+    switch (specification.fabricFamilyId) {
+      case '101':
+        addProperty(specification.fabricApperance, list);
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricGrade, list);
+        break;
+      case '102':
+        addProperty(specification.fabricSalvedgeName, list);
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricColorTreatmentMethod, list);
+        break;
+      case '103':
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricGrade, list);
+        addProperty(specification.certificationStr, list);
+        break;
+      case '104':
+      // Nothing to add
+        break;
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var property in list)
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 8.w),
+              child: BgLightBlueNormalTextWidget(
+                title: property,
+              ),
+            ),
+            flex: 1,
+          ),
+        /*Visibility(
+        visible: specification.fabricApperance != null,
+        child: Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: BgLightBlueNormalTextWidget(
+              title:
+                  specification.fabricApperance ?? Utils.checkNullString(false),
+            ),
+          ),
+          flex: 1,
+        ),
+      ),
+      //SizedBox(width: 8.w),
+      Visibility(
+        visible: specification.fabricQuality != null,
+        child: Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: BgLightBlueNormalTextWidget(
+              title:
+                  specification.fabricQuality ?? Utils.checkNullString(false),
+            ),
+          ),
+          flex: 1,
+        ),
+      ),
+      // SizedBox(width: 8.w),
+      Visibility(
+        visible: specification.fabricGrade != null,
+        child: Expanded(
+          child: BgLightBlueNormalTextWidget(
+            title: specification.fabricGrade ?? Utils.checkNullString(false),
+          ),
+          flex: 1,
+        ),
+      ),*/
+      ],
+    );
+  }
+
+  static Row setPropertiesWithIcons(FabricSpecification specification) {
+    var list = List.empty().toList();
+    switch (specification.fabricFamilyId) {
+      case '101':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '102':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '103':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '104':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+    }
+    return Row(
+      children: [
+        Expanded(
+          child: Wrap(
+            spacing: 4.0,
+            runSpacing: 3.0,
+            children: [
+              for (var property in list)
+                ShortDetailRenewedWidget(
+                  title: property,
+                  imageIcon: Utils.getPropertyIcon(list.indexOf(property)),
+                  size: 10.sp,
+                  iconSize: 12,
+                ),
+              /*Visibility(
+              visible: specification.fpb_cone_type_name != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.fpb_cone_type_name ??
+                    Utils.checkNullString(false),
+                imageIcon: IC_BAG_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.unitCount != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.unitCount ?? Utils.checkNullString(false),
+                imageIcon: IC_CONE_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.deliveryPeriod != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.deliveryPeriod ??
+                    Utils.checkNullString(false),
+                imageIcon: IC_VAN_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.locality != local,
+              child: ShortDetailRenewedWidget(
+                title: specification.locality == international
+                    ? specification.fabricCountry?.capitalizeAndLower()
+                    : specification.locality
+                        ?.capitalizeAndLower() *//*:Utils.checkNullString(false)*//*,
+                imageIcon: IC_LOCATION_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),*/
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+
 }
