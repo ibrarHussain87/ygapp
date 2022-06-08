@@ -196,7 +196,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
-                          Text("Country",style: TextStyle(color: Colors.black,fontSize: 13),),
+                          Text("Country",style: TextStyle(fontSize: 13,color:Colors.black)),
                           /*Text("*", style: TextStyle(color: Colors.red)),*/
                         ],
                       ),
@@ -424,7 +424,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
 
         Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(14.w),
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
@@ -441,7 +441,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                             RoundedRectangleBorder>(
                             const RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(6)),
+                                BorderRadius.all(Radius.circular(8)),
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSave()) {

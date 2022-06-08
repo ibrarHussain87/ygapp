@@ -14,6 +14,7 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
+import 'package:yg_app/model/detail_tile_model.dart';
 import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
@@ -36,7 +37,7 @@ class SpecificationUserPage extends StatefulWidget {
 class _SpecificationUserPageState extends State<SpecificationUserPage> {
   late SpecificationRequestModel _specificationRequestModel;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<GridTileModel> _userDetails = [];
+  List<DetailTileModel> _userDetails = [];
   String companyName = 'Contact Card';
 
   @override

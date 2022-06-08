@@ -6,6 +6,7 @@ import 'package:yg_app/elements/list_items/bids_list/bids_list_items.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import '../../../../model/response/list_bid_response.dart';
+import '../../../elements/custom_header.dart';
 
 class BidsListPage extends StatefulWidget {
   const BidsListPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _BidsListPageState extends State<BidsListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: /*AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
@@ -48,7 +49,7 @@ class _BidsListPageState extends State<BidsListPage> {
                   fontSize: 16.0.w,
                   color: appBarTextColor,
                   fontWeight: FontWeight.w400)),
-        ),
+        )*/appBar(context,"My Bids"),
         backgroundColor: Colors.white,
         body: FutureBuilder<ListBidResponse>(
           future: ApiService.getListBids(),
@@ -59,10 +60,10 @@ class _BidsListPageState extends State<BidsListPage> {
                   itemCount: snapshot.data!.data!.length,
                   itemBuilder: (context, index) {
                    var bidItem = snapshot.data!.data![index];
-                    return bidItem.specification != null ? BidsListItem(bidData: bidItem) : const Padding(
+                    return bidItem.specification != null ? BidsListItem(bidData: bidItem) : /*const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text('Bid Specification does not exist'),
-                    );
+                    )*/Container();
                   });
             } else if(snapshot.data != null && snapshot.data!.data!.isEmpty){
               return const Center(

@@ -93,7 +93,7 @@ InputDecoration textFieldProfile(String hintLabel,String title) {
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
-      hintStyle: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+      hintStyle: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:newColorGrey),
       border: OutlineInputBorder(
           borderRadius:const BorderRadius.all(
             Radius.circular(5.0),
@@ -111,13 +111,13 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
+          Text(title,style: const TextStyle(color:Colors.black,fontSize: 13),),
           /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       hintText: hintLabel,
-      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:Colors.black),
+      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:newColorGrey),
       border: OutlineInputBorder(
           borderRadius:const BorderRadius.all(
             Radius.circular(5.0),

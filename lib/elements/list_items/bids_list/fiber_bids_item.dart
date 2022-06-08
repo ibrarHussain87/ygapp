@@ -173,8 +173,8 @@ class FiberBidItem extends StatelessWidget {
                                 children: [
                                   Container(
                                       color: blueBackgroundColor,
-                                      constraints:
-                                          const BoxConstraints(maxHeight: 14),
+                                      /*constraints:
+                                          const BoxConstraints(maxHeight: 14),*/
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
@@ -306,7 +306,7 @@ class FiberBidItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.17,
                                       decoration: BoxDecoration(
-                                          *//*color: lightYellowContainer,*//*
+                                          */ /*color: lightYellowContainer,*/ /*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
@@ -367,7 +367,7 @@ class FiberBidItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.17,
                                       decoration: BoxDecoration(
-                                          *//*color: lightYellowContainer,*//*
+                                          */ /*color: lightYellowContainer,*/ /*
                                           border: Border.all(
                                             color: greenButton,
                                             width:
@@ -430,35 +430,38 @@ class FiberBidItem extends StatelessWidget {
                                   _specification.priceUnit.toString() +
                                   "/KG",
                             ),*/
-                                Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                    text:
-                                        '${_specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  TextSpan(
-                                    text: _specification.priceUnit
-                                        .toString()
-                                        .replaceAll(RegExp(r'[^0-9]'), ''),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                    text: "/ ${_specification.unitCount ?? ''}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ])),
+                                RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text:
+                                            '${_specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.sp,
+                                            fontFamily: 'Metropolis',
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      TextSpan(
+                                        text: _specification.priceUnit
+                                            .toString()
+                                            .replaceAll(RegExp(r'[^0-9]'), ''),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17.sp,
+                                            fontFamily: 'Metropolis',
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "/ ${_specification.unitCount ?? ''}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.sp,
+                                            fontFamily: 'Metropolis',
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ])),
                                 SizedBox(
                                   height: 1.h,
                                 ),
@@ -537,7 +540,7 @@ class FiberBidItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      specification: bidData!.specification
+                                      specObj: bidData!.specification
                                           as Specification,
                                       isFromBid: true);
                                 },
@@ -576,7 +579,7 @@ class FiberBidItem extends StatelessWidget {
               )*/
                 Padding(
                   padding: EdgeInsets.only(
-                    left: 0.w, right: 0.w, top: 0.w,bottom: 0.w),
+                      left: 0.w, right: 0.w, top: 0.w, bottom: 0.w),
                   child: Utils.buildContainer(bidData!),
                 )
               ],
@@ -647,4 +650,3 @@ class FiberBidItem extends StatelessWidget {
         ));
   }
 }
-

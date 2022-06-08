@@ -11,8 +11,8 @@ PreferredSize appBar(BuildContext context,String title,{bool isBackVisible=true}
     child: SafeArea(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height:AppBar().preferredSize.height,
-        padding: EdgeInsets.all(10),
+        height:AppBar().preferredSize.height*0.9,
+        padding: EdgeInsets.all(7),
         decoration:BoxDecoration(
           gradient:LinearGradient(
               begin: Alignment.centerLeft,

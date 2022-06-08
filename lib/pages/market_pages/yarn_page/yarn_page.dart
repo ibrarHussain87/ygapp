@@ -1,14 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
-import 'package:yg_app/elements/bottom_sheets/family_blends_bottom_sheet.dart';
-import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
-import 'package:yg_app/elements/custom_header.dart';
 
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -21,12 +16,9 @@ import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_fu
 import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 import '../../../app_database/app_database_instance.dart';
-import '../../../elements/bottom_sheets/family_bottom_sheet.dart';
-import '../../../elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
-import '../../../model/blend_model.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import 'yarn_components/family_blend_body.dart';
 
@@ -103,7 +95,7 @@ class YarnPageState extends State<YarnPage> {
           child: Column(
             children: [
               Material(
-                elevation: 5,
+                elevation: 1,
                 color: Colors.white,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -316,7 +308,7 @@ class YarnPageState extends State<YarnPage> {
               Expanded(
                 child: Container(
                   color: Colors.white,
-                  margin: EdgeInsets.only(top: 8.w),
+                  margin: EdgeInsets.only(top: 1.w),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: YarnSpecificationListFuture(

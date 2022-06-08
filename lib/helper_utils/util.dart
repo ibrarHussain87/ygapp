@@ -28,6 +28,8 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import '../elements/list_widgets/bg_light_blue_normal_text_widget.dart';
+import '../elements/list_widgets/short_detail_renewed_widget.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../providers/fabric_providers/fabric_specifications_provider.dart';
 import '../providers/yarn_providers/yarn_specifications_provider.dart';
@@ -38,6 +40,8 @@ import 'app_colors.dart';
 import 'app_constants.dart';
 import 'app_images.dart';
 import 'navigation_utils.dart';
+import 'package:yg_app/helper_utils/extensions.dart';
+
 
 class Utils {
   static double splitMin(String? minMax) {
@@ -139,7 +143,7 @@ class Utils {
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?'/ ${specification.formationDisplayText}':''}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':''}';
         break;
       case '3':
         familyData =
@@ -147,7 +151,8 @@ class Utils {
         break;
       case '4':
         familyData =
-        '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
+        '${specification.ys_yarn_type ?? ""} ${specification.dtyFilament != null ? "${specification.dtyFilament}" : ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} /${specification.yarnPly ?? ''}';
+        // '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '5':
         familyData =
@@ -241,11 +246,11 @@ class Utils {
         break;
       case '102':
         titleData =
-        specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false);
+        '${specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false)}, ${specification.formationDisplayText}';
         break;
       case '103':
         titleData =
-        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}';
+        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}/*, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}*/';
         break;
       case '104':
         titleData ='${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
@@ -261,7 +266,7 @@ class Utils {
       case '101':
         List<String?> list = [
           specification.fabricKnittingTypeName,
-          specification.fabricColorTreatmentMethod
+          specification.fabricColorTreatmentMethod,
         ];
         if(specification.fabricDyingTechnique != null){
           list.add(specification.fabricDyingTechnique);
@@ -273,7 +278,6 @@ class Utils {
         break;
       case '102':
         List<String?> list = [
-          specification.formationDisplayText,
           specification.fabricWeaveName,
           specification.fabricWeavePatternName,
           specification.fabricApperance
@@ -283,7 +287,6 @@ class Utils {
       case '103':
         List<String?> list = [
           specification.fabricApperance,
-          specification.fabricColorTreatmentMethod,
           specification.fabricDyingTechnique
         ];
         detailsData = Utils.createStringFromList(list);
@@ -303,7 +306,7 @@ class Utils {
         '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
         break;
       case '2':
-        titleData = specification.yarnFamily ?? Utils.checkNullString(false);
+        titleData = "";/*specification.yarnFamily ?? Utils.checkNullString(false);*/
         break;
       case '3':
         titleData =
@@ -356,7 +359,7 @@ class Utils {
         List<String?> list = [
           specification.yarnApperance,
           specification.yarnColorTreatmentMethod,
-          specification.doublingMethod,
+          specification.color,
         ];
         detailsData = Utils.createStringFromList(list);
         break;
@@ -528,7 +531,7 @@ class Utils {
                           height: 5.w,
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomBrandWidget(
                               title: "Quantity:",
@@ -999,7 +1002,7 @@ class Utils {
   }*/
 
   static void updateDialog(context, YarnSpecification? yarnSpecification,
-      Specification? specification, dynamic specObj) {
+      Specification? specification, dynamic specObj,Function callback) async{
     final TextEditingController controllerUpdatePrice = TextEditingController();
     final TextEditingController controllerAvailQ = TextEditingController();
     late List<DeliveryPeriod> deliveryPeriodList;
@@ -1042,28 +1045,31 @@ class Utils {
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     }
 
-    AppDbInstance().getDeliveryPeriod().then((value1) {
+    var dbInstance = await AppDbInstance().getDbInstance();
       if (specification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(int.parse(specification.categoryId??"1"));
         var period = specification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (yarnSpecification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(yarnSpecification.category_id??2);
         var period = yarnSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (specObj is FabricSpecification) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(3);
         var fabricSpecification = specObj;
         var period = fabricSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       }
-      deliveryPeriodList = value1;
+      // deliveryPeriodList = value1;
 
       showGeneralDialog(
         context: context,
@@ -1348,7 +1354,7 @@ class Utils {
                                       .toString());
                                   ProgressDialogUtil.showDialog(
                                       context, "Please wait..");
-                                  ApiService.updateFabricSpecification(
+                                  ApiService.updateSpecification(
                                       updateFabricRequestModel, "")
                                       .then((value) {
                                     ProgressDialogUtil.hideDialog();
@@ -1366,6 +1372,7 @@ class Utils {
                                           openMyAdsScreen(context);
                                         });
                                       } else {
+                                        callback(value.data);
                                         Navigator.pop(context);
                                         if (yarnSpecification != null) {
                                           final yarnSpecificationsProvider =
@@ -1428,7 +1435,6 @@ class Utils {
           );
         },
       );
-    });
   }
 
   static Future<String> getUserId() async {
@@ -1540,4 +1546,180 @@ class Utils {
       }
     }
   }
+
+  static Row setFabricBlueTags(FabricSpecification specification) {
+    var list = List.empty().toList();
+    switch (specification.fabricFamilyId) {
+      case '101':
+        addProperty(specification.fabricApperance, list);
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricGrade, list);
+        break;
+      case '102':
+        addProperty(specification.fabricSalvedgeName, list);
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricColorTreatmentMethod, list);
+        break;
+      case '103':
+        addProperty(specification.fabricQuality, list);
+        addProperty(specification.fabricGrade, list);
+        addProperty(specification.certificationStr, list);
+        break;
+      case '104':
+      // Nothing to add
+        break;
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var property in list)
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 8.w),
+              child: BgLightBlueNormalTextWidget(
+                title: property,
+              ),
+            ),
+            flex: 1,
+          ),
+        /*Visibility(
+        visible: specification.fabricApperance != null,
+        child: Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: BgLightBlueNormalTextWidget(
+              title:
+                  specification.fabricApperance ?? Utils.checkNullString(false),
+            ),
+          ),
+          flex: 1,
+        ),
+      ),
+      //SizedBox(width: 8.w),
+      Visibility(
+        visible: specification.fabricQuality != null,
+        child: Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: BgLightBlueNormalTextWidget(
+              title:
+                  specification.fabricQuality ?? Utils.checkNullString(false),
+            ),
+          ),
+          flex: 1,
+        ),
+      ),
+      // SizedBox(width: 8.w),
+      Visibility(
+        visible: specification.fabricGrade != null,
+        child: Expanded(
+          child: BgLightBlueNormalTextWidget(
+            title: specification.fabricGrade ?? Utils.checkNullString(false),
+          ),
+          flex: 1,
+        ),
+      ),*/
+      ],
+    );
+  }
+
+  static Row setPropertiesWithIcons(FabricSpecification specification) {
+    var list = List.empty().toList();
+    switch (specification.fabricFamilyId) {
+      case '101':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '102':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '103':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+      case '104':
+        addProperty(specification.fpb_cone_type_name, list);
+        addProperty(specification.unitCount, list);
+        addProperty(specification.deliveryPeriod, list);
+        if(specification.locality != local){
+          addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
+        }
+        break;
+    }
+    return Row(
+      children: [
+        Expanded(
+          child: Wrap(
+            spacing: 4.0,
+            runSpacing: 3.0,
+            children: [
+              for (var property in list)
+                ShortDetailRenewedWidget(
+                  title: property,
+                  imageIcon: Utils.getPropertyIcon(list.indexOf(property)),
+                  size: 10.sp,
+                  iconSize: 12,
+                ),
+              /*Visibility(
+              visible: specification.fpb_cone_type_name != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.fpb_cone_type_name ??
+                    Utils.checkNullString(false),
+                imageIcon: IC_BAG_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.unitCount != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.unitCount ?? Utils.checkNullString(false),
+                imageIcon: IC_CONE_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.deliveryPeriod != null,
+              child: ShortDetailRenewedWidget(
+                title: specification.deliveryPeriod ??
+                    Utils.checkNullString(false),
+                imageIcon: IC_VAN_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),
+            Visibility(
+              visible: specification.locality != local,
+              child: ShortDetailRenewedWidget(
+                title: specification.locality == international
+                    ? specification.fabricCountry?.capitalizeAndLower()
+                    : specification.locality
+                        ?.capitalizeAndLower() *//*:Utils.checkNullString(false)*//*,
+                imageIcon: IC_LOCATION_RENEWED,
+                size: 10.sp,
+                iconSize: 12,
+              ),
+            ),*/
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+
 }

@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/blend_text_form_field.dart';
+import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
@@ -26,26 +27,10 @@ genericBlendBottomSheet(BuildContext context, dynamic provider,
     List<dynamic> blends, int index, Function callback) {
   List<BlendModel> values = [];
   late List<String> _natureYarnList = ["Pure", "Blended"];
-  //final _yarnPostProvider = locator<PostYarnProvider>();
-  PostYarnProvider? _yarnPostProvider;
-  PostFabricProvider? _fabricPostProvider;
+  // //final _yarnPostProvider = locator<PostYarnProvider>();
+  // PostYarnProvider? _yarnPostProvider;
+  // PostFabricProvider? _fabricPostProvider;
   final ValueNotifier<bool> _notifierNatureSheet = ValueNotifier(false);
-
-  if (provider is PostYarnProvider) {
-    _yarnPostProvider = provider;
-    // if (_yarnPostProvider.textFieldControllers.isEmpty) {
-    //   for (var i = 0; i < blends.length; i++) {
-    //     _yarnPostProvider.textFieldControllers.add(TextEditingController());
-    //   }
-    // }
-  } else if (provider is PostFabricProvider) {
-    _fabricPostProvider = provider;
-    // if (_fabricPostProvider.textFieldControllers.isEmpty) {
-    //   for (var i = 0; i < blends.length; i++) {
-    //     _fabricPostProvider.textFieldControllers.add(TextEditingController());
-    //   }
-    // }
-  }
 
   showModalBottomSheet<int>(
     isScrollControlled: true,
@@ -53,100 +38,106 @@ genericBlendBottomSheet(BuildContext context, dynamic provider,
     context: context,
     isDismissible: false,
     builder: (context) {
-      return Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            decoration: getRoundedTopCorners(),
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: Form(
-                key: blendedFormKey,
-                child: Column(
-                  children: [
-                    Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8, top: 8),
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              _yarnPostProvider != null
-                                  ? _yarnPostProvider.isBlendSelected = false
-                                  : _fabricPostProvider!.isBlendSelected = false;
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(Icons.close),
-                          ),
-                        )),
-                    Center(
-                      child: Text(
-                        "Select Nature",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 16.0.sp,
-                            color: headingColor,
-                            fontWeight: FontWeight.w700),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              decoration: getRoundedTopCorners(),
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Form(
+                  key: blendedFormKey,
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8, top: 8),
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                if (provider is PostYarnProvider) {
+                                  provider.isBlendSelected = false;
+                                }
+                                if (provider is PostFabricProvider) {
+                                  provider.isBlendSelected = false;
+                                }
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(Icons.close),
+                            ),
+                          )),
+                      Center(
+                        child: Text(
+                          "Select Nature",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 16.0.sp,
+                              color: headingColor,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    const Divider(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: Visibility(
-                        visible: true,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 8.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 18, right: 18),
-                                child: SingleSelectTileWidget(
-                                  selectedIndex: 0,
-                                  spanCount: 2,
-                                  listOfItems: _natureYarnList.toList(),
-                                  callback: (String value) {
-                                    if (value == "Pure") {
-                                      _notifierNatureSheet.value = false;
-                                    } else {
-                                      _notifierNatureSheet.value = true;
-                                    }
-                                  },
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      const Divider(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Expanded(
+                        child: Visibility(
+                          visible: true,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 8.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18, right: 18),
+                                  child: SingleSelectTileWidget(
+                                    selectedIndex: 0,
+                                    spanCount: 2,
+                                    listOfItems: _natureYarnList.toList(),
+                                    callback: (String value) {
+                                      if (value == "Pure") {
+                                        _notifierNatureSheet.value = false;
+                                      } else {
+                                        _notifierNatureSheet.value = true;
+                                      }
+                                    },
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: ValueListenableBuilder(
-                                      valueListenable: _notifierNatureSheet,
-                                      builder:
-                                          (context, bool notifierValue, child) {
-                                        return getWidget(
-                                            index,
-                                            blends,
-                                            _yarnPostProvider ??
-                                                _fabricPostProvider,
-                                            values,
-                                            callback,
-                                            notifierValue);
-                                      }),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: ValueListenableBuilder(
+                                        valueListenable: _notifierNatureSheet,
+                                        builder: (context, bool notifierValue,
+                                            child) {
+                                          return getWidget(
+                                              index,
+                                              blends,
+                                              provider,
+                                              values,
+                                              callback,
+                                              notifierValue);
+                                        }),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )),
-          );
-        }),
+                    ],
+                  )),
+            );
+          }),
+        ),
       );
     },
   );
@@ -303,10 +294,16 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
                 if (notifierValue == 1) {
                   //  createTextControllers(blends);
                   List<dynamic> filteredList = [];
-                  if(provider is PostYarnProvider){
-                    filteredList = blends.cast<Blends>().where((element) => element.bln_nature != "Pure").toList();
-                  }else if(provider is PostFabricProvider){
-                    filteredList = blends.cast<FabricBlends>().where((element) => element.blnNature != "Pure").toList();
+                  if (provider is PostYarnProvider) {
+                    filteredList = blends
+                        .cast<Blends>()
+                        .where((element) => element.bln_nature != "Pure")
+                        .toList();
+                  } else if (provider is PostFabricProvider) {
+                    filteredList = blends
+                        .cast<FabricBlends>()
+                        .where((element) => element.blnNature != "Pure")
+                        .toList();
                   }
                   return getPopularBlends(
                       index, filteredList, provider, values, callback);
@@ -335,7 +332,6 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
 
 Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
     List<BlendModel> values, Function callback) {
-
   return Column(
     children: [
       Expanded(
@@ -410,7 +406,9 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
 
                         var count = 0.0;
                         if (provider.selectedBlends.length == 1) {
-                          if (int.parse((provider.selectedBlends.first as Blends).blendRatio!) >=
+                          if (int.parse(
+                                  (provider.selectedBlends.first as Blends)
+                                      .blendRatio!) >=
                               100) {
                             addRatio = false;
                             Fluttertoast.showToast(
@@ -487,7 +485,6 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
 
 Column getCustomBlends(int index, List<dynamic> blends, dynamic provider,
     List<BlendModel> values, Function callback) {
-
   return Column(
     children: [
       Expanded(
@@ -579,9 +576,9 @@ Column getCustomBlends(int index, List<dynamic> blends, dynamic provider,
                         var count = 0.0;
                         bool addRatio = true;
                         if (provider.selectedBlends.length == 1) {
-                          if (int.parse(
-                                  (provider.selectedBlends.first as FabricBlends)
-                                      .blendRatio!) >=
+                          if (int.parse((provider.selectedBlends.first
+                                      as FabricBlends)
+                                  .blendRatio!) >=
                               100) {
                             addRatio = false;
                             Fluttertoast.showToast(
@@ -668,7 +665,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
       yarnProvider = provider;
       yarnProvider.textFieldControllers.clear();
       if (yarnProvider.textFieldControllers.isEmpty) {
-        for (var i = 0; i <  widget.listOfItems.length; i++) {
+        for (var i = 0; i < widget.listOfItems.length; i++) {
           yarnProvider.textFieldControllers.add(TextEditingController());
         }
       }
@@ -677,7 +674,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
       fabricProvider = provider;
       fabricProvider.textFieldControllers.clear();
       if (fabricProvider.textFieldControllers.isEmpty) {
-        for (var i = 0; i <  widget.listOfItems.length; i++) {
+        for (var i = 0; i < widget.listOfItems.length; i++) {
           fabricProvider.textFieldControllers.add(TextEditingController());
         }
       }
@@ -750,8 +747,16 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
                 child: BlendTextFormFieldWithRangeNonDecimal(
                   errorText: "count",
                   minMax: "1-100",
-                  validation: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
-                  isEnabled: (widget.provider is PostYarnProvider) ? widget.listOfItems.cast<Blends>()[index].isSelected! :  widget.listOfItems.cast<FabricBlends>()[index].isSelected!,
+                  validation: (widget.provider is PostYarnProvider)
+                      ? widget.listOfItems.cast<Blends>()[index].isSelected!
+                      : widget.listOfItems
+                          .cast<FabricBlends>()[index]
+                          .isSelected!,
+                  isEnabled: (widget.provider is PostYarnProvider)
+                      ? widget.listOfItems.cast<Blends>()[index].isSelected!
+                      : widget.listOfItems
+                          .cast<FabricBlends>()[index]
+                          .isSelected!,
                   textEditingController: provider is PostYarnProvider
                       ? yarnProvider.textFieldControllers[index]
                       : fabricProvider.textFieldControllers[index],

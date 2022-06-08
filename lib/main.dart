@@ -7,9 +7,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
@@ -88,8 +88,8 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<YarnSpecificationsProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<UserBrandsProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<UserBrandsProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<ProfileInfoProvider>()),
 

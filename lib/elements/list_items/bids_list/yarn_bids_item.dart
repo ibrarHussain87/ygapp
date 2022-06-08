@@ -143,8 +143,8 @@ class YarnBidsItem extends StatelessWidget {
                                 children: [
                                   Container(
                                       color: blueBackgroundColor,
-                                      constraints:
-                                          const BoxConstraints(maxHeight: 14),
+                                      /*constraints:
+                                          const BoxConstraints(maxHeight: 14),*/
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 1),
@@ -424,7 +424,9 @@ class YarnBidsItem extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text.rich(TextSpan(children: [
+                                RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text:TextSpan(children: [
                                   TextSpan(
                                     text:
                                         '${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
@@ -532,7 +534,7 @@ class YarnBidsItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      yarnSpecification: bidData.specification
+                                      specObj: bidData.specification
                                           as YarnSpecification,
                                       isFromBid: true);
                                 },

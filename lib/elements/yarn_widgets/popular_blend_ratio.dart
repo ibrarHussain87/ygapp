@@ -144,7 +144,7 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
                     padding: const EdgeInsets.only(left: 10,top: 2),
                     child: TitleSmallBoldTextWidget(
                       size: 12,
-                        title: widget.listOfItems[index].toString()),
+                        title: getBlendAbrv(widget.listOfItems[index])),
                   )
                 ],
               ),
@@ -172,5 +172,14 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
         ),
       ),
     );
+  }
+
+  String? getBlendAbrv(listOfItem) {
+    if(listOfItem is Blends) {
+      return listOfItem.bln_abrv;
+    }
+    if(listOfItem is FabricBlends){
+      return listOfItem.blnAbrv;
+    }
   }
 }

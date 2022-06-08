@@ -654,11 +654,11 @@ class YgServicePageState extends State<YgServicePage>
 
 
         Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(14.w),
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {
-                return ElevatedButton(
+                return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
                             fontFamily: 'Metropolis', fontSize: 14.sp)),

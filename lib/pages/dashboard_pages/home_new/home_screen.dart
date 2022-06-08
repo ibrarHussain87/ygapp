@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height:AppBar().preferredSize.height,
-            padding: const EdgeInsets.all(10),
+            height:AppBar().preferredSize.height*0.9,
+            padding: const EdgeInsets.all(7),
             decoration:BoxDecoration(
                 gradient:LinearGradient(
                     begin: Alignment.centerLeft,

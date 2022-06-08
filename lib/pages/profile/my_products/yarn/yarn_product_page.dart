@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_items/yarn_list_items_renewed_again.dart';
-import 'package:yg_app/elements/list_items/yarn_product_list_items.dart';
 import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -197,7 +196,7 @@ class YarnProductPageState extends State<YarnProductPage>
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 openDetailsScreen(context,
-                                    yarnSpecification:
+                                    specObj:
                                         widget.specification![index]!);
                               },
                               child: buildYarnRenewedAgainWidget(

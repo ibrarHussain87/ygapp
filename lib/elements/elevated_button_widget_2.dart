@@ -32,6 +32,7 @@ class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
             child: Text(widget.btnText!,
                 style: TextStyle(
                     fontSize: widget.textSize ?? 12.sp,
+                    height: 1.1,
                     color: widget.textColor == null
                         ? Colors.white
                         : Colors.black))),
@@ -40,7 +41,7 @@ class _ElevatedButtonWithoutIconState extends State<ElevatedButtonWithoutIcon> {
             backgroundColor: MaterialStateProperty.all<Color>(widget.color!),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                     side: BorderSide(color: Colors.transparent)))),
         onPressed: () {
           widget.callback();

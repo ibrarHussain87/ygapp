@@ -41,10 +41,11 @@ class SyncProvider extends ChangeNotifier {
               syncFiberResponse.data.fiber.settings),
               value.gradesDao
                   .insertAllGrades(syncFiberResponse.data.fiber.grades),
-                value.coneTypeDao
-                  .insertAllConeType(syncFiberResponse.data.fiber.coneType),
+
               value.fiberFamilyDao.insertAllFiberNatures(
               syncFiberResponse.data.fiber.fiberFamily),
+
+              value.coneTypeDao.insertAllConeType(syncFiberResponse.data.fiber.coneType),
 
               //insert Common objects for fiber
               value.gradesDao
@@ -156,16 +157,8 @@ class SyncProvider extends ChangeNotifier {
               await Future.wait([
                 value.stocklotCategoriesDao.insertAllStocklotCategories(
                     response.data!.stocklot!.stocklots!),
-                // if(response.data!.stocklot!.stocklots != null) value.stocklotDao
-                //     .insertAllStocklots(response.data!.stocklot!.stocklots!),
-                // value.availabilityDao.insertAllAvailability(
-                //     response.data!.stocklot!.availabilityList!),
                 value.priceTermsDao.insertAllFPriceTerms(
                     response.data!.stocklot!.priceTerms!),
-                // value.lcTypeDao.insertAllLcType(
-                //     response.data!.stocklot!.lcTypes!),
-                /*value.paymentTypeDao.insertAllPaymentType(
-                    response.data!.stocklot!.paymentTypes!)*/
               ]);
             });
           }

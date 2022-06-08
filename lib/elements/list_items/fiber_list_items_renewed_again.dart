@@ -512,10 +512,12 @@ Widget buildFiberRenewedAgainWidget(
                                           if (snapshot.data ==
                                               specification.spc_user_id) {
                                             Utils.updateDialog(context,
-                                                null, specification, null);
+                                                null, specification, null,(updateSpecification){
+
+                                                });
                                           } else {
                                             openDetailsScreen(context,
-                                                specification:
+                                                specObj:
                                                     specification,
                                                 sendProposal: true);
                                           }

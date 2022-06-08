@@ -69,7 +69,7 @@ class StockLotPageState extends State<StockLotPage> {
                   child: Column(
                     children: [
                       Material(
-                        elevation: 5,
+                        elevation: 1,
                         color: Colors.white,
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -313,7 +313,7 @@ class StockLotPageState extends State<StockLotPage> {
                       Expanded(
                         child: Container(
                           color: Colors.white,
-                          margin: EdgeInsets.only(top: 8.w),
+                          margin: EdgeInsets.only(top: 1.w),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: StockLotListingFuture(

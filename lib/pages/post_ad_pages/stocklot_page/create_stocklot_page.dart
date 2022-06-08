@@ -15,7 +15,6 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
-import 'package:yg_app/pages/post_ad_pages/stocklot_page/component/stocklot_specification_body.dart';
 import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
@@ -43,9 +42,6 @@ class CreateStockLotPage extends StatefulWidget {
 
 class _CreateStockLotPageState extends State<CreateStockLotPage> {
   // CreateRequestModel? _createRequestModel;
-
-  final GlobalKey<StockLotSpecificationBodyState> stockLotSpecificationKey =
-      GlobalKey<StockLotSpecificationBodyState>();
   StockLotFamily? stocklotCategories;
 
   // Countries? countryModel;
@@ -395,10 +391,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   color: Colors.black87,
                                                   fontSize: 14.sp,
                                                   backgroundColor: Colors.white,
-                                                  fontFamily: 'Metropolis',
+                                                  // fontFamily: 'Metropolis',
                                                   fontWeight: FontWeight.w500),),
                                               Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  fontFamily: 'Metropolis',
+                                                  // fontFamily: 'Metropolis',
                                                   backgroundColor: Colors.white,
                                                   fontWeight: FontWeight.w500)),
                                             ],
@@ -681,100 +677,103 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                 ],
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                            Visibility(
+                              visible: widget.locality == international,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 //                                Padding(
 //                                    padding: EdgeInsets.only(
 //                                        top: 8.w, left: 8.w, bottom: 6.w),
 //                                    child: const TitleMediumTextWidget(
 //                                      title: 'Currency',
 //                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 8.w,
-                                    top:18.w,
-                                    right: 8.w,
-                                  ),
-                                  child: SizedBox(
-                                    height: 36.w,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey.shade300,
-                                            width:
-                                                1, //                   <--- border width here
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.w))),
-                                      child: DropdownButtonFormField(
-                                        hint: const Text('Select Currency'),
-                                        items: stocklotProvider.countryList!
-                                            .map((Countries value) => DropdownMenuItem(
-                                                  child: Text(value.countryCurrencyCode.toString()+"("+value.countryCurrencySymbol.toString()+")",
-                                                      textAlign:
-                                                          TextAlign.center),
-                                                  value: value,
-                                                ))
-                                            .toList(),
-                                        isExpanded: true,
-                                        onChanged: (Countries? value) {
-                                          if (value != null) {
-                                            stocklotProvider
-                                                    .stocklotRequestModel
-                                                    .countryId =
-                                                value.conId.toString();
-                                            stocklotProvider
-                                                    .stocklotRequestModel
-                                                    .currency =
-                                                value.countryCurrencySymbol.toString();
-                                          }
-                                        },
-                                        // validator: (value) => value == null
-                                        //     ? 'field required'
-                                        //     : null,
-                                        // value: widget.syncFiberResponse.data.fiber.brands.first,
-                                        decoration:InputDecoration(
-                                          label: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("Currency",style:TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 14.sp,
-                                                  backgroundColor: Colors.white,
-                                                  fontFamily: 'Metropolis',
-                                                  fontWeight: FontWeight.w500),),
-                                              Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  fontFamily: 'Metropolis',
-                                                  backgroundColor: Colors.white,
-                                                  fontWeight: FontWeight.w500)),
-                                            ],
-                                          ),
-                                          floatingLabelBehavior:FloatingLabelBehavior.always ,
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 8.w,
+                                      top:18.w,
+                                      right: 8.w,
+                                    ),
+                                    child: SizedBox(
+                                      height: 36.w,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey.shade300,
+                                              width:
+                                                  1, //                   <--- border width here
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.w))),
+                                        child: DropdownButtonFormField(
+                                          hint: const Text('Select Currency'),
+                                          items: stocklotProvider.countryList!
+                                              .map((Countries value) => DropdownMenuItem(
+                                                    child: Text(value.countryCurrencyCode.toString()+"("+value.countryCurrencySymbol.toString()+")",
+                                                        textAlign:
+                                                            TextAlign.center),
+                                                    value: value,
+                                                  ))
+                                              .toList(),
+                                          isExpanded: true,
+                                          onChanged: (Countries? value) {
+                                            if (value != null) {
+                                              stocklotProvider
+                                                      .stocklotRequestModel
+                                                      .countryId =
+                                                  value.conId.toString();
+                                              stocklotProvider
+                                                      .stocklotRequestModel
+                                                      .currency =
+                                                  value.countryCurrencySymbol.toString();
+                                            }
+                                          },
+                                          // validator: (value) => value == null
+                                          //     ? 'field required'
+                                          //     : null,
+                                          // value: widget.syncFiberResponse.data.fiber.brands.first,
+                                          decoration:InputDecoration(
+                                            label: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Text("Currency",style:TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 14.sp,
+                                                    backgroundColor: Colors.white,
+                                                    fontFamily: 'Metropolis',
+                                                    fontWeight: FontWeight.w500),),
+                                                Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
+                                                    fontFamily: 'Metropolis',
+                                                    backgroundColor: Colors.white,
+                                                    fontWeight: FontWeight.w500)),
+                                              ],
+                                            ),
+                                            floatingLabelBehavior:FloatingLabelBehavior.always ,
 //                                                      hintText: hintLabel,
 //                                                      hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
 
-                                          contentPadding:
-                                          EdgeInsets.only(
-                                              left: 16.w,
-                                              right: 6.w,
-                                              top: 0,
-                                              bottom: 0),
-                                          border:
-                                          const OutlineInputBorder(
-                                              borderSide:
-                                              BorderSide
-                                                  .none),
+                                            contentPadding:
+                                            EdgeInsets.only(
+                                                left: 16.w,
+                                                right: 6.w,
+                                                top: 0,
+                                                bottom: 0),
+                                            border:
+                                            const OutlineInputBorder(
+                                                borderSide:
+                                                BorderSide
+                                                    .none),
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 11.sp,
+                                              color: textColorGrey),
                                         ),
-                                        style: TextStyle(
-                                            fontSize: 11.sp,
-                                            color: textColorGrey),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             /*Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1300,7 +1299,7 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
       }
     }
 
-    if (stocklotProvider.stocklotRequestModel.currency == null) {
+    if (widget.locality == international && stocklotProvider.stocklotRequestModel.currency == null) {
       Ui.showSnackBar(context, "Please select currency");
       return false;
     }

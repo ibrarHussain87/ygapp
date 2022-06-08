@@ -27,12 +27,11 @@ import '../elevated_button_widget_2.dart';
 Widget buildFabricRenewedAgainWidget(
     FabricSpecification specification, BuildContext context,
     {bool? showCounts}) {
-
   var size = MediaQuery.of(context).size;
   double paddingStart = 14;
   double paddingStartFeatured = 20;
   double paddingTop = 10;
-  double paddingBottom = 5 ;
+  double paddingBottom = 5;
   double paddingEnd = 10;
 
   return Padding(
@@ -183,13 +182,13 @@ Widget buildFabricRenewedAgainWidget(
                             ),
                             Container(
                               width: size.width * 0.55,
-                              child: setFabricBlueTags(specification),
+                              child: Utils.setFabricBlueTags(specification),
                             ),
                             SizedBox(height: 8.w),
                             Visibility(
                               visible:
                                   specification.isOffering == offering_type,
-                              child: setPropertiesWithIcons(specification),
+                              child: Utils.setPropertiesWithIcons(specification),
                             ),
                             SizedBox(
                               height: 8.h,
@@ -373,40 +372,40 @@ Widget buildFabricRenewedAgainWidget(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Visibility(
-                                visible: specification.isOffering ==
-                                    offering_type,
+                                visible:
+                                    specification.isOffering == offering_type,
                                 child: RichText(
                                     overflow: TextOverflow.ellipsis,
-                                   text: TextSpan(children: [
-                                  TextSpan(
-                                    text:
-                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11.sp,
-                                        /*fontFamily: 'Metropolis',*/
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                    text: specification.priceUnit
-                                        .toString()
-                                        .replaceAll(
-                                            RegExp(r'[^0-9]'), '') /*'1000'*/,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17.sp,
-                                        /*fontFamily: 'Metropolis',*/
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                      text:
-                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 11.sp,
-                                          /*fontFamily: 'Metropolis',*/
-                                          fontWeight: FontWeight.w600)),
-                                ])),
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text:
+                                            '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 11.sp,
+                                            /*fontFamily: 'Metropolis',*/
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      TextSpan(
+                                        text: specification.priceUnit
+                                            .toString()
+                                            .replaceAll(RegExp(r'[^0-9]'),
+                                                '') /*'1000'*/,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17.sp,
+                                            /*fontFamily: 'Metropolis',*/
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      TextSpan(
+                                          text:
+                                              "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 11.sp,
+                                              /*fontFamily: 'Metropolis',*/
+                                              fontWeight: FontWeight.w600)),
+                                    ])),
                               ),
                               SizedBox(
                                 height: 1.h,
@@ -500,8 +499,14 @@ Widget buildFabricRenewedAgainWidget(
                                             onTap: () {
                                               if (snapshot.data ==
                                                   specification.fsUserId) {
-                                                Utils.updateDialog(context,
-                                                    null, null, specification);
+                                                Utils.updateDialog(
+                                                    context,
+                                                    null,
+                                                    null,
+                                                    specification,
+                                                    (updateSpecification) {
+
+                                                    });
                                               } else {
                                                 openDetailsScreen(context,
                                                     specObj: specification,
@@ -577,7 +582,7 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
       addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
+      if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
       }
       break;
@@ -585,7 +590,7 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
       addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
+      if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
       }
       break;
@@ -593,7 +598,7 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
       addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
+      if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
       }
       break;
@@ -601,7 +606,7 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
       addProperty(specification.deliveryPeriod, list);
-      if(specification.locality != local){
+      if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
       }
       break;
@@ -655,7 +660,7 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
                 title: specification.locality == international
                     ? specification.fabricCountry?.capitalizeAndLower()
                     : specification.locality
-                        ?.capitalizeAndLower() *//*:Utils.checkNullString(false)*//*,
+                        ?.capitalizeAndLower() */ /*:Utils.checkNullString(false)*/ /*,
                 imageIcon: IC_LOCATION_RENEWED,
                 size: 10.sp,
                 iconSize: 12,
@@ -667,7 +672,6 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
     ],
   );
 }
-
 
 Row setFabricBlueTags(FabricSpecification specification) {
   var list = List.empty().toList();

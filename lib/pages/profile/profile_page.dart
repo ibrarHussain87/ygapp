@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/profile_elements/profile_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
@@ -88,38 +89,43 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderRadius: BorderRadius.circular(18.0),
                                       child: Container(
-                                        child: Image.asset('images/image_not_available.png',
-                                            height: 50.w,
-                                            width: 60.w,
+                                        child: Image.asset('images/img_dummy_profile.png',
+                                            height: 55.w,
+                                            width: 55.w,
                                             fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
                                     const SizedBox(width: 10,),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(top: 16.w, bottom: 2.w),
-                                          child: TitleTextWidget(
-                                              title: snapshot.data!.username),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(bottom: 8.w),
-                                          child: TitleSmallTextWidget(
-                                            title: "Lahore, Pakistan",
-                                            color: Colors.grey.shade600,),
-                                        ),
-                                        /*Container(
-                                          child: TitleSmallTextWidget(title: "Seller Type",
-                                            color: Colors.grey.shade600,
-                                            padding: 4,),
-                                        ),
-                                        TitleTextWidget(
-                                          title: snapshot.data!.company,
-                                          color: Colors.grey.shade700,),*/
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(top: 16.w, bottom: 1.w),
+                                            child: TitleTextWidget(
+                                                title: snapshot.data!.username,
+                                            fontSize: 15.sp,),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(bottom: 8.w),
+                                            child: TitleSmallTextWidget(
+                                              title: "Lahore, Pakistan",
+                                              color: Colors.grey.shade600,
+                                            size: 12.sp,),
+                                          ),
+                                          /*Container(
+                                            child: TitleSmallTextWidget(title: "Seller Type",
+                                              color: Colors.grey.shade600,
+                                              padding: 4,),
+                                          ),
+                                          TitleTextWidget(
+                                            title: snapshot.data!.company,
+                                            color: Colors.grey.shade700,),*/
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
@@ -144,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 8.w),
+                                    horizontal: 0.w, vertical: 8.w),
                                 decoration: BoxDecoration(
                                     /*border: Border.all(
                                         color: Colors.grey.shade300),*/
@@ -162,12 +168,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       },
                                       child: Column(
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
+                                          const Padding(
+                                            padding: EdgeInsets.only(
                                                 top: 5.0),
                                             child: ProfileTileWidget(
-                                                title: "Personal Details",
-                                                image: PROFILE_DETAILS_IMAGE),
+                                                title: "Account Details",
+                                                image: 'images/img_person_profile.png'),
                                           ),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
@@ -200,8 +206,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       },
                                       child: Column(
                                         children: [
-                                          ProfileTileWidget(title: "My Product",
-                                              image: ic_products),
+                                          const ProfileTileWidget(title: "My Products",
+                                              image: 'images/img_my_offering.png'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -214,8 +220,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       },
                                       child: Column(
                                         children: [
-                                          ProfileTileWidget(title: "My Bids",
-                                              image: ic_universe),
+                                          const ProfileTileWidget(title: "My Bids",
+                                              image: 'images/img_my_requirement.png'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -244,8 +250,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       },
                                       child: Column(
                                         children: [
-                                          ProfileTileWidget(title: "Membership",
-                                              image: ic_membership),
+                                          const ProfileTileWidget(title: "Membership",
+                                              image: 'images/img_mebership.png'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -280,9 +286,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       },
                                       child: Column(
                                         children: [
-                                          ProfileTileWidget(
+                                          const ProfileTileWidget(
                                               title: "Customer Support",
-                                              image: ic_support),
+                                              image: 'images/img_customer_support.png'),
                                           // const Divider()
                                           SizedBox(height: 10.0.h,)
                                         ],
@@ -297,7 +303,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  Expanded(flex: 1, child: Container(
+                  Expanded(flex: 1,
+                      child: Container(
                     decoration: BoxDecoration(
                         /*border: Border.all(color: Colors.grey.shade200),*/
                         borderRadius: BorderRadius.only(
@@ -306,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.white
                     ),
                     padding: const EdgeInsets.only(left: 16,right: 16,top: 13,bottom: 13),
-                    child: ElevatedButtonWithoutIcon(
+                    child: ElevatedButtonWithIcon(
                         callback: () {
                           showLogoutDialog(
                               "Alert", "Are you sure you want to logout?",
@@ -397,7 +404,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   route) => false,);
 //                              MaterialPageRoute(builder: (context) => const LoginPage()),(route) => false,);
                           });
-                        }, color: redColorLight, btnText: "Logout"),
+                        }, color: redColorLight, btnText: "Logout",icons: Icons.logout,),
                   ))
                 ],
               ),
