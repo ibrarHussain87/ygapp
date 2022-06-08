@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/bottom_sheets/bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -8,6 +12,11 @@ import 'package:yg_app/helper_utils/app_images.dart';
 
 import '../../../elements/custom_header.dart';
 
+import '../../../api_services/api_service_class.dart';
+import '../../../helper_utils/connection_status_singleton.dart';
+import '../../../helper_utils/progress_dialog_util.dart';
+import '../../../model/pre_login_response.dart';
+import '../../../model/request/update_profile/customer_support_request.dart';
 class CustomerSupportPage2 extends StatefulWidget {
   const CustomerSupportPage2({Key? key}) : super(key: key);
 
@@ -18,11 +27,24 @@ class CustomerSupportPage2 extends StatefulWidget {
 class _CustomerSupportPageState extends State<CustomerSupportPage2> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  List<String> supportList = ["How can i help you",];
+  List<CustomerSupportTypes> supportList = [];
   bool agree = false;
+  CustomerSupportRequestModel? _csRequestModel;
+
   @override
   void initState() {
     super.initState();
+
+    _csRequestModel = CustomerSupportRequestModel();
+    AppDbInstance().getDbInstance().then((value) => {
+      value.customerSupportTypesDao.findAllCustomerSupportTypes().then((value) {
+        setState(() {
+          supportList = value;
+        });
+      }),
+
+
+    });
   }
 
   @override
@@ -35,39 +57,14 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         resizeToAvoidBottomInset:false,
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: /*AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
-                      )),
-                )),
-          ),
-          title: Text('Customer Support',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        )*/appBar(context,"Customer Support"),
+        appBar: appBar(context,"Customer Support"),
         body:Stack(
           children: [
             Form(
               key: globalFormKey,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w,bottom: 50.w),
                   child: Center(
                       child:buildCustomerDataColumn(context)),
                 ),
@@ -101,7 +98,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                    size: 25,
                                    color: Colors.white)),
                           Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: Text(
                               contact_us,
                               textAlign: TextAlign.center,
@@ -190,9 +187,10 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   style: TextStyle(fontSize: 13.sp),
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
+                  onSaved: (input) =>  _csRequestModel?.csName=input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
-                      return "Please enter name";
+                      return "Please enter your name";
                     }
                     return null;
                   },
@@ -211,9 +209,10 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
+                  onSaved: (input) =>  _csRequestModel?.csPhone=input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
-                                              return "Please enter phone";
+                      return "Please enter your phone";
                                             }
                     return null;
                   },
@@ -233,11 +232,10 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   initialValue: '',
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+                  onSaved: (input) => _csRequestModel?.csEmail = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
-                      return "Please enter email";
+                      return "Please enter your email";
                                             }
                     return null;
                   },
@@ -254,27 +252,28 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
             children: [
 
 
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<CustomerSupportTypes>(
 
                 decoration: dropDownProfile(
-                    'How can i help you?', "Help") ,
+                    'Choose Query Type', "Help") ,
                 isDense: true,
-                hint:Text("How can i help you?",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+                hint:Text("Choose Query Type",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
+//                hint:Text("How can i help you?",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
                 isExpanded: true,
                 iconSize: 21,
                 items:supportList.map((location) {
-                  return DropdownMenuItem<String>(
-                    child: Text(location),
+                  return DropdownMenuItem<CustomerSupportTypes>(
+                    child: Text(location.cstypeName.toString()),
                     value: location,
 
                   );
                 }).toList(),
 
                 onChanged: (newValue) {
-
+                     _csRequestModel?.csTypeId=newValue?.cstypeId.toString();
                 },
 
-                validator: (value) => value == null ? '*' : null,
+                validator: (value) => value == null ? 'Please select query type' : null,
 
               ),
 
@@ -293,14 +292,13 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   cursorColor: Colors.black,
                   maxLines: 5,
 
-                  /*onSaved: (input) =>
-                                          _signupRequestModel.name = input!,*/
+
+                  onSaved: (input) =>  _csRequestModel?.csMessage=input!,
                   initialValue: '',
                   validator: (input) {
-                    /*if (input == null ||
-                                                input.isEmpty) {
-                                              return "Please enter address";
-                                            }*/
+                  if (input == null || input.isEmpty) {
+                        return "Please enter your query";
+                                            }
                     return null;
                   },
                   decoration: textFieldProfile(
@@ -317,6 +315,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
               Row(
                 children: [
                   Checkbox(
+                    activeColor: signInColor,
                     value: agree,
                     onChanged: (value) {
                       setState(() {
@@ -359,6 +358,9 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
                       if (validateAndSave()) {
+
+                        FocusScope.of(context1).requestFocus(FocusNode());
+                         _createCustomerSupportCall(context);
                       }
                     });
               })),
@@ -371,9 +373,13 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
   bool validateAndSave() {
     final form = globalFormKey.currentState;
-    if (form!.validate()) {
+    if (form!.validate() && agree) {
       form.save();
       return true;
+    }
+    else if (!agree) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please accept GDPR checkbox')));
     }
     return false;
   }
@@ -656,6 +662,59 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         );
       },
     );
+  }
+
+
+
+  void _createCustomerSupportCall(BuildContext context) {
+
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+        Logger().e(_csRequestModel?.toJson());
+        ApiService.createCustomerService(_csRequestModel!).then((value) {
+
+          ProgressDialogUtil.hideDialog();
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+          if (value.status!) {
+//              AppDbInstance().getDbInstance().then((db) async {
+////                await db.userDao.insertUser(value.data!.user!);
+//                await db.userDao.insertUser(value.data!);
+//              });
+
+
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            Navigator.of(context).pop();
+//            Navigator.of(context).pushAndRemoveUntil(
+//                MaterialPageRoute(builder: (context) => const MainPage()),
+//                    (Route<dynamic> route) => false);
+          } else {
+
+            ProgressDialogUtil.hideDialog();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
+
   }
 
 }

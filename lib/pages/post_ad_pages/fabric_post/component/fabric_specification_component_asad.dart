@@ -2310,7 +2310,10 @@ class FabricSpecificationComponentState
     print("Model Value" + _createRequestModel!.fs_warp_ply_idfk.toString());
     if (validateAndSave()) {
       // Wrap and Wreft Check
-      if (_createRequestModel!.fs_warp_count == null &&
+      if(_createRequestModel!.fs_formation == null){
+        Ui.showSnackBar(context, 'Please add ${postFabricProvider.selectedFabricFamily.toString()} formation.');
+        return false;
+      }else if (_createRequestModel!.fs_warp_count == null &&
           Ui.showHide(_fabricSettings!.showWarpCount)) {
         Ui.showSnackBar(context, 'Please Enter Warp Count');
         return false;
@@ -2343,7 +2346,7 @@ class FabricSpecificationComponentState
       }*/
       else if (_createRequestModel!.fs_ply_idfk == null &&
           Ui.showHide(_fabricSettings!.showPly)) {
-        Ui.showSnackBar(context, 'Please Select Ply');
+        Ui.showSnackBar(context, 'Please Select count');
         return false;
       } else if (_createRequestModel!.fs_color_treatment_method_idfk == null &&
           Ui.showHide(_fabricSettings!.showColorTreatmentMethod)) {

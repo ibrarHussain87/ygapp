@@ -4,9 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:yg_app/app_database/app_database.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -20,6 +18,7 @@ import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_fabric_request/update_fabric_request.dart';
+import 'package:yg_app/model/request/update_profile/update_membership_plan_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_bid_response.dart';
@@ -39,6 +38,7 @@ import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/request/update_profile/brands_request_model.dart';
+import '../model/request/update_profile/customer_support_request.dart';
 import '../model/request/update_profile/update_business_request.dart';
 import '../model/request/yg_service/yg_service_request_model.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
@@ -67,33 +67,36 @@ class ApiService {
   // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
   // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
 
-  static const String LOGIN_END_POINT = "/login";
-  static const String SIGN_UP_END_POINT = "/register";
-  static const String PROFILE_UPDATE_END_POINT = "/update-personal-info";
-  static const String BUSINESS_UPDATE_END_POINT = "/update-business-info";
-  static const String BRANDS_UPDATE_END_POINT = "/update-brands";
-  static const String SPEC_USER_END_POINT = "/spec_user";
+  static String LOGIN_END_POINT = "/login";
+  static String SIGN_UP_END_POINT = "/register";
+  static String PROFILE_UPDATE_END_POINT = "/update-personal-info";
+  static String BUSINESS_UPDATE_END_POINT = "/update-business-info";
+  static String BRANDS_UPDATE_END_POINT = "/update-brands";
+  static String SPEC_USER_END_POINT = "/spec_user";
 
   // static const String SYNC_FIBER_END_POINT = "/sync";
   // static const String SYNC_YARN_END_POINT = "/syncYarn";
-  static const String SYNC_END_POINT = "/sync";
-  static const String GET_SPEC_END_POINT = "/getSpecifications";
-  static const String CREATE_END_POINT = "/createSpecification";
-  static const String UPDATE_FABRIC_END_POINT = "/update-specification";
-  static const String LIST_BIDDERS_END_POINT = "/listBidders";
-  static const String GET_MATCHED_END_POINT = "/getMatched";
-  static const String CREATE_BID_END_POINT = "/createBid";
-  static const String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
-  static const String GET_BANNERS_END_POINT = "/getBanners";
-  static const String UPDATE_SPECIFICATION = "/update-specification";
+  static String SYNC_END_POINT = "/sync";
+  static String GET_SPEC_END_POINT = "/getSpecifications";
+  static String CREATE_END_POINT = "/createSpecification";
+  static String UPDATE_FABRIC_END_POINT = "/update-specification";
+  static String LIST_BIDDERS_END_POINT = "/listBidders";
+  static String GET_MATCHED_END_POINT = "/getMatched";
+  static String CREATE_BID_END_POINT = "/createBid";
+  static String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
+  static String GET_BANNERS_END_POINT = "/getBanners";
+  static String UPDATE_SPECIFICATION = "/update-specification";
 
-  static const String COUNTRY_END_POINT = "/get-pre-login-sync";
+  static String COUNTRY_END_POINT = "/get-pre-login-sync";
 
 //  static const String COUNTRY_END_POINT = "/get-countries";
-    static const String COMPANIES_END_POINT = "/company";
-    static const String PRE_SYNC_END_POINT = "/get-pre-login-sync";
-  static const String PRE_CONFIG_END_POINT = "/get-pre-login-config";
+  static String COMPANIES_END_POINT = "/company";
+  static String PRE_SYNC_END_POINT = "/get-pre-login-sync";
+  static String PRE_CONFIG_END_POINT = "/get-pre-login-config";
+
   static const String CREATE_YG_SERVICE_ENPOINT = "/create-yg-service";
+  static const String CREATE_CUSTOMER_SERVICE_ENPOINT = "/create-customer-support";
+  static const String SUBSCRIBE_TO_PLAN_ENPOINT = "/subscribe-to-plan";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
     try {
@@ -125,12 +128,13 @@ class ApiService {
       // final response = await http.post(Uri.parse(url),
       //     headers: headerMap, body: requestModel.toJson());
 
-
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
           data: json.encode(requestModel.toJson()));
 
-      return AuthResponse.fromJson(response.data,);
+      return AuthResponse.fromJson(
+        response.data,
+      );
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -166,6 +170,60 @@ class ApiService {
     }
   }
 
+
+  static Future<UpdateProfileResponse> subscribeToPlan(
+      MembershipRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + SUBSCRIBE_TO_PLAN_ENPOINT;
+
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body:requestModel.toJson());
+      return UpdateProfileResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  static Future<YGServiceResponse> createCustomerService(
+      CustomerSupportRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + CREATE_CUSTOMER_SERVICE_ENPOINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return YGServiceResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
   static Future<YGServiceResponse> createYGService(
       YGServiceRequestModel requestModel) async {
     try {
@@ -195,8 +253,8 @@ class ApiService {
   static Future<UpdateProfileResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + PROFILE_UPDATE_END_POINT;
@@ -218,12 +276,11 @@ class ApiService {
     }
   }
 
-
   static Future<UpdateProfileResponse> updateBusinessInfo(
       UpdateBusinessRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + BUSINESS_UPDATE_END_POINT;
@@ -245,12 +302,11 @@ class ApiService {
     }
   }
 
-
   static Future<UpdateProfileResponse> updateBrands(
       BrandsRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + BRANDS_UPDATE_END_POINT;
@@ -271,7 +327,6 @@ class ApiService {
       throw (err.toString());
     }
   }
-
 
   static Future<SpecificationUserResponse> getSpecificationUser(
       SpecificationRequestModel requestModel) async {
@@ -298,7 +353,7 @@ class ApiService {
   static Future<SyncFiberResponse> syncFiber(
       SyncRequestModel syncRequestModel) async {
     try {
-      var userToken=
+      var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
@@ -652,7 +707,7 @@ class ApiService {
     // }
   }
 
-  static Future<FabricUpdateResponse> updateFabricSpecification(
+  static Future<SpecificationUpdateResponse> updateSpecification(
       UpdateFabricRequestModel updateFabricRequestModel,
       String imagePath) async {
     //for multipart Request
@@ -675,7 +730,7 @@ class ApiService {
       var responsed = await http.Response.fromStream(response);
       logger.e(json.decode(responsed.body));
 
-      return FabricUpdateResponse.fromJson(json.decode(responsed.body));
+      return SpecificationUpdateResponse.fromJson(json.decode(responsed.body));
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);
@@ -753,7 +808,7 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-     // getRequestModel.spcUserIdfk = userID;
+      // getRequestModel.spcUserIdfk = userID;
       logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
           options: Options(headers: headerMap),

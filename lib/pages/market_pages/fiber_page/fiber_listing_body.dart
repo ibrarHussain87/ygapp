@@ -43,7 +43,7 @@ class FiberListingBodyState extends State<FiberListingBody> {
           behavior: HitTestBehavior.opaque,
           onTap: () {
             openDetailsScreen(context,
-                specification: _specificationLocalFilterProvider.fiberSpecificationFiltered![index]);
+                specObj: _specificationLocalFilterProvider.fiberSpecificationFiltered![index]);
           },
           child: buildFiberRenewedAgainWidget(
             _specificationLocalFilterProvider.fiberSpecificationFiltered![index],

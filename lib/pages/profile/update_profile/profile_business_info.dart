@@ -20,9 +20,11 @@ import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
+import '../../../locators.dart';
 import '../../../model/request/update_profile/update_business_request.dart';
 import '../../../model/response/common_response_models/companies_reponse.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../../providers/profile_providers/profile_info_provider.dart';
 import '../../auth_pages/signup/country_search_page.dart';
 
 class ProfileBusinessInfoPage extends StatefulWidget {
@@ -39,71 +41,30 @@ class ProfileBusinessInfoPage extends StatefulWidget {
 class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with AutomaticKeepAliveClientMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> bussinessFormKey = GlobalKey<FormState>();
-
+  final GlobalKey<FormFieldState> _provinceKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _cityKey = GlobalKey<FormFieldState>();
+  final _profileInfoProvider = locator<ProfileInfoProvider>();
   late UpdateBusinessRequestModel _updateBusinessRequestModel;
-  String? companyCountryName ;
-  String? countryId ;
-  Designations? designations;
-  String companyStateName = "";
-  int companyStateId = 0;
   int selectedValue = 1;
-  States? state;
-  Cities? city;
- List<Designations> designationsList = [];
-  List<Countries> countriesList = [];
-  List<States> cityStateList = [];
-  List<Cities> citiesList = [];
-  List<Companies> companiesList = [];
-  List<GenericCategories> categoriesList = [];
   final _companyTypeAheadController=TextEditingController();
-  final postalController=TextEditingController();
-  final addressController=TextEditingController();
-  final ntnController=TextEditingController();
-  final tradeController=TextEditingController();
-  final roleController=TextEditingController();
-  final webController=TextEditingController();
   @override
   void initState() {
 
-    _updateBusinessRequestModel = UpdateBusinessRequestModel();
-//    courts = BrandsRequestModel.fromJson(json.decode(source)).map<BrandsRequestModel>((json) {return BrandsRequestModel.fromJson(json);}).toList();
-    AppDbInstance().getDbInstance().then((value) => {
-      value.countriesDao.findAllCountries().then((value) {
-        setState(() {
-          countriesList = value;
-        });
-      }),
-      value.statesDao.findAllStates().then((value) {
-        setState(() {
-          cityStateList = value;
-        });
-      }),
 
-      value.citiesDao.findAllCities().then((value) {
-        setState(() {
-          citiesList = value;
-        });
-      }),
-
-      value.designationsDao.findAllDesignations().then((value) {
-        setState(() {
-          designationsList = value;
-        });
-      }),
-
-      value.companiesDao.findAllCompanies().then((value) {
-        setState(() {
-          companiesList=value;
-        });
-      }),
-      value.genericCategoriesDao.findAllGenericCategories().then((value) {
-        setState(() {
-          categoriesList=value;
-        });
-      }),
-
-    });
     super.initState();
+
+  _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
+    _profileInfoProvider.addListener(() {
+      updateUI();
+    });
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _profileInfoProvider.getSyncedData();
+    });
+  }
+
+  updateUI() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -114,100 +75,40 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
 
     return SafeArea(
-      child: FutureBuilder<BusinessInfo?>(
-        future: AppDbInstance().getDbInstance()
-            .then((value) => value.businessInfoDao.getBusinessInfo()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-             if(designationsList.isNotEmpty)
-               {
-                 designations=designationsList.where((element) => element.designationId.toString()==snapshot.data?.designation_idfk).single;
-
-               }
-            _updateBusinessRequestModel.designation_idfk=snapshot.data?.designation_idfk;
-             _updateBusinessRequestModel.city=snapshot.data?.city;
-             if(countriesList.isNotEmpty)
-               {
-                 companyCountryName=countriesList.where((element) => element.conId.toString()==snapshot.data?.countryId).first.conName;
-
-               }
-            _updateBusinessRequestModel.countryId=snapshot.data?.countryId;
-//             city?.cityName=snapshot.data!.city;
-            if(cityStateList.isNotEmpty)
-              {
-                state=cityStateList.where((element) => element.stateId.toString()==snapshot.data?.cityStateId).single;
-
-              }
-            if(citiesList.isNotEmpty)
-              {
-               city=citiesList.where((element) => element.cityId.toString()==snapshot.data?.city).single;
-
-              }
-
-            _companyTypeAheadController.text=snapshot.data!.name!;
-            ntnController.text=snapshot.data!.ntn_number!;
-            addressController.text=snapshot.data!.address!;
-            tradeController.text=snapshot.data!.trade_mark!;
-            roleController.text=snapshot.data!.employmentRole!;
-            postalController.text=snapshot.data!.postalCode!;
-            webController.text=snapshot.data!.website!;
-             return Scaffold(
+      child:Scaffold(
 //              key: scaffoldKey,
-              resizeToAvoidBottomInset: true,
-              backgroundColor: Colors.white,
-              body: Column(
-                children: [
-                  Form(
-                    key: bussinessFormKey,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Builder(builder: (BuildContext context2) {
-                            return buildBusinessDataColumn(snapshot, context2);
-                          }),
-                        ),
-                      ),
-                    ),
-                  )
-
-                ],
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            Form(
+              key: bussinessFormKey,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Builder(builder: (BuildContext context2) {
+                      return (!_profileInfoProvider.isLoading) ? buildBusinessDataColumn(_profileInfoProvider.user?.businessInfo, context2) : Container();
+                    }),
+                  ),
+                ),
               ),
-            );
-          } else {
-            return Scaffold(
-//              key: scaffoldKey,
-              resizeToAvoidBottomInset: true,
-              backgroundColor: Colors.white,
-              body: Column(
-                children: [
-                  Form(
-                    key: bussinessFormKey,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Builder(builder: (BuildContext context2) {
-                            return buildBusinessDataColumn(snapshot, context2);
-                          }),
-                        ),
-                      ),
-                    ),
-                  )
+            )
 
-                ],
-              ),
-            );
-          }
-        },
+          ],
+        ),
       ),
     );
   }
   @override
   bool get wantKeepAlive => true;
 
-  Column buildBusinessDataColumn(AsyncSnapshot<BusinessInfo?> snapshot, BuildContext context2)
+  Column buildBusinessDataColumn(BusinessInfo? snapshot, BuildContext context2)
   {
 
+    print("User"+_profileInfoProvider.statesList.toString());
+    _companyTypeAheadController.text=snapshot?.name.toString() ?? '';
 //    var userNotifier = context2.watch<UserNotifier>();
+
     return Column(
       children: [
         Padding(
@@ -222,8 +123,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 //                  key: Key(userNotifier.getUser().businessInfo.ntn_number.toString()),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
-                  controller: ntnController,
-//                  initialValue:  snapshot.data?.ntn_number ?? '5',
+//                  controller: ntnController,
+                  initialValue:  snapshot?.ntn_number ?? '',
                   onSaved: (input) =>
                   _updateBusinessRequestModel.ntn_number = input! /*'44'*/,
                   validator: (input) {
@@ -253,7 +154,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                         'Enter Company Name', "Company Name"),
                   ),
                   suggestionsCallback: (pattern) {
-                    return companiesList.where(
+                    return _profileInfoProvider.companiesList.where(
                             (Companies x) => x.name.toString().toLowerCase().contains(pattern)
                     ).toList();
                   },
@@ -268,7 +169,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   hideSuggestionsOnKeyboardHide: true,
                   onSuggestionSelected: (Companies suggestion) {
                     _companyTypeAheadController.text = suggestion.name.toString();
-//                    _signupRequestModel?.comapnyId=suggestion.id.toString();
                     _updateBusinessRequestModel.company=suggestion.name.toString();
                     _updateBusinessRequestModel.name=suggestion.name.toString();
 //                    _signupRequestModel!.otherCompany = "0";
@@ -307,32 +207,16 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-//              TextFormField(
-//                  keyboardType: TextInputType.text,
-//                  cursorColor: Colors.black,
-//                  initialValue: '',
-//                  /*onSaved: (input) =>
-//                                          _signupRequestModel.name = input!,*/
-//                  validator: (input) {
-//                    /*if (input == null ||
-//                                                input.isEmpty) {
-//                                              return "Please enter trade mark";
-//                                            }*/
-//                    return null;
-//                  },
-//                  decoration: textFieldProfile(
-//                      'Enter Business Area', "Business Area")),
-
               DropdownButtonFormField<GenericCategories>(
 
-                decoration:dropDownProfile(
-                    'Select', "Business Area"),
+                decoration:textFieldProfile(
+                    'Select Business Area', "Business Area"),
                 isDense: true,
                 isExpanded: true,
                 iconSize: 21,
-                items:categoriesList.map((location) {
+                items:_profileInfoProvider.categoriesList.map((location) {
                   return DropdownMenuItem<GenericCategories>(
-                    child: Text(location.catName.toString()),
+                    child: Text(location.catName.toString(),style: TextStyle(fontSize: 13.sp)),
                     value: location,
 
                   );
@@ -364,8 +248,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.trade_mark,
-//                  initialValue:snapshot.data?.trade_mark ?? '',
-              controller: tradeController,
+                  initialValue:snapshot?.trade_mark ?? '',
+//              controller: tradeController,
                   onSaved: (input) => _updateBusinessRequestModel.trade_mark = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
@@ -389,8 +273,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.employmentRole,
-//                  initialValue:snapshot.data?.employmentRole ?? '',
-                  controller: roleController,
+                  initialValue:snapshot?.employmentRole ?? '',
+//                  controller: roleController,
                   onSaved: (input) => _updateBusinessRequestModel.employment_role = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
@@ -413,27 +297,27 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
               DropdownButtonFormField<Designations?>(
 
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "Designation") ,
                 isDense: true,
-                hint:Text("Select",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
+                hint:Text("Select Designation",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 isExpanded: true,
                 iconSize: 21,
-                items:designationsList.map((location) {
+                items:_profileInfoProvider.designationsList.map((location) {
                   return DropdownMenuItem<Designations?>(
-                    child: Text(location.designationTitle ?? Utils.checkNullString(false)),
+                    child: Text(location.designationTitle ?? Utils.checkNullString(false),style: TextStyle(fontSize: 13.sp)),
                     value: location,
 
                   );
                 }).toList(),
-                value: designations,
+                value: _profileInfoProvider.selectedDesignation,
                 onChanged: (Designations? value) {
-                  designations=value;
+                  _profileInfoProvider.selectedDesignation=value;
                   _updateBusinessRequestModel.designation_idfk=value?.designationId.toString();
                 },
 
 
-                validator: (value) => value == null ? 'PLease select designation' : null,
+                validator: (value) => value == null ? 'Please select designation' : null,
 
               ),
 
@@ -452,8 +336,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateBusinessRequestModel.address = input!,
 //                  initialValue:snapshot.data?.businessInfo?.address,
-              controller: addressController,
-//                  initialValue:snapshot.data?.address ?? '',
+//              controller: addressController,
+                  initialValue:snapshot?.address ?? '',
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter address";
@@ -479,16 +363,13 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     context,
                     MaterialPageRoute(
                       builder: (context) => SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries value)=>{
-                        setState(() {
 
-                          FocusScope.of(context)
-                              .requestFocus(
-                              FocusNode());
-                          _updateBusinessRequestModel.countryId = value.conId.toString();
-                          countryId = value.conId.toString();
-                          companyCountryName = value.conName.toString();
-                        }
-                        )
+                      FocusScope.of(context)
+                          .requestFocus(
+                      FocusNode()),
+                          _profileInfoProvider.setSelectedCompanyCountry(value),
+                          _updateBusinessRequestModel.countryId = value.conId.toString(),
+
                       },
                       ),
                     ),
@@ -501,14 +382,14 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
-                          Text("Company Country"),
-                          Text("*", style: TextStyle(color: Colors.red)),
+                          Text("Company Country",style: TextStyle(color: Colors.black,fontSize: 13),),
+//                          Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
                       floatingLabelBehavior:FloatingLabelBehavior.always ,
                       hintText: "Select",
-                      hintStyle:  TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                      hintStyle:  TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
                       border: OutlineInputBorder(
                           borderRadius:const BorderRadius.all(
                             Radius.circular(5.0),
@@ -523,7 +404,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       Expanded(
                           flex:8,
                           child: Text(
-                            companyCountryName ?? "Select Country",textAlign: TextAlign.start,)),
+                            _profileInfoProvider.selectedCompanyCountry?.conName  ?? "Select Country",textAlign: TextAlign.start,style: TextStyle(fontSize: 13.sp))),
 
                     ],
                   ),
@@ -545,12 +426,13 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint: const Text('Select State'),
-                items: cityStateList
+                key:_provinceKey,
+                hint:  Text('Select State',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
+                items:_profileInfoProvider.statesList
                     .where((element) =>
                 element
                     .countryIdfk ==
-                    _updateBusinessRequestModel.countryId
+                    _profileInfoProvider.selectedCountry?.conId
                         .toString())
                     .toList()
                     .map((value) =>
@@ -561,34 +443,23 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                                   false),
                           textAlign:
                           TextAlign
-                              .center),
+                              .center,style: TextStyle(fontSize: 13.sp),),
                       value: value,
                     ))
                     .toList(),
                 isExpanded: true,
-                value: state,
+                value: _profileInfoProvider.selectedCompanyState,
                 onChanged: (States? value) {
-                  setState(() {
-                    FocusScope.of(context)
-                        .requestFocus(
-                        FocusNode());
-                    state=value;
-                    _updateBusinessRequestModel.cityStateId =
-                        value!.stateId.toString();
-                    if(citiesList.isNotEmpty)
-                    {
-                      citiesList=citiesList
-                          .where((element) =>
-                      element.stateIdfk ==
-                          value.stateId
-                              .toString())
-                          .toList();
-                      _updateBusinessRequestModel.city=null;
-                    }
-                  });
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _profileInfoProvider.selectedCompanyState=value;
+//                  _profileInfoProvider.selectedCompanyCity=null;
+                  _updateBusinessRequestModel.cityStateId =
+                      value!.stateId.toString();
                 },
 
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "Company State/District"),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
@@ -602,11 +473,12 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint: const Text('Select City'),
-                items: citiesList
+                key:_cityKey,
+                hint: Text('Select City',style:TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey)),
+                items: _profileInfoProvider.citiesList
                     .where((element) =>
                 element.stateIdfk ==
-                    state?.stateId
+                    _profileInfoProvider.selectedCompanyState?.stateId
                         .toString())
                     .toList()
                     .map((value) =>
@@ -615,22 +487,22 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                           value.cityName.toString(),
                           textAlign:
                           TextAlign
-                              .center),
+                              .center,style: TextStyle(fontSize: 13.sp)),
                       value: value,
                     ))
                     .toList(),
                 isExpanded: true,
-                value: city,
+                value: _profileInfoProvider.selectedCompanyCity,
                 onChanged: (Cities? value) {
                   FocusScope.of(context)
                       .requestFocus(
                       FocusNode());
+                  _profileInfoProvider.selectedCompanyCity=value;
                   _updateBusinessRequestModel.city =
                       value?.cityId.toString();
-                  city=value;
                 },
 
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "City"),
                 validator: (value) => value == null ? 'Please select city' : null,
               ),
@@ -653,8 +525,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateBusinessRequestModel.postalCode = input!,
 //                  initialValue: snapshot.data!.businessInfo?.postalCode ?? '',
-//                  initialValue: snapshot.data?.postalCode ?? '',
-                  controller: postalController,
+                  initialValue: snapshot?.postalCode ?? '',
+//                  controller: postalController,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter zip code";
@@ -678,8 +550,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.website ?? '',
-//                  initialValue:snapshot.data?.website ?? '',
-                  controller: webController,
+                  initialValue:snapshot?.website ?? '',
+//                  controller: webController,
                   onSaved: (input) =>
                   _updateBusinessRequestModel.website = input!,
                   validator: (input) {
@@ -716,7 +588,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     onPressed: () {
                       if (validateAndSaveBusinessInfo()) {
                         FocusScope.of(context).requestFocus(FocusNode());
-                        _updateBusinessCall(snapshot.data, context1);
+                        _updateBusinessCall(context1);
                       }
                     });
               })),
@@ -742,53 +614,53 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
     return false;
   }
 
-  void _updateBusinessCall(BusinessInfo? businessInfo, BuildContext context1) {
-    if (businessInfo != null) {
-      check().then((value) {
-        if (value) {
-          ProgressDialogUtil.showDialog(context, 'Please wait...');
+  void _updateBusinessCall(BuildContext context1) {
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-          Logger().e(_updateBusinessRequestModel.toJson());
-          ApiService.updateBusinessInfo(_updateBusinessRequestModel).then((value) {
-            Logger().e(value.toJson());
-            ProgressDialogUtil.hideDialog();
+        Logger().e(_updateBusinessRequestModel.toJson());
+        ApiService.updateBusinessInfo(_updateBusinessRequestModel).then((value) {
+          Logger().e(value.toJson());
+          ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {
 //                ScaffoldMessenger.of(context)
 //                    .showSnackBar(SnackBar(content: Text(error.toString())));
 //              });
 //            } else
-            if (value.status!) {
-              AppDbInstance().getDbInstance().then((db) async {
-                await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
-              });
+          if (value.status!) {
+            AppDbInstance().getDbInstance().then((db) async {
+              await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
+            });
 
 
-              Fluttertoast.showToast(
-                  msg: value.message ?? "",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1);
-              /*Navigator.of(context).pushAndRemoveUntil(
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            /*Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/
 //              var userNotifier = context1.read<UserNotifier>();
 //              userNotifier.updateUser(value.data!);
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value.message ?? "")));
-            }
-          }).onError((error, stackTrace) {
+          } else {
+
             ProgressDialogUtil.hideDialog();
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(error.toString())));
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("No internet available.".toString())));
-        }
-      });
-    }
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
   }
 
   void handleNextClick() {

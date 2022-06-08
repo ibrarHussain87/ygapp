@@ -7,9 +7,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
@@ -17,7 +17,8 @@ import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
-import 'package:yg_app/providers/user_brands_provider.dart';
+import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
+import 'providers/profile_providers/user_brands_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -87,8 +88,10 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<YarnSpecificationsProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<UserBrandsProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
         ChangeNotifierProvider(
-            create: (_) => locator<UserBrandsProvider>()),
+            create: (_) => locator<ProfileInfoProvider>()),
 
       ],
       child: MaterialApp(

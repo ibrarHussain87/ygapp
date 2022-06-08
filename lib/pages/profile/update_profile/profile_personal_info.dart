@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -16,11 +15,12 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
-import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
+import '../../../locators.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../../providers/profile_providers/profile_info_provider.dart';
 import '../../auth_pages/signup/country_search_page.dart';
 
 class ProfilePersonalInfoPage extends StatefulWidget {
@@ -39,39 +39,30 @@ class ProfilePersonalInfoPage extends StatefulWidget {
 class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
     with AutomaticKeepAliveClientMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormFieldState> _provinceKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _cityKey = GlobalKey<FormFieldState>();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   late UpdateProfileRequestModel _updateProfileRequestModel;
-  String userName = "";
-  String? countryName;
-  String? countryId ;
-  States? state;
-  String? city;
-  int stateId = 0;
-  List<Countries> countriesList = [];
-  List<States> cityStateList = [];
-  List<Cities> citiesList = [];
+  final _profileInfoProvider = locator<ProfileInfoProvider>();
+
   @override
   void initState() {
-    _updateProfileRequestModel = UpdateProfileRequestModel();
-   AppDbInstance().getDbInstance().then((value) => {
-      value.countriesDao.findAllCountries().then((value) {
-        setState(() {
-          countriesList = value;
-        });
-      }),
-      value.statesDao.findAllStates().then((value) {
-        setState(() {
-          cityStateList = value;
-        });
-      }),
 
-      value.citiesDao.findAllCities().then((value) {
-        setState(() {
-          citiesList = value;
-        });
-      }),
-    });
     super.initState();
+    _updateProfileRequestModel = _profileInfoProvider.updateProfileRequestModel;
+    _profileInfoProvider.addListener(() {
+      updateUI();
+    });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _profileInfoProvider.resetData();
+      _profileInfoProvider.getSyncedData();
+
+    });
+  }
+
+
+  updateUI() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -86,68 +77,34 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
     double height = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child: FutureBuilder<User?>(
-        future: AppDbInstance().getDbInstance()
-            .then((value) => value.userDao.getUser()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            if(countriesList.isNotEmpty) {
-              countryName = countryName = countriesList
-                  .where((element) =>
-              element.conId.toString() == snapshot.data?.countryId)
-                  .first
-                  .conName;
-            }
-        _updateProfileRequestModel.countryId=snapshot.data?.countryId;
-        _updateProfileRequestModel.cityStateId=snapshot.data?.cityStateId;
-        if(cityStateList.isNotEmpty) {
-          state = cityStateList
-              .where((element) =>
-          element.stateId.toString() == snapshot.data?.cityStateId)
-              .single;
-        }
-//         if(citiesList.isNotEmpty) {
-//           city = citiesList
-//               .where((element) =>
-//           element.cityName.toString() == snapshot.data?.city)
-//               .single;
-//         }
-        _updateProfileRequestModel.city=snapshot.data?.city;
-        city=snapshot.data?.city;
-            return Scaffold(
+      child:  Scaffold(
 //                key: scaffoldKey,
-              resizeToAvoidBottomInset: true,
-              backgroundColor: Colors.white,
-              body: Column(
-                children: [
-                  Form(
-                    key: globalFormKey,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Builder(builder: (BuildContext context2) {
-                            return buildUserDataColumn(snapshot, context2);
-                          }),
-                        ),
-                      ),
-                    ),
-                  )
-
-                ],
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            Form(
+              key: globalFormKey,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Builder(builder: (BuildContext context2) {
+                      return (!_profileInfoProvider.isLoading) ? buildUserDataColumn(_profileInfoProvider.user, context2) : Container();
+                    }),
+                  ),
+                ),
               ),
-            );
-          } else {
-            return Container();
-          }
-        },
+            )
+
+          ],
+        ),
       ),
     );
   }
 
 
   Column buildUserDataColumn(
-      AsyncSnapshot<User?> snapshot, BuildContext context2) {
-
+     User? user, BuildContext context2) {
     return Column(
       children: [
         Padding(
@@ -159,7 +116,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
               TextFormField(
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  initialValue: snapshot.data!.name ?? '',
+                  initialValue: user?.name ?? '',
                   onSaved: (input) =>
                   _updateProfileRequestModel.name = input!,
                   style: TextStyle(fontSize: 13.sp),
@@ -188,7 +145,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   cursorColor: Colors.black,
                   onSaved: (input) =>
                   _updateProfileRequestModel.address = input!,
-                  initialValue:snapshot.data?.address ?? '',
+                  initialValue:user?.address ?? '',
                   style: TextStyle(fontSize: 13.sp),
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
@@ -216,16 +173,17 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     context,
                     MaterialPageRoute(
                       builder: (context) => SelectCountryPage(title:"Country",isCodeVisible: false, callback:(Countries value)=>{
+                        FocusScope.of(context)
+                            .requestFocus(
+                            FocusNode()),
                         setState(() {
-                          FocusScope.of(context)
-                              .requestFocus(
-                              FocusNode());
-                          _updateProfileRequestModel.countryId =
-                              value.conId.toString();
-                          countryName =
-                              value.conName.toString();
-                        }
-                        )
+
+                          _provinceKey.currentState?.reset();
+                          _cityKey.currentState?.reset();
+                        }),
+                        _profileInfoProvider.setSelectedCountry(value),
+                        _updateProfileRequestModel.countryId =
+                            value.conId.toString()
                       },
                       ),
                     ),
@@ -258,7 +216,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                       Expanded(
                           flex:8,
                           child: Text(
-                            countryName ?? "Select Country",textAlign: TextAlign.start,style: const TextStyle(fontSize: 13),)),
+                            _profileInfoProvider.selectedCountry?.conName ?? "Select Country",textAlign: TextAlign.start,style: const TextStyle(fontSize: 13),)),
                     ],
                   ),
                 ),
@@ -274,12 +232,13 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
+                key:_provinceKey,
                 hint: const Text('Select State',style: TextStyle(fontSize: 13,color: Colors.black)),
-                items: cityStateList
+                items: _profileInfoProvider.statesList
                     .where((element) =>
                 element
                     .countryIdfk ==
-                    _updateProfileRequestModel.countryId
+                    _profileInfoProvider.selectedCountry?.conId
                         .toString())
                     .toList()
                     .map((value) =>
@@ -295,27 +254,17 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     ))
                     .toList(),
                 isExpanded: true,
-                value: state,
+                value: _profileInfoProvider.selectedState,
                 onChanged: (States? value) {
-                  setState(() {
-                    FocusScope.of(context)
-                        .requestFocus(
-                        FocusNode());
-                    state=value;
+                  FocusScope.of(context)
+                      .requestFocus(
+                      FocusNode());
+                  _profileInfoProvider.selectedState=value;
 
-//                        citiesList=citiesList
-//                            .where((element) =>
-//                        element.stateIdfk ==
-//                            value?.stateId
-//                                .toString())
-//                            .toList();
-                        print("cities"+citiesList.toString());
-                        _updateProfileRequestModel.city=null;
-                    _updateProfileRequestModel.cityStateId =
-                        value?.stateId.toString();
-                  });
+                  _updateProfileRequestModel.cityStateId =
+                      value?.stateId.toString();
                 },
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "State/District"),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
@@ -329,11 +278,12 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
+                key:_cityKey,
                 hint: const Text('Select City',style: TextStyle(fontSize: 13,color: Colors.black)),
-                items: citiesList
+                items: _profileInfoProvider.citiesList
                     .where((element) =>
                 element.stateIdfk ==
-                    state?.stateId
+                    _profileInfoProvider.selectedState?.stateId
                         .toString())
                     .toList()
                     .map((value) =>
@@ -342,24 +292,24 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                           value.cityName ??  Utils.checkNullString(
                               false),
                           textAlign: TextAlign.center,style: const TextStyle(fontSize: 13)),
-                      value: value.cityName,
+                      value: value,
                     ))
                     .toList(),
                 isExpanded: true,
-                value:city,
-                onChanged: (String? value) {
-                  setState(() {
+                value:_profileInfoProvider.selectedCity,
+                onChanged: (Cities? value) {
+
                     FocusScope.of(context)
                         .requestFocus(
                         FocusNode());
-                    city=value;
+                    _profileInfoProvider.selectedCity=value;
                     _updateProfileRequestModel.city =
-                        value?.toString();
-                  });
+                        value?.cityName;
+
                 },
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "City"),
-                validator: (value) => value == null || _updateProfileRequestModel.city==null ? 'Please select city' : null,
+                validator: (value) => value == null ? 'Please select city' : null,
               ),
             ],
           ),
@@ -375,7 +325,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateProfileRequestModel.postalCode = input!,
-                  initialValue: snapshot.data!.postalCode ?? '',
+                  initialValue: user?.postalCode ?? '',
                   style: TextStyle(fontSize: 13.sp),
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
@@ -400,7 +350,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
               TextFormField(
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
-                  initialValue:snapshot.data?.whatsApp ?? '',
+                  initialValue:user?.whatsApp ?? '',
                   onSaved: (input) => _updateProfileRequestModel.whatsapp = input!,
                   style: TextStyle(fontSize: 13.sp),
                   textAlign: TextAlign.start,
@@ -426,7 +376,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
               TextFormField(
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
-                  initialValue: snapshot.data!.telephoneNumber ?? '',
+                  initialValue: user?.telephoneNumber ?? '',
                   onSaved: (input) =>
                   _updateProfileRequestModel.telephoneNumber = input!,
                   style: TextStyle(fontSize: 13.sp),
@@ -454,7 +404,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
 //                  readOnly: true,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
-                  initialValue: snapshot.data!.email ?? '',
+                  initialValue: user?.email ?? '',
                   onSaved: (input) => _updateProfileRequestModel.email = input!,
                   style: TextStyle(fontSize: 13.sp),
                   textAlign: TextAlign.start,
@@ -496,7 +446,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     onPressed: () {
                       if (validateAndSave()) {
                         FocusScope.of(context).requestFocus(FocusNode());
-                        _updateProfileCall(snapshot.data, context1);
+                        _updateProfileCall(context1);
                       }
                     });
               })),
@@ -526,52 +476,50 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
   }
 
 
-  void _updateProfileCall(User? user, BuildContext context1) {
-    if (user != null) {
-      check().then((value) {
-        if (value) {
-          ProgressDialogUtil.showDialog(context, 'Please wait...');
+  void _updateProfileCall(BuildContext context1) {
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-          Logger().e(_updateProfileRequestModel.toJson());
-          ApiService.updateProfile(_updateProfileRequestModel).then((value) {
+        Logger().e(_updateProfileRequestModel.toJson());
+        ApiService.updateProfile(_updateProfileRequestModel).then((value) {
 
-            ProgressDialogUtil.hideDialog();
+          ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {
 //                ScaffoldMessenger.of(context)
 //                    .showSnackBar(SnackBar(content: Text(error.toString())));
 //              });
 //            } else
-            if (value.status!) {
-              AppDbInstance().getDbInstance().then((db) async {
+          if (value.status!) {
+            AppDbInstance().getDbInstance().then((db) async {
 //                await db.userDao.insertUser(value.data!.user!);
-                await db.userDao.insertUser(value.data!);
-              });
+              await db.userDao.insertUser(value.data!);
+            });
 
 
-              Fluttertoast.showToast(
-                  msg: value.message ?? "",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1);
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
 //              var userNotifier = context1.read<UserNotifier>();
 //              userNotifier.updateUser(value.data!);
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value.message ?? "")));
-            }
-          }).onError((error, stackTrace) {
-
-            ProgressDialogUtil.hideDialog();
+          } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(error.toString())));
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("No internet available.".toString())));
-        }
-      });
-    }
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
   }
 
   @override

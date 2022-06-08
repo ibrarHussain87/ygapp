@@ -1,17 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
-import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../../app_database/app_database_instance.dart';
-import '../../helper_utils/app_constants.dart';
 import '../../locators.dart';
 import '../../providers/yarn_providers/post_yarn_provider.dart';
-import '../bottom_sheets/family_blends_bottom_sheet.dart';
-import '../title_text_widget.dart';
 
 class PureBlendSelectTileWidget extends StatefulWidget {
   final Function? callback;

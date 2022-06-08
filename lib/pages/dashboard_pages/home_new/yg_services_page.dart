@@ -142,7 +142,7 @@ class YgServicePageState extends State<YgServicePage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint: const Text('Select Service Type'),
+                hint:  Text('Select Service Type',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
 
                 items: serviceList
                     .map((value) =>
@@ -168,7 +168,7 @@ class YgServicePageState extends State<YgServicePage>
                       value?.serviceTypeId.toString();
                 },
 
-                decoration: dropDownProfile(
+                decoration: textFieldProfile(
                     'Select', "Service Type"),
                 validator: (value) => value == null ? 'Please select service type' : null,
               ),
@@ -530,8 +530,8 @@ class YgServicePageState extends State<YgServicePage>
                         onConfirm: (date) {
 
                           FocusScope.of(context).requestFocus(FocusNode());
-                          print('confirm $date');
                           dateTime= formatDate(date);
+                          _ygServiceRequestModel.dateTime=dateTime.toString();
 //                          dateTime=date.toString();
 
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
@@ -557,21 +557,11 @@ class YgServicePageState extends State<YgServicePage>
                           mainAxisAlignment:
                           MainAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Date/Time',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 14.sp,
-                                  /*fontFamily: 'Metropolis',*/
-                                  backgroundColor:
-                                  Colors.white,
-                                  fontWeight:
-                                  FontWeight.w500),
+                              style: TextStyle(color: Colors.black,fontSize: 13),
                             ),
-                            Text("*",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 16.sp,
+                            Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
                                     /*fontFamily: 'Metropolis',*/
                                     backgroundColor:
                                     Colors.white,

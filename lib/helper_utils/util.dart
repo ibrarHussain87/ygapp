@@ -143,7 +143,7 @@ class Utils {
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?'/ ${specification.formationDisplayText}':''}';
+        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':''}';
         break;
       case '3':
         familyData =
@@ -151,7 +151,8 @@ class Utils {
         break;
       case '4':
         familyData =
-        '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
+        '${specification.ys_yarn_type ?? ""} ${specification.dtyFilament != null ? "${specification.dtyFilament}" : ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} /${specification.yarnPly ?? ''}';
+        // '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '5':
         familyData =
@@ -245,11 +246,11 @@ class Utils {
         break;
       case '102':
         titleData =
-        specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false);
+        '${specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false)}, ${specification.formationDisplayText}';
         break;
       case '103':
         titleData =
-        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}';
+        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}/*, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}*/';
         break;
       case '104':
         titleData ='${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
@@ -265,7 +266,7 @@ class Utils {
       case '101':
         List<String?> list = [
           specification.fabricKnittingTypeName,
-          specification.fabricColorTreatmentMethod
+          specification.fabricColorTreatmentMethod,
         ];
         if(specification.fabricDyingTechnique != null){
           list.add(specification.fabricDyingTechnique);
@@ -277,7 +278,6 @@ class Utils {
         break;
       case '102':
         List<String?> list = [
-          specification.formationDisplayText,
           specification.fabricWeaveName,
           specification.fabricWeavePatternName,
           specification.fabricApperance
@@ -287,7 +287,6 @@ class Utils {
       case '103':
         List<String?> list = [
           specification.fabricApperance,
-          specification.fabricColorTreatmentMethod,
           specification.fabricDyingTechnique
         ];
         detailsData = Utils.createStringFromList(list);
@@ -307,7 +306,7 @@ class Utils {
         '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
         break;
       case '2':
-        titleData = specification.yarnFamily ?? Utils.checkNullString(false);
+        titleData = "";/*specification.yarnFamily ?? Utils.checkNullString(false);*/
         break;
       case '3':
         titleData =
@@ -360,7 +359,7 @@ class Utils {
         List<String?> list = [
           specification.yarnApperance,
           specification.yarnColorTreatmentMethod,
-          specification.doublingMethod,
+          specification.color,
         ];
         detailsData = Utils.createStringFromList(list);
         break;
@@ -1003,7 +1002,7 @@ class Utils {
   }*/
 
   static void updateDialog(context, YarnSpecification? yarnSpecification,
-      Specification? specification, dynamic specObj) {
+      Specification? specification, dynamic specObj,Function callback) async{
     final TextEditingController controllerUpdatePrice = TextEditingController();
     final TextEditingController controllerAvailQ = TextEditingController();
     late List<DeliveryPeriod> deliveryPeriodList;
@@ -1046,28 +1045,31 @@ class Utils {
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     }
 
-    AppDbInstance().getDeliveryPeriod().then((value1) {
+    var dbInstance = await AppDbInstance().getDbInstance();
       if (specification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(int.parse(specification.categoryId??"1"));
         var period = specification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (yarnSpecification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(yarnSpecification.category_id??2);
         var period = yarnSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (specObj is FabricSpecification) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(3);
         var fabricSpecification = specObj;
         var period = fabricSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       }
-      deliveryPeriodList = value1;
+      // deliveryPeriodList = value1;
 
       showGeneralDialog(
         context: context,
@@ -1352,7 +1354,7 @@ class Utils {
                                       .toString());
                                   ProgressDialogUtil.showDialog(
                                       context, "Please wait..");
-                                  ApiService.updateFabricSpecification(
+                                  ApiService.updateSpecification(
                                       updateFabricRequestModel, "")
                                       .then((value) {
                                     ProgressDialogUtil.hideDialog();
@@ -1370,6 +1372,7 @@ class Utils {
                                           openMyAdsScreen(context);
                                         });
                                       } else {
+                                        callback(value.data);
                                         Navigator.pop(context);
                                         if (yarnSpecification != null) {
                                           final yarnSpecificationsProvider =
@@ -1432,7 +1435,6 @@ class Utils {
           );
         },
       );
-    });
   }
 
   static Future<String> getUserId() async {

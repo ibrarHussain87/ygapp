@@ -11,6 +11,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/model/detail_tile_model.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
@@ -146,17 +147,17 @@ class _SpecUserViewState extends State<SpecUserView> {
     }
   }
 
-  List<GridTileModel> generateUserList(SpecificationUser specificationUser) {
-    List<GridTileModel> tempList = [];
-    tempList.add(GridTileModel('Name', specificationUser.name??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Country', specificationUser.country??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('City', specificationUser.cityState??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('Company', specificationUser.company??Utils.checkNullString(false)));
-    tempList.add(GridTileModel('NTN Number', specificationUser.ntnNumber??Utils.checkNullString(false)));
+  List<DetailTileModel> generateUserList(SpecificationUser specificationUser) {
+    List<DetailTileModel> tempList = [];
+    tempList.add(DetailTileModel('Name', specificationUser.name??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('Country', specificationUser.country??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('City', specificationUser.cityState??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('Company', specificationUser.company??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('NTN Number', specificationUser.ntnNumber??Utils.checkNullString(false)));
     /*Index Second Last must contain phone for launchCaller to work*/
-    tempList.add(GridTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('Phone', specificationUser.phone??Utils.checkNullString(false)));
     /*Index Last must contain email for launchEmailSubmission to work*/
-    tempList.add(GridTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
+    tempList.add(DetailTileModel('Email', specificationUser.email??Utils.checkNullString(false)));
     return tempList;
   }
 

@@ -137,7 +137,7 @@ InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: TextStyle(color:Colors.black),),
+          Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
           /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),

@@ -17,9 +17,7 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/update_profile/brands_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
-import 'package:yg_app/pages/profile/update_profile/brands_notifier.dart';
-
-import '../../../providers/user_brands_provider.dart';
+import '../../../providers/profile_providers/user_brands_provider.dart';
 
 
 class ProfileBrandsInfoPage extends StatefulWidget {
