@@ -350,13 +350,20 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk == null &&
+      if(_yarnPostProvider.createRequestModel!.ys_formation == null){
+        Ui.showSnackBar(context, 'Please add ${_yarnPostProvider.selectedYarnFamily.toString()} formation.');
+        return false;
+      }else if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk == null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showTexturized)) {
         Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_usage_idfk == null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showUsage)) {
         Ui.showSnackBar(context, 'Please Select Usage');
+        return false;
+      } else if (_yarnPostProvider.createRequestModel!.ys_ply_idfk == null &&
+          Ui.showHide(_yarnPostProvider.yarnSetting!.showPly)) {
+        Ui.showSnackBar(context, 'Please Select count');
         return false;
       } else if (_yarnPostProvider
                   .createRequestModel!.ys_color_treatment_method_idfk ==
@@ -369,10 +376,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
               null &&
           _showDyingMethod) {
         Ui.showSnackBar(context, 'Please Select Dying Method');
-        return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_ply_idfk == null &&
-          Ui.showHide(_yarnPostProvider.yarnSetting!.showPly)) {
-        Ui.showSnackBar(context, 'Please Select Ply');
         return false;
       } else if (_yarnPostProvider
                   .createRequestModel!.ys_doubling_method_idFk ==

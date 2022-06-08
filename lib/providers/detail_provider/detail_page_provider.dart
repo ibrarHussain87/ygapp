@@ -1149,4 +1149,20 @@ class DetailPageProvider extends ChangeNotifier {
   void notifyUI() {
     notifyListeners();
   }
+
+  void updateYarnSpecification(YarnSpecification updateSpecification) {
+    yarnSpecification = updateSpecification;
+    yarnDetails();
+    notifyListeners();
+  }
+  void updateFiberSpecification(Specification updateSpecification) {
+    fiberSpecification = updateSpecification;
+    fiberDetails();
+    notifyListeners();
+  }
+  void updateFabricSpecification(FabricSpecification updateSpecification) {
+    fabricSpecification = updateSpecification;
+    fabricDetails();
+    notifyListeners();
+  }
 }

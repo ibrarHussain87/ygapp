@@ -173,6 +173,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           _postYarnProvider.resetData();
           _postYarnProvider.textFieldControllers.clear();
           _postYarnProvider.notifyUI();
+          _postYarnProvider.createRequestModel!.ys_formation = null;
           genericBlendBottomSheet(
               context, _postYarnProvider, _postYarnProvider.blendList, 0, () {
             resetYarnPlySheet(_postYarnProvider);

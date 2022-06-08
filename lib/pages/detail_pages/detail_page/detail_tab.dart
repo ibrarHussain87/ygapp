@@ -264,14 +264,18 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                   _detailPageProvider.yarnSpecification,
                                   null,
                                   null,
-                                  (updateSpecification) {})
+                                  (updateSpecification) {
+                                    _detailPageProvider.updateYarnSpecification(YarnSpecification.fromJson(updateSpecification));
+                                  })
                               : _detailPageProvider.isFiber
                                   ? Utils.updateDialog(
                                       context,
                                       null,
                                       _detailPageProvider.fiberSpecification,
                                       null,
-                                      (updateSpecification) {})
+                                      (updateSpecification) {
+                                        _detailPageProvider.updateFiberSpecification(Specification.fromJson(updateSpecification));
+                                      })
                                   : _detailPageProvider.isStockLot
                                       ? Fluttertoast.showToast(
                                           msg: 'Delete coming soon')
@@ -281,7 +285,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           null,
                                           _detailPageProvider
                                               .fabricSpecification,
-                                          (updateSpecification) {});
+                                          (updateSpecification) {
+                                            _detailPageProvider.updateFabricSpecification(FabricSpecification.fromJson(updateSpecification));
+
+                                          });
                         },
                         color: _detailPageProvider.isStockLot
                             ? Colors.red.shade400

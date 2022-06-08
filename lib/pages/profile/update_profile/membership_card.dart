@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/model/pre_login_response.dart';
 
 
 Widget buildSuperMembershipWidget(
@@ -137,7 +138,7 @@ Widget buildSuperMembershipWidget(
 
                             });
                       })),
-                  SizedBox(height: 10,)
+                  const SizedBox(height: 10,)
 
                 ],
               ),
@@ -149,14 +150,16 @@ Widget buildSuperMembershipWidget(
 }
 
 Widget buildFreeMembershipWidget(
-    BuildContext context, int index,
+    BuildContext context, int index, SubscriptionPlans subscriptionPlan,
+    String? name,Function callback,
     ) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
+  print("Index"+index.toString());
   return Padding(
     padding: const EdgeInsets.all(0.0),
     child: Material(
-        color: index==0 ? cardColor :  Colors.white,
+        color: name==subscriptionPlan.spName ? cardColor :  Colors.white,
         elevation: /*18.0*/0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.w),
@@ -171,10 +174,10 @@ Widget buildFreeMembershipWidget(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(height: 20,),
-                  Text('Basic Plan',
+                  Text(subscriptionPlan.spName ?? '',
                       style: TextStyle(
                           fontSize: 20.0.w,
-                          color: index ==0 ? Colors.white : unSelectHeadingTextColor,
+                          color: name==subscriptionPlan.spName? Colors.white : unSelectHeadingTextColor,
                           fontWeight: FontWeight.w700)),
                   SizedBox(height: height/90,),
                   Text('What You\'ll Get',
@@ -185,40 +188,49 @@ Widget buildFreeMembershipWidget(
                   SizedBox(height: height/40,),
                   Row(
                     children: [
-                      Image.asset(index ==0 ? white_tick : black_tick,height: 20,width: 20,),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
                       const SizedBox(width: 5),
-                      Text('Edit up to 1,000 hours of \npodcast audio files.',
+                      Text(subscriptionPlan.spLongDescription.toString(),
+                          maxLines: 1,
+                          overflow:TextOverflow.ellipsis ,
                           style: TextStyle(
                               fontSize: 10.0.w,
-                              color: index ==0 ? Colors.white : unSelectHeadingTextColor,
+                              color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
                               fontWeight: FontWeight.w400)),
                     ],
                   ),
                   SizedBox(height: height/40,),
                   Row(
                     children: [
-                      Image.asset(index ==0 ? white_tick : black_tick,height: 20,width: 20,),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
                       const SizedBox(width: 5),
-                      Text('Set your own landing page',
+                      Text(subscriptionPlan.spShortDescription.toString(),
+                          maxLines: 1,
+                          overflow:TextOverflow.ellipsis ,
                           style: TextStyle(
                               fontSize: 10.0.w,
-                              color:index ==0 ? Colors.white : unSelectHeadingTextColor,
+                              color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
                               fontWeight: FontWeight.w400)),
                     ],
                   ),
                   SizedBox(height: height/45,),
 
-                  Image.asset(divider_line,height:10,color: index ==0 ?  subHeadingColor : unSelectHeadingTextColor,),
+                  Image.asset(divider_line,height:10,color:  name==subscriptionPlan.spName  ?  subHeadingColor : unSelectHeadingTextColor,),
 
                   SizedBox(height: height/6,),
                   RichText(
                     text: TextSpan(
-                      text: 'Free Forever',
+                      text: '\$ '+subscriptionPlan.spPrice.toString(),
                       style: TextStyle(
                           fontSize: 20.0.w,
-                          color: index ==0 ? Colors.white : unSelectHeadingTextColor,
+                          color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
                           fontWeight: FontWeight.w700),
-
+                      children: [
+                        TextSpan(text: '/'+subscriptionPlan.spDurationCount.toString()+"\t"+subscriptionPlan.spDurationType.toString(), style: TextStyle(
+                            fontSize: 14.0.w,
+                            color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                            fontWeight: FontWeight.w400)),
+                      ]
                     ),
                   ),
                   SizedBox(height: height/80,),
@@ -242,11 +254,11 @@ Widget buildFreeMembershipWidget(
                                         BorderRadius.all(Radius.circular(8)),
                                         side: BorderSide(color: Colors.transparent)))),
                             onPressed: () {
-
+                              callback(subscriptionPlan);
                             });
                       })),
 
-                  SizedBox(height:10,),
+                  const SizedBox(height:10,),
                 ],
               ),
             ),

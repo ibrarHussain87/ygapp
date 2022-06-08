@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/locators.dart';
@@ -41,32 +42,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.pop(context, true);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
-                      )),
-                )),
-          ),
-          title: Text('Detail',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        ),
+        appBar:appBar(context, "Detail"),
         key: scaffoldKey,
         backgroundColor: Colors.white,
         body: Column(
@@ -247,13 +223,13 @@ class _DetailPageState extends State<DetailRenewedPage> {
                                 child: TabBar(
                                   // padding: EdgeInsets.only(left: 8.w, right: 8.w),
                                   isScrollable: false,
-                                  unselectedLabelColor: lightBlueTabs,
+                                  unselectedLabelColor: darkBlueChip,
                                   labelColor: Colors.white,
-                                  indicatorColor: lightBlueTabs,
+                                  indicatorColor: darkBlueChip,
                                   indicatorSize: TabBarIndicatorSize.tab,
                                   indicator: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),
-                                      color: lightBlueTabs),
+                                      color: darkBlueChip),
                                   tabs: tabMakerUpdated(),
                                 ),
                               ),
@@ -296,7 +272,7 @@ class _DetailPageState extends State<DetailRenewedPage> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: lightBlueTabs, width: 1),
+              border: Border.all(color: darkBlueChip, width: 1),
             ),
             child: Align(
               alignment: Alignment.center,

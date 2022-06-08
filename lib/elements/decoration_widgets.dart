@@ -111,7 +111,7 @@ InputDecoration dropDownProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: TextStyle(color: formFieldLabel,fontSize: 13),),
+          Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
           /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),
@@ -137,7 +137,7 @@ InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title,style: TextStyle(color: formFieldLabel),),
+          Text(title,style: const TextStyle(color: Colors.black,fontSize: 13),),
           /*const Text("*", style: TextStyle(color: Colors.red)),*/
         ],
       ),

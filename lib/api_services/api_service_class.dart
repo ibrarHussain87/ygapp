@@ -18,6 +18,7 @@ import 'package:yg_app/model/request/specification_user/spec_user_request.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
 import 'package:yg_app/model/request/update_fabric_request/update_fabric_request.dart';
+import 'package:yg_app/model/request/update_profile/update_membership_plan_request.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/change_bid_response.dart';
 import 'package:yg_app/model/response/create_bid_response.dart';
@@ -37,6 +38,7 @@ import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
 import '../model/request/stocklot_request/stocklot_request.dart';
 import '../model/request/update_profile/brands_request_model.dart';
+import '../model/request/update_profile/customer_support_request.dart';
 import '../model/request/update_profile/update_business_request.dart';
 import '../model/request/yg_service/yg_service_request_model.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
@@ -93,6 +95,8 @@ class ApiService {
   static String PRE_CONFIG_END_POINT = "/get-pre-login-config";
 
   static const String CREATE_YG_SERVICE_ENPOINT = "/create-yg-service";
+  static const String CREATE_CUSTOMER_SERVICE_ENPOINT = "/create-customer-support";
+  static const String SUBSCRIBE_TO_PLAN_ENPOINT = "/subscribe-to-plan";
 
   static Future<PreConfigResponse> preConfig(String countryID) async {
     try {
@@ -163,6 +167,60 @@ class ApiService {
       } else {
         throw (e.toString());
       }
+    }
+  }
+
+
+  static Future<UpdateProfileResponse> subscribeToPlan(
+      MembershipRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + SUBSCRIBE_TO_PLAN_ENPOINT;
+
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body:requestModel.toJson());
+      return UpdateProfileResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  static Future<YGServiceResponse> createCustomerService(
+      CustomerSupportRequestModel requestModel) async {
+    try {
+      var userToken=
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = BASE_API_URL + CREATE_CUSTOMER_SERVICE_ENPOINT;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: requestModel.toJson());
+      return YGServiceResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
     }
   }
 

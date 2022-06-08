@@ -3,12 +3,20 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:logger/logger.dart';
 
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/profile/update_profile/membership_card.dart';
 
+import '../../../api_services/api_service_class.dart';
+import '../../../helper_utils/connection_status_singleton.dart';
+import '../../../helper_utils/progress_dialog_util.dart';
+import '../../../model/pre_login_response.dart';
+import 'package:yg_app/app_database/app_database_instance.dart';
 import '../../../elements/custom_header.dart';
+import '../../../model/request/update_profile/update_membership_plan_request.dart';
 
 
 class MembershipPage extends StatefulWidget {
@@ -24,50 +32,43 @@ class _MembershipPageState extends State<MembershipPage> {
   int previousPageValue = 0;
   int currentImageBanner = 1;
   PageController? controller;
-  double _moveBar = 0.0;
+  MembershipRequestModel? _membershipRequestModel;
+  List<SubscriptionPlans> subList=[];
+
+  String? name;
   @override
   void initState() {
     super.initState();
+    _membershipRequestModel=MembershipRequestModel();
+    AppDbInstance().getDbInstance().then((value) => {
+      value.subscriptionPlansDao.findAllSubscriptionPlans().then((value) {
+        setState(() {
+          subList = value;
+          if(subList.isNotEmpty)
+            {
+              name=subList[currentImageBanner].spName;
+        }
+        });
+        })
+
+
+
+    });
     controller=PageController(initialPage: currentPageValue);
   }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final List<Widget> introWidgetsList = <Widget>[
-      buildFreeMembershipWidget(context,0),
-      buildSuperMembershipWidget(context,1),
-      buildPremiumMembershipWidget(context,2)
-      ];
+//    final List<Widget> introWidgetsList = <Widget>[
+//      buildFreeMembershipWidget(context,0),
+//      buildSuperMembershipWidget(context,1),
+//      buildPremiumMembershipWidget(context,2)
+//      ];
     return SafeArea(
       child: Scaffold(
         appBar:appBar(context,"Membership"),
-//        AppBar(
-//          backgroundColor: Colors.white,
-//          centerTitle: true,
-//          leading: GestureDetector(
-//            behavior: HitTestBehavior.opaque,
-//            onTap: () {
-//              Navigator.pop(context);
-//            },
-//            child: Padding(
-//                padding: EdgeInsets.all(12.w),
-//                child: Card(
-//                  child: Padding(
-//                      padding: EdgeInsets.only(left: 4.w),
-//                      child: Icon(
-//                        Icons.arrow_back_ios,
-//                        color: Colors.black,
-//                        size: 12.w,
-//                      )),
-//                )),
-//          ),
-//          title: Text('Membership',
-//              style: TextStyle(
-//                  fontSize: 16.0.w,
-//                  color: appBarTextColor,
-//                  fontWeight: FontWeight.w400)),
-//        ),
+
         key: scaffoldKey,
         backgroundColor: Colors.grey.shade200,
         body:SizedBox(
@@ -94,44 +95,55 @@ class _MembershipPageState extends State<MembershipPage> {
                 enableInfiniteScroll: true,
                 activeIndicator: btnTextColor,
                 passiveIndicator: textColorGreyLight,
-                items:[
-                  Container(
-                    width: MediaQuery.of(context).size.width,
+                items:subList.map((i) {
+                 return Container(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      child: buildFreeMembershipWidget(context,currentImageBanner),
+                      child: buildFreeMembershipWidget(
+                          context, currentImageBanner,i,name,(SubscriptionPlans value) {
+                            _membershipRequestModel?.spId=value.spId.toString();
+                      _subscribeToPlan(context);
+                      }),
                     ),
-                  ),
+                  );
 
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      child: buildSuperMembershipWidget(context,currentImageBanner),
-                    ),
-                  ),
+//                  Container(
+//                  width: MediaQuery.of(context).size.width,
+//                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+//                  child: ClipRRect(
+//                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+//                  child: buildSuperMembershipWidget(context,currentImageBanner),
+//                  ),
+//                  ),
+//
+//                  Container(
+//                  width: MediaQuery.of(context).size.width,
+//                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+//                  child: ClipRRect(
+//                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+//                  child: buildPremiumMembershipWidget(context,currentImageBanner)
+//                  ,
+//                  )
+//                  ,
+//                  )
 
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      child: buildPremiumMembershipWidget(context,currentImageBanner),
-                    ),
-                  ),
-                ],
+                }).toList(),
                 onPageChanged: (index) {
                   setState(() {
                     currentImageBanner=index;
+                    name=subList[currentImageBanner].spName;
                   });
                 },
               ),
               Container(
                 padding: EdgeInsets.only(top: 15.w),
                 child: DotsIndicator(
-                  dotsCount: introWidgetsList.length,
+                  dotsCount: subList.length,
                   position: double.tryParse(currentImageBanner.toString())!,
                   decorator: DotsDecorator(
                     activeColor: btnTextColor,
@@ -150,5 +162,55 @@ class _MembershipPageState extends State<MembershipPage> {
     );
   }
 
+
+
+  void _subscribeToPlan(BuildContext context) {
+
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+
+        Logger().e(_membershipRequestModel?.toJson());
+        ApiService.subscribeToPlan(_membershipRequestModel!).then((value) {
+
+          ProgressDialogUtil.hideDialog();
+//            if (value.errors != null) {
+//              value.errors!.forEach((key, error) {
+//                ScaffoldMessenger.of(context)
+//                    .showSnackBar(SnackBar(content: Text(error.toString())));
+//              });
+//            } else
+          if (value.status!) {
+//              AppDbInstance().getDbInstance().then((db) async {
+////                await db.userDao.insertUser(value.data!.user!);
+//                await db.userDao.insertUser(value.data!);
+//              });
+
+
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            Navigator.of(context).pop();
+          } else {
+
+            ProgressDialogUtil.hideDialog();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
+
+  }
 
 }

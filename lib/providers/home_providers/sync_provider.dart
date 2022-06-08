@@ -157,16 +157,8 @@ class SyncProvider extends ChangeNotifier {
               await Future.wait([
                 value.stocklotCategoriesDao.insertAllStocklotCategories(
                     response.data!.stocklot!.stocklots!),
-                // if(response.data!.stocklot!.stocklots != null) value.stocklotDao
-                //     .insertAllStocklots(response.data!.stocklot!.stocklots!),
-                // value.availabilityDao.insertAllAvailability(
-                //     response.data!.stocklot!.availabilityList!),
                 value.priceTermsDao.insertAllFPriceTerms(
                     response.data!.stocklot!.priceTerms!),
-                // value.lcTypeDao.insertAllLcType(
-                //     response.data!.stocklot!.lcTypes!),
-                /*value.paymentTypeDao.insertAllPaymentType(
-                    response.data!.stocklot!.paymentTypes!)*/
               ]);
             });
           }
