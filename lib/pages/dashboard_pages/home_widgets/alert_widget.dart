@@ -15,14 +15,7 @@ class SlidingAlertWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top:4.0),
-            child: Image.asset(
-              ALERT_IMAGE,
-              width: 14.w,
-              height: 14.w,
-            ),
-          ),
+
           Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 6.w),
@@ -44,6 +37,14 @@ class SlidingAlertWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top:4.0),
+                            child: Image.asset(
+                              ALERT_IMAGE,
+                              width: 14.w,
+                              height: 14.w,
+                            ),
+                          ),
                           Flexible(
                             child: RichText(
                               overflow: TextOverflow.ellipsis,

@@ -5,6 +5,8 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 
+import '../../../model/home_model.dart';
+
 class HomeScreen extends StatefulWidget {
   final Function callback;
    const HomeScreen({Key? key,required this.callback}) : super(key: key);
@@ -181,16 +183,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HomeModel {
-  String? id;
-  String? title;
-  String? subTitle;
-  String? image;
 
-  HomeModel({
-    @required this.id,
-    @required this.title,
-    @required this.subTitle,
-    @required this.image,
-  });
-}

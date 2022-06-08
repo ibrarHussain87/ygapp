@@ -89,6 +89,11 @@ var appBarColor2 = HexColor.fromHex('#2675EC');
 var searchBarColor = HexColor.fromHex('#dee3eb');
 var bgColor = HexColor.fromHex('#eceff4');
 var appbarIconColor = HexColor.fromHex('#d8d8d8');
+var appBarIconColor = HexColor.fromHex('#72818F');
+var appBarTitleColor = HexColor.fromHex('#363839');
+var homeBgColor = HexColor.fromHex('#F4F4F4');
+var trendsBgColor = HexColor.fromHex('#EDF1F6');
+var cardTitleColor = HexColor.fromHex('#72818F');
 
 var lightBlueChip = const Color(0xFFE3ECFF);
 var darkBlueChip = const Color(0xFF2E59B1);

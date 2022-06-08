@@ -114,99 +114,97 @@ updateUI() {
           child: Padding(
             padding:
             EdgeInsets.only(top: 30.w, bottom: 0.w, left: 8.w, right: 8.w),
-            child: Container(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-                  Expanded(
-                    flex:3,
-                    child:  TypeAheadFormField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: _typeAheadController,
-                          decoration: textFieldProfile(
-                              'Enter Brand', "Brand"),
-                        ),
-                        suggestionsCallback: (pattern) {
-                          return brandsList.where(
-                                  (Brands x) => x.brdName.toString().toLowerCase().contains(pattern)
-                          ).toList();
-                        },
-                        itemBuilder: (context,suggestion) {
-                          return ListTile(
-                            title: Text(suggestion.toString()),
-                          );
-                        },
-                        transitionBuilder: (context, suggestionsBox, controller) {
-                          return suggestionsBox;
-                        },
-                        hideSuggestionsOnKeyboardHide: true,
-                        onSuggestionSelected: (Brands suggestion) {
-                          _typeAheadController.text = suggestion.brdName.toString();
-                          _updateBrandsRequestModel.brdId=suggestion.brdId.toString();
-                          _updateBrandsRequestModel.brdName=suggestion.brdName.toString();
-                          _updateBrandsRequestModel.brdOther = "0";
-                        },
-                        errorBuilder:(BuildContext context, Object? error) =>
-                            Text(
-                                '$error',
-                                style: TextStyle(
-                                    color: Theme.of(context).errorColor
-                                )
-                            ),
-                        validator: (input) {
-                          if (input == null || input.isEmpty) {
-                            return 'Please enter brand name';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          print("Value"+value.toString());
-                          _updateBrandsRequestModel.brdName = value;
+                Expanded(
+                  flex:3,
+                  child:  TypeAheadFormField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: _typeAheadController,
 
-                        }
-
-                    ),
-                  ),
-
-                  const SizedBox(width: 10,),
-                  InkWell(
-                    onTap: ()=>{
-                      if (validateBrandInput()) {
-                        _addTags(_updateBrandsRequestModel)
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14.0,
-                        vertical: 10.0,
+                        decoration: textFieldProfile(
+                            'Enter Brand', "Brand"),
                       ),
-                      decoration: BoxDecoration(
-                        color: addBtnColor,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child:Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
+                      suggestionsCallback: (pattern) {
+                        return brandsList.where(
+                                (Brands x) => x.brdName.toString().toLowerCase().contains(pattern)
+                        ).toList();
+                      },
+                      itemBuilder: (context,suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.toString()),
+                        );
+                      },
+                      transitionBuilder: (context, suggestionsBox, controller) {
+                        return suggestionsBox;
+                      },
+                      hideSuggestionsOnKeyboardHide: true,
+                      onSuggestionSelected: (Brands suggestion) {
+                        _typeAheadController.text = suggestion.brdName.toString();
+                        _updateBrandsRequestModel.brdId=suggestion.brdId.toString();
+                        _updateBrandsRequestModel.brdName=suggestion.brdName.toString();
+                        _updateBrandsRequestModel.brdOther = "0";
+                      },
+                      errorBuilder:(BuildContext context, Object? error) =>
                           Text(
-                            'Add',
-                            textAlign: TextAlign.center,
-                            style:  TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0,
-                            ),
+                              '$error',
+                              style: TextStyle(
+                                  color: Theme.of(context).errorColor
+                              )
                           ),
+                      validator: (input) {
+                        if (input == null || input.isEmpty) {
+                          return 'Please enter brand name';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        print("Value"+value.toString());
+                        _updateBrandsRequestModel.brdName = value;
 
-                        ],
-                      ),
+                      }
 
+                  ),
+                ),
 
+                const SizedBox(width: 10,),
+                InkWell(
+                  onTap: ()=>{
+                    if (validateBrandInput()) {
+                      _addTags(_updateBrandsRequestModel)
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 13.0,
                     ),
-                  )
-                ],
-              ),
+                    decoration: BoxDecoration(
+                      color: addBtnColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child:Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Text(
+                          'Add',
+                          textAlign: TextAlign.center,
+                          style:  TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
+                          ),
+                        ),
+
+                      ],
+                    ),
+
+
+                  ),
+                )
+              ],
             ),
 
 

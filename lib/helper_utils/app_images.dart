@@ -73,5 +73,14 @@ String fabricsImage = "images/fabrics.png";
 String yarnImage = "images/yarn.png";
 String stockLotsImage = "images/stocklots.png";
 String servicesImage = "images/services.png";
+String bellImage = "images/bell.png";
+String navImage = "images/nav.png";
+String fiberIcon = "images/fiber_icon.png";
+String fabricsIcon = "images/fabrics_icon.png";
+String stockLotsIcon = "images/stocklots_icon.png";
+String yarnIcon = "images/yarn_icon.png";
+String serviceIcon = "images/service_icon.png";
+String green = "images/green_up.png";
+String red = "images/red_down.png";
 
 
