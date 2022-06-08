@@ -19,9 +19,9 @@ Widget buildYarnRenewedAgainWidget(
     YarnSpecification specification, BuildContext context,
     {bool? showCount}) {
   var size = MediaQuery.of(context).size;
-  double paddingStart = 10;
+  double paddingStart = 14;
   double paddingStartFeatured = 20;
-  double paddingTop = 15;
+  double paddingTop = 10;
   double paddingBottom = 10;
   double paddingEnd = 10;
 
@@ -51,7 +51,7 @@ Widget buildYarnRenewedAgainWidget(
                   child: Row(
                     children: [
                       Container(
-                        width: size.width * 0.65,
+                        width: size.width * 0.63,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -127,7 +127,7 @@ Widget buildYarnRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 13,
+                              height: 8,
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,84 +161,91 @@ Widget buildYarnRenewedAgainWidget(
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             TitleSmallBoldTextWidget(
                               title: Utils.setDetailsData(specification),
                               /*title:'Weaving,Ring Frame,Carded,Regular',*/
                               color: Colors.black87,
-                              size: 11,
+                              size: 12,
                               weight: FontWeight.w500,
                             ),
                             const SizedBox(
                               height: 8,
                             ),
-                            Container(
-                              width: size.width * 0.55,
-                              child: specification.yarnFamilyId != "4"
-                                  ? Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: BgLightBlueNormalTextWidget(
-                                            title:
-                                                'AC ${specification.actualYarnCount ?? ""}',
+                            Visibility(
+                              visible: specification.is_offering == offering_type,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: size.width * 0.55,
+                                    child: specification.yarnFamilyId != "4"
+                                        ? Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Expanded(
+                                                child: BgLightBlueNormalTextWidget(
+                                                  title:
+                                                      'AC ${specification.actualYarnCount ?? ""}',
+                                                ),
+                                                flex: 1,
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Expanded(
+                                                child: BgLightBlueNormalTextWidget(
+                                                  title:
+                                                      'CLSP ${specification.clsp ?? ""}',
+                                                ),
+                                                flex: 1,
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Expanded(
+                                                child: BgLightBlueNormalTextWidget(
+                                                  title:
+                                                      'IPI ${specification.ys_ipm_km ?? ""}',
+                                                ),
+                                                flex: 1,
+                                              ),
+                                            ],
+                                          )
+                                        : Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Expanded(
+                                                child: BgLightBlueNormalTextWidget(
+                                                  title: specification.yarnQuality ?? "",
+                                                ),
+                                                flex: 1,
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Expanded(
+                                                child: BgLightBlueNormalTextWidget(
+                                                  title:
+                                                      specification.yarnGrade ?? "",
+                                                ),
+                                                flex: 1,
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Expanded(
+                                                flex: 1,
+                                                child: Visibility(
+                                                  visible: specification.doublingMethod!=null,
+                                                  maintainSize: true,
+                                                  maintainAnimation: true,
+                                                  maintainState: true,
+                                                  child: BgLightBlueNormalTextWidget(
+                                                    title:
+                                                        specification.doublingMethod ?? "",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          flex: 1,
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Expanded(
-                                          child: BgLightBlueNormalTextWidget(
-                                            title:
-                                                'CLSP ${specification.clsp ?? ""}',
-                                          ),
-                                          flex: 1,
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Expanded(
-                                          child: BgLightBlueNormalTextWidget(
-                                            title:
-                                                'IPI ${specification.ys_ipm_km ?? ""}',
-                                          ),
-                                          flex: 1,
-                                        ),
-                                      ],
-                                    )
-                                  : Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: BgLightBlueNormalTextWidget(
-                                            title: specification.yarnQuality ?? "",
-                                          ),
-                                          flex: 1,
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Expanded(
-                                          child: BgLightBlueNormalTextWidget(
-                                            title:
-                                                specification.yarnGrade ?? "",
-                                          ),
-                                          flex: 1,
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Visibility(
-                                            visible: specification.doublingMethod!=null,
-                                            maintainSize: true,
-                                            maintainAnimation: true,
-                                            maintainState: true,
-                                            child: BgLightBlueNormalTextWidget(
-                                              title:
-                                                  specification.doublingMethod ?? "",
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  ),
+                                  SizedBox(height: 8.w),
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 13.w),
                             Visibility(
                               visible:
                                   specification.is_offering == offering_type,
@@ -474,15 +481,17 @@ Widget buildYarnRenewedAgainWidget(
                                 Visibility(
                                   visible: specification.is_offering ==
                                       offering_type,
-                                  child: Text.rich(TextSpan(children: [
+                                  child: RichText(
+                                      overflow: TextOverflow.ellipsis,
+                                      text:TextSpan(children: [
                                     TextSpan(
                                       text:
                                           '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12.sp,
+                                          fontSize: 11.sp,
                                           // /*fontFamily: 'Metropolis',*/,
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     TextSpan(
                                       text: specification.priceUnit
@@ -500,9 +509,9 @@ Widget buildYarnRenewedAgainWidget(
                                           "/${specification.unitCount ?? Utils.checkNullString(false)}",
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 12.sp,
+                                          fontSize: 11.sp,
                                           // /*fontFamily: 'Metropolis',*/,
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ])),
                                 ),
@@ -588,7 +597,7 @@ Widget buildYarnRenewedAgainWidget(
                               ),
                             ),
                             const SizedBox(
-                              height: 7,
+                              height: 10,
                             ),
                             FutureBuilder<String>(
                               future: Utils.getUserId(),
@@ -606,7 +615,9 @@ Widget buildYarnRenewedAgainWidget(
                                               if (snapshot.data ==
                                                   specification.ys_user_id) {
                                                 Utils.updateDialog(context,
-                                                    specification, null, null);
+                                                    specification, null, null,(updateSpecification){
+
+                                                    });
                                               } else {
                                                 openDetailsScreen(context,
                                                     specObj:
@@ -624,7 +635,7 @@ Widget buildYarnRenewedAgainWidget(
                                                       ? 'Send Proposal'
                                                       : "Update",
                                                   size: 10.sp,
-                                                  padding: 5,
+                                                  padding: 10,
                                                 ),
                                               ),
                                             ))),

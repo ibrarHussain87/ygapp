@@ -28,8 +28,10 @@ class _DetailPageState extends State<DetailRenewedPage> {
     super.initState();
 
     _detailPageProvider.addListener(() {
-      if(mounted){setState(() {});
-    }});
+      if (mounted) {
+        setState(() {});
+      }
+    });
 
     _detailPageProvider.checkSpecObject(widget.specObj,
         widget.sendProposal ?? false, widget.isFromBid ?? false);

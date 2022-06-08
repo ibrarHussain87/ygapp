@@ -263,13 +263,15 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                   context,
                                   _detailPageProvider.yarnSpecification,
                                   null,
-                                  null)
+                                  null,
+                                  (updateSpecification) {})
                               : _detailPageProvider.isFiber
                                   ? Utils.updateDialog(
                                       context,
                                       null,
                                       _detailPageProvider.fiberSpecification,
-                                      null)
+                                      null,
+                                      (updateSpecification) {})
                                   : _detailPageProvider.isStockLot
                                       ? Fluttertoast.showToast(
                                           msg: 'Delete coming soon')
@@ -278,7 +280,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           null,
                                           null,
                                           _detailPageProvider
-                                              .fabricSpecification);
+                                              .fabricSpecification,
+                                          (updateSpecification) {});
                         },
                         color: _detailPageProvider.isStockLot
                             ? Colors.red.shade400
@@ -1043,29 +1046,25 @@ class _DetailTabPageState extends State<DetailTabPage> {
     return formationTileModel;
   }
 
-  void openBottomSheet() async{
+  void openBottomSheet() async {
     var userId = await _detailPageProvider.getUserId();
-      if (_detailPageProvider.isFiber) {
-        userId != _detailPageProvider.fiberSpecification!.spc_user_id
-            ? _detailPageProvider.showBidContainer = true
-            : _detailPageProvider.showBidContainer = false;
-
-      } else if (_detailPageProvider.isYarn) {
-        userId != _detailPageProvider.yarnSpecification!.ys_user_id
-            ? _detailPageProvider.showBidContainer = true
-            : _detailPageProvider.showBidContainer = false;
-
-      } else if (_detailPageProvider.isFabric) {
-        userId != _detailPageProvider.fabricSpecification!.fsUserId
-            ? _detailPageProvider.showBidContainer = true
-            : _detailPageProvider.showBidContainer = false;
-
-      } else {
-        userId != _detailPageProvider.stockLotSpecification!.userId
-            ? _detailPageProvider.showBidContainer = true
-            : _detailPageProvider.showBidContainer = false;
-
-      }
+    if (_detailPageProvider.isFiber) {
+      userId != _detailPageProvider.fiberSpecification!.spc_user_id
+          ? _detailPageProvider.showBidContainer = true
+          : _detailPageProvider.showBidContainer = false;
+    } else if (_detailPageProvider.isYarn) {
+      userId != _detailPageProvider.yarnSpecification!.ys_user_id
+          ? _detailPageProvider.showBidContainer = true
+          : _detailPageProvider.showBidContainer = false;
+    } else if (_detailPageProvider.isFabric) {
+      userId != _detailPageProvider.fabricSpecification!.fsUserId
+          ? _detailPageProvider.showBidContainer = true
+          : _detailPageProvider.showBidContainer = false;
+    } else {
+      userId != _detailPageProvider.stockLotSpecification!.userId
+          ? _detailPageProvider.showBidContainer = true
+          : _detailPageProvider.showBidContainer = false;
+    }
     _detailPageProvider.notifyUI();
 
     if (widget.sendProposal ?? false) {

@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yg_app/elements/bottom_sheets/phone_bottom_sheet.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/detail_tile_model.dart';
 import 'package:yg_app/model/enum_phone.dart';
-import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 
 Widget listDetailItemWidget(
     BuildContext context, DetailTileModel detailSpecification) {

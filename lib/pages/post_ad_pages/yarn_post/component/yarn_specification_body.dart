@@ -56,6 +56,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final _yarnPostProvider = locator<PostYarnProvider>();
   final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
   final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
+  String? tempPatternShow, tempQualityShow;
 
   _changeColor(Color color) {
     pickerColor = color;
@@ -158,7 +159,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    } /*else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
+    }
+    /*else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
       return Row(
         children: [
           Expanded(
@@ -204,7 +206,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    }*/ else {
+    }*/
+    else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
@@ -371,7 +374,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           Ui.showHide(_yarnPostProvider.yarnSetting!.showPly)) {
         Ui.showSnackBar(context, 'Please Select Ply');
         return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_doubling_method_idFk ==
+      } else if (_yarnPostProvider
+                  .createRequestModel!.ys_doubling_method_idFk ==
               null &&
           _showDoublingMethod &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showDoublingMethod)) {
@@ -386,11 +390,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           Ui.showHide(_yarnPostProvider.yarnSetting!.showCount)) {
         Ui.showSnackBar(context, 'Please Select Count');
         return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_dty_filament == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_dty_filament ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showDannier)) {
         Ui.showSnackBar(context, 'Please Select Dannier');
         return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_fdy_filament == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_fdy_filament ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showFilament)) {
         Ui.showSnackBar(context, 'Please Select Filament');
         return false;
@@ -399,11 +405,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           Ui.showHide(_yarnPostProvider.yarnSetting!.showSpunTechnique)) {
         Ui.showSnackBar(context, 'Please Select Spun Technique');
         return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_quality_idfk == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_quality_idfk ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showQuality)) {
         Ui.showSnackBar(context, 'Please Select Quality');
         return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_pattern_idfk == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_pattern_idfk ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showPattern)) {
         Ui.showSnackBar(context, 'Please Select Pattern');
         return false;
@@ -476,8 +484,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   final List<int> _plyIdList = [1, 5, 9, 13];
   final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
-  final List<int> _patternTLPIdList = [1,2,3,4, 9, 12, 14];
-  final List<int> _patternGRIdList = [20,10,16];
+  final List<int> _patternTLPIdList = [1, 2, 3, 4, 9, 12, 14];
+  final List<int> _patternGRIdList = [20, 10, 16];
 
   //Show Hide on dependency
   bool _showDyingMethod = false;
@@ -496,7 +504,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     super.initState();
     _yarnPostProvider.familyDisabled = false;
     _yarnPostProvider.addListener(() {
-      setState(() {});
+      if(mounted)setState(() {});
     });
   }
 
@@ -688,8 +696,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.yarnTypesList!,
                       callback: (YarnTypes value) {
-                        _yarnPostProvider.createRequestModel!.ys_yarn_type_idfk =
-                            value.ytId.toString();
+                        _yarnPostProvider.createRequestModel!
+                            .ys_yarn_type_idfk = value.ytId.toString();
                       },
                     ),
                   ],
@@ -720,11 +728,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       return Stack(
                         children: [
                           TextFormField(
-                              key: Key(
-                                  getPlyList(_yarnPostProvider.createRequestModel!)
-                                      .toString()),
+                              key: Key(getPlyList(
+                                      _yarnPostProvider.createRequestModel!)
+                                  .toString()),
                               initialValue: getPlyList(
-                                  _yarnPostProvider.createRequestModel!) ??
+                                      _yarnPostProvider.createRequestModel!) ??
                                   '',
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.number,
@@ -743,7 +751,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.keyboard_arrow_down_outlined,
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
                                 size: 24,
                                 color: Colors.grey,
                               ),
@@ -883,8 +892,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 )),
 
-
-
             //Show Quality
             Visibility(
               visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showQuality),
@@ -914,7 +921,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
             //Show Appearance
             Visibility(
               visible:
-              Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance),
+                  Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance),
               child: Padding(
                 padding: EdgeInsets.only(top: 8.w),
                 child: Column(
@@ -922,17 +929,17 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   children: [
                     Padding(
                         padding:
-                        const EdgeInsets.only(left: 0, top: 4, bottom: 4),
+                            const EdgeInsets.only(left: 0, top: 4, bottom: 4),
                         child:
-                        TitleSmallBoldTextWidget(title: apperance + '*')),
+                            TitleSmallBoldTextWidget(title: apperance + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
                       key: _appearanceKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.appearanceList!,
                       callback: (YarnAppearance value) {
-                        _yarnPostProvider.createRequestModel!.ys_apperance_idfk =
-                            value.yaId.toString();
+                        _yarnPostProvider.createRequestModel!
+                            .ys_apperance_idfk = value.yaId.toString();
 
                         if (value.yaId == 3) {
                           _showDyingMethod = true;
@@ -943,7 +950,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           _yarnPostProvider
                               .createRequestModel!.ys_dying_method_idfk = null;
                           _yarnPostProvider.createRequestModel!.ys_color_code =
-                          null;
+                              null;
                         }
                         _yarnPostProvider.notifyUI();
                       },
@@ -1231,8 +1238,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.yarnTypesList!,
                       callback: (YarnTypes value) {
-                        _yarnPostProvider.createRequestModel!.ys_yarn_type_idfk =
-                            value.ytId.toString();
+                        _yarnPostProvider.createRequestModel!
+                            .ys_yarn_type_idfk = value.ytId.toString();
                       },
                     ),
                   ],
@@ -1344,8 +1351,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.appearanceList!,
                       callback: (YarnAppearance value) {
-                        _yarnPostProvider.createRequestModel!.ys_apperance_idfk =
-                            value.yaId.toString();
+                        _yarnPostProvider.createRequestModel!
+                            .ys_apperance_idfk = value.yaId.toString();
 
                         if (value.yaId == 3) {
                           _showDyingMethod = true;
@@ -1376,8 +1383,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   onTap: () {
                     yarnSpecsSheet(context, _yarnPostProvider.yarnSetting,
                         _yarnPostProvider.createRequestModel!, () {
-                          _notifierPlySheet.value = !_notifierPlySheet.value;
-                        },
+                      _notifierPlySheet.value = !_notifierPlySheet.value;
+                    },
                         selectedFamilyId,
                         _yarnPostProvider.plyList!,
                         _yarnPostProvider.orientationList!,
@@ -1390,11 +1397,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       return Stack(
                         children: [
                           TextFormField(
-                              key: Key(
-                                  getPlyList(_yarnPostProvider.createRequestModel!)
-                                      .toString()),
+                              key: Key(getPlyList(
+                                      _yarnPostProvider.createRequestModel!)
+                                  .toString()),
                               initialValue: getPlyList(
-                                  _yarnPostProvider.createRequestModel!) ??
+                                      _yarnPostProvider.createRequestModel!) ??
                                   '',
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.number,
@@ -1413,7 +1420,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.keyboard_arrow_down_outlined,
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
                                 size: 24,
                                 color: Colors.grey,
                               ),
@@ -1560,7 +1568,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         label: ratio,
                         errorText: ratio,
                         onSaved: (input) {
-                          _yarnPostProvider.createRequestModel!.ys_ratio = input;
+                          _yarnPostProvider.createRequestModel!.ys_ratio =
+                              input;
                         })
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1763,9 +1772,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     // check if ply reset
     var newPlyList = _yarnPostProvider.plyList!
         .where((element) =>
-    element.plyId.toString() == createRequestModel.ys_ply_idfk)
+            element.plyId.toString() == createRequestModel.ys_ply_idfk)
         .toList();
-    if(newPlyList.isNotEmpty){
+    if (newPlyList.isNotEmpty) {
       List<String?> list = [];
       Utils.addProperty(createRequestModel.ys_count, list);
       Utils.addProperty(createRequestModel.ys_dty_filament, list);
@@ -1773,28 +1782,30 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       if (_yarnPostProvider.createRequestModel!.ys_ply_idfk != null) {
         var localPlyList = _yarnPostProvider.plyList!
             .where((element) =>
-        element.plyId.toString() == createRequestModel.ys_ply_idfk)
+                element.plyId.toString() == createRequestModel.ys_ply_idfk)
             .toList();
-        if(localPlyList.isNotEmpty){
+        if (localPlyList.isNotEmpty) {
           list.add(localPlyList.first.plyName);
         }
       }
-      if (_yarnPostProvider.createRequestModel!.ys_doubling_method_idFk != null) {
+      if (_yarnPostProvider.createRequestModel!.ys_doubling_method_idFk !=
+          null) {
         var localDoublingMethodList = _yarnPostProvider.doublingMethodList!
             .where((element) =>
-        element.dmId.toString() ==
-            createRequestModel.ys_doubling_method_idFk)
+                element.dmId.toString() ==
+                createRequestModel.ys_doubling_method_idFk)
             .toList();
-        if(localDoublingMethodList.isNotEmpty){
+        if (localDoublingMethodList.isNotEmpty) {
           list.add(localDoublingMethodList.first.dmName);
         }
       }
       if (_yarnPostProvider.createRequestModel!.ys_orientation_idfk != null) {
         var localOrientationList = _yarnPostProvider.orientationList!
             .where((element) =>
-        element.yoId.toString() == createRequestModel.ys_orientation_idfk)
+                element.yoId.toString() ==
+                createRequestModel.ys_orientation_idfk)
             .toList();
-        if(localOrientationList.isNotEmpty){
+        if (localOrientationList.isNotEmpty) {
           list.add(localOrientationList.first.yoName);
         }
       }
@@ -1815,9 +1826,32 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     if (_yarnPostProvider.qualityList!.isEmpty) {
       await _yarnPostProvider.getQuality();
     }
+
+    if (_yarnPostProvider.qualityList!.length == 1) {
+      tempQualityShow = _yarnPostProvider.yarnSetting!.showQuality;
+      _yarnPostProvider.yarnSetting!.showQuality = "0";
+      _yarnPostProvider.createRequestModel!.ys_quality_idfk =
+          _yarnPostProvider.qualityList!.first.yqId.toString();
+    } else {
+      _yarnPostProvider.yarnSetting!.showQuality = tempQualityShow;
+      _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
+    }
     if (_yarnPostProvider.patternList!.isEmpty) {
       await _yarnPostProvider.getPatternList();
     }
+
+    if (_yarnPostProvider.patternList!.length == 1) {
+      tempPatternShow = _yarnPostProvider.yarnSetting!.showPattern;
+
+      _yarnPostProvider.yarnSetting!.showPattern = "0";
+      _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
+          _yarnPostProvider.patternList!.first.ypId.toString();
+    } else {
+      _yarnPostProvider.yarnSetting!.showPattern = tempPatternShow;
+      _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
+    }
+
+    _yarnPostProvider.notifyUI();
   }
 
   patternSelection(PatternModel value) async {
@@ -1829,7 +1863,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       _showPatternChar = true;
     } else {
       _showPatternChar = false;
-      _yarnPostProvider.createRequestModel!.ys_pattern_charectristic_idfk = null;
+      _yarnPostProvider.createRequestModel!.ys_pattern_charectristic_idfk =
+          null;
     }
     _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
         value.ypId.toString();

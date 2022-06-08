@@ -998,7 +998,7 @@ class Utils {
   }*/
 
   static void updateDialog(context, YarnSpecification? yarnSpecification,
-      Specification? specification, dynamic specObj) {
+      Specification? specification, dynamic specObj,Function callback) async{
     final TextEditingController controllerUpdatePrice = TextEditingController();
     final TextEditingController controllerAvailQ = TextEditingController();
     late List<DeliveryPeriod> deliveryPeriodList;
@@ -1041,28 +1041,31 @@ class Utils {
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     }
 
-    AppDbInstance().getDeliveryPeriod().then((value1) {
+    var dbInstance = await AppDbInstance().getDbInstance();
       if (specification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(int.parse(specification.categoryId??"1"));
         var period = specification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (yarnSpecification != null) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(yarnSpecification.category_id??2);
         var period = yarnSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       } else if (specObj is FabricSpecification) {
+        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(3);
         var fabricSpecification = specObj;
         var period = fabricSpecification.deliveryPeriod;
         deliveryPeriod =
-            value1.where((element) => element.dprName == period).first;
+            deliveryPeriodList.where((element) => element.dprName == period).first;
         updateFabricRequestModel.specification_delivery_period =
             deliveryPeriod.dprId.toString();
       }
-      deliveryPeriodList = value1;
+      // deliveryPeriodList = value1;
 
       showGeneralDialog(
         context: context,
@@ -1347,7 +1350,7 @@ class Utils {
                                       .toString());
                                   ProgressDialogUtil.showDialog(
                                       context, "Please wait..");
-                                  ApiService.updateFabricSpecification(
+                                  ApiService.updateSpecification(
                                       updateFabricRequestModel, "")
                                       .then((value) {
                                     ProgressDialogUtil.hideDialog();
@@ -1365,6 +1368,7 @@ class Utils {
                                           openMyAdsScreen(context);
                                         });
                                       } else {
+                                        callback(value.data);
                                         Navigator.pop(context);
                                         if (yarnSpecification != null) {
                                           final yarnSpecificationsProvider =
@@ -1427,7 +1431,6 @@ class Utils {
           );
         },
       );
-    });
   }
 
   static Future<String> getUserId() async {

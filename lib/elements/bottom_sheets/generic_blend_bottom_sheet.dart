@@ -222,7 +222,7 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
             child: SizedBox(
                 width: double.infinity,
                 child: Builder(builder: (BuildContext context1) {
-                  return ElevatedButton(
+                  return TextButton(
                       child: Text("Add",
                           style: TextStyle(
                               /*fontFamily: 'Metropolis',*/
@@ -381,7 +381,7 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
         child: SizedBox(
             width: double.infinity,
             child: Builder(builder: (BuildContext context1) {
-              return ElevatedButton(
+              return TextButton(
                   child: Text("Add",
                       style: TextStyle(
                           /*fontFamily: 'Metropolis',*/
@@ -515,7 +515,7 @@ Column getCustomBlends(int index, List<dynamic> blends, dynamic provider,
         child: SizedBox(
             width: double.infinity,
             child: Builder(builder: (BuildContext context1) {
-              return ElevatedButton(
+              return TextButton(
                   child: Text("Add",
                       style: TextStyle(
                           /*fontFamily: 'Metropolis',*/

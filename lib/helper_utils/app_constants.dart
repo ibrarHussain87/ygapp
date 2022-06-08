@@ -122,7 +122,7 @@ var tpi = 'TPI';
 
 var tm = 'TM';
 var offering = 'Offering';
-var requirement = 'Requiremnet';
+var requirement = 'Requirement';
 
 //
 var personal = 'Personal Info';

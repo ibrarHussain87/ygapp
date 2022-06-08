@@ -12,6 +12,8 @@ import 'package:yg_app/helper_utils/util.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 
+import '../../helper_utils/app_constants.dart';
+
 class StockLotListItem extends StatefulWidget {
   final StockLotSpecification specification;
   final bool? showCount;
@@ -54,9 +56,9 @@ class _StockLotListItemState extends State<StockLotListItem> {
         "/${widget.specification.specDetails!.first.priceUnit!= null?widget.specification.specDetails!.first.priceUnit!.split(" ").first : ""}",
         style: TextStyle(
             color: Colors.black,
-            fontSize: 12.sp,
+            fontSize: 11.sp,
             // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w500),
+            fontWeight: FontWeight.w600),
       ),
     ] : [
       TextSpan(
@@ -72,9 +74,9 @@ class _StockLotListItemState extends State<StockLotListItem> {
         "",
         style: TextStyle(
             color: Colors.black,
-            fontSize: 12.sp,
+            fontSize: 11.sp,
             // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w500),
+            fontWeight: FontWeight.w600),
       ),
     ];
 
@@ -92,9 +94,9 @@ class _StockLotListItemState extends State<StockLotListItem> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    double paddingStart = 10;
+    double paddingStart = 14;
     double paddingStartFeatured = 20;
-    double paddingTop = 15;
+    double paddingTop = 10;
     double paddingBottom = 10;
     double paddingEnd = 10;
     return Padding(
@@ -125,7 +127,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: size.width * 0.65,
+                        width: size.width * 0.63,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -198,7 +200,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                               ],
                             ),
                             const SizedBox(
-                              height: 13,
+                              height: 8,
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,13 +234,13 @@ class _StockLotListItemState extends State<StockLotListItem> {
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             TitleSmallBoldTextWidget(
                               title: Utils.stockLotSubCategoryTitle(
                                   widget.specification),
                               color: Colors.black87,
-                              size: 11,
+                              size: 12,
                               weight: FontWeight.w500,
                             ),
                             const SizedBox(
@@ -460,7 +462,9 @@ class _StockLotListItemState extends State<StockLotListItem> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text.rich(TextSpan(children: priceStockLotSpec,)),
+                              RichText(
+                                  overflow: TextOverflow.ellipsis,
+                                  text:TextSpan(children: priceStockLotSpec,)),
                               SizedBox(
                                 height: 1.h,
                               ),
@@ -503,38 +507,41 @@ class _StockLotListItemState extends State<StockLotListItem> {
                               const SizedBox(
                                 height: 7,
                               ),
-                              SizedBox(
-                                height: 20.h,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: 0,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        decoration: BoxDecoration(
+                              Visibility(
+                                visible: false,
+                                child: SizedBox(
+                                  height: 20.h,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemCount: 0,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  color: Colors.grey.shade500)),
+                                          child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(25),
-                                            border: Border.all(
-                                                color: Colors.grey.shade500)),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          child: Image.network(
-                                            /*specification
-                                                    .certifications![index]
-                                                    .certification!
-                                                    .icon ??*/
-                                            'images/ic_list.png',
-                                            height: 20.w,
-                                            width: 20.h,
+                                            child: Image.network(
+                                              /*specification
+                                                      .certifications![index]
+                                                      .certification!
+                                                      .icon ??*/
+                                              'images/ic_list.png',
+                                              height: 20.w,
+                                              width: 20.h,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
+                                        );
+                                      }),
+                                ),
                               ),
-                              const SizedBox(
-                                height: 7,
-                              ),
+                              /*const SizedBox(
+                                height: 10,
+                              ),*/
                               FutureBuilder<String>(
                                 future: Utils.getUserId(),
                                 builder: (context, snapshot) {
@@ -567,7 +574,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                       ? 'Send Proposal':
                                                       "Delete",
                                                   size: 10.sp,
-                                                  padding: 5,
+                                                  padding: 10,
                                                 ),
                                               ),
                                             )));

@@ -1,16 +1,10 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
-import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../../common_response_models/brands_response.dart';
-import '../../common_response_models/city_state_response.dart';
 import '../../common_response_models/companies_reponse.dart';
-import '../../common_response_models/countries_response.dart';
 import '../../common_response_models/delievery_period.dart';
-import '../../common_response_models/ports_response.dart';
 import '../../common_response_models/unit_of_count.dart';
 
 class FabricSyncResponse {
@@ -651,7 +645,7 @@ class FabricBlends {
     blnCategoryIdfk = json['bln_category_idfk'];
     familyIdfk = json['family_idfk'];
     blnName = json['bln_name'];
-    blnAbrv2 = json['bln_abrv2'];
+    blnAbrv2 = json['bln_abv2'];
     blnAbrv = json['bln_abrv'];
     minMax = json['min_max'];
     has_blend_id_1 = json['has_blend_id_1'];
@@ -673,7 +667,7 @@ class FabricBlends {
     data['bln_category_idfk'] = blnCategoryIdfk;
     data['family_idfk'] = familyIdfk;
     data['bln_name'] = blnName;
-    data['bln_abrv2'] = blnAbrv2;
+    data['bln_abv2'] = blnAbrv2;
     data['bln_abrv'] = blnAbrv;
     data['min_max'] = minMax;
     data['has_blend_id_1'] = has_blend_id_1;

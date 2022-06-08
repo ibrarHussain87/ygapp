@@ -649,7 +649,7 @@ class ApiService {
     // }
   }
 
-  static Future<FabricUpdateResponse> updateFabricSpecification(
+  static Future<SpecificationUpdateResponse> updateSpecification(
       UpdateFabricRequestModel updateFabricRequestModel,
       String imagePath) async {
     //for multipart Request
@@ -672,7 +672,7 @@ class ApiService {
       var responsed = await http.Response.fromStream(response);
       logger.e(json.decode(responsed.body));
 
-      return FabricUpdateResponse.fromJson(json.decode(responsed.body));
+      return SpecificationUpdateResponse.fromJson(json.decode(responsed.body));
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (no_internet_available_msg);

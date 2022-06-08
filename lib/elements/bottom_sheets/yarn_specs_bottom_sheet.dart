@@ -302,7 +302,7 @@ yarnSpecsSheet(BuildContext context,YarnSetting? _yarnSetting,
                       SizedBox(
                           width: double.infinity,
                           child: Builder(builder: (BuildContext context1) {
-                            return ElevatedButton(
+                            return TextButton(
                                 child: Text("Done",
                                     style: TextStyle(
                                       /*fontFamily: 'Metropolis',*/ fontSize: 14.sp)),
