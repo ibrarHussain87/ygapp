@@ -39,7 +39,6 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
   GlobalKey<FormState> brandsKey = GlobalKey<FormState>();
 
   late BrandsRequestModel _updateBrandsRequestModel;
-  List<UserBrands> _tags=[];
   List<Brands> brandsList = [];
    var brandController=TextEditingController();
   final _typeAheadController=TextEditingController();
@@ -56,11 +55,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
           brandsList = value;
         });
       }),
-    value.userBrandsDao.findAllUserBrands().then((value) {
-        setState(() {
-          _tags = value;
-        });
-      }),
+
 
     });
 
@@ -92,7 +87,7 @@ updateUI() {
               child: SingleChildScrollView(
                 child: Center(
                   child: Builder(builder: (BuildContext context2) {
-                    return buildBrands(context2);
+                    return (!_brandsProvider.loading) ? buildBrands(context2) : Container();
                   }),
                 ),
               ),
@@ -129,9 +124,12 @@ updateUI() {
                             'Enter Brand', "Brand",true),
                       ),
                       suggestionsCallback: (pattern) {
-                        return brandsList.where(
-                                (Brands x) => x.brdName.toString().toLowerCase().contains(pattern)
-                        ).toList();
+                          return _brandsProvider.allBrandsList.where(
+                                  (Brands x) =>
+                                  x.brdName.toString().toLowerCase().contains(
+                                      pattern)
+                          ).toList();
+
                       },
                       itemBuilder: (context,suggestion) {
                         return ListTile(
@@ -162,7 +160,9 @@ updateUI() {
                         return null;
                       },
                       onSaved: (value) {
-                        print("Value"+value.toString());
+                        if (kDebugMode) {
+                          print("Value"+value.toString());
+                        }
                         _updateBrandsRequestModel.brdName = value;
 
                       }
@@ -233,14 +233,14 @@ updateUI() {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _brandsProvider.brandsList!=null
+              _brandsProvider.userBrandsList!=null
                   ? Column(children: [
                 Wrap(
                   alignment: WrapAlignment.start,
-                  children:   _brandsProvider.brandsList
-                      !.map((UserBrands tagModel) => tagChip(
-                    tagModel: tagModel,
-                    onTap: () => _removeTag(tagModel),
+                  children:   _brandsProvider.userBrandsList
+                      .map((UserBrands brands) => tagChip(
+                    tagModel: brands,
+                    onTap: () => _removeTag(brands),
                     action: 'Remove',
                   ))
                       .toSet()
@@ -259,15 +259,7 @@ updateUI() {
 
 
 
-//  _addTags(tagModel) async {
-//    if (!_tags.contains(tagModel)) {
-//      setState(() {
-//        if(brandController.text!=null){
-//        brandController.clear();}
-//        _tags.add(tagModel);
-//      });
-//    }
-//  }
+
 
 
   _addTags(BrandsRequestModel _brandsModel) async {
@@ -278,9 +270,9 @@ updateUI() {
 
 
   _removeTag(tagModel) async {
-    if (_tags.contains(tagModel)) {
+    if (_brandsProvider.userBrandsList.contains(tagModel)) {
       setState(() {
-        _tags.remove(tagModel);
+        _brandsProvider.userBrandsList.remove(tagModel);
       });
     }
   }

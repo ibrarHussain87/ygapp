@@ -10,16 +10,31 @@ import '../../../model/response/family_data.dart';
 
 class UserBrandsProvider extends ChangeNotifier{
 
-  List<UserBrands>? brandsList = [];
+  List<UserBrands> userBrandsList = [];
+  List<Brands> allBrandsList = [];
   bool loading = false;
 
   getUserBrandsData() async{
     loading = true;
-    brandsList!.clear();
+    notifyListeners();
+    userBrandsList.clear();
+    allBrandsList.clear();
     var dbInstance = await AppDbInstance().getDbInstance();
-    brandsList = await dbInstance.userBrandsDao.findAllUserBrands();
+    userBrandsList = await dbInstance.userBrandsDao.findAllUserBrands();
+    allBrandsList = await dbInstance.brandsDao.findAllBrands();
+    _removeSelectedBrands(userBrandsList);
     loading = false;
     notifyListeners();
+  }
+
+  _removeSelectedBrands(List<UserBrands> tagModel)  {
+    if (tagModel!=null && tagModel.isNotEmpty) {
+
+      for(int i=0;i<tagModel.length;i++) {
+        allBrandsList.removeWhere((item) => item.brdName.toString() == tagModel[i].brdName.toString());
+      }
+
+    }
   }
 
 }

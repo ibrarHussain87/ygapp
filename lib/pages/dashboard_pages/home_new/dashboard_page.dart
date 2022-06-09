@@ -15,6 +15,7 @@ import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.da
 
 import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/navigation_utils.dart';
+import '../../../helper_utils/util.dart';
 
 
 class DashboardPage extends StatefulWidget {
@@ -84,7 +85,7 @@ class DashboardPageState extends State<DashboardPage> {
                               fontSize: 18.0.w,
                               fontFamily: 'Metropolis',
                               color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.w700)),
                     ),
 
                     Align(
@@ -131,8 +132,18 @@ class DashboardPageState extends State<DashboardPage> {
                         const SizedBox(height: 5,),
                         const HomeTrendsWidget(),
                         Container(
-                          padding: const EdgeInsets.only(left: 20,top: 3),
-                          child: const TitleTextWidget(title: "Services"),
+                          padding: const EdgeInsets.only(left: 17,top: 5,bottom:5),
+                          child: Text(
+                            "Services",
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.sp,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.w700),
+                          ),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -144,7 +155,6 @@ class DashboardPageState extends State<DashboardPage> {
 
                                 openYGServiceScreen(context);
                               }
-                            print("Value"+value.toString());
 
                           },),
                         ),

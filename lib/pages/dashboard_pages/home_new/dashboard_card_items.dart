@@ -42,7 +42,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: widget.spanCount! == 2 ? 4 : 6,
+          crossAxisSpacing: widget.spanCount! == 2 ? 10 : 6,
           mainAxisSpacing: 4,
         childAspectRatio: 1.2,
           crossAxisCount:  widget.spanCount!,
@@ -93,9 +93,9 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
               // FlutterLogo(),
               Image.asset(
                 widget.listOfItems[index].image.toString(),
-            scale: 1.8,
+            scale: 2,
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(height: 15,),
               Text(
                 widget.listOfItems[index].title.toString(),
                 overflow: TextOverflow.ellipsis,
@@ -103,8 +103,9 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
                 softWrap: false,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 12.sp,
+                    fontFamily: 'Metropolis',
+                    fontWeight: FontWeight.w600,
                     color: Colors.black87),
               )
             ],
