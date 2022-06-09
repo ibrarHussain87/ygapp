@@ -182,6 +182,7 @@ class ProfileInfoProvider extends ChangeNotifier {
     selectedCompany=null;
     updateBusinessRequestModel = UpdateBusinessRequestModel();
     updateProfileRequestModel = UpdateProfileRequestModel();
+    notifyUI();
   }
 
 }

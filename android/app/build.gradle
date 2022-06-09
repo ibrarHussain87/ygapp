@@ -55,8 +55,8 @@ android {
 
     signingConfigs {
         release {
-//           storeFile file('D:\\Flutter\\Projects\\yarn_guru\\yarnguruandroid\\yurn_guru.jks')
-            storeFile file('D:\\WorkSpace\\Flutter\\yarn\\yurn_guru.jks')
+           storeFile file('C:\\Flutter\\projects\\yarn_guru\\yarnguruandroid\\yurn_guru.jks')
+//            storeFile file('D:\\WorkSpace\\Flutter\\yarn\\yurn_guru.jks')
             //          storeFile file('E:\\yarnguruandroid\\yurn_guru.jks')
             storePassword 'thanks@123'
             keyAlias 'key0'

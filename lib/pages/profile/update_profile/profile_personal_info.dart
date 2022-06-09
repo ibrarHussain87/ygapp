@@ -49,13 +49,15 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
   void initState() {
 
     super.initState();
-    _updateProfileRequestModel = _profileInfoProvider.updateProfileRequestModel;
+
     _profileInfoProvider.addListener(() {
       updateUI();
     });
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _profileInfoProvider.resetData();
       _profileInfoProvider.getSyncedData();
+      _updateProfileRequestModel = _profileInfoProvider.updateProfileRequestModel;
+
 
     });
   }
@@ -176,11 +178,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         FocusScope.of(context)
                             .requestFocus(
                             FocusNode()),
-                        setState(() {
-
-                          _provinceKey.currentState?.reset();
-                          _cityKey.currentState?.reset();
-                        }),
+                        _profileInfoProvider.selectedState=null,
+                        _profileInfoProvider.selectedCity=null,
                         _profileInfoProvider.setSelectedCountry(value),
                         _updateProfileRequestModel.countryId =
                             value.conId.toString()
@@ -197,7 +196,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
                           Text("Country",style: TextStyle(fontSize: 13,color:Colors.black)),
-                          /*Text("*", style: TextStyle(color: Colors.red)),*/
+                          Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
@@ -216,7 +215,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                       Expanded(
                           flex:8,
                           child: Text(
-                            _profileInfoProvider.selectedCountry?.conName ?? "Select Country",textAlign: TextAlign.start,style:  TextStyle(color:_profileInfoProvider.selectedCountry?.conName!=null ? textColorGrey : newColorGrey,fontSize: 13),)),
+                            _profileInfoProvider.selectedCountry?.conName ?? "Select Country",textAlign: TextAlign.start,style:  TextStyle(color:_profileInfoProvider.selectedCountry?.conName!=null ? Colors.black : newColorGrey,fontSize: 13),)),
                     ],
                   ),
                 ),
@@ -233,7 +232,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             children: [
               DropdownButtonFormField(
                 key:_provinceKey,
-                hint: const Text('Select State',style: TextStyle(fontSize: 13,color: Colors.black)),
+                hint:  Text('Select State',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 items: _profileInfoProvider.statesList
                     .where((element) =>
                 element
@@ -244,12 +243,10 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     .map((value) =>
                     DropdownMenuItem(
                       child: Text(
-                          value.stateName ??
-                              Utils.checkNullString(
-                                  false),
+                          value.stateName ?? "",
                           textAlign:
                           TextAlign
-                              .center,style: const TextStyle(fontSize: 13)),
+                              .center,style:  TextStyle(fontSize: 13.sp)),
                       value: value,
                     ))
                     .toList(),
@@ -259,8 +256,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   FocusScope.of(context)
                       .requestFocus(
                       FocusNode());
+                  _profileInfoProvider.selectedCity=null;
                   _profileInfoProvider.selectedState=value;
-
                   _updateProfileRequestModel.cityStateId =
                       value?.stateId.toString();
                 },
@@ -279,7 +276,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
             children: [
               DropdownButtonFormField(
                 key:_cityKey,
-                hint: const Text('Select City',style: TextStyle(fontSize: 13,color: Colors.black)),
+                hint: Text('Select City',style:TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey)),
                 items: _profileInfoProvider.citiesList
                     .where((element) =>
                 element.stateIdfk ==
@@ -289,9 +286,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     .map((value) =>
                     DropdownMenuItem(
                       child: Text(
-                          value.cityName ??  Utils.checkNullString(
-                              false),
-                          textAlign: TextAlign.center,style: const TextStyle(fontSize: 13)),
+                          value.cityName ??  "",
+                          textAlign: TextAlign.center,style:  TextStyle(fontSize: 13.sp)),
                       value: value,
                     ))
                     .toList(),
@@ -410,15 +406,15 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   validator: (input) {
-                    /*if (input == null ||
+                    if (input == null ||
                         input.isEmpty ||
                         !input.isValidEmail()) {
                       return "Please check your email";
-                    }*/
+                    }
                     return null;
                   },
                   decoration: textFieldProfile(
-                      '', "Email",false)),
+                      '', "Email",true)),
             ],
           ),
         ),

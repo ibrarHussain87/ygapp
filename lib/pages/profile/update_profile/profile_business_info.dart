@@ -53,13 +53,13 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
     super.initState();
 
-  _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
     _profileInfoProvider.addListener(() {
       updateUI();
     });
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _profileInfoProvider.getSyncedData();
+      _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
     });
   }
 
@@ -105,9 +105,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
   Column buildBusinessDataColumn(BusinessInfo? snapshot, BuildContext context2)
   {
 
-    print("User"+_profileInfoProvider.statesList.toString());
     _companyTypeAheadController.text=snapshot?.name.toString() ?? '';
-//    var userNotifier = context2.watch<UserNotifier>();
 
     return Column(
       children: [
@@ -121,20 +119,21 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
               TextFormField(
                 // For changing initial value
 //                  key: Key(userNotifier.getUser().businessInfo.ntn_number.toString()),
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
 //                  controller: ntnController,
                   initialValue:  snapshot?.ntn_number ?? '',
                   onSaved: (input) =>
                   _updateBusinessRequestModel.ntn_number = input! /*'44'*/,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter ntn number";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter ntn number";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter NTN No.', "GST (NTN Number)",true)),
+                      '', "GST (NTN Number)",false)),
             ],
           ),
         ),
@@ -149,9 +148,10 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
               TypeAheadFormField(
 //                  initialValue: snapshot.data?.name ?? '',
                   textFieldConfiguration: TextFieldConfiguration(
+                    style: TextStyle(fontSize: 13.sp),
                     controller: _companyTypeAheadController,
                     decoration: textFieldProfile(
-                        'Enter Company Name', "Company Name",true),
+                        '', "Company Name",true),
                   ),
                   suggestionsCallback: (pattern) {
                     return _profileInfoProvider.companiesList.where(
@@ -160,7 +160,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   },
                   itemBuilder: (context,suggestion) {
                     return ListTile(
-                      title: Text(suggestion.toString()),
+                      title: Text(suggestion.toString(),style: TextStyle(fontSize: 13.sp),),
                     );
                   },
                   transitionBuilder: (context, suggestionsBox, controller) {
@@ -176,7 +176,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   errorBuilder:(BuildContext context, Object? error) =>
                       Text(
                           '$error',
-                          style: TextStyle(
+                          style: TextStyle(fontSize: 13.sp,
                               color: Theme.of(context).errorColor
                           )
                       ),
@@ -208,9 +208,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               DropdownButtonFormField<GenericCategories>(
-
                 decoration:textFieldProfile(
-                    'Select Business Area', "Business Area",true),
+                    'Select Business Area', "Business Area",false),
                 isDense: true,
                 isExpanded: true,
                 iconSize: 21,
@@ -225,12 +224,12 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 onChanged: (newValue) {
 //                  _signupRequestModel?.cityStateId=newValue?.catId.toString();
                 },
-                validator: (input) {
-                  if (input == null) {
-                    return "Please select business area";
-                  }
-                  return null;
-                },
+                // validator: (input) {
+                //   if (input == null) {
+                //     return "Please select business area";
+                //   }
+                //   return null;
+                // },
 
               ),
             ],
@@ -245,20 +244,21 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.trade_mark,
                   initialValue:snapshot?.trade_mark ?? '',
 //              controller: tradeController,
                   onSaved: (input) => _updateBusinessRequestModel.trade_mark = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter trade mark";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter trade mark";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter Trade Mark', "Trade Mark",true)),
+                      '', "Trade Mark",false)),
             ],
           ),
         ),
@@ -270,20 +270,21 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.employmentRole,
                   initialValue:snapshot?.employmentRole ?? '',
 //                  controller: roleController,
                   onSaved: (input) => _updateBusinessRequestModel.employment_role = input!,
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter employment role";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter employment role";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      'Enter Role', "Employment Role",true)),
+                      '', "Employment Role",false)),
             ],
           ),
         ),
@@ -296,9 +297,8 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
 
               DropdownButtonFormField<Designations?>(
-
                 decoration: textFieldProfile(
-                    'Select', "Designation",true) ,
+                    'Select', "Designation",false) ,
                 isDense: true,
                 hint:Text("Select Designation",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 isExpanded: true,
@@ -317,7 +317,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 },
 
 
-                validator: (value) => value == null ? 'Please select designation' : null,
+                // validator: (value) => value == null ? 'Please select designation' : null,
 
               ),
 
@@ -332,20 +332,21 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateBusinessRequestModel.address = input!,
 //                  initialValue:snapshot.data?.businessInfo?.address,
 //              controller: addressController,
                   initialValue:snapshot?.address ?? '',
-                  validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter address";
-                    }
-                    return null;
-                  },
+                  // validator: (input) {
+                  //   if (input == null || input.isEmpty) {
+                  //     return "Please enter address";
+                  //   }
+                  //   return null;
+                  // },
                   decoration: textFieldProfile(
-                      '', "Company Address",true)),
+                      '', "Company Address",false)),
             ],
           ),
         ),
@@ -369,13 +370,15 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       FocusNode()),
                           _profileInfoProvider.setSelectedCompanyCountry(value),
                           _updateBusinessRequestModel.countryId = value.conId.toString(),
-
+                      _profileInfoProvider.selectedCompanyState=null,
+                      _profileInfoProvider.selectedCompanyCity=null
                       },
                       ),
                     ),
                   );
                 },
                 child: InputDecorator(
+
                   decoration:InputDecoration(
                       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                       label: Row(
@@ -383,7 +386,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
                           Text("Company Country",style: TextStyle(color: Colors.black,fontSize: 13),),
-//                          Text("*", style: TextStyle(color: Colors.red)),
+                         Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
                       suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
@@ -404,7 +407,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       Expanded(
                           flex:8,
                           child: Text(
-                            _profileInfoProvider.selectedCompanyCountry?.conName  ?? "Select Country",textAlign: TextAlign.start,style: TextStyle(color:_profileInfoProvider.selectedCompanyCountry?.conName!=null ? textColorGrey : newColorGrey,fontSize: 13.sp))),
+                            _profileInfoProvider.selectedCompanyCountry?.conName  ?? "Select Country",textAlign: TextAlign.start,style: TextStyle(color:_profileInfoProvider.selectedCompanyCountry?.conName!=null ? Colors.black : newColorGrey,fontSize: 13.sp))),
 
                     ],
                   ),
@@ -427,7 +430,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
               DropdownButtonFormField(
                 key:_provinceKey,
-                hint:  Text('Select State',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
+                hint:  Text('Select  State',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 items:_profileInfoProvider.statesList
                     .where((element) =>
                 element
@@ -438,9 +441,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     .map((value) =>
                     DropdownMenuItem(
                       child: Text(
-                          value.stateName ??
-                              Utils.checkNullString(
-                                  false),
+                          value.stateName ?? "",
                           textAlign:
                           TextAlign
                               .center,style: TextStyle(fontSize: 13.sp),),
@@ -454,7 +455,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       .requestFocus(
                       FocusNode());
                   _profileInfoProvider.selectedCompanyState=value;
-//                  _profileInfoProvider.selectedCompanyCity=null;
+                 _profileInfoProvider.selectedCompanyCity=null;
                   _updateBusinessRequestModel.cityStateId =
                       value!.stateId.toString();
                 },
@@ -484,7 +485,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     .map((value) =>
                     DropdownMenuItem(
                       child: Text(
-                          value.cityName.toString(),
+                          value.cityName.toString() ?? "",
                           textAlign:
                           TextAlign
                               .center,style: TextStyle(fontSize: 13.sp)),
@@ -521,6 +522,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateBusinessRequestModel.postalCode = input!,
@@ -547,6 +549,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
 //                  initialValue:snapshot.data?.businessInfo?.website ?? '',

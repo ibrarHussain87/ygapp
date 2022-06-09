@@ -186,9 +186,9 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
-                  cursorColor: Colors.black,
                   style: TextStyle(fontSize: 13.sp),
+                  keyboardType: TextInputType.name,
+                  cursorColor: Colors.black,
                   textAlign: TextAlign.start,
                   cursorHeight: 16.w,
                   onSaved: (input) =>  _csRequestModel?.csName=input!,
@@ -211,7 +211,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  style: TextStyle(fontSize: 13.sp),
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) =>  _csRequestModel?.csPhone=input!,
                   validator: (input) {
@@ -233,7 +234,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
             children: [
 
               TextFormField(
-                  keyboardType: TextInputType.text,
+                  style: TextStyle(fontSize: 13.sp),
+                  keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
                   initialValue: '',
                   onSaved: (input) => _csRequestModel?.csEmail = input!,
@@ -257,9 +259,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
 
               DropdownButtonFormField<CustomerSupportTypes>(
-
-                decoration: dropDownProfile(
-                    'Choose Query Type', "Help") ,
+                decoration: textFieldProfile(
+                    'Choose Query Type', "Help",true) ,
                 isDense: true,
                 hint:Text("Choose Query Type",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
 //                hint:Text("How can i help you?",style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w400,color: Colors.black87),),
@@ -267,7 +268,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                 iconSize: 21,
                 items:supportList.map((location) {
                   return DropdownMenuItem<CustomerSupportTypes>(
-                    child: Text(location.cstypeName.toString()),
+                    child: Text(location.cstypeName.toString(),style: TextStyle(fontSize: 13.sp),),
                     value: location,
 
                   );
@@ -292,6 +293,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.multiline,
                   cursorColor: Colors.black,
                   maxLines: 5,
@@ -328,10 +330,10 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     },
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: Text(
                       'You can add a GDPR checkbox if you want',
-                      overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Colors.black87)
+                      overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w400,color: Colors.black87)
                     ),
                   )
                 ],

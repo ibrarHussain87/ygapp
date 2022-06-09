@@ -226,6 +226,7 @@ class YgServicePageState extends State<YgServicePage>
 
               TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
+                    style: TextStyle(fontSize: 13.sp),
                     controller: _companyTypeAheadController,
                     decoration: textFieldProfile(
                         'Enter Company Name', "Company Name",true),
@@ -252,6 +253,7 @@ class YgServicePageState extends State<YgServicePage>
                       Text(
                           '$error',
                           style: TextStyle(
+                            fontSize: 13.sp,
                               color: Theme.of(context).errorColor
                           )
                       ),
@@ -281,6 +283,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   controller: _nameController,
                   cursorColor: Colors.black,
@@ -307,6 +310,7 @@ class YgServicePageState extends State<YgServicePage>
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                 controller: _numberController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
@@ -334,6 +338,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                 controller: _addressController,
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
@@ -362,6 +367,7 @@ class YgServicePageState extends State<YgServicePage>
 
               TextFormField(
 //                  readOnly: true,
+                  style: TextStyle(fontSize: 13.sp),
               controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
@@ -390,6 +396,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.landMark = input!,
@@ -414,6 +421,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secName = input!,
@@ -437,6 +445,7 @@ class YgServicePageState extends State<YgServicePage>
             children: [
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secNumber = input!,
@@ -461,6 +470,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   maxLines: 5,
@@ -485,6 +495,7 @@ class YgServicePageState extends State<YgServicePage>
 
 
               TextFormField(
+                  style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   maxLines: 5,
@@ -539,68 +550,55 @@ class YgServicePageState extends State<YgServicePage>
                   );
                 },
                 child: SizedBox(
-                  height: 40.w,
-                  child:Container(
-                    // decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: newColorGrey,
-                    //       width:
-                    //       1, //                   <--- border width here
-                    //     ),
-                    //     borderRadius: BorderRadius.all(
-                    //         Radius.circular(5.w))),
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        label: Row(
-                          mainAxisSize:
-                          MainAxisSize.min,
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Date/Time',
-                              style: TextStyle(color: Colors.black,fontSize: 13),
-                            ),
-                            Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
-                                    /*fontFamily: 'Metropolis',*/
-                                    backgroundColor:
-                                    Colors.white,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500)),
-                          ],
-                        ),
-                        contentPadding: EdgeInsets.only(
-                            left: 10.w,
-                            right: 6.w,
-                            top: 0,
-                            bottom: 0),
-                        suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
-                        floatingLabelBehavior:FloatingLabelBehavior.always ,
-                        hintText:'Select Date/Time',
-                        border: OutlineInputBorder(
-                            borderRadius:const BorderRadius.all(
-                              Radius.circular(5.0),
-                            ),
-                            borderSide: BorderSide(color: newColorGrey)
-                        ),
-                        hintStyle: TextStyle(
-                            fontSize: 11.sp,
-                            color: textColorGrey),
-                      ),
-
-                      child: Row(
+                  height: 50.w,
+                  child:InputDecorator(
+                    decoration: InputDecoration(
+                      label: Row(
+                        mainAxisSize:
+                        MainAxisSize.min,
+                        mainAxisAlignment:
+                        MainAxisAlignment.start,
                         children: [
-
-                          Expanded(
-                              flex:8,
-                              child: Text(
-                                  dateTime ?? "Select Date/Time",textAlign: TextAlign.start,style:TextStyle(
-                                  fontSize: 13.sp,
-                                  color:dateTime!=null ? textColorGrey : newColorGrey))),
-
+                          const Text(
+                            'Date/Time',
+                            style: TextStyle(color: Colors.black,fontSize: 13),
+                          ),
+                          Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
+                                  /*fontFamily: 'Metropolis',*/
+                                  backgroundColor:
+                                  Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w500)),
                         ],
                       ),
+
+                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
+                      floatingLabelBehavior:FloatingLabelBehavior.always ,
+                      hintText:'Select Date/Time',
+                      border: OutlineInputBorder(
+                          borderRadius:const BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          borderSide: BorderSide(color: newColorGrey)
+                      ),
+                      hintStyle: TextStyle(
+                          fontSize: 13.sp,
+                          color: textColorGrey),
+                    ),
+
+                    child: Row(
+                      children: [
+
+                        Expanded(
+                            flex:8,
+                            child: Text(
+                                dateTime ?? "Select Date/Time",textAlign: TextAlign.start,style:TextStyle(
+                                fontSize: 13.sp,
+                                color:dateTime!=null ? Colors.black : newColorGrey))),
+
+                      ],
                     ),
                   ),
                 ),
@@ -610,7 +608,7 @@ class YgServicePageState extends State<YgServicePage>
         ),
         Padding(
           padding: EdgeInsets.only(
-              top: 8.w, bottom: 8.w),
+              top: 5.w, bottom: 6.w),
           child: Row(
             children: [
               Checkbox(
@@ -636,7 +634,7 @@ class YgServicePageState extends State<YgServicePage>
                         style: TextStyle(
                             fontFamily:
                             'Metropolis',
-                            fontSize: 12.sp,
+                            fontSize: 13.sp,
                             color:
                             textColorGrey)),
                     TextSpan(
@@ -645,7 +643,7 @@ class YgServicePageState extends State<YgServicePage>
                         style: TextStyle(
                             fontFamily:
                             'Metropolis',
-                            fontSize: 12.sp,
+                            fontSize: 13.sp,
                             color:
                             textColorGrey)),
                   ],

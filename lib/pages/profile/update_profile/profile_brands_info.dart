@@ -119,7 +119,7 @@ updateUI() {
                   child:  TypeAheadFormField(
                       textFieldConfiguration: TextFieldConfiguration(
                         controller: _typeAheadController,
-
+                        style: TextStyle(fontSize: 13.sp),
                         decoration: textFieldProfile(
                             'Enter Brand', "Brand",true),
                       ),
@@ -133,7 +133,7 @@ updateUI() {
                       },
                       itemBuilder: (context,suggestion) {
                         return ListTile(
-                          title: Text(suggestion.toString()),
+                          title: Text(suggestion.toString(),style: TextStyle(fontSize: 13.sp),),
                         );
                       },
                       transitionBuilder: (context, suggestionsBox, controller) {
@@ -149,7 +149,7 @@ updateUI() {
                       errorBuilder:(BuildContext context, Object? error) =>
                           Text(
                               '$error',
-                              style: TextStyle(
+                              style: TextStyle(fontSize: 13.sp,
                                   color: Theme.of(context).errorColor
                               )
                           ),
