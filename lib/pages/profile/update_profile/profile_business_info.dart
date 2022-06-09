@@ -60,6 +60,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _profileInfoProvider.getSyncedData();
       _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
+      _companyTypeAheadController.text=_profileInfoProvider.businessInfo?.name.toString() ?? '';
     });
   }
 
@@ -87,7 +88,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 child: SingleChildScrollView(
                   child: Center(
                     child: Builder(builder: (BuildContext context2) {
-                      return (!_profileInfoProvider.isLoading) ? buildBusinessDataColumn(_profileInfoProvider.user?.businessInfo, context2) : Container();
+                      return (!_profileInfoProvider.isLoading) ? buildBusinessDataColumn(_profileInfoProvider.businessInfo, context2) : Container();
                     }),
                   ),
                 ),
@@ -104,8 +105,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
   Column buildBusinessDataColumn(BusinessInfo? snapshot, BuildContext context2)
   {
-
-    _companyTypeAheadController.text=snapshot?.name.toString() ?? '';
 
     return Column(
       children: [
@@ -160,7 +159,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   },
                   itemBuilder: (context,suggestion) {
                     return ListTile(
-                      title: Text(suggestion.toString(),style: TextStyle(fontSize: 13.sp),),
+                      title: Text(suggestion.toString()),
                     );
                   },
                   transitionBuilder: (context, suggestionsBox, controller) {
@@ -171,6 +170,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     _companyTypeAheadController.text = suggestion.name.toString();
                     _updateBusinessRequestModel.company=suggestion.name.toString();
                     _updateBusinessRequestModel.name=suggestion.name.toString();
+                    _updateBusinessRequestModel.companyId=suggestion.id.toString();
 //                    _signupRequestModel!.otherCompany = "0";
                   },
                   errorBuilder:(BuildContext context, Object? error) =>

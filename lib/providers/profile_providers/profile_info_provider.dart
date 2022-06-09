@@ -15,6 +15,7 @@ class ProfileInfoProvider extends ChangeNotifier {
   UpdateBusinessRequestModel updateBusinessRequestModel = UpdateBusinessRequestModel();
   bool isLoading = true;
   User? user;
+  BusinessInfo? businessInfo;
   List<Countries> countriesList = [];
   List<States> statesList = [];
   List<Cities> citiesList = [];
@@ -40,7 +41,10 @@ class ProfileInfoProvider extends ChangeNotifier {
     var dbInstance = await AppDbInstance().getDbInstance();
     user = await dbInstance.userDao
         .getUser();
+    // businessInfo = await dbInstance.businessInfoDao
+    //     .getBusinessInfo();
 
+    print("User"+businessInfo.toString());
     countriesList = await dbInstance.countriesDao
         .findAllCountries();
     statesList = await dbInstance.statesDao
@@ -52,7 +56,7 @@ class ProfileInfoProvider extends ChangeNotifier {
     companiesList = await dbInstance.companiesDao
         .findAllCompanies();
     getPersonalInfoData();
-    getBusinessInfoData();
+    // getBusinessInfoData();
     isLoading=false;
     notifyUI();
   }
@@ -95,45 +99,47 @@ class ProfileInfoProvider extends ChangeNotifier {
   }
   getBusinessInfoData()
   async {
-    if(user?.businessInfo!=null)
+
+    if(businessInfo!=null)
     {
 
+
       var dbInstance = await AppDbInstance().getDbInstance();
-      if (user?.businessInfo!.countryId != null) {
+      if (businessInfo!.countryId != null) {
         updateBusinessRequestModel.countryId=
-            user?.businessInfo!.countryId.toString();
+            businessInfo!.countryId.toString();
         selectedCompanyCountry =await dbInstance.countriesDao
-            .findYarnCountryWithId(int.parse(user!.businessInfo!.countryId.toString()));
+            .findYarnCountryWithId(int.parse(businessInfo!.countryId.toString()));
       }
 
-      if (user?.businessInfo!.cityStateId != null) {
+      if (businessInfo!.cityStateId != null) {
         updateBusinessRequestModel.cityStateId=
-            user?.businessInfo!.cityStateId.toString();
+          businessInfo!.cityStateId.toString();
         selectedCompanyState =await dbInstance.statesDao
-            .findStatesWithId(int.parse(user!.cityStateId.toString()));
+            .findStatesWithId(int.parse(businessInfo!.cityStateId.toString()));
       }
 
-      if (user?.businessInfo!.city != null ) {
+      if (businessInfo!.city != null ) {
         updateBusinessRequestModel.city=
-            user?.businessInfo!.city.toString();
+            businessInfo!.city.toString();
         selectedCompanyCity = await dbInstance.citiesDao
-            .findCitiesWithId(int.parse(user!.businessInfo!.city.toString()));
+            .findCitiesWithId(int.parse(businessInfo!.city.toString()));
       }
 
-      if (user?.businessInfo!.designation_idfk != null ) {
+      if (businessInfo!.designation_idfk != null ) {
         updateBusinessRequestModel.designation_idfk=
-            user?.businessInfo!.designation_idfk.toString();
+            businessInfo!.designation_idfk.toString();
         selectedDesignation =await dbInstance.designationsDao
-            .findDesignationsWithId(int.parse(user!.businessInfo!.designation_idfk.toString()));
+            .findDesignationsWithId(int.parse(businessInfo!.designation_idfk.toString()));
       }
 
-      if (user?.businessInfo!.name != null) {
+      if (businessInfo!.name != null) {
         updateBusinessRequestModel.name=
-            user?.businessInfo!.name.toString();
+          businessInfo!.name.toString();
         updateBusinessRequestModel.company=
-            user?.businessInfo!.name.toString();
+           businessInfo!.name.toString();
         selectedCompany =await dbInstance.companiesDao
-            .findCompaniesWithId(int.parse(user!.businessInfo!.name.toString()));
+            .findCompaniesWithId(int.parse(businessInfo!.name.toString()));
       }
 
       notifyUI();
