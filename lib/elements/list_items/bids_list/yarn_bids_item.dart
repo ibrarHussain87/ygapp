@@ -534,8 +534,7 @@ class YarnBidsItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      specObj: bidData.specification
-                                          as YarnSpecification,
+                                      specObj: bidData.specification,
                                       isFromBid: true);
                                 },
                                 color: Colors.green,

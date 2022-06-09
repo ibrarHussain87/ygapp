@@ -211,6 +211,7 @@ class YarnSpecification {
   String? paymentType;
   String? lcType;
   String? deliveryPeriod;
+  String? fbp_no_of_days;
   String? available;
   String? priceTerms;
   String? minQuantity;
@@ -292,6 +293,7 @@ class YarnSpecification {
     paymentType = json['payment_type'];
     lcType = json['lc_type'];
     deliveryPeriod = json['delivery_period'];
+    fbp_no_of_days = json['fbp_no_of_days'];
     available = json['fbp_available_quantity'];
     priceTerms = json['price_terms'];
     minQuantity = json['min_quantity'];
@@ -370,6 +372,7 @@ class YarnSpecification {
     _data['weight_cone'] = weightCone;
     _data['weight_bag'] = weightBag;
     _data['cones_bag'] = conesBag;
+    _data['fbp_no_of_days'] = fbp_no_of_days;
     _data['is_offering'] = is_offering;
     _data['fpb_cone_type_name'] = fpb_cone_type_name;
     _data['payment_type'] = paymentType;

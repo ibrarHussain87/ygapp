@@ -708,7 +708,7 @@ class ApiService {
   }
 
   static Future<SpecificationUpdateResponse> updateSpecification(
-      UpdateFabricRequestModel updateFabricRequestModel,
+      UpdateRequestModel updateFabricRequestModel,
       String imagePath) async {
     //for multipart Request
     try {

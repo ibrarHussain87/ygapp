@@ -12,8 +12,10 @@ import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -42,7 +44,6 @@ import 'app_images.dart';
 import 'navigation_utils.dart';
 import 'package:yg_app/helper_utils/extensions.dart';
 
-
 class Utils {
   static double splitMin(String? minMax) {
     var splitValue = minMax!.split('-');
@@ -55,16 +56,16 @@ class Utils {
   }
 
   static String getPropertyIcon(int index) {
-    switch(index){
-        case 0:
+    switch (index) {
+      case 0:
         return IC_BAG_RENEWED;
-        case 1:
+      case 1:
         return IC_CONE_RENEWED;
-        case 2:
+      case 2:
         return IC_VAN_RENEWED;
-        case 3:
+      case 3:
         return IC_LOCATION_RENEWED;
-        default:
+      default:
         return IC_BAG_RENEWED;
     }
   }
@@ -75,11 +76,10 @@ class Utils {
     }
   }
 
-
   static bool setCottonVisibility(List<dynamic> list) {
     bool showCotton = false;
     list.forEach((element) {
-      if(element.blnName!.toLowerCase() == 'cotton'){
+      if (element.blnName!.toLowerCase() == 'cotton') {
         showCotton = true;
       }
     });
@@ -89,7 +89,7 @@ class Utils {
   static bool setPolyesterVisibility(List<dynamic> list) {
     bool showCotton = false;
     list.forEach((element) {
-      if(element.blnAbrv!.toLowerCase() == 'p'){
+      if (element.blnAbrv!.toLowerCase() == 'p') {
         showCotton = true;
       }
     });
@@ -139,24 +139,24 @@ class Utils {
     switch (specification.yarnFamilyId) {
       case '1':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+            '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '2':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':''}';
+            '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ? ' ${specification.formationDisplayText}' : ''}';
         break;
       case '3':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+            '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '4':
         familyData =
-        '${specification.ys_yarn_type ?? ""} ${specification.dtyFilament != null ? "${specification.dtyFilament}" : ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} /${specification.yarnPly ?? ''}';
+            '${specification.ys_yarn_type ?? ""} ${specification.dtyFilament != null ? "${specification.dtyFilament}" : ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""} /${specification.yarnPly ?? ''}';
         // '${specification.dtyFilament ?? ""}${specification.fdyFilament != null ? "/${specification.fdyFilament}" : ""}${specification.yarnPly != null ? " /${specification.yarnPly}" : ""} ${specification.yarnFamily ?? ''}';
         break;
       case '5':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
+            '${specification.count ?? Utils.checkNullString(false)}${specification.yarnPly != null ? "/${specification.yarnPly!.substring(0, 1)}" : ""} ${specification.yarnFamily ?? ''}';
         break;
     }
     /*if(familyData.isEmpty){
@@ -164,7 +164,6 @@ class Utils {
   }*/
     return familyData;
   }
-
 
   static String formatFormations(List<GenericFormation> yarnFormation) {
     String formationTileModel;
@@ -174,23 +173,23 @@ class Utils {
           formationTileModel = '';
         } else {
           formationTileModel =
-          "${yarnFormation.first.blendName != null? yarnFormation.first.blendName![0]:""} :${yarnFormation.first.formationRatio}";
+              "${yarnFormation.first.blendName != null ? yarnFormation.first.blendName![0] : ""} :${yarnFormation.first.formationRatio}";
         }
         break;
       case 2:
         formationTileModel =
-        '${yarnFormation.first.blendName != null? yarnFormation.first.blendName![0]:""} : ${yarnFormation.first.formationRatio ?? Utils.checkNullString(false)} '
-            '${yarnFormation[1].blendName != null? yarnFormation[1].blendName![0]:""} : ${yarnFormation[1].formationRatio ?? Utils.checkNullString(false)}';
+            '${yarnFormation.first.blendName != null ? yarnFormation.first.blendName![0] : ""} : ${yarnFormation.first.formationRatio ?? Utils.checkNullString(false)} '
+            '${yarnFormation[1].blendName != null ? yarnFormation[1].blendName![0] : ""} : ${yarnFormation[1].formationRatio ?? Utils.checkNullString(false)}';
         break;
       default:
         String? blendString = '';
         for (var element in yarnFormation) {
           if (blendString!.isEmpty) {
-            blendString =
-                blendString + '${element.blendName != null? element.blendName![0]:""}:${element.formationRatio ?? Utils.checkNullString(false)}';
+            blendString = blendString +
+                '${element.blendName != null ? element.blendName![0] : ""}:${element.formationRatio ?? Utils.checkNullString(false)}';
           } else {
-            blendString =
-                blendString + ':${element.blendName != null? element.blendName![0]:""}:${element.formationRatio ?? Utils.checkNullString(false)} ';
+            blendString = blendString +
+                ':${element.blendName != null ? element.blendName![0] : ""}:${element.formationRatio ?? Utils.checkNullString(false)} ';
           }
         }
         formationTileModel = blendString ?? Utils.checkNullString(false);
@@ -198,7 +197,6 @@ class Utils {
     }
     return formationTileModel;
   }
-
 
   static String setFabricFamilyData(FabricSpecification specification) {
     String familyData = "";
@@ -208,8 +206,8 @@ class Utils {
             '/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}';
         break;
       case '102':
-       familyData =
-        '${specification.fabricLoomName ?? Utils.checkNullString(false)} ${specification.warpCount ?? Utils.checkNullString(false)}/'
+        familyData =
+            '${specification.fabricLoomName ?? Utils.checkNullString(false)} ${specification.warpCount ?? Utils.checkNullString(false)}/'
             '${getPlyString(specification.fabricWarpPlyName ?? Utils.checkNullString(false))}'
             'x${specification.weftCount ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricWeftPlyName ?? Utils.checkNullString(false))}'
             'x${specification.noOfEndsWarp ?? Utils.checkNullString(false)}x${specification.noOfPickWeft ?? Utils.checkNullString(false)}';
@@ -217,11 +215,11 @@ class Utils {
         break;
       case '103':
         familyData =
-        '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, ${specification.once ?? Utils.checkNullString(false)}';
+            '${specification.count ?? Utils.checkNullString(false)}/${getPlyString(specification.fabricPly ?? Utils.checkNullString(false))}, ${specification.once ?? Utils.checkNullString(false)}';
         break;
       case '104':
         familyData =
-        '${specification.fabricLayyerName != null ? '${specification.fabricLayyerName} Layer' : Utils.checkNullString(false)}, ${specification.gsmCount != null ? '${specification.gsmCount} Grams' : Utils.checkNullString(false)}';
+            '${specification.fabricLayyerName != null ? '${specification.fabricLayyerName} Layer' : Utils.checkNullString(false)}, ${specification.gsmCount != null ? '${specification.gsmCount} Grams' : Utils.checkNullString(false)}';
         break;
     }
     return familyData;
@@ -242,18 +240,19 @@ class Utils {
     switch (specification.fabricFamilyId) {
       case '101':
         titleData =
-        '${specification.gsmCount ?? Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}';
+            '${specification.gsmCount ?? Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}';
         break;
       case '102':
         titleData =
-        '${specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false)}, ${specification.formationDisplayText}';
+            '${specification.width != null ? ' ${specification.width}″' : Utils.checkNullString(false)}, ${specification.formationDisplayText}';
         break;
       case '103':
         titleData =
-        ' ${specification.once != null ? '${specification.once} Oz' :Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}/*, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}*/';
+            ' ${specification.once != null ? '${specification.once} Oz' : Utils.checkNullString(false)}, ${specification.formationDisplayText ?? Utils.checkNullString(false)}/*, ${specification.fabricDenimTypeName ?? Utils.checkNullString(false)}*/';
         break;
       case '104':
-        titleData ='${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
+        titleData =
+            '${specification.width != null ? '${specification.width}″' : Utils.checkNullString(false)}, ${specification.color ?? Utils.checkNullString(false)}';
         break;
     }
     return titleData;
@@ -268,10 +267,10 @@ class Utils {
           specification.fabricKnittingTypeName,
           specification.fabricColorTreatmentMethod,
         ];
-        if(specification.fabricDyingTechnique != null){
+        if (specification.fabricDyingTechnique != null) {
           list.add(specification.fabricDyingTechnique);
         }
-        if(specification.color != null){
+        if (specification.color != null) {
           list.add(specification.color);
         }
         detailsData = Utils.createStringFromList(list);
@@ -303,10 +302,11 @@ class Utils {
     switch (specification.yarnFamilyId) {
       case '1':
         titleData =
-        '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
+            '${specification.yq_abrv ?? Utils.checkNullString(false)}${specification.yq_abrv != null ? ' for ' : ''}${specification.yarnUsage ?? Utils.checkNullString(false)}';
         break;
       case '2':
-        titleData = "";/*specification.yarnFamily ?? Utils.checkNullString(false);*/
+        titleData = "";
+        /*specification.yarnFamily ?? Utils.checkNullString(false);*/
         break;
       case '3':
         titleData =
@@ -314,10 +314,13 @@ class Utils {
         break;
       case '4':
         titleData =
-        "" /* specification.yarnType ?? Utils.checkNullString(false)*/;
+            "" /* specification.yarnType ?? Utils.checkNullString(false)*/;
         break;
       case '5':
-        titleData = specification.formationDisplayText != null && specification.formationDisplayText!.isNotEmpty ?' ${specification.formationDisplayText}':'';
+        titleData = specification.formationDisplayText != null &&
+                specification.formationDisplayText!.isNotEmpty
+            ? ' ${specification.formationDisplayText}'
+            : '';
         break;
     }
     /*if(titleData.isEmpty){
@@ -379,7 +382,7 @@ class Utils {
     String subtitle = "";
     switch (specification.nature_id) {
       case '18':
-      /*subtitle =
+        /*subtitle =
           '${specification.length ?? Utils.checkNullString(false)}'
               '${specification.length != null ? ',' : ''}'
               '${specification.micronaire != null ? '${specification.micronaire}' : Utils.checkNullString(true)}'
@@ -396,8 +399,8 @@ class Utils {
         subtitle = Utils.createStringFromList(list);
         break;
       case '17':
-      /*add color in specification at 2nd*/
-      /*subtitle =
+        /*add color in specification at 2nd*/
+        /*subtitle =
           '${specification.apperance != null ? '${specification.apperance}':Utils.checkNullString(false)}'
               '${specification.apperance != null ? ',' : ''}'
           '${specification.origin_fiber_spc != null ? '${specification.origin_fiber_spc}' : Utils.checkNullString(true)}';*/
@@ -418,7 +421,7 @@ class Utils {
     String title = "";
     switch (specification.nature_id) {
       case '18':
-      /*title =
+        /*title =
           '${specification.origin_fiber_spc ?? Utils.checkNullString(false)}'
               '${specification.origin_fiber_spc != null ? ',' : ''}'
               '${specification.productYear != null ? '${specification.productYear}' : Utils.checkNullString(true)}';*/
@@ -429,7 +432,7 @@ class Utils {
         title = Utils.createStringFromList(list);
         break;
       case '17':
-      /*title =
+        /*title =
           '${specification.brand ?? Utils.checkNullString(false)}'
               '${specification.brand != null ? ',' : ''}'
               '${specification.lotNumber != null ? '${specification.lotNumber}' : Utils.checkNullString(true)}';*/
@@ -582,10 +585,10 @@ class Utils {
                                 color: bidData.status == "0"
                                     ? Colors.brown.shade100.withOpacity(0.4)
                                     : bidData.status == "1"
-                                    ? Colors.green.shade100
-                                    : Colors.red.shade100,
+                                        ? Colors.green.shade100
+                                        : Colors.red.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(2))),
+                                    const BorderRadius.all(Radius.circular(2))),
                             child: Text(
                               showStatus(int.parse(bidData.status!)),
                               textAlign: TextAlign.center,
@@ -593,8 +596,8 @@ class Utils {
                                 color: bidData.status == "0"
                                     ? Colors.brown
                                     : bidData.status == "1"
-                                    ? Colors.green
-                                    : Colors.red,
+                                        ? Colors.green
+                                        : Colors.red,
                                 fontSize: 8.sp,
                                 /*fontFamily: 'Metropolis',*/
                                 fontWeight: FontWeight.bold,
@@ -1002,40 +1005,84 @@ class Utils {
   }*/
 
   static void updateDialog(context, YarnSpecification? yarnSpecification,
-      Specification? specification, dynamic specObj,Function callback) async{
+      Specification? specification, dynamic specObj, Function callback) async {
     final TextEditingController controllerUpdatePrice = TextEditingController();
     final TextEditingController controllerAvailQ = TextEditingController();
+    final TextEditingController controllerNoOfDays = TextEditingController();
     late List<DeliveryPeriod> deliveryPeriodList;
     late DeliveryPeriod deliveryPeriod;
     var isSwitched = true;
+    var noOfDays = false;
     var strActive = "Active";
     //  final CreateRequestModel createRequestModel = CreateRequestModel();
-    final UpdateFabricRequestModel updateFabricRequestModel =
-    UpdateFabricRequestModel();
+    final UpdateRequestModel updateFabricRequestModel = UpdateRequestModel();
+    showNoOfDays(DeliveryPeriod value) {
+      if (value.dprName == 'No Of Days') {
+        noOfDays = true;
+      } else {
+        noOfDays = false;
+        updateFabricRequestModel.fbp_no_of_days = null;
+      }
+    }
 
     if (specification != null) {
       controllerUpdatePrice.text =
           specification.priceUnit!.replaceAll(RegExp(r'[^0-9]'), '');
-      controllerAvailQ.text = specification.available != null && specification.available!.isNotEmpty ? specification.available! : "0";
+      controllerAvailQ.text =
+          specification.available != null && specification.available!.isNotEmpty
+              ? specification.available!
+              : "0";
+
+      controllerNoOfDays.text = specification.fbp_no_of_days != null &&
+              specification.fbp_no_of_days!.isNotEmpty
+          ? specification.fbp_no_of_days!
+          : "0";
+      updateFabricRequestModel.fbp_no_of_days = controllerNoOfDays.text;
+
       updateFabricRequestModel.category_id = 1.toString();
-      updateFabricRequestModel.specification_id = specification.spcId.toString();
-      updateFabricRequestModel.specification_rate = controllerUpdatePrice.text.toString();
+      updateFabricRequestModel.specification_id =
+          specification.spcId.toString();
+      updateFabricRequestModel.specification_rate =
+          controllerUpdatePrice.text.toString();
       updateFabricRequestModel.specification_quantity = controllerAvailQ.text;
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     } else if (yarnSpecification != null) {
       controllerUpdatePrice.text =
           yarnSpecification.priceUnit!.replaceAll(RegExp(r'[^0-9]'), '');
-      controllerAvailQ.text = yarnSpecification.available != null && yarnSpecification.available!.isNotEmpty ? yarnSpecification.available! : "0";
+      controllerAvailQ.text = yarnSpecification.available != null &&
+              yarnSpecification.available!.isNotEmpty
+          ? yarnSpecification.available!
+          : "0";
+
+      controllerNoOfDays.text = yarnSpecification.fbp_no_of_days != null &&
+              yarnSpecification.fbp_no_of_days!.isNotEmpty
+          ? yarnSpecification.fbp_no_of_days!
+          : "0";
+      updateFabricRequestModel.fbp_no_of_days = controllerNoOfDays.text;
+
       updateFabricRequestModel.category_id = 2.toString();
-      updateFabricRequestModel.specification_id = yarnSpecification.ysId.toString();
-      updateFabricRequestModel.specification_rate = controllerUpdatePrice.text.toString();
+      updateFabricRequestModel.specification_id =
+          yarnSpecification.ysId.toString();
+      updateFabricRequestModel.specification_rate =
+          controllerUpdatePrice.text.toString();
       updateFabricRequestModel.specification_quantity = controllerAvailQ.text;
       updateFabricRequestModel.specification_status = isSwitched ? "1" : "0";
     } else if (specObj is FabricSpecification) {
       var fabricSpecification = specObj;
       controllerUpdatePrice.text =
           fabricSpecification.priceUnit!.replaceAll(RegExp(r'[^0-9]'), '');
-      controllerAvailQ.text = fabricSpecification.available != null && fabricSpecification.available!.isNotEmpty ? fabricSpecification.available! : "0";
+      controllerAvailQ.text = fabricSpecification.available != null &&
+              fabricSpecification.available!.isNotEmpty
+          ? fabricSpecification.available!
+          : "0";
+
+      controllerNoOfDays.text = fabricSpecification.fbp_no_of_days != null &&
+              fabricSpecification.fbp_no_of_days!.isNotEmpty
+          ? fabricSpecification.fbp_no_of_days!
+          : "0";
+
+      updateFabricRequestModel.fbp_no_of_days = controllerNoOfDays.text;
+
       updateFabricRequestModel.category_id = 3.toString();
       updateFabricRequestModel.specification_id =
           fabricSpecification.fsId.toString();
@@ -1046,395 +1093,443 @@ class Utils {
     }
 
     var dbInstance = await AppDbInstance().getDbInstance();
-      if (specification != null) {
-        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(int.parse(specification.categoryId??"1"));
-        var period = specification.deliveryPeriod;
-        deliveryPeriod =
-            deliveryPeriodList.where((element) => element.dprName == period).first;
-        updateFabricRequestModel.specification_delivery_period =
-            deliveryPeriod.dprId.toString();
-      } else if (yarnSpecification != null) {
-        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(yarnSpecification.category_id??2);
-        var period = yarnSpecification.deliveryPeriod;
-        deliveryPeriod =
-            deliveryPeriodList.where((element) => element.dprName == period).first;
-        updateFabricRequestModel.specification_delivery_period =
-            deliveryPeriod.dprId.toString();
-      } else if (specObj is FabricSpecification) {
-        deliveryPeriodList =  await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(3);
-        var fabricSpecification = specObj;
-        var period = fabricSpecification.deliveryPeriod;
-        deliveryPeriod =
-            deliveryPeriodList.where((element) => element.dprName == period).first;
-        updateFabricRequestModel.specification_delivery_period =
-            deliveryPeriod.dprId.toString();
-      }
-      // deliveryPeriodList = value1;
+    if (specification != null) {
+      deliveryPeriodList = await dbInstance.deliveryPeriodDao
+          .findAllDeliveryPeriodWithCatId(
+              int.parse(specification.categoryId ?? "1"));
+      var period = specification.deliveryPeriod;
+      deliveryPeriod = deliveryPeriodList
+          .where((element) => element.dprName == period)
+          .first;
+      updateFabricRequestModel.specification_delivery_period =
+          deliveryPeriod.dprId.toString();
+    } else if (yarnSpecification != null) {
+      deliveryPeriodList = await dbInstance.deliveryPeriodDao
+          .findAllDeliveryPeriodWithCatId(yarnSpecification.category_id ?? 2);
+      var period = yarnSpecification.deliveryPeriod;
+      deliveryPeriod = deliveryPeriodList
+          .where((element) => element.dprName == period)
+          .first;
+      updateFabricRequestModel.specification_delivery_period =
+          deliveryPeriod.dprId.toString();
+    } else if (specObj is FabricSpecification) {
+      deliveryPeriodList =
+          await dbInstance.deliveryPeriodDao.findAllDeliveryPeriodWithCatId(3);
+      var fabricSpecification = specObj;
+      var period = fabricSpecification.deliveryPeriod;
+      deliveryPeriod = deliveryPeriodList
+          .where((element) => element.dprName == period)
+          .first;
+      updateFabricRequestModel.specification_delivery_period =
+          deliveryPeriod.dprId.toString();
+    }
+    // deliveryPeriodList = value1;
 
-      showGeneralDialog(
-        context: context,
-        barrierLabel: "Barrier",
-        barrierDismissible: true,
-        barrierColor: Colors.black.withOpacity(0.5),
-        transitionDuration: const Duration(milliseconds: 700),
-        pageBuilder: (_, __, ___) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: Center(
-                    child: Container(
-                      height: 300.h,
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    showNoOfDays(deliveryPeriod);
+
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 700),
+      pageBuilder: (_, __, ___) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Container(
+                height: 300.h,
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Stack(
+                        alignment: Alignment.center,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Image.asset(
-                                  ic_update_header,
-                                  fit: BoxFit.cover,
-                                  width: double.maxFinite,
-                                ),
-                                const Center(
-                                    child: TitleSmallBoldTextWidget(
-                                      title: "Update Product",
-                                      color: Colors.white,
-                                    )),
-                                Positioned(
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Icon(
-                                        Icons.clear,
-                                        size: 24,
-                                        color: Colors.white,
-                                      )),
-                                  right: 1,
-                                  top: 1,
-                                )
-                              ],
-                            ),
+                          Image.asset(
+                            ic_update_header,
+                            fit: BoxFit.cover,
+                            width: double.maxFinite,
                           ),
-                          Expanded(
-                            flex: 9,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                          const Center(
+                              child: TitleSmallBoldTextWidget(
+                            title: "Update Product",
+                            color: Colors.white,
+                          )),
+                          Positioned(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  Icons.clear,
+                                  size: 24,
+                                  color: Colors.white,
+                                )),
+                            right: 1,
+                            top: 1,
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
                                 mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        TitleMediumTextWidget(
-                                            title: isSwitched
-                                                ? strActive = "Active"
-                                                : "InActive"),
-                                        Switch(
-                                          onChanged: (bool value) {
-                                            setState(() {
-                                              isSwitched = value;
-                                            });
-                                            if (specObj is FabricSpecification) {
-                                              if (value) {
-                                                updateFabricRequestModel
-                                                    .specification_status = "1";
-                                              } else {
-                                                updateFabricRequestModel
-                                                    .specification_status = "0";
-                                              }
-                                            } else {
-                                              if (value) {
-                                                updateFabricRequestModel.specification_status = "1";
-                                              } else {
-                                                updateFabricRequestModel.specification_status = "0";
-                                              }
-                                            }
-                                          },
-                                          value: isSwitched,
-                                          activeColor: Colors.green,
-                                          activeTrackColor: Colors.green.shade200,
-                                          inactiveThumbColor: Colors.grey,
-                                          inactiveTrackColor: Colors.grey.shade200,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.shade100,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(4.w)),
-                                        color: searchBarWhiteBg),
-                                    margin: EdgeInsets.only(
-                                        top: 8.w,
-                                        right: 8.w,
-                                        bottom: 8.w,
-                                        left: 8.w),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: TextField(
-                                            controller: controllerUpdatePrice,
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                                contentPadding:
-                                                EdgeInsets.only(left: 8),
-                                                hintText: "Price"),
-                                            style: TextStyle(fontSize: 14.sp),
-                                            maxLines: 1,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")),
-                                            ],
-                                            onChanged: (value) {
-                                              // _controllerUpdatePrice.text = value;
-                                              if (value.isNotEmpty) {
-                                                if (specObj
-                                                is FabricSpecification) {
-                                                  updateFabricRequestModel
-                                                      .specification_rate = value;
-                                                } else {
-                                                  updateFabricRequestModel.specification_rate =
-                                                      value;
-                                                }
-                                              }
-                                            },
-                                          ),
-                                          flex: 9,
-                                        ),
-                                        Expanded(
-                                            child: TitleSmallTextWidget(
-                                                title: specification != null
-                                                    ? '/${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
-                                                    : yarnSpecification != null
-                                                    ? '/${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
-                                                    : '/${(specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'))
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.shade100,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(4.w)),
-                                        color: searchBarWhiteBg),
-                                    margin: EdgeInsets.only(
-                                        top: 8.w,
-                                        right: 8.w,
-                                        bottom: 8.w,
-                                        left: 8.w),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: TextField(
-                                            controller: controllerAvailQ,
-                                            keyboardType: TextInputType.number,
-                                            cursorColor: lightBlueTabs,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                disabledBorder: InputBorder.none,
-                                                contentPadding:
-                                                EdgeInsets.only(left: 8),
-                                                hintText: "Available Quantity"),
-                                            style: TextStyle(fontSize: 14.sp),
-                                            maxLines: 1,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp("[0-9]")),
-                                            ],
-                                            onChanged: (value) {
-                                              if (value.isNotEmpty) {
-                                                if (specObj
-                                                is FabricSpecification) {
-                                                  updateFabricRequestModel
-                                                      .specification_quantity =
-                                                      value;
-                                                } else {
-                                                  updateFabricRequestModel.specification_quantity=
-                                                      value;
-                                                }
-                                              }
-                                              // _controllerUpdatePrice.text = value;
-                                            },
-                                          ),
-                                        ),
-                                        // Expanded(
-                                        //     child: TitleSmallTextWidget(
-                                        //         title:
-                                        //         ''))
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.shade100,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(4.w)),
-                                        color: searchBarWhiteBg),
-                                    margin: EdgeInsets.only(
-                                        top: 8.w,
-                                        right: 8.w,
-                                        bottom: 8.w,
-                                        left: 8.w),
-                                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                                    child: DropdownButton(
-                                      isExpanded: true,
-                                      value: deliveryPeriod,
-                                      items: deliveryPeriodList
-                                          .map((value) =>
-                                          DropdownMenuItem<DeliveryPeriod>(
-                                            child: Text(value.dprName ?? "",
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    /*fontFamily: 'Metropolis',*/)),
-                                            value: value,
-                                          ))
-                                          .toList(),
-                                      underline: const SizedBox(),
-                                      onChanged: (DeliveryPeriod? value) {
-                                        setState(() {
-                                          deliveryPeriod = value!;
-                                        });
-                                        if (specObj is FabricSpecification) {
+                                  TitleMediumTextWidget(
+                                      title: isSwitched
+                                          ? strActive = "Active"
+                                          : "InActive"),
+                                  Switch(
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        isSwitched = value;
+                                      });
+                                      if (specObj is FabricSpecification) {
+                                        if (value) {
                                           updateFabricRequestModel
-                                              .specification_delivery_period =
-                                              value!.dprId.toString();
+                                              .specification_status = "1";
                                         } else {
-                                          updateFabricRequestModel.specification_delivery_period =
-                                              value!.dprId.toString();
+                                          updateFabricRequestModel
+                                              .specification_status = "0";
                                         }
-                                      },
-                                      // value: widget.syncFiberResponse.data.fiber.countries.first,
-                                      style: TextStyle(
-                                          fontSize: 11.sp, color: textColorGrey),
-                                    ),
+                                      } else {
+                                        if (value) {
+                                          updateFabricRequestModel
+                                              .specification_status = "1";
+                                        } else {
+                                          updateFabricRequestModel
+                                              .specification_status = "0";
+                                        }
+                                      }
+                                    },
+                                    value: isSwitched,
+                                    activeColor: Colors.green,
+                                    activeTrackColor: Colors.green.shade200,
+                                    inactiveThumbColor: Colors.grey,
+                                    inactiveTrackColor: Colors.grey.shade200,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButtonWithoutIcon(
-                              callback: () {
-                                showGenericDialog(
-                                    "Alert",
-                                    'Are you sure, you want to update specification?',
-                                    context,
-                                    StylishDialogType.WARNING,
-                                    "Confirm", () {
-                                  Logger().e(updateFabricRequestModel
-                                      .toJson()
-                                      .toString());
-                                  ProgressDialogUtil.showDialog(
-                                      context, "Please wait..");
-                                  ApiService.updateSpecification(
-                                      updateFabricRequestModel, "")
-                                      .then((value) {
-                                    ProgressDialogUtil.hideDialog();
-                                    if (value.status!) {
-                                      Logger().e(value.toJson().toString());
-                                      // Fluttertoast.showToast(msg: value.message);
-                                      if (value.responseCode == 205) {
-                                        showGenericDialog(
-                                            "Alert",
-                                            value.message!,
-                                            context,
-                                            StylishDialogType.WARNING,
-                                            "My Products", () {
-                                          Navigator.pop(context);
-                                          openMyAdsScreen(context);
-                                        });
-                                      } else {
-                                        callback(value.data);
-                                        Navigator.pop(context);
-                                        if (yarnSpecification != null) {
-                                          final yarnSpecificationsProvider =
-                                          Provider.of<
-                                              YarnSpecificationsProvider>(
-                                              context,
-                                              listen: false);
-                                          yarnSpecificationsProvider
-                                              .getUpdatedYarnSpecificationsData();
-                                        } else if(specification != null) {
-                                          final _fiberSpecificationsProvider = locator<FiberSpecificationProvider>();
-                                          _fiberSpecificationsProvider
-                                              .getUpdatedFiberSpecificationsData();
-                                        }else if(specObj is FabricSpecification){
-                                          final fabricSpecificationsProvider =
-                                          Provider.of<FabricSpecificationsProvider>(
-                                              context,
-                                              listen: false);
-                                          fabricSpecificationsProvider
-                                              .getUpdatedFabricSpecificationsData();
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.w)),
+                                  color: searchBarWhiteBg),
+                              margin: EdgeInsets.only(
+                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: controllerUpdatePrice,
+                                      keyboardType: TextInputType.number,
+                                      cursorColor: lightBlueTabs,
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                          contentPadding:
+                                              EdgeInsets.only(left: 8),
+                                          hintText: "Price"),
+                                      style: TextStyle(fontSize: 14.sp),
+                                      maxLines: 1,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9]")),
+                                      ],
+                                      onChanged: (value) {
+                                        // _controllerUpdatePrice.text = value;
+                                        if (value.isNotEmpty) {
+                                          if (specObj is FabricSpecification) {
+                                            updateFabricRequestModel
+                                                .specification_rate = value;
+                                          } else {
+                                            updateFabricRequestModel
+                                                .specification_rate = value;
+                                          }
                                         }
-                                      }
-                                    } else {
-                                      Ui.showSnackBar(context, value.message!);
-                                    }
-                                  }).onError((error, stackTrace) {
-                                    ProgressDialogUtil.hideDialog();
-                                    Ui.showSnackBar(context, error.toString());
-                                  });
-                                });
-                              },
-                              color: Colors.green,
-                              btnText: "Update",
+                                      },
+                                    ),
+                                    flex: 9,
+                                  ),
+                                  Expanded(
+                                      child: TitleSmallTextWidget(
+                                          title: specification != null
+                                              ? '/${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
+                                              : yarnSpecification != null
+                                                  ? '/${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
+                                                  : '/${(specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'))
+                                ],
+                              ),
                             ),
-                          )
-                        ],
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.w)),
+                                  color: searchBarWhiteBg),
+                              margin: EdgeInsets.only(
+                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                              child: TextField(
+                                controller: controllerAvailQ,
+                                keyboardType: TextInputType.number,
+                                cursorColor: lightBlueTabs,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(left: 8),
+                                    hintText: "Available Quantity"),
+                                style: TextStyle(fontSize: 14.sp),
+                                maxLines: 1,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9]")),
+                                ],
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    if (specObj is FabricSpecification) {
+                                      updateFabricRequestModel
+                                          .specification_quantity = value;
+                                    } else {
+                                      updateFabricRequestModel
+                                          .specification_quantity = value;
+                                    }
+                                  }
+                                  // _controllerUpdatePrice.text = value;
+                                },
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.w)),
+                                  color: searchBarWhiteBg),
+                              margin: EdgeInsets.only(
+                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
+                              padding: EdgeInsets.symmetric(horizontal: 8.w),
+                              child: DropdownButton(
+                                isExpanded: true,
+                                value: deliveryPeriod,
+                                items: deliveryPeriodList
+                                    .map((value) =>
+                                        DropdownMenuItem<DeliveryPeriod>(
+                                          child: Text(value.dprName ?? "",
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  /*fontFamily: 'Metropolis',*/)),
+                                          value: value,
+                                        ))
+                                    .toList(),
+                                underline: const SizedBox(),
+                                onChanged: (DeliveryPeriod? value) {
+                                  setState(() {
+                                    deliveryPeriod = value!;
+                                    showNoOfDays(deliveryPeriod);
+                                  });
+                                  if (specObj is FabricSpecification) {
+                                    updateFabricRequestModel
+                                            .specification_delivery_period =
+                                        value!.dprId.toString();
+                                  } else {
+                                    updateFabricRequestModel
+                                            .specification_delivery_period =
+                                        value!.dprId.toString();
+                                  }
+                                },
+                                // value: widget.syncFiberResponse.data.fiber.countries.first,
+                                style: TextStyle(
+                                    fontSize: 11.sp, color: textColorGrey),
+                              ),
+                            ),
+                            Visibility(
+                              visible: noOfDays,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey.shade100,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4.w)),
+                                    color: searchBarWhiteBg),
+                                margin: EdgeInsets.only(
+                                    top: 8.w,
+                                    right: 8.w,
+                                    bottom: 8.w,
+                                    left: 8.w),
+                                child: TextField(
+                                  controller: controllerNoOfDays,
+                                  keyboardType: TextInputType.number,
+                                  cursorColor: lightBlueTabs,
+                                  style: TextStyle(fontSize: 11.sp),
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      counterText: "",
+                                      contentPadding: EdgeInsets.only(left: 8),
+                                      hintText: "No of Days"),
+                                  textAlign: TextAlign.left,
+                                  cursorHeight: 16.w,
+                                  maxLines: 1,
+                                  maxLength: 3,
+                                  /* onSaved: (input) {
+                                      updateFabricRequestModel
+                                          .fbp_no_of_days = input!;
+                                    },
+                                    validator: (input) {
+                                      if (input == null ||
+                                          input.isEmpty ||
+                                          int.parse(input) < 1) {
+                                        return "No of days";
+                                      }
+                                      return null;
+                                    },*/
+                                  onChanged: (String value) {
+                                    updateFabricRequestModel.fbp_no_of_days =
+                                        value;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      // decoration: BoxDecoration(
-                      //     color: Colors.white, borderRadius: BorderRadius.circular(40)),
                     ),
-                  ),
-                );
-              });
-        },
-        transitionBuilder: (_, anim, __, child) {
-          Tween<Offset> tween;
-          if (anim.status == AnimationStatus.reverse) {
-            tween = Tween(begin: const Offset(-1, 0), end: Offset.zero);
-          } else {
-            tween = Tween(begin: const Offset(1, 0), end: Offset.zero);
-          }
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButtonWithoutIcon(
+                        callback: () {
+                          if (int.parse(updateFabricRequestModel.fbp_no_of_days!) <= 0 && noOfDays) {
+                            Fluttertoast.showToast(
+                                msg: "Please add no of days");
+                            return;
+                          }
 
-          return SlideTransition(
-            position: tween.animate(anim),
-            child: FadeTransition(
-              opacity: anim,
-              child: child,
+                          showGenericDialog(
+                              "Alert",
+                              'Are you sure, you want to update specification?',
+                              context,
+                              StylishDialogType.WARNING,
+                              "Confirm", () {
+                            Logger().e(
+                                updateFabricRequestModel.toJson().toString());
+                            ProgressDialogUtil.showDialog(
+                                context, "Please wait..");
+                            ApiService.updateSpecification(
+                                    updateFabricRequestModel, "")
+                                .then((value) {
+                              ProgressDialogUtil.hideDialog();
+                              if (value.status!) {
+                                Logger().e(value.toJson().toString());
+                                // Fluttertoast.showToast(msg: value.message);
+                                if (value.responseCode == 205) {
+                                  showGenericDialog(
+                                      "Alert",
+                                      value.message!,
+                                      context,
+                                      StylishDialogType.WARNING,
+                                      "My Products", () {
+                                    Navigator.pop(context);
+                                    openMyAdsScreen(context);
+                                  });
+                                } else {
+                                  callback(value.data);
+                                  Navigator.pop(context);
+                                  if (yarnSpecification != null) {
+                                    final yarnSpecificationsProvider =
+                                        Provider.of<YarnSpecificationsProvider>(
+                                            context,
+                                            listen: false);
+                                    yarnSpecificationsProvider
+                                        .getUpdatedYarnSpecificationsData();
+                                  } else if (specification != null) {
+                                    final _fiberSpecificationsProvider =
+                                        locator<FiberSpecificationProvider>();
+                                    _fiberSpecificationsProvider
+                                        .getUpdatedFiberSpecificationsData();
+                                  } else if (specObj is FabricSpecification) {
+                                    final fabricSpecificationsProvider =
+                                        Provider.of<
+                                                FabricSpecificationsProvider>(
+                                            context,
+                                            listen: false);
+                                    fabricSpecificationsProvider
+                                        .getUpdatedFabricSpecificationsData();
+                                  }
+                                }
+                              } else {
+                                Ui.showSnackBar(context, value.message!);
+                              }
+                            }).onError((error, stackTrace) {
+                              ProgressDialogUtil.hideDialog();
+                              Ui.showSnackBar(context, error.toString());
+                            });
+                          });
+                        },
+                        color: Colors.green,
+                        btnText: "Update",
+                      ),
+                    )
+                  ],
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                // decoration: BoxDecoration(
+                //     color: Colors.white, borderRadius: BorderRadius.circular(40)),
+              ),
             ),
           );
-        },
-      );
+        });
+      },
+      transitionBuilder: (_, anim, __, child) {
+        Tween<Offset> tween;
+        if (anim.status == AnimationStatus.reverse) {
+          tween = Tween(begin: const Offset(-1, 0), end: Offset.zero);
+        } else {
+          tween = Tween(begin: const Offset(1, 0), end: Offset.zero);
+        }
+
+        return SlideTransition(
+          position: tween.animate(anim),
+          child: FadeTransition(
+            opacity: anim,
+            child: child,
+          ),
+        );
+      },
+    );
   }
 
   static Future<String> getUserId() async {
@@ -1497,7 +1592,7 @@ class Utils {
       }
     }
 
-    priceRange = '$min - $max/${maxUnit??""}';
+    priceRange = '$min - $max/${maxUnit ?? ""}';
     return [
       // TextSpan(
       //   text:
@@ -1509,7 +1604,7 @@ class Utils {
       //       fontWeight: FontWeight.w500),
       // ),
       TextSpan(
-        text: '$min - $max'/*'1000'*/,
+        text: '$min - $max' /*'1000'*/,
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
@@ -1517,8 +1612,7 @@ class Utils {
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
-        text:
-        "/${maxUnit??""}",
+        text: "/${maxUnit ?? ""}",
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
@@ -1566,7 +1660,7 @@ class Utils {
         addProperty(specification.certificationStr, list);
         break;
       case '104':
-      // Nothing to add
+        // Nothing to add
         break;
     }
     return Row(
@@ -1630,7 +1724,7 @@ class Utils {
         addProperty(specification.fpb_cone_type_name, list);
         addProperty(specification.unitCount, list);
         addProperty(specification.deliveryPeriod, list);
-        if(specification.locality != local){
+        if (specification.locality != local) {
           addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
         }
         break;
@@ -1638,7 +1732,7 @@ class Utils {
         addProperty(specification.fpb_cone_type_name, list);
         addProperty(specification.unitCount, list);
         addProperty(specification.deliveryPeriod, list);
-        if(specification.locality != local){
+        if (specification.locality != local) {
           addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
         }
         break;
@@ -1646,7 +1740,7 @@ class Utils {
         addProperty(specification.fpb_cone_type_name, list);
         addProperty(specification.unitCount, list);
         addProperty(specification.deliveryPeriod, list);
-        if(specification.locality != local){
+        if (specification.locality != local) {
           addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
         }
         break;
@@ -1654,7 +1748,7 @@ class Utils {
         addProperty(specification.fpb_cone_type_name, list);
         addProperty(specification.unitCount, list);
         addProperty(specification.deliveryPeriod, list);
-        if(specification.locality != local){
+        if (specification.locality != local) {
           addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
         }
         break;
@@ -1708,7 +1802,7 @@ class Utils {
                 title: specification.locality == international
                     ? specification.fabricCountry?.capitalizeAndLower()
                     : specification.locality
-                        ?.capitalizeAndLower() *//*:Utils.checkNullString(false)*//*,
+                        ?.capitalizeAndLower() */ /*:Utils.checkNullString(false)*/ /*,
                 imageIcon: IC_LOCATION_RENEWED,
                 size: 10.sp,
                 iconSize: 12,
@@ -1720,6 +1814,4 @@ class Utils {
       ],
     );
   }
-
-
 }

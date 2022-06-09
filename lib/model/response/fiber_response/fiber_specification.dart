@@ -126,6 +126,7 @@ class Specification {
   String? lotNumber;
   String? unitCount;
   String? deliveryPeriod;
+  String? fbp_no_of_days;
   String? available;
   String? priceTerms;
   String? minQuantity;
@@ -161,6 +162,7 @@ class Specification {
     productYear = json['product_year'];
     origin = json['origin'];
     certification = json['certification'];
+    fbp_no_of_days = json['fbp_no_of_days'];
     priceUnit = json['price_unit'];
     cityState = json['city_state'];
     port = json['port'];
@@ -211,6 +213,7 @@ class Specification {
     _data['moisture'] = moisture;
     _data['trash'] = trash;
     _data['rd'] = rd;
+    _data['fbp_no_of_days'] = fbp_no_of_days;
     _data['gpt'] = gpt;
     _data['origin_fiber_spc'] = origin_fiber_spc;
     _data['apperance'] = apperance;

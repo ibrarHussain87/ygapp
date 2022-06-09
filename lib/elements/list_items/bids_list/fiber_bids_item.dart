@@ -540,8 +540,7 @@ class FiberBidItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      specObj: bidData!.specification
-                                          as Specification,
+                                      specObj: bidData!.specification,
                                       isFromBid: true);
                                 },
                                 color: Colors.green,

@@ -48,7 +48,7 @@ class FiberProductPageState extends State<FiberProductPage> {
   List<FiberFamily> fiberNatureList = [];
   List<FiberBlends> fiberMaterialList = [];
   List<Specification?>? _specification;
-  List<Specification?>? _filteredSpecification;
+  List<Specification?>? _filteredSpecification = [];
   String isOffering = "1";
 
   @override
@@ -116,10 +116,16 @@ class FiberProductPageState extends State<FiberProductPage> {
                   ),
                 ),
 
-                FiberFamilyComponent(callback: (FiberBlends? value){
-                  _filterMaterial(value!.blnName.toString());
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: FiberFamilyComponent(callback: (FiberBlends? value){
+                      _filterMaterial(value!.blnName.toString());
 
-                })
+                    }),
+                  ),
+                )
                 /*NatureFamilyBodyComponent(
                   natureId: fiberNatureList.first.id.toString(),
                   fiberNaturesList: fiberNatureList,
@@ -144,7 +150,8 @@ class FiberProductPageState extends State<FiberProductPage> {
                 ),
                 Expanded(
                     child: Container(
-                  child: _filteredSpecification!.isNotEmpty
+                      color: Colors.white,
+                      child: _filteredSpecification!.isNotEmpty
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(

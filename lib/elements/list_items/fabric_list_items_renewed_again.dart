@@ -581,7 +581,13 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
     case '101':
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
-      addProperty(specification.deliveryPeriod, list);
+      if(specification.deliveryPeriod == "No Of Days"){
+        addProperty("${specification.fbp_no_of_days??"0"} Days", list);
+
+      }else{
+        addProperty(specification.deliveryPeriod, list);
+
+      }
       if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);
       }

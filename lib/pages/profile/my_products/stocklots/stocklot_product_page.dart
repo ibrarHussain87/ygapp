@@ -109,7 +109,8 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                     ],
                   ),
                 ),
-                Padding(
+                Container(
+                  color: Colors.white,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
                   child: Padding(
@@ -134,7 +135,8 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                 ),
                 Visibility(
                   visible: stocklotProvider.showCategory,
-                  child: Padding(
+                  child: Container(
+                    color: Colors.white,
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                       height: 0.04 * MediaQuery.of(context).size.height,
@@ -169,7 +171,8 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                 ),
                 Expanded(
                     child: Container(
-                  child: _filteredSpecification!.isNotEmpty
+                      color: Colors.white,
+                      child: _filteredSpecification!.isNotEmpty
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
