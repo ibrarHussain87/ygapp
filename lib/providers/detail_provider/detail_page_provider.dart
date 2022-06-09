@@ -137,19 +137,19 @@ class DetailPageProvider extends ChangeNotifier {
                         : fabricSpecification!.fsId!),
         BidderListPage(
             materialId: isFiber
-                ? fiberSpecification!.categoryId!
+                ? fiberSpecification!.categoryId??"1"
                 : isYarn
-                    ? yarnSpecification!.category_id.toString()
+                    ? yarnSpecification!.category_id == null?"2":yarnSpecification!.category_id.toString()
                     : isStockLot
                         ? stockLotSpecification!.stocklotCategoryId.toString()
                         : "3",
             specId: isFiber
                 ? fiberSpecification!.spcId
                 : isYarn
-                    ? yarnSpecification!.ysId ?? 1
+                    ? yarnSpecification!.ysId ?? -1
                     : isStockLot
-                        ? stockLotSpecification!.id!
-                        : fabricSpecification!.fsId!)
+                        ? stockLotSpecification!.id??-1
+                        : fabricSpecification!.fsId??-1)
       ];
     } else if (isFromBid) {
       tabsList = tabsListBid;
@@ -164,7 +164,7 @@ class DetailPageProvider extends ChangeNotifier {
             catId: isFiber
                 ? fiberSpecification!.categoryId!
                 : isYarn
-                    ? yarnSpecification!.category_id!.toString()
+                    ? yarnSpecification!.category_id != null ? yarnSpecification!.category_id!.toString(): '2'
                     : isStockLot
                         ? stockLotSpecification!.stocklotCategoryId.toString()
                         : "3",
@@ -1088,7 +1088,7 @@ class DetailPageProvider extends ChangeNotifier {
             : isStockLot
                 ? stockLotDetails()
                 : fabricDetails();
-    notifyListeners();
+  // notifyListeners();
   }
 
   void setBidPriceQty() {
@@ -1143,7 +1143,7 @@ class DetailPageProvider extends ChangeNotifier {
       stockLotMax = Utils.stockLotPriceMax(stockLotSpecification!);
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   void notifyUI() {

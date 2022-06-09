@@ -271,8 +271,7 @@ Widget buildYarnRenewedAgainWidget(
                                           iconSize: 12,
                                         ),
                                         ShortDetailRenewedWidget(
-                                          title: specification.deliveryPeriod ??
-                                              Utils.checkNullString(false),
+                                          title: specification.deliveryPeriod == "No Of Days" ? "${specification.fbp_no_of_days??"0"} Days": specification.deliveryPeriod,
                                           imageIcon: IC_VAN_RENEWED,
                                           size: 10.sp,
                                           iconSize: 12,

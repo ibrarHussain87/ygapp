@@ -1830,29 +1830,29 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
       await _yarnPostProvider.getQuality();
     }
 
-    if (_yarnPostProvider.qualityList!.length == 1) {
-      tempQualityShow = _yarnPostProvider.yarnSetting!.showQuality;
-      _yarnPostProvider.yarnSetting!.showQuality = "0";
-      _yarnPostProvider.createRequestModel!.ys_quality_idfk =
-          _yarnPostProvider.qualityList!.first.yqId.toString();
-    } else {
-      _yarnPostProvider.yarnSetting!.showQuality = tempQualityShow;
-      _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
-    }
+    // if (_yarnPostProvider.qualityList!.length == 1) {
+    //   tempQualityShow = _yarnPostProvider.yarnSetting!.showQuality;
+    //   _yarnPostProvider.yarnSetting!.showQuality = "0";
+    //   _yarnPostProvider.createRequestModel!.ys_quality_idfk =
+    //       _yarnPostProvider.qualityList!.first.yqId.toString();
+    // } else {
+    //   _yarnPostProvider.yarnSetting!.showQuality = tempQualityShow;
+    //   _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
+    // }
     if (_yarnPostProvider.patternList!.isEmpty) {
       await _yarnPostProvider.getPatternList();
     }
-
-    if (_yarnPostProvider.patternList!.length == 1) {
-      tempPatternShow = _yarnPostProvider.yarnSetting!.showPattern;
-
-      _yarnPostProvider.yarnSetting!.showPattern = "0";
-      _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
-          _yarnPostProvider.patternList!.first.ypId.toString();
-    } else {
-      _yarnPostProvider.yarnSetting!.showPattern = tempPatternShow;
-      _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
-    }
+    //
+    // if (_yarnPostProvider.patternList!.length == 1) {
+    //   tempPatternShow = _yarnPostProvider.yarnSetting!.showPattern;
+    //
+    //   _yarnPostProvider.yarnSetting!.showPattern = "0";
+    //   _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
+    //       _yarnPostProvider.patternList!.first.ypId.toString();
+    // } else {
+    //   _yarnPostProvider.yarnSetting!.showPattern = tempPatternShow;
+    //   _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
+    // }
 
     _yarnPostProvider.notifyUI();
   }

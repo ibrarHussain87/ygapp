@@ -56,12 +56,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
   @override
   void initState() {
     super.initState();
+    setBidPrice();
     _detailPageProvider.addListener(() {
       if (mounted) {
         setState(() {});
       }
     });
-    setBidPrice();
   }
 
   @override
@@ -1073,10 +1073,10 @@ class _DetailTabPageState extends State<DetailTabPage> {
           : _detailPageProvider.showBidContainer = false;
     }
     _detailPageProvider.notifyUI();
-
     if (widget.sendProposal ?? false) {
-      showProposalBottomSheet(context);
+        showProposalBottomSheet(context);
     }
+
   }
 
   void setBidPrice() {

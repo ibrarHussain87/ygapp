@@ -57,7 +57,7 @@ class FabricBidsItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Metropolis',
+                              // fontFamily: 'Metropolis',
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,
@@ -180,7 +180,7 @@ class FabricBidsItem extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
+                                        // fontFamily: 'Metropolis',
                                         fontWeight: FontWeight.w400),
                                   ),
                                   TextSpan(
@@ -190,7 +190,7 @@ class FabricBidsItem extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 17.sp,
-                                        fontFamily: 'Metropolis',
+                                        // fontFamily: 'Metropolis',
                                         fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
@@ -199,7 +199,7 @@ class FabricBidsItem extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12.sp,
-                                        fontFamily: 'Metropolis',
+                                        // fontFamily: 'Metropolis',
                                         fontWeight: FontWeight.w400),
                                   ),
                                 ])),
@@ -258,8 +258,7 @@ class FabricBidsItem extends StatelessWidget {
                                 textSize: 8.sp,
                                 callback: () {
                                   openDetailsScreen(context,
-                                      specObj: bidData.specification
-                                          as FabricSpecification,
+                                      specObj: bidData.specification,
                                       isFromBid: true);
                                 },
                                 color: Colors.green,
@@ -308,7 +307,7 @@ class FabricBidsItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            // fontFamily: 'Metropolis',
                             fontWeight: FontWeight.bold,
                           ),
                         )),

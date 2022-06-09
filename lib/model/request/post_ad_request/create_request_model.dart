@@ -220,7 +220,7 @@ class CreateRequestModel {
       'fpb_cone_type_idfk': cone_type_id ?? "",
       'spc_rd_idfk': spc_rd_idfk ?? "",
       'spc_gpt_idfk': spc_gpt_idfk ?? "",
-      'spc_no_of_days': spc_no_of_days ?? "",
+      'fbp_no_of_days': spc_no_of_days ?? "",
       'spc_active': spc_active ?? "",
       'is_offering': is_offering ?? "",
       'spc_appearance_idfk': spc_appearance_idfk ?? "",

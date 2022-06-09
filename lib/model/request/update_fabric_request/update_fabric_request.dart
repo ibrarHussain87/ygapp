@@ -1,4 +1,4 @@
-class UpdateFabricRequestModel {
+class UpdateRequestModel {
 
   String? category_id;
   String? specification_id;
@@ -6,15 +6,17 @@ class UpdateFabricRequestModel {
   String? specification_quantity;
   String? specification_rate;
   String? specification_delivery_period;
+  String? fbp_no_of_days;
 
 
-  UpdateFabricRequestModel({
+  UpdateRequestModel({
     this.category_id,
     this.specification_id,
     this.specification_status,
     this.specification_quantity,
     this.specification_rate,
     this.specification_delivery_period,
+    this.fbp_no_of_days,
   });
 
   Map<String, String> toJson() {
@@ -25,7 +27,7 @@ class UpdateFabricRequestModel {
       'specification_quantity': specification_quantity?? "",
       'specification_rate': specification_rate?? "",
       'specification_delivery_period': specification_delivery_period?? "",
-
+      'fbp_no_of_days': fbp_no_of_days?? "",
     };
 
     return map;

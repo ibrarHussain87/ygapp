@@ -10,6 +10,7 @@ import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
+import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
@@ -28,24 +29,44 @@ class YarnProductPageState extends State<YarnProductPage>
     with AutomaticKeepAliveClientMixin {
   void _filterFamily(value) {
     setState(() {
-      _filteredSpecification = _specification!
+      _familyFilteredSpecification = _specification!
           .where((element) => (element!.yarnFamily!.toLowerCase() ==
                   value.toString().toLowerCase() &&
               element.is_offering == isOffering))
           .toList();
+
+      _filteredSpecification = _familyFilteredSpecification;
     });
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  void _filterBlend(value) {
+  void _filterBlend(Blends value) {
+    _blendFilteredSpecification!.clear();
     setState(() {
-      _filteredSpecification = _specification!
-          .where((element) => (element!.yarnBlend!.toLowerCase() ==
-                  value!.toString().toLowerCase() &&
-              element.is_offering == isOffering))
-          .toList();
+      if(_familyFilteredSpecification!.isNotEmpty) {
+        for (var element in _familyFilteredSpecification!) {
+          if (element!.yarnFormation != null &&
+              element.yarnFormation!.isNotEmpty) {
+            for (var formation in element.yarnFormation!) {
+              if (formation.blendName.toString().toLowerCase() ==
+                  value.toString().toLowerCase() &&
+                  formation.blendIdfk == value.blnId.toString() &&
+                  element.is_offering == isOffering) {
+                _blendFilteredSpecification!.add(element);
+              }
+            }
+          }
+        }
+
+        _filteredSpecification = _blendFilteredSpecification;
+      }
+      // _filteredSpecification = _specification!
+      //     .where((element) => (element!.yarnBlend!.toLowerCase() ==
+      //     value!.toString().toLowerCase() &&
+      //     element.is_offering == isOffering))
+      //     .toList();
     });
   }
 
@@ -55,7 +76,9 @@ class YarnProductPageState extends State<YarnProductPage>
   int? famId;
   String? isOffering;
   List<YarnSpecification?>? _specification;
-  List<YarnSpecification?>? _filteredSpecification;
+  List<YarnSpecification?>? _filteredSpecification = [];
+  List<YarnSpecification?>? _familyFilteredSpecification = [];
+  List<YarnSpecification?>? _blendFilteredSpecification = [];
 
   @override
   void initState() {
@@ -130,6 +153,7 @@ class YarnProductPageState extends State<YarnProductPage>
                       SizedBox(
                         height: 48.w,
                         child: FamilyTileWidget(
+                          selectedIndex: -1,
                           listItems: yarnFamilyList,
                           callback: (value) {
                             setState(() {
@@ -147,14 +171,13 @@ class YarnProductPageState extends State<YarnProductPage>
                         child: SizedBox(
                           height: 48.w,
                           child: BlendsWithImageListWidget(
+                            selectedItem: -1,
                             listItem: yarnBlendList
                                 .where((element) =>
                                     element.familyIdfk == famId.toString())
                                 .toList(),
                             onClickCallback: (value) {
-                              setState(() {
-                                _filterBlend(yarnBlendList[value].blnName);
-                              });
+                              _filterBlend(yarnBlendList[value]);
                             },
                           ),
                         ),
@@ -181,6 +204,7 @@ class YarnProductPageState extends State<YarnProductPage>
                 ),
                 Expanded(
                     child: Container(
+                  color: Colors.white,
                   child: _filteredSpecification!.isNotEmpty
                       ? ListView.separated(
                           itemCount: _filteredSpecification!.length,
@@ -196,14 +220,11 @@ class YarnProductPageState extends State<YarnProductPage>
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 openDetailsScreen(context,
-                                    specObj:
-                                        widget.specification![index]!);
+                                    specObj: widget.specification![index]!);
                               },
                               child: buildYarnRenewedAgainWidget(
-                                _filteredSpecification![index]!,
-                                context,
-                                showCount: true
-                              )),
+                                  _filteredSpecification![index]!, context,
+                                  showCount: true)),
                         )
                       : const Center(
                           child: TitleSmallTextWidget(

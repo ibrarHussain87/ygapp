@@ -99,6 +99,7 @@ class FabricSpecification {
   String? paymentType;
   String? lcType;
   String? deliveryPeriod;
+  String? fbp_no_of_days;
   String? available;
   String? priceTerms;
   String? minQuantity;
@@ -140,6 +141,7 @@ class FabricSpecification {
         this.locality,
         this.fabricFamilyId,
         this.fabricFamily,
+        this.fbp_no_of_days,
         this.formationDisplayText,
         this.formation_display_name,
         this.fabricBlend,
@@ -213,6 +215,7 @@ class FabricSpecification {
     fabricBlendAbrv = json['fabric_blend_abrv'];
     fabricRtio = json['fabric_rtio'];
     count = json['count'];
+    fbp_no_of_days = json['fbp_no_of_days'];
     fabricPly = json['fabric_ply'];
     fabricQuality = json['fabric_quality'];
     fabricGrade = json['fabric_grade'];
@@ -305,6 +308,7 @@ class FabricSpecification {
     data['fabric_country'] = this.fabricCountry;
     data['price_unit'] = this.priceUnit;
     data['unit_count'] = this.unitCount;
+    data['fbp_no_of_days'] = this.fbp_no_of_days;
     data['weight_cone'] = this.weightCone;
     data['weight_bag'] = this.weightBag;
     data['cones_bag'] = this.conesBag;

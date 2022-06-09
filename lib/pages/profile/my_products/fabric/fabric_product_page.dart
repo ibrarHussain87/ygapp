@@ -23,14 +23,12 @@ class FabricProductPage extends StatefulWidget {
 }
 
 class FabricProductPageState extends State<FabricProductPage> {
-
-
   void _filterMaterial(value) {
     setState(() {
       _filteredSpecification = _specification!
-          .where((element) =>
-      (element!.fabricBlend!.toLowerCase() ==
-          value.toString().toLowerCase() && element.isOffering == isOffering))
+          .where((element) => (element!.fabricBlend!.toLowerCase() ==
+                  value.toString().toLowerCase() &&
+              element.isOffering == isOffering))
           .toList();
     });
   }
@@ -38,12 +36,9 @@ class FabricProductPageState extends State<FabricProductPage> {
   filterListSearch(value) {
     setState(() {
       _filteredSpecification = _specification!
-          .where(
-              (element) =>
-          (element!.fabricBlend.toString()
-              .toLowerCase()
-              .contains(value) ||
-              element.fabricGrade.toString().contains(value)))
+          .where((element) =>
+              (element!.fabricBlend.toString().toLowerCase().contains(value) ||
+                  element.fabricGrade.toString().contains(value)))
           .toList();
     });
   }
@@ -51,23 +46,24 @@ class FabricProductPageState extends State<FabricProductPage> {
   List<FabricFamily> fabricFamilyList = [];
   List<FabricBlends> fabricBlendsList = [];
   List<FabricSpecification?>? _specification;
-  List<FabricSpecification?>? _filteredSpecification;
+  List<FabricSpecification?>? _filteredSpecification = [];
+  List<FabricSpecification?>? _familyFilteredSpecification = [];
+  List<FabricSpecification?>? _blendFilteredSpecification = [];
   String isOffering = "1";
 
   @override
   void initState() {
     _specification = widget.specification;
-    _filteredSpecification =
-        _specification!.where((element) => element!.isOffering == isOffering)
-            .toList();
+    _filteredSpecification = _specification!
+        .where((element) => element!.isOffering == isOffering)
+        .toList();
 
     AppDbInstance().getDbInstance().then((db) async {
       await db.fabricFamilyDao
           .findAllFabricFamily()
-          .then((value) =>
-          setState(() {
-            fabricFamilyList = value;
-          }));
+          .then((value) => setState(() {
+                fabricFamilyList = value;
+              }));
       await db.fabricBlendsDao.findAllFabricBlends().then((value) {
         setState(() {
           fabricBlendsList = value;
@@ -82,104 +78,143 @@ class FabricProductPageState extends State<FabricProductPage> {
   Widget build(BuildContext context) {
     return (fabricFamilyList.isNotEmpty && fabricBlendsList.isNotEmpty)
         ? Container(
-      color: Colors.grey.shade200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-                left: 16.0, right: 16.0, top: 8.w, bottom: 8.w),
-            child: Row(
+            color: Colors.grey.shade200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 7,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Container(
+                  padding: EdgeInsets.only(
+                      left: 16.0, right: 16.0, top: 8.w, bottom: 8.w),
+                  child: Row(
                     children: [
-                      const TitleTextWidget(title: "Add New"),
-                      SizedBox(
-                        height: 4.w,
+                      Expanded(
+                        flex: 7,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TitleTextWidget(title: "Add New"),
+                            SizedBox(
+                              height: 4.w,
+                            ),
+                            const TitleExtraSmallTextWidget(
+                                title:
+                                    "You are currently seeing your requirment")
+                          ],
+                        ),
                       ),
-                      const TitleExtraSmallTextWidget(
-                          title:
-                          "You are currently seeing your requirment")
+                      Expanded(
+                          flex: 3,
+                          child: ElevatedButtonWithoutIcon(
+                            callback: () {
+                              showBottomSheetOR(context, (value) {
+                                openFabricPostPage(
+                                    context, local, 'Fabric', value);
+                              });
+                            },
+                            btnText: "Post Offer",
+                            color: Colors.green,
+                          ))
                     ],
                   ),
                 ),
-                Expanded(
-                    flex: 3,
-                    child: ElevatedButtonWithoutIcon(
-                      callback: () {
-                        showBottomSheetOR(context, (value) {
-                          openFabricPostPage(context, local, 'Fabric', value);
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: FabricBlendFamily(
+                      fabricFamilyCallback: (FabricFamily fabricFamily) {
+                        setState(() {
+                          _familyFilteredSpecification = _specification!
+                              .where((element) =>
+                                  element!.fabricFamilyId.toString() ==
+                                  fabricFamily.fabricFamilyId.toString())
+                              .toList();
+                          _filteredSpecification = _familyFilteredSpecification;
                         });
                       },
-                      btnText: "Post Offer",
-                      color: Colors.green,
-                    ))
-              ],
-            ),
-          ),
-
-          FabricBlendFamily(
-            fabricFamilyCallback: (FabricFamily fabricFamily) {
-              setState(() {
-                _filteredSpecification = _specification!.where((element) =>
-                element!.fabricFamilyId.toString() == fabricFamily.fabricFamilyId.toString()).toList();
-              });
-            },
-            blendCallback: (FabricBlends blend,int familyId) {
-              setState(() {
-                _filteredSpecification = _specification!.where((element) =>
-                element!.fabricBlend.toString() == blend.blnName.toString()).toList();
-              });
-            },
-          ),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: OfferingRequirementSegmentComponent(
-                callback: (value) {
-                  setState(() {
-                    isOffering = value.toString();
-                    _filteredSpecification = _specification!.where((element) => element!.isOffering.toString() == value.toString()).toList();
-                  });
-                },
-              ),
-            ),
-          ),
-          Expanded(
-              child: Container(
-                child: _filteredSpecification!.isNotEmpty
-                    ? ListView.builder(
-                  itemCount: _filteredSpecification!.length,
-                  itemBuilder: (context, index) =>
-                      GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            openDetailsScreen(
-                                context,
-                                specObj: widget.specification![index]!);
-                          },
-                          child: buildFabricRenewedAgainWidget(
-                              _filteredSpecification![index]!, context,showCounts: true)),
-                  // separatorBuilder: (context, index) {
-                  //   return Divider(
-                  //     height: 1,
-                  //     color: Colors.grey.shade400,
-                  //   );
-                  // },
-                )
-                    : const Center(
-                  child: TitleSmallTextWidget(
-                    title: 'No Data Found',
+                      blendCallback: (FabricBlends blend, int familyId) {
+                        _filterBlend(blend);
+                      },
+                    ),
                   ),
                 ),
-              ))
-        ],
-      ),
-    )
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: OfferingRequirementSegmentComponent(
+                      callback: (value) {
+                        setState(() {
+                          isOffering = value.toString();
+                          _filteredSpecification = _specification!
+                              .where((element) =>
+                                  element!.isOffering.toString() ==
+                                  value.toString())
+                              .toList();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Container(
+                  color: Colors.white,
+                  child: _filteredSpecification!.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _filteredSpecification!.length,
+                          itemBuilder: (context, index) => GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                openDetailsScreen(context,
+                                    specObj: widget.specification![index]!);
+                              },
+                              child: buildFabricRenewedAgainWidget(
+                                  _filteredSpecification![index]!, context,
+                                  showCounts: true)),
+                          // separatorBuilder: (context, index) {
+                          //   return Divider(
+                          //     height: 1,
+                          //     color: Colors.grey.shade400,
+                          //   );
+                          // },
+                        )
+                      : const Center(
+                          child: TitleSmallTextWidget(
+                            title: 'No Data Found',
+                          ),
+                        ),
+                ))
+              ],
+            ),
+          )
         : Container();
+  }
+
+  void _filterBlend(FabricBlends value) {
+    _blendFilteredSpecification!.clear();
+    setState(() {
+      if(_familyFilteredSpecification!.isNotEmpty) {
+        for (var element in _familyFilteredSpecification!) {
+          if (element!.formation != null &&
+              element.formation!.isNotEmpty) {
+            for (var formation in element.formation!) {
+              if (formation.blendName.toString().toLowerCase() ==
+                  value.toString().toLowerCase() &&
+                  formation.blendIdfk == value.blnId.toString() &&
+                  element.isOffering == isOffering) {
+                _blendFilteredSpecification!.add(element);
+              }
+            }
+          }
+        }
+
+        _filteredSpecification = _blendFilteredSpecification;
+      }
+      // _filteredSpecification = _specification!
+      //     .where((element) => (element!.yarnBlend!.toLowerCase() ==
+      //     value!.toString().toLowerCase() &&
+      //     element.is_offering == isOffering))
+      //     .toList();
+    });
   }
 }
