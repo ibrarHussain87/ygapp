@@ -329,6 +329,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             await
                             dbInstance.userDao.deleteUserData();
                             await dbInstance.categoriesDao.deleteAll();
+                            await dbInstance.businessInfoDao.deleteBusinessInfoData();
+                            await dbInstance.userBrandsDao.deleteAll();
                             await dbInstance.fabricGradesDao
                                 .deleteFabricGrades();
                             await dbInstance.knittingTypesDao

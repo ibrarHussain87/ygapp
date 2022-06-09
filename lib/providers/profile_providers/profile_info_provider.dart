@@ -41,10 +41,9 @@ class ProfileInfoProvider extends ChangeNotifier {
     var dbInstance = await AppDbInstance().getDbInstance();
     user = await dbInstance.userDao
         .getUser();
-    // businessInfo = await dbInstance.businessInfoDao
-    //     .getBusinessInfo();
+    businessInfo = await dbInstance.businessInfoDao
+        .getBusinessInfo();
 
-    print("User"+businessInfo.toString());
     countriesList = await dbInstance.countriesDao
         .findAllCountries();
     statesList = await dbInstance.statesDao
@@ -102,7 +101,6 @@ class ProfileInfoProvider extends ChangeNotifier {
 
     if(businessInfo!=null)
     {
-
 
       var dbInstance = await AppDbInstance().getDbInstance();
       if (businessInfo!.countryId != null) {

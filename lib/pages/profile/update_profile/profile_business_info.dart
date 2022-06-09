@@ -105,7 +105,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
   Column buildBusinessDataColumn(BusinessInfo? snapshot, BuildContext context2)
   {
-
+  print("COuntry"+_profileInfoProvider.selectedCompanyState.toString());
     return Column(
       children: [
         Padding(
@@ -485,7 +485,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     .map((value) =>
                     DropdownMenuItem(
                       child: Text(
-                          value.cityName.toString() ?? "",
+                          value.cityName.toString(),
                           textAlign:
                           TextAlign
                               .center,style: TextStyle(fontSize: 13.sp)),
