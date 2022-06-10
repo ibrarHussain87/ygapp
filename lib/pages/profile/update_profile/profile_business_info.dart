@@ -105,7 +105,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
   Column buildBusinessDataColumn(BusinessInfo? snapshot, BuildContext context2)
   {
-  print("COuntry"+_profileInfoProvider.selectedCompanyState.toString());
     return Column(
       children: [
         Padding(
@@ -310,7 +309,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
                   );
                 }).toList(),
-                value: _profileInfoProvider.selectedDesignation,
+                // value: _profileInfoProvider.selectedDesignation,
                 onChanged: (Designations? value) {
                   _profileInfoProvider.selectedDesignation=value;
                   _updateBusinessRequestModel.designation_idfk=value?.designationId.toString();
@@ -449,7 +448,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     ))
                     .toList(),
                 isExpanded: true,
-                value: _profileInfoProvider.selectedCompanyState,
+                // value: _profileInfoProvider.selectedCompanyState,
                 onChanged: (States? value) {
                   FocusScope.of(context)
                       .requestFocus(
@@ -493,7 +492,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     ))
                     .toList(),
                 isExpanded: true,
-                value: _profileInfoProvider.selectedCompanyCity,
+                // value: _profileInfoProvider.selectedCompanyCity,
                 onChanged: (Cities? value) {
                   FocusScope.of(context)
                       .requestFocus(

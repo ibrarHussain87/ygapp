@@ -227,6 +227,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ],
                                       ),
                                     ),
+
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        openMyServicesScreen(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          const ProfileTileWidget(title: "My Services",
+                                              image: 'images/img_auction.png'),
+                                          /*const Divider()*/
+                                          SizedBox(height: 5.0.h,)
+                                        ],
+                                      ),
+                                    ),
                                     //
                                     // Column(
                                     //   children: [

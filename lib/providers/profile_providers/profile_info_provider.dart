@@ -55,7 +55,7 @@ class ProfileInfoProvider extends ChangeNotifier {
     companiesList = await dbInstance.companiesDao
         .findAllCompanies();
     getPersonalInfoData();
-    // getBusinessInfoData();
+    getBusinessInfoData();
     isLoading=false;
     notifyUI();
   }
@@ -108,6 +108,8 @@ class ProfileInfoProvider extends ChangeNotifier {
             businessInfo!.countryId.toString();
         selectedCompanyCountry =await dbInstance.countriesDao
             .findYarnCountryWithId(int.parse(businessInfo!.countryId.toString()));
+
+
       }
 
       if (businessInfo!.cityStateId != null) {
