@@ -777,7 +777,7 @@ class YgServicePageState extends State<YgServicePage>
   _setData() {
 
     _ygServiceRequestModel.contactDetails="Same as Profile";
-    _companyTypeAheadController.text=user?.company.toString() ?? "";
+    _companyTypeAheadController.text=user?.company?? "";
     _ygServiceRequestModel.companyName=user?.name;
     _nameController.text=user?.name.toString() ?? "";
     _ygServiceRequestModel.name=user?.name;

@@ -104,6 +104,9 @@ class ApiService {
         'country_id': countryID,
       };
       String url = BASE_API_URL + PRE_CONFIG_END_POINT;
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: params);
       return PreConfigResponse.fromJson(
@@ -127,7 +130,9 @@ class ApiService {
       String url = BASE_API_URL + LOGIN_END_POINT;
       // final response = await http.post(Uri.parse(url),
       //     headers: headerMap, body: requestModel.toJson());
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
           data: json.encode(requestModel.toJson()));
@@ -153,7 +158,9 @@ class ApiService {
       String url = BASE_API_URL + SIGN_UP_END_POINT;
       // final response = await http.post(Uri.parse(url),
       //     headers: headerMap, body: requestModel.toJson());
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
           data: json.encode(requestModel.toJson()));
@@ -176,7 +183,9 @@ class ApiService {
     try {
       var userToken=
       await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + SUBSCRIBE_TO_PLAN_ENPOINT;
 
@@ -203,7 +212,9 @@ class ApiService {
     try {
       var userToken=
       await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + CREATE_CUSTOMER_SERVICE_ENPOINT;
       final response = await http.post(Uri.parse(url),
@@ -229,7 +240,9 @@ class ApiService {
     try {
       var userToken=
       await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + CREATE_YG_SERVICE_ENPOINT;
       final response = await http.post(Uri.parse(url),
@@ -255,7 +268,9 @@ class ApiService {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + PROFILE_UPDATE_END_POINT;
       final response = await http.post(Uri.parse(url),
@@ -281,7 +296,9 @@ class ApiService {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + BUSINESS_UPDATE_END_POINT;
       final response = await http.post(Uri.parse(url),
@@ -307,7 +324,9 @@ class ApiService {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = BASE_API_URL + BRANDS_UPDATE_END_POINT;
       final response = await http.post(Uri.parse(url),
@@ -332,6 +351,9 @@ class ApiService {
       SpecificationRequestModel requestModel) async {
     try {
       String url = BASE_API_URL + SPEC_USER_END_POINT;
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return SpecificationUserResponse.fromJson(
@@ -357,7 +379,9 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url),
@@ -387,6 +411,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       // getRequestModel.userId = userID;
       getRequestModel.locality = locality;
@@ -415,7 +442,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url),
@@ -443,7 +472,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url),
@@ -471,7 +502,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url),
@@ -501,6 +534,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       // getRequestModel.userId = userID;
       getRequestModel.locality = locality;
@@ -534,6 +570,9 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
 
@@ -563,6 +602,7 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+
       if (createRequestModel.spc_category_idfk == "1") {
         createRequestModel.spc_user_idfk = userId.toString();
       } else {
@@ -575,11 +615,13 @@ class ApiService {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
         dioRequest.options.baseUrl = BASE_API_URL;
-
+        var userDeviceToken =
+        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
+          "Authorization": "Bearer $userToken",
+          "device_token":"$userDeviceToken"
         };
 
         //[3] ADDING EXTRA INFO
@@ -632,11 +674,13 @@ class ApiService {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
         dioRequest.options.baseUrl = BASE_API_URL;
-
+        var userDeviceToken =
+        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
+          "Authorization": "Bearer $userToken",
+          'device_token':'$userDeviceToken'
         };
 
         //[3] ADDING EXTRA INFO
@@ -717,8 +761,10 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       request.headers.addAll(
-          {"Accept": "application/json", "Authorization": "Bearer $userToken"});
+          {"Accept": "application/json", "Authorization": "Bearer $userToken",'device_token':'$userDeviceToken'});
       if (imagePath.isNotEmpty) {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
@@ -756,11 +802,13 @@ class ApiService {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
         dioRequest.options.baseUrl = BASE_API_URL;
-
+        var userDeviceToken =
+        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
+          "Authorization": "Bearer $userToken",
+          'device_token':'$userDeviceToken'
         };
         Logger().e(stocklotRequestModel.toJson().toString());
         //[3] ADDING EXTRA INFO
@@ -808,6 +856,9 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       // getRequestModel.spcUserIdfk = userID;
       logger.e(getRequestModel.toJson());
       final response = await Dio().post(url,
@@ -832,7 +883,9 @@ class ApiService {
       String catId, String specId) async {
     try {
       String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
@@ -868,6 +921,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       Map<String, dynamic> data = {
         "category_id": catId,
         // "user_id": userID.toString(),
@@ -910,8 +966,9 @@ class ApiService {
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
-      headerMap['user_id'] = '$userID';
       headerMap['device_token'] = '$userDeviceToken';
+      headerMap['user_id'] = '$userID';
+
       Logger().e(data.toString());
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1010,7 +1067,9 @@ class ApiService {
   static Future<GetBannersResponse> getBanners() async {
     try {
       String url = BASE_API_URL + GET_BANNERS_END_POINT;
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
@@ -1036,7 +1095,9 @@ class ApiService {
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {"user_id": userID.toString()};
       String url = BASE_API_URL + "/myAds";
@@ -1065,6 +1126,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {"user_id": userID.toString()};
       String url = BASE_API_URL + "/listBids";
@@ -1094,6 +1158,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
         "user_id": userID.toString(),
@@ -1126,6 +1193,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
         "user_id": userID.toString(),
@@ -1159,6 +1229,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
         "user_id": userID.toString(),
@@ -1202,7 +1275,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + COUNTRY_END_POINT;
 
 //      final response = await http.post(Uri.parse(url),
@@ -1231,7 +1306,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + COMPANIES_END_POINT;
 
 //      final response = await http.post(Uri.parse(url),
@@ -1261,7 +1338,9 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
-
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
       String url = BASE_API_URL + PRE_SYNC_END_POINT;
 
       final response = await http.post(Uri.parse(url), headers: headerMap);

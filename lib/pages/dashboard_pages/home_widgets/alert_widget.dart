@@ -9,7 +9,7 @@ class SlidingAlertWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 4.w, bottom: 4.w),
+      padding: EdgeInsets.only(left: 16.w, right: 16.w,),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,

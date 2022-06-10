@@ -52,14 +52,6 @@ class _MainPageState extends State<MainPage> {
          });
        },
      ),
-      // HomeScreen(
-      //   key: homePageState,
-      //   callback: (value) {
-      //     setState(() {
-      //       _onItemTapped(value);
-      //     });
-      //   },
-      // ),
       MarketPage(
         locality: local,
       ),
@@ -87,7 +79,8 @@ class _MainPageState extends State<MainPage> {
     return SafeArea(
       child: Scaffold(
           body: _screens![_selectedIndex],
-          bottomNavigationBar: _generateBottomBar()),
+          // bottomNavigationBar: _generateBottomBar()
+      ),
     );
   }
 
