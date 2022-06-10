@@ -16,8 +16,9 @@ import '../market_pages/stocklot_page/stocklot_page.dart';
 
 class MarketPage extends StatefulWidget {
   final String? locality;
+  final int? pageIndex;
 
-  const MarketPage({Key? key, required this.locality}) : super(key: key);
+  const MarketPage({Key? key, required this.locality,this.pageIndex}) : super(key: key);
 
   @override
   MarketPageState createState() => MarketPageState();
@@ -43,10 +44,13 @@ class MarketPageState extends State<MarketPage>
   TabController? tabController;
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final _specificationLocalFilterProvider = locator<SpecificationLocalFilterProvider>();
+  int pageIndex = 0;
 
   @override
   void initState() {
+    pageIndex = widget.pageIndex??0;
     tabController = TabController(vsync: this, length: tabsList.length);
+    tabController!.animateTo(pageIndex);
     tabController!.addListener(_handleTabSelection);
     super.initState();
   }
@@ -58,6 +62,7 @@ class MarketPageState extends State<MarketPage>
     //   duration: Duration(milliseconds: 500),
     // ));
     // }
+    // tabController!.animateTo(2);
   }
 
   @override
@@ -75,6 +80,7 @@ class MarketPageState extends State<MarketPage>
             length: tabsList.length,
             child: Scaffold(
               backgroundColor:Colors.white,
+
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {

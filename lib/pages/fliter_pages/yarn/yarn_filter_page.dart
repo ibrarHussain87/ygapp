@@ -10,13 +10,13 @@ import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
-import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 
 class YarnFilterBody extends StatefulWidget {
   // final YarnSyncResponse? syncResponse;
@@ -31,12 +31,7 @@ class YarnFilterBody extends StatefulWidget {
 }
 
 class _YarnFilterBodyState extends State<YarnFilterBody> {
-  void changeColor(Color color) {
-    setState(() {
-      pickerColor = color;
-      _textEditingController.text = '#${pickerColor.value.toRadixString(16)}';
-    });
-  }
+  final _yarnFilterProvider = locator<YarnFilterProvider>();
 
   void openDialogBox() {
     // raise the [showDialog] widget
@@ -47,15 +42,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
           title: const Text('Pick a color!'),
           content: SingleChildScrollView(
             child: ColorPicker(
-              pickerColor: pickerColor,
-              onColorChanged: changeColor,
+              pickerColor: _yarnFilterProvider.pickerColor,
+              onColorChanged: _yarnFilterProvider.pickColor,
             ),
           ),
           actions: <Widget>[
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
-                setState(() => pickerColor = pickerColor);
+                _yarnFilterProvider.setPickedColor;
                 Navigator.of(context).pop();
               },
             ),
@@ -65,226 +60,100 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
     );
   }
 
-  _getPattern() {
-    if (_selectedSpunTechId != null) {
-      if (_selectedSpunTechId == "1") {
-        return _patternList!
-            .where((element) => element.spun_technique_id == "1")
-            .toList();
-      }
-      return _patternList!;
-    }
+  //
+  // _getPattern() {
+  //   if (_selectedSpunTechId != null) {
+  //     if (_selectedSpunTechId == "1") {
+  //       return _patternList!
+  //           .where((element) => element.spun_technique_id == "1")
+  //           .toList();
+  //     }
+  //     return _patternList!;
+  //   }
+  //
+  //   return _patternList!;
+  // }
+  //
+  // _getQuality() {
+  //   if (_selectedSpunTechId != null) {
+  //     if (_selectedSpunTechId == "1") {
+  //       return _qualityList!;
+  //     }
+  //     return _qualityList!;
+  //   }
+  //
+  //   return _qualityList!;
+  // }
 
-    return _patternList!;
-  }
-
-  _getQuality() {
-    if (_selectedSpunTechId != null) {
-      if (_selectedSpunTechId == "1") {
-        return _qualityList!;
-      }
-      return _qualityList!;
-    }
-
-    return _qualityList!;
-  }
-
-  _getSyncedData(int? famId) async {
-    _getSpecificationRequestModel = GetSpecificationRequestModel();
-    _getSpecificationRequestModel!.categoryId = "2";
-    var dbInstance = await AppDbInstance().getDbInstance();
-    _familyList = await dbInstance.yarnFamilyDao.findAllYarnFamily();
-    selectedFamilyId = famId ?? _familyList!.first.famId!;
-    _getSpecificationRequestModel!.ysFamilyIdFk = [selectedFamilyId!];
-    _blendsList =
-        await dbInstance.yarnBlendDao.findAllYarnBlends(selectedFamilyId!, 2);
-    _appearanceList = await dbInstance.yarnAppearanceDao
-        .findYarnAppearanceWithFamilyId(selectedFamilyId!);
-    _yarnTypesList = await dbInstance.yarnTypesDao.findAllYarnTypes();
-    _usageList =
-        await dbInstance.usageDao.findYarnUsageWithFamilyId(selectedFamilyId!);
-    _colorTreatmentMethodList = await dbInstance.colorTreatmentMethodDao
-        .findYarnColorTreatmentMethodWithFamilyId(selectedFamilyId!);
-    _dyingMethodList = await dbInstance.dyingMethodDao.findAllDyingMethod();
-    _plyList =
-        await dbInstance.plyDao.findYarnPlyWithFamilyId(selectedFamilyId!);
-    _doublingMethodList =
-        await dbInstance.doublingMethodDao.findAllDoublingMethod();
-    _orientationList = await dbInstance.orientationDao
-        .findYarnOrientationWithFamilyId(selectedFamilyId!);
-    _spunTechList = await dbInstance.spunTechDao
-        .findYarnSpunTechniqueWithFamilyId(selectedFamilyId!);
-    _patternList =
-        await dbInstance.patternDao.findAllPatternWithFamily(selectedFamilyId!);
-    _qualityList = await dbInstance.qualityDao
-        .findYarnQualityWithFamilyId(selectedFamilyId!);
-    // _twistDirectionList = await dbInstance.twistDirectionDao
-    //     .findYarnTwistDirectionWithFamilyId(selectedFamilyId!);
-    _patternCharList =
-        await dbInstance.patternCharDao.findAllPatternCharacteristics();
-    _certificationList =
-        await dbInstance.certificationDao.findAllCertifications();
-    _gradesList =
-        await dbInstance.yarnGradesDao.findGradeWithFamilyId(selectedFamilyId!);
-    await AppDbInstance().getYarnSettings().then((value) {
-      _yarnSettingsList = value;
-      _querySetting(selectedFamilyId!);
-      /*added this to fix bug*/
-      _getSpecificationRequestModel!.ysFamilyIdFk = [selectedFamilyId!];
-      setState(() {
-        _isGetSyncedData = true;
-        _minMaxConfiguration();
-      });
-    });
-  }
-
-  List<Family>? _familyList;
-  List<Blends>? _blendsList;
-  List<Usage>? _usageList;
-  List<ColorTreatmentMethod>? _colorTreatmentMethodList;
-  List<Ply>? _plyList;
-  List<DoublingMethod>? _doublingMethodList;
-  List<DyingMethod>? _dyingMethodList;
-  List<OrientationTable>? _orientationList;
-  // List<TwistDirection>? _twistDirectionList;
-  List<SpunTechnique>? _spunTechList;
-  List<Quality>? _qualityList;
-  List<PatternModel>? _patternList;
-  List<PatternCharectristic>? _patternCharList;
-  List<YarnGrades>? _gradesList;
-  List<YarnAppearance>? _appearanceList;
-  List<Certification>? _certificationList;
-  List<YarnTypes>? _yarnTypesList;
-  List<YarnSetting>? _yarnSettingsList;
-
-  final TextEditingController _textEditingController = TextEditingController();
-
-  Color pickerColor = const Color(0xffffffff);
-  GetSpecificationRequestModel? _getSpecificationRequestModel;
-
-  List<YarnSetting> listOfSettings = [];
-  List<int> listOfMaterials = [];
-  List<int> listOfYarnType = [];
-  List<int> listOfPattern = [];
-  List<int> listOfOrientation = [];
-  List<int> listOfUsageId = [];
-  List<int> listOfPlyId = [];
-  List<int> listOfColorTreatmentId = [];
-  List<int> listOfTwistDirectionId = [];
-  List<int> listOfSpunTechId = [];
-  List<int> listOfQualityId = [];
-  List<int> listAppearanceId = [];
-  List<int> listOfDyingMethod = [];
-  List<int> listOfPatternChar = [];
-  List<int> listOfDoublingMethod = [];
-
-  int? selectedFamilyId;
-  String? selectedBlendId;
-
-  bool _isGetSyncedData = false;
-
-  bool? showTexturized;
-  bool? showBlend;
-  bool? showDannier;
-  bool? showFilament;
-  bool? showUsage;
-  bool? showAppearance;
-  bool? showColorDyingMethod;
-  bool? showColorCode;
-  bool? showRatio;
-  bool? showCount;
-  bool? showPly;
-  bool? showColorTreatmentMethod;
-  bool? showOrientation;
-  bool? showTwistDirection;
-  bool? showSpunTechnique;
-  bool? showQuality;
-  bool? showPattern;
-
-  bool? showGrade;
-  bool? showCertification;
-
-  double minDannier = 0.0;
-  double minFilament = 0.0;
-  double minCount = 0.0;
-  double minRatio = 0.0;
-  double maxDannier = 0.0;
-  double maxFilament = 0.0;
-  double maxCount = 0.0;
-  double maxRatio = 100.0;
-
-  double? minValueDannierParam;
-  double? maxValueDannierParam;
-  double? minValueFilamentParam;
-  double? maxValueFilamentParam;
-  double? minValueCountParam;
-  double? maxValueCountParam;
-  double? minValueRatioParam;
-  double? maxValueRatioParam;
-
-  bool isListClear = false;
+  // int? selectedFamilyId;
+  // String? selectedBlendId;
 
   //Show Hide on dependency
-  bool? showDyingMethod;
-  bool? showPatternCharc;
-  bool? showDoublingMethod;
+  // bool? showDyingMethod;
+  // bool? showPatternCharc;
+  // bool? showDoublingMethod;
 
-  final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
-  final List<int> _plyIdList = [1, 5, 9, 13];
-  final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
-  final List<int> _patternTLPIdList = [2, 9, 12];
-  final List<int> _patternGRIdList = [10];
-
-  String? _selectedPlyId;
-  String? _selectedPatternId;
-  String? _selectedAppearenceId;
-  String? _selectedColorTreatMethodId;
-  String? _selectedSpunTechId;
+  // final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
+  // final List<int> _plyIdList = [1, 5, 9, 13];
+  // final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
+  // final List<int> _patternTLPIdList = [2, 9, 12];
+  // final List<int> _patternGRIdList = [10];
+  //
+  // String? _selectedPlyId;
+  // String? _selectedPatternId;
+  // String? _selectedAppearenceId;
+  // String? _selectedColorTreatMethodId;
+  // String? _selectedSpunTechId;
 
   //Keys
   final GlobalKey<SingleSelectTileRenewedWidgetState> _familyKey =
-  GlobalKey<SingleSelectTileRenewedWidgetState>();
+      GlobalKey<SingleSelectTileRenewedWidgetState>();
+  final GlobalKey<SingleSelectTileRenewedWidgetState> _certificationKey =
+      GlobalKey<SingleSelectTileRenewedWidgetState>();
 
   final GlobalKey<BlendsWithImageListWidgetState> _blendKey =
-  GlobalKey<BlendsWithImageListWidgetState>();
+      GlobalKey<BlendsWithImageListWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _usageKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _plyKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _orientationKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _patternKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _spunTechKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
-  GlobalKey<SingleSelectTileWidgetState>();
-
-
+      GlobalKey<SingleSelectTileWidgetState>();
 
   @override
   void initState() {
-    _getSyncedData(null);
     super.initState();
+    _yarnFilterProvider.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    _yarnFilterProvider.getFamilyData();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _isGetSyncedData
+        body: _yarnFilterProvider.isGetSyncedData
             ? Container(
                 padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),
                 child: Column(
@@ -295,84 +164,61 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TitleTextWidget(title: yarnCategory),
-                                SizedBox(
-                                  height: 8.w,
-                                ),
-                                SizedBox(
-                                  height:
-                                      0.04 * MediaQuery.of(context).size.height,
-                                  child: SingleSelectTileRenewedWidget(
-                                    spanCount: 4,
-                                    listOfItems: _familyList!,
-                                    callback: (Family value) {
-                                      //Family Id
-
-                                      setState(() {
-                                        selectedFamilyId =
-                                            value.famId!;
-                                      });
-                                      // _querySetting((value as Family).famId!);
-                                      _getSyncedData(value.famId);
-
-                                      _getSpecificationRequestModel!
-                                          .ysFamilyIdFk = [(value).famId!];
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.w,
-                                ),
-                              ],
+                            BlendsWithImageListWidget(
+                              key: _familyKey,
+                              listItem: _yarnFilterProvider.familyList,
+                              onClickCallback: (value) {
+                                _yarnFilterProvider.selectedYarnFamily = _yarnFilterProvider.familyList![value];
+                                _resetData();
+                                _yarnFilterProvider
+                                    .getSpecificationRequestModel
+                                    .ysFamilyIdFk = [_yarnFilterProvider.familyList![value].famId!];
+                                _yarnFilterProvider
+                                    .getSyncedData(_yarnFilterProvider.familyList![value].famId!);
+                              },
+                              selectedItem: 0,
                             ),
-
+                            SizedBox(
+                              height: 8.w,
+                            ),
                             //Show Blends
                             Visibility(
-                              visible: showBlend ?? false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 8.w, bottom: 8.w),
-                                      child: TitleTextWidget(title: blend)),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 8.w),
-                                    child: BlendsWithImageListWidget(
-                                      key: _blendKey,
-                                      listItem: _blendsList!,
-                                      onClickCallback: (value) {
-                                        setState(() {
-                                          selectedBlendId = _blendsList![value]
-                                              .blnId
-                                              .toString();
-                                        });
-                                        _getSpecificationRequestModel!
-                                            .ysBlendIdFk = [
-                                          int.parse(selectedBlendId!)
-                                        ];
-                                        // _querySettingWithBlend(
-                                        //     int.parse(selectedBlendId!),
-                                        //     selectedFamilyId!);
-                                        _getSpecificationRequestModel!.ysBlendIdFk = [_blendsList![value].blnId!];
-                                      },
-                                      selectedItem: -1,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 8.w,
-                                  ),
-                                ],
+                              visible: _yarnFilterProvider.showBlend ?? false,
+                              child: SizedBox(
+                                height:
+                                    0.04 * MediaQuery.of(context).size.height,
+                                child: SingleSelectTileRenewedWidget(
+                                  key: _blendKey,
+                                  spanCount: 4,
+                                  selectedIndex: -1,
+                                  listOfItems:
+                                      _yarnFilterProvider.blendsList!,
+                                  callback: (Blends value) {
+
+
+                                    _yarnFilterProvider
+                                        .getSpecificationRequestModel
+                                        .ysBlendIdFk = [
+                                      value.blnId!
+                                    ];
+                                    _yarnFilterProvider
+                                        .getSpecificationRequestModel
+                                        .ysBlendIdFk = [
+                                    value.blnId!];
+
+
+
+                                  },
+                                ),
                               ),
                             ),
-
+                            SizedBox(
+                              height: 8.w,
+                            ),
                             //Show Texturzed
                             Visibility(
-                              visible: showTexturized ?? true,
+                              visible:
+                                  _yarnFilterProvider.showTexturized ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -387,12 +233,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _yarnTypeKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _yarnTypesList!,
+                                    listOfItems:
+                                        _yarnFilterProvider.yarnTypesList!,
                                     callback: (YarnTypes yarnType) {
-                                      _getSpecificationRequestModel!
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
                                               .yarnYypeId =
                                           filterList(
-                                              listOfYarnType, yarnType.ytId!);
+                                              _yarnFilterProvider
+                                                  .listOfYarnType,
+                                              yarnType.ytId!);
                                     },
                                   ),
                                   SizedBox(
@@ -402,10 +252,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 ],
                               ),
                             ),
-
                             //Show Usage
                             Visibility(
-                              visible: showUsage ?? false,
+                              visible: _yarnFilterProvider.showUsage ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -420,11 +269,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _usageKey,
                                     spanCount: 2,
                                     selectedIndex: -1,
-                                    listOfItems: _usageList!,
+                                    listOfItems: _yarnFilterProvider.usageList!,
                                     callback: (Usage usage) {
-                                      _getSpecificationRequestModel!.yuId =
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
+                                              .yuId =
                                           filterList(
-                                              listOfUsageId, usage.yuId!);
+                                              _yarnFilterProvider.listOfUsageId,
+                                              usage.yuId!);
                                     },
                                   ),
                                   SizedBox(
@@ -434,82 +286,79 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 ],
                               ),
                             ),
-
                             //Show Count
-                            Visibility(
-                              visible: showCount ?? false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FilterRangeSlider(
-                                    // minMaxRange: widget.syncFiberResponse.data.fiber
-                                    //     .settings[0].micMinMax,
-                                    minValue: minCount,
-                                    maxValue: maxCount,
-                                    hintTxt: "Count",
-                                    valueCallback: (value) {},
-                                  ),
-                                  SizedBox(
-                                    height: 8.w,
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            ),
-
+                            // Visibility(
+                            //   visible: _yarnFilterProvider.showCount ?? false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       FilterRangeSlider(
+                            //         // minMaxRange: widget.syncFiberResponse.data.fiber
+                            //         //     .settings[0].micMinMax,
+                            //         minValue: _yarnFilterProvider.minCount,
+                            //         maxValue: _yarnFilterProvider.maxCount,
+                            //         hintTxt: "Count",
+                            //         valueCallback: (value) {},
+                            //       ),
+                            //       SizedBox(
+                            //         height: 8.w,
+                            //       ),
+                            //       Divider(),
+                            //     ],
+                            //   ),
+                            // ),
                             //Show Dannier
-                            Visibility(
-                              visible: showDannier ?? false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FilterRangeSlider(
-                                    // minMaxRange: widget.syncFiberResponse.data.fiber
-                                    //     .settings[0].micMinMax,
-                                    minValue: minDannier,
-                                    maxValue: maxDannier,
-                                    hintTxt: "Dannier",
-                                    // minCallback: (value) {
-                                    //   minValueDannierParam = value;
-                                    // },
-                                    // maxCallback: (value) {
-                                    //   maxValueDannierParam = value;
-                                    // },
-                                    valueCallback: (value) {},
-                                  ),
-                                  SizedBox(
-                                    height: 8.w,
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            ),
-
-                            //Show Filament
-                            Visibility(
-                              visible: showFilament ?? false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FilterRangeSlider(
-                                    // minMaxRange: widget.syncFiberResponse.data.fiber
-                                    //     .settings[0].micMinMax,
-                                    minValue: minFilament,
-                                    maxValue: maxFilament,
-                                    hintTxt: "Filament",
-                                    valueCallback: (value) {},
-                                  ),
-                                  SizedBox(
-                                    height: 8.w,
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            ),
-
+                            // Visibility(
+                            //   visible: _yarnFilterProvider.showDannier ?? false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       FilterRangeSlider(
+                            //         // minMaxRange: widget.syncFiberResponse.data.fiber
+                            //         //     .settings[0].micMinMax,
+                            //         minValue: _yarnFilterProvider.minDannier,
+                            //         maxValue: _yarnFilterProvider.maxDannier,
+                            //         hintTxt: "Dannier",
+                            //         // minCallback: (value) {
+                            //         //   minValueDannierParam = value;
+                            //         // },
+                            //         // maxCallback: (value) {
+                            //         //   maxValueDannierParam = value;
+                            //         // },
+                            //         valueCallback: (value) {},
+                            //       ),
+                            //       SizedBox(
+                            //         height: 8.w,
+                            //       ),
+                            //       Divider(),
+                            //     ],
+                            //   ),
+                            // ),
+                            // //Show Filament
+                            // Visibility(
+                            //   visible:
+                            //       _yarnFilterProvider.showFilament ?? false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       FilterRangeSlider(
+                            //         // minMaxRange: widget.syncFiberResponse.data.fiber
+                            //         //     .settings[0].micMinMax,
+                            //         minValue: _yarnFilterProvider.minFilament,
+                            //         maxValue: _yarnFilterProvider.maxFilament,
+                            //         hintTxt: "Filament",
+                            //         valueCallback: (value) {},
+                            //       ),
+                            //       SizedBox(
+                            //         height: 8.w,
+                            //       ),
+                            //       Divider(),
+                            //     ],
+                            //   ),
+                            // ),
                             //Show Ply
                             Visibility(
-                              visible: showPly ?? false,
+                              visible: _yarnFilterProvider.showPly ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -523,14 +372,26 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _plyKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _plyList!,
-                                    callback: (Ply ply) async{
-                                      _getSpecificationRequestModel!.plyId =
-                                          filterList(listOfPlyId, ply.plyId!);
-                                      var dbInstance = await AppDbInstance().getDbInstance();
-                                      _doublingMethodList = await dbInstance.doublingMethodDao.findYarnDoublingMethodWithPlyId(ply.plyId!);
-                                      _showDoublingMethod(ply);
-
+                                    listOfItems: _yarnFilterProvider.plyList!,
+                                    callback: (Ply ply) async {
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
+                                              .plyId =
+                                          filterList(
+                                              _yarnFilterProvider.listOfPlyId,
+                                              ply.plyId!);
+                                      _yarnFilterProvider.plySelection(ply);
+                                      if(_doublingMethodKey.currentState!= null){
+                                        _doublingMethodKey.currentState!.resetWidget();
+                                      }
+                                      _yarnFilterProvider.getSpecificationRequestModel.doublingMethodId = null;
+                                      // var dbInstance =
+                                      //     await AppDbInstance().getDbInstance();
+                                      // _yarnFilterProvider.doublingMethodList =
+                                      //     await dbInstance.doublingMethodDao
+                                      //         .findYarnDoublingMethodWithPlyId(
+                                      //             ply.plyId!);
+                                      // _showDoublingMethod(ply);
                                     },
                                   ),
                                   SizedBox(
@@ -540,10 +401,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 ],
                               ),
                             ),
-
                             //Show Doubling Method
                             Visibility(
-                              visible: showDoublingMethod ?? false,
+                              visible: _yarnFilterProvider.showDoublingMethod ??
+                                  false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -558,11 +419,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _doublingMethodKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _doublingMethodList!,
+                                    listOfItems:
+                                        _yarnFilterProvider.doublingMethodList!,
                                     callback: (DoublingMethod doublingMethod) {
-                                      _getSpecificationRequestModel!
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
                                               .doublingMethodId =
-                                          filterList(listOfDoublingMethod,
+                                          filterList(
+                                              _yarnFilterProvider
+                                                  .listOfDoublingMethod,
                                               doublingMethod.dmId!);
                                     },
                                   ),
@@ -573,10 +438,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 ],
                               ),
                             ),
-
                             //Show Orientation
                             Visibility(
-                              visible: showOrientation ?? false,
+                              visible:
+                                  _yarnFilterProvider.showOrientation ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -591,11 +456,15 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _orientationKey,
                                     selectedIndex: -1,
                                     spanCount: 2,
-                                    listOfItems: _orientationList!,
+                                    listOfItems:
+                                        _yarnFilterProvider.orientationList!,
                                     callback: (OrientationTable orientation) {
-                                      _getSpecificationRequestModel!
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
                                               .orientationId =
-                                          filterList(listOfOrientation,
+                                          filterList(
+                                              _yarnFilterProvider
+                                                  .listOfOrientation,
                                               orientation.yoId!);
                                     },
                                   ),
@@ -608,7 +477,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             ),
                             //Show Color Treatment Method
                             Visibility(
-                              visible: showColorTreatmentMethod ?? false,
+                              visible: _yarnFilterProvider
+                                      .showColorTreatmentMethod ??
+                                  false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -623,14 +494,18 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _colorTreatmentMethodKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _colorTreatmentMethodList!,
+                                    listOfItems: _yarnFilterProvider
+                                        .colorTreatmentMethodList!,
                                     callback: (ColorTreatmentMethod
                                         colorTreatmentMethod) {
-                                      _getSpecificationRequestModel!
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
                                               .colorTreatmentId =
-                                          filterList(listOfColorTreatmentId,
+                                          filterList(
+                                              _yarnFilterProvider
+                                                  .listOfColorTreatmentId,
                                               colorTreatmentMethod.yctmId!);
-                                      _showDyingMethod(colorTreatmentMethod);
+                                      // _showDyingMethod(colorTreatmentMethod);
                                     },
                                   ),
                                   SizedBox(
@@ -641,40 +516,45 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                               ),
                             ),
                             //Show color dying method
-                            Visibility(
-                              visible: /*showDyingMethod ?? */ false,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 8.w, bottom: 8.w),
-                                      child: const TitleSmallTextWidget(
-                                          title: "Dying Method")),
-                                  SingleSelectTileWidget(
-                                    key: _dyingMethodKey,
-                                    selectedIndex: -1,
-                                    spanCount: 3,
-                                    listOfItems: _dyingMethodList!,
-                                    callback: (DyingMethod dyingMethod) {
-                                      _getSpecificationRequestModel!
-                                              .ys_dying_method_idfk =
-                                          filterList(listOfDyingMethod,
-                                              dyingMethod.ydmId!);
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  const Divider(),
-                                ],
-                              ),
-                            ),
+                            // Visibility(
+                            //   visible: /*showDyingMethod ?? */ false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     mainAxisAlignment:
+                            //         MainAxisAlignment.spaceBetween,
+                            //     children: [
+                            //       Padding(
+                            //           padding: EdgeInsets.only(
+                            //               left: 8.w, bottom: 8.w),
+                            //           child: const TitleSmallTextWidget(
+                            //               title: "Dying Method")),
+                            //       SingleSelectTileWidget(
+                            //         key: _dyingMethodKey,
+                            //         selectedIndex: -1,
+                            //         spanCount: 3,
+                            //         listOfItems:
+                            //             _yarnFilterProvider.dyingMethodList!,
+                            //         callback: (DyingMethod dyingMethod) {
+                            //           _yarnFilterProvider
+                            //                   .getSpecificationRequestModel
+                            //                   .ys_dying_method_idfk =
+                            //               filterList(
+                            //                   _yarnFilterProvider
+                            //                       .listOfDyingMethod,
+                            //                   dyingMethod.ydmId!);
+                            //         },
+                            //       ),
+                            //       SizedBox(
+                            //         height: 4.w,
+                            //       ),
+                            //       const Divider(),
+                            //     ],
+                            //   ),
+                            // ),
                             //Show Color Code
                             Visibility(
-                                visible: showDyingMethod ?? false,
+                                visible: _yarnFilterProvider.showDyingMethod ??
+                                    false,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Column(
@@ -695,14 +575,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                           width: double.infinity,
                                           child: TextFormField(
                                             keyboardType: TextInputType.none,
-                                            controller: _textEditingController,
+                                            controller: _yarnFilterProvider
+                                                .textEditingController,
                                             autofocus: false,
                                             showCursor: false,
                                             readOnly: true,
                                             style: TextStyle(fontSize: 11.sp),
                                             textAlign: TextAlign.center,
                                             onSaved: (input) =>
-                                                _getSpecificationRequestModel!
+                                                _yarnFilterProvider
+                                                    .getSpecificationRequestModel
                                                     .ys_color_code = input,
                                             validator: (input) {
                                               if (input == null ||
@@ -722,7 +604,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                                     const EdgeInsets.all(2.0),
                                                 hintText: "Select Color",
                                                 filled: true,
-                                                fillColor: pickerColor),
+                                                fillColor: _yarnFilterProvider
+                                                    .pickerColor),
                                             onTap: () {
                                               openDialogBox();
                                             },
@@ -746,15 +629,19 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                       child: TitleSmallTextWidget(
                                           title: apperance)),
                                   SingleSelectTileWidget(
-                                    key: _appearanceKey,
+                                      key: _appearanceKey,
                                       selectedIndex: -1,
                                       spanCount: 3,
-                                      listOfItems: _appearanceList!,
+                                      listOfItems:
+                                          _yarnFilterProvider.appearanceList!,
                                       callback:
                                           (YarnAppearance yarnAppearance) {
-                                        _getSpecificationRequestModel!
+                                        _yarnFilterProvider
+                                                .getSpecificationRequestModel
                                                 .apperanceYarnId =
-                                            filterList(listAppearanceId,
+                                            filterList(
+                                                _yarnFilterProvider
+                                                    .listAppearanceId,
                                                 yarnAppearance.yaId!);
                                       }),
                                   SizedBox(
@@ -766,7 +653,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             ),
                             //Show Spun Technique
                             Visibility(
-                              visible: showSpunTechnique ?? false,
+                              visible: _yarnFilterProvider.showSpunTechnique ??
+                                  false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -781,15 +669,29 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _spunTechKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _spunTechList!,
+                                    listOfItems:
+                                        _yarnFilterProvider.spunTechList!,
                                     callback: (SpunTechnique spunTech) {
-                                      setState(() {
-                                        _selectedSpunTechId =
-                                            spunTech.ystId.toString();
-                                      });
-                                      _getSpecificationRequestModel!
+                                      // setState(() {
+                                      //   _yarnFilterProvider.selectedSpunTechId =
+                                      //       spunTech.ystId.toString();
+                                      // });
+                                      _yarnFilterProvider.spunSelection(spunTech);
+                                      if(_qualityKey.currentState!= null){
+                                        _qualityKey.currentState!.resetWidget();
+                                      }
+                                      _yarnFilterProvider.getSpecificationRequestModel.qualityId = null;
+                                      if(_patternKey.currentState!= null){
+                                        _patternKey.currentState!.resetWidget();
+                                      }
+                                      _yarnFilterProvider.getSpecificationRequestModel.patternId = null;
+
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
                                               .spunTechId =
-                                          filterList(listOfSpunTechId,
+                                          filterList(
+                                              _yarnFilterProvider
+                                                  .listOfSpunTechId,
                                               spunTech.ystId!);
                                     },
                                   ),
@@ -802,7 +704,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             ),
                             //Show Quality
                             Visibility(
-                              visible: showQuality ?? false,
+                              visible: _yarnFilterProvider.showQuality ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -817,11 +719,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _qualityKey,
                                     selectedIndex: -1,
                                     spanCount: 2,
-                                    listOfItems: _getQuality(),
+                                    listOfItems:
+                                        _yarnFilterProvider.qualityList!,
                                     callback: (Quality quality) {
-                                      _getSpecificationRequestModel!.qualityId =
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
+                                              .qualityId =
                                           filterList(
-                                              listOfQualityId, quality.yqId!);
+                                              _yarnFilterProvider
+                                                  .listOfQualityId,
+                                              quality.yqId!);
                                     },
                                   ),
                                   SizedBox(
@@ -833,7 +740,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                             ),
                             //Show Pattern
                             Visibility(
-                              visible: showPattern ?? false,
+                              visible: _yarnFilterProvider.showPattern ?? false,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -848,12 +755,16 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                     key: _patternKey,
                                     selectedIndex: -1,
                                     spanCount: 3,
-                                    listOfItems: _getPattern(),
+                                    listOfItems:
+                                        _yarnFilterProvider.patternList!,
                                     callback: (PatternModel pattern) {
-                                      _getSpecificationRequestModel!.patternId =
+                                      _yarnFilterProvider
+                                              .getSpecificationRequestModel
+                                              .patternId =
                                           filterList(
-                                              listOfPattern, pattern.ypId!);
-                                      _showPatternChar(pattern);
+                                              _yarnFilterProvider.listOfPattern,
+                                              pattern.ypId!);
+                                      _yarnFilterProvider.patternSelection(pattern);
                                     },
                                   ),
                                   SizedBox(
@@ -863,9 +774,43 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                 ],
                               ),
                             ),
+                            //Show Pattern charac
+                            // Visibility(
+                            //   visible: _yarnFilterProvider.showPatternCharc ?? false,
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     mainAxisAlignment:
+                            //     MainAxisAlignment.spaceBetween,
+                            //     children: [
+                            //       Padding(
+                            //           padding: EdgeInsets.only(
+                            //               left: 8.w, bottom: 8.w),
+                            //           child:
+                            //           TitleSmallTextWidget(title: pattern)),
+                            //       SingleSelectTileWidget(
+                            //         selectedIndex: -1,
+                            //         spanCount: 3,
+                            //         listOfItems:
+                            //         _yarnFilterProvider.patternCharList!,
+                            //         callback: (PatternCharectristic pattern) {
+                            //           _yarnFilterProvider
+                            //               .getSpecificationRequestModel
+                            //               .patternCharId =
+                            //               filterList(
+                            //                   _yarnFilterProvider.listOfPattern,
+                            //                   pattern.ypcId!);
+                            //         },
+                            //       ),
+                            //       SizedBox(
+                            //         height: 4.w,
+                            //       ),
+                            //       const Divider(),
+                            //     ],
+                            //   ),
+                            // ),
                             //Show Grade
                             Visibility(
-                              visible: showGrade ?? false,
+                              visible: _yarnFilterProvider.showGrade ?? false,
                               child: Padding(
                                 padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
                                 child: Column(
@@ -876,12 +821,41 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                                         child: TitleSmallTextWidget(
                                             title: grades)),
                                     SingleSelectTileWidget(
+                                      selectedIndex: -1,
                                       key: _gradeKey,
                                       spanCount: 3,
-                                      listOfItems: _gradesList!,
-                                      callback: (Grades grades) {
-                                        _getSpecificationRequestModel!.gradeId =
-                                            [grades.grdId!];
+                                      listOfItems:
+                                          _yarnFilterProvider.gradesList!,
+                                      callback: (YarnGrades grades) {
+                                        _yarnFilterProvider
+                                            .getSpecificationRequestModel
+                                            .gradeId = [grades.grdId!];
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: _yarnFilterProvider.showCertification ?? false,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.w, bottom: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 8.w),
+                                        child: TitleSmallTextWidget(
+                                            title: certification)),
+                                    SingleSelectTileWidget(
+                                      key: _certificationKey,
+                                      spanCount: 3,
+                                      listOfItems:
+                                      _yarnFilterProvider.certificationList!,
+                                      callback: (Certification certification) {
+                                        _yarnFilterProvider
+                                            .getSpecificationRequestModel
+                                            .certificationId = [certification.cerId];
                                       },
                                     ),
                                   ],
@@ -900,10 +874,10 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           child: ElevatedButtonWithoutIcon(
                             callback: () {
                               _resetData();
-                              setState(() {
-                                selectedFamilyId = _familyList!.first.famId!;
-                              });
-                              _querySetting(_familyList!.first.famId!);
+                              _yarnFilterProvider.selectedYarnFamily = _yarnFilterProvider.familyList!.first;
+                              _yarnFilterProvider
+                                  .getSyncedData(_yarnFilterProvider.familyList!.first.famId!);
+                              _yarnFilterProvider.querySetting(_yarnFilterProvider.familyList!.first.famId!);
                             },
                             color: Colors.grey.shade300,
                             btnText: 'Reset',
@@ -917,7 +891,9 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                           child: ElevatedButtonWithoutIcon(
                               callback: () {
                                 Navigator.pop(
-                                    context, _getSpecificationRequestModel);
+                                    context,
+                                    _yarnFilterProvider
+                                        .getSpecificationRequestModel);
                               },
                               color: textColorBlue,
                               btnText: 'Apply Filter'),
@@ -932,317 +908,6 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
     );
   }
 
-  _querySetting(int id) {
-    AppDbInstance().getDbInstance().then(
-        (db) => db.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
-              late bool isSettingInList;
-              late YarnSetting _yarnSetting;
-
-              if (!isListClear) {
-                listOfSettings.clear();
-                isListClear = false;
-              }
-              if (listOfSettings.isNotEmpty) {
-                for (var element in listOfSettings) {
-                  _yarnSetting = value[0];
-
-                  if (element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk) {
-                    isSettingInList = true;
-                    break;
-                  } else {
-                    isSettingInList = false;
-                  }
-                }
-
-                isSettingInList
-                    ? listOfSettings.removeWhere((element) =>
-                        element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk)
-                    // ? listOfSettings.toSet().toList()
-                    : listOfSettings.add(_yarnSetting);
-              } else {
-                listOfSettings.add(value[0]);
-              }
-              _minMaxConfiguration();
-              _showHideConfiguration();
-            }));
-  }
-
-  _querySettingWithBlend(int id, int blend) {
-    AppDbInstance().getDbInstance().then((db) => db.yarnSettingsDao
-            .findFamilyAndBlendYarnSettings(blend, id)
-            .then((value) {
-          if (value.isNotEmpty) {
-            late bool isSettingInList;
-            late YarnSetting _yarnSetting;
-
-            if (!isListClear) {
-              listOfSettings.clear();
-              isListClear = false;
-            }
-            if (listOfSettings.isNotEmpty) {
-              for (var element in listOfSettings) {
-                _yarnSetting = value[0];
-
-                if (element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk) {
-                  isSettingInList = true;
-                  break;
-                } else {
-                  isSettingInList = false;
-                }
-              }
-
-              isSettingInList
-                  ? listOfSettings.removeWhere((element) =>
-                      element.ysFamilyIdfk == _yarnSetting.ysFamilyIdfk)
-                  // ? listOfSettings.toSet().toList()
-                  : listOfSettings.add(_yarnSetting);
-            } else {
-              listOfSettings.add(value[0]);
-            }
-            _minMaxConfiguration();
-            _showHideConfiguration();
-          }
-        }));
-  }
-
-  _minMaxConfiguration() {
-    for (var element
-        in listOfSettings.isEmpty ? _yarnSettingsList! : listOfSettings) {
-      _setMinMaxConfiguration(element);
-    }
-  }
-
-  void _setMinMaxConfiguration(YarnSetting element) {
-    setState(() {
-      if (Utils.splitMin(element.countMinMax) > minCount) {
-        minCount = Utils.splitMin(element.countMinMax);
-      }
-      if (Utils.splitMax(element.countMinMax) > maxCount) {
-        maxCount = Utils.splitMax(element.countMinMax);
-      }
-      if (Utils.splitMin(element.filamentMinMax) > minFilament) {
-        minFilament = Utils.splitMin(element.filamentMinMax);
-      }
-      if (Utils.splitMax(element.filamentMinMax) > maxFilament) {
-        maxFilament = Utils.splitMax(element.filamentMinMax);
-      }
-      if (Utils.splitMin(element.dannierMinMax) > minDannier) {
-        minDannier = Utils.splitMin(element.dannierMinMax);
-      }
-      if (Utils.splitMax(element.dannierMinMax) > maxDannier) {
-        maxDannier = Utils.splitMax(element.dannierMinMax);
-      }
-    });
-  }
-
-  void _showHideConfiguration() {
-    bool? tempShowTexturized;
-    bool? tempShowBlend;
-    bool? tempShowDannier;
-    bool? tempShowFilament;
-    bool? tempShowUsage;
-    bool? tempShowAppearance;
-    bool? tempShowColorDyingMethod;
-    bool? tempShowColorCode;
-    bool? tempShowRatio;
-    bool? tempShowCount;
-    bool? tempShowPly;
-    bool? tempShowDoublingMethod;
-    bool? tempShowColorTreatmentMethod;
-    bool? tempShowOrientation;
-    bool? tempShowTwistDirection;
-    bool? tempShowSpunTechnique;
-    bool? tempShowQuality;
-    bool? tempShowPattern;
-    bool? tempShowPatternCharc;
-    bool? tempShowGrade;
-    bool? tempShowCertification;
-
-    if (listOfSettings.isNotEmpty) {
-      for (var element in listOfSettings) {
-        // setState(() {
-
-        tempShowBlend = tempShowBlend == null
-            ? Ui.showHide(element.showBlend)
-            : (showBlend! && Ui.showHide(element.showBlend) && tempShowBlend)
-                ? true
-                : false;
-
-        tempShowUsage = tempShowUsage == null
-            ? Ui.showHide(element.showUsage)
-            : (showUsage! && Ui.showHide(element.showUsage) && tempShowUsage)
-                ? true
-                : false;
-
-        tempShowGrade = tempShowGrade == null
-            ? Ui.showHide(element.showGrade)
-            : (showGrade! && Ui.showHide(element.showGrade) && tempShowGrade)
-                ? true
-                : false;
-
-        tempShowTexturized = tempShowTexturized == null
-            ? Ui.showHide(element.showTexturized)
-            : (showTexturized! &&
-                    Ui.showHide(element.showTexturized) &&
-                    tempShowTexturized)
-                ? true
-                : false;
-
-        tempShowFilament = tempShowFilament == null
-            ? Ui.showHide(element.showFilament)
-            : (showFilament! &&
-                    Ui.showHide(element.showFilament) &&
-                    tempShowFilament)
-                ? true
-                : false;
-
-        tempShowDannier = tempShowDannier == null
-            ? Ui.showHide(element.showDannier)
-            : (showDannier! &&
-                    Ui.showHide(element.showDannier) &&
-                    tempShowDannier)
-                ? true
-                : false;
-
-        tempShowAppearance = tempShowAppearance == null
-            ? Ui.showHide(element.showAppearance)
-            : (showAppearance! &&
-                    Ui.showHide(element.showAppearance) &&
-                    tempShowAppearance)
-                ? true
-                : false;
-
-        tempShowCount = tempShowCount == null
-            ? Ui.showHide(element.showCount)
-            : (showCount! && Ui.showHide(element.showCount) && tempShowCount)
-                ? true
-                : false;
-
-        tempShowRatio = tempShowRatio == null
-            ? Ui.showHide(element.showRatio)
-            : (showRatio! && Ui.showHide(element.showRatio) && tempShowRatio)
-                ? true
-                : false;
-
-        tempShowCertification = tempShowCertification == null
-            ? Ui.showHide(element.showCertification)
-            : (showCertification! &&
-                    Ui.showHide(element.showCertification) &&
-                    tempShowCertification)
-                ? true
-                : false;
-
-        tempShowColorDyingMethod = tempShowColorDyingMethod == null
-            ? Ui.showHide(element.showDyingMethod)
-            : (showColorDyingMethod! &&
-                    Ui.showHide(element.showDyingMethod) &&
-                    tempShowColorDyingMethod)
-                ? true
-                : false;
-
-        tempShowColorTreatmentMethod = tempShowColorTreatmentMethod == null
-            ? Ui.showHide(element.showColorTreatmentMethod)
-            : (showColorTreatmentMethod! &&
-                    Ui.showHide(element.showColorTreatmentMethod) &&
-                    tempShowColorTreatmentMethod)
-                ? true
-                : false;
-
-        tempShowPly = tempShowPly == null
-            ? Ui.showHide(element.showPly)
-            : (showPly! && Ui.showHide(element.showPly) && tempShowPly)
-                ? true
-                : false;
-
-        tempShowPattern = tempShowPattern == null
-            ? Ui.showHide(element.showPattern)
-            : (showPattern! &&
-                    Ui.showHide(element.showPattern) &&
-                    tempShowPattern)
-                ? true
-                : false;
-
-        // tempShowPatternCharc = tempShowPatternCharc == null
-        //     ? Ui.showHide(element.showPatternCharectristic)
-        //     : (showPatternCharc! &&
-        //             Ui.showHide(element.showPatternCharectristic) &&
-        //             tempShowPatternCharc)
-        //         ? true
-        //         : false;
-
-        tempShowOrientation = tempShowOrientation == null
-            ? Ui.showHide(element.showOrientation)
-            : (showOrientation! &&
-                    Ui.showHide(element.showOrientation) &&
-                    tempShowOrientation)
-                ? true
-                : false;
-
-        tempShowSpunTechnique = tempShowSpunTechnique == null
-            ? Ui.showHide(element.showSpunTechnique)
-            : (showSpunTechnique! &&
-                    Ui.showHide(element.showSpunTechnique) &&
-                    tempShowSpunTechnique)
-                ? true
-                : false;
-
-        tempShowTwistDirection = tempShowTwistDirection == null
-            ? Ui.showHide(element.showTwistDirection)
-            : (showTwistDirection! &&
-                    Ui.showHide(element.showTwistDirection) &&
-                    tempShowTwistDirection)
-                ? true
-                : false;
-
-        // tempShowDoublingMethod = tempShowDoublingMethod == null
-        //     ? Ui.showHide(element.showDoublingMethod)
-        //     : (showDoublingMethod! &&
-        //             Ui.showHide(element.showDoublingMethod) &&
-        //             tempShowDoublingMethod)
-        //         ? true
-        //         : false;
-
-        tempShowQuality = tempShowQuality == null
-            ? Ui.showHide(element.showQuality)
-            : (showQuality! &&
-                    Ui.showHide(element.showQuality) &&
-                    tempShowQuality)
-                ? true
-                : false;
-
-        // });
-      }
-
-      setState(() {
-        showGrade = tempShowGrade;
-        showBlend = tempShowBlend;
-        showCount = tempShowCount;
-        showRatio = tempShowRatio;
-        showCertification = tempShowCertification;
-        showAppearance = tempShowAppearance;
-        showFilament = tempShowFilament;
-        showDannier = tempShowDannier;
-        showUsage = tempShowUsage;
-        showTexturized = tempShowTexturized;
-
-        showColorDyingMethod = tempShowColorDyingMethod;
-        showColorCode = tempShowColorCode;
-        showPly = tempShowPly;
-        showDoublingMethod = tempShowDoublingMethod;
-        showColorTreatmentMethod = tempShowColorTreatmentMethod;
-        showOrientation = tempShowOrientation;
-        showTwistDirection = tempShowTwistDirection;
-        showSpunTechnique = tempShowSpunTechnique;
-        showQuality = tempShowQuality;
-        showPattern = tempShowPattern;
-        // showPatternCharc = tempShowPatternCharc;
-        showGrade = tempShowGrade;
-      });
-    } else {
-      // _resetData();
-    }
-  }
-
   void handleReadOnlyInputClick(context) {
     showModalBottomSheet(
         context: context,
@@ -1254,7 +919,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                 firstDate: DateTime(DateTime.now().year - 4),
                 lastDate: DateTime.now(),
                 onChanged: (val) {
-                  _textEditingController.text = val.year.toString();
+                  _yarnFilterProvider.textEditingController.text =
+                      val.year.toString();
                   Navigator.pop(context);
                 },
               ),
@@ -1278,14 +944,14 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
         pattern.ypId == 3 ||
         pattern.ypId == 4) {
       setState(() {
-        showPatternCharc = true;
-        _selectedPatternId = pattern.ypId.toString();
+        _yarnFilterProvider.showPatternCharc = true;
+        // _yarnFilterProvider.selectedPatternId = pattern.ypId.toString();
       });
     } else {
       setState(() {
-        showPatternCharc = false;
-        _selectedPatternId = null;
-        _getSpecificationRequestModel!.patternCharId = null;
+        _yarnFilterProvider.showPatternCharc = false;
+        // _yarnFilterProvider.selectedPatternId = null;
+        _yarnFilterProvider.getSpecificationRequestModel.patternCharId = null;
       });
     }
   }
@@ -1293,35 +959,35 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   void _showDoublingMethod(Ply ply) {
     if (ply.plyId != 1) {
       setState(() {
-        showDoublingMethod = true;
-        _selectedPlyId = ply.plyId.toString();
+        _yarnFilterProvider.showDoublingMethod = true;
+        // _yarnFilterProvider.selectedPlyId = ply.plyId.toString();
       });
     } else {
       setState(() {
-        showDoublingMethod = false;
-        _selectedPlyId = null;
-        _getSpecificationRequestModel!.doublingMethodId = null;
+        _yarnFilterProvider.showDoublingMethod = false;
+        // _yarnFilterProvider.selectedPlyId = null;
+        _yarnFilterProvider.getSpecificationRequestModel.doublingMethodId =
+            null;
       });
     }
   }
 
-  void _showDyingMethod(ColorTreatmentMethod colorTreatmentMethod) {
-    if (_colorTreatmentIdList.contains(colorTreatmentMethod.yctmId)) {
-      setState(() {
-        showDyingMethod = true;
-        _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
-      });
-    } else {
-      setState(() {
-        showDyingMethod = false;
-        _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
-        _getSpecificationRequestModel!.doublingMethodId = null;
-      });
-    }
-  }
+  // void _showDyingMethod(ColorTreatmentMethod colorTreatmentMethod) {
+  //   if (colorTreatmentIdList.contains(colorTreatmentMethod.yctmId)) {
+  //     setState(() {
+  //       showDyingMethod = true;
+  //       _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
+  //     });
+  //   } else {
+  //     setState(() {
+  //       showDyingMethod = false;
+  //       _selectedColorTreatMethodId = colorTreatmentMethod.yctmId.toString();
+  //       _getSpecificationRequestModel!.doublingMethodId = null;
+  //     });
+  //   }
+  // }
 
   void _resetData() {
-
     if (_yarnTypeKey.currentState != null) {
       _yarnTypeKey.currentState!.resetWidget();
     }
@@ -1358,14 +1024,21 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
     if (_colorTreatmentMethodKey.currentState != null) {
       _colorTreatmentMethodKey.currentState!.resetWidget();
     }
+    if (_certificationKey.currentState != null) {
+      _certificationKey.currentState!.resetWidget();
+    }
+    _yarnFilterProvider.getSpecificationRequestModel =
+        GetSpecificationRequestModel();
+    _yarnFilterProvider.getSpecificationRequestModel.categoryId = '2';
+    _yarnFilterProvider.showDyingMethod = false;
+    _yarnFilterProvider.showDoublingMethod = false;
+    _yarnFilterProvider.showPatternCharc = false;
+    _yarnFilterProvider.showQuality = false;
 
-    setState(() {
-     _getSpecificationRequestModel = GetSpecificationRequestModel();
-     _getSpecificationRequestModel!.categoryId = '2';
-     showDyingMethod = false;
-     showDoublingMethod = false;
-     showPatternCharc = false;
-
-    });
   }
+
+
+
+
+
 }

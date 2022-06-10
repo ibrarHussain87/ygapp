@@ -18,6 +18,7 @@ import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.da
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
 import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 import 'providers/profile_providers/user_brands_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -92,6 +93,8 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<ProfileInfoProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<YarnFilterProvider>()),
 
       ],
       child: MaterialApp(
@@ -101,6 +104,11 @@ class YgApp extends StatelessWidget {
           primarySwatch: Colors.green,
           /*/*fontFamily: 'Metropolis',*/*/
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+            appBarTheme: AppBarTheme(
+                iconTheme: IconThemeData(
+                    color: Colors.grey.shade500
+                )
+            )
         ),
         home: YgAppPage(),
         debugShowCheckedModeBanner: false,

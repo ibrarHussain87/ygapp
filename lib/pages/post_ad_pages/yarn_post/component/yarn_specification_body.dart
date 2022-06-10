@@ -486,7 +486,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
 
   final List<int> _plyIdList = [1, 5, 9, 13];
-  final List<int> _patternIdList = [1, 2, 3, 4, 9, 10, 12];
   final List<int> _patternTLPIdList = [1, 2, 3, 4, 9, 12, 14];
   final List<int> _patternGRIdList = [20, 10, 16];
 

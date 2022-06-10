@@ -4,6 +4,7 @@ import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
 import '../../../model/home_model.dart';
 
@@ -132,9 +133,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
-                        if (index==4) {
-                   openYGServiceScreen(context);
+                        switch(index){
+                          case 0:
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  const MarketPage(locality: 'LOCAL'),
+                              ),
+                            );
+                            break;
+                          case 1:
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  const MarketPage(locality: 'LOCAL'),
+                              ),
+                            );
+                            break;
+                          case 2:
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  const MarketPage(locality: 'LOCAL'),
+                              ),
+                            );
+                            break;
+                          case 3:
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  const MarketPage(locality: 'LOCAL'),
+                              ),
+                            );
+                            break;
+                          case 4:
+                            openYGServiceScreen(context);
+                            break;
                         }
+                        // if (index==4) {
+                        // }
                       },
                       child: Stack(
                         children: <Widget>[
