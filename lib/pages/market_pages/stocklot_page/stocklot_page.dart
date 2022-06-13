@@ -68,8 +68,136 @@ class StockLotPageState extends State<StockLotPage> {
                   color: bgColor,
                   child: Column(
                     children: [
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: widget.locality == international
+                                      ? 8
+                                      : 10,
+                                  child:
+                                  OfferingRequirementSegmentComponent(
+                                    callback: (value) {
+                                      stocklotProvider
+                                          .setIsOffering(value.toString());
+                                    },
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: widget.locality == international,
+                                  maintainState: false,
+                                  maintainSize: false,
+                                  child: Expanded(
+                                    child: Image.asset(
+                                      ic_products,
+                                      width: 12,
+                                      height: 12,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: widget.locality == international
+                                      ? 3
+                                      : 0,
+                                  child: Visibility(
+                                      maintainSize: false,
+                                      maintainState: false,
+                                      visible:
+                                      widget.locality == international,
+                                      child: SearchChoices.single(
+                                        displayClearIcon: false,
+                                        isExpanded: true,
+                                        hint:
+                                        const TitleExtraSmallBoldTextWidget(
+                                            title: 'Country'),
+                                        items: _countries
+                                            .map((value) =>
+                                            DropdownMenuItem(
+                                              child: Text(
+                                                value.conName ??
+                                                    Utils
+                                                        .checkNullString(
+                                                        false),
+                                                textAlign:
+                                                TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                ),
+                                              ),
+                                              value: value,
+                                            ))
+                                            .toList(),
+                                        isCaseSensitiveSearch: false,
+                                        onChanged: (Countries? value) {},
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: textColorGrey,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      )
+
+//                                        DropdownButtonFormField(
+//                                          isExpanded: true,
+//                                          decoration:
+//                                              const InputDecoration.collapsed(
+//                                                  hintText: ''),
+//                                          hint:
+//                                              const TitleExtraSmallBoldTextWidget(
+//                                                  title: 'Country'),
+//                                          items: _countries
+//                                              .map((value) => DropdownMenuItem(
+//                                                    child: Text(
+//                                                        value.conName ??
+//                                                            Utils
+//                                                                .checkNullString(
+//                                                                    false),
+//                                                        textAlign:
+//                                                            TextAlign.center),
+//                                                    value: value,
+//                                                  ))
+//                                              .toList(),
+//                                          onChanged: (Countries? value) {
+//                                            /*_createRequestModel!
+//                                          .spc_origin_idfk =
+//                                          value!.conId.toString();*/
+//                                          },
+//                                          style: TextStyle(
+//                                              fontSize: 11.sp,
+//                                              color: textColorGrey),
+//                                        ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: false,
+                                  child: Center(
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () async {},
+                                      child: Card(
+                                          color: Colors.white,
+                                          elevation: 1,
+                                          child: Padding(
+                                              padding: EdgeInsets.all(4.w),
+                                              child: Icon(
+                                                Icons.filter_alt_sharp,
+                                                color: lightBlueTabs,
+                                                size: 16.w,
+                                              ))),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                       Material(
-                        elevation: 1,
+                        elevation: 0.2,
                         color: Colors.white,
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -176,137 +304,7 @@ class StockLotPageState extends State<StockLotPage> {
                                 ),
                               ],
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: widget.locality == international
-                                              ? 8
-                                              : 10,
-                                          child:
-                                          OfferingRequirementSegmentComponent(
-                                            callback: (value) {
-                                              stocklotProvider
-                                                  .setIsOffering(value.toString());
-                                            },
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: widget.locality == international,
-                                          maintainState: false,
-                                          maintainSize: false,
-                                          child: Expanded(
-                                            child: Image.asset(
-                                              ic_products,
-                                              width: 12,
-                                              height: 12,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: widget.locality == international
-                                              ? 3
-                                              : 0,
-                                          child: Visibility(
-                                              maintainSize: false,
-                                              maintainState: false,
-                                              visible:
-                                              widget.locality == international,
-                                              child: SearchChoices.single(
-                                                displayClearIcon: false,
-                                                isExpanded: true,
-                                                hint:
-                                                const TitleExtraSmallBoldTextWidget(
-                                                    title: 'Country'),
-                                                items: _countries
-                                                    .map((value) =>
-                                                    DropdownMenuItem(
-                                                      child: Text(
-                                                        value.conName ??
-                                                            Utils
-                                                                .checkNullString(
-                                                                false),
-                                                        textAlign:
-                                                        TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontSize: 12.sp,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                      value: value,
-                                                    ))
-                                                    .toList(),
-                                                isCaseSensitiveSearch: false,
-                                                onChanged: (Countries? value) {},
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: textColorGrey,
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              )
 
-//                                        DropdownButtonFormField(
-//                                          isExpanded: true,
-//                                          decoration:
-//                                              const InputDecoration.collapsed(
-//                                                  hintText: ''),
-//                                          hint:
-//                                              const TitleExtraSmallBoldTextWidget(
-//                                                  title: 'Country'),
-//                                          items: _countries
-//                                              .map((value) => DropdownMenuItem(
-//                                                    child: Text(
-//                                                        value.conName ??
-//                                                            Utils
-//                                                                .checkNullString(
-//                                                                    false),
-//                                                        textAlign:
-//                                                            TextAlign.center),
-//                                                    value: value,
-//                                                  ))
-//                                              .toList(),
-//                                          onChanged: (Countries? value) {
-//                                            /*_createRequestModel!
-//                                          .spc_origin_idfk =
-//                                          value!.conId.toString();*/
-//                                          },
-//                                          style: TextStyle(
-//                                              fontSize: 11.sp,
-//                                              color: textColorGrey),
-//                                        ),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: false,
-                                          child: Center(
-                                            child: GestureDetector(
-                                              behavior: HitTestBehavior.opaque,
-                                              onTap: () async {},
-                                              child: Card(
-                                                  color: Colors.white,
-                                                  elevation: 1,
-                                                  child: Padding(
-                                                      padding: EdgeInsets.all(4.w),
-                                                      child: Icon(
-                                                        Icons.filter_alt_sharp,
-                                                        color: lightBlueTabs,
-                                                        size: 16.w,
-                                                      ))),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),

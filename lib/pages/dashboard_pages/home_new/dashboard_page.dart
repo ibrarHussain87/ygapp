@@ -10,6 +10,7 @@ import 'package:yg_app/model/home_model.dart';
 import 'package:yg_app/pages/dashboard_pages/home_new/dashboard_card_items.dart';
 import 'package:yg_app/pages/dashboard_pages/home_new/trends_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/market_page.dart';
+import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/providers/home_providers/banners_provider.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
@@ -69,165 +70,171 @@ class DashboardPageState extends State<DashboardPage> {
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
         preferredSize: AppBar().preferredSize,
-        child: SafeArea(
-          child: Container(
-            color: homeBgColor,
-            width: MediaQuery.of(context).size.width,
-            height: AppBar().preferredSize.height,
-            padding: const EdgeInsets.all(10),
-            child: Stack(
-              children: [
-                GestureDetector(
+        child: Container(
+          color: homeBgColor,
+          width: MediaQuery.of(context).size.width,
+          height: AppBar().preferredSize.height,
+          padding: const EdgeInsets.all(10),
+          child: Stack(
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  // widget.callback(4);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  const ProfilePage(),
+                    ),
+                  );
+                },
+                child: Padding(
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                    child: Image.asset(
+                      navImage,
+                      scale: 1.3,
+                    )),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Text("Yarn Guru",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18.0.w,
+                        // fontFamily: 'Metropolis',
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700)),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    widget.callback(4);
-                  },
+                  onTap: () {},
                   child: Padding(
-                      padding: EdgeInsets.only(left: 4.w, top: 8.w),
+                      padding: EdgeInsets.only(left: 10.w, top: 6.w),
                       child: Image.asset(
-                        navImage,
+                        bellImage,
                         scale: 1.3,
                       )),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text("Yarn Guru",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18.0.w,
-                          fontFamily: 'Metropolis',
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700)),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {},
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10.w, top: 6.w),
-                        child: Image.asset(
-                          bellImage,
-                          scale: 1.3,
-                        )),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-      body: MultiProvider(
-          providers: providers,
-          child: ListView(
-            shrinkWrap: true,
-            primary: true,
-            children: [
-              // const SizedBox(
-              //   height: 5,
-              // ),
-              const BannerBody(),
-              const SlidingAlertWidget(),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                    )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // const SizedBox(
-                    //   height: 5,
-                    // ),
-                    const HomeTrendsWidget(),
-                    // Container(
-                    //   padding:
-                    //       const EdgeInsets.only(left: 17, top: 5, bottom: 5),
-                    //   child: Text(
-                    //     "Services",
-                    //     overflow: TextOverflow.fade,
-                    //     maxLines: 1,
-                    //     softWrap: false,
-                    //     style: TextStyle(
-                    //         color: Colors.black,
-                    //         fontSize: 15.sp,
-                    //         fontFamily: 'Metropolis',
-                    //         fontWeight: FontWeight.w700),
-                    //   ),
-                    // ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      // height: 0.6 * MediaQuery.of(context).size.height,
-                      child: HomeCardWidget(
-                        spanCount: 2,
-                        listOfItems: homeList,
-                        callback: (HomeModel value) {
-                          switch (value.id) {
-                            case '1':
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MarketPage(
-                                    locality: local,
-                                    pageIndex: 0,
-                                  ),
-                                ),
-                              );
-                              break;
-                            case '2':
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MarketPage(
-                                    locality: local,
-                                    pageIndex: 1,
-                                  ),
-                                ),
-                              );
-                              break;
-                            case '3':
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MarketPage(
-                                    locality: local,
-                                    pageIndex: 2,
-                                  ),
-                                ),
-                              );
-                              break;
-                            case '4':
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MarketPage(
-                                    locality: local,
-                                    pageIndex: 3,
-                                  ),
-                                ),
-                              );
-                              break;
-                            case '5':
-                              openYGServiceScreen(context);
-                              break;
-                          }
+      body: SafeArea(
+        child: MultiProvider(
+            providers: providers,
+            child: Column(
+              children: [
+                // const SizedBox(
+                //   height: 5,
+                // ),
+                const BannerBody(),
+                Container(margin:EdgeInsets.only(bottom: 4.h,top: 4.h),child: const SlidingAlertWidget()),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                        )),
+                    child: ListView(
+                      children: [
+                        // const SizedBox(
+                        //   height: 5,
+                        // ),
+                        const HomeTrendsWidget(),
+                        // Container(
+                        //   padding:
+                        //       const EdgeInsets.only(left: 17, top: 5, bottom: 5),
+                        //   child: Text(
+                        //     "Services",
+                        //     overflow: TextOverflow.fade,
+                        //     maxLines: 1,
+                        //     softWrap: false,
+                        //     style: TextStyle(
+                        //         color: Colors.black,
+                        //         fontSize: 15.sp,
+                        //         fontFamily: 'Metropolis',
+                        //         fontWeight: FontWeight.w700),
+                        //   ),
+                        // ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          margin: EdgeInsets.only(top: 2.h),
+                          // height: 0.6 * MediaQuery.of(context).size.height,
+                          child: HomeCardWidget(
+                            spanCount: 2,
+                            listOfItems: homeList,
+                            callback: (HomeModel value) {
+                              switch (value.id) {
+                                case '1':
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MarketPage(
+                                        locality: local,
+                                        pageIndex: 0,
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case '2':
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MarketPage(
+                                        locality: local,
+                                        pageIndex: 1,
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case '3':
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MarketPage(
+                                        locality: local,
+                                        pageIndex: 2,
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case '4':
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MarketPage(
+                                        locality: local,
+                                        pageIndex: 3,
+                                      ),
+                                    ),
+                                  );
+                                  break;
+                                case '5':
+                                  openYGServiceScreen(context);
+                                  break;
+                              }
 
-                          // if(value.id=="5")
-                          //   {
-                          //
-                          //     openYGServiceScreen(context);
-                          //   }
-                        },
-                      ),
+                              // if(value.id=="5")
+                              //   {
+                              //
+                              //     openYGServiceScreen(context);
+                              //   }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+      ),
     ));
   }
 }

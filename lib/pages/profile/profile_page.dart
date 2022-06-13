@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 16.0.w,
                         color: appBarTextColor,
                         fontWeight: FontWeight.w400)),
-              )*/appBar(context,"Profile & Settings",isBackVisible: false),
+              )*/appBar(context,"Profile & Settings",isBackVisible: true),
               key: scaffoldKey,
               backgroundColor: Colors.white,
               body: Column(

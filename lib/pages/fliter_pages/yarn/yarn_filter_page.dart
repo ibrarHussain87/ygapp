@@ -18,6 +18,8 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 
+import '../../../elements/custom_header.dart';
+
 class YarnFilterBody extends StatefulWidget {
   // final YarnSyncResponse? syncResponse;
 
@@ -153,6 +155,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(context,"Yarn Filter"),
         body: _yarnFilterProvider.isGetSyncedData
             ? Container(
                 padding: EdgeInsets.only(top: 16.w, left: 16.w, right: 16.w),

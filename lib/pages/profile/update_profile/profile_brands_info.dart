@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,59 +17,54 @@ import 'package:yg_app/model/request/update_profile/brands_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import '../../../providers/profile_providers/user_brands_provider.dart';
 
-
 class ProfileBrandsInfoPage extends StatefulWidget {
   final Function? callback;
 
   final String? selectedTab;
-   const ProfileBrandsInfoPage(
-       {Key? key,
-         required this.callback,
-         required this.selectedTab}) : super(key: key);
+
+  const ProfileBrandsInfoPage(
+      {Key? key, required this.callback, required this.selectedTab})
+      : super(key: key);
 
   @override
   ProfileBrandsInfoPageState createState() => ProfileBrandsInfoPageState();
 }
 
 class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
-    with AutomaticKeepAliveClientMixin{
+    with AutomaticKeepAliveClientMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> brandsKey = GlobalKey<FormState>();
 
   late BrandsRequestModel _updateBrandsRequestModel;
   List<Brands> brandsList = [];
-   var brandController=TextEditingController();
-  final _typeAheadController=TextEditingController();
+  var brandController = TextEditingController();
+  final _typeAheadController = TextEditingController();
 
   final _brandsProvider = locator<UserBrandsProvider>();
+
   @override
   void initState() {
-
     _updateBrandsRequestModel = BrandsRequestModel();
-  AppDbInstance().getDbInstance().then((value) => {
-
-      value.brandsDao.findAllBrands().then((value) {
-        setState(() {
-          brandsList = value;
+    AppDbInstance().getDbInstance().then((value) => {
+          value.brandsDao.findAllBrands().then((value) {
+            setState(() {
+              brandsList = value;
+            });
+          }),
         });
-      }),
 
-
+    _brandsProvider.addListener(() {
+      updateUI();
     });
-
-    _brandsProvider.addListener(() {updateUI();});
     _brandsProvider.getUserBrandsData();
     super.initState();
   }
 
-
-
-
-updateUI() {
-  if (mounted) {
-    setState(() {});
+  updateUI() {
+    if (mounted) {
+      setState(() {});
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -80,27 +73,26 @@ updateUI() {
     double height = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Builder(builder: (BuildContext context2) {
-                    return (!_brandsProvider.loading) ? buildBrands(context2) : Container();
-                  }),
-                ),
+        child: Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Center(
+                child: Builder(builder: (BuildContext context2) {
+                  return (!_brandsProvider.loading)
+                      ? buildBrands(context2)
+                      : Container();
+                }),
               ),
             ),
-          ],
-        ),
-      )
-    );
+          ),
+        ],
+      ),
+    ));
   }
 
-
-  buildBrands(BuildContext context2)
-  {
+  buildBrands(BuildContext context2) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -108,32 +100,34 @@ updateUI() {
           key: brandsKey,
           child: Padding(
             padding:
-            EdgeInsets.only(top: 30.w, bottom: 0.w, left: 8.w, right: 8.w),
+                EdgeInsets.only(top: 30.w, bottom: 0.w, left: 8.w, right: 8.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Expanded(
-                  flex:3,
-                  child:  TypeAheadFormField(
+                  flex: 3,
+                  child: TypeAheadFormField(
                       textFieldConfiguration: TextFieldConfiguration(
                         controller: _typeAheadController,
                         style: TextStyle(fontSize: 13.sp),
-                        decoration: textFieldProfile(
-                            'Enter Brand', "Brand",true),
+                        decoration:
+                            textFieldProfile('Enter Brand', "Brand", true),
                       ),
                       suggestionsCallback: (pattern) {
-                          return _brandsProvider.allBrandsList.where(
-                                  (Brands x) =>
-                                  x.brdName.toString().toLowerCase().contains(
-                                      pattern)
-                          ).toList();
-
+                        return _brandsProvider.allBrandsList
+                            .where((Brands x) => x.brdName
+                                .toString()
+                                .toLowerCase()
+                                .contains(pattern))
+                            .toList();
                       },
-                      itemBuilder: (context,suggestion) {
+                      itemBuilder: (context, suggestion) {
                         return ListTile(
-                          title: Text(suggestion.toString(),style: TextStyle(fontSize: 13.sp),),
+                          title: Text(
+                            suggestion.toString(),
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
                         );
                       },
                       transitionBuilder: (context, suggestionsBox, controller) {
@@ -141,18 +135,19 @@ updateUI() {
                       },
                       hideSuggestionsOnKeyboardHide: true,
                       onSuggestionSelected: (Brands suggestion) {
-                        _typeAheadController.text = suggestion.brdName.toString();
-                        _updateBrandsRequestModel.brdId=suggestion.brdId.toString();
-                        _updateBrandsRequestModel.brdName=suggestion.brdName.toString();
+                        _typeAheadController.text =
+                            suggestion.brdName.toString();
+                        _updateBrandsRequestModel.brdId =
+                            suggestion.brdId.toString();
+                        _updateBrandsRequestModel.brdName =
+                            suggestion.brdName.toString();
                         _updateBrandsRequestModel.brdOther = "0";
                       },
-                      errorBuilder:(BuildContext context, Object? error) =>
-                          Text(
-                              '$error',
-                              style: TextStyle(fontSize: 13.sp,
-                                  color: Theme.of(context).errorColor
-                              )
-                          ),
+                      errorBuilder: (BuildContext context, Object? error) =>
+                          Text('$error',
+                              style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Theme.of(context).errorColor)),
                       validator: (input) {
                         if (input == null || input.isEmpty) {
                           return 'Please enter brand name';
@@ -161,21 +156,18 @@ updateUI() {
                       },
                       onSaved: (value) {
                         if (kDebugMode) {
-                          print("Value"+value.toString());
+                          print("Value" + value.toString());
                         }
                         _updateBrandsRequestModel.brdName = value;
-
-                      }
-
-                  ),
+                      }),
                 ),
-
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 InkWell(
-                  onTap: ()=>{
-                    if (validateBrandInput()) {
-                      _addTags(_updateBrandsRequestModel)
-                    }
+                  onTap: () => {
+                    if (validateBrandInput())
+                      {_addTags(_updateBrandsRequestModel)}
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -186,40 +178,35 @@ updateUI() {
                       color: addBtnColor,
                       borderRadius: BorderRadius.circular(5.0),
                     ),
-                    child:Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
                         Text(
                           'Add',
                           textAlign: TextAlign.center,
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,
                           ),
                         ),
-
                       ],
                     ),
-
-
                   ),
                 )
               ],
             ),
-
-
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("Your Brands",textAlign: TextAlign.left,style: TextStyle(
-              fontSize: 18.0.w,
-              color: headingColor,
-              fontWeight: FontWeight.w700)),
+          child: Text("Your Brands",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 18.0.w,
+                  color: headingColor,
+                  fontWeight: FontWeight.w700)),
         ),
         _tagIcon(context2)
-
-
       ],
     );
   }
@@ -233,22 +220,23 @@ updateUI() {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _brandsProvider.userBrandsList!=null
+              _brandsProvider.userBrandsList != null
                   ? Column(children: [
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  children:   _brandsProvider.userBrandsList
-                      .map((UserBrands brands) => tagChip(
-                    tagModel: brands,
-                    onTap: () => _removeTag(brands),
-                    action: 'Remove',
-                  ))
-                      .toSet()
-                      .toList(),
-                ),
-              ])
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        children: _brandsProvider.userBrandsList
+                            .map((UserBrands brands) => tagChip(
+                                  tagModel: brands,
+                                  onTap: () {
+                                    _removeTag(brands);
+                                  },
+                                  action: 'Remove',
+                                ))
+                            .toSet()
+                            .toList(),
+                      ),
+                    ])
                   : Container(),
-
             ],
           ),
         )
@@ -256,24 +244,20 @@ updateUI() {
     );
   }
 
-
-
-
-
-
-
   _addTags(BrandsRequestModel _brandsModel) async {
     _updateBrandsCall(context);
-
   }
 
-
-
-  _removeTag(tagModel) async {
+  _removeTag(UserBrands tagModel) async {
     if (_brandsProvider.userBrandsList.contains(tagModel)) {
       setState(() {
         _brandsProvider.userBrandsList.remove(tagModel);
+        Brands brands = _brandsProvider.backUpBrandsList.where((element) => element.brdId == tagModel.brdId).toList().first;
+        _brandsProvider.allBrandsList.add(brands);
       });
+      var dbInstance = await AppDbInstance().getDbInstance();
+      dbInstance.userBrandsDao.deleteUserBrand(tagModel.brdId!);
+      /// Implement Remove User Brand Api too here
     }
   }
 
@@ -300,17 +284,16 @@ updateUI() {
                   color: tagsBackground,
                   borderRadius: BorderRadius.circular(100.0),
                 ),
-                child:Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       '${tagModel.brdName}',
-                      style:  TextStyle(
+                      style: TextStyle(
                           color: tagsTextColor,
                           fontSize: 13.sp,
-                          fontWeight: FontWeight.w500
-                      ),
+                          fontWeight: FontWeight.w500),
                     ),
                     Icon(
                       Icons.clear,
@@ -319,20 +302,15 @@ updateUI() {
                     ),
                   ],
                 ),
-
-
               ),
             ),
-
           ],
         ));
   }
 
   void handleNextClick() {
     widget.callback!(3);
-
   }
-
 
   bool validateBrandInput() {
     final form = brandsKey.currentState;
@@ -343,16 +321,12 @@ updateUI() {
     return false;
   }
 
-
-
-
   void _updateBrandsCall(BuildContext context1) {
     check().then((value) {
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         Logger().e(_updateBrandsRequestModel.toJson());
         ApiService.updateBrands(_updateBrandsRequestModel).then((value) {
-
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {
@@ -365,11 +339,10 @@ updateUI() {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!);
               await db.userBrandsDao.insertAllUserBrands(value.data!.brands!);
-              await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
-
+              await db.businessInfoDao
+                  .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();
             });
-
             setState(() {
               _typeAheadController.clear();
             });
@@ -378,14 +351,11 @@ updateUI() {
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1);
-//            var brandsNotifier = context1.read<UserBrandsNotifier>();
-//            brandsNotifier.updateBrands(value.data!.brands!);
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(value.message ?? "")));
           }
         }).onError((error, stackTrace) {
-
           ProgressDialogUtil.hideDialog();
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(error.toString())));
@@ -399,8 +369,4 @@ updateUI() {
 
   @override
   bool get wantKeepAlive => true;
-
-
 }
-
-

@@ -94,8 +94,158 @@ class YarnPageState extends State<YarnPage> {
           color: bgColor,
           child: Column(
             children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: widget.locality == international ? 8 : 10,
+                    child: OfferingRequirementSegmentComponent(
+                      callback: (value) {
+                        yarnSpecificationListState.currentState!
+                            .searchData(GetSpecificationRequestModel(
+                            isOffering: value.toString()));
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.locality == international,
+                    maintainState: false,
+                    maintainSize: false,
+                    child: Expanded(
+                      child: Image.asset(
+                        ic_products,
+                        width: 12,
+                        height: 12,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: widget.locality == international ? 3 : 0,
+                    child: Visibility(
+                        maintainSize: false,
+                        maintainState: false,
+                        visible: widget.locality == international,
+                        child: _countries != null
+                            ? SearchChoices.single(
+                          displayClearIcon: false,
+                          isExpanded: true,
+                          hint:
+                          const TitleExtraSmallBoldTextWidget(
+                              title: 'Country'),
+                          items: _countries
+                              .map((value) => DropdownMenuItem(
+                            child: Text(
+                              value.conName ??
+                                  Utils.checkNullString(
+                                      false),
+                              textAlign:
+                              TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                overflow: TextOverflow
+                                    .ellipsis,
+                              ),
+                            ),
+                            value: value,
+                          ))
+                              .toList(),
+                          isCaseSensitiveSearch: false,
+                          onChanged: (Countries? value) {
+                            yarnSpecificationListState
+                                .currentState!
+                                .yarnListBodyState
+                                .currentState!
+                                .filterListSearch(
+                                value!.conName.toString());
+                          },
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: textColorGrey,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                            : DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          decoration:
+                          const InputDecoration.collapsed(
+                              hintText: ''),
+                          hint:
+                          const TitleExtraSmallBoldTextWidget(
+                              title: 'Country'),
+                          iconSize: 20,
+                          items: [
+                            DropdownMenuItem(
+                              child: Text(
+                                Utils.checkNullString(false),
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  overflow:
+                                  TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                          onChanged: (newValue) {},
+                          validator: (value) => value == null
+                              ? 'Please select country name'
+                              : null,
+                        )
+
+//                                DropdownButtonFormField(
+//                                  isExpanded: true,
+//                                  decoration: const InputDecoration.collapsed(hintText: ''),
+//                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
+//                                  items: _countries
+//                                      .map((value) =>
+//                                      DropdownMenuItem(
+//                                        child: Expanded(
+//                                          child: Text(
+//                                              value.conName ??
+//                                                  Utils.checkNullString(false),
+//                                              textAlign: TextAlign.start,
+//                                            maxLines: 1,
+//                                            overflow: TextOverflow.fade,
+//                                            softWrap: false,),
+//                                        ),
+//                                        value: value,
+//                                      ))
+//                                      .toList(),
+//                                  onChanged: (Countries? value) {
+//                                    /*_createRequestModel!
+//                                        .spc_origin_idfk =
+//                                        value!.conId.toString();*/
+//                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
+//                                  },
+//                                  style: TextStyle(
+//                                      fontSize: 11.sp,
+//                                      color: textColorGrey),
+//                                ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: false,
+                    child: Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Card(
+                            elevation: 1,
+                            child: Padding(
+                                padding: EdgeInsets.all(4.w),
+                                child: Icon(
+                                  Icons.filter_alt_sharp,
+                                  color: lightBlueTabs,
+                                  size: 16.w,
+                                ))),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Material(
-                elevation: 1,
+                elevation: 0.2,
                 color: Colors.white,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -145,162 +295,7 @@ class YarnPageState extends State<YarnPage> {
                               .searchData(model);
                         },
                       ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: widget.locality == international ? 8 : 10,
-                              child: OfferingRequirementSegmentComponent(
-                                callback: (value) {
-                                  yarnSpecificationListState.currentState!
-                                      .searchData(GetSpecificationRequestModel(
-                                          isOffering: value.toString()));
-                                },
-                              ),
-                            ),
-                            Visibility(
-                              visible: widget.locality == international,
-                              maintainState: false,
-                              maintainSize: false,
-                              child: Expanded(
-                                child: Image.asset(
-                                  ic_products,
-                                  width: 12,
-                                  height: 12,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: widget.locality == international ? 3 : 0,
-                              child: Visibility(
-                                  maintainSize: false,
-                                  maintainState: false,
-                                  visible: widget.locality == international,
-                                  child: _countries != null
-                                      ? SearchChoices.single(
-                                          displayClearIcon: false,
-                                          isExpanded: true,
-                                          hint:
-                                              const TitleExtraSmallBoldTextWidget(
-                                                  title: 'Country'),
-                                          items: _countries
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                      value.conName ??
-                                                          Utils.checkNullString(
-                                                              false),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ),
-                                                    value: value,
-                                                  ))
-                                              .toList(),
-                                          isCaseSensitiveSearch: false,
-                                          onChanged: (Countries? value) {
-                                            yarnSpecificationListState
-                                                .currentState!
-                                                .yarnListBodyState
-                                                .currentState!
-                                                .filterListSearch(
-                                                    value!.conName.toString());
-                                          },
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: textColorGrey,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        )
-                                      : DropdownButtonFormField<String>(
-                                          isExpanded: true,
-                                          decoration:
-                                              const InputDecoration.collapsed(
-                                                  hintText: ''),
-                                          hint:
-                                              const TitleExtraSmallBoldTextWidget(
-                                                  title: 'Country'),
-                                          iconSize: 20,
-                                          items: [
-                                            DropdownMenuItem(
-                                              child: Text(
-                                                Utils.checkNullString(false),
-                                                textAlign: TextAlign.start,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                          onChanged: (newValue) {},
-                                          validator: (value) => value == null
-                                              ? 'Please select country name'
-                                              : null,
-                                        )
 
-//                                DropdownButtonFormField(
-//                                  isExpanded: true,
-//                                  decoration: const InputDecoration.collapsed(hintText: ''),
-//                                  hint: const TitleExtraSmallBoldTextWidget(title:'Country'),
-//                                  items: _countries
-//                                      .map((value) =>
-//                                      DropdownMenuItem(
-//                                        child: Expanded(
-//                                          child: Text(
-//                                              value.conName ??
-//                                                  Utils.checkNullString(false),
-//                                              textAlign: TextAlign.start,
-//                                            maxLines: 1,
-//                                            overflow: TextOverflow.fade,
-//                                            softWrap: false,),
-//                                        ),
-//                                        value: value,
-//                                      ))
-//                                      .toList(),
-//                                  onChanged: (Countries? value) {
-//                                    /*_createRequestModel!
-//                                        .spc_origin_idfk =
-//                                        value!.conId.toString();*/
-//                                    yarnSpecificationListState.currentState!.yarnListBodyState.currentState!.filterListSearch(value!.conName.toString());
-//                                  },
-//                                  style: TextStyle(
-//                                      fontSize: 11.sp,
-//                                      color: textColorGrey),
-//                                ),
-                                  ),
-                            ),
-                            Visibility(
-                              visible: false,
-                              child: Expanded(
-                                flex: 1,
-                                child: Center(
-                                  child: Card(
-                                      elevation: 1,
-                                      child: Padding(
-                                          padding: EdgeInsets.all(4.w),
-                                          child: Icon(
-                                            Icons.filter_alt_sharp,
-                                            color: lightBlueTabs,
-                                            size: 16.w,
-                                          ))),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

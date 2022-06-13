@@ -54,8 +54,8 @@ class SlidingAlertWidget extends StatelessWidget {
                                       'Alert text with animation that get from server $i',
                                   style: TextStyle(
                                     color: Colors.black87,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 9.sp,
+                                    fontWeight: FontWeight.w400,
                                     /*fontFamily: 'Metropolis',*/
                                   )),
                             ),

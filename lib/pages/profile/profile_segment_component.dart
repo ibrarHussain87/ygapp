@@ -143,7 +143,7 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
                         ),
                       ),
                       3: Container(
-                        width: /*width*0.23*/ width / 5,
+                        /*width*0.23*/
                         height: 45,
                         padding: EdgeInsets.all(5.w),
                         child: Center(
@@ -160,6 +160,7 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
                         ),
                       ),
                     },
+                    isStretch: true,
                     decoration: BoxDecoration(
                       color: tabBackground,
                       borderRadius: BorderRadius.circular(5),

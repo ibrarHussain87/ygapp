@@ -1065,19 +1065,13 @@ class FiberSpecificationComponentState
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(8.w),
-                  child: SizedBox(
-                    width: double.maxFinite,
-                    child: ElevatedButtonWithIcon(
-                      callback: () async {
-                        handleNextClick();
-                      },
-                      color: btnColorLogin,
-                      btnText:
-                          widget.selectedTab == offering_type ? "Next" : submit,
-                    ),
-                  ),
+                ElevatedButtonWithIcon(
+                  callback: () async {
+                    handleNextClick();
+                  },
+                  color: btnColorLogin,
+                  btnText:
+                      widget.selectedTab == offering_type ? "Next" : submit,
                 ),
               ],
             )

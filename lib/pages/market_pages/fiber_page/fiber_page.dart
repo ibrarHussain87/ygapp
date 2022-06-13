@@ -78,11 +78,78 @@ class FiberPageState extends State<FiberPage> {
           heroTag: null,
         ),
         body: Container(
+          width: MediaQuery.of(context).size.width,
           color: bgColor,
           child: Column(
             children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: OfferingRequirementSegmentComponent(
+                      callback: (value) {
+                        _fiberSpecificationProvider
+                            .specificationRequestModel
+                            .isOffering = value.toString();
+                        _fiberSpecificationProvider.notifyUI();
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.locality == international,
+                    maintainState: false,
+                    maintainSize: false,
+                    child: Expanded(
+                      child: Image.asset(
+                        ic_products,
+                        width: 12,
+                        height: 12,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: widget.locality == international ? 3 : 0,
+                    child: Visibility(
+                        maintainSize: false,
+                        maintainState: false,
+                        visible: widget.locality == international,
+                        child: SearchChoices.single(
+                          displayClearIcon: false,
+                          isExpanded: true,
+                          hint: const TitleExtraSmallBoldTextWidget(
+                              title: 'Country'),
+                          items: _fiberSpecificationProvider.countries
+                              .map((value) => DropdownMenuItem(
+                            child: Text(
+                              value.conName ??
+                                  Utils.checkNullString(
+                                      false),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                overflow:
+                                TextOverflow.ellipsis,
+                              ),
+                            ),
+                            value: value,
+                          ))
+                              .toList(),
+                          isCaseSensitiveSearch: false,
+                          onChanged: (Countries? value) {
+                            _specificationLocalFilterProvider
+                                .fiberFilterListSearch(
+                                value!.conName.toString());
+                          },
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: textColorGrey,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
               Material(
-                elevation: 1,
+                elevation: 0.2,
                 color: Colors.white,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -184,76 +251,6 @@ class FiberPageState extends State<FiberPage> {
                                 height:
                                     0.065 * MediaQuery.of(context).size.height,
                               ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: widget.locality == international ? 8 : 10,
-                              child: OfferingRequirementSegmentComponent(
-                                callback: (value) {
-                                  _fiberSpecificationProvider
-                                      .specificationRequestModel
-                                      .isOffering = value.toString();
-                                  _fiberSpecificationProvider.notifyUI();
-                                },
-                              ),
-                            ),
-                            Visibility(
-                              visible: widget.locality == international,
-                              maintainState: false,
-                              maintainSize: false,
-                              child: Expanded(
-                                child: Image.asset(
-                                  ic_products,
-                                  width: 12,
-                                  height: 12,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: widget.locality == international ? 3 : 0,
-                              child: Visibility(
-                                  maintainSize: false,
-                                  maintainState: false,
-                                  visible: widget.locality == international,
-                                  child: SearchChoices.single(
-                                    displayClearIcon: false,
-                                    isExpanded: true,
-                                    hint: const TitleExtraSmallBoldTextWidget(
-                                        title: 'Country'),
-                                    items: _fiberSpecificationProvider.countries
-                                        .map((value) => DropdownMenuItem(
-                                              child: Text(
-                                                value.conName ??
-                                                    Utils.checkNullString(
-                                                        false),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              value: value,
-                                            ))
-                                        .toList(),
-                                    isCaseSensitiveSearch: false,
-                                    onChanged: (Countries? value) {
-                                      _specificationLocalFilterProvider
-                                          .fiberFilterListSearch(
-                                              value!.conName.toString());
-                                    },
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: textColorGrey,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   ),

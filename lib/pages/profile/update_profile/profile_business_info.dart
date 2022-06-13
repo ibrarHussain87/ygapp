@@ -186,12 +186,9 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     return null;
                   },
                   onSaved: (value) {
-
                     _updateBusinessRequestModel.company = value;
+                    _updateBusinessRequestModel.companyId = _profileInfoProvider.selectedCompany!.id.toString();
                     _updateBusinessRequestModel.name = value;
-//                  if(companiesList.where((element) => element.name == value).toList().isEmpty){
-//                    _signupRequestModel!.otherCompany = "1";
-//                  }
                   }
 
               ),
@@ -634,14 +631,12 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
           if (value.status!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
+              Fluttertoast.showToast(
+                  msg: value.message ?? "",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1);
             });
-
-
-            Fluttertoast.showToast(
-                msg: value.message ?? "",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
             /*Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const MainPage()),
                       (Route<dynamic> route) => false);*/

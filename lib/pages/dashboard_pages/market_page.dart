@@ -224,27 +224,28 @@ class MarketPageState extends State<MarketPage>
                           floating: true,
                           pinned: true,
                           snap: true,
-                          bottom: TabBar(
-                            isScrollable: true,
-                            controller: tabController,
-                            labelPadding: EdgeInsets.only(left: 24,right: 24),
-                            unselectedLabelColor: font_light_grey,
-                            labelColor: font_dark_grey,
-                            indicatorColor: darkBlueChip,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            indicator: UnderlineTabIndicator(
-                                borderSide: BorderSide(
-                                    color: darkBlueChip, width: 2.w),
-                                insets: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 0)),
-                            tabs: tabMaker(),
-                          ),
+                          // bottom: TabBar(
+                          //   isScrollable: true,
+                          //   controller: tabController,
+                          //   labelPadding: EdgeInsets.only(left: 24,right: 24),
+                          //   unselectedLabelColor: font_light_grey,
+                          //   labelColor: font_dark_grey,
+                          //   indicatorColor: darkBlueChip,
+                          //   indicatorSize: TabBarIndicatorSize.label,
+                          //   indicator: UnderlineTabIndicator(
+                          //       borderSide: BorderSide(
+                          //           color: darkBlueChip, width: 2.w),
+                          //       insets: const EdgeInsets.symmetric(
+                          //           horizontal: 24.0, vertical: 0)),
+                          //   tabs: tabMaker(),
+                          // ),
                         ),
                       ),
                     ),
                   ];
                 },
                 body: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     FiberPage(
                       key: stateFiberPage,

@@ -18,6 +18,7 @@ import 'package:yg_app/model/response/common_response_models/city_state_response
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
+import '../../../elements/custom_header.dart';
 import '../../../providers/fabric_providers/filter_fabric_provider.dart';
 import '../../../elements/elevated_button_widget_2.dart';
 import '../../../elements/list_widgets/cat_with_image_listview_widget.dart';
@@ -210,6 +211,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             key: scaffoldKey,
+            appBar: appBar(context,"Fabric Filter"),
             body: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

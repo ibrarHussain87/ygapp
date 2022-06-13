@@ -27,7 +27,7 @@ class UpdateBusinessRequestModel {
 //      'ntn_number': ntn_number!.trim(),
       'ubi_name': name?.trim(),
       'ubi_country_idfk': countryId?.trim(),
-      'company_id': companyId?.trim() ?? "",
+      'company_id': companyId!,
       'ubi_state_idfk': cityStateId?.trim(),
       'ubi_website': website?.trim(),
       'ubi_address': address?.trim(),

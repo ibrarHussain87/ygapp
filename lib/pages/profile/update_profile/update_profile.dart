@@ -45,7 +45,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
     return SafeArea(
       child: FutureBuilder<User?>(
-        future: AppDbInstance().getDbInstance()
+        future: AppDbInstance()
+            .getDbInstance()
             .then((value) => value.userDao.getUser()),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
@@ -561,7 +562,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            fontFamily: 'Metropolis',
                             fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
@@ -615,7 +615,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 //                    .showSnackBar(SnackBar(content: Text(error.toString())));
 //              });
 //            } else
-              if (value.status!) {
+            if (value.status!) {
               AppDbInstance().getDbInstance().then((db) async {
                 await db.userDao.insertUser(value.data!);
               });

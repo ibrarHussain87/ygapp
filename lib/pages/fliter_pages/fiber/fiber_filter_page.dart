@@ -18,6 +18,8 @@ import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 
+import '../../../elements/custom_header.dart';
+
 class FiberFilterView extends StatefulWidget {
   // final SyncFiberResponse syncFiberResponse;
 
@@ -82,6 +84,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
         child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
+            appBar: appBar(context,"Fiber Filter"),
             body: (!_fiberSpecificationProvider.isFilterPageLoading)
                 ? Container(
                     padding: EdgeInsets.only(left: 16.w, right: 16.w),

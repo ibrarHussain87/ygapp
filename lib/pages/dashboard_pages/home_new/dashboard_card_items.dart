@@ -94,7 +94,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
       //     ),
       //     borderRadius: BorderRadius.all(Radius.circular(15.w))),
       child: Card(
-        elevation: 3,
+        elevation: 2,
         shape:RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)
 

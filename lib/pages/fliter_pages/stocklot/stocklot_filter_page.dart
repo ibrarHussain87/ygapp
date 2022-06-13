@@ -13,6 +13,7 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 
+import '../../../elements/custom_header.dart';
 import '../../../elements/title_text_widget.dart';
 
 class StockLotFilterPage extends StatefulWidget {
@@ -39,7 +40,8 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
     return SafeArea(
         child: stocklotProvider.stocklots!.isNotEmpty
             ? Scaffold(
-                body: Container(
+            appBar: appBar(context,"Stocklot Filter"),
+            body: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Column(

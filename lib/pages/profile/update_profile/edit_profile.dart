@@ -1,35 +1,8 @@
-import 'dart:convert';
-
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../../elements/custom_header.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/connection_status_singleton.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/model/pre_login_response.dart';
-import 'package:yg_app/model/request/update_profile/brands_request_model.dart';
-import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
-import 'package:yg_app/model/response/common_response_models/brands_response.dart';
-import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/profile/profile_segment_component.dart';
-import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
-import '../../../helper_utils/ui_utils.dart';
-import '../../../helper_utils/util.dart';
-import '../../../model/request/update_profile/update_business_request.dart';
-import '../../../model/response/common_response_models/companies_reponse.dart';
-import '../../../model/response/common_response_models/countries_response.dart';
-import '../../auth_pages/signup/country_search_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);

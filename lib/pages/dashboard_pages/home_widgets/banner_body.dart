@@ -39,13 +39,12 @@ class _BannerBodyState extends State<BannerBody> {
     return bannerProvider.bannerData.banners != null
         ? Column(
             children: [
-
               GFCarousel(
-                height: MediaQuery.of(context).size.height / 6,
+                height: MediaQuery.of(context).size.height / 5.5,
                 pagination: false,
-                pagerSize: 2.0,
+                viewportFraction: 1.0,
                 autoPlay: true,
-                enlargeMainPage: true,
+                enlargeMainPage: false,
                 enableInfiniteScroll: true,
                 activeIndicator: lightBlueTabs,
                 passiveIndicator: textColorGreyLight,
@@ -64,6 +63,7 @@ class _BannerBodyState extends State<BannerBody> {
                             },
                             child: CachedNetworkImage(
                               imageUrl: i.banner??"",
+                              fit: BoxFit.fill,
                               placeholder: (context,
                                       url) => /*Center(
                             child: CircularProgressIndicator(
@@ -76,7 +76,6 @@ class _BannerBodyState extends State<BannerBody> {
                               ),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
-                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
@@ -90,20 +89,20 @@ class _BannerBodyState extends State<BannerBody> {
                   });
                 },
               ),
-              Container(
-                padding: EdgeInsets.only(top: 4.w),
-                child: DotsIndicator(
-                  dotsCount: bannerProvider.bannerData.banners!.length,
-                  position: double.tryParse(currentImageBanner.toString())!,
-                  decorator: DotsDecorator(
-                    shape: const _DiamondBorder(),
-                    activeShape: const _DiamondBorder(),
-                    size: Size.square(4.w),
-                    activeSize: Size.square(8.w),
-                    spacing: const EdgeInsets.all(2.0),
-                  ),
-                ),
-              )
+              // Container(
+              //   padding: EdgeInsets.only(top: 2.w),
+              //   child: DotsIndicator(
+              //     dotsCount: bannerProvider.bannerData.banners!.length,
+              //     position: double.tryParse(currentImageBanner.toString())!,
+              //     decorator: DotsDecorator(
+              //       shape: const _DiamondBorder(),
+              //       activeShape: const _DiamondBorder(),
+              //       size: Size.square(4.w),
+              //       activeSize: Size.square(8.w),
+              //       spacing: const EdgeInsets.all(2.0),
+              //     ),
+              //   ),
+              // )
             ],
           )
         : Center(

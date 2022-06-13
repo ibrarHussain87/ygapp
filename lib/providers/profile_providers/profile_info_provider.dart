@@ -138,8 +138,8 @@ class ProfileInfoProvider extends ChangeNotifier {
           businessInfo!.name.toString();
         updateBusinessRequestModel.company=
            businessInfo!.name.toString();
-        selectedCompany =await dbInstance.companiesDao
-            .findCompaniesWithId(int.parse(businessInfo!.name.toString()));
+        var companies = await dbInstance.companiesDao.findAllCompanies();
+        selectedCompany = companies.where((element) => element.name == businessInfo!.name).toList().first;
       }
 
       notifyUI();
