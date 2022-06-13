@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 
-import '../../../model/response/login/login_response.dart';
 
 class UserBrandsNotifier extends ChangeNotifier{
 

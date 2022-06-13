@@ -97,7 +97,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                             ),
                             const TitleExtraSmallTextWidget(
                                 title:
-                                    "You are currently seeing your requirment")
+                                    "You are currently seeing your requirement")
                           ],
                         ),
                       ),

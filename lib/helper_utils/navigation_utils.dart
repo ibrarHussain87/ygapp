@@ -24,6 +24,7 @@ import 'package:yg_app/pages/profile/update_profile/edit_profile.dart';
 import 'package:yg_app/pages/profile/update_profile/membership.dart';
 import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
+import '../model/response/yg_services/my_yg_services_response.dart';
 import '../pages/post_ad_pages/fabric_post/fabric_post_page.dart';
 import '../pages/profile/my_services/services_page.dart';
 
@@ -165,11 +166,11 @@ void openMyServicesScreen(BuildContext context) {
   );
 }
 
-void openServiceDetailScreen(BuildContext context, ServicesModel servicesModel) {
+void openServiceDetailScreen(BuildContext context, MyYgServices myYgServices) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) =>  ServiceDetailPage(servicesDetails:servicesModel,),
+      builder: (context) =>  ServiceDetailPage(servicesDetails:myYgServices,),
     ),
   );
 }
