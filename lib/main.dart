@@ -17,6 +17,7 @@ import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
+import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
 import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 import 'providers/profile_providers/user_brands_provider.dart';
@@ -93,6 +94,8 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<ProfileInfoProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => locator<YgServicesProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<YarnFilterProvider>()),
 

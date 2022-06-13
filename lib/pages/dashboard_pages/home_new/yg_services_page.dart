@@ -153,7 +153,7 @@ class YgServicePageState extends State<YgServicePage>
                                   false),
                           textAlign:
                           TextAlign
-                              .center),
+                              .center,style:TextStyle(fontSize: 13.sp),),
                       value: value,
                     ))
                     .toList(),

@@ -33,6 +33,7 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_res
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
+import 'package:yg_app/model/response/yg_services/my_yg_services_response.dart';
 
 import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
@@ -95,6 +96,7 @@ class ApiService {
   static String PRE_CONFIG_END_POINT = "/get-pre-login-config";
 
   static const String CREATE_YG_SERVICE_ENPOINT = "/create-yg-service";
+  static const String MY_YG_SERVICE_ENPOINT = "/my-yg-service";
   static const String CREATE_CUSTOMER_SERVICE_ENPOINT = "/create-customer-support";
   static const String SUBSCRIBE_TO_PLAN_ENPOINT = "/subscribe-to-plan";
 
@@ -262,6 +264,38 @@ class ApiService {
       throw (err.toString());
     }
   }
+
+  static Future<MyYgServicesResponse> myYgServices() async {
+    try {
+      String url = BASE_API_URL + MY_YG_SERVICE_ENPOINT;
+
+      var userToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      var userDeviceToken =
+      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      headerMap['device_token'] = '$userDeviceToken';
+      headerMap['Authorization'] = 'Bearer $userToken';
+      // logger.e(getRequestModel.toJson());
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          // data: json.encode(getRequestModel.toJson())
+      );
+      logger.e(response.data);
+      return MyYgServicesResponse.fromJson(response.data);
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (no_internet_available_msg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
 
   static Future<UpdateProfileResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {

@@ -206,15 +206,15 @@ class YarnProductPageState extends State<YarnProductPage>
                     child: Container(
                   color: Colors.white,
                   child: _filteredSpecification!.isNotEmpty
-                      ? ListView.separated(
+                      ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           addAutomaticKeepAlives: true,
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              height: 1,
-                              color: Colors.grey.shade400,
-                            );
-                          },
+                          // separatorBuilder: (context, index) {
+                          //   return Divider(
+                          //     height: 1,
+                          //     color: Colors.grey.shade400,
+                          //   );
+                          // },
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => GestureDetector(
                               behavior: HitTestBehavior.opaque,
