@@ -1,13 +1,11 @@
 
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -16,7 +14,6 @@ import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
-import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
@@ -60,7 +57,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _profileInfoProvider.getSyncedData();
       _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
-      _companyTypeAheadController.text=_profileInfoProvider.businessInfo?.name.toString() ?? '';
+      _companyTypeAheadController.text=_profileInfoProvider.businessInfo?.name!=null ? _profileInfoProvider.businessInfo!.name.toString() : '';
     });
   }
 
@@ -670,9 +667,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
   }
 
-  _resetData() {
-
-  }
 }
 
 extension EmailValidator on String {
