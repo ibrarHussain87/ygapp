@@ -441,8 +441,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                       hint: const Text(
                                                         'Select country',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                'Metropolis'),
+                                                            ),
                                                       ),
                                                       items: _fiberSpecificationProvider
                                                           .countries
@@ -455,8 +454,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                                         TextAlign
                                                                             .center,
                                                                     style: const TextStyle(
-                                                                        fontFamily:
-                                                                            'Metropolis')),
+                                                                       )),
                                                                 value: value,
                                                               ))
                                                           .toList(),

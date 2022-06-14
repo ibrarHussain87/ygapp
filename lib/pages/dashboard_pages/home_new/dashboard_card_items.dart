@@ -118,7 +118,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12.sp,
-                    // fontFamily: 'Metropolis',
+                    
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
               )

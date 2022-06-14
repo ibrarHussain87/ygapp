@@ -71,7 +71,7 @@ Widget buildYarnRenewedAgainWidget(
                                     color: Colors.black,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
-                                    // /*fontFamily: 'Metropolis',*/,
+                                    // /**/,
                                   ),
                                 ),
                                 width: size.width * 0.40,
@@ -91,7 +91,7 @@ Widget buildYarnRenewedAgainWidget(
                                         color: Colors.black,
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,
-                                        // /*fontFamily: 'Metropolis',*/,
+                                        // /**/,
                                       ),
                                     ),
                                     SizedBox(
@@ -488,7 +488,7 @@ Widget buildYarnRenewedAgainWidget(
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 11.sp,
-                                        // /*fontFamily: 'Metropolis',*/,
+                                        // /**/,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
@@ -499,7 +499,7 @@ Widget buildYarnRenewedAgainWidget(
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 17.sp,
-                                        // /*fontFamily: 'Metropolis',*/,
+                                        // /**/,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   TextSpan(
@@ -508,7 +508,7 @@ Widget buildYarnRenewedAgainWidget(
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 11.sp,
-                                        // /*fontFamily: 'Metropolis',*/,
+                                        // /**/,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ])),

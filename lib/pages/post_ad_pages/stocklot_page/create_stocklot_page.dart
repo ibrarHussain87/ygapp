@@ -392,10 +392,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   color: Colors.black87,
                                                   fontSize: 14.sp,
                                                   backgroundColor: Colors.white,
-                                                  // fontFamily: 'Metropolis',
+                                                  
                                                   fontWeight: FontWeight.w500),),
                                               Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  // fontFamily: 'Metropolis',
+                                                  
                                                   backgroundColor: Colors.white,
                                                   fontWeight: FontWeight.w500)),
                                             ],
@@ -506,8 +506,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                             Colors.white,
-                                                            fontFamily:
-                                                            'Metropolis',
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
@@ -516,8 +514,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                              'Metropolis',
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -629,8 +625,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                             Colors.white,
-                                                            fontFamily:
-                                                            'Metropolis',
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
@@ -639,8 +633,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                              'Metropolis',
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -742,10 +734,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                     color: Colors.black87,
                                                     fontSize: 14.sp,
                                                     backgroundColor: Colors.white,
-                                                    fontFamily: 'Metropolis',
                                                     fontWeight: FontWeight.w500),),
                                                 Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                    fontFamily: 'Metropolis',
                                                     backgroundColor: Colors.white,
                                                     fontWeight: FontWeight.w500)),
                                               ],
@@ -835,10 +825,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   color: Colors.black87,
                                                   fontSize: 14.sp,
                                                   backgroundColor: Colors.white,
-                                                  fontFamily: 'Metropolis',
+                                                  
                                                   fontWeight: FontWeight.w500),),
                                               Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  fontFamily: 'Metropolis',
+                                                  
                                                   backgroundColor: Colors.white,
                                                   fontWeight: FontWeight.w500)),
                                             ],

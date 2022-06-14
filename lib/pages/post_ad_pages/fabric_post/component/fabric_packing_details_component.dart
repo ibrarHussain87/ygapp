@@ -680,8 +680,6 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                                  'Metropolis',
                                                               backgroundColor:
                                                                   Colors.white,
                                                               fontWeight:
@@ -903,7 +901,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    // fontFamily: 'Metropolis',
+                                                    
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -911,7 +909,7 @@ class FabricPackagingDetailsState extends State<FabricPackagingDetails>
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      // fontFamily: 'Metropolis',
+                                                      
                                                       backgroundColor:
                                                           Colors.white,
                                                       fontWeight:

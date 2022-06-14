@@ -102,7 +102,7 @@ class ForgetPasswordPageState
                       style: TextStyle(
                           color: Colors.black87,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // 
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -115,7 +115,7 @@ class ForgetPasswordPageState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -237,7 +237,7 @@ class ForgetPasswordPageState
                                   child:  Text("Send Code",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
 
                                   style: ButtonStyle(

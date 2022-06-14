@@ -20,7 +20,7 @@ class LabParameterPage extends StatefulWidget {
   // final YarnSetting newSettings;
   final Key specKey;
 
-  LabParameterPage(
+  const LabParameterPage(
       {Key? key,
         required this.callback,
         // required this.yarnSyncResponse,

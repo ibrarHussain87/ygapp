@@ -279,7 +279,7 @@ class DetailPageProvider extends ChangeNotifier {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17.sp,
-                        // /*fontFamily: 'Metropolis',*/,
+                        // /**/,
                         fontWeight: FontWeight.w600),
                   ),
                   TextSpan(
@@ -288,7 +288,7 @@ class DetailPageProvider extends ChangeNotifier {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
-                        // /*fontFamily: 'Metropolis',*/,
+                        // /**/,
                         fontWeight: FontWeight.w500),
                   ),
                 ]),
@@ -373,7 +373,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w400),
       ),
       TextSpan(
@@ -391,7 +391,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -400,7 +400,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w400),
       ),
     ];

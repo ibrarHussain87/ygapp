@@ -223,7 +223,7 @@ Column getWidget(int index, List<dynamic> blends, dynamic provider,
                   return TextButton(
                       child: Text("Add",
                           style: TextStyle(
-                              /*fontFamily: 'Metropolis',*/
+                              /**/
                               fontSize: 14.sp)),
                       style: ButtonStyle(
                           foregroundColor:
@@ -382,7 +382,7 @@ Column getPopularBlends(int index, List<dynamic> blends, dynamic provider,
               return TextButton(
                   child: Text("Add",
                       style: TextStyle(
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           fontSize: 14.sp)),
                   style: ButtonStyle(
                       foregroundColor:
@@ -516,7 +516,7 @@ Column getCustomBlends(int index, List<dynamic> blends, dynamic provider,
               return TextButton(
                   child: Text("Add",
                       style: TextStyle(
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           fontSize: 14.sp)),
                   style: ButtonStyle(
                       foregroundColor:

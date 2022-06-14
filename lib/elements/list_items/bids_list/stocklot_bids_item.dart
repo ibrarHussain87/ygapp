@@ -52,7 +52,7 @@ class StockLotBidsItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Metropolis',
+                              
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,
@@ -318,7 +318,7 @@ class StockLotBidsItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),
@@ -371,7 +371,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -380,7 +380,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
     ] : [
@@ -389,7 +389,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -398,7 +398,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
     ];

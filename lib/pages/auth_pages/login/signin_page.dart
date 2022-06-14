@@ -118,7 +118,7 @@ class _SignInPageState extends State<SignInPage> {
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // 
                           fontWeight: FontWeight.w700),
                     ),
                     Padding(
@@ -129,7 +129,7 @@ class _SignInPageState extends State<SignInPage> {
                         style: TextStyle(
                           color: textColorGrey,
                           fontSize: 10.sp,
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           fontWeight: FontWeight.w400,
                           height: 1.5.h,
                         ),
@@ -163,7 +163,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 12.sp,
                                         color:isEmail ? Colors.white : Colors.black54
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     )),)
                             ),
                           ),
@@ -190,7 +190,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 12.sp,
                                         color: isEmail ? Colors.black54 : Colors.white
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     )),)
                             ),
                           ),
@@ -571,7 +571,7 @@ class _SignInPageState extends State<SignInPage> {
                                       style: TextStyle(
                                         color: forgotPasswordColor,
                                         fontSize: 12.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                         fontWeight: FontWeight.w500,
                                         height: 1.5.h,
                                       ),
@@ -592,7 +592,7 @@ class _SignInPageState extends State<SignInPage> {
                                           Text("Sign in",
                                               style: TextStyle(
                                                 fontSize: 14.sp,
-                                                /*fontFamily: 'Metropolis',*/
+                                                /**/
                                               )),),flex: 9,),
                                           const Icon(
                                             Icons.arrow_forward_sharp,
@@ -644,7 +644,7 @@ class _SignInPageState extends State<SignInPage> {
                         signUp,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           color: textColorGrey,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -668,7 +668,7 @@ class _SignInPageState extends State<SignInPage> {
                           register,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            /*fontFamily: 'Metropolis',*/
+                            /**/
                             color: signInColor,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,

@@ -93,7 +93,7 @@ class CountryComponentState extends State<CountryComponent>
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -106,7 +106,7 @@ class CountryComponentState extends State<CountryComponent>
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -206,7 +206,7 @@ class CountryComponentState extends State<CountryComponent>
                                 child: Text("Proceed",
                                     style: TextStyle(
                                       fontSize: 14.sp,
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     )),
                                 style: ButtonStyle(
                                     foregroundColor:

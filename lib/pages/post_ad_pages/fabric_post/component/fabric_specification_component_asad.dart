@@ -2492,7 +2492,7 @@ class FabricSpecificationComponentState
                           return TextButton(
                               child: Text("Add",
                                   style: TextStyle(
-                                      fontFamily: 'Metropolis',
+                                      
                                       fontSize: 14.sp)),
                               style: ButtonStyle(
                                   foregroundColor:
@@ -2592,7 +2592,7 @@ class FabricSpecificationComponentState
                             return ElevatedButton(
                                 child: Text("Add",
                                     style: TextStyle(
-                                        fontFamily: 'Metropolis',
+                                        
                                         fontSize: 14.sp)),
                                 style: ButtonStyle(
                                     foregroundColor:

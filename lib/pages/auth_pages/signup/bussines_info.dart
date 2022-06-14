@@ -108,7 +108,7 @@ class BusinessInfoComponentState
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          // fontFamily: 'Metropolis',
+                          
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -121,7 +121,7 @@ class BusinessInfoComponentState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -148,7 +148,7 @@ class BusinessInfoComponentState
                                   child:  Text("Save & Continue",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
 
                                   style: ButtonStyle(

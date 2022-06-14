@@ -53,7 +53,7 @@ class FiberBidItem extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 6.sp,
-                      fontFamily: 'Metropolis',
+                      
                       fontWeight: FontWeight.bold,
                     ),
                   )),
@@ -88,7 +88,7 @@ class FiberBidItem extends StatelessWidget {
                                     ? Colors.green
                                     : Colors.red,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),
@@ -110,7 +110,7 @@ class FiberBidItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              // fontFamily: 'Metropolis',
+                              
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,
@@ -336,7 +336,7 @@ class FiberBidItem extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 9.sp,
-                                                      fontFamily: 'Metropolis',
+                                                      
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
@@ -349,7 +349,7 @@ class FiberBidItem extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: Colors.green,
                                                       fontSize: 9.sp,
-                                                      fontFamily: 'Metropolis',
+                                                      
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
@@ -438,7 +438,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w400),
                                       ),
                                       TextSpan(
@@ -448,7 +448,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w600),
                                       ),
                                       TextSpan(
@@ -457,7 +457,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ])),
@@ -609,7 +609,7 @@ class FiberBidItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),

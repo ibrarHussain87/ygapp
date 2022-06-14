@@ -663,52 +663,36 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                     ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                     : false,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 0, top: 4, bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: "Select Color"),
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: TextFormField(
-                            keyboardType: TextInputType.none,
-                            controller: _textEditingController,
-                            autofocus: false,
-                            showCursor: false,
-                            readOnly: true,
-                            style: TextStyle(fontSize: 11.sp),
-                            textAlign: TextAlign.center,
-                            onSaved: (input) => _yarnPostProvider
-                                .createRequestModel!.ys_color_code = input!,
-                            // validator: (input) {
-                            //   if (input == null ||
-                            //       input.isEmpty) {
-                            //     return "Select Color Code";
-                            //   }
-                            //   return null;
-                            // },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none),
-                                contentPadding: const EdgeInsets.all(2.0),
-                                hintText: "Select Color",
-                                filled: true,
-                                fillColor: pickerColor),
-                            onTap: () {
-                              _openDialogBox();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: _textEditingController,
+                      maxLength: 24,
+                      style: TextStyle(fontSize: 11.sp),
+                      textAlign: TextAlign.center,
+                      onSaved: (input) => _yarnPostProvider
+                          .createRequestModel!.ys_color_code = input!,
+                      validator: (input) {
+                        if (input == null ||
+                            input.isEmpty) {
+                          return "Enter Color";
+                        }
+                        return null;
+                      },
+                      decoration: ygTextFieldDecoration('Color Code','Color',true)/*InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.all(2.0),
+                          hintText: "Select Color",
+                          filled: true,
+                          fillColor: pickerColor)*/,
+                      // onTap: () {
+                      //   _openDialogBox();
+                      // },
+                    ),
                   ),
                 )),
 
@@ -1332,68 +1316,53 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                     ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                     : false,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: TitleSmallBoldTextWidget(title: "Select Color"),
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          child: TextFormField(
-                            keyboardType: TextInputType.none,
-                            controller: _textEditingController,
-                            autofocus: false,
-                            showCursor: false,
-                            readOnly: true,
-                            style: TextStyle(fontSize: 11.sp),
-                            textAlign: TextAlign.center,
-                            onSaved: (input) => _yarnPostProvider
-                                .createRequestModel!.ys_color_code = input!,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none),
-                                contentPadding: const EdgeInsets.all(2.0),
-                                hintText: "Select Color",
-                                filled: true,
-                                fillColor: pickerColor),
-                            onTap: () {
-                              _openDialogBox();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: _textEditingController,
+                    style: TextStyle(fontSize: 11.sp),
+                    textAlign: TextAlign.center,
+                    maxLength: 24,
+                    validator: (input) {
+                      if (input == null ||
+                          input.isEmpty) {
+                        return "Enter Color";
+                      }
+                      return null;
+                    },
+                    onSaved: (input) => _yarnPostProvider
+                        .createRequestModel!.ys_color_code = input!,
+                    decoration: ygTextFieldDecoration('Color Code','Color',true) /*InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.all(2.0),
+                        hintText: "Select Color",
+                        filled: true,
+                        fillColor: pickerColor)*/,
+                    // onTap: () {
+                    //   _openDialogBox();
+                    // },
                   ),
                 )),
 
             // Show Ratio
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Visibility(
-                visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showRatio),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 8.w,
-                    ),
-                    YgTextFormFieldWithoutRange(
-                        label: ratio,
-                        errorText: ratio,
-                        onSaved: (input) {
-                          _yarnPostProvider.createRequestModel!.ys_ratio =
-                              input;
-                        })
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
+            Visibility(
+              visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showRatio),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 8.w,
+                  ),
+                  YgTextFormFieldWithoutRange(
+                      label: ratio,
+                      errorText: ratio,
+                      onSaved: (input) {
+                        _yarnPostProvider.createRequestModel!.ys_ratio =
+                            input;
+                      })
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
               ),
             ),
 

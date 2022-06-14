@@ -286,7 +286,7 @@ class MarketPageState extends State<MarketPage>
             tabsList[i],
             style: TextStyle(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w500, /*fontFamily: 'Metropolis',*/
+              fontWeight: FontWeight.w500, /**/
             ),
           ),
         ),

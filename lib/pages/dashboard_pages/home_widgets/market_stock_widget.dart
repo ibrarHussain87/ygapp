@@ -39,7 +39,7 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
                               color: Colors.black,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
-                              fontFamily: "Metropolis"),
+                              ),
                         ),
                         SizedBox(
                           width: 1.w,
@@ -50,7 +50,7 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
                           style: TextStyle(
                               color: redClr,
                               fontSize: 9.sp,
-                              fontFamily: "Metropolis"),
+                              ),
                         ),
                       ],
                     ),

@@ -82,7 +82,7 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                               color: widget.bidData.status == "0" ? Colors.
                               brown : widget.bidData.status == "1" ? Colors.green : Colors.red,
                               fontSize: 8.sp,
-                              /*fontFamily: 'Metropolis',*/
+                              /**/
                               fontWeight: FontWeight.bold,
                             ),
                           )),

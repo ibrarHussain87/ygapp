@@ -58,7 +58,7 @@ class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
                     style: TextStyle(
                         fontSize: widget.size??10.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Metropolis',
+                        
                         color: Colors.black),
                   ),
                 ),

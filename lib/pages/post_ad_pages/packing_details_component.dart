@@ -568,7 +568,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.black87,
                                                               fontSize: 14.sp,
-                                                              /*fontFamily: 'Metropolis',*/
+                                                              /**/
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -578,7 +578,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                             style: TextStyle(
                                                                 color: Colors.red,
                                                                 fontSize: 16.sp,
-                                                                /*fontFamily: 'Metropolis',*/
+                                                                /**/
                                                                 backgroundColor:
                                                                 Colors.white,
                                                                 fontWeight:
@@ -700,7 +700,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                            fontSize: 14.sp,
 //                                                            backgroundColor:
 //                                                                Colors.white,
-//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            /**/
 //                                                            fontWeight:
 //                                                                FontWeight
 //                                                                    .w500),
@@ -709,7 +709,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                          style: TextStyle(
 //                                                              color: Colors.red,
 //                                                              fontSize: 16.sp,
-//                                                              /*fontFamily: 'Metropolis',*/
+//                                                              /**/
 //                                                              backgroundColor:
 //                                                                  Colors.white,
 //                                                              fontWeight:
@@ -820,7 +820,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                                 Colors.white,
-                                                            /*fontFamily: 'Metropolis',*/
+                                                            /**/
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -829,7 +829,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              /*fontFamily: 'Metropolis',*/
+                                                              /**/
                                                               backgroundColor:
                                                                   Colors.white,
                                                               fontWeight:
@@ -937,7 +937,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     style: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 14.sp,
-                                                        /*fontFamily: 'Metropolis',*/
+                                                        /**/
                                                         fontWeight:
                                                             FontWeight.w500),
                                                   ),
@@ -945,7 +945,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                       style: TextStyle(
                                                           color: Colors.red,
                                                           fontSize: 16.sp,
-                                                          /*fontFamily: 'Metropolis',*/
+                                                          /**/
                                                           fontWeight:
                                                               FontWeight.w500)),
                                                 ],
@@ -1048,7 +1048,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    /*fontFamily: 'Metropolis',*/
+                                                    /**/
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -1058,7 +1058,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           Colors.white,
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      /*fontFamily: 'Metropolis',*/
+                                                      /**/
                                                       fontWeight:
                                                           FontWeight.w500)),
                                             ],

@@ -98,7 +98,7 @@ class DashboardPageState extends State<DashboardPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0.w,
-                        // fontFamily: 'Metropolis',
+                        
                         color: Colors.black,
                         fontWeight: FontWeight.w700)),
               ),
@@ -155,7 +155,7 @@ class DashboardPageState extends State<DashboardPage> {
                         //     style: TextStyle(
                         //         color: Colors.black,
                         //         fontSize: 15.sp,
-                        //         fontFamily: 'Metropolis',
+                        //         
                         //         fontWeight: FontWeight.w700),
                         //   ),
                         // ),

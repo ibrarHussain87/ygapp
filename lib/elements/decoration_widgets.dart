@@ -216,10 +216,10 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title,bool mandato
           Text(title,style:TextStyle(
               color: Colors.black87,
               fontSize: 14.sp,
-              /*fontFamily: 'Metropolis',*/
+              /**/
               fontWeight: FontWeight.w500),),
            Text(mandatoryField ? "*" : "", style: TextStyle(color: Colors.red, fontSize: 16.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
                fontWeight: FontWeight.w500)),
         ],
       ),

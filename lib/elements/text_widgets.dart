@@ -19,7 +19,7 @@ class TitleTextWidget extends StatelessWidget {
       style: TextStyle(
           color: color??Colors.black,
           fontSize: fontSize??14.sp,
-          /*fontFamily: 'Metropolis',*/
+          /**/
           fontWeight: FontWeight.bold),
     );
   }
@@ -38,7 +38,7 @@ class LargeTitleTextWidget extends StatelessWidget {
       style: TextStyle(
           color: color??Colors.black,
           fontSize: 16.sp,
-          /*fontFamily: 'Metropolis',*/
+          /**/
           fontWeight: FontWeight.w400),
     );
   }
@@ -59,7 +59,7 @@ class NormalTitleTextWidget extends StatelessWidget {
       style: TextStyle(
           color: color??Colors.black,
           fontSize: fontSize??13.sp,
-          /*fontFamily: 'Metropolis',*/
+          /**/
           fontWeight: fontWeight??FontWeight.w500),
     );
   }
@@ -83,7 +83,7 @@ class TitleSmallTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??11.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w500),
       ),
     );
@@ -111,7 +111,7 @@ class TitleSmallBoldTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??11.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: weight??FontWeight.w600),
       ),
     );
@@ -140,7 +140,7 @@ class TitleSmallNormalTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??10.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: weight??FontWeight.w500),
       ),
     );
@@ -170,7 +170,7 @@ class TitleMediumTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color??Colors.black,
             fontSize: size??12.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: weight??FontWeight.bold),
       ),
     );
@@ -195,7 +195,7 @@ class TitleBoldSmallTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 10.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.bold),
       ),
     );
@@ -221,7 +221,7 @@ class TitleMediumBoldSmallTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 10.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w600),
       ),
     );
@@ -246,7 +246,7 @@ class TitleExtraSmallTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 9.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w500),
       ),
     );
@@ -271,7 +271,7 @@ class TitleExtraSmallBoldTextWidget extends StatelessWidget {
         style: TextStyle(
             color: color ?? Colors.black87,
             fontSize: textSize?? 9.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w600),
       ),
     );
@@ -295,7 +295,7 @@ class TitleCustomSizeTextWidget extends StatelessWidget {
         style: TextStyle(
             color: Colors.black87,
             fontSize: sizeText!.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w500),
       ),
     );
