@@ -56,8 +56,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final _yarnPostProvider = locator<PostYarnProvider>();
   final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
   final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
-  // String? tempPatternShow, tempQualityShow;
 
+  // String? tempPatternShow, tempQualityShow;
 
   _changeColor(Color color) {
     pickerColor = color;
@@ -160,8 +160,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    }
-    else {
+    } else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
@@ -197,10 +196,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if(_yarnPostProvider.createRequestModel!.ys_formation == null){
-        Ui.showSnackBar(context, 'Please add ${_yarnPostProvider.selectedYarnFamily.toString()} formation.');
+      if (_yarnPostProvider.createRequestModel!.ys_formation == null) {
+        Ui.showSnackBar(context,
+            'Please add ${_yarnPostProvider.selectedYarnFamily.toString()} formation.');
         return false;
-      }else if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showTexturized)) {
         Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
         return false;
@@ -233,7 +234,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_orientation_idfk ==
               null &&
-          Ui.showHide(_yarnPostProvider.yarnSetting!.showOrientation)) {
+          Ui.showHide(_yarnPostProvider.yarnSetting!.showOrientation) &&
+          _yarnPostProvider.selectedUsage!.yuName.toString().toLowerCase() !=
+              'Knitting'.toLowerCase()) {
         Ui.showSnackBar(context, 'Please Select Orientation');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_count == null &&
@@ -266,21 +269,23 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
         Ui.showSnackBar(context, 'Please Select Pattern');
         return false;
       } else if (_yarnPostProvider
-                  .createRequestModel!.ys_pattern_charectristic_idfk ==
-              null  &&
-          _yarnPostProvider.showPatternChar  /*&&
+                      .createRequestModel!.ys_pattern_charectristic_idfk ==
+                  null &&
+              _yarnPostProvider
+                  .showPatternChar /*&&
           !_patternTLPIdList.contains(int.tryParse(_selectedPatternId!)) &&
-          !_patternGRIdList.contains(int.tryParse(_selectedPatternId!))*/) {
+          !_patternGRIdList.contains(int.tryParse(_selectedPatternId!))*/
+          ) {
         Ui.showSnackBar(context, 'Please Select Pattern Characteristics');
-        return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_grade_idfk == null &&
-          Ui.showHide(_yarnPostProvider.yarnSetting!.showGrade)) {
-        Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_apperance_idfk ==
               null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance)) {
         Ui.showSnackBar(context, 'Please Select Appearance');
+        return false;
+      } else if (_yarnPostProvider.createRequestModel!.ys_grade_idfk == null &&
+          Ui.showHide(_yarnPostProvider.yarnSetting!.showGrade)) {
+        Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_certification_idfk ==
               null &&
@@ -299,7 +304,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
   final GlobalKey _scaffoldKey = GlobalKey();
 
-
   //FOR FILTERING DYED COLOR TREATMENT METHOD
   // final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
 
@@ -307,13 +311,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   // final List<int> _patternTLPIdList = [1, 2, 3, 4, 9, 12, 14];
   // final List<int> _patternGRIdList = [20, 10, 16];
 
-
-
   Color pickerColor = const Color(0xffffffff);
 
   // Yarn? _yarnData;
   final TextEditingController _textEditingController = TextEditingController();
   var logger = Logger();
+
   // String? _selectedPatternId = "-1";
 
   @override
@@ -321,7 +324,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     super.initState();
     _yarnPostProvider.familyDisabled = false;
     _yarnPostProvider.addListener(() {
-      if(mounted)setState(() {});
+      if (mounted) setState(() {});
     });
   }
 
@@ -443,7 +446,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-    ApiService().createSpecification(_yarnPostProvider.createRequestModel!,
+    ApiService()
+        .createSpecification(_yarnPostProvider.createRequestModel!,
             imageFiles.isNotEmpty ? imageFiles[0].path : "")
         .then((value) {
       ProgressDialogUtil.hideDialog();
@@ -540,7 +544,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         selectedFamilyId,
                         _yarnPostProvider.plyList!,
                         _yarnPostProvider.orientationList!,
-                        _yarnPostProvider.doublingMethodList!,usage:_yarnPostProvider.selectedUsage);
+                        _yarnPostProvider.doublingMethodList!,
+                        usage: _yarnPostProvider.selectedUsage);
                   },
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
@@ -675,20 +680,21 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       onSaved: (input) => _yarnPostProvider
                           .createRequestModel!.ys_color_code = input!,
                       validator: (input) {
-                        if (input == null ||
-                            input.isEmpty) {
+                        if (input == null || input.isEmpty) {
                           return "Enter Color";
                         }
                         return null;
                       },
-                      decoration: ygTextFieldDecoration('Color Code','Color',true)/*InputDecoration(
+                      decoration: ygTextFieldDecoration('Color Code', 'Color',
+                          true) /*InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           contentPadding: const EdgeInsets.all(2.0),
                           hintText: "Select Color",
                           filled: true,
-                          fillColor: pickerColor)*/,
+                          fillColor: pickerColor)*/
+                      ,
                       // onTap: () {
                       //   _openDialogBox();
                       // },
@@ -981,7 +987,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Pattern characteristics
             Visibility(
-                visible: _yarnPostProvider.showPatternChar, child: _showPatternCharWidget()),
+                visible: _yarnPostProvider.showPatternChar,
+                child: _showPatternCharWidget()),
 
             //Show Certification
             Visibility(
@@ -1193,7 +1200,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         selectedFamilyId,
                         _yarnPostProvider.plyList!,
                         _yarnPostProvider.orientationList!,
-                        _yarnPostProvider.doublingMethodList!,usage:_yarnPostProvider.selectedUsage);
+                        _yarnPostProvider.doublingMethodList!,
+                        usage: _yarnPostProvider.selectedUsage);
                   },
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
@@ -1324,22 +1332,23 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                     textAlign: TextAlign.center,
                     maxLength: 24,
                     validator: (input) {
-                      if (input == null ||
-                          input.isEmpty) {
+                      if (input == null || input.isEmpty) {
                         return "Enter Color";
                       }
                       return null;
                     },
                     onSaved: (input) => _yarnPostProvider
                         .createRequestModel!.ys_color_code = input!,
-                    decoration: ygTextFieldDecoration('Color Code','Color',true) /*InputDecoration(
+                    decoration: ygTextFieldDecoration('Color Code', 'Color',
+                        true) /*InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         contentPadding: const EdgeInsets.all(2.0),
                         hintText: "Select Color",
                         filled: true,
-                        fillColor: pickerColor)*/,
+                        fillColor: pickerColor)*/
+                    ,
                     // onTap: () {
                     //   _openDialogBox();
                     // },
@@ -1358,8 +1367,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       label: ratio,
                       errorText: ratio,
                       onSaved: (input) {
-                        _yarnPostProvider.createRequestModel!.ys_ratio =
-                            input;
+                        _yarnPostProvider.createRequestModel!.ys_ratio = input;
                       })
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1473,7 +1481,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Pattern characteristics
             Visibility(
-                visible: _yarnPostProvider.showPatternChar, child: _showPatternCharWidget()),
+                visible: _yarnPostProvider.showPatternChar,
+                child: _showPatternCharWidget()),
 
             //Show Grade
             Visibility(
@@ -1610,14 +1619,13 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   spunSelection(SpunTechnique value) async {
     _yarnPostProvider.createRequestModel!.ys_spun_technique_idfk =
         value.ystId.toString();
-    if(_yarnPostProvider.patternKey.currentState!= null){
+    if (_yarnPostProvider.patternKey.currentState != null) {
       _yarnPostProvider.patternKey.currentState!.resetWidget();
       _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
     }
-    if(_yarnPostProvider.qualityKey.currentState!= null){
+    if (_yarnPostProvider.qualityKey.currentState != null) {
       _yarnPostProvider.qualityKey.currentState!.resetWidget();
       _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
-
     }
     await _yarnPostProvider.getPatternWithSpunId(value.ystId!);
     await _yarnPostProvider.getQualityWithSpunId(value.ystId!);
@@ -1635,7 +1643,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     // _selectedPatternId = value.ypId.toString();
     _yarnPostProvider.showPatternChar = true;
     if (_yarnPostProvider.patternCharList!.isNotEmpty) {
-    }  else {
+    } else {
       _yarnPostProvider.createRequestModel!.ys_pattern_charectristic_idfk =
           null;
     }
