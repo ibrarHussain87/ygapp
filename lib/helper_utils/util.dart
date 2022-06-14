@@ -1,48 +1,40 @@
-import 'dart:developer';
-import 'dart:math';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
+import 'package:yg_app/helper_utils/extensions.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/locators.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
-import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:intl/intl.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+
 import '../elements/list_widgets/bg_light_blue_normal_text_widget.dart';
 import '../elements/list_widgets/short_detail_renewed_widget.dart';
-import '../model/response/fabric_response/sync/fabric_sync_response.dart';
-import '../providers/fabric_providers/fabric_specifications_provider.dart';
-import '../providers/yarn_providers/yarn_specifications_provider.dart';
 import '../model/request/update_fabric_request/update_fabric_request.dart';
 import '../model/response/fiber_response/fiber_specification.dart';
-import 'dialog_builder.dart';
+import '../providers/fabric_providers/fabric_specifications_provider.dart';
+import '../providers/yarn_providers/yarn_specifications_provider.dart';
 import 'app_colors.dart';
 import 'app_constants.dart';
 import 'app_images.dart';
+import 'dialog_builder.dart';
 import 'navigation_utils.dart';
-import 'package:yg_app/helper_utils/extensions.dart';
 
 class Utils {
   static double splitMin(String? minMax) {
@@ -1432,11 +1424,13 @@ class Utils {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButtonWithoutIcon(
                         callback: () {
-                          if (int.parse(updateFabricRequestModel.fbp_no_of_days!) <= 0 && noOfDays) {
-                            Fluttertoast.showToast(
-                                msg: "Please add no of days");
-                            return;
-                          }
+                            if (int.parse(
+                                updateFabricRequestModel.fbp_no_of_days??"0") <=
+                                0 && noOfDays) {
+                              Fluttertoast.showToast(
+                                  msg: "Please add no of days");
+                              return;
+                            }
 
                           showGenericDialog(
                               "Alert",
@@ -1448,7 +1442,7 @@ class Utils {
                                 updateFabricRequestModel.toJson().toString());
                             ProgressDialogUtil.showDialog(
                                 context, "Please wait..");
-                            ApiService.updateSpecification(
+                            ApiService().updateSpecification(
                                     updateFabricRequestModel, "")
                                 .then((value) {
                               ProgressDialogUtil.hideDialog();

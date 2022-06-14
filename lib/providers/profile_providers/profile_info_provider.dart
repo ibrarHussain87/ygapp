@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/pre_login_response.dart';
+import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
-import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import '../../model/request/update_profile/update_business_request.dart';
 import '../../model/response/common_response_models/companies_reponse.dart';
 import '../../model/response/login/login_response.dart';

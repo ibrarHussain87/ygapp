@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:yg_app/model/request/signup_request/signup_request.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/model/services_model.dart';
 import 'package:yg_app/pages/auth_pages/forget_password/forgetpassword_page.dart';
 import 'package:yg_app/pages/auth_pages/forget_password/updatepassword_page.dart';
 import 'package:yg_app/pages/auth_pages/forget_password/verifycode_page.dart';
-import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import 'package:yg_app/pages/dashboard_pages/home_new/yg_services_page.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/specification_user/specification_user_page.dart';
@@ -18,11 +14,9 @@ import 'package:yg_app/pages/profile/list_bids_page/bids_page.dart';
 import 'package:yg_app/pages/profile/my_products/my_product_page.dart';
 import 'package:yg_app/pages/profile/my_services/service_detail_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
-import 'package:yg_app/pages/profile/update_profile/customer_support.dart';
 import 'package:yg_app/pages/profile/update_profile/customer_support_2.dart';
 import 'package:yg_app/pages/profile/update_profile/edit_profile.dart';
 import 'package:yg_app/pages/profile/update_profile/membership.dart';
-import 'package:yg_app/pages/profile/update_profile/update_profile.dart';
 
 import '../model/response/yg_services/my_yg_services_response.dart';
 import '../pages/post_ad_pages/fabric_post/fabric_post_page.dart';
@@ -109,7 +103,7 @@ void openMyAdsScreen(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => MyProductPage(),
+      builder: (context) => const MyProductPage(),
     ),
   );
 }

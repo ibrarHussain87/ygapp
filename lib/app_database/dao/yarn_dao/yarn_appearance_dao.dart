@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 @dao

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'blend_model.dart';
-
 class BlendModelExtended{
 
   String? default_bln_id;

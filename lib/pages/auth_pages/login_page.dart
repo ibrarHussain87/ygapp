@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +13,9 @@ import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
-import 'signup/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
+
+import 'signup/signup_page_new.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -256,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
     check().then((value) {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
-        ApiService.login(_loginRequestModel).then((value) {
+        ApiService().login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {

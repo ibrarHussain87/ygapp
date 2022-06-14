@@ -136,6 +136,7 @@ class TitleSmallNormalTextWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: padding??2.w),
       child: Text(
         title??Utils.checkNullString(false),
+        textAlign: TextAlign.center,
         style: TextStyle(
             color: color?? Colors.black87,
             fontSize: size??10.sp,

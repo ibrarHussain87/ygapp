@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../../helper_utils/top_round_corners.dart';
 
@@ -43,7 +44,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Align(
                         alignment: Alignment.center,
@@ -59,7 +60,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                                   myActions: actionsList[index],
                                   myClickCallback: (value) {
                                     Navigator.pop(context);
-                                    print("Families"+actionsList[index].title.toString());
+                                    Logger().e("Families"+actionsList[index].title.toString());
                                     callback(actionsList[index].value);
                                   });
                             }),
@@ -90,7 +91,7 @@ class ItemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/2,
       child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),

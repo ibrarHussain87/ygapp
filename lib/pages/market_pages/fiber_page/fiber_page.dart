@@ -1,23 +1,21 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
-import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
-import 'package:yg_app/locators.dart';
-import 'package:yg_app/model/request/filter_request/filter_request.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/fliter_pages/fiber/fiber_filter_page.dart';
-import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
+import 'package:yg_app/locators.dart';
+import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
+import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
+import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
+import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 

@@ -1,21 +1,20 @@
 
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:logger/logger.dart';
-
+import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/profile/update_profile/membership_card.dart';
 
 import '../../../api_services/api_service_class.dart';
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../model/pre_login_response.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import '../../../elements/custom_header.dart';
 import '../../../model/request/update_profile/update_membership_plan_request.dart';
 
 
@@ -171,7 +170,7 @@ class _MembershipPageState extends State<MembershipPage> {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
 
         Logger().e(_membershipRequestModel?.toJson());
-        ApiService.subscribeToPlan(_membershipRequestModel!).then((value) {
+        ApiService().subscribeToPlan(_membershipRequestModel!).then((value) {
 
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

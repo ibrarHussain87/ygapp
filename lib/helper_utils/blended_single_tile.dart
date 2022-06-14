@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/blend_text_form_field.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../elements/yg_text_form_field.dart';
 import '../model/blend_model.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 
@@ -34,9 +31,6 @@ class BlendedTileWidget extends StatefulWidget {
 }
 
 class BlendedTileWidgetState extends State<BlendedTileWidget> {
-  var looger = Logger();
-  var width;
-
   List<int> selectedIndex = [];
   List<FabricBlends?> title = [];
   List<BlendModel> blends = [];
@@ -50,7 +44,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width,
       child: ListView.separated(
@@ -72,7 +66,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
 
   Widget buildGrid(int index) {
     return SizedBox(
-      width: width,
+      width: MediaQuery.of(context).size.width,
       child: Row(children: [
         GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -88,11 +82,11 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
               }
             });
             widget.callback!(title);
-            looger.e(widget.listOfItems[index].toString());
+            Logger().e(widget.listOfItems[index].toString());
           },
           child: Container(
             height: 35,
-            width: width * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.transparent,
@@ -118,7 +112,7 @@ class BlendedTileWidgetState extends State<BlendedTileWidget> {
           width: 30,
         ),
         SizedBox(
-          width: width * 0.4,
+          width: MediaQuery.of(context).size.width * 0.4,
           child: BlendTextFormFieldWithRangeNonDecimal(
               errorText: "count",
               // onChanged:(value) => globalFormKey.currentState!.reset(),

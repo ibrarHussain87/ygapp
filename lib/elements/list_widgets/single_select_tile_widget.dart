@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/elements/bottom_sheets/spec_bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../../helper_utils/app_constants.dart';
-import '../title_text_widget.dart';
+import '../text_widgets.dart';
 
 class SingleSelectTileWidget extends StatefulWidget {
   final Function? callback;
@@ -102,7 +99,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           widget.callback!(value);
         }, listOfItems,selectedIndex);
       },
-      child: Container(
+      child: SizedBox(
         width: double.maxFinite,
         child: Row(
           children: [

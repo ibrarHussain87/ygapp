@@ -1,4 +1,4 @@
-import '../../response/fiber_response/fiber_specification.dart';
+
 
 class FabricCreateRequestModel {
   String? spc_category_idfk;

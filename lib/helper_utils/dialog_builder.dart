@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/loading_indicator.dart';
 
 class DialogBuilder {

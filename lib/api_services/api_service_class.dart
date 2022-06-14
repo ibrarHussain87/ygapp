@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -51,63 +52,45 @@ import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/list_bid_response.dart';
 import '../model/response/mark_yg_response.dart';
 import '../model/response/spec_user_response.dart';
-import 'package:dio/dio.dart' as dio;
-
 import '../model/response/yg_service_response.dart';
 
 class ApiService {
-  static var logger = Logger();
-  static Map<String, String> headerMap = {"Accept": "application/json"};
+  var logger = Logger();
+  Map<String, String> headerMap = {"Accept": "application/json"};
+  String baseUrlApi = "http://stagingv2.yarnguru.net/api";
+  String loginEndPoint = "/login";
+  String signUpEndPoint = "/register";
+  String profileUpdateEndPoint = "/update-personal-info";
+  String businessUpdateEndPoint = "/update-business-info";
+  String brandsUpdateEndPoint = "/update-brands";
+  String specUserEndPoint = "/spec_user";
+  String syncEndPoint = "/sync";
+  String getSpecEndPoint = "/getSpecifications";
+  String createSpecEndPoint = "/createSpecification";
+  String updateSpecEndPint = "/update-specification";
+  String listBiddersEndPoint = "/listBidders";
+  String getMatchedEndPoint = "/getMatched";
+  String createBidEndPoint = "/createBid";
+  String changeBidStatusEndPoint = "/bidChangeStatus";
+  String getBannersEndPoint = "/getBanners";
+  String updateSpec = "/update-specification";
+  String companiesEndPoint = "/company";
+  String preLoginSync = "/get-pre-login-sync";
+  String preConfigSync = "/get-pre-login-config";
 
-  // static String BASE_URL = "http://stagingv2.yarnguru.net/";
+  String createYgService = "/create-yg-service";
+  String myYgServicesEndPoint = "/my-yg-service";
+  String createCustomerServicePoint = "/create-customer-support";
+  String subscribeToPlanEndPoint = "/subscribe-to-plan";
 
-  // static String BASE_API_URL = "http://stagingv2.yarnguru.net/api";
-  static String BASE_API_URL = "http://stagingv2.yarnguru.net/api";
-
-  // static String BASE_API_URL = "http://stagingv2.yarnonline.net/api";
-  // static String BASE_API_URL = "http://yarnonline.net/dev/public/api";
-  // static String BASE_API_URL = "http://yarnonline.net/staging/public/api";
-
-  static String LOGIN_END_POINT = "/login";
-  static String SIGN_UP_END_POINT = "/register";
-  static String PROFILE_UPDATE_END_POINT = "/update-personal-info";
-  static String BUSINESS_UPDATE_END_POINT = "/update-business-info";
-  static String BRANDS_UPDATE_END_POINT = "/update-brands";
-  static String SPEC_USER_END_POINT = "/spec_user";
-
-  // static const String SYNC_FIBER_END_POINT = "/sync";
-  // static const String SYNC_YARN_END_POINT = "/syncYarn";
-  static String SYNC_END_POINT = "/sync";
-  static String GET_SPEC_END_POINT = "/getSpecifications";
-  static String CREATE_END_POINT = "/createSpecification";
-  static String UPDATE_FABRIC_END_POINT = "/update-specification";
-  static String LIST_BIDDERS_END_POINT = "/listBidders";
-  static String GET_MATCHED_END_POINT = "/getMatched";
-  static String CREATE_BID_END_POINT = "/createBid";
-  static String CHANGE_BID_STATUS_END_POINT = "/bidChangeStatus";
-  static String GET_BANNERS_END_POINT = "/getBanners";
-  static String UPDATE_SPECIFICATION = "/update-specification";
-
-  static String COUNTRY_END_POINT = "/get-pre-login-sync";
-
-//  static const String COUNTRY_END_POINT = "/get-countries";
-  static String COMPANIES_END_POINT = "/company";
-  static String PRE_SYNC_END_POINT = "/get-pre-login-sync";
-  static String PRE_CONFIG_END_POINT = "/get-pre-login-config";
-
-  static const String CREATE_YG_SERVICE_ENPOINT = "/create-yg-service";
-  static const String MY_YG_SERVICE_ENPOINT = "/my-yg-service";
-  static const String CREATE_CUSTOMER_SERVICE_ENPOINT = "/create-customer-support";
-  static const String SUBSCRIBE_TO_PLAN_ENPOINT = "/subscribe-to-plan";
-
-  static Future<PreConfigResponse> preConfig(String countryID) async {
+  Future<PreConfigResponse> preConfig(String countryID) async {
     try {
       var params = {
         'country_id': countryID,
       };
-      String url = BASE_API_URL + PRE_CONFIG_END_POINT;
+      String url = baseUrlApi + preConfigSync;
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: params);
@@ -116,7 +99,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -127,13 +110,13 @@ class ApiService {
     }
   }
 
-  static Future<AuthResponse> login(LoginRequestModel requestModel) async {
+  Future<AuthResponse> login(LoginRequestModel requestModel) async {
     try {
-      String url = BASE_API_URL + LOGIN_END_POINT;
+      String url = baseUrlApi + loginEndPoint;
       // final response = await http.post(Uri.parse(url),
       //     headers: headerMap, body: requestModel.toJson());
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
@@ -144,7 +127,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -155,13 +138,13 @@ class ApiService {
     }
   }
 
-  static Future<AuthResponse> signup(SignUpRequestModel requestModel) async {
+  Future<AuthResponse> signup(SignUpRequestModel requestModel) async {
     try {
-      String url = BASE_API_URL + SIGN_UP_END_POINT;
+      String url = baseUrlApi + signUpEndPoint;
       // final response = await http.post(Uri.parse(url),
       //     headers: headerMap, body: requestModel.toJson());
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       final response = await Dio().post(url,
           options: Options(headers: headerMap),
@@ -170,7 +153,7 @@ class ApiService {
       return AuthResponse.fromJson(response.data);
     } catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -179,26 +162,25 @@ class ApiService {
     }
   }
 
-
-  static Future<UpdateProfileResponse> subscribeToPlan(
+  Future<UpdateProfileResponse> subscribeToPlan(
       MembershipRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + SUBSCRIBE_TO_PLAN_ENPOINT;
+      String url = baseUrlApi + subscribeToPlanEndPoint;
 
       final response = await http.post(Uri.parse(url),
-          headers: headerMap, body:requestModel.toJson());
+          headers: headerMap, body: requestModel.toJson());
       return UpdateProfileResponse.fromJson(
         json.decode(response.body),
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -209,16 +191,16 @@ class ApiService {
     }
   }
 
-  static Future<YGServiceResponse> createCustomerService(
+  Future<YGServiceResponse> createCustomerService(
       CustomerSupportRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + CREATE_CUSTOMER_SERVICE_ENPOINT;
+      String url = baseUrlApi + createCustomerServicePoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return YGServiceResponse.fromJson(
@@ -226,7 +208,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -237,16 +219,16 @@ class ApiService {
     }
   }
 
-  static Future<YGServiceResponse> createYGService(
+  Future<YGServiceResponse> createYGService(
       YGServiceRequestModel requestModel) async {
     try {
-      var userToken=
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + CREATE_YG_SERVICE_ENPOINT;
+      String url = baseUrlApi + createYgService;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return YGServiceResponse.fromJson(
@@ -254,7 +236,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -265,27 +247,28 @@ class ApiService {
     }
   }
 
-  static Future<MyYgServicesResponse> myYgServices() async {
+  Future<MyYgServicesResponse> myYgServices() async {
     try {
-      String url = BASE_API_URL + MY_YG_SERVICE_ENPOINT;
+      String url = baseUrlApi + myYgServicesEndPoint;
 
       var userToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       // logger.e(getRequestModel.toJson());
-      final response = await Dio().post(url,
-          options: Options(headers: headerMap),
-          // data: json.encode(getRequestModel.toJson())
+      final response = await Dio().post(
+        url,
+        options: Options(headers: headerMap),
+        // data: json.encode(getRequestModel.toJson())
       );
       logger.e(response.data);
       return MyYgServicesResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -296,17 +279,16 @@ class ApiService {
     }
   }
 
-
-  static Future<UpdateProfileResponse> updateProfile(
+  Future<UpdateProfileResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + PROFILE_UPDATE_END_POINT;
+      String url = baseUrlApi + profileUpdateEndPoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return UpdateProfileResponse.fromJson(
@@ -314,7 +296,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -325,16 +307,16 @@ class ApiService {
     }
   }
 
-  static Future<UpdateProfileResponse> updateBusinessInfo(
+  Future<UpdateProfileResponse> updateBusinessInfo(
       UpdateBusinessRequestModel requestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + BUSINESS_UPDATE_END_POINT;
+      String url = baseUrlApi + businessUpdateEndPoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return UpdateProfileResponse.fromJson(
@@ -342,7 +324,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -353,16 +335,16 @@ class ApiService {
     }
   }
 
-  static Future<UpdateProfileResponse> updateBrands(
+  Future<UpdateProfileResponse> updateBrands(
       BrandsRequestModel requestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
-      String url = BASE_API_URL + BRANDS_UPDATE_END_POINT;
+      String url = baseUrlApi + brandsUpdateEndPoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
       return UpdateProfileResponse.fromJson(
@@ -370,7 +352,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -381,12 +363,12 @@ class ApiService {
     }
   }
 
-  static Future<SpecificationUserResponse> getSpecificationUser(
+  Future<SpecificationUserResponse> getSpecificationUser(
       SpecificationRequestModel requestModel) async {
     try {
-      String url = BASE_API_URL + SPEC_USER_END_POINT;
+      String url = baseUrlApi + specUserEndPoint;
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
@@ -395,7 +377,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -406,17 +388,16 @@ class ApiService {
     }
   }
 
-  static Future<SyncFiberResponse> syncFiber(
-      SyncRequestModel syncRequestModel) async {
+  Future<SyncFiberResponse> syncFiber(SyncRequestModel syncRequestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + SYNC_END_POINT;
+      String url = baseUrlApi + syncEndPoint;
 
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: syncRequestModel.toJson());
@@ -426,7 +407,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -437,16 +418,16 @@ class ApiService {
     }
   }
 
-  static Future<FiberSpecificationResponse> getFiberSpecifications(
+  Future<FiberSpecificationResponse> getFiberSpecifications(
       GetSpecificationRequestModel getRequestModel, String? locality) async {
     try {
-      String url = BASE_API_URL + GET_SPEC_END_POINT;
+      String url = baseUrlApi + getSpecEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       // getRequestModel.userId = userID;
@@ -459,7 +440,7 @@ class ApiService {
       return FiberSpecificationResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -470,16 +451,15 @@ class ApiService {
     }
   }
 
-  static Future<YarnSyncResponse> syncYarn(
-      SyncRequestModel syncRequestModel) async {
+  Future<YarnSyncResponse> syncYarn(SyncRequestModel syncRequestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + SYNC_END_POINT;
+      String url = baseUrlApi + syncEndPoint;
 
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: syncRequestModel.toJson());
@@ -489,7 +469,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -500,16 +480,15 @@ class ApiService {
     }
   }
 
-  static Future<StockLotSyncResponse> syncCall(
-      SyncRequestModel requestModel) async {
+  Future<StockLotSyncResponse> syncCall(SyncRequestModel requestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + SYNC_END_POINT;
+      String url = baseUrlApi + syncEndPoint;
 
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
@@ -519,7 +498,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -530,16 +509,16 @@ class ApiService {
     }
   }
 
-  static Future<FabricSyncResponse> syncFabricCall(
+  Future<FabricSyncResponse> syncFabricCall(
       SyncRequestModel requestModel) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + SYNC_END_POINT;
+      String url = baseUrlApi + syncEndPoint;
 
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
@@ -549,7 +528,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -560,16 +539,16 @@ class ApiService {
     }
   }
 
-  static Future<GetYarnSpecificationResponse> getYarnSpecifications(
+  Future<GetYarnSpecificationResponse> getYarnSpecifications(
       GetSpecificationRequestModel getRequestModel, String? locality) async {
     try {
-      String url = BASE_API_URL + GET_SPEC_END_POINT;
+      String url = baseUrlApi + getSpecEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       // getRequestModel.userId = userID;
@@ -584,7 +563,7 @@ class ApiService {
       return GetYarnSpecificationResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -595,17 +574,17 @@ class ApiService {
     }
   }
 
-  static Future<FabricSpecificationResponse> getFabricSpecifications(
+  Future<FabricSpecificationResponse> getFabricSpecifications(
       FabricSpecificationRequestModel getRequestModel, String? locality) async {
     try {
-      String url = BASE_API_URL + GET_SPEC_END_POINT;
+      String url = baseUrlApi + getSpecEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       // getRequestModel.user_id = userID;
       getRequestModel.locality = locality;
@@ -619,7 +598,7 @@ class ApiService {
       return FabricSpecificationResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -630,7 +609,7 @@ class ApiService {
     }
   }
 
-  static Future<CreateFiberResponse> createSpecification(
+  Future<CreateFiberResponse> createSpecification(
       CreateRequestModel createRequestModel, String imagePath) async {
     try {
       var userToken =
@@ -648,14 +627,14 @@ class ApiService {
       try {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
-        dioRequest.options.baseUrl = BASE_API_URL;
+        dioRequest.options.baseUrl = baseUrlApi;
         var userDeviceToken =
-        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+            await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
           "Authorization": "Bearer $userToken",
-          "device_token":"$userDeviceToken"
+          "device_token": "$userDeviceToken"
         };
 
         //[3] ADDING EXTRA INFO
@@ -674,14 +653,14 @@ class ApiService {
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(
-          CREATE_END_POINT,
+          createSpecEndPoint,
           data: formData,
         );
         final result = json.decode(response.toString());
         return CreateFiberResponse.fromJson(result);
       } on Exception catch (e) {
         if (e is SocketException) {
-          throw (no_internet_available_msg);
+          throw (noInternetAvailableMsg);
         } else if (e is TimeoutException) {
           throw (e.toString());
         } else {
@@ -693,7 +672,7 @@ class ApiService {
     }
   }
 
-  static Future<CreateFiberResponse> createFabricSpecification(
+  Future<CreateFiberResponse> createFabricSpecification(
       FabricCreateRequestModel createRequestModel, String imagePath) async {
     try {
       var userToken =
@@ -707,14 +686,14 @@ class ApiService {
       try {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
-        dioRequest.options.baseUrl = BASE_API_URL;
+        dioRequest.options.baseUrl = baseUrlApi;
         var userDeviceToken =
-        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+            await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
           "Authorization": "Bearer $userToken",
-          'device_token':'$userDeviceToken'
+          'device_token': '$userDeviceToken'
         };
 
         //[3] ADDING EXTRA INFO
@@ -733,7 +712,7 @@ class ApiService {
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(
-          CREATE_END_POINT,
+          createSpecEndPoint,
           data: formData,
         );
         final result = json.decode(response.toString());
@@ -743,7 +722,7 @@ class ApiService {
       }
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -785,20 +764,22 @@ class ApiService {
     // }
   }
 
-  static Future<SpecificationUpdateResponse> updateSpecification(
-      UpdateRequestModel updateFabricRequestModel,
-      String imagePath) async {
+  Future<SpecificationUpdateResponse> updateSpecification(
+      UpdateRequestModel updateFabricRequestModel, String imagePath) async {
     //for multipart Request
     try {
       var request = http.MultipartRequest(
-          'POST', Uri.parse(BASE_API_URL + UPDATE_FABRIC_END_POINT));
+          'POST', Uri.parse(baseUrlApi + updateSpecEndPint));
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
-      request.headers.addAll(
-          {"Accept": "application/json", "Authorization": "Bearer $userToken",'device_token':'$userDeviceToken'});
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      request.headers.addAll({
+        "Accept": "application/json",
+        "Authorization": "Bearer $userToken",
+        'device_token': '$userDeviceToken'
+      });
       if (imagePath.isNotEmpty) {
         request.files
             .add(await http.MultipartFile.fromPath("fpc_picture[]", imagePath));
@@ -813,7 +794,7 @@ class ApiService {
       return SpecificationUpdateResponse.fromJson(json.decode(responsed.body));
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -824,7 +805,7 @@ class ApiService {
     }
   }
 
-  static Future<CreateStockLotResponse?> createStockLot(
+  Future<CreateStockLotResponse?> createStockLot(
       StocklotRequestModel stocklotRequestModel, String imagePath) async {
     // //for multipart Request
     try {
@@ -835,14 +816,14 @@ class ApiService {
       try {
         ///[1] CREATING INSTANCE
         var dioRequest = dio.Dio();
-        dioRequest.options.baseUrl = BASE_API_URL;
+        dioRequest.options.baseUrl = baseUrlApi;
         var userDeviceToken =
-        await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+            await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
         //[2] ADDING TOKEN
         dioRequest.options.headers = {
           "Accept": "application/json",
           "Authorization": "Bearer $userToken",
-          'device_token':'$userDeviceToken'
+          'device_token': '$userDeviceToken'
         };
         Logger().e(stocklotRequestModel.toJson().toString());
         //[3] ADDING EXTRA INFO
@@ -860,7 +841,7 @@ class ApiService {
 
         //[5] SEND TO SERVER
         var response = await dioRequest.post(
-          CREATE_END_POINT,
+          createSpecEndPoint,
           data: formData,
         );
         final result = json.decode(response.toString());
@@ -870,7 +851,7 @@ class ApiService {
       }
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -881,17 +862,17 @@ class ApiService {
     }
   }
 
-  static Future<StockLotSpecificationResponse> getStockLotSpecifications(
+  Future<StockLotSpecificationResponse> getStockLotSpecifications(
       GetStockLotSpecRequestModel getRequestModel) async {
     try {
-      String url = BASE_API_URL + GET_SPEC_END_POINT;
+      String url = baseUrlApi + getSpecEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       // getRequestModel.spcUserIdfk = userID;
       logger.e(getRequestModel.toJson());
@@ -902,7 +883,7 @@ class ApiService {
       return StockLotSpecificationResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -913,12 +894,11 @@ class ApiService {
     }
   }
 
-  static Future<ListBidResponse> getListBidders(
-      String catId, String specId) async {
+  Future<ListBidResponse> getListBidders(String catId, String specId) async {
     try {
-      String url = BASE_API_URL + LIST_BIDDERS_END_POINT;
+      String url = baseUrlApi + listBiddersEndPoint;
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
@@ -937,7 +917,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -948,15 +928,15 @@ class ApiService {
     }
   }
 
-  static Future<MatchedResponse> getMatched(String catId, String specId) async {
+  Future<MatchedResponse> getMatched(String catId, String specId) async {
     try {
-      String url = BASE_API_URL + GET_MATCHED_END_POINT;
+      String url = baseUrlApi + getMatchedEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      // var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       Map<String, dynamic> data = {
         "category_id": catId,
@@ -970,7 +950,7 @@ class ApiService {
       return MatchedResponse.fromJson(json.decode(response.body));
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -981,10 +961,10 @@ class ApiService {
     }
   }
 
-  static Future<CreateBidResponse> createBid(String catId, String specId,
-      String price, String quantity, String remarks) async {
+  Future<CreateBidResponse> createBid(String catId, String specId, String price,
+      String quantity, String remarks) async {
     try {
-      String url = BASE_API_URL + CREATE_BID_END_POINT;
+      String url = baseUrlApi + createBidEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
@@ -1012,7 +992,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1023,10 +1003,9 @@ class ApiService {
     }
   }
 
-  static Future<ChangeBidResponse> bidChangeStatus(
-      int bidId, int status) async {
+  Future<ChangeBidResponse> bidChangeStatus(int bidId, int status) async {
     try {
-      String url = BASE_API_URL + CHANGE_BID_STATUS_END_POINT;
+      String url = baseUrlApi + changeBidStatusEndPoint;
 
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
@@ -1047,7 +1026,7 @@ class ApiService {
       return ChangeBidResponse.fromJson(json.decode(response.body));
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1058,9 +1037,9 @@ class ApiService {
     }
   }
 
-  static Future<ChangeBidResponse> bidChangeStatusBids(
+  Future<ChangeBidResponse> bidChangeStatusBids(
       int bidId, int status, String specId) async {
-    String url = BASE_API_URL + CHANGE_BID_STATUS_END_POINT;
+    String url = baseUrlApi + changeBidStatusEndPoint;
 
     try {
       var userToken =
@@ -1087,7 +1066,7 @@ class ApiService {
       return ChangeBidResponse.fromJson(json.decode(response.body));
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1098,11 +1077,11 @@ class ApiService {
     }
   }
 
-  static Future<GetBannersResponse> getBanners() async {
+  Future<GetBannersResponse> getBanners() async {
     try {
-      String url = BASE_API_URL + GET_BANNERS_END_POINT;
+      String url = baseUrlApi + getBannersEndPoint;
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
@@ -1112,7 +1091,7 @@ class ApiService {
       return GetBannersResponse.fromJson(json.decode(response.body));
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1123,18 +1102,18 @@ class ApiService {
     }
   }
 
-  static Future<MyProductsResponse> myProducts() async {
+  Future<MyProductsResponse> myProducts() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
 
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {"user_id": userID.toString()};
-      String url = BASE_API_URL + "/myAds";
+      String url = baseUrlApi + "/myAds";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1144,7 +1123,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1155,17 +1134,17 @@ class ApiService {
     }
   }
 
-  static Future<ListBidResponse> getListBids() async {
+  Future<ListBidResponse> getListBids() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {"user_id": userID.toString()};
-      String url = BASE_API_URL + "/listBids";
+      String url = baseUrlApi + "/listBids";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1175,7 +1154,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1186,14 +1165,13 @@ class ApiService {
     }
   }
 
-  static Future<ListBidResponse> getBidsHistory(
-      String specId, String catId) async {
+  Future<ListBidResponse> getBidsHistory(String specId, String catId) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
@@ -1201,7 +1179,7 @@ class ApiService {
         "specification_id": specId,
         "category_id": catId
       };
-      String url = BASE_API_URL + "/listBids";
+      String url = baseUrlApi + "/listBids";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1211,7 +1189,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1222,13 +1200,13 @@ class ApiService {
     }
   }
 
-  static Future<MarkYgResponse> markYg(String specId, String catId) async {
+  Future<MarkYgResponse> markYg(String specId, String catId) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
@@ -1236,7 +1214,7 @@ class ApiService {
         "specification_id": specId,
         "category_id": catId
       };
-      String url = BASE_API_URL + "/mark_yg";
+      String url = baseUrlApi + "/mark_yg";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1246,7 +1224,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1258,13 +1236,13 @@ class ApiService {
   }
 
   //Post as requirement
-  static Future<dynamic> copySpecification(String specId, String catId) async {
+  Future<dynamic> copySpecification(String specId, String catId) async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
@@ -1272,7 +1250,7 @@ class ApiService {
         "specification_id": specId,
         "category_id": catId
       };
-      String url = BASE_API_URL + "/copy_spec";
+      String url = baseUrlApi + "/copy_spec";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
@@ -1292,7 +1270,7 @@ class ApiService {
       }
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1304,15 +1282,15 @@ class ApiService {
   }
 
 // Countries Api
-  static Future<CountriesSyncResponse> syncCountriesCall() async {
+  Future<CountriesSyncResponse> syncCountriesCall() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + COUNTRY_END_POINT;
+      String url = baseUrlApi + preLoginSync;
 
 //      final response = await http.post(Uri.parse(url),
 //          headers: headerMap, body: requestModel.toJson());
@@ -1325,7 +1303,7 @@ class ApiService {
       );
     } catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1335,15 +1313,15 @@ class ApiService {
   }
 
 // Coompanies Api
-  static Future<CompaniesSyncResponse> syncCompaniesCall() async {
+  Future<CompaniesSyncResponse> syncCompaniesCall() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + COMPANIES_END_POINT;
+      String url = baseUrlApi + companiesEndPoint;
 
 //      final response = await http.post(Uri.parse(url),
 //          headers: headerMap, body: requestModel.toJson());
@@ -1355,7 +1333,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1367,15 +1345,15 @@ class ApiService {
   }
 
   // Pre login sync call
-  static Future<PreLoginResponse> preLoginSyncCall() async {
+  Future<PreLoginResponse> preLoginSyncCall() async {
     try {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
       var userDeviceToken =
-      await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      String url = BASE_API_URL + PRE_SYNC_END_POINT;
+      String url = baseUrlApi + preLoginSync;
 
       final response = await http.post(Uri.parse(url), headers: headerMap);
 
@@ -1384,7 +1362,7 @@ class ApiService {
       );
     } on Exception catch (e) {
       if (e is SocketException) {
-        throw (no_internet_available_msg);
+        throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {
@@ -1395,7 +1373,7 @@ class ApiService {
     }
   }
 
-// static Future<dynamic> specificationRequest(
+//  Future<dynamic> specificationRequest(
 //     String specId, String catId) async {
 //   try {
 //     var userToken =

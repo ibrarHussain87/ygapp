@@ -46,7 +46,7 @@ showBottomSheetPhone(BuildContext context,Function callback) {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Align(
                         alignment: Alignment.center,
@@ -89,7 +89,7 @@ class ItemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/2,
       child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),

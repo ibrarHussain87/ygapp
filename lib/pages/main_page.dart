@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/pages/dashboard_pages/home_new/dashboard_page.dart';
-import 'package:yg_app/pages/dashboard_pages/home_new/home_screen.dart';
-import 'package:yg_app/providers/home_providers/sync_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/pages/dashboard_pages/home_new/dashboard_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
+import 'package:yg_app/providers/home_providers/sync_provider.dart';
+
 import '../locators.dart';
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';

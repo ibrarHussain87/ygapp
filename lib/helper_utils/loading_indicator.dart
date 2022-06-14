@@ -5,54 +5,47 @@ import 'app_colors.dart';
 
 class LoadingIndicator extends StatelessWidget {
   final String? text;
-  LoadingIndicator({this.text});
 
+  const LoadingIndicator({Key? key, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var displayedText = text;
 
     return Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         color: Colors.white,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               _getLoadingIndicator(),
-              _getHeading(context,text),
+              _getHeading(context, text),
               // _getText(displayedText!)
-            ]
-        )
-    );
+            ]));
   }
 }
 
 Padding _getLoadingIndicator() {
   return const Padding(
       child: SizedBox(
-          child: SpinKitWave(
-            color: Colors.green,
-            size: 24.0,
-          ),
-      ),
-      padding: EdgeInsets.only(bottom: 16)
-  );
-}
-//
-Widget _getHeading(context,String? text) {
-  return
-     Padding(
-        child: Text(
-          text??"",
-          style: TextStyle(
-              color: btnColorLogin,
-              fontSize: 12
-          ),
-          textAlign: TextAlign.center,
+        child: SpinKitWave(
+          color: Colors.green,
+          size: 24.0,
         ),
-        padding: EdgeInsets.only(bottom: 4)
-    );
+      ),
+      padding: EdgeInsets.only(bottom: 16));
+}
+
+//
+Widget _getHeading(context, String? text) {
+  return Padding(
+      child: Text(
+        text ?? "",
+        style: TextStyle(color: btnColorLogin, fontSize: 12),
+        textAlign: TextAlign.center,
+      ),
+      padding: const EdgeInsets.only(bottom: 4));
 }
 
 // Text _getText(String displayedText) {

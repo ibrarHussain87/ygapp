@@ -1,4 +1,4 @@
-import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
+
 
 
 class SpecificationUpdateResponse {

@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/model/response/family_data.dart';
 
 import '../network_icon_widget.dart';
-import 'grid_family_widget.dart';
 
 class GridMoreWidget extends StatefulWidget {
   final Function? callback;
@@ -53,7 +51,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
   }
 
   Widget buildGrid(int index) {
-    bool checked = index == checkedTile;
+
     return GestureDetector(
 
       behavior: HitTestBehavior.opaque,
@@ -95,6 +93,7 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
     );
   }
 
+/*
   _showBottomSheet() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -127,4 +126,5 @@ class _GridMoreWidgetState extends State<GridMoreWidget> {
           );
         });
   }
+*/
 }

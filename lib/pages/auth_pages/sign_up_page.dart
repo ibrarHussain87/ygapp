@@ -8,9 +8,9 @@ import 'package:logger/logger.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -985,7 +985,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _signupRequestModel.operator = '1';
         _signupRequestModel.countryId = '1';
         Logger().e(_signupRequestModel.toJson());
-        ApiService.signup(_signupRequestModel).then((value) {
+        ApiService().signup(_signupRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

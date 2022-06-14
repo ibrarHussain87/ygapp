@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/blend_text_form_field.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/top_round_corners.dart';
-import '../../locators.dart';
 import '../../model/response/yarn_response/sync/yarn_sync_response.dart';
 import '../blends_ratio_segment_component.dart';
 import '../list_widgets/pure_blend_select_tile_widget.dart';
@@ -648,7 +646,7 @@ class BlendRatioWidget extends StatefulWidget {
 
 class BlendRatioWidgetState extends State<BlendRatioWidget> {
   var looger = Logger();
-  var width;
+  // late var width;
   List<bool> _isChecked = [];
 
   //final _yarnPostProvider = locator<PostYarnProvider>();
@@ -695,7 +693,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width,
       child: ListView.separated(

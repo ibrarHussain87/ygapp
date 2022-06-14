@@ -1,4 +1,3 @@
-import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 class CreateRequestModel {

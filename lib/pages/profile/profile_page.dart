@@ -1,22 +1,18 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
 import 'package:yg_app/elements/profile_elements/profile_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/dialog_builder.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
+import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
-import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
-import 'package:yg_app/pages/auth_pages/login_page.dart';
 
 import '../../elements/custom_header.dart';
 

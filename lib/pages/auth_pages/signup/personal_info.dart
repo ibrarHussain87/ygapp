@@ -934,7 +934,7 @@ class PersonalInfoComponentState
         _signupRequestModel?.email =_signupRequestModel?.email;
         _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(_signupRequestModel?.toJson());
-        ApiService.signup(_signupRequestModel!).then((value) {
+        ApiService().signup(_signupRequestModel!).then((value) {
           // Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

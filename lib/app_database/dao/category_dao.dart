@@ -1,6 +1,5 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/category_response.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
 @dao
 abstract class CategoryDao{

@@ -487,7 +487,7 @@ class VerifyCodePageState
 //        _signupRequestModel?.email =_signupRequestModel?.email;
 //        _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(widget.signUpRequestModel.toJson());
-        ApiService.signup(widget.signUpRequestModel).then((value) {
+        ApiService().signup(widget.signUpRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

@@ -1,11 +1,10 @@
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
@@ -15,6 +14,7 @@ import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/request/update_profile/brands_request_model.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+
 import '../../../providers/profile_providers/user_brands_provider.dart';
 
 class ProfileBrandsInfoPage extends StatefulWidget {
@@ -326,7 +326,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         Logger().e(_updateBrandsRequestModel.toJson());
-        ApiService.updateBrands(_updateBrandsRequestModel).then((value) {
+        ApiService().updateBrands(_updateBrandsRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {

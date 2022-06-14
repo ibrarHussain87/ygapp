@@ -1,11 +1,10 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_specification_body.dart';
 
-import '../../../../helper_utils/app_constants.dart';
 import '../../packing_details_component.dart';
 import 'lab_parameter_body.dart';
 

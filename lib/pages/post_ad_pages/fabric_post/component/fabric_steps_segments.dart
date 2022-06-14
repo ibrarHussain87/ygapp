@@ -1,15 +1,13 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
-import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_specification_component_asad.dart';
-import 'package:yg_app/pages/post_ad_pages/packing_details_component.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/pages/post_ad_pages/fabric_post/component/fabric_specification_component_asad.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/lab_parameter_body.dart';
 
 import '../../../../providers/fabric_providers/post_fabric_provider.dart';
-import '../../../../helper_utils/app_constants.dart';
 import 'fabric_packing_details_component.dart';
 
 class FabricStepsSegments extends StatefulWidget {

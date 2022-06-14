@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -19,11 +19,11 @@ import 'package:yg_app/model/response/common_response_models/countries_response.
 
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../../../elements/custom_header.dart';
-import '../../../providers/fabric_providers/filter_fabric_provider.dart';
-import '../../../elements/elevated_button_widget_2.dart';
-import '../../../elements/list_widgets/cat_with_image_listview_widget.dart';
+import '../../../elements/elevated_button_without_icon_widget.dart';
+import '../../../elements/list_widgets/blend_with_image_listview_widget.dart';
 import '../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
 import '../../../model/request/filter_request/fabric_filter_request.dart';
+import '../../../providers/fabric_providers/filter_fabric_provider.dart';
 
 class FabricFilterPage extends StatefulWidget {
   const FabricFilterPage({
@@ -192,7 +192,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
     } else {
       _selectedMaterial = null;
       // _filterRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID /*Microfiber*/;
+      familyId = fabricMicroFiberId /*Microfiber*/;
     }
     return FutureBuilder<List<FabricSetting>>(
       future: filterFabricProvider.getFabricSettingsData(familyId!),
@@ -202,7 +202,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
           if (snapshot.data != null) {
             if (snapshot.data!.isNotEmpty) {
               _resetData();
-              ApiService.logger.e(_filterRequestModel!.toJson());
+              ApiService().logger.e(_filterRequestModel!.toJson());
               _fabricSettings = /*snapshot.data![0]*/
                   filterFabricProvider.fabricSetting!.first;
             }
@@ -247,7 +247,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                         familyId = value.fabricFamilyId.toString();
                                         Logger().e(familyId);
                                       });
-                                      if(familyId != FABRIC_MIRCOFIBER_ID/*Microfiber*/){
+                                      if(familyId != fabricMicroFiberId/*Microfiber*/){
                                         var blend = _fabricBlendsList
                                             .where((element) =>
                                         element.familyIdfk == value.fabricFamilyId.toString())
@@ -268,7 +268,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                           ],
                         ),
                         Visibility(
-                          visible: familyId != FABRIC_MIRCOFIBER_ID,
+                          visible: familyId != fabricMicroFiberId,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

@@ -1,23 +1,13 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/decimal_text_input_formatter.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/locators.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
-import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_specification_body.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
@@ -203,7 +193,7 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                            left: 8.w, top: 8.w),
 //                                      ),
                             YgTextFormFieldWithRange(
-                              label:IpmKm,
+                              label:ipmKm,
                               errorText: "IPKM",
                               onSaved: (input) => _postYarnProvider.createRequestModel
                                   !.ys_ipm_km = input!,
@@ -372,8 +362,8 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                      ),
                                                         SizedBox(height:12.w ,),
                                                         YgTextFormFieldWithRangeNoValidation(
-                                                          errorText: unifomity,
-                                                          label: unifomity,
+                                                          errorText: uniformityStr,
+                                                          label: uniformityStr,
                                                           mandatoryField: false,
                                                           minMax: _postYarnProvider.yarnSetting!.uniformityMinMax??"",
                                                           onSaved: (input) =>
@@ -451,8 +441,8 @@ class LabParameterPageState extends State<LabParameterPage>
 //                                      ),
                                                         SizedBox(height:12.w ,),
                                                         YgTextFormFieldWithRangeNoValidation(
-                                                          errorText: Rkm,
-                                                          label: Rkm,
+                                                          errorText: rkmStr,
+                                                          label: rkmStr,
                                                           mandatoryField: false,
                                                           minMax: _postYarnProvider.yarnSetting!.rkmMinMax??"",
                                                           onSaved: (input) =>

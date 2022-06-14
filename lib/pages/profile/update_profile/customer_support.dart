@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
-
-import '../../../elements/title_text_widget.dart';
-import '../../../helper_utils/util.dart';
-import '../../../model/response/common_response_models/countries_response.dart';
 
 class CustomerSupportPage extends StatefulWidget {
   const CustomerSupportPage({Key? key}) : super(key: key);
@@ -68,7 +64,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
             Image.asset(support,scale:3,),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(customer_support_main,textAlign: TextAlign.center,style: TextStyle(
+              child: Text(customerSupportMain,textAlign: TextAlign.center,style: TextStyle(
                   fontSize: 20.0.w,
                   color: headingColor,
                   fontWeight: FontWeight.w600)),
@@ -97,7 +93,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                       top: 3,
                       left: 30,
                       child: Text(
-                        live_chat,
+                        liveChat,
                         textAlign: TextAlign.center,
                         style:  TextStyle(
                             color: text_color_customer,

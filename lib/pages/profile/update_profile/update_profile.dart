@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,15 +8,11 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
-
-import '../../main_page.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({Key? key}) : super(key: key);
@@ -606,7 +602,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           _updateProfileRequestModel.id = user.id.toString();
           _updateProfileRequestModel.name = user.name.toString();
           Logger().e(_updateProfileRequestModel.toJson());
-          ApiService.updateProfile(_updateProfileRequestModel).then((value) {
+          ApiService().updateProfile(_updateProfileRequestModel).then((value) {
             Logger().e(value.toJson());
             ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

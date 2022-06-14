@@ -1,10 +1,9 @@
 
 
-import 'package:flutter/cupertino.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
+
+import 'package:flutter/material.dart';
 import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
-import 'package:yg_app/model/response/get_banner_response.dart';
 
 import '../../app_database/app_database_instance.dart';
 

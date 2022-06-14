@@ -1,7 +1,8 @@
-import '../../../elements/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/pages/profile/profile_segment_component.dart';
+
+import '../../../elements/custom_header.dart';
 
 
 class EditProfilePage extends StatefulWidget {

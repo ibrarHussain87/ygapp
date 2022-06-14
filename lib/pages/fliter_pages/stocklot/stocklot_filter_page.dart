@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
-import 'package:yg_app/elements/list_items/list__item_stocklot_widget.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 
 import '../../../elements/custom_header.dart';
-import '../../../elements/title_text_widget.dart';
+import '../../../elements/text_widgets.dart';
 
 class StockLotFilterPage extends StatefulWidget {
   const StockLotFilterPage({Key? key}) : super(key: key);

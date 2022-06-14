@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_normal_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/extensions.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:intl/intl.dart';
 
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/navigation_utils.dart';
@@ -385,7 +385,7 @@ Widget buildFiberRenewedAgainWidget(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Visibility(
-                            visible: specification.is_offering == offering_type,
+                            visible: specification.is_offering == offeringType,
                             child: RichText(
                                 overflow: TextOverflow.ellipsis,
                                 text:TextSpan(children: [
@@ -423,9 +423,10 @@ Widget buildFiberRenewedAgainWidget(
                           SizedBox(
                             height: 1.h,
                           ),
-                          const Center(
+                          const  Center(
                             child: TitleSmallNormalTextWidget(
-                              title: "Ex- Factory",
+                              title:
+                              "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
                               size: 8,
                             ),
                           ),

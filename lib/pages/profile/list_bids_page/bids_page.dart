@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/bids_list/bids_list_items.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/elements/text_widgets.dart';
+
 import '../../../../model/response/list_bid_response.dart';
 import '../../../elements/custom_header.dart';
 
@@ -52,7 +51,7 @@ class _BidsListPageState extends State<BidsListPage> {
         )*/appBar(context,"My Bids"),
         backgroundColor: Colors.white,
         body: FutureBuilder<ListBidResponse>(
-          future: ApiService.getListBids(),
+          future: ApiService().getListBids(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null && snapshot.data!.data!= null && snapshot.data!.data!.isNotEmpty) {

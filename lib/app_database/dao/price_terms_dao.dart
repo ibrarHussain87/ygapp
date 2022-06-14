@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 
 @dao

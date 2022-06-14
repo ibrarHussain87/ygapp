@@ -1,27 +1,14 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
-import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
-
-import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
-import 'package:yg_app/providers/home_providers/family_list_provider.dart';
-import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
-import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
-import 'package:yg_app/providers/pre_login_sync_provider.dart';
-import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
-import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
-import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
-import 'providers/profile_providers/user_brands_provider.dart';
-import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -29,20 +16,27 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
-
-import 'providers/fabric_providers/fabric_specifications_provider.dart';
-import 'providers/fabric_providers/filter_fabric_provider.dart';
-import 'providers/stocklot_providers/stocklot_provider.dart';
-import 'providers/yarn_providers/yarn_specifications_provider.dart';
+import 'package:yg_app/providers/pre_login_sync_provider.dart';
+import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
+import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
+import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'providers/fabric_providers/fabric_specifications_provider.dart';
+import 'providers/fabric_providers/filter_fabric_provider.dart';
+import 'providers/profile_providers/user_brands_provider.dart';
+import 'providers/stocklot_providers/stocklot_provider.dart';
+import 'providers/yarn_providers/yarn_specifications_provider.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -215,7 +209,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
           }
         } else {
           showInternetDialog(
-              no_internet_available_msg, check_internet_msg, context, () {
+              noInternetAvailableMsg, checkInternetMsg, context, () {
             Navigator.pop(context);
           });
         }
@@ -338,7 +332,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
          await initTimer();
         } else {
           showInternetDialog(
-              no_internet_available_msg, check_internet_msg, context, () {
+              noInternetAvailableMsg, checkInternetMsg, context, () {
             Navigator.pop(context);
           });
         }

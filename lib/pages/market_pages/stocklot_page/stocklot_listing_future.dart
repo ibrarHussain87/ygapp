@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 
 
 class StockLotListingFuture extends StatefulWidget {
@@ -47,7 +47,7 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
     stocklotProvider.getStockLotSpecRequestModel.priceTermId =
         stocklotProvider.getStockLotSpecRequestModel.priceTermId;
     return FutureBuilder<StockLotSpecificationResponse>(
-            future: ApiService.getStockLotSpecifications(stocklotProvider.getStockLotSpecRequestModel),
+            future: ApiService().getStockLotSpecifications(stocklotProvider.getStockLotSpecRequestModel),
             builder: (BuildContext context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.data != null) {

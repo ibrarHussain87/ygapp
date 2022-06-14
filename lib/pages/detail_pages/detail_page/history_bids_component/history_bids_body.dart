@@ -1,10 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 
-import '../../../../elements/title_text_widget.dart';
-import 'package:intl/intl.dart';
+import '../../../../elements/text_widgets.dart';
 
 
 class HistoryOfBidsBody extends StatefulWidget {

@@ -1,28 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../helper_utils/app_colors.dart';
 
-PreferredSize appBar(BuildContext context,String title,{bool isBackVisible=true})
-{
+PreferredSize appBar(BuildContext context, String title,
+    {bool isBackVisible = true}) {
   return PreferredSize(
-    preferredSize:AppBar().preferredSize,
+    preferredSize: AppBar().preferredSize,
     child: SafeArea(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height:AppBar().preferredSize.height*0.9,
-        padding: EdgeInsets.all(7),
-        decoration:BoxDecoration(
-          gradient:LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[appBarColor2,appBarColor1]) ,
-          borderRadius:const BorderRadius.only(
-              bottomRight:  Radius.circular(/*20.0*/0),
-              bottomLeft: Radius.circular(/*20.0*/0))
-
-        ),
+        height: AppBar().preferredSize.height * 0.9,
+        padding: const EdgeInsets.all(7),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[appBarColor2, appBarColor1]),
+            borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(/*20.0*/ 0),
+                bottomLeft: Radius.circular(/*20.0*/ 0))),
         child: Stack(
           children: [
             Visibility(
@@ -33,7 +30,7 @@ PreferredSize appBar(BuildContext context,String title,{bool isBackVisible=true}
                   Navigator.pop(context);
                 },
                 child: Padding(
-                    padding: EdgeInsets.only(left: 4.w,top: 8.w),
+                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.white,

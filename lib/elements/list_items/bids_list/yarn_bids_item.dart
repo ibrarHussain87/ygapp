@@ -1,8 +1,6 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
@@ -10,10 +8,10 @@ import 'package:yg_app/model/response/yarn_response/yarn_specification_response.
 import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
-import '../../elevated_button_widget_2.dart';
+import '../../elevated_button_without_icon_widget.dart';
 import '../../list_widgets/bg_light_blue_normal_text_widget.dart';
 import '../../list_widgets/short_detail_renewed_widget.dart';
-import '../../title_text_widget.dart';
+import '../../text_widgets.dart';
 
 class YarnBidsItem extends StatelessWidget {
   final BidData bidData;

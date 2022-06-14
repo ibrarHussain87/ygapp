@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../../../../elements/list_items/yarn_list_items_renewed_again.dart';

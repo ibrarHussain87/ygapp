@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../elements/yg_text_form_field.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 
 class PureTileWidget extends StatefulWidget {
@@ -48,7 +46,7 @@ class PureTileWidgetState extends State<PureTileWidget> {
     return SizedBox(
       width:width ,
       child: GridView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: 16,

@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/providers/home_providers/banners_provider.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/model/response/get_banner_response.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:yg_app/providers/home_providers/banners_provider.dart';
 
 class BannerBody extends StatefulWidget {
   const BannerBody({Key? key}) : super(key: key);

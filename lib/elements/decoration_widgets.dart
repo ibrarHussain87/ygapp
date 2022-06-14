@@ -1,8 +1,19 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+
+BoxDecoration myBoxDecoration({double? radius, Color? color, double? width}) {
+  return BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(radius ?? 0),
+    border: Border.all(
+      color: color ?? Colors.grey, //                   <--- border color
+      width: width ?? 5.0,
+    ),
+  );
+}
 
 InputDecoration textFormFieldDec(String hintLabel) {
   return InputDecoration(
@@ -172,7 +183,7 @@ OutlineInputBorder myinputborder() {
   //return type is OutlineInputBorder
   return OutlineInputBorder(
       //Outline border type for TextFeild
-      borderRadius: BorderRadius.all(Radius.circular(20)),
+      borderRadius: const BorderRadius.all(Radius.circular(20)),
       borderSide: BorderSide(
         color: textColorBlue,
         width: 3,
@@ -225,11 +236,11 @@ InputDecoration ygTextFieldDecoration(String hintLabel,String title,bool mandato
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(5.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       disabledBorder:OutlineInputBorder(
         borderRadius: BorderRadius.circular(5.0.w),
@@ -258,11 +269,11 @@ InputDecoration roundedTextFieldDecoration(String hint) {
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
-      borderSide: BorderSide(color: Colors.red),
+      borderSide: const BorderSide(color: Colors.red),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
-      borderSide: BorderSide(color: Colors.red),
+      borderSide: const BorderSide(color: Colors.red),
     ),
     disabledBorder:OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
@@ -289,11 +300,11 @@ InputDecoration customCornerDecoration(String hint,double corners) {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(corners.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(corners.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       disabledBorder:OutlineInputBorder(
         borderRadius: BorderRadius.circular(corners.w),
@@ -320,11 +331,11 @@ InputDecoration roundedTFDGrey(String hint) {
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
-      borderSide: BorderSide(color: Colors.red),
+      borderSide: const BorderSide(color: Colors.red),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24.0.w),
-      borderSide: BorderSide(color: Colors.red),
+      borderSide: const BorderSide(color: Colors.red),
     )
   );
 }
@@ -347,11 +358,11 @@ InputDecoration roundedDescriptionDecoration(String hint) {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       )
   );
 }
@@ -373,11 +384,11 @@ InputDecoration borderDecoration(String hint) {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       )
   );
 }
@@ -400,11 +411,11 @@ InputDecoration roundedDescriptionDecorationUpdated(String hint) {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.0.w),
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       )
   );
 }

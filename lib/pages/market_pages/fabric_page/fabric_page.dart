@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';

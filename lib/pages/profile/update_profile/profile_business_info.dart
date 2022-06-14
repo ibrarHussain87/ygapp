@@ -1,6 +1,6 @@
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -613,7 +613,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ProgressDialogUtil.showDialog(context, 'Please wait...');
 
         Logger().e(_updateBusinessRequestModel.toJson());
-        ApiService.updateBusinessInfo(_updateBusinessRequestModel).then((value) {
+        ApiService().updateBusinessInfo(_updateBusinessRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

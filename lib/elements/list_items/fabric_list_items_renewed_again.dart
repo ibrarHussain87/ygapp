@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/elements/list_widgets/bg_light_blue_normal_text_widget.dart';
-import 'package:yg_app/elements/list_widgets/bg_light_blue_text_widget.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/list_widgets/rating_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
-import 'package:yg_app/elements/list_widgets/short_detail_widget.dart';
-import 'package:yg_app/elements/list_widgets/verified_supplier.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/extensions.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:intl/intl.dart';
-import 'package:yg_app/pages/detail_pages/detail_page/detail_page_renewed.dart';
 
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/navigation_utils.dart';
-import '../elevated_button_widget_2.dart';
 
 Widget buildFabricRenewedAgainWidget(
     FabricSpecification specification, BuildContext context,
@@ -46,7 +37,7 @@ Widget buildFabricRenewedAgainWidget(
         ),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               width: size.width,
               child: Padding(
                 padding: EdgeInsets.only(
@@ -56,494 +47,480 @@ Widget buildFabricRenewedAgainWidget(
                     right: paddingEnd,
                     top: paddingTop,
                     bottom: paddingBottom),
-                child: Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        width: size.width * 0.63,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  child: Text(
-                                    specification.company != null
-                                        ? specification
-                                            .company! /*'koh-e-Noor Textile Mills LTD.'*/
-                                            .capitalize()
-                                        : Utils.checkNullString(false),
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                      /*fontFamily: 'Metropolis',*/
-                                    ),
-                                  ),
-                                  width: size.width * 0.40,
-                                ),
-                                SizedBox(
-                                  width: 4.w,
-                                ),
-                                Visibility(
-                                  visible: false,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "4.5",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          /*fontFamily: 'Metropolis',*/
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Image.asset(
-                                        ratingIcon,
-                                        width: 8.w,
-                                        height: 8.w,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 2.w),
-                                  child: Visibility(
-                                      visible: Ui.showHide(
-                                          specification.isVerified) /*true*/,
-                                      maintainSize: true,
-                                      maintainState: true,
-                                      maintainAnimation: true,
-                                      child: Image.asset(
-                                        'images/ic_verified_supplier.png',
-                                        width: 8.w,
-                                        height: 8.w,
-                                        fit: BoxFit.fill,
-                                      )),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                    color: blueContainerLight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 1),
-                                      child: Center(
-                                        child: TitleMediumBoldSmallTextWidget(
-                                          title: Utils.setFabricFamilyData(
-                                              specification),
-                                          color: Colors.white,
-                                          textSize: 12,
-                                        ),
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                Expanded(
-                                  child: TitleMediumTextWidget(
-                                    title: Utils.setFabricTitle(specification),
-                                    color: Colors.black87,
-                                    weight: FontWeight.w600,
-                                    size: 13,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            TitleSmallBoldTextWidget(
-                              title: Utils.setFabricDetails(specification),
-                              color: Colors.black87,
-                              size: 12,
-                              weight: FontWeight.w500,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Container(
-                              width: size.width * 0.55,
-                              child: Utils.setFabricBlueTags(specification),
-                            ),
-                            SizedBox(height: 8.w),
-                            Visibility(
-                              visible:
-                                  specification.isOffering == offering_type,
-                              child: Utils.setPropertiesWithIcons(specification),
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            Visibility(
-                              visible: showCounts ?? false,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 0.w,
-                                    right: 18.w,
-                                    top: 0.w,
-                                    bottom: 10.w),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: greenButton,
-                                                  width:
-                                                      1, //                   <--- border width here
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4.w))),
-                                            child: Stack(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 6.w),
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          'Proposals',
-                                                          style: TextStyle(
-                                                              fontSize: 9.sp,
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          specification
-                                                              .proposalCount
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 9.sp,
-                                                              color:
-                                                                  greenButton,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
-                                                        // SizedBox(
-                                                        //   width: 3.w,
-                                                        // )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                // Align(
-                                                //     alignment: AlignmentDirectional.topEnd,
-                                                //     child: Padding(
-                                                //       padding: const EdgeInsets.all(2),
-                                                //       child: Container(
-                                                //         width: 10,
-                                                //         height: 10,
-                                                //         decoration: BoxDecoration(
-                                                //             color: redColor,
-                                                //             borderRadius: BorderRadius.all(
-                                                //                 Radius.circular(10.w))),
-                                                //         child: Center(
-                                                //           child: Text(
-                                                //             specification.proposalCount.toString(),
-                                                //             textAlign: TextAlign.center,
-                                                //             style: TextStyle(
-                                                //                 fontSize: 8.sp,
-                                                //                 color: Colors.white,
-                                                //                 fontWeight: FontWeight.w400),
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     ))
-                                              ],
-                                            ))),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                /*color: lightYellowContainer,*/
-                                                border: Border.all(
-                                                  color: greenButton,
-                                                  width:
-                                                      1, //                   <--- border width here
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4.w))),
-                                            child: Stack(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 6.w),
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          'Matches',
-                                                          style: TextStyle(
-                                                              fontSize: 9.sp,
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          specification
-                                                              .matchedCount
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 9.sp,
-                                                              color:
-                                                                  greenButton,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
-                                                        // SizedBox(
-                                                        //   width: 3.w,
-                                                        // )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                // Align(
-                                                //     alignment: AlignmentDirectional.topEnd,
-                                                //     child: Padding(
-                                                //       padding: const EdgeInsets.all(2),
-                                                //       child: Container(
-                                                //         width: 10,
-                                                //         height: 10,
-                                                //         decoration: BoxDecoration(
-                                                //             color: redColor,
-                                                //             borderRadius: BorderRadius.all(
-                                                //                 Radius.circular(10.w))),
-                                                //         child: Center(
-                                                //           child: Text(
-                                                //             '3',
-                                                //             textAlign: TextAlign.center,
-                                                //             style: TextStyle(
-                                                //                 fontSize: 8.sp,
-                                                //                 color: Colors.white,
-                                                //                 fontWeight: FontWeight.w400),
-                                                //           ),
-                                                //         ),
-                                                //       ),
-                                                //     ))
-                                              ],
-                                            ))),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Column(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.63,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Visibility(
-                                visible:
-                                    specification.isOffering == offering_type,
-                                child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text:
-                                            '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 11.sp,
-                                            /*fontFamily: 'Metropolis',*/
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      TextSpan(
-                                        text: specification.priceUnit
-                                            .toString()
-                                            .replaceAll(RegExp(r'[^0-9]'),
-                                                '') /*'1000'*/,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 17.sp,
-                                            /*fontFamily: 'Metropolis',*/
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      TextSpan(
-                                          text:
-                                              "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 11.sp,
-                                              /*fontFamily: 'Metropolis',*/
-                                              fontWeight: FontWeight.w600)),
-                                    ])),
+                              SizedBox(
+                                child: Text(
+                                  specification.company != null
+                                      ? specification
+                                          .company! /*'koh-e-Noor Textile Mills LTD.'*/
+                                          .capitalize()
+                                      : Utils.checkNullString(false),
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    /*fontFamily: 'Metropolis',*/
+                                  ),
+                                ),
+                                width: size.width * 0.40,
                               ),
                               SizedBox(
-                                height: 1.h,
-                              ),
-                              const Center(
-                                child: TitleSmallNormalTextWidget(
-                                  title: "Ex- Factory",
-                                  size: 8,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                      text: "Last Updated",
-                                      style: TextStyle(
-                                          fontSize: 8.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ])),
-                                  SizedBox(
-                                    height: 2.w,
-                                  ),
-                                  Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                      text: /*"Nov 23, 4:33 PM"*/ DateFormat(
-                                              "MMM dd, yyyy")
-                                          .format(DateTime.parse(
-                                              specification.date ?? "")),
-                                      style: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: lightBlueLabel),
-                                    )
-                                  ])),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 7,
+                                width: 4.w,
                               ),
                               Visibility(
                                 visible: false,
-                                child: SizedBox(
-                                  height: 20.h,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          specification.certifications!.length,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              border: Border.all(
-                                                  color: Colors.grey.shade500)),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            child: Image.network(
-                                              specification
-                                                      .certifications![index]
-                                                      .certification!
-                                                      .icon ??
-                                                  'images/ic_list.png',
-                                              height: 20.w,
-                                              width: 20.h,
-                                            ),
-                                          ),
-                                        );
-                                      }),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "4.5",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        /*fontFamily: 'Metropolis',*/
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    Image.asset(
+                                      ratingIcon,
+                                      width: 8.w,
+                                      height: 8.w,
+                                    )
+                                  ],
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
+                              SizedBox(
+                                width: 8.w,
                               ),
-                              FutureBuilder<String>(
-                                future: Utils.getUserId(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 4.w,
-                                          right: 4.w,
-                                        ),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              if (snapshot.data ==
-                                                  specification.fsUserId) {
-                                                Utils.updateDialog(
-                                                    context,
-                                                    null,
-                                                    null,
-                                                    specification,
-                                                    (updateSpecification) {
-
-                                                    });
-                                              } else {
-                                                openDetailsScreen(context,
-                                                    specObj: specification,
-                                                    sendProposal: true);
-                                              }
-                                              // Fluttertoast.showToast(msg: 'coming soon');
-                                            },
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 22,
-                                              child: Center(
-                                                child: BidNowWidget(
-                                                  title: snapshot.data !=
-                                                          specification.fsUserId
-                                                      ? 'Send Proposal'
-                                                      : "Update",
-                                                  size: 10.sp,
-                                                  padding: 10,
-                                                ),
-                                              ),
-                                            )));
-                                  } else {
-                                    return Text(
-                                      'Error: ${snapshot.error}',
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 1,
-                                      softWrap: false,
-                                    );
-                                  }
-                                },
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2.w),
+                                child: Visibility(
+                                    visible: Ui.showHide(
+                                        specification.isVerified) /*true*/,
+                                    maintainSize: true,
+                                    maintainState: true,
+                                    maintainAnimation: true,
+                                    child: Image.asset(
+                                      'images/ic_verified_supplier.png',
+                                      width: 8.w,
+                                      height: 8.w,
+                                      fit: BoxFit.fill,
+                                    )),
                               )
                             ],
                           ),
-                        ),
-                      )
-                    ],
-                  ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  color: blueContainerLight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 1),
+                                    child: Center(
+                                      child: TitleMediumBoldSmallTextWidget(
+                                        title: Utils.setFabricFamilyData(
+                                            specification),
+                                        color: Colors.white,
+                                        textSize: 12,
+                                      ),
+                                    ),
+                                  )),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Expanded(
+                                child: TitleMediumTextWidget(
+                                  title: Utils.setFabricTitle(specification),
+                                  color: Colors.black87,
+                                  weight: FontWeight.w600,
+                                  size: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          TitleSmallBoldTextWidget(
+                            title: Utils.setFabricDetails(specification),
+                            color: Colors.black87,
+                            size: 12,
+                            weight: FontWeight.w500,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            width: size.width * 0.55,
+                            child: Utils.setFabricBlueTags(specification),
+                          ),
+                          SizedBox(height: 8.w),
+                          Visibility(
+                            visible: specification.isOffering == offeringType,
+                            child: Utils.setPropertiesWithIcons(specification),
+                          ),
+                          SizedBox(
+                            height: 8.h,
+                          ),
+                          Visibility(
+                            visible: showCounts ?? false,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 0.w,
+                                  right: 18.w,
+                                  top: 0.w,
+                                  bottom: 10.w),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: greenButton,
+                                                width:
+                                                    1, //                   <--- border width here
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4.w))),
+                                          child: Stack(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 6.w),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        'Proposals',
+                                                        style: TextStyle(
+                                                            fontSize: 9.sp,
+                                                            color:
+                                                                Colors.black87,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      Text(
+                                                        specification
+                                                            .proposalCount
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 9.sp,
+                                                            color: greenButton,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      // SizedBox(
+                                                      //   width: 3.w,
+                                                      // )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              // Align(
+                                              //     alignment: AlignmentDirectional.topEnd,
+                                              //     child: Padding(
+                                              //       padding: const EdgeInsets.all(2),
+                                              //       child: Container(
+                                              //         width: 10,
+                                              //         height: 10,
+                                              //         decoration: BoxDecoration(
+                                              //             color: redColor,
+                                              //             borderRadius: BorderRadius.all(
+                                              //                 Radius.circular(10.w))),
+                                              //         child: Center(
+                                              //           child: Text(
+                                              //             specification.proposalCount.toString(),
+                                              //             textAlign: TextAlign.center,
+                                              //             style: TextStyle(
+                                              //                 fontSize: 8.sp,
+                                              //                 color: Colors.white,
+                                              //                 fontWeight: FontWeight.w400),
+                                              //           ),
+                                              //         ),
+                                              //       ),
+                                              //     ))
+                                            ],
+                                          ))),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              /*color: lightYellowContainer,*/
+                                              border: Border.all(
+                                                color: greenButton,
+                                                width:
+                                                    1, //                   <--- border width here
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4.w))),
+                                          child: Stack(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 6.w),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        'Matches',
+                                                        style: TextStyle(
+                                                            fontSize: 9.sp,
+                                                            color:
+                                                                Colors.black87,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                      Text(
+                                                        specification
+                                                            .matchedCount
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 9.sp,
+                                                            color: greenButton,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      // SizedBox(
+                                                      //   width: 3.w,
+                                                      // )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              // Align(
+                                              //     alignment: AlignmentDirectional.topEnd,
+                                              //     child: Padding(
+                                              //       padding: const EdgeInsets.all(2),
+                                              //       child: Container(
+                                              //         width: 10,
+                                              //         height: 10,
+                                              //         decoration: BoxDecoration(
+                                              //             color: redColor,
+                                              //             borderRadius: BorderRadius.all(
+                                              //                 Radius.circular(10.w))),
+                                              //         child: Center(
+                                              //           child: Text(
+                                              //             '3',
+                                              //             textAlign: TextAlign.center,
+                                              //             style: TextStyle(
+                                              //                 fontSize: 8.sp,
+                                              //                 color: Colors.white,
+                                              //                 fontWeight: FontWeight.w400),
+                                              //           ),
+                                              //         ),
+                                              //       ),
+                                              //     ))
+                                            ],
+                                          ))),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Visibility(
+                            visible: specification.isOffering == offeringType,
+                            child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text:
+                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 11.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  TextSpan(
+                                    text: specification.priceUnit
+                                        .toString()
+                                        .replaceAll(
+                                            RegExp(r'[^0-9]'), '') /*'1000'*/,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17.sp,
+                                        /*fontFamily: 'Metropolis',*/
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 11.sp,
+                                          /*fontFamily: 'Metropolis',*/
+                                          fontWeight: FontWeight.w600)),
+                                ])),
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          const Center(
+                            child: TitleSmallNormalTextWidget(
+                              title:
+                                  "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                              size: 8,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text.rich(TextSpan(children: [
+                                TextSpan(
+                                  text: "Last Updated",
+                                  style: TextStyle(
+                                      fontSize: 8.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ])),
+                              SizedBox(
+                                height: 2.w,
+                              ),
+                              Text.rich(TextSpan(children: [
+                                TextSpan(
+                                  text: /*"Nov 23, 4:33 PM"*/ DateFormat(
+                                          "MMM dd, yyyy")
+                                      .format(DateTime.parse(
+                                          specification.date ?? "")),
+                                  style: TextStyle(
+                                      fontSize: 10.sp, color: lightBlueLabel),
+                                )
+                              ])),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          Visibility(
+                            visible: false,
+                            child: SizedBox(
+                              height: 20.h,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      specification.certifications!.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          border: Border.all(
+                                              color: Colors.grey.shade500)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: Image.network(
+                                          specification.certifications![index]
+                                                  .certification!.icon ??
+                                              'images/ic_list.png',
+                                          height: 20.w,
+                                          width: 20.h,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          FutureBuilder<String>(
+                            future: Utils.getUserId(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 4.w,
+                                      right: 4.w,
+                                    ),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          if (snapshot.data ==
+                                              specification.fsUserId) {
+                                            Utils.updateDialog(
+                                                context,
+                                                null,
+                                                null,
+                                                specification,
+                                                (updateSpecification) {});
+                                          } else {
+                                            openDetailsScreen(context,
+                                                specObj: specification,
+                                                sendProposal: true);
+                                          }
+                                          // Fluttertoast.showToast(msg: 'coming soon');
+                                        },
+                                        child: SizedBox(
+                                          width: 80,
+                                          height: 22,
+                                          child: Center(
+                                            child: BidNowWidget(
+                                              title: snapshot.data !=
+                                                      specification.fsUserId
+                                                  ? 'Send Proposal'
+                                                  : "Update",
+                                              size: 10.sp,
+                                              padding: 10,
+                                            ),
+                                          ),
+                                        )));
+                              } else {
+                                return Text(
+                                  'Error: ${snapshot.error}',
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                );
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -581,12 +558,10 @@ Row setPropertiesWithIcons(FabricSpecification specification) {
     case '101':
       addProperty(specification.fpb_cone_type_name, list);
       addProperty(specification.unitCount, list);
-      if(specification.deliveryPeriod == "No Of Days"){
-        addProperty("${specification.fbp_no_of_days??"0"} Days", list);
-
-      }else{
+      if (specification.deliveryPeriod == "No Of Days") {
+        addProperty("${specification.fbp_no_of_days ?? "0"} Days", list);
+      } else {
         addProperty(specification.deliveryPeriod, list);
-
       }
       if (specification.locality != local) {
         addProperty(specification.fabricCountry?.capitalizeAndLower(), list);

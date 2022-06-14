@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:url_launcher/url_launcher.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/util.dart';
@@ -16,11 +15,9 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/spec_user_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
 import '../../../../helper_utils/dialog_builder.dart';
 import '../../../../helper_utils/ui_utils.dart';
-import '../detail_tab.dart';
 
 class SpecUserView extends StatefulWidget {
   final SpecificationUser specificationUser;
@@ -165,7 +162,7 @@ class _SpecUserViewState extends State<SpecUserView> {
     showGenericDialog("Alert", "Are you sure for service through Yg", context,
         StylishDialogType.WARNING, "Confirm", () {
       ProgressDialogUtil.showDialog(context, "Please wait...");
-      ApiService.markYg(widget.specId, widget.categoryId).then((value) {
+      ApiService().markYg(widget.specId, widget.categoryId).then((value) {
         ProgressDialogUtil.hideDialog();
         // Ui.showSnackBar(context, value.message.toString());
         showGenericDialog("Success", value.message.toString(), context,
@@ -181,7 +178,7 @@ class _SpecUserViewState extends State<SpecUserView> {
     showGenericDialog("Alert", "Are you sure post as requirement?", context,
         StylishDialogType.WARNING, "Confirm", () {
       ProgressDialogUtil.showDialog(context, "Please wait...");
-      ApiService.copySpecification(widget.specId, widget.categoryId).then(
+      ApiService().copySpecification(widget.specId, widget.categoryId).then(
           (value) {
         ProgressDialogUtil.hideDialog();
         // Ui.showSnackBar(context, value.message.toString());

@@ -1,19 +1,12 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:logger/logger.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/custom_header.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 
 import '../../../elements/custom_header.dart';
-
-import '../../../api_services/api_service_class.dart';
 import '../../../helper_utils/app_colors.dart';
 import '../../../model/response/yg_services/my_yg_services_response.dart';
-import '../../../model/services_model.dart';
 class ServiceDetailPage extends StatefulWidget {
   final MyYgServices servicesDetails;
   const ServiceDetailPage({Key? key,required this.servicesDetails}) : super(key: key);

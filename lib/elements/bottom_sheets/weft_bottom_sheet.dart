@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,7 +9,7 @@ import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../list_widgets/single_select_tile_widget.dart';
-import '../title_text_widget.dart';
+import '../text_widgets.dart';
 
 
 List<TextEditingController> textFieldControllers = [];
@@ -143,7 +142,7 @@ weftSheet(BuildContext context,FabricSetting? fabricSetting,FabricCreateRequestM
                                 children: [
                                   Padding(
                                       padding: EdgeInsets.only(left: 0.w,top: 4,bottom: 4),
-                                      child: const TitleSmallBoldTextWidget(title: 'Weft Ply' + '*')),
+                                      child: const TitleSmallBoldTextWidget(title: 'Weft Ply*')),
                                   SingleSelectTileWidget(
                                     selectedIndex: fabricCreateRequestModel.fs_weft_ply_idfk == null
                                         ? -1 :  plyList.where((element) =>

@@ -278,7 +278,7 @@ class CountryComponentState extends State<CountryComponent>
     check().then((value) {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
-        ApiService.preConfig(countryId!).then((value) {
+        ApiService().preConfig(countryId!).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
             _signupRequestModel?.config = value.data!.config.toString();

@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 
 @dao
