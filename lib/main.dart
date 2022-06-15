@@ -1,48 +1,46 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
-import 'package:yg_app/pages/main_page.dart';
-import 'package:yg_app/pages/onboarding_pages/onboarding_page.dart';
-import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
-import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
-
-import 'package:yg_app/providers/home_providers/family_list_provider.dart';
-import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
-import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
-import 'package:yg_app/providers/pre_login_sync_provider.dart';
-import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
-import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
-import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
-import 'providers/profile_providers/user_brands_provider.dart';
-import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
+import 'package:yg_app/pages/main_page.dart';
+import 'package:yg_app/pages/onboarding_pages/onboarding_page.dart';
+import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
+import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
+import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
+import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
+import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
-
-import 'providers/fabric_providers/fabric_specifications_provider.dart';
-import 'providers/fabric_providers/filter_fabric_provider.dart';
-import 'providers/stocklot_providers/stocklot_provider.dart';
-import 'providers/yarn_providers/yarn_specifications_provider.dart';
+import 'package:yg_app/providers/pre_login_sync_provider.dart';
+import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
+import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
+import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
+import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'providers/fabric_providers/fabric_specifications_provider.dart';
+import 'providers/fabric_providers/filter_fabric_provider.dart';
+import 'providers/profile_providers/user_brands_provider.dart';
+import 'providers/stocklot_providers/stocklot_provider.dart';
+import 'providers/yarn_providers/yarn_specifications_provider.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
 
 void main() async {
   await init();
@@ -100,10 +98,10 @@ class YgApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Splash Screen',
         theme: ThemeData(
-          primaryColor: lightBlueTabs,
-          primarySwatch: Colors.green,
-          /*/*fontFamily: 'Metropolis',*/*/
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+            primaryColor: lightBlueTabs,
+            primarySwatch: Colors.green,
+            /*/**/*/
+            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
             appBarTheme: AppBarTheme(
                 iconTheme: IconThemeData(
                     color: Colors.grey.shade500
@@ -157,7 +155,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   }
 
   void _incrementCounter() {
-
     setState(() {
       heightC1 = MediaQuery.of(context).size.width * 0.5;
       heightC2 = MediaQuery.of(context).size.width * 0.8;
@@ -199,37 +196,33 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
   Future<void> initTimer() async {
     Timer(const Duration(seconds: 5), () async {
-
-
       bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
       bool appRunFirstTime = await SharedPreferenceUtil.getBoolValuesSF(IS_FIRST_TIME);
       check().then((internet) {
         if (internet) {
           // Internet Present Case
           if(!appRunFirstTime)
-            {
+          {
 
-              SharedPreferenceUtil.addBoolToSF(IS_FIRST_TIME,true);
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const OnBoardingPage()));
-            }
+            SharedPreferenceUtil.addBoolToSF(IS_FIRST_TIME,true);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const OnBoardingPage()));
+          }
           else
-            {
-              if (userLogin) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MainPage()));
-              }
-              else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const SignInPage()));
-                //                MaterialPageRoute(builder: (context) => const LoginPage()));
-              }
+          {
+            if (userLogin) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const MainPage()));
             }
-
-        }
-        else {
+            else {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const SignInPage()));
+              //                MaterialPageRoute(builder: (context) => const LoginPage()));
+            }
+          }
+        } else {
           showInternetDialog(
-              no_internet_available_msg, check_internet_msg, context, () {
+              noInternetAvailableMsg, checkInternetMsg, context, () {
             Navigator.pop(context);
           });
         }
@@ -288,13 +281,13 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
                     tileMode: TileMode.clamp),
                 borderRadius: BorderRadius.only(
                   topRight:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.25),
+                  Radius.circular(MediaQuery.of(context).size.width * 0.25),
                   topLeft:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.4),
+                  Radius.circular(MediaQuery.of(context).size.width * 0.4),
                   bottomRight:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.4),
+                  Radius.circular(MediaQuery.of(context).size.width * 0.4),
                   bottomLeft:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.3),
+                  Radius.circular(MediaQuery.of(context).size.width * 0.3),
                 ),
               ),
             ),
@@ -332,27 +325,27 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
           // FadeIn
           Positioned.fill(
               child: FadeTransition(
-            opacity: _animation,
-            child: Align(
-                alignment: Alignment.center,
-                child: Image.asset(logoImage, height: 84.w, width: 84.w)),
-          ))
+                opacity: _animation,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Image.asset(logoImage, height: 84.w, width: 84.w)),
+              ))
         ],
       ),
     );
   }
 
-   _preLoginSynData() async {
+  _preLoginSynData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
     if(!dataSynced){
       check().then((intenet)async {
         if (intenet) {
           // Internet Present Case
-         await _syncProvider.syncAppData(context);
-         await initTimer();
+          await _syncProvider.syncAppData(context);
+          await initTimer();
         } else {
           showInternetDialog(
-              no_internet_available_msg, check_internet_msg, context, () {
+              noInternetAvailableMsg, checkInternetMsg, context, () {
             Navigator.pop(context);
           });
         }
@@ -362,7 +355,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     }
   }
 
-  /*Future<bool> _preLoginSynData() async {
+/*Future<bool> _preLoginSynData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
     if (!dataSynced) {
       await Future.wait([

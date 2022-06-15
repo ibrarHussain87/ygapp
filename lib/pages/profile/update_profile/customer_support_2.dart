@@ -90,24 +90,25 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                       ),
                       child:Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                           const Expanded(
+                        children: const [
+                           Expanded(
                                child: Icon(
                                    Icons.email_outlined,
                                    size: 25,
-                                   color: Colors.white)),
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              contactUs,
-                              textAlign: TextAlign.center,
-                              style:  TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500
-                              ),
-                            ),
-                          ),
+                                   color: Colors.white)
+                           ),
+                          // Expanded(
+                          //   flex: 3,
+                          //   child: Text(
+                          //     contactUs,
+                          //     textAlign: TextAlign.center,
+                          //     style:  TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 12.sp,
+                          //         fontWeight: FontWeight.w500
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
 

@@ -18,9 +18,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
   Future<void> _onIntroEnd(context) async {
     bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
-    check().then((internet) {
-      if (internet) {
-        // Internet Present Case
         if (userLogin) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const MainPage()));
@@ -29,13 +26,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               MaterialPageRoute(builder: (context) => const SignInPage()));
           //                MaterialPageRoute(builder: (context) => const LoginPage()));
         }
-      } else {
-        showInternetDialog(
-            no_internet_available_msg, check_internet_msg, context, () {
-          Navigator.pop(context);
-        });
-      }
-    });
+
   }
 
   Widget _buildFullscreenImage() {

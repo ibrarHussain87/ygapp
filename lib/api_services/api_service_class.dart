@@ -63,6 +63,7 @@ class ApiService {
   String profileUpdateEndPoint = "/update-personal-info";
   String businessUpdateEndPoint = "/update-business-info";
   String brandsUpdateEndPoint = "/update-brands";
+  String brandsDeleteEndPoint = "/delete-brands";
   String specUserEndPoint = "/spec_user";
   String syncEndPoint = "/sync";
   String getSpecEndPoint = "/getSpecifications";

@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/helper_utils/util.dart';
-
 import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_colors.dart';
 import '../../../model/response/yg_services/my_yg_services_response.dart';
@@ -22,8 +19,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   List<String>? dateTime=[];
   @override
   void initState() {
-    super.initState();
-
+   super.initState();
    dateTime=widget.servicesDetails.ygserviceSuitableDatetime?.split(' ');
   }
 
@@ -32,6 +28,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
   var definedSize=6.sp;
+  var definedSizeContent=1.sp;
   var definedFontSize=14.sp;
     return SafeArea(
       child: Scaffold(
@@ -46,11 +43,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0,right: 8.0,bottom: 5.0,top: 12.0),
-                  child: Text("User Details",style:TextStyle(fontSize:15.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,color: Colors.black)),
-                ),
+                  child: Text("User Details",
+                  style:TextStyle(fontSize:15.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,color: Colors.black)
+                  ),
+                  ),
 
                 Card(
                     shape:RoundedRectangleBorder(
@@ -67,24 +65,40 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          Text("Contact Name ",style:TextStyle(fontSize:definedFontSize,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,color: Colors.black)),
-                           SizedBox(height: definedSize,),
-                          Text(widget.servicesDetails.ygserviceName ?? "N/A",textAlign: TextAlign.start ,style:TextStyle(
-                              fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
-
-                           SizedBox(height: definedSize,),
-
-                          Text("Contact Number ",style:TextStyle(fontSize:definedFontSize,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,color: Colors.black)),
-                           SizedBox(height: definedSize,),
-                          Text(widget.servicesDetails.ygserviceContactNumber.toString(),textAlign: TextAlign.start ,
-                              style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                          Text("Contact Name ",
+                          style:TextStyle(fontSize:definedFontSize,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,
+                          color: Colors.black)
+                          ),
+                          SizedBox(height: definedSizeContent,),
+                          Text(widget.servicesDetails.ygserviceName ?? "N/A",textAlign: TextAlign.start ,
+                              style:TextStyle(
+                              fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',
+                              color: Colors.grey.shade600)
+                          ),
 
                           SizedBox(height: definedSize,),
 
-                          Text("Contact Email ",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                           SizedBox(height: definedSize,),
+                          Text("Contact Number ",
+                          style:TextStyle(fontSize:definedFontSize,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,
+                          color: Colors.black)
+                          ),
+                           SizedBox(height: definedSizeContent,),
+                          Text(widget.servicesDetails.ygserviceContactNumber.toString(),textAlign: TextAlign.start ,
+                          style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                              fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                          ),
+
+                          SizedBox(height: definedSize,),
+
+                          Text("Contact Email ",
+                          style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                          fontFamily: 'Metropolis',color: Colors.black)
+                          ),
+                          SizedBox(height: definedSizeContent,),
                           Text(widget.servicesDetails.ygserviceEmail.toString(),textAlign: TextAlign.start ,
-                              style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                              style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                              fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                          ),
 
                           SizedBox(height: definedSize,),
 
@@ -96,10 +110,15 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Address",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                                    SizedBox(height:definedSize,),
+                                    Text("Address",
+                                    style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                                    fontFamily: 'Metropolis',color: Colors.black)
+                                    ),
+                                    SizedBox(height:definedSizeContent,),
                                     Text(widget.servicesDetails.ygserviceAddress.toString() ,
-                                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                                    style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                                    fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                                    ),
                                   ],
                                 ),
                               ),
@@ -108,12 +127,15 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Landmark",textAlign:TextAlign.start,style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                                  SizedBox(height:definedSize,),
-                                  Text(widget.servicesDetails.ygserviceNearestLandmark ?? "N/A",textAlign: TextAlign.center,overflow: TextOverflow.fade,style:TextStyle(
-                                      color:Colors.grey.shade600,
-                                      fontWeight: FontWeight.w500,fontFamily: 'Metropolis',fontSize: definedFontSize
+                                  Text("Landmark",textAlign:TextAlign.start,
+                                  style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                                  fontFamily: 'Metropolis',color: Colors.black)
                                   ),
+                                  SizedBox(height:definedSizeContent,),
+                                  Text(widget.servicesDetails.ygserviceNearestLandmark ?? "N/A",textAlign: TextAlign.center,overflow: TextOverflow.fade,
+                                  style:TextStyle(
+                                  color:Colors.grey.shade600,fontWeight: FontWeight.w500,
+                                  fontFamily: 'Metropolis',fontSize: definedFontSize),
                                   ),
                                 ],
                               ),
@@ -130,9 +152,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.calendar_today_rounded,color: lightBlueTabs,size: 20,),
+                                    Icon(Icons.calendar_today_rounded,color:lightBlueTabs,size: 20,),
                                     const SizedBox(width: 3,),
-                                    Text(dateTime?[0].toString() ?? '' ,style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                                    Text(dateTime?[0].toString() ?? '' ,
+                                    style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                                    fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                                    ),
                                   ],
                                 ),
                               ),
@@ -143,7 +168,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                                 children: [
                                   Icon(Icons.timer_outlined,color: lightBlueTabs,size: 20,),
                                   const SizedBox(width: 1,),
-                                  Text(dateTime?[1].toString() ?? '' ,style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                                  Text(dateTime?[1].toString() ?? '' ,
+                                  style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                                  fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                                  ),
                                 ],
                               ),
 
@@ -183,10 +211,15 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Complaint #",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                                  SizedBox(height: definedSize,),
+                                  Text("Complaint #",
+                                  style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                                  fontFamily: 'Metropolis',color: Colors.black)
+                                  ),
+                                  SizedBox(height: definedSizeContent,),
                                   Text(widget.servicesDetails.ygserviceId.toString() ,
-                                      style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                                  style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                                  fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                                  ),
                                 ],
                               ),
                             ),
@@ -194,12 +227,13 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Status",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                                SizedBox(height: definedSize,),
+                                Text("Status",
+                                style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                                fontFamily: 'Metropolis',color: Colors.black)),
+                                SizedBox(height: definedSizeContent,),
                                 Text("Resolved".toUpperCase(),textAlign: TextAlign.center,overflow: TextOverflow.fade,
-                                  style:TextStyle(color:lightBlueTabs ,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',
-                                      fontSize: 12.sp
-                                ),
+                                style:TextStyle(color:lightBlueTabs ,fontWeight: FontWeight.w500,
+                                fontFamily: 'Metropolis',fontSize: 12.sp),
                                 ),
                               ],
                             ),
@@ -207,23 +241,39 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                         ),
                         SizedBox(height: definedSize,),
 
-                        Text("Complaint Type",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                        SizedBox(height: definedSize,),
-                        Text(widget.servicesDetails.ygserviceDetails.toString() ,style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                        Text("Complaint Type",
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',color: Colors.black)
+                        ),
+                        SizedBox(height: definedSizeContent,),
+                        Text(widget.servicesDetails.ygserviceDetails.toString() ,
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                        fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                        ),
 
                         SizedBox(height: definedSize,),
 
-                        Text("Details",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                        SizedBox(height: definedSize,),
+                        Text("Details",
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',color: Colors.black)
+                        ),
+                        SizedBox(height: definedSizeContent,),
                         Text(widget.servicesDetails.ygserviceDetails ?? "N/A",textAlign: TextAlign.start ,
-                            style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                        fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                        ),
 
                         SizedBox(height: definedSize,),
 
-                        Text("Special Instructions",style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,fontFamily: 'Metropolis',color: Colors.black)),
-                        SizedBox(height: definedSize,),
+                        Text("Special Instructions",
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',color: Colors.black)
+                        ),
+                        SizedBox(height: definedSizeContent,),
                         Text(widget.servicesDetails.ygserviceSpecialInstruction ?? "N/A",textAlign: TextAlign.start ,
-                            style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,fontFamily: 'Metropolis',color: Colors.grey.shade600)),
+                        style:TextStyle(fontSize:definedFontSize,fontWeight: FontWeight.w500,
+                        fontFamily: 'Metropolis',color: Colors.grey.shade600)
+                        ),
 
                       ],
                     ),
