@@ -10,10 +10,10 @@ import 'package:yg_app/elements/add_picture_widget.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/dialog_builder.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
@@ -29,7 +29,6 @@ import 'package:yg_app/model/response/common_response_models/ports_response.dart
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -569,7 +568,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.black87,
                                                               fontSize: 14.sp,
-                                                              /*fontFamily: 'Metropolis',*/
+                                                              /**/
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -579,7 +578,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                             style: TextStyle(
                                                                 color: Colors.red,
                                                                 fontSize: 16.sp,
-                                                                /*fontFamily: 'Metropolis',*/
+                                                                /**/
                                                                 backgroundColor:
                                                                 Colors.white,
                                                                 fontWeight:
@@ -701,7 +700,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                            fontSize: 14.sp,
 //                                                            backgroundColor:
 //                                                                Colors.white,
-//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            /**/
 //                                                            fontWeight:
 //                                                                FontWeight
 //                                                                    .w500),
@@ -710,7 +709,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 //                                                          style: TextStyle(
 //                                                              color: Colors.red,
 //                                                              fontSize: 16.sp,
-//                                                              /*fontFamily: 'Metropolis',*/
+//                                                              /**/
 //                                                              backgroundColor:
 //                                                                  Colors.white,
 //                                                              fontWeight:
@@ -821,7 +820,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                                 Colors.white,
-                                                            /*fontFamily: 'Metropolis',*/
+                                                            /**/
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -830,7 +829,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              /*fontFamily: 'Metropolis',*/
+                                                              /**/
                                                               backgroundColor:
                                                                   Colors.white,
                                                               fontWeight:
@@ -938,7 +937,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     style: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 14.sp,
-                                                        /*fontFamily: 'Metropolis',*/
+                                                        /**/
                                                         fontWeight:
                                                             FontWeight.w500),
                                                   ),
@@ -946,7 +945,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                       style: TextStyle(
                                                           color: Colors.red,
                                                           fontSize: 16.sp,
-                                                          /*fontFamily: 'Metropolis',*/
+                                                          /**/
                                                           fontWeight:
                                                               FontWeight.w500)),
                                                 ],
@@ -1049,7 +1048,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                     fontSize: 14.sp,
                                                     backgroundColor:
                                                         Colors.white,
-                                                    /*fontFamily: 'Metropolis',*/
+                                                    /**/
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -1059,7 +1058,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                                           Colors.white,
                                                       color: Colors.red,
                                                       fontSize: 16.sp,
-                                                      /*fontFamily: 'Metropolis',*/
+                                                      /**/
                                                       fontWeight:
                                                           FontWeight.w500)),
                                             ],
@@ -1631,7 +1630,7 @@ class PackagingDetailsState extends State<PackagingDetails>
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-      ApiService.createSpecification(_createRequestModel!,
+      ApiService().createSpecification(_createRequestModel!,
               imageFiles.isNotEmpty ? imageFiles[0].path : "")
           .then((value) {
         ProgressDialogUtil.hideDialog();

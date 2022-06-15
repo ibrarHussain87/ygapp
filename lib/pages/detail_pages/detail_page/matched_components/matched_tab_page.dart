@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/model/matched_response.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_body.dart';
 
 import '../../../../helper_utils/navigation_utils.dart';
-
 import '../../../market_pages/fabric_page/fabric_components/fabric_list_body.dart';
 
 class MatchedPage extends StatefulWidget {
@@ -34,7 +33,7 @@ class _MatchedPageState extends State<MatchedPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<MatchedResponse>(
-        future: ApiService.getMatched(
+        future: ApiService().getMatched(
             widget.catId, widget.specId.toString()),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done && snapshot.data!=null) {

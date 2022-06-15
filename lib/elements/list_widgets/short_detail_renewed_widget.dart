@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -58,7 +58,7 @@ class _ShortDetailWidgetState extends State<ShortDetailRenewedWidget> {
                     style: TextStyle(
                         fontSize: widget.size??10.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Metropolis',
+                        
                         color: Colors.black),
                   ),
                 ),

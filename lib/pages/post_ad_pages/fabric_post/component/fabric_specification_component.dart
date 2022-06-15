@@ -12,7 +12,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -185,7 +185,7 @@ class FabricSpecificationComponentState
     }else{
       _selectedMaterial = null;
       // _createRequestModel = Provider.of<CreateRequestModel?>(context);
-      familyId = FABRIC_MIRCOFIBER_ID/*Microfiber*/;
+      familyId = fabricMicroFiberId/*Microfiber*/;
     }
     return FutureBuilder<List<FabricSetting>>(
       future: postFabricProvider.getFabricSettingsData(familyId!),
@@ -195,7 +195,7 @@ class FabricSpecificationComponentState
           if (snapshot.data!= null) {
             if (snapshot.data!.isNotEmpty) {
               _resetData();
-              ApiService.logger.e(_createRequestModel!.toJson());
+              ApiService().logger.e(_createRequestModel!.toJson());
               _fabricSettings = /*snapshot.data![0]*/
               postFabricProvider.fabricSetting!.first;
             }
@@ -925,7 +925,7 @@ class FabricSpecificationComponentState
                                 ),
                                 //Show Color
                                 Visibility(
-                                    visible: _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID,
+                                    visible: _fabricSettings!.fabricFamilyIdfk == fabricMicroFiberId,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Column(
@@ -1323,7 +1323,7 @@ class FabricSpecificationComponentState
           Ui.showSnackBar(context, 'Please Select Grade');
           return false;
         }else if (_createRequestModel!.fs_color == null &&
-            _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
+            _fabricSettings!.fabricFamilyIdfk == fabricMicroFiberId) {
           Ui.showSnackBar(context, 'Please Select Color');
           return false;
         } else if (_createRequestModel!.fs_appearance_idfk == null &&

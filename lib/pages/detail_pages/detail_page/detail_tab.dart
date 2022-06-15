@@ -3,30 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:group_list_view/group_list_view.dart';
 import 'package:logger/logger.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/list_detail_item_widget.dart';
-import 'package:yg_app/elements/send_proposal_bottom_sheet.dart';
-import 'package:yg_app/elements/text_detail_widget_.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/dialog_builder.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/detail_tile_model.dart';
 import 'package:yg_app/model/response/fabric_response/fabric_specification_response.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
-import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
-import 'package:group_list_view/group_list_view.dart';
 import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 
 class DetailTabPage extends StatefulWidget {
@@ -330,8 +325,9 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                               .yarnSpecification!.ysId
                                               .toString(),
                                           _detailPageProvider
-                                              .yarnSpecification!.category_id
-                                              .toString())
+                                              .yarnSpecification!.category_id == null ? "2" : _detailPageProvider
+                                              .yarnSpecification!.category_id.toString()
+                                              )
                                       : _detailPageProvider.isStockLot
                                           ? openSpecificationUserScreen(
                                               context,
@@ -937,7 +933,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
   void placeBid(BuildContext context) {
     ProgressDialogUtil.showDialog(context, "Please wait....");
-    ApiService.createBid(
+    ApiService().createBid(
             _detailPageProvider.isYarn
                 ? 2.toString()
                 : _detailPageProvider.isFiber

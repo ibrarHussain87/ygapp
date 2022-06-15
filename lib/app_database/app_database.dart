@@ -41,23 +41,22 @@ import 'package:yg_app/app_database/dao/yarn_dao/yarn_blend_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_family_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_settings_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_types_dao.dart';
-import 'package:yg_app/app_database/user_brands_dao.dart';
+import 'package:yg_app/app_database/dao/user_brands_dao.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/pre_login_response.dart';
-import 'package:yg_app/helper_utils/type_converter.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 import 'package:yg_app/model/response/common_response_models/price_term.dart';
 import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
+import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
@@ -81,10 +80,9 @@ import 'dao/fabric_dao/fabric_salvedge_dao.dart';
 import 'dao/fabric_dao/fabric_settings_dao.dart';
 import 'dao/fabric_dao/fabric_weave_dao.dart';
 import 'dao/fabric_dao/knitting_types_dao.dart';
+import 'dao/fiber_dao/fiber_settings_dao.dart';
 import 'dao/generic_categories_dao.dart';
 import 'dao/grades_dao.dart';
-import 'dao/fiber_dao/fiber_settings_dao.dart';
-
 import 'dao/yarn_grades_dao.dart';
 
 part 'app_database.g.dart'; // the generated code will be there

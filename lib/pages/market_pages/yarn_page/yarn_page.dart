@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
-import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
-
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -13,10 +11,11 @@ import 'package:yg_app/model/request/filter_request/filter_request.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_components/yarn_list_future_widget.dart';
+import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_specifications_provider.dart';
 
 import '../../../app_database/app_database_instance.dart';
-import '../../../elements/title_text_widget.dart';
+import '../../../elements/text_widgets.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/countries_response.dart';

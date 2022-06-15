@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +13,9 @@ import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/model/request/login_request/login_request.dart';
-import 'signup/signup_page_new.dart';
 import 'package:yg_app/pages/main_page.dart';
+
+import 'signup/signup_page_new.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       color: textColorBlue,
                       fontSize: 24.sp,
-                      /*fontFamily: 'Metropolis',*/
+                      /**/
                       fontWeight: FontWeight.w400),
                 ),
                 Padding(
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                       color: textColorGrey,
                       fontSize: 9.sp,
-                      /*fontFamily: 'Metropolis',*/
+                      /**/
                       fontWeight: FontWeight.w400,
                       height: 1.5.h,
                     ),
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                                 labelText: password,
                                 labelStyle: TextStyle(
                                   fontSize: 12.sp,
-                                  /*fontFamily: 'Metropolis',*/
+                                  /**/
                                 ),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(color: textColorGrey),
@@ -167,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   color: btnColorLogin,
                                   fontSize: 12.sp,
-                                  /*fontFamily: 'Metropolis',*/
+                                  /**/
                                   fontWeight: FontWeight.w500,
                                   height: 1.5.h,
                                 ),
@@ -183,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text("Sign in".toUpperCase(),
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
                                   style: ButtonStyle(
                                       foregroundColor:
@@ -219,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                     signUpStr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      /*fontFamily: 'Metropolis',*/
+                      /**/
                       color: textColorGrey,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
@@ -256,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
     check().then((value) {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
-        ApiService.login(_loginRequestModel).then((value) {
+        ApiService().login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {

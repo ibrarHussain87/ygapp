@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 class MarketTrendItems extends StatefulWidget {
@@ -23,30 +23,29 @@ class _MarketTrendItemsState extends State<MarketTrendItems> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Text.rich(
-              TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Cotton ",
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600, fontFamily: "Metropolis"),
-                    ),
-                    TextSpan(
-                      text: "/PP",
-                      style: TextStyle(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w400, fontFamily: "Metropolis",color: Colors.grey.shade700),
-                    ),
-                  ]
-              )
-          ),
+          Text.rich(TextSpan(children: [
+            TextSpan(
+              text: "Cotton ",
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            TextSpan(
+              text: "/PP",
+              style: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey.shade700),
+            ),
+          ])),
           Text(
             "\$425.21",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 11.sp,
-                fontWeight: FontWeight.w500, fontFamily: "Metropolis"),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

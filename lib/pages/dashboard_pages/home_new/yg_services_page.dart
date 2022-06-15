@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +24,7 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/profile/update_profile/user_notifier.dart';
 
 import '../../../elements/list_widgets/single_select_tile_widget.dart';
-import '../../../elements/title_text_widget.dart';
+import '../../../elements/text_widgets.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/companies_reponse.dart';
@@ -564,7 +564,7 @@ class YgServicePageState extends State<YgServicePage>
                             style: TextStyle(color: Colors.black,fontSize: 13),
                           ),
                           Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
-                                  /*fontFamily: 'Metropolis',*/
+                                  /**/
                                   backgroundColor:
                                   Colors.white,
                                   fontWeight:
@@ -624,7 +624,7 @@ class YgServicePageState extends State<YgServicePage>
                   // Note: Styles for TextSpans must be explicitly defined.
                   // Child text spans will inherit styles from parent
                   style: TextStyle(
-                    fontFamily: 'Metropolis',
+                    // 
                     fontSize: 14.0.sp,
                     color: Colors.black,
                   ),
@@ -632,8 +632,8 @@ class YgServicePageState extends State<YgServicePage>
                     TextSpan(
                         text: 'I agree to ',
                         style: TextStyle(
-                            fontFamily:
-                            'Metropolis',
+                            // fontFamily:
+                            // 'Metropolis',
                             fontSize: 13.sp,
                             color:
                             textColorGrey)),
@@ -641,8 +641,8 @@ class YgServicePageState extends State<YgServicePage>
                         text:
                         'terms & conditions',
                         style: TextStyle(
-                            fontFamily:
-                            'Metropolis',
+                            // fontFamily:
+                            // 'Metropolis',
                             fontSize: 13.sp,
                             color:
                             textColorGrey)),
@@ -662,7 +662,7 @@ class YgServicePageState extends State<YgServicePage>
                 return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                            /* */fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
@@ -718,7 +718,7 @@ class YgServicePageState extends State<YgServicePage>
           ProgressDialogUtil.showDialog(context, 'Please wait...');
 
           Logger().e(_ygServiceRequestModel.toJson());
-          ApiService.createYGService(_ygServiceRequestModel).then((value) {
+          ApiService().createYGService(_ygServiceRequestModel).then((value) {
 
             ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

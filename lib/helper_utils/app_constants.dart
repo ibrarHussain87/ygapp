@@ -1,11 +1,6 @@
 String APP_DATABASE_NAME = "yurn_guru.db";
 const int APP_DATABASE_VERSION = 12;
-List<String> plyStringList = [
-  "Single",
-  "Double",
-  "Triple",
-  "Quardruple"
-];
+List<String> plyStringList = ["Single", "Double", "Triple", "Quardruple"];
 
 //Shared preference Key
 String USER_TOKEN_KEY = "USER_TOKEN";
@@ -100,91 +95,81 @@ String coneBags = 'Cone/Bags';
 String yarn = "Yarn";
 String attachment = "Attachment";
 
-var unifomity = 'U (Uniformity)%';
-var cv = 'CV%';
+String uniformityStr = 'U (Uniformity)%';
+String cv = 'CV%';
+String qltStr = 'QLT';
+String thinPlaces = 'Thin Places';
+String thickPlaces = 'Thick Places';
+String naps = 'Naps';
+String ipmKm = 'IPM/KM';
+String hairness = 'H% (Hairness)';
+String rkmStr = 'RKM';
+String elongation = 'Elongation%';
+String tpi = 'TPI';
+String tm = 'TM';
+String offering = 'Offering';
+String requirement = 'Requirement';
+String personal = 'Personal Info';
+String business = 'Business Info';
+String brands = 'Brands';
 
-var QLT = 'QLT';
-
-var thinPlaces = 'Thin Places';
-
-var thickPlaces = 'Thick Places';
-
-var naps = 'Naps';
-
-var IpmKm = 'IPM/KM';
-
-var hairness = 'H% (Hairness)';
-
-var Rkm = 'RKM';
-
-var elongation = 'Elongation%';
-
-var tpi = 'TPI';
-
-var tm = 'TM';
-var offering = 'Offering';
-var requirement = 'Requirement';
-
-//
-var personal = 'Personal Info';
-var business = 'Business Info';
-var brands = 'Brands';
-//
-
-
-
-int YARN_CATEGORY_ID = 2;
-int FABRIC_CATEGORY_ID = 3;
-String offering_type = '1';
-String requirement_type = '0';
-String FABRIC_MIRCOFIBER_ID = '104';
-const String no_internet_available_msg = "No Internet available.";
-const String check_internet_msg = "Please check your internet connection.";
+String offeringType = '1';
+String requirementType = '0';
+String fabricMicroFiberId = '104';
+String noInternetAvailableMsg = "No Internet available.";
+String checkInternetMsg = "Please check your internet connection.";
 
 //
-var customer_support_main = 'How can we help you?';
-var live_chat = 'Connect live chat';
-var faq = 'FAQ\'s';
-var support_email = 'Email';
-var contact_us = 'Contact Us';
+String customerSupportMain = 'How can we help you?';
+String liveChat = 'Connect live chat';
+String faq = 'FAQ\'s';
+String supportEmail = 'Email';
+String contactUs = 'Contact Us';
 
 // Share Sheet Strings
-var share_tweet = 'Share Tweet';
-var twitter_name = 'jhondoe';
-var twitter_user_name = '@jhondoe';
-var via_direct_message = 'via Direct Message';
-var send_via_direct_message = 'Send via Direct Message';
-var bookmark_text = 'Bookmark';
-var copy_link_text = 'Copy Link';
-var share_via_text = 'Share Via...';
-var whatsapp_text = 'Whatsapp';
-var message_text = 'Messages';
-var news_feed_text = 'News Feed';
-var gmail_text = 'Gmail';
-var telegram_text = 'Telegram';
+String shareTweet = 'Share Tweet';
+String twitterName = 'jhondoe';
+String twitterUserName = '@jhondoe';
+String viaDirectMessage = 'via Direct Message';
+String sendViaDirectMessage = 'Send via Direct Message';
+String bookmarkText = 'Bookmark';
+String copyLinkText = 'Copy Link';
+String shareViaText = 'Share Via...';
+String whatsappText = 'Whatsapp';
+String messageText = 'Messages';
+String newsFeedText = 'News Feed';
+String gmailText = 'Gmail';
+String telegramText = 'Telegram';
 //
 
-var sheet_title = 'Add Nature Fabric';
-var blend_message = "Blends percentage must be less than 100%";
+String sheetTitle = 'Add Nature Fabric';
+String blendMessage = "Blends percentage must be less than 100%";
 
-var signIn = "SIGN IN";
-var signUp = "Don't have an account yet?";
-var register = "Register";
-var countryText = "Select your country first before \n further registration";
-var businessDetail = "Business Details";
-var businessText = "Enter your business details, for the \n purpose of industry regulation";
-var personalDetail = "Personal Details";
-var personalText = "Enter your personal details, to \n complete the registration";
-var forgetPasswordText = "Forgot Password?";
-var forgetPasswordDetails = "Please enter your Mobile Number\n to  reset password.";
-var verifyCodeText = "Verify code";
-var verifyCodeDetails = "Enter the verification code here";
-var verifyCodeLabel = "Please enter the verification code";
-var updatePasswordText = "Reset Password";
-var updatePasswordDetails = "Please enter the new password";
+String signIn = "SIGN IN";
+String signUp = "Don't have an account yet?";
+String register = "Register";
+String countryText = "Select your country first before \n further registration";
+String businessDetail = "Business Details";
+String businessText =
+    "Enter your business details, for the \n purpose of industry regulation";
+String personalDetail = "Personal Details";
+String personalText =
+    "Enter your personal details, to \n complete the registration";
+String forgetPasswordText = "Forgot Password?";
+String forgetPasswordDetails =
+    "Please enter your Mobile Number\n to  reset password.";
+String verifyCodeText = "Verify code";
+String verifyCodeDetails = "Enter the verification code here";
+String verifyCodeLabel = "Please enter the verification code";
+String updatePasswordText = "Reset Password";
+String updatePasswordDetails = "Please enter the new password";
 String countryResidence = 'Country';
 String companyName = "Company Name";
 String mobileNumber = "Mobile Number";
 String passwordString = "Password";
 String confirmPasswordString = "Confirm Password";
 
+int fiberCategoryId = 1;
+int yarnCategoryId = 2;
+int fabricCategoryId = 3;
+int stockLotCategoryId = 4;

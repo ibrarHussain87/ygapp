@@ -101,7 +101,7 @@ class VerifyCodePageState
                       style: TextStyle(
                           color: Colors.black87,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // 
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -114,7 +114,7 @@ class VerifyCodePageState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -147,7 +147,7 @@ class VerifyCodePageState
                                     style: TextStyle(
                                       color: textColorGrey,
                                       fontSize: 12.sp,
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                       fontWeight: FontWeight.w400,
                                       height: 1.5.h,
                                     ),
@@ -250,7 +250,7 @@ class VerifyCodePageState
                                   child:  Text("Verify",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
 
                                   style: ButtonStyle(
@@ -487,7 +487,7 @@ class VerifyCodePageState
 //        _signupRequestModel?.email =_signupRequestModel?.email;
 //        _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(widget.signUpRequestModel.toJson());
-        ApiService.signup(widget.signUpRequestModel).then((value) {
+        ApiService().signup(widget.signUpRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

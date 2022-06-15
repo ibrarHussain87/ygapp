@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 class CircleImageIconWidget extends StatefulWidget {
@@ -21,7 +20,7 @@ class _CircleImageIconWidgetState extends State<CircleImageIconWidget> {
       imageUrl: widget.imageUrl!,
         fit: BoxFit.scaleDown,
       placeholder: (context, url) =>  CircularProgressIndicator(strokeWidth: 1.0,color: lightBlueTabs,),
-      errorWidget: (context, url, error) =>  Icon(Icons.error),
+      errorWidget: (context, url, error) =>  const Icon(Icons.error),
     imageBuilder: (context, imageProvider) => Container(
     width: 24.0,
     height: 24.0,

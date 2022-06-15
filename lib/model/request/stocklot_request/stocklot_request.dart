@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:yg_app/model/stocklot_waste_model.dart';
 
 class StocklotRequestModel {

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -119,7 +118,7 @@ class _SignInPageState extends State<SignInPage> {
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // 
                           fontWeight: FontWeight.w700),
                     ),
                     Padding(
@@ -130,7 +129,7 @@ class _SignInPageState extends State<SignInPage> {
                         style: TextStyle(
                           color: textColorGrey,
                           fontSize: 10.sp,
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           fontWeight: FontWeight.w400,
                           height: 1.5.h,
                         ),
@@ -164,7 +163,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 12.sp,
                                         color:isEmail ? Colors.white : Colors.black54
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     )),)
                             ),
                           ),
@@ -191,7 +190,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 12.sp,
                                         color: isEmail ? Colors.black54 : Colors.white
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     )),)
                             ),
                           ),
@@ -572,7 +571,7 @@ class _SignInPageState extends State<SignInPage> {
                                       style: TextStyle(
                                         color: forgotPasswordColor,
                                         fontSize: 12.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                         fontWeight: FontWeight.w500,
                                         height: 1.5.h,
                                       ),
@@ -593,7 +592,7 @@ class _SignInPageState extends State<SignInPage> {
                                           Text("Sign in",
                                               style: TextStyle(
                                                 fontSize: 14.sp,
-                                                /*fontFamily: 'Metropolis',*/
+                                                /**/
                                               )),),flex: 9,),
                                           const Icon(
                                             Icons.arrow_forward_sharp,
@@ -645,7 +644,7 @@ class _SignInPageState extends State<SignInPage> {
                         signUp,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          /*fontFamily: 'Metropolis',*/
+                          /**/
                           color: textColorGrey,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -669,7 +668,7 @@ class _SignInPageState extends State<SignInPage> {
                           register,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            /*fontFamily: 'Metropolis',*/
+                            /**/
                             color: signInColor,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
@@ -705,7 +704,7 @@ class _SignInPageState extends State<SignInPage> {
       if(value){
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         Logger().e(_loginRequestModel.toJson());
-        ApiService.login(_loginRequestModel).then((value) {
+        ApiService().login(_loginRequestModel).then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {

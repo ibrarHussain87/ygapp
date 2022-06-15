@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/elements/list_widgets/bid_now_widget.dart';
 import 'package:yg_app/elements/list_widgets/short_detail_renewed_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -12,13 +12,12 @@ import 'package:yg_app/helper_utils/util.dart';
 import 'package:intl/intl.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 
-import '../../helper_utils/app_constants.dart';
-
 class StockLotListItem extends StatefulWidget {
   final StockLotSpecification specification;
   final bool? showCount;
 
-  const StockLotListItem({Key? key, required this.specification, this.showCount})
+  const StockLotListItem(
+      {Key? key, required this.specification, this.showCount})
       : super(key: key);
 
   @override
@@ -26,61 +25,57 @@ class StockLotListItem extends StatefulWidget {
 }
 
 class _StockLotListItemState extends State<StockLotListItem> {
-
-  priceStockLot(){
-    return widget.specification.specDetails!.isNotEmpty ?widget.specification.specDetails!
-        .length >
-        1
-        ? Utils.stockLotPriceRange(
-        widget.specification)
-        :  [
-      // TextSpan(
-      //   text:
-      //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-      //   style: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 12.sp,
-      //       // /*fontFamily: 'Metropolis',*/,
-      //       fontWeight: FontWeight.w500),
-      // ),
-      TextSpan(
-        text: widget.specification.specDetails!.first.price/*'1000'*/,
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w600),
-      ),
-      TextSpan(
-        text:
-        "/${widget.specification.specDetails!.first.priceUnit!= null?widget.specification.specDetails!.first.priceUnit!.split(" ").first : ""}",
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w600),
-      ),
-    ] : [
-      TextSpan(
-        text: "",
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w600),
-      ),
-      TextSpan(
-        text:
-        "",
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
-            fontWeight: FontWeight.w600),
-      ),
-    ];
-
-
+  priceStockLot() {
+    return widget.specification.specDetails!.isNotEmpty
+        ? widget.specification.specDetails!.length > 1
+            ? Utils.stockLotPriceRange(widget.specification)
+            : [
+                // TextSpan(
+                //   text:
+                //   '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                //   style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 12.sp,
+                //       // /**/,
+                //       fontWeight: FontWeight.w500),
+                // ),
+                TextSpan(
+                  text:
+                      widget.specification.specDetails!.first.price /*'1000'*/,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.sp,
+                      // /**/,
+                      fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text:
+                      "/${widget.specification.specDetails!.first.priceUnit != null ? widget.specification.specDetails!.first.priceUnit!.split(" ").first : ""}",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 11.sp,
+                      // /**/,
+                      fontWeight: FontWeight.w600),
+                ),
+              ]
+        : [
+            TextSpan(
+              text: "",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.sp,
+                  // /**/,
+                  fontWeight: FontWeight.w600),
+            ),
+            TextSpan(
+              text: "",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 11.sp,
+                  // /**/,
+                  fontWeight: FontWeight.w600),
+            ),
+          ];
   }
 
   late List<TextSpan> priceStockLotSpec;
@@ -106,10 +101,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
           elevation: 0,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-                color: newColorGrey,
-                width: 1,
-                style: BorderStyle.solid
-            ),
+                color: newColorGrey, width: 1, style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
@@ -145,7 +137,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                       color: Colors.black,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      /*fontFamily: 'Metropolis',*/
+                                      /**/
                                     ),
                                   ),
                                   width: size.width * 0.40,
@@ -164,8 +156,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 10,
-                                          fontWeight: FontWeight.w600
-                                          /*fontFamily: 'Metropolis',*/,
+                                          fontWeight: FontWeight
+                                              .w600 /**/,
                                         ),
                                       ),
                                       SizedBox(
@@ -214,7 +206,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                           horizontal: 5, vertical: 1),
                                       child: Center(
                                         child: TitleMediumBoldSmallTextWidget(
-                                          title: widget.specification.stocklotParentFamilyName,
+                                          title: widget.specification
+                                              .stocklotParentFamilyName,
                                           color: Colors.white,
                                           textSize: 12,
                                         ),
@@ -246,43 +239,56 @@ class _StockLotListItemState extends State<StockLotListItem> {
                             const SizedBox(
                               height: 8,
                             ),
-                            widget.specification.specDetails!.isNotEmpty ?Row(
-                              children: [
-                                Expanded(
-                                  child: Wrap(
-                                    spacing: 4.0,
-                                    runSpacing: 3.0,
+                            widget.specification.specDetails!.isNotEmpty
+                                ? Row(
                                     children: [
-                                      ShortDetailRenewedWidget(
-                                        title: widget.specification.priceTerm ??
-                                            Utils.checkNullString(false),
-                                        imageIcon: IC_BAG_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
-                                      Visibility(
-                                        visible: widget.specification.currency_name != null ?
-                                        widget.specification.currency_name!.isNotEmpty ? true : false:false,
-                                        child: ShortDetailRenewedWidget(
-                                          title:
-                                              widget.specification.currency_name ??
+                                      Expanded(
+                                        child: Wrap(
+                                          spacing: 4.0,
+                                          runSpacing: 3.0,
+                                          children: [
+                                            ShortDetailRenewedWidget(
+                                              title: widget.specification
+                                                      .priceTerm ??
                                                   Utils.checkNullString(false),
-                                          imageIcon: IC_CONE_RENEWED,
-                                          size: 10.sp,
-                                          iconSize: 12,
+                                              imageIcon: IC_BAG_RENEWED,
+                                              size: 10.sp,
+                                              iconSize: 12,
+                                            ),
+                                            Visibility(
+                                              visible: widget.specification
+                                                          .currency_name !=
+                                                      null
+                                                  ? widget
+                                                          .specification
+                                                          .currency_name!
+                                                          .isNotEmpty
+                                                      ? true
+                                                      : false
+                                                  : false,
+                                              child: ShortDetailRenewedWidget(
+                                                title: widget.specification
+                                                        .currency_name ??
+                                                    Utils.checkNullString(
+                                                        false),
+                                                imageIcon: IC_CONE_RENEWED,
+                                                size: 10.sp,
+                                                iconSize: 12,
+                                              ),
+                                            ),
+                                            ShortDetailRenewedWidget(
+                                              title:
+                                                  widget.specification.locality,
+                                              imageIcon: IC_VAN_RENEWED,
+                                              size: 10.sp,
+                                              iconSize: 12,
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      ShortDetailRenewedWidget(
-                                        title: widget.specification.locality,
-                                        imageIcon: IC_VAN_RENEWED,
-                                        size: 10.sp,
-                                        iconSize: 12,
-                                      ),
+                                      )
                                     ],
-                                  ),
-                                )
-                              ],
-                            ):Container(),
+                                  )
+                                : Container(),
                             Visibility(
                               visible: widget.showCount ?? false,
                               child: Padding(
@@ -299,7 +305,7 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                 border: Border.all(
                                                   color: greenButton,
                                                   width:
-                                                  1, //                   <--- border width here
+                                                      1, //                   <--- border width here
                                                 ),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(4.w))),
@@ -311,8 +317,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                   child: Center(
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
+                                                          MainAxisAlignment
+                                                              .spaceAround,
                                                       children: [
                                                         Text(
                                                           'Proposals',
@@ -321,8 +327,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                               color: Colors
                                                                   .black87,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w400),
+                                                                  FontWeight
+                                                                      .w400),
                                                         ),
                                                         Text(
                                                           widget.specification
@@ -331,10 +337,10 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                           style: TextStyle(
                                                               fontSize: 9.sp,
                                                               color:
-                                                              greenButton,
+                                                                  greenButton,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w700),
+                                                                  FontWeight
+                                                                      .w700),
                                                         ),
                                                         // SizedBox(
                                                         //   width: 3.w,
@@ -374,11 +380,11 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                     Expanded(
                                         child: Container(
                                             decoration: BoxDecoration(
-                                              /*color: lightYellowContainer,*/
+                                                /*color: lightYellowContainer,*/
                                                 border: Border.all(
                                                   color: greenButton,
                                                   width:
-                                                  1, //                   <--- border width here
+                                                      1, //                   <--- border width here
                                                 ),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(4.w))),
@@ -390,8 +396,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                   child: Center(
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
+                                                          MainAxisAlignment
+                                                              .spaceAround,
                                                       children: [
                                                         Text(
                                                           'Matches',
@@ -400,8 +406,8 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                               color: Colors
                                                                   .black87,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w400),
+                                                                  FontWeight
+                                                                      .w400),
                                                         ),
                                                         Text(
                                                           widget.specification
@@ -410,10 +416,10 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                                           style: TextStyle(
                                                               fontSize: 9.sp,
                                                               color:
-                                                              greenButton,
+                                                                  greenButton,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w700),
+                                                                  FontWeight
+                                                                      .w700),
                                                         ),
                                                         // SizedBox(
                                                         //   width: 3.w,
@@ -464,13 +470,16 @@ class _StockLotListItemState extends State<StockLotListItem> {
                             children: [
                               RichText(
                                   overflow: TextOverflow.ellipsis,
-                                  text:TextSpan(children: priceStockLotSpec,)),
+                                  text: TextSpan(
+                                    children: priceStockLotSpec,
+                                  )),
                               SizedBox(
                                 height: 1.h,
                               ),
                               const Center(
                                 child: TitleSmallNormalTextWidget(
-                                  title: "Ex- Factory",
+                                  title:
+                                      "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
                                   size: 8,
                                 ),
                               ),
@@ -553,8 +562,11 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                         ),
                                         child: GestureDetector(
                                             onTap: () {
-                                              if (widget.specification.userId == snapshot.data) {
-                                                Fluttertoast.showToast(msg: "Delete coming soon...");
+                                              if (widget.specification.userId ==
+                                                  snapshot.data) {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "Delete coming soon...");
                                               } else {
                                                 openDetailsScreen(context,
                                                     specObj:
@@ -568,11 +580,15 @@ class _StockLotListItemState extends State<StockLotListItem> {
                                               child: Center(
                                                 child: BidNowWidget(
                                                   color: snapshot.data !=
-                                                      widget.specification.userId ?greenButtonColor : Colors.red.shade400 ,
+                                                          widget.specification
+                                                              .userId
+                                                      ? greenButtonColor
+                                                      : Colors.red.shade400,
                                                   title: snapshot.data !=
-                                                          widget.specification.userId
-                                                      ? 'Send Proposal':
-                                                      "Delete",
+                                                          widget.specification
+                                                              .userId
+                                                      ? 'Send Proposal'
+                                                      : "Delete",
                                                   size: 10.sp,
                                                   padding: 10,
                                                 ),

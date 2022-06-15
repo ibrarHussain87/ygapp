@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/helper_utils/type_converter.dart';
 import 'package:yg_app/model/response/login/login_response.dart';
 
 

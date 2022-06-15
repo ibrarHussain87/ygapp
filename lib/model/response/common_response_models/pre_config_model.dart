@@ -1,4 +1,4 @@
-import 'package:floor/floor.dart';
+
 
 class PreConfigResponse {
   PreConfigResponse({

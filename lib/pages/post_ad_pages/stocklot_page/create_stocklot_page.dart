@@ -7,15 +7,16 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/custom_header.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
-import 'package:yg_app/helper_utils/dialog_builder.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
 import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
+
 import '../../../elements/add_picture_widget.dart';
 import '../../../elements/decoration_widgets.dart';
 import '../../../elements/list_items/list__item_stocklot_widget.dart';
@@ -391,10 +392,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   color: Colors.black87,
                                                   fontSize: 14.sp,
                                                   backgroundColor: Colors.white,
-                                                  // fontFamily: 'Metropolis',
+                                                  
                                                   fontWeight: FontWeight.w500),),
                                               Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  // fontFamily: 'Metropolis',
+                                                  
                                                   backgroundColor: Colors.white,
                                                   fontWeight: FontWeight.w500)),
                                             ],
@@ -505,8 +506,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                             Colors.white,
-                                                            fontFamily:
-                                                            'Metropolis',
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
@@ -515,8 +514,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                              'Metropolis',
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -628,8 +625,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                             fontSize: 14.sp,
                                                             backgroundColor:
                                                             Colors.white,
-                                                            fontFamily:
-                                                            'Metropolis',
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
@@ -638,8 +633,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                           style: TextStyle(
                                                               color: Colors.red,
                                                               fontSize: 16.sp,
-                                                              fontFamily:
-                                                              'Metropolis',
                                                               backgroundColor:
                                                               Colors.white,
                                                               fontWeight:
@@ -741,10 +734,8 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                     color: Colors.black87,
                                                     fontSize: 14.sp,
                                                     backgroundColor: Colors.white,
-                                                    fontFamily: 'Metropolis',
                                                     fontWeight: FontWeight.w500),),
                                                 Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                    fontFamily: 'Metropolis',
                                                     backgroundColor: Colors.white,
                                                     fontWeight: FontWeight.w500)),
                                               ],
@@ -834,10 +825,10 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                                   color: Colors.black87,
                                                   fontSize: 14.sp,
                                                   backgroundColor: Colors.white,
-                                                  fontFamily: 'Metropolis',
+                                                  
                                                   fontWeight: FontWeight.w500),),
                                               Text("*", style: TextStyle(color: Colors.red,fontSize: 16.sp,
-                                                  fontFamily: 'Metropolis',
+                                                  
                                                   backgroundColor: Colors.white,
                                                   fontWeight: FontWeight.w500)),
                                             ],

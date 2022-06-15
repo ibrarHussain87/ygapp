@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:yg_app/providers/home_providers/banners_provider.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/market_stock_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/market_trend_widget.dart';
+import 'package:yg_app/providers/home_providers/banners_provider.dart';
 
 import 'home_widgets/home_filter_widget.dart';
 

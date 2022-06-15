@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,16 +9,13 @@ import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/home_model.dart';
 import 'package:yg_app/pages/dashboard_pages/home_new/dashboard_card_items.dart';
 import 'package:yg_app/pages/dashboard_pages/home_new/trends_widget.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
+import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/providers/home_providers/banners_provider.dart';
-import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
-import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
-import 'package:yg_app/pages/dashboard_pages/home_widgets/home_premium_widget.dart';
 
-import '../../../elements/title_text_widget.dart';
 import '../../../helper_utils/navigation_utils.dart';
-import '../../../helper_utils/util.dart';
 
 class DashboardPage extends StatefulWidget {
   final Function callback;
@@ -101,7 +98,7 @@ class DashboardPageState extends State<DashboardPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0.w,
-                        // fontFamily: 'Metropolis',
+                        
                         color: Colors.black,
                         fontWeight: FontWeight.w700)),
               ),
@@ -158,7 +155,7 @@ class DashboardPageState extends State<DashboardPage> {
                         //     style: TextStyle(
                         //         color: Colors.black,
                         //         fontSize: 15.sp,
-                        //         fontFamily: 'Metropolis',
+                        //         
                         //         fontWeight: FontWeight.w700),
                         //   ),
                         // ),

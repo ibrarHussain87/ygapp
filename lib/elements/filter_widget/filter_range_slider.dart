@@ -1,17 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
 
 import '../decoration_widgets.dart';
-import '../title_text_widget.dart';
+import '../text_widgets.dart';
 
 class FilterRangeSlider extends StatefulWidget {
   final double minValue;
   final double maxValue;
   final String? hintTxt;
+
   // final Function minCallback;
   // final Function maxCallback;
   final Function valueCallback;
@@ -23,8 +21,7 @@ class FilterRangeSlider extends StatefulWidget {
       required this.hintTxt,
       // required this.minCallback,
       // required this.maxCallback
-       required this.valueCallback
-      })
+      required this.valueCallback})
       : super(key: key);
 
   @override
@@ -69,22 +66,21 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
           step: 0.2,
           enableInteractiveSelection: false,
           readOnly: false,
-          textStyle:
-          TextStyle(fontSize: 9.sp, color: Colors.grey.shade600),
+          textStyle: TextStyle(fontSize: 9.sp, color: Colors.grey.shade600),
           decoration: roundedTFDGrey('${widget.minValue} %'),
           onChanged: (value) {
             widget.valueCallback(value);
             // setState(() {
-              // if (value != 0.0 && value <= widget.maxValue && value > minSpinValue) {
-              //   maxSpinValue = value;
-              //   widget.maxCallback(value);
-              //   _values = RangeValues(minSpinValue, value);
-              // }
+            // if (value != 0.0 && value <= widget.maxValue && value > minSpinValue) {
+            //   maxSpinValue = value;
+            //   widget.maxCallback(value);
+            //   _values = RangeValues(minSpinValue, value);
+            // }
             // });
           },
         ),
       ],
-    )/*Column(
+    ) /*Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -261,6 +257,7 @@ class _FilterRangeSliderState extends State<FilterRangeSlider> {
                   })),
         )
       ],
-    )*/;
+    )*/
+        ;
   }
 }

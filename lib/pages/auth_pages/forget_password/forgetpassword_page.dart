@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/pages/auth_pages/signup/country_search_page.dart';
+
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/circle_icon_widget.dart';
 import '../../../helper_utils/navigation_utils.dart';
@@ -101,7 +102,7 @@ class ForgetPasswordPageState
                       style: TextStyle(
                           color: Colors.black87,
                           fontSize: 28.sp,
-                          fontFamily: 'Metropolis',
+                          // 
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -114,7 +115,7 @@ class ForgetPasswordPageState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -236,7 +237,7 @@ class ForgetPasswordPageState
                                   child:  Text("Send Code",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
 
                                   style: ButtonStyle(

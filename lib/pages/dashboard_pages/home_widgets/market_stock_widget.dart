@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 class MarketStockWidget extends StatefulWidget {
@@ -39,7 +39,7 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
                               color: Colors.black,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
-                              fontFamily: "Metropolis"),
+                              ),
                         ),
                         SizedBox(
                           width: 1.w,
@@ -50,7 +50,7 @@ class _MarketStockWidgetState extends State<MarketStockWidget> {
                           style: TextStyle(
                               color: redClr,
                               fontSize: 9.sp,
-                              fontFamily: "Metropolis"),
+                              ),
                         ),
                       ],
                     ),

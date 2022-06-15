@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class NatureFabricSheet extends StatefulWidget {
@@ -34,7 +34,7 @@ class _NatureFabricSheetState extends State<NatureFabricSheet> {
           color: theme.cardColor,
           borderRadius: const BorderRadius.only(topLeft:Radius.circular(16.0),topRight: Radius.circular(16.0)),
         ),
-        child:widget.child != null ? widget.child : SizedBox(),
+        child:widget.child,
 //      Column(
 //        mainAxisSize: MainAxisSize.min,
 //        children: [

@@ -4,7 +4,7 @@ import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/history_bids_component/history_bids_body.dart';
 
 import '../../../../api_services/api_service_class.dart';
-import '../../../../elements/title_text_widget.dart';
+import '../../../../elements/text_widgets.dart';
 import '../../../../helper_utils/app_constants.dart';
 import '../../../../helper_utils/shared_pref_util.dart';
 
@@ -34,7 +34,7 @@ class _HistoryOfBidsPageState extends State<HistoryOfBidsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<ListBidResponse>(
-        future: ApiService.getBidsHistory(
+        future: ApiService().getBidsHistory(
             widget.specId.toString(),widget.catId.toString()),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data!.isNotEmpty) {

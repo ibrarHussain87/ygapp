@@ -1,16 +1,9 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
-import 'package:yg_app/model/response/list_bidder_response.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 
 import '../../../../model/response/list_bid_response.dart';
 import 'list_bidder_body.dart';
@@ -43,7 +36,7 @@ class _BidderListPageState extends State<BidderListPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<ListBidResponse>(
-        future: ApiService.getListBidders(
+        future: ApiService().getListBidders(
             widget.materialId, widget.specId.toString()),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done && snapshot.data!= null && snapshot.data!.data!.isNotEmpty) {

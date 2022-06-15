@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 
@@ -8,10 +7,10 @@ import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/navigation_utils.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
-import '../../elevated_button_widget_2.dart';
+import '../../elevated_button_without_icon_widget.dart';
 import '../../list_widgets/bg_light_blue_normal_text_widget.dart';
 import '../../list_widgets/short_detail_renewed_widget.dart';
-import '../../title_text_widget.dart';
+import '../../text_widgets.dart';
 
 class FiberBidItem extends StatelessWidget {
   final BidData? bidData;
@@ -54,7 +53,7 @@ class FiberBidItem extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 6.sp,
-                      fontFamily: 'Metropolis',
+                      
                       fontWeight: FontWeight.bold,
                     ),
                   )),
@@ -89,7 +88,7 @@ class FiberBidItem extends StatelessWidget {
                                     ? Colors.green
                                     : Colors.red,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),
@@ -111,7 +110,7 @@ class FiberBidItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              // fontFamily: 'Metropolis',
+                              
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,
@@ -337,7 +336,7 @@ class FiberBidItem extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 9.sp,
-                                                      fontFamily: 'Metropolis',
+                                                      
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
@@ -350,7 +349,7 @@ class FiberBidItem extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: Colors.green,
                                                       fontSize: 9.sp,
-                                                      fontFamily: 'Metropolis',
+                                                      
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
@@ -439,7 +438,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w400),
                                       ),
                                       TextSpan(
@@ -449,7 +448,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 17.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w600),
                                       ),
                                       TextSpan(
@@ -458,7 +457,7 @@ class FiberBidItem extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
-                                            fontFamily: 'Metropolis',
+                                            
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ])),
@@ -610,7 +609,7 @@ class FiberBidItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/network_icon_widget.dart';
-import 'package:yg_app/elements/yarn_widgets/listview_famiy_tile.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
@@ -131,7 +129,6 @@ class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
   }
 
   String? getImageUrl(bool checked,int castingCheckPos,index) {
-    String url= "";
     if(checked == true){
       if(castingCheckPos == 0){
         return widget.listItem!.cast<FiberBlends>()[index].iconSelected??"";

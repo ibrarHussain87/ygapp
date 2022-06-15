@@ -5,6 +5,15 @@ import 'package:yg_app/model/enum_phone.dart';
 
 import 'offering_requirment_bottom_sheet.dart';
 
+class MyActions {
+  String title;
+  IconData icon;
+  String value;
+
+  MyActions(this.title, this.icon,this.value);
+}
+
+
 final List<MyActions> actionsList = [
   MyActions('Phone', Icons.phone,'1'),
   MyActions('Whatsapp', Icons.whatsapp,"0"),
@@ -46,7 +55,7 @@ showBottomSheetPhone(BuildContext context,Function callback) {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Align(
                         alignment: Alignment.center,
@@ -89,7 +98,7 @@ class ItemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/2,
       child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),

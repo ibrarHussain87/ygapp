@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -122,7 +122,7 @@ Widget buildSuperMembershipWidget(
                         return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
-                                    fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                  fontSize: 16.sp,fontWeight: FontWeight.w600)),
                             style: ButtonStyle(
                                 foregroundColor:
                                 MaterialStateProperty.all<Color>(btnTextColor),
@@ -241,7 +241,7 @@ Widget buildFreeMembershipWidget(
                         return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
-                                    fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                    fontSize: 16.sp,fontWeight: FontWeight.w600)),
                             style: ButtonStyle(
                                 foregroundColor:
                                 MaterialStateProperty.all<Color>(btnTextColor),
@@ -384,7 +384,7 @@ Widget buildPremiumMembershipWidget(
                         return TextButton(
                             child: Text("Choose",
                                 style: TextStyle(
-                                    fontFamily: 'Metropolis', fontSize: 16.sp,fontWeight: FontWeight.w600)),
+                                     fontSize: 16.sp,fontWeight: FontWeight.w600)),
                             style: ButtonStyle(
                                 foregroundColor:
                                 MaterialStateProperty.all<Color>(btnTextColor),

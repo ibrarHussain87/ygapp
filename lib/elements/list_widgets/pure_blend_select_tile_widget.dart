@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
-import '../../locators.dart';
-import '../../providers/yarn_providers/post_yarn_provider.dart';
-
 class PureBlendSelectTileWidget extends StatefulWidget {
   final Function? callback;
   final Function? selectedValue;
@@ -12,30 +9,31 @@ class PureBlendSelectTileWidget extends StatefulWidget {
   final int? spanCount;
   final int? selectedIndex;
 
-  const PureBlendSelectTileWidget(
-      {Key? key,
-        required this.spanCount,
-        required this.callback,
-        required this.selectedValue,
-        required this.listOfItems,
-        this.selectedIndex,
-      })
-      : super(key: key);
+  const PureBlendSelectTileWidget({
+    Key? key,
+    required this.spanCount,
+    required this.callback,
+    required this.selectedValue,
+    required this.listOfItems,
+    this.selectedIndex,
+  }) : super(key: key);
 
   @override
-  PureBlendSelectTileWidgetState createState() => PureBlendSelectTileWidgetState();
+  PureBlendSelectTileWidgetState createState() =>
+      PureBlendSelectTileWidgetState();
 }
 
 class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
   int? checkedTile;
   late double aspectRatio;
   var looger = Logger();
-  final _postYarnProvider = locator<PostYarnProvider>();
+
+  // final _postYarnProvider = locator<PostYarnProvider>();
   dynamic selectedBlend;
 
   @override
   void initState() {
-    print("Index"+widget.selectedIndex.toString());
+    Logger().e("Index" + widget.selectedIndex.toString());
 
     checkedTile = widget.selectedIndex ?? 0;
     if (widget.spanCount == 2) {
@@ -45,13 +43,13 @@ class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
     } else {
       aspectRatio = 2.2;
     }
-   // selectedBlend = widget.listOfItems.first;
+    // selectedBlend = widget.listOfItems.first;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  GridView.builder(
+    return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,12 +59,10 @@ class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
           childAspectRatio: 9.5),
       itemCount: widget.listOfItems.length,
       itemBuilder: (context, index) {
-        return  buildGrid(index);
+        return buildGrid(index);
       },
     );
   }
-
-
 
   Widget buildGrid(int index) {
     bool checked = index == checkedTile;
@@ -86,14 +82,13 @@ class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
     );
   }
 
-
   Container buildContainer(bool checked, int index) {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.transparent,
-          ),
+        border: Border.all(
+          color: Colors.transparent,
+        ),
 //          color: checked
 //              ? darkBlueChip
 //              : lightBlueChip,
@@ -114,12 +109,12 @@ class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
                   style: TextStyle(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
-                      color:Colors.black87),
+                      color: Colors.black87),
 //                      color: checked ? Colors.white : darkBlueChip),
                 ),
               ),
               Expanded(
-                child:GestureDetector(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       checkedTile = index;
@@ -128,31 +123,32 @@ class PureBlendSelectTileWidgetState extends State<PureBlendSelectTileWidget> {
                     widget.callback!(widget.listOfItems[index]);
                     widget.selectedValue!(checkedTile);
                   },
-                  child: widget.listOfItems[index] == selectedBlend ?
-                  const Icon(Icons.radio_button_checked,
-                    size: 14,
-                    color: Colors.blueAccent,
-                  ):
-                  const Icon(Icons.radio_button_off,
-                    size: 14,
-                    color: Colors.black87,
-                  ),
+                  child: widget.listOfItems[index] == selectedBlend
+                      ? const Icon(
+                          Icons.radio_button_checked,
+                          size: 14,
+                          color: Colors.blueAccent,
+                        )
+                      : const Icon(
+                          Icons.radio_button_off,
+                          size: 14,
+                          color: Colors.black87,
+                        ),
                 ),
               ),
             ],
           ),
-          const Divider(color: Colors.black12,),
+          const Divider(
+            color: Colors.black12,
+          ),
         ],
-
       ),
     );
   }
 
-
-  resetWidget(){
+  resetWidget() {
     setState(() {
       checkedTile = 0;
-
     });
   }
 }

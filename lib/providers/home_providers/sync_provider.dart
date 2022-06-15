@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/model/request/sync_request/sync_request.dart';
@@ -29,7 +30,7 @@ class SyncProvider extends ChangeNotifier {
     Logger().e(dataSynced.toString());
     if (!dataSynced) {
       await Future.wait([
-        ApiService.syncFiber(SyncRequestModel(categoryId: '1')).then((
+        ApiService().syncFiber(SyncRequestModel(categoryId: '1')).then((
             syncFiberResponse) {
           if (syncFiberResponse.status) {
             AppDbInstance().getDbInstance().then((value) async {
@@ -78,7 +79,7 @@ class SyncProvider extends ChangeNotifier {
             });
           }
         }),
-        ApiService.syncYarn(SyncRequestModel(categoryId: '2')).then((
+        ApiService().syncYarn(SyncRequestModel(categoryId: '2')).then((
             syncYarnResponse) {
           if (syncYarnResponse.status!) {
             AppDbInstance().getDbInstance().then((value) async {
@@ -147,7 +148,7 @@ class SyncProvider extends ChangeNotifier {
             });
           }
         }),
-        ApiService.syncCall(SyncRequestModel(categoryId: '5')).then((
+        ApiService().syncCall(SyncRequestModel(categoryId: '5')).then((
             StockLotSyncResponse response) {
           if (response.status!) {
             Logger().e(
@@ -162,7 +163,7 @@ class SyncProvider extends ChangeNotifier {
             });
           }
         }),
-        ApiService.syncFabricCall(SyncRequestModel(categoryId: '3')).then((
+        ApiService().syncFabricCall(SyncRequestModel(categoryId: '3')).then((
             FabricSyncResponse response) {
           if (response.status!) {
             Logger().e("Fabric Sync got successfully : " +

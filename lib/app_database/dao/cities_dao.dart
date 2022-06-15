@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 
 import '../../model/pre_login_response.dart';
 

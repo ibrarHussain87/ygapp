@@ -11,7 +11,7 @@ import 'package:yg_app/model/response/fiber_response/fiber_specification.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
-import '../../elements/list_widgets/cat_with_image_listview_widget.dart';
+import '../../elements/list_widgets/blend_with_image_listview_widget.dart';
 
 class FiberSpecificationProvider extends ChangeNotifier {
   bool isLoading = true;
@@ -331,7 +331,7 @@ class FiberSpecificationProvider extends ChangeNotifier {
   }
 
   getUpdatedFiberSpecificationsData() async {
-    var response = await ApiService.getFiberSpecifications(
+    var response = await ApiService().getFiberSpecifications(
         _specificationRequestModel, locality);
     fiberSpecificationResponse = response;
     notifyListeners();
@@ -340,7 +340,7 @@ class FiberSpecificationProvider extends ChangeNotifier {
   Future<FiberSpecificationResponse> getFibers(String locality) async {
     _specificationRequestModel.locality = locality;
     specificationRequestModel.categoryId = "1";
-    var response = await ApiService.getFiberSpecifications(
+    var response = await ApiService().getFiberSpecifications(
         _specificationRequestModel, locality);
     fiberSpecificationResponse = response;
     return response;

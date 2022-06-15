@@ -138,7 +138,7 @@ class PersonalInfoComponentState
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          // fontFamily: 'Metropolis',
+                          
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -151,7 +151,7 @@ class PersonalInfoComponentState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /*fontFamily: 'Metropolis',*/
+                        /**/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -195,7 +195,7 @@ class PersonalInfoComponentState
                                         style: TextStyle(
                                             fontSize: 12.sp,
                                             color:isEmail ? Colors.white : Colors.black54
-                                          /*fontFamily: 'Metropolis',*/
+                                          /**/
                                         )),)
                                 ),
                               ),
@@ -222,7 +222,7 @@ class PersonalInfoComponentState
                                         style: TextStyle(
                                             fontSize: 12.sp,
                                             color: isEmail ? Colors.black54 : Colors.white
-                                          /*fontFamily: 'Metropolis',*/
+                                          /**/
                                         )),)
                                 ),
                               ),
@@ -241,7 +241,7 @@ class PersonalInfoComponentState
                                   child:  Text("Register",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /*fontFamily: 'Metropolis',*/
+                                        /**/
                                       )),
 
                                   style: ButtonStyle(
@@ -624,7 +624,7 @@ class PersonalInfoComponentState
                   // Note: Styles for TextSpans must be explicitly defined.
                   // Child text spans will inherit styles from parent
                   style: TextStyle(
-                    fontFamily: 'Metropolis',
+                    
                     fontSize: 14.0.sp,
                     color: Colors.black,
                   ),
@@ -632,8 +632,7 @@ class PersonalInfoComponentState
                     TextSpan(
                         text: 'I agree to ',
                         style: TextStyle(
-                            fontFamily:
-                            'Metropolis',
+                
                             fontSize: 12.sp,
                             color:
                             textColorGrey)),
@@ -641,8 +640,7 @@ class PersonalInfoComponentState
                         text:
                         'terms & conditions',
                         style: TextStyle(
-                            fontFamily:
-                            'Metropolis',
+                
                             fontSize: 12.sp,
                             color:
                             textColorGrey)),
@@ -934,7 +932,7 @@ class PersonalInfoComponentState
         _signupRequestModel?.email =_signupRequestModel?.email;
         _signupRequestModel?.name = _signupRequestModel?.name;
         Logger().e(_signupRequestModel?.toJson());
-        ApiService.signup(_signupRequestModel!).then((value) {
+        ApiService().signup(_signupRequestModel!).then((value) {
           // Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
           if (value.errors != null) {

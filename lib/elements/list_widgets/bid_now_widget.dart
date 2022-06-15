@@ -4,12 +4,12 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 
 class BidNowWidget extends StatelessWidget {
 
-  String title;
-  double? size;
-  double? padding;
-  Color? color;
+  final String title;
+  final double? size;
+  final double? padding;
+  final Color? color;
 
-  BidNowWidget({Key? key,required this.title,this.size,this.padding,this.color}) : super(key: key);
+  const BidNowWidget({Key? key,required this.title,this.size,this.padding,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

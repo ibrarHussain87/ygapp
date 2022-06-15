@@ -1,22 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:logger/logger.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
-import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
-import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/top_round_corners.dart';
 import '../../helper_utils/ui_utils.dart';
-import '../../locators.dart';
-import '../../model/request/post_ad_request/create_request_model.dart';
 import '../../model/request/post_fabric_request/create_fabric_request_model.dart';
 import '../list_widgets/single_select_tile_widget.dart';
 
@@ -225,7 +217,7 @@ fabricPlySheet(
                             return TextButton(
                                 child: Text("Done",
                                     style: TextStyle(
-                                      /*fontFamily: 'Metropolis',*/ fontSize: 14.sp)),
+                                      /**/ fontSize: 14.sp)),
                                 style: ButtonStyle(
                                     foregroundColor: MaterialStateProperty.all<Color>(
                                         Colors.white),

@@ -1,21 +1,18 @@
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../model/response/login/login_response.dart';
 
-class UserNotifier extends ChangeNotifier{
-
+class UserNotifier extends ChangeNotifier {
   late User user;
 
   UserNotifier(this.user);
 
-  updateUser(User userNew){
+  updateUser(User userNew) {
     user = userNew;
     notifyListeners();
   }
 
-  getUser(){
+  getUser() {
     return user;
   }
-
 }

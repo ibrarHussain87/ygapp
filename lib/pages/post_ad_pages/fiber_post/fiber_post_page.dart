@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/custom_header.dart';
-import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/locators.dart';
@@ -145,7 +145,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                         ],
                       ),
                       Visibility(
-                        visible: widget.selectedTab == offering_type,
+                        visible: widget.selectedTab == offeringType,
                         child: const SizedBox(
                           height: 8,
                         ),

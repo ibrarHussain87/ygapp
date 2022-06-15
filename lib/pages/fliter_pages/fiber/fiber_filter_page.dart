@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/elevated_button_widget_2.dart';
+import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/filter_widget/filter_range_slider.dart';
-import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
+import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/locators.dart';
@@ -441,8 +441,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                       hint: const Text(
                                                         'Select country',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                'Metropolis'),
+                                                            ),
                                                       ),
                                                       items: _fiberSpecificationProvider
                                                           .countries
@@ -455,8 +454,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                                                         TextAlign
                                                                             .center,
                                                                     style: const TextStyle(
-                                                                        fontFamily:
-                                                                            'Metropolis')),
+                                                                       )),
                                                                 value: value,
                                                               ))
                                                           .toList(),

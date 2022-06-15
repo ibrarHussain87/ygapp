@@ -1,4 +1,4 @@
-//import 'package:flutter/cupertino.dart';
+//
 //import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 //import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +8,7 @@
 //import 'package:provider/provider.dart';
 //import 'package:yg_app/app_database/app_database_instance.dart';
 //import 'package:yg_app/elements/decoration_widgets.dart';
-//import 'package:yg_app/elements/title_text_widget.dart';
+//import 'package:yg_app/elements/text_widgets.dart';
 //import 'package:yg_app/elements/yg_text_form_field.dart';
 //import 'package:yg_app/helper_utils/app_colors.dart';
 //import 'package:yg_app/helper_utils/fabric_bottom_sheet.dart';
@@ -459,7 +459,7 @@
 //                                                            fontSize: 14.sp,
 //                                                            backgroundColor:
 //                                                            Colors.white,
-//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            /**/
 //                                                            fontWeight:
 //                                                            FontWeight
 //                                                                .w500),
@@ -468,7 +468,7 @@
 //                                                          style: TextStyle(
 //                                                              color: Colors.red,
 //                                                              fontSize: 16.sp,
-//                                                              /*fontFamily: 'Metropolis',*/
+//                                                              /**/
 //                                                              backgroundColor:
 //                                                              Colors.white,
 //                                                              fontWeight:
@@ -579,7 +579,7 @@
 //                                                            fontSize: 14.sp,
 //                                                            backgroundColor:
 //                                                            Colors.white,
-//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            /**/
 //                                                            fontWeight:
 //                                                            FontWeight
 //                                                                .w500),
@@ -588,7 +588,7 @@
 //                                                          style: TextStyle(
 //                                                              color: Colors.red,
 //                                                              fontSize: 16.sp,
-//                                                              /*fontFamily: 'Metropolis',*/
+//                                                              /**/
 //                                                              backgroundColor:
 //                                                              Colors.white,
 //                                                              fontWeight:
@@ -696,7 +696,7 @@
 //                                                    style: TextStyle(
 //                                                        color: Colors.black87,
 //                                                        fontSize: 14.sp,
-//                                                        /*fontFamily: 'Metropolis',*/
+//                                                        /**/
 //                                                        fontWeight:
 //                                                        FontWeight.w500),
 //                                                  ),
@@ -704,7 +704,7 @@
 //                                                      style: TextStyle(
 //                                                          color: Colors.red,
 //                                                          fontSize: 16.sp,
-//                                                          /*fontFamily: 'Metropolis',*/
+//                                                          /**/
 //                                                          fontWeight:
 //                                                          FontWeight.w500)),
 //                                                ],
@@ -806,7 +806,7 @@
 //                                                    color: Colors.black87,
 //                                                    fontSize: 14.sp,
 //                                                    backgroundColor: Colors.white,
-//                                                    /*fontFamily: 'Metropolis',*/
+//                                                    /**/
 //                                                    fontWeight: FontWeight.w500),
 //                                              ),
 //                                              Text("*",
@@ -815,7 +815,7 @@
 //                                                      Colors.white,
 //                                                      color: Colors.red,
 //                                                      fontSize: 16.sp,
-//                                                      /*fontFamily: 'Metropolis',*/
+//                                                      /**/
 //                                                      fontWeight:
 //                                                      FontWeight.w500)),
 //                                            ],
@@ -1216,7 +1216,7 @@
 //                                                    fontSize: 14.sp,
 //                                                    backgroundColor:
 //                                                    Colors.white,
-//                                                    /*fontFamily: 'Metropolis',*/
+//                                                    /**/
 //                                                    fontWeight:
 //                                                    FontWeight.w500),
 //                                              ),
@@ -1224,7 +1224,7 @@
 //                                                  style: TextStyle(
 //                                                      color: Colors.red,
 //                                                      fontSize: 16.sp,
-//                                                      /*fontFamily: 'Metropolis',*/
+//                                                      /**/
 //                                                      backgroundColor:
 //                                                      Colors.white,
 //                                                      fontWeight:

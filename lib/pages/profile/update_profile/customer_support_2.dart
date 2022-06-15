@@ -3,16 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/bottom_sheets/bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
-import 'package:yg_app/elements/bottom_sheets/bottom_sheet.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 
-import '../../../elements/custom_header.dart';
-
 import '../../../api_services/api_service_class.dart';
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../model/pre_login_response.dart';
@@ -100,7 +99,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                           Expanded(
                             flex: 3,
                             child: Text(
-                              contact_us,
+                              contactUs,
                               textAlign: TextAlign.center,
                               style:  TextStyle(
                                   color: Colors.white,
@@ -350,7 +349,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                 return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                            fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
@@ -406,7 +405,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
                       const SizedBox(height: 15,),
-                      Text(share_tweet,
+                      Text(shareTweet,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 20.0.sp,
@@ -422,12 +421,12 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                               Text.rich(
                                 TextSpan(
                                   children: [
-                                    TextSpan(text:twitter_name,style: TextStyle(
+                                    TextSpan(text:twitterName,style: TextStyle(
                                         fontSize: 12.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500)),
                                     TextSpan(
-                                      text: twitter_user_name,
+                                      text: twitterUserName,
                                       style: TextStyle(
                                             fontSize: 12.0.sp,
                                             color: sub_head_color_share,
@@ -437,7 +436,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                 ),
                               ),
                               const SizedBox(height: 5,),
-                              Text(via_direct_message,
+                              Text(viaDirectMessage,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 12.0.sp,
@@ -452,7 +451,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                         children: [
                           const Icon(Icons.email_outlined,size: 26,color:Colors.black54,),
                           const SizedBox(width: 15,),
-                          Text(send_via_direct_message,
+                          Text(sendViaDirectMessage,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 14.0.sp,
@@ -479,7 +478,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                 ),
                               ),
                               const SizedBox(height: 5,),
-                              Text(bookmark_text,
+                              Text(bookmarkText,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 12.0.sp,
@@ -500,7 +499,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                 ),
                               ),
                               const SizedBox(height: 5,),
-                              Text(copy_link_text,
+                              Text(copyLinkText,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 12.0.sp,
@@ -521,7 +520,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                 ),
                               ),
                               const SizedBox(height: 5,),
-                              Text(share_via_text,
+                              Text(shareViaText,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 12.0.sp,
@@ -555,7 +554,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
-                                Text(whatsapp_text,
+                                Text(whatsappText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 12.0.sp,
@@ -577,7 +576,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
-                                Text(message_text,
+                                Text(messageText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 12.0.sp,
@@ -599,7 +598,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
-                                Text(news_feed_text,
+                                Text(newsFeedText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 12.0.sp,
@@ -621,7 +620,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
-                                Text(gmail_text,
+                                Text(gmailText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 12.0.sp,
@@ -643,7 +642,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                   ),
                                 ),
                                 const SizedBox(height: 5,),
-                                Text(telegram_text,
+                                Text(telegramText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: 12.0.sp,
@@ -679,7 +678,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
 
         Logger().e(_csRequestModel?.toJson());
-        ApiService.createCustomerService(_csRequestModel!).then((value) {
+        ApiService().createCustomerService(_csRequestModel!).then((value) {
 
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

@@ -56,7 +56,7 @@ class SlidingAlertWidget extends StatelessWidget {
                                     color: Colors.black87,
                                     fontSize: 9.sp,
                                     fontWeight: FontWeight.w400,
-                                    /*fontFamily: 'Metropolis',*/
+                                    /**/
                                   )),
                             ),
                           ),
@@ -78,7 +78,7 @@ class SlidingAlertWidget extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 9.sp,
-                                        /*fontFamily: 'Metropolis',*/)),
+                                        /**/)),
                               ),
                             ],
                           )

@@ -3,19 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 class FabricFamilyTileWidget extends StatefulWidget {
-
   final List<dynamic>? listItems;
   final Function? callback;
   final int? selectedIndex;
 
-  const FabricFamilyTileWidget({Key? key, required this.listItems,required this.callback,this.selectedIndex}) : super(key: key);
+  const FabricFamilyTileWidget(
+      {Key? key,
+      required this.listItems,
+      required this.callback,
+      this.selectedIndex})
+      : super(key: key);
 
   @override
   FabricFamilyTileWidgetState createState() => FabricFamilyTileWidgetState();
 }
 
 class FabricFamilyTileWidgetState extends State<FabricFamilyTileWidget> {
-
   int? checkedFamily;
   bool disableClick = false;
 
@@ -33,8 +36,8 @@ class FabricFamilyTileWidgetState extends State<FabricFamilyTileWidget> {
         shrinkWrap: true,
         itemCount: widget.listItems!.length,
         itemBuilder: (context, index) {
-      return buildWidget(index);
-    });
+          return buildWidget(index);
+        });
   }
 
   Widget buildWidget(int index) {
@@ -42,7 +45,7 @@ class FabricFamilyTileWidgetState extends State<FabricFamilyTileWidget> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        if(!disableClick){
+        if (!disableClick) {
           setState(() {
             checkedFamily = index;
           });
@@ -50,23 +53,20 @@ class FabricFamilyTileWidgetState extends State<FabricFamilyTileWidget> {
         }
       },
       child: Container(
-        width: 0.2*MediaQuery.of(context).size.width,
+        width: 0.2 * MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(4.w),
         decoration: BoxDecoration(
             border: Border.all(
               color: Colors.transparent,
             ),
-            color: checked
-                ? darkBlueChip
-                : lightBlueChip,
+            color: checked ? darkBlueChip : lightBlueChip,
             borderRadius: BorderRadius.all(Radius.circular(5.w))),
         child: Center(
           child: Text(
             widget.listItems![index].toString(),
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 11.sp,
-                color: checked ? Colors.white : darkBlueChip),
+                fontSize: 11.sp, color: checked ? Colors.white : darkBlueChip),
           ),
         ),
       ),

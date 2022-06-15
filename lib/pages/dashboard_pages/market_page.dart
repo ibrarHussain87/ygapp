@@ -10,6 +10,7 @@ import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
+
 import '../../helper_utils/app_images.dart';
 import '../market_pages/fabric_page/fabric_page.dart';
 import '../market_pages/stocklot_page/stocklot_page.dart';
@@ -285,7 +286,7 @@ class MarketPageState extends State<MarketPage>
             tabsList[i],
             style: TextStyle(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w500, /*fontFamily: 'Metropolis',*/
+              fontWeight: FontWeight.w500, /**/
             ),
           ),
         ),

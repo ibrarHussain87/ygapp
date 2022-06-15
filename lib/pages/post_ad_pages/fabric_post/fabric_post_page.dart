@@ -1,21 +1,16 @@
-import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/blend_model_extended.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/request/post_fabric_request/create_fabric_request_model.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
@@ -173,7 +168,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
 //                ),
           ),
           Visibility(
-              visible: widget.businessArea == offering_type,
+              visible: widget.businessArea == offeringType,
               child: const SizedBox(
                 height: 20,
               )),

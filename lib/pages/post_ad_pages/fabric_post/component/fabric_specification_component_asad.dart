@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +15,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/bottom_sheets/weft_bottom_sheet.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -279,7 +279,7 @@ class FabricSpecificationComponentState
           if (snapshot.data != null) {
             if (snapshot.data!.isNotEmpty) {
               _resetData();
-              ApiService.logger.e(_createRequestModel!.toJson());
+              ApiService().logger.e(_createRequestModel!.toJson());
               _fabricSettings = /*snapshot.data![0]*/
                   postFabricProvider.fabricSetting!.first;
             }
@@ -1844,7 +1844,7 @@ class FabricSpecificationComponentState
                                 Visibility(
                                     visible:
                                         _fabricSettings!.fabricFamilyIdfk ==
-                                            FABRIC_MIRCOFIBER_ID,
+                                            fabricMicroFiberId,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Column(
@@ -2099,7 +2099,7 @@ class FabricSpecificationComponentState
                         handleNextClick();
                       },
                       color: btnColorLogin,
-                      btnText: widget.businessArea == offering_type
+                      btnText: widget.businessArea == offeringType
                           ? "Next"
                           : submit,
                     ),
@@ -2190,7 +2190,7 @@ class FabricSpecificationComponentState
         _createRequestModel!.fs_quality_idfk = null;
       }*/
       postFabricProvider.setRequestModel(_createRequestModel!);
-      if (widget.businessArea == offering_type) {
+      if (widget.businessArea == offeringType) {
         widget.callback!(1);
       } else {
         showGenericDialog(
@@ -2221,7 +2221,7 @@ class FabricSpecificationComponentState
 
       ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-      ApiService.createFabricSpecification(_createRequestModel!,
+      ApiService().createFabricSpecification(_createRequestModel!,
               imageFiles.isNotEmpty ? imageFiles[0].path : "")
           .then((value) {
         ProgressDialogUtil.hideDialog();
@@ -2391,7 +2391,7 @@ class FabricSpecificationComponentState
         Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_createRequestModel!.fs_color == null &&
-          _fabricSettings!.fabricFamilyIdfk == FABRIC_MIRCOFIBER_ID) {
+          _fabricSettings!.fabricFamilyIdfk == fabricMicroFiberId) {
         Ui.showSnackBar(context, 'Please Select Color');
         return false;
       } else if (_createRequestModel!.fs_appearance_idfk == null &&
@@ -2467,7 +2467,7 @@ class FabricSpecificationComponentState
                         ),
                       )),
                   Text(
-                    sheet_title,
+                    sheetTitle,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20.0.sp,
@@ -2492,7 +2492,7 @@ class FabricSpecificationComponentState
                           return TextButton(
                               child: Text("Add",
                                   style: TextStyle(
-                                      fontFamily: 'Metropolis',
+                                      
                                       fontSize: 14.sp)),
                               style: ButtonStyle(
                                   foregroundColor:
@@ -2562,7 +2562,7 @@ class FabricSpecificationComponentState
                           ),
                         )),
                     Text(
-                      sheet_title,
+                      sheetTitle,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20.0.sp,
@@ -2592,7 +2592,7 @@ class FabricSpecificationComponentState
                             return ElevatedButton(
                                 child: Text("Add",
                                     style: TextStyle(
-                                        fontFamily: 'Metropolis',
+                                        
                                         fontSize: 14.sp)),
                                 style: ButtonStyle(
                                     foregroundColor:
@@ -2628,7 +2628,7 @@ class FabricSpecificationComponentState
                                         values.clear();
 
                                         Fluttertoast.showToast(
-                                            msg: blend_message,
+                                            msg: blendMessage,
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 1);

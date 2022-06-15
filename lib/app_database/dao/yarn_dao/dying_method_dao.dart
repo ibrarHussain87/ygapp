@@ -1,6 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/certification_response.dart';
-import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
 @dao

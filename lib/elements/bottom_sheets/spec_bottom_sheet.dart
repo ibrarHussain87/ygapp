@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 import '../../helper_utils/top_round_corners.dart';
@@ -19,10 +19,10 @@ specsSheet(BuildContext context,
     )
 {
 
-  final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
-  String? _selectedPlyId;
-  int checkedTile;
-  checkedTile = selectedIndex;
+  // final ValueNotifier<bool> showDoublingMethod = ValueNotifier(false);
+  // String? _selectedPlyId;
+  // int checkedTile;
+  // checkedTile = selectedIndex;
 
 
   showModalBottomSheet<int>(
@@ -83,7 +83,7 @@ specsSheet(BuildContext context,
                       selectedValue: (int checkedValue)
                       {
 
-                        print("Calue +"+checkedValue.toString());
+                        Logger().e("Calue +"+checkedValue.toString());
                         checkedIndex(checkedValue);
                       },
                       callback: (value) {

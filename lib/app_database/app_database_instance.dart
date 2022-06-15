@@ -4,14 +4,10 @@ import 'package:yg_app/model/response/common_response_models/category_response.d
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
-import 'package:yg_app/model/response/common_response_models/cone_type_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
 import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
-import 'package:yg_app/model/response/common_response_models/ports_response.dart';
-import 'package:yg_app/model/response/common_response_models/price_term.dart';
-import 'package:yg_app/model/response/common_response_models/unit_of_count.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';

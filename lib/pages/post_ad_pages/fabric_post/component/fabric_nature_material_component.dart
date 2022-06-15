@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcast_receiver/flutter_broadcast_receiver.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/elements/list_widgets/cat_with_image_listview_widget.dart';
-import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 
-import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
-import '../../../../elements/yarn_widgets/listview_famiy_tile.dart';
 import '../../../../model/response/fabric_response/sync/fabric_sync_response.dart';
+import '../../../../providers/fabric_providers/post_fabric_provider.dart';
 
 class FabricNatureMaterialComponent extends StatefulWidget {
 
@@ -80,7 +75,7 @@ class _FabricNatureMaterialComponentState
                                   element.familyIdfk == value.fabricFamilyId.toString())
                               .toList().first
                               .blnId);*/
-                      if(_selectedNature != FABRIC_MIRCOFIBER_ID/*Microfiber*/){
+                      if(_selectedNature != fabricMicroFiberId/*Microfiber*/){
                         var blend = widget.materialList
                             .where((element) =>
                         element.familyIdfk == value.fabricFamilyId.toString())
@@ -102,7 +97,7 @@ class _FabricNatureMaterialComponentState
           ],
         ),
         Visibility(
-          visible: _selectedNature != FABRIC_MIRCOFIBER_ID,
+          visible: _selectedNature != fabricMicroFiberId,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

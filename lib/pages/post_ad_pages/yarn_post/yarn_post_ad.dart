@@ -1,17 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/elements/bottom_sheets/family_bottom_sheet.dart';
 import 'package:yg_app/elements/bottom_sheets/generic_blend_bottom_sheet.dart';
 import 'package:yg_app/elements/custom_header.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/blend_model.dart';
 import 'package:yg_app/model/blend_model_extended.dart';
 import 'package:yg_app/model/request/post_ad_request/create_request_model.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 import 'package:yg_app/pages/post_ad_pages/yarn_post/component/yarn_steps_segments.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 
@@ -199,7 +198,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
       for (var element in _postYarnProvider.selectedBlends) {
         if (element.isSelected ?? false) {
           var blend = element as Blends;
-         // stringList.add(element.blnName);
+          // stringList.add(element.blnName);
           if (blend.has_blend_id_1 != null) {
             BlendModel formationModel = BlendModel(
                 id: int.parse(blend.has_blend_id_1!),
@@ -249,10 +248,12 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
             var blend = element as Blends;
             if (blend.blendRatio!.isNotEmpty) {
               String blendFormat;
-              if(blend.bln_nature == "Pure"){
-                blendFormat = '${blend.blnName} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
-              }else{
-                blendFormat = '${blend.bln_abrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              if (blend.bln_nature == "Pure") {
+                blendFormat =
+                    '${blend.blnName} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
+              } else {
+                blendFormat =
+                    '${blend.bln_abrv} (${element.blendRatio}:${(100 - int.parse(element.blendRatio!)).toString()})';
               }
               stringList.add(blendFormat);
             }
@@ -263,11 +264,10 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
         if (_postYarnProvider.selectedBlends.length == 1) {
           var blend = _postYarnProvider.selectedBlends.first as Blends;
           if (blend.isSelected ?? false) {
-            if(blend.bln_nature == "Pure"){
+            if (blend.bln_nature == "Pure") {
               stringList.add(blend.blnName);
-            }else{
+            } else {
               stringList.add(blend.bln_abrv);
-
             }
           }
         } else {
@@ -276,20 +276,20 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
           for (var element in _postYarnProvider.selectedBlends) {
             if (element.isSelected ?? false) {
               var blend = element as Blends;
-              if(blend.bln_abrv != null && blend.bln_abrv!.isNotEmpty){
+              if (blend.bln_abrv != null && blend.bln_abrv!.isNotEmpty) {
                 blendAbrevs += blend.bln_abrv!;
               }
-              if(blend.blendRatio != null && blend.blendRatio!.isNotEmpty){
-                if(blendRatios.isEmpty){
+              if (blend.blendRatio != null && blend.blendRatio!.isNotEmpty) {
+                if (blendRatios.isEmpty) {
                   blendRatios += blend.blendRatio!;
-                }else{
+                } else {
                   blendRatios += ':';
                   blendRatios += blend.blendRatio!;
                 }
               }
             }
           }
-          if(blendAbrevs.isNotEmpty && blendRatios.isNotEmpty){
+          if (blendAbrevs.isNotEmpty && blendRatios.isNotEmpty) {
             var blendFormat = '$blendAbrevs ($blendRatios)';
             stringList.add(blendFormat);
           }

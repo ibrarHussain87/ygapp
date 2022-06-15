@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yg_app/model/home_model.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:yg_app/model/home_model.dart';
 class HomeCardWidget extends StatefulWidget {
   final Function? callback;
   final List<HomeModel> listOfItems;
@@ -117,7 +117,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12.sp,
-                    // fontFamily: 'Metropolis',
+                    
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
               )

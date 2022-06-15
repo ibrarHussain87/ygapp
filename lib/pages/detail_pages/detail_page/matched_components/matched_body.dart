@@ -2,15 +2,14 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/list_widgets/brand_text.dart';
+import 'package:yg_app/elements/text_widgets.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
+import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/helper_utils/progress_dialog_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/list_bidder_response.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
-import 'package:yg_app/helper_utils/progress_dialog_util.dart';
-
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
 
 class MatchedPageBody extends StatefulWidget {
   final ListBiddersData listBiddersData;
@@ -150,7 +149,7 @@ class _MatchedPageBodyState extends State<MatchedPageBody> {
 
   _changeBidApi(bidId, status) {
     ProgressDialogUtil.showDialog(context, "Please wait...");
-    ApiService.bidChangeStatus(bidId, status).then((value) {
+    ApiService().bidChangeStatus(bidId, status).then((value) {
       ProgressDialogUtil.hideDialog();
       if (value.status) {
         setState(() {

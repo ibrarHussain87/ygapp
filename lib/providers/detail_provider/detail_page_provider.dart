@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
@@ -13,7 +14,6 @@ import 'package:yg_app/pages/detail_pages/detail_page/detail_tab.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/history_bids_component/history_bids_page.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/list_bidder_components/bider_tab.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/matched_components/matched_tab_page.dart';
-import 'package:intl/intl.dart';
 
 class DetailPageProvider extends ChangeNotifier {
   late bool isFiber, isYarn, isFabric, isStockLot;
@@ -279,7 +279,7 @@ class DetailPageProvider extends ChangeNotifier {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17.sp,
-                        // /*fontFamily: 'Metropolis',*/,
+                        // /**/,
                         fontWeight: FontWeight.w600),
                   ),
                   TextSpan(
@@ -288,7 +288,7 @@ class DetailPageProvider extends ChangeNotifier {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
-                        // /*fontFamily: 'Metropolis',*/,
+                        // /**/,
                         fontWeight: FontWeight.w500),
                   ),
                 ]),
@@ -297,11 +297,11 @@ class DetailPageProvider extends ChangeNotifier {
 
   bool? getPriceVisibility() {
     if (isFiber) {
-      return fiberSpecification!.is_offering == offering_type;
+      return fiberSpecification!.is_offering == offeringType;
     } else if (isYarn) {
-      return yarnSpecification!.is_offering == offering_type;
+      return yarnSpecification!.is_offering == offeringType;
     } else if (isFabric) {
-      return fabricSpecification!.isOffering == offering_type;
+      return fabricSpecification!.isOffering == offeringType;
     } else {
       return false;
     }
@@ -373,7 +373,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w400),
       ),
       TextSpan(
@@ -391,7 +391,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -400,7 +400,7 @@ class DetailPageProvider extends ChangeNotifier {
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.sp,
-            /*fontFamily: 'Metropolis',*/
+            /**/
             fontWeight: FontWeight.w400),
       ),
     ];
@@ -1038,11 +1038,11 @@ class DetailPageProvider extends ChangeNotifier {
 
   bool getOfferingVisibility() {
     if (isFiber) {
-      return fiberSpecification!.is_offering == offering_type;
+      return fiberSpecification!.is_offering == offeringType;
     } else if (isYarn) {
-      return yarnSpecification!.is_offering == offering_type;
+      return yarnSpecification!.is_offering == offeringType;
     } else if (isFabric) {
-      return fabricSpecification!.isOffering == offering_type;
+      return fabricSpecification!.isOffering == offeringType;
     } else {
       return true;
     }

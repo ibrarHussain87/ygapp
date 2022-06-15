@@ -1,23 +1,17 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
-import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
 import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/ui_utils.dart';
 import '../../../helper_utils/util.dart';
-import '../../../model/response/fabric_response/fabric_specification_response.dart';
-import '../../elevated_button_widget_2.dart';
-import '../../list_widgets/bg_light_blue_normal_text_widget.dart';
+import '../../elevated_button_without_icon_widget.dart';
 import '../../list_widgets/short_detail_renewed_widget.dart';
-import '../../title_text_widget.dart';
-import '../fabric_list_items_renewed_again.dart';
+import '../../text_widgets.dart';
 
 class StockLotBidsItem extends StatelessWidget {
   final BidData bidData;
@@ -58,7 +52,7 @@ class StockLotBidsItem extends StatelessWidget {
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Metropolis',
+                              
                             ),
                           ),
                           width: MediaQuery.of(context).size.width * 0.30,
@@ -324,7 +318,7 @@ class StockLotBidsItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 6.sp,
-                            fontFamily: 'Metropolis',
+                            
                             fontWeight: FontWeight.bold,
                           ),
                         )),
@@ -377,7 +371,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -386,7 +380,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
     ] : [
@@ -395,7 +389,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 17.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
       TextSpan(
@@ -404,7 +398,7 @@ class StockLotBidsItem extends StatelessWidget {
         style: TextStyle(
             color: Colors.black,
             fontSize: 11.sp,
-            // /*fontFamily: 'Metropolis',*/,
+            // /**/,
             fontWeight: FontWeight.w600),
       ),
     ];

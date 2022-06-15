@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 
 import '../../../../elements/list_items/fabric_list_items_renewed_again.dart';

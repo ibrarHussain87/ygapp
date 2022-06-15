@@ -8,7 +8,7 @@ import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/elements/bottom_sheets/yarn_specs_bottom_sheet.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -56,7 +56,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   final _yarnPostProvider = locator<PostYarnProvider>();
   final _yarnSpecificationProvider = locator<YarnSpecificationsProvider>();
   final ValueNotifier<bool> _notifierPlySheet = ValueNotifier(false);
-  String? tempPatternShow, tempQualityShow;
+
+  // String? tempPatternShow, tempQualityShow;
 
   _changeColor(Color color) {
     pickerColor = color;
@@ -159,55 +160,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
           ),
         ],
       );
-    }
-    /*else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
-      return Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 8.w,
-                ),
-//                Padding(
-//                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
-//                    child: const TitleSmallTextWidget(title: "Grain")),
-                YgTextFormFieldWithoutRange(
-                  onSaved: (input) => _yarnPostProvider.createRequestModel!
-                      .ys_grain_patteren_charactristics = input!,
-                  errorText: "Grain",
-                  label: 'Grain',
-                ),
-              ],
-              crossAxisAlignment: CrossAxisAlignment.start,
-            ),
-          ),
-          Visibility(
-            visible: _selectedPatternId != "16",
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 8.w,
-                  ),
-//                Padding(
-//                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
-//                    child: const TitleSmallTextWidget(title: "Rice")),
-                  YgTextFormFieldWithoutRange(
-                    onSaved: (input) => _yarnPostProvider.createRequestModel!
-                        .ys_rice_patteren_charactristics = input!,
-                    errorText: "Rice",
-                    label: 'Rice',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      );
-    }*/
-    else {
+    } else {
       return Padding(
         padding: EdgeInsets.only(top: 8.w),
         child: Column(
@@ -218,7 +171,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                 child: TitleSmallBoldTextWidget(title: patternChar)),
             SingleSelectTileWidget(
               selectedIndex: -1,
-              key: _patternCharKey,
+              key: _yarnPostProvider.patternCharKey,
               spanCount: 3,
               listOfItems: _yarnPostProvider.patternCharList!,
               callback: (PatternCharectristic value) {
@@ -232,113 +185,6 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
     }
   }
 
-  // queryBlendSettings(int id) {
-  //   AppDbInstance().getDbInstance().then((value) async {
-  //     value.yarnSettingsDao
-  //         .findFamilyAndBlendYarnSettings(
-  //             _yarnPostProvider.blendList[id].blnId!,
-  //             _yarnPostProvider.selectedYarnFamily.famId!)
-  //         .then((value) {
-  //       setState(() {
-  //         if (value.isNotEmpty) {
-  //           _resetData();
-  //           _yarnPostProvider.yarnSetting = value[0];
-  //         }
-  //         _yarnPostProvider.createRequestModel!.ys_family_idfk ??= _yarnPostProvider.selectedYarnFamily.famId!.toString();
-  //       });
-  //     });
-  //   });
-  // }
-
-  // queryFamilySettings(int id) {
-  //   AppDbInstance().getDbInstance().then((value) async {
-  //     value.yarnSettingsDao.findFamilyYarnSettings(id).then((value) {
-  //       setState(() {
-  //         if (value.isNotEmpty) {
-  //           _resetData();
-  //           _yarnPostProvider.yarnSetting = value[0];
-  //         }
-  //         _yarnPostProvider.createRequestModel!.ys_family_idfk =
-  //             _yarnPostProvider.selectedYarnFamily.famId!.toString();
-  //       });
-  //     });
-  //   });
-  // }
-
-  //RESET ALL DATA
-  _resetData() {
-    if (_yarnTypeKey.currentState != null) {
-      _yarnTypeKey.currentState!.resetWidget();
-    }
-    if (_usageKey.currentState != null) {
-      _usageKey.currentState!.resetWidget();
-    }
-    if (_appearanceKey.currentState != null) {
-      _appearanceKey.currentState!.resetWidget();
-    }
-    if (_plyKey.currentState != null) _plyKey.currentState!.resetWidget();
-    if (_patternKey.currentState != null) {
-      _patternKey.currentState!.resetWidget();
-    }
-    if (_patternCharKey.currentState != null) {
-      _patternCharKey.currentState!.resetWidget();
-    }
-    if (_orientationKey.currentState != null) {
-      _orientationKey.currentState!.resetWidget();
-    }
-    if (_spunTechKey.currentState != null) {
-      _spunTechKey.currentState!.resetWidget();
-    }
-    if (_qualityKey.currentState != null) {
-      _qualityKey.currentState!.resetWidget();
-    }
-    if (_certificateKey.currentState != null) {
-      _certificateKey.currentState!.resetWidget();
-    }
-    if (_gradeKey.currentState != null) {
-      _gradeKey.currentState!.resetWidget();
-    }
-    if (_twistDirectionKey.currentState != null) {
-      _twistDirectionKey.currentState!.resetWidget();
-    }
-    if (_doublingMethodKey.currentState != null) {
-      _doublingMethodKey.currentState!.resetWidget();
-    }
-    if (_dyingMethodKey.currentState != null) {
-      _dyingMethodKey.currentState!.resetWidget();
-    }
-    if (_colorTreatmentMethodKey.currentState != null) {
-      _colorTreatmentMethodKey.currentState!.resetWidget();
-    }
-
-    _showDyingMethod = false;
-    _showDoublingMethod = false;
-    _showPatternChar = false;
-    _selectedPatternId = null;
-    _yarnPostProvider.createRequestModel!.ys_family_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_usage_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_blend_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_ratio = null;
-    _yarnPostProvider.createRequestModel!.ys_twist_direction_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_grade_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_fdy_filament = null;
-    _yarnPostProvider.createRequestModel!.ys_dty_filament = null;
-    _yarnPostProvider.createRequestModel!.ys_apperance_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_color_treatment_method_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_dying_method_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_color_code = null;
-    _yarnPostProvider.createRequestModel!.ys_count = null;
-    _yarnPostProvider.createRequestModel!.ys_ply_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_doubling_method_idFk = null;
-    _yarnPostProvider.createRequestModel!.ys_orientation_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_pattern_charectristic_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_certification_idfk = null;
-    _yarnPostProvider.createRequestModel!.ys_yarn_type_idfk = null;
-    _yarnPostProvider.notifyUI();
-  }
-
   bool validateAndSave() {
     final form = _globalFormKey.currentState;
     if (form!.validate()) {
@@ -350,10 +196,12 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   bool validationAllPage() {
     if (validateAndSave()) {
-      if(_yarnPostProvider.createRequestModel!.ys_formation == null){
-        Ui.showSnackBar(context, 'Please add ${_yarnPostProvider.selectedYarnFamily.toString()} formation.');
+      if (_yarnPostProvider.createRequestModel!.ys_formation == null) {
+        Ui.showSnackBar(context,
+            'Please add ${_yarnPostProvider.selectedYarnFamily.toString()} formation.');
         return false;
-      }else if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk == null &&
+      } else if (_yarnPostProvider.createRequestModel!.ys_yarn_type_idfk ==
+              null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showTexturized)) {
         Ui.showSnackBar(context, 'Please Select Textured Yarn Type');
         return false;
@@ -374,19 +222,21 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_dying_method_idfk ==
               null &&
-          _showDyingMethod) {
+          _yarnPostProvider.showDyingMethod) {
         Ui.showSnackBar(context, 'Please Select Dying Method');
         return false;
       } else if (_yarnPostProvider
                   .createRequestModel!.ys_doubling_method_idFk ==
               null &&
-          _showDoublingMethod &&
+          _yarnPostProvider.showDoublingMethod &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showDoublingMethod)) {
         Ui.showSnackBar(context, 'Please Select Doubling Method');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_orientation_idfk ==
               null &&
-          Ui.showHide(_yarnPostProvider.yarnSetting!.showOrientation)) {
+          Ui.showHide(_yarnPostProvider.yarnSetting!.showOrientation) &&
+          _yarnPostProvider.selectedUsage!.yuName.toString().toLowerCase() !=
+              'Knitting'.toLowerCase()) {
         Ui.showSnackBar(context, 'Please Select Orientation');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_count == null &&
@@ -419,21 +269,23 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
         Ui.showSnackBar(context, 'Please Select Pattern');
         return false;
       } else if (_yarnPostProvider
-                  .createRequestModel!.ys_pattern_charectristic_idfk ==
-              null &&
-          _showPatternChar &&
+                      .createRequestModel!.ys_pattern_charectristic_idfk ==
+                  null &&
+              _yarnPostProvider
+                  .showPatternChar /*&&
           !_patternTLPIdList.contains(int.tryParse(_selectedPatternId!)) &&
-          !_patternGRIdList.contains(int.tryParse(_selectedPatternId!))) {
+          !_patternGRIdList.contains(int.tryParse(_selectedPatternId!))*/
+          ) {
         Ui.showSnackBar(context, 'Please Select Pattern Characteristics');
-        return false;
-      } else if (_yarnPostProvider.createRequestModel!.ys_grade_idfk == null &&
-          Ui.showHide(_yarnPostProvider.yarnSetting!.showGrade)) {
-        Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_apperance_idfk ==
               null &&
           Ui.showHide(_yarnPostProvider.yarnSetting!.showAppearance)) {
         Ui.showSnackBar(context, 'Please Select Appearance');
+        return false;
+      } else if (_yarnPostProvider.createRequestModel!.ys_grade_idfk == null &&
+          Ui.showHide(_yarnPostProvider.yarnSetting!.showGrade)) {
+        Ui.showSnackBar(context, 'Please Select Grade');
         return false;
       } else if (_yarnPostProvider.createRequestModel!.ys_certification_idfk ==
               null &&
@@ -450,63 +302,29 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
   //Keys
   final GlobalKey<FormState> _globalFormKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<SingleSelectTileWidgetState> _usageKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _dyingMethodKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _certificateKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _plyKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _doublingMethodKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _orientationKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _qualityKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _patternKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _patternCharKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _spunTechKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _twistDirectionKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _gradeKey =
-      GlobalKey<SingleSelectTileWidgetState>();
-  final GlobalKey<SingleSelectTileWidgetState> _appearanceKey =
-      GlobalKey<SingleSelectTileWidgetState>();
+  final GlobalKey _scaffoldKey = GlobalKey();
 
   //FOR FILTERING DYED COLOR TREATMENT METHOD
-  final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
+  // final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
 
-  final List<int> _plyIdList = [1, 5, 9, 13];
-  final List<int> _patternTLPIdList = [1, 2, 3, 4, 9, 12, 14];
-  final List<int> _patternGRIdList = [20, 10, 16];
-
-  //Show Hide on dependency
-  bool _showDyingMethod = false;
-  bool _showDoublingMethod = false;
-  bool _showPatternChar = false;
+  // final List<int> _plyIdList = [1, 5, 9, 13];
+  // final List<int> _patternTLPIdList = [1, 2, 3, 4, 9, 12, 14];
+  // final List<int> _patternGRIdList = [20, 10, 16];
 
   Color pickerColor = const Color(0xffffffff);
 
   // Yarn? _yarnData;
   final TextEditingController _textEditingController = TextEditingController();
   var logger = Logger();
-  String? _selectedPatternId = "-1";
+
+  // String? _selectedPatternId = "-1";
 
   @override
   void initState() {
     super.initState();
     _yarnPostProvider.familyDisabled = false;
     _yarnPostProvider.addListener(() {
-      if(mounted)setState(() {});
+      if (mounted) setState(() {});
     });
   }
 
@@ -514,6 +332,10 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   void dispose() {
     _notifierPlySheet.dispose();
     _yarnPostProvider.yarnSetting = null;
+    _yarnPostProvider.showDoublingMethod = false;
+    _yarnPostProvider.showDyingMethod = false;
+    _yarnPostProvider.showPatternChar = false;
+    _yarnPostProvider.selectedUsage = null;
     super.dispose();
   }
 
@@ -568,7 +390,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                   ),
                 ),
                 Visibility(
-                  visible: widget.selectedTab == requirement_type ||
+                  visible: widget.selectedTab == requirementType ||
                       _yarnPostProvider.selectedYarnFamily.famId!.toString() ==
                           4.toString(),
                   child: Padding(
@@ -577,7 +399,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                       width: double.maxFinite,
                       child: ElevatedButtonWithIcon(
                         callback: () async {
-                          if (widget.selectedTab == offering_type) {
+                          if (widget.selectedTab == offeringType) {
                             if (validationAllPage()) {
                               _yarnPostProvider
                                   .createRequestModel!.spc_category_idfk = "2";
@@ -599,7 +421,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                           }
                         },
                         color: btnColorLogin,
-                        btnText: widget.selectedTab == offering_type
+                        btnText: widget.selectedTab == offeringType
                             ? "Next"
                             : submit,
                       ),
@@ -624,7 +446,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-    ApiService.createSpecification(_yarnPostProvider.createRequestModel!,
+    ApiService()
+        .createSpecification(_yarnPostProvider.createRequestModel!,
             imageFiles.isNotEmpty ? imageFiles[0].path : "")
         .then((value) {
       ProgressDialogUtil.hideDialog();
@@ -694,7 +517,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: yarnTexturedType + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _yarnTypeKey,
+                      key: _yarnPostProvider.yarnTypeKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.yarnTypesList!,
                       callback: (YarnTypes value) {
@@ -722,7 +545,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         _yarnPostProvider.plyList!,
                         _yarnPostProvider.orientationList!,
                         _yarnPostProvider.doublingMethodList!,
-                        _plyIdList);
+                        usage: _yarnPostProvider.selectedUsage);
                   },
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
@@ -783,7 +606,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: colorTreatmentMethod + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _colorTreatmentMethodKey,
+                      key: _yarnPostProvider.colorTreatmentMethodKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.colorTreatmentMethodList!,
                       callback: (ColorTreatmentMethod value) async {
@@ -794,9 +617,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             .getDyingMethodListWithCTMId(value.yctmId!);
 
                         if (_yarnPostProvider.dyingMethodList!.isNotEmpty) {
-                          _showDyingMethod = true;
+                          _yarnPostProvider.showDyingMethod = true;
                         } else {
-                          _showDyingMethod = false;
+                          _yarnPostProvider.showDyingMethod = false;
                           _yarnPostProvider
                               .createRequestModel!.ys_dying_method_idfk = null;
                           _yarnPostProvider.createRequestModel!.ys_color_code =
@@ -812,7 +635,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Color dying Method
             Visibility(
-              visible: _showDyingMethod
+              visible: _yarnPostProvider.showDyingMethod
                   ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                   : false,
               child: Padding(
@@ -826,7 +649,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: "Dying Method *")),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _dyingMethodKey,
+                      key: _yarnPostProvider.dyingMethodKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.dyingMethodList!,
                       callback: (DyingMethod value) {
@@ -841,56 +664,41 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Here Color Code is missing
             Visibility(
-                visible: _showDyingMethod
+                visible: _yarnPostProvider.showDyingMethod
                     ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                     : false,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 0, top: 4, bottom: 4),
-                        child: TitleSmallBoldTextWidget(title: "Select Color"),
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: TextFormField(
-                            keyboardType: TextInputType.none,
-                            controller: _textEditingController,
-                            autofocus: false,
-                            showCursor: false,
-                            readOnly: true,
-                            style: TextStyle(fontSize: 11.sp),
-                            textAlign: TextAlign.center,
-                            onSaved: (input) => _yarnPostProvider
-                                .createRequestModel!.ys_color_code = input!,
-                            // validator: (input) {
-                            //   if (input == null ||
-                            //       input.isEmpty) {
-                            //     return "Select Color Code";
-                            //   }
-                            //   return null;
-                            // },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none),
-                                contentPadding: const EdgeInsets.all(2.0),
-                                hintText: "Select Color",
-                                filled: true,
-                                fillColor: pickerColor),
-                            onTap: () {
-                              _openDialogBox();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: _textEditingController,
+                      maxLength: 24,
+                      style: TextStyle(fontSize: 11.sp),
+                      textAlign: TextAlign.center,
+                      onSaved: (input) => _yarnPostProvider
+                          .createRequestModel!.ys_color_code = input!,
+                      validator: (input) {
+                        if (input == null || input.isEmpty) {
+                          return "Enter Color";
+                        }
+                        return null;
+                      },
+                      decoration: ygTextFieldDecoration('Color Code', 'Color',
+                          true) /*InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.all(2.0),
+                          hintText: "Select Color",
+                          filled: true,
+                          fillColor: pickerColor)*/
+                      ,
+                      // onTap: () {
+                      //   _openDialogBox();
+                      // },
+                    ),
                   ),
                 )),
 
@@ -908,7 +716,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: quality + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _qualityKey,
+                      key: _yarnPostProvider.qualityKey,
                       spanCount: 2,
                       listOfItems: _yarnPostProvider.qualityList!,
                       callback: (Quality value) {
@@ -936,7 +744,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             TitleSmallBoldTextWidget(title: apperance + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _appearanceKey,
+                      key: _yarnPostProvider.appearanceKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.appearanceList!,
                       callback: (YarnAppearance value) {
@@ -944,11 +752,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             .ys_apperance_idfk = value.yaId.toString();
 
                         if (value.yaId == 3) {
-                          _showDyingMethod = true;
+                          _yarnPostProvider.showDyingMethod = true;
                           _yarnPostProvider
                               .getDyingMethodListWithAprId(value.yaId!);
                         } else {
-                          _showDyingMethod = false;
+                          _yarnPostProvider.showDyingMethod = false;
                           _yarnPostProvider
                               .createRequestModel!.ys_dying_method_idfk = null;
                           _yarnPostProvider.createRequestModel!.ys_color_code =
@@ -975,7 +783,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: grades + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _gradeKey,
+                      key: _yarnPostProvider.gradeKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.gradesList!,
                       callback: (YarnGrades value) {
@@ -1001,7 +809,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: usage + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _usageKey,
+                      key: _yarnPostProvider.usageKey,
                       spanCount: 2,
                       listOfItems: _yarnPostProvider.usageList!,
                       callback: (Usage value) {
@@ -1085,7 +893,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             TitleSmallBoldTextWidget(title: orientation + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _orientationKey,
+                      key: _yarnPostProvider.orientationKey,
                       spanCount: 2,
                       listOfItems: _yarnPostProvider.orientationList!,
                       callback: (OrientationTable value) {
@@ -1140,7 +948,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: spunTech + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _spunTechKey,
+                      key: _yarnPostProvider.spunTechKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.spunTechList!,
                       callback: (SpunTechnique value) {
@@ -1165,7 +973,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: pattern + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _patternKey,
+                      key: _yarnPostProvider.patternKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.patternList!,
                       callback: (PatternModel value) {
@@ -1179,7 +987,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Pattern characteristics
             Visibility(
-                visible: _showPatternChar, child: _showPatternCharWidget()),
+                visible: _yarnPostProvider.showPatternChar,
+                child: _showPatternCharWidget()),
 
             //Show Certification
             Visibility(
@@ -1196,7 +1005,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: certification + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _certificateKey,
+                      key: _yarnPostProvider.certificateKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.certificationList!,
                       callback: (Certification value) {
@@ -1236,7 +1045,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: yarnTexturedType + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _yarnTypeKey,
+                      key: _yarnPostProvider.yarnTypeKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.yarnTypesList!,
                       callback: (YarnTypes value) {
@@ -1321,10 +1130,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: usage + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _usageKey,
+                      key: _yarnPostProvider.usageKey,
                       spanCount: 2,
                       listOfItems: _yarnPostProvider.usageList!,
                       callback: (Usage value) {
+                        _yarnPostProvider.selectedUsage = value;
                         _yarnPostProvider.createRequestModel!.ys_usage_idfk =
                             value.yuId.toString();
                       },
@@ -1349,7 +1159,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             TitleSmallBoldTextWidget(title: apperance + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _appearanceKey,
+                      key: _yarnPostProvider.appearanceKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.appearanceList!,
                       callback: (YarnAppearance value) {
@@ -1357,11 +1167,11 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             .ys_apperance_idfk = value.yaId.toString();
 
                         if (value.yaId == 3) {
-                          _showDyingMethod = true;
+                          _yarnPostProvider.showDyingMethod = true;
                           _yarnPostProvider
                               .getDyingMethodListWithAprId(value.yaId!);
                         } else {
-                          _showDyingMethod = false;
+                          _yarnPostProvider.showDyingMethod = false;
                           _yarnPostProvider
                               .createRequestModel!.ys_dying_method_idfk = null;
                           _yarnPostProvider.createRequestModel!.ys_color_code =
@@ -1391,7 +1201,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         _yarnPostProvider.plyList!,
                         _yarnPostProvider.orientationList!,
                         _yarnPostProvider.doublingMethodList!,
-                        _plyIdList);
+                        usage: _yarnPostProvider.selectedUsage);
                   },
                   child: ValueListenableBuilder(
                     valueListenable: _notifierPlySheet,
@@ -1452,7 +1262,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: colorTreatmentMethod + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _colorTreatmentMethodKey,
+                      key: _yarnPostProvider.colorTreatmentMethodKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.colorTreatmentMethodList!,
                       callback: (ColorTreatmentMethod value) async {
@@ -1463,9 +1273,9 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             .getDyingMethodListWithCTMId(value.yctmId!);
 
                         if (_yarnPostProvider.dyingMethodList!.isNotEmpty) {
-                          _showDyingMethod = true;
+                          _yarnPostProvider.showDyingMethod = true;
                         } else {
-                          _showDyingMethod = false;
+                          _yarnPostProvider.showDyingMethod = false;
                           _yarnPostProvider
                               .createRequestModel!.ys_dying_method_idfk = null;
                           _yarnPostProvider.createRequestModel!.ys_color_code =
@@ -1481,7 +1291,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Color dying Method
             Visibility(
-              visible: _showDyingMethod
+              visible: _yarnPostProvider.showDyingMethod
                   ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                   : false,
               child: Padding(
@@ -1495,7 +1305,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: "Dying Method" + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _dyingMethodKey,
+                      key: _yarnPostProvider.dyingMethodKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.dyingMethodList!,
                       callback: (DyingMethod value) {
@@ -1510,72 +1320,57 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Here Color Code is missing
             Visibility(
-                visible: _showDyingMethod
+                visible: _yarnPostProvider.showDyingMethod
                     ? Ui.showHide(_yarnPostProvider.yarnSetting!.showColor)
                     : false,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: TitleSmallBoldTextWidget(title: "Select Color"),
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          child: TextFormField(
-                            keyboardType: TextInputType.none,
-                            controller: _textEditingController,
-                            autofocus: false,
-                            showCursor: false,
-                            readOnly: true,
-                            style: TextStyle(fontSize: 11.sp),
-                            textAlign: TextAlign.center,
-                            onSaved: (input) => _yarnPostProvider
-                                .createRequestModel!.ys_color_code = input!,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none),
-                                contentPadding: const EdgeInsets.all(2.0),
-                                hintText: "Select Color",
-                                filled: true,
-                                fillColor: pickerColor),
-                            onTap: () {
-                              _openDialogBox();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: _textEditingController,
+                    style: TextStyle(fontSize: 11.sp),
+                    textAlign: TextAlign.center,
+                    maxLength: 24,
+                    validator: (input) {
+                      if (input == null || input.isEmpty) {
+                        return "Enter Color";
+                      }
+                      return null;
+                    },
+                    onSaved: (input) => _yarnPostProvider
+                        .createRequestModel!.ys_color_code = input!,
+                    decoration: ygTextFieldDecoration('Color Code', 'Color',
+                        true) /*InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.all(2.0),
+                        hintText: "Select Color",
+                        filled: true,
+                        fillColor: pickerColor)*/
+                    ,
+                    // onTap: () {
+                    //   _openDialogBox();
+                    // },
                   ),
                 )),
 
             // Show Ratio
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Visibility(
-                visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showRatio),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 8.w,
-                    ),
-                    YgTextFormFieldWithoutRange(
-                        label: ratio,
-                        errorText: ratio,
-                        onSaved: (input) {
-                          _yarnPostProvider.createRequestModel!.ys_ratio =
-                              input;
-                        })
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                ),
+            Visibility(
+              visible: Ui.showHide(_yarnPostProvider.yarnSetting!.showRatio),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 8.w,
+                  ),
+                  YgTextFormFieldWithoutRange(
+                      label: ratio,
+                      errorText: ratio,
+                      onSaved: (input) {
+                        _yarnPostProvider.createRequestModel!.ys_ratio = input;
+                      })
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
               ),
             ),
 
@@ -1621,7 +1416,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: spunTech + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _spunTechKey,
+                      key: _yarnPostProvider.spunTechKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.spunTechList!,
                       callback: (SpunTechnique value) {
@@ -1646,7 +1441,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: quality + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _qualityKey,
+                      key: _yarnPostProvider.qualityKey,
                       spanCount: 2,
                       listOfItems: _yarnPostProvider.qualityList!,
                       callback: (Quality value) {
@@ -1672,7 +1467,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: pattern + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _patternKey,
+                      key: _yarnPostProvider.patternKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.patternList!,
                       callback: (PatternModel value) {
@@ -1686,7 +1481,8 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             //Show Pattern characteristics
             Visibility(
-                visible: _showPatternChar, child: _showPatternCharWidget()),
+                visible: _yarnPostProvider.showPatternChar,
+                child: _showPatternCharWidget()),
 
             //Show Grade
             Visibility(
@@ -1701,7 +1497,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                         child: TitleSmallBoldTextWidget(title: grades + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _gradeKey,
+                      key: _yarnPostProvider.gradeKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.gradesList!,
                       callback: (YarnGrades value) {
@@ -1729,7 +1525,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
                             title: certification + '*')),
                     SingleSelectTileWidget(
                       selectedIndex: -1,
-                      key: _certificateKey,
+                      key: _yarnPostProvider.certificateKey,
                       spanCount: 3,
                       listOfItems: _yarnPostProvider.certificationList!,
                       callback: (Certification value) {
@@ -1748,7 +1544,7 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
 
             SizedBox(
               child: Visibility(
-                visible: widget.selectedTab == offering_type,
+                visible: widget.selectedTab == offeringType,
                 child: LabParameterPage(
                   callback: (value) {
                     widget.callback!(1);
@@ -1823,52 +1619,37 @@ class YarnSpecificationComponentState extends State<YarnSpecificationComponent>
   spunSelection(SpunTechnique value) async {
     _yarnPostProvider.createRequestModel!.ys_spun_technique_idfk =
         value.ystId.toString();
+    if (_yarnPostProvider.patternKey.currentState != null) {
+      _yarnPostProvider.patternKey.currentState!.resetWidget();
+      _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
+    }
+    if (_yarnPostProvider.qualityKey.currentState != null) {
+      _yarnPostProvider.qualityKey.currentState!.resetWidget();
+      _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
+    }
     await _yarnPostProvider.getPatternWithSpunId(value.ystId!);
     await _yarnPostProvider.getQualityWithSpunId(value.ystId!);
     if (_yarnPostProvider.qualityList!.isEmpty) {
       await _yarnPostProvider.getQuality();
     }
-
-    // if (_yarnPostProvider.qualityList!.length == 1) {
-    //   tempQualityShow = _yarnPostProvider.yarnSetting!.showQuality;
-    //   _yarnPostProvider.yarnSetting!.showQuality = "0";
-    //   _yarnPostProvider.createRequestModel!.ys_quality_idfk =
-    //       _yarnPostProvider.qualityList!.first.yqId.toString();
-    // } else {
-    //   _yarnPostProvider.yarnSetting!.showQuality = tempQualityShow;
-    //   _yarnPostProvider.createRequestModel!.ys_quality_idfk = null;
-    // }
     if (_yarnPostProvider.patternList!.isEmpty) {
       await _yarnPostProvider.getPatternList();
     }
-    //
-    // if (_yarnPostProvider.patternList!.length == 1) {
-    //   tempPatternShow = _yarnPostProvider.yarnSetting!.showPattern;
-    //
-    //   _yarnPostProvider.yarnSetting!.showPattern = "0";
-    //   _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
-    //       _yarnPostProvider.patternList!.first.ypId.toString();
-    // } else {
-    //   _yarnPostProvider.yarnSetting!.showPattern = tempPatternShow;
-    //   _yarnPostProvider.createRequestModel!.ys_pattern_idfk = null;
-    // }
-
     _yarnPostProvider.notifyUI();
   }
 
   patternSelection(PatternModel value) async {
     await _yarnPostProvider.getPatternCharcIdWithPtrId(value.ypId!);
-    _selectedPatternId = value.ypId.toString();
-    if (_patternTLPIdList.contains(int.parse(_selectedPatternId!))) {
-      _showPatternChar = true;
-    } else if (_patternGRIdList.contains(int.parse(_selectedPatternId!))) {
-      _showPatternChar = true;
+    // _selectedPatternId = value.ypId.toString();
+    _yarnPostProvider.showPatternChar = true;
+    if (_yarnPostProvider.patternCharList!.isNotEmpty) {
     } else {
-      _showPatternChar = false;
       _yarnPostProvider.createRequestModel!.ys_pattern_charectristic_idfk =
           null;
     }
     _yarnPostProvider.createRequestModel!.ys_pattern_idfk =
         value.ypId.toString();
+
+    _yarnPostProvider.notifyUI();
   }
 }

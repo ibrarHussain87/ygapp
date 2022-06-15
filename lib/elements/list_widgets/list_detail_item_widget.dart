@@ -42,7 +42,7 @@ Widget listDetailItemWidget(
 Widget listItemContactCard(BuildContext context,
     DetailTileModel detailSpecification, bool showCallIcon) {
   double width = MediaQuery.of(context).size.width;
-  return Container(
+  return SizedBox(
     width: width,
     child: Row(
       children: [

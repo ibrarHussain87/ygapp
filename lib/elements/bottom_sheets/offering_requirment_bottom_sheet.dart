@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 
 import '../../helper_utils/top_round_corners.dart';
 
 final List<MyActions> actionsList = [
-  MyActions('Offering', Icons.local_offer,'1'),
-  MyActions('Requirement', Icons.local_offer_outlined,"0"),
+  MyActions('Offering', SvgPicture.asset('assets/ic_offering.svg',height: 32,width: 32,),'1'),
+  MyActions('Requirement', SvgPicture.asset('assets/ic_requirement.svg',height: 32,width: 32,),"0"),
 ];
 
 showBottomSheetOR(BuildContext context,Function callback) {
@@ -43,7 +46,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Align(
                         alignment: Alignment.center,
@@ -59,7 +62,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                                   myActions: actionsList[index],
                                   myClickCallback: (value) {
                                     Navigator.pop(context);
-                                    print("Families"+actionsList[index].title.toString());
+                                    Logger().e("Families"+actionsList[index].title.toString());
                                     callback(actionsList[index].value);
                                   });
                             }),
@@ -74,7 +77,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
 
 class MyActions {
   String title;
-  IconData icon;
+  SvgPicture icon;
   String value;
 
   MyActions(this.title, this.icon,this.value);
@@ -90,7 +93,7 @@ class ItemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/2,
       child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -109,13 +112,11 @@ class ItemBottomSheet extends StatelessWidget {
                     elevation: 0,
                     color: Colors.white,
                     child: SizedBox(
-                      height: 50,
-                      width: 50,
+                      height: 82,
+                      width: 82,
                       child: Padding(
                         padding: const EdgeInsets.all(7),
-                        child: Icon(
-                          myActions.icon,
-                        ),
+                        child: myActions.icon,
                       ),
                     )),
                 const SizedBox(
@@ -124,7 +125,7 @@ class ItemBottomSheet extends StatelessWidget {
                 Text(
                   myActions.title,
                   style:
-                      const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                       TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
                 ),
               ],
             ),

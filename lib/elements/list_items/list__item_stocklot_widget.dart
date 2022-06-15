@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/model/stocklot_waste_model.dart';
@@ -24,11 +24,10 @@ class ListItemStockLot extends StatefulWidget {
 }
 
 class _ListItemStockLotState extends State<ListItemStockLot> {
-  late var _tapPosition;
+  var _tapPosition;
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       // decoration: BoxDecoration(

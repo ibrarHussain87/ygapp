@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/my_products_response.dart';
@@ -81,7 +81,7 @@ class _MyProductPageState extends State<MyProductPage>
       child: Scaffold(
         backgroundColor: Colors.white,
         body: FutureBuilder<MyProductsResponse>(
-          future: ApiService.myProducts(),
+          future: ApiService().myProducts(),
           builder: (context, snapshots) {
             if (snapshots.hasData &&
                 snapshots.connectionState == ConnectionState.done &&
@@ -258,7 +258,7 @@ class _MyProductPageState extends State<MyProductPage>
             style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                /*fontFamily: 'Metropolis',*/),
+                /**/),
           ),
         ),
       ));

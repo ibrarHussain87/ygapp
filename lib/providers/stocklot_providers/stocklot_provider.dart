@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
@@ -107,7 +108,7 @@ class StocklotProvider extends ChangeNotifier {
   Future<StockLotSpecificationResponse> getStockLots(requestModel) async{
     loading = true;
     notifyListeners();
-    var response = await ApiService.getStockLotSpecifications(requestModel);
+    var response = await ApiService().getStockLotSpecifications(requestModel);
     StockLotSpecificationResponse specificationResponse = response;
     return specificationResponse;
   }
@@ -149,7 +150,7 @@ class StocklotProvider extends ChangeNotifier {
     if (loading) {
       ProgressDialogUtil.showDialog(context, "Please wait...");
     }
-    ApiService.createStockLot(stocklotRequestModel, imageFiles.isNotEmpty ? imageFiles[0].path : "").then(
+    ApiService().createStockLot(stocklotRequestModel, imageFiles.isNotEmpty ? imageFiles[0].path : "").then(
         (value) {
       if (value != null && value.status!) {
         loading = false;

@@ -1,7 +1,7 @@
 
 
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +17,6 @@ import 'package:yg_app/model/request/update_profile/update_profile_request.dart'
 import 'package:yg_app/model/response/login/login_response.dart';
 
 import '../../../helper_utils/ui_utils.dart';
-import '../../../helper_utils/util.dart';
 import '../../../locators.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
 import '../../../providers/profile_providers/profile_info_provider.dart';
@@ -427,7 +426,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                 return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            fontFamily: 'Metropolis', fontSize: 14.sp)),
+                             fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
@@ -478,7 +477,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ProgressDialogUtil.showDialog(context, 'Please wait...');
 
         Logger().e(_updateProfileRequestModel.toJson());
-        ApiService.updateProfile(_updateProfileRequestModel).then((value) {
+        ApiService().updateProfile(_updateProfileRequestModel).then((value) {
 
           ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {

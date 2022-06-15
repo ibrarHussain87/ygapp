@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
-import 'package:yg_app/model/response/get_banner_response.dart';
 import 'package:yg_app/model/response/yg_services/my_yg_services_response.dart';
 
 import '../../helper_utils/connection_status_singleton.dart';
@@ -18,7 +16,7 @@ class YgServicesProvider extends ChangeNotifier {
         loading = true;
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         // Logger().e(_csRequestModel?.toJson());
-        ApiService.myYgServices().then((value) {
+        ApiService().myYgServices().then((value) {
           ProgressDialogUtil.hideDialog();
           if (value.status!) {
             myServices = value.data?.myYgServices;

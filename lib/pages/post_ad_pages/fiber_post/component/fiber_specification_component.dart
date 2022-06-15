@@ -7,7 +7,7 @@ import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_widget.dart';
-import 'package:yg_app/elements/title_text_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -685,7 +685,7 @@ class FiberSpecificationComponentState
 //                                                      style: TextStyle(
 //                                                          color: Colors.black87,
 //                                                          fontSize: 14.sp,
-//                                                          /*fontFamily: 'Metropolis',*/
+//                                                          /**/
 //                                                          backgroundColor:
 //                                                              Colors.white,
 //                                                          fontWeight:
@@ -695,7 +695,7 @@ class FiberSpecificationComponentState
 //                                                        style: TextStyle(
 //                                                            color: Colors.red,
 //                                                            fontSize: 16.sp,
-//                                                            /*fontFamily: 'Metropolis',*/
+//                                                            /**/
 //                                                            backgroundColor:
 //                                                                Colors.white,
 //                                                            fontWeight:
@@ -816,7 +816,7 @@ class FiberSpecificationComponentState
                                             style: TextStyle(
                                                 color: Colors.black87,
                                                 fontSize: 14.sp,
-                                                /*fontFamily: 'Metropolis',*/
+                                                /**/
                                                 backgroundColor:
                                                 Colors.white,
                                                 fontWeight:
@@ -826,7 +826,7 @@ class FiberSpecificationComponentState
                                               style: TextStyle(
                                                   color: Colors.red,
                                                   fontSize: 16.sp,
-                                                  /*fontFamily: 'Metropolis',*/
+                                                  /**/
                                                   backgroundColor:
                                                   Colors.white,
                                                   fontWeight:
@@ -939,7 +939,7 @@ class FiberSpecificationComponentState
                                                           fontSize: 14.sp,
                                                           backgroundColor:
                                                               Colors.white,
-                                                          /*fontFamily: 'Metropolis',*/
+                                                          /**/
                                                           fontWeight:
                                                               FontWeight.w500),
                                                     ),
@@ -947,7 +947,7 @@ class FiberSpecificationComponentState
                                                         style: TextStyle(
                                                             color: Colors.red,
                                                             fontSize: 16.sp,
-                                                            /*fontFamily: 'Metropolis',*/
+                                                            /**/
                                                             backgroundColor:
                                                                 Colors.white,
                                                             fontWeight:
@@ -1071,7 +1071,7 @@ class FiberSpecificationComponentState
                   },
                   color: btnColorLogin,
                   btnText:
-                      widget.selectedTab == offering_type ? "Next" : submit,
+                      widget.selectedTab == offeringType ? "Next" : submit,
                 ),
               ],
             )
@@ -1093,7 +1093,7 @@ class FiberSpecificationComponentState
 
       // _postFiberProvider.createRequestModel!.spc_nature_idfk =
       //     _postFiberProvider.selectedFamilyId.toString();
-      if (widget.selectedTab == offering_type) {
+      if (widget.selectedTab == offeringType) {
         widget.callback!(1);
       } else {
         showGenericDialog(
@@ -1122,7 +1122,7 @@ class FiberSpecificationComponentState
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-    ApiService.createSpecification(_postFiberProvider.createRequestModel!,
+    ApiService().createSpecification(_postFiberProvider.createRequestModel!,
             _imageFiles.isNotEmpty ? _imageFiles[0].path : "")
         .then((value) {
       ProgressDialogUtil.hideDialog();
