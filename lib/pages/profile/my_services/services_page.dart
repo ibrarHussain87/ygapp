@@ -60,8 +60,15 @@ class _MyServicesPageState extends State<MyServicesPage> {
         resizeToAvoidBottomInset:false,
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: appBar(context,"My Services"),
-        body:Column(
+        appBar: appBar(context,"Services"),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+
+            openYGServiceScreen(context);
+          },
+          backgroundColor: darkBlueChip,
+          child: const Icon(Icons.add,color: Colors.white,),
+        ),        body:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
@@ -80,34 +87,40 @@ class _MyServicesPageState extends State<MyServicesPage> {
                   primary: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
+                    List<String>? dateTime=_ygServiceProvider.myServices![index].ygserviceSuitableDatetime?.split(' ');
                     return GestureDetector(
                       onTap: (){
 
+                        openServiceDetailScreen(context,_ygServiceProvider.myServices![index]);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 5.0,bottom: 5.0),
+                        padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 4.0,bottom: 4.0),
                         child: Card(
                         shape:RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                           elevation: 3,
                           color: Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.all(12.0),
+                            padding: const EdgeInsets.only(top:10.0,bottom: 10.0,right: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children:[
-                                RotatedBox
-                                  (
-                                  quarterTurns: 1,
-                                  child: Text(serviceList[index].status.toString().toUpperCase(),textAlign: TextAlign.center,overflow: TextOverflow.fade,style:TextStyle(
-                                    color:serviceList[index].status.toString()==types[1] ? lightBlueTabs :
-                                    serviceList[index].status.toString()==types[2] ? Colors.blue :
-                                    serviceList[index].status.toString()==types[3] ? Colors.orange :
-                                    serviceList[index].status.toString()==types[4] ? Colors.lightBlue : Colors.red,
-                                      fontWeight: FontWeight.w600,fontSize: 13.sp,letterSpacing: 1
-                                  ),),
+                                const SizedBox(width:15,),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: RotatedBox
+                                    (
+                                    quarterTurns: 1,
+                                    child: Text(serviceList[index].status.toString().toUpperCase(),textAlign: TextAlign.center,overflow: TextOverflow.fade,style:TextStyle(
+                                      color:serviceList[index].status.toString()==types[1] ? Colors.green :
+                                      serviceList[index].status.toString()==types[2] ? Colors.blue :
+                                      serviceList[index].status.toString()==types[3] ? Colors.orange :
+                                      serviceList[index].status.toString()==types[4] ? Colors.lightBlue : Colors.red,
+                                        fontWeight: FontWeight.w500,fontFamily: 'Metropolis',fontSize: 12.sp
+                                    ),),
+                                  ),
                                 ),
-                                const SizedBox(width: 10,),
+                                const SizedBox(width: 15,),
                                 Expanded(
                                   flex: 1,
                                   child: Column(
@@ -115,63 +128,70 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text("Complaint #:",style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w500,color: Colors.black87)),
+                                          Text("Complaint #:",style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,color: Colors.black)),
                                           const SizedBox(width:3,),
-                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceId.toString() ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.black87))),
+                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceId.toString() ,style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,color: Colors.black))),
                                         ],
                                       ),
+                                      const SizedBox(height: 5,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-
-                                          Text("Type:",style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w500,color: Colors.black87)),
-                                          const SizedBox(width:3,),
-                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceDetails.toString() ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.grey.shade500))),
-                                        ],
-                                      ),
-                                      Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
 
-                                          Text("Sub Category :",style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w500,color: Colors.black87)),
+                                          Text("Type:",style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,color: Colors.black)),
                                           const SizedBox(width:3,),
-                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceSpecialInstruction.toString(),textAlign: TextAlign.start ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.grey.shade500))),
+                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceDetails.toString() ,style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,color: Colors.grey.shade600))),
                                         ],
                                       ),
+                                      // Row(
+                                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                                      //   children: [
+                                      //
+                                      //     Text("Sub Category :",style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w500,color: Colors.black)),
+                                      //     const SizedBox(width:3,),
+                                      //     Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceSpecialInstruction.toString(),textAlign: TextAlign.start ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.grey.shade500))),
+                                      //   ],
+                                      // ),
+
+                                      const SizedBox(height: 5,),
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
 
                                           Expanded(
-
-                                            flex: 1,
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Icon(Icons.calendar_today_rounded,color: lightBlueTabs,size: 20,),
+                                                const Icon(Icons.calendar_today_rounded,color: Colors.green,size: 22,),
                                                 const SizedBox(width: 3,),
-                                                Text(_ygServiceProvider.myServices![index].ygserviceSuitableDatetime.toString() ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.grey.shade500)),
+
+                                                Text(dateTime?[0].toString() ?? "" ,style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,color: Colors.grey.shade600)),
                                               ],
                                             ),
                                           ),
 
-                                          // Row(
-                                          //
-                                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                                          //   children: [
-                                          //     Icon(Icons.timer_outlined,color: lightBlueTabs,size: 20,),
-                                          //     const SizedBox(width: 3,),
-                                          //     Text(serviceList[index].time.toString() ,style:TextStyle(fontSize:12.sp,fontWeight: FontWeight.w600,color: Colors.grey.shade500)),
-                                          //   ],
-                                          // ),
+                                          Expanded(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.timer_outlined,color: Colors.green,size: 22,),
+                                                const SizedBox(width: 3,),
+                                                Text(dateTime?[1].toString() ?? ""  ,style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,color: Colors.grey.shade600)),
+                                              ],
+                                            ),
+                                          ),
                                        ],
                                       ),
-                                      const SizedBox(height: 5,),
+                                      const SizedBox(height: 10,),
                                       Align(alignment:Alignment.centerRight,
                                           child: GestureDetector(
                                             onTap: (){
                                               openServiceDetailScreen(context,_ygServiceProvider.myServices![index]);
                                             },
-                                          child: Text("View Details",style: TextStyle(fontSize: 11.sp,fontWeight:FontWeight.w500,color: lightBlueTabs),)))
+                                          child: Text("View Details",style: TextStyle(fontSize: 13.sp,fontFamily: 'Metropolis',fontWeight:FontWeight.w500,color: Colors.green),)))
 
                                     ],
                                   ),

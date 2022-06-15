@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
+import 'package:yg_app/pages/main_page.dart';
+import 'package:yg_app/pages/onboarding_pages/onboarding_page.dart';
 import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 
-import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
@@ -27,8 +26,6 @@ import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
-import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
-import 'package:yg_app/pages/main_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
@@ -160,6 +157,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   }
 
   void _incrementCounter() {
+
     setState(() {
       heightC1 = MediaQuery.of(context).size.width * 0.5;
       heightC2 = MediaQuery.of(context).size.width * 0.8;
@@ -201,19 +199,35 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
 
   Future<void> initTimer() async {
     Timer(const Duration(seconds: 5), () async {
+
+
       bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+      bool appRunFirstTime = await SharedPreferenceUtil.getBoolValuesSF(IS_FIRST_TIME);
       check().then((internet) {
         if (internet) {
           // Internet Present Case
-          if (userLogin) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const MainPage()));
-          } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SignInPage()));
-    //                MaterialPageRoute(builder: (context) => const LoginPage()));
-          }
-        } else {
+          if(!appRunFirstTime)
+            {
+
+              SharedPreferenceUtil.addBoolToSF(IS_FIRST_TIME,true);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const OnBoardingPage()));
+            }
+          else
+            {
+              if (userLogin) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const MainPage()));
+              }
+              else {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const SignInPage()));
+                //                MaterialPageRoute(builder: (context) => const LoginPage()));
+              }
+            }
+
+        }
+        else {
           showInternetDialog(
               no_internet_available_msg, check_internet_msg, context, () {
             Navigator.pop(context);

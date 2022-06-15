@@ -379,57 +379,6 @@ class UpdatePasswordPageState
 
 
 
-  void _signUpCall() {
-    check().then((value) {
-      if (value) {
-        ProgressDialogUtil.showDialog(context, 'Please wait...');
-        /*remove operator and added static data for parameter*/
-        _signupRequestModel?.operator = '1';
-        _signupRequestModel?.countryId = '1';
-        _signupRequestModel?.email = 'anonymous@gmail.com';
-        _signupRequestModel?.name = 'Anonymous';
-        Logger().e(_signupRequestModel?.toJson());
-        ApiService.signup(_signupRequestModel!).then((value) {
-          Logger().e(value.toJson());
-          ProgressDialogUtil.hideDialog();
-          if (value.errors != null) {
-            value.errors!.forEach((key, error) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(error.toString())));
-            });
-          } else if (value.success!) {
-            AppDbInstance().getDbInstance().then((db) async {
-              await db.userDao.insertUser(value.data!.user!);
-            });
-            SharedPreferenceUtil.addStringToSF(
-                USER_ID_KEY, value.data!.user!.id.toString());
-            SharedPreferenceUtil.addStringToSF(
-                USER_TOKEN_KEY, value.data!.token!);
-            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
-
-            Fluttertoast.showToast(
-                msg: value.message ?? "",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const MainPage()),
-                    (Route<dynamic> route) => false);
-          } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
-          }
-        }).onError((error, stackTrace) {
-          ProgressDialogUtil.hideDialog();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(error.toString())));
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("No internet available.".toString())));
-      }
-    });
-  }
 
 }
 

@@ -423,7 +423,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 hint:  Text('Select  State',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
                 items:_profileInfoProvider.statesList
                     .where((element) =>
-                element
+                     element
                     .countryIdfk ==
                     _profileInfoProvider.selectedCountry?.conId
                         .toString())

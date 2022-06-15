@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
-import 'package:yg_app/helper_utils/app_images.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 
