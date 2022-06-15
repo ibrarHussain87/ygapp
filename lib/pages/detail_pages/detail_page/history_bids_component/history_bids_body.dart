@@ -54,6 +54,13 @@ class _HistoryOfBidsBodyState extends State<HistoryOfBidsBody> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TitleTextWidget(title: widget.bidData.price ?? ""),
+                  const Center(
+                    child: TitleSmallNormalTextWidget(
+                      title:
+                      "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                      size: 8,
+                    ),
+                  ),
                   SizedBox(
                     height: 4.w,
                   ),

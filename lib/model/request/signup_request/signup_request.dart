@@ -33,7 +33,7 @@ class SignUpRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'name': name.toString().trim(),
+      'name': name,
       'username': telephoneNumber == null
           ? email.toString().trim()
           : telephoneNumber.toString().trim(),
@@ -42,7 +42,7 @@ class SignUpRequestModel {
       'company': company.toString().trim(),
       'city_state_id': cityStateId.toString().trim(),
       'operator': operator.toString().trim(),
-      'telephone_number': telephoneNumber.toString().trim(),
+      'telephone_number': telephoneNumber,
       'company_id': comapnyId,
       'company_name': comapnyName ?? company,
       'other_company': otherCompany ?? "1",

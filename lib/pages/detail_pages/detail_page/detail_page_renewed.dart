@@ -50,47 +50,43 @@ class _DetailPageState extends State<DetailRenewedPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+              padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 16.0,bottom: 2.0),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TitleSmallNormalTextWidget(
-                        title: _detailPageProvider.setCompanyName(),
-                        color: Colors.black,
-                        size: 10,
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 2.w),
-                        child: Visibility(
-                            visible:
-                                _detailPageProvider.setVerifiedVisibility(),
-                            maintainSize: true,
-                            maintainState: true,
-                            maintainAnimation: true,
-                            child: Image.asset(
-                              'images/ic_verified_supplier.png',
-                              width: 8.w,
-                              height: 8.w,
-                              fit: BoxFit.fill,
-                            )),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.w,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TitleSmallNormalTextWidget(
+                              title: _detailPageProvider.setCompanyName(),
+                              color: Colors.black,
+                              size: 10,
+                              weight: FontWeight.w600,
+                            ),
+                            SizedBox(
+                              width: 4.w,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.w),
+                              child: Visibility(
+                                  visible:
+                                      _detailPageProvider.setVerifiedVisibility(),
+                                  maintainSize: true,
+                                  maintainState: true,
+                                  maintainAnimation: true,
+                                  child: Image.asset(
+                                    'images/ic_verified_supplier.png',
+                                    width: 8.w,
+                                    height: 8.w,
+                                    fit: BoxFit.fill,
+                                  )),
+                            )
+                          ],
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
@@ -162,44 +158,50 @@ class _DetailPageState extends State<DetailRenewedPage> {
                             ),
                           ],
                         ),
-                      ),
-                      Container(
-                        padding:
-                            EdgeInsets.only(left: 6.w, right: 6.w, top: 5.h),
-                        child: Column(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          widget.specObj is StockLotSpecification
+                              ? _detailPageProvider.stockLotPrice()
+                          /// REMOVING RICE FOR REQUIREMENT TYPE
+                              : Visibility(
+                            visible: _detailPageProvider
+                                .getPriceVisibility() ??
+                                false,
+                            child: Column(
                               children: [
-                                widget.specObj is StockLotSpecification
-                                    ? _detailPageProvider.stockLotPrice()
-
-                                    /// REMOVING RICE FOR REQUIREMENT TYPE
-                                    : Visibility(
-                                        visible: _detailPageProvider
-                                                .getPriceVisibility() ??
-                                            false,
-                                        child: Text.rich(TextSpan(
-                                            children: _detailPageProvider
-                                                .setPriceText())),
-                                      ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Center(
+                                Text.rich(TextSpan(
+                                    children: _detailPageProvider
+                                        .setPriceText())),
+                                const Center(
                                   child: TitleSmallNormalTextWidget(
-                                    title: _detailPageProvider
-                                        .setDeliveryPeriodText(),
-                                    size: 7,
+                                    title:
+                                    "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                                    size: 8,
                                   ),
-                                )
+                                ),
                               ],
                             ),
-                            SizedBox(
-                              height: 2.w,
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          Center(
+                            child: TitleSmallNormalTextWidget(
+                              title: _detailPageProvider
+                                  .setDeliveryPeriodText(),
+                              size: 7,
                             ),
-                          ],
-                        ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 2.w,
                       ),
                     ],
                   ),

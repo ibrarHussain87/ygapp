@@ -31,6 +31,8 @@ class FabricCreateRequestModel {
   String? fs_ply_idfk;
   String? fs_weft_count;
   String? fs_quality_idfk;
+  String? fs_weft_quality_idfk;
+  String? fs_wrap_quality_idfk;
   String? fs_grade_idfk;
   String? fs_certification_idfk;
   String? fs_color_treatment_method_idfk;
@@ -156,6 +158,8 @@ class FabricCreateRequestModel {
       'fs_ply_idfk': fs_ply_idfk ?? "",
       'fs_weft_count': fs_weft_count ?? "",
       'fs_quality_idfk': fs_quality_idfk ?? "",
+      'fs_weft_quality_idfk': fs_weft_quality_idfk ?? "",
+      'fs_wrap_quality_idfk': fs_wrap_quality_idfk ?? "",
       'fs_grade_idfk': fs_grade_idfk ?? "",
       'fs_certification_idfk': fs_certification_idfk ?? "",
       'fs_fctm_idfk': fs_color_treatment_method_idfk ?? "",
