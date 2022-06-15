@@ -40,7 +40,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
     return  StaggeredGrid.count(
       crossAxisCount: 4,
       mainAxisSpacing: 4,
-      crossAxisSpacing: 10,
+      crossAxisSpacing: 6,
 
       children: List.generate(widget.listOfItems.length, (index){
       return StaggeredGridTile.count(
@@ -96,7 +96,12 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
       child: Card(
         elevation: 2,
         shape:RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)
+            side: BorderSide(
+                color: Colors.grey.shade200,
+                width: 1,
+                style: BorderStyle.solid
+            ),
+            borderRadius: BorderRadius.circular(12)
         ),
 
         child: Center(
@@ -117,7 +122,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12.sp,
-                    
+                    fontFamily: 'Metropolis',
                     fontWeight: FontWeight.w600,
                     color: Colors.black),
               )

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -348,6 +349,36 @@ class ApiService {
       String url = baseUrlApi + brandsUpdateEndPoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
+      return UpdateProfileResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (noInternetAvailableMsg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  Future<UpdateProfileResponse> deleteBrands(int brdID) async {
+    try {
+      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userDeviceToken = await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+    Map<String, dynamic> data = {
+      "user_id": userID.toString(),
+      "brand_id": brdID.toString(),
+    };
+      headerMap['device_token'] = '$userDeviceToken';
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = baseUrlApi + brandsDeleteEndPoint;
+      final response = await http.post(Uri.parse(url),
+          headers: headerMap, body: data);
       return UpdateProfileResponse.fromJson(
         json.decode(response.body),
       );

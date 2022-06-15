@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/elements/profile_elements/profile_tile_widget.dart';
@@ -15,6 +16,7 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 
 import '../../elements/custom_header.dart';
+import '../../elements/profile_elements/add_profile_picture_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -84,16 +86,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Row(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      child: Container(
-                                        child: Image.asset('images/img_dummy_profile.png',
-                                            height: 55.w,
-                                            width: 55.w,
-                                            fit: BoxFit.fill,
-                                        ),
-                                      ),
+                                    AddProfilePictureWidget(
+                                      imageCount: 1,
+                                      callbackImages: (PickedFile value) {
+                                        // imageFile = value;
+                                      },
                                     ),
+                                    // ClipRRect(
+                                    //   borderRadius: BorderRadius.circular(18.0),
+                                    //   child: Container(
+                                    //     child: Image.asset('images/img_dummy_profile.png',
+                                    //         height: 55.w,
+                                    //         width: 55.w,
+                                    //         fit: BoxFit.fill,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     const SizedBox(width: 10,),
                                     Expanded(
                                       child: Column(

@@ -69,9 +69,6 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return SafeArea(
         child: Scaffold(
       body: Column(
@@ -257,7 +254,8 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
       });
       var dbInstance = await AppDbInstance().getDbInstance();
       dbInstance.userBrandsDao.deleteUserBrand(tagModel.brdId!);
-      /// Implement Remove User Brand Api too here
+      /// Remove User Brand Api
+      _deleteBrandsCall(context,tagModel.brdId!);
     }
   }
 
@@ -334,6 +332,47 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
 //                    .showSnackBar(SnackBar(content: Text(error.toString())));
 //              });
 //            } else
+          if (value.status!) {
+            Logger().e(value.data!.brands!);
+            AppDbInstance().getDbInstance().then((db) async {
+              await db.userDao.insertUser(value.data!);
+              await db.userBrandsDao.insertAllUserBrands(value.data!.brands!);
+              await db.businessInfoDao
+                  .insertBusinessInfo(value.data!.businessInfo!);
+              _brandsProvider.getUserBrandsData();
+            });
+            setState(() {
+              _typeAheadController.clear();
+            });
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
+  }
+
+  void _deleteBrandsCall(BuildContext context1,int brdId) {
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
+        ApiService().deleteBrands(brdId).then((value) {
+          ProgressDialogUtil.hideDialog();
+
+          Logger().e(value.toJson());
           if (value.status!) {
             Logger().e(value.data!.brands!);
             AppDbInstance().getDbInstance().then((db) async {
