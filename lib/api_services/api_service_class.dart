@@ -156,8 +156,10 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else {
-        throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
+      }else{
+        throw Exception(e.toString());
       }
     }
   }
@@ -271,6 +273,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -443,6 +447,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -601,6 +607,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -663,6 +671,8 @@ class ApiService {
           throw (noInternetAvailableMsg);
         } else if (e is TimeoutException) {
           throw (e.toString());
+        } else if(e is dio.DioError){
+          throw ( e.message.toString());
         } else {
           throw (e.toString());
         }
@@ -725,6 +735,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -854,6 +866,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -886,6 +900,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if(e is dio.DioError){
+        throw ( e.message.toString());
       } else {
         throw (e.toString());
       }

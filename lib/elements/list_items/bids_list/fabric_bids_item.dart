@@ -197,19 +197,14 @@ class FabricBidsItem extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                 ])),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                const Center(
-                                  child: TitleSmallNormalTextWidget(
-                                    title: "Ex- Factory",
-                                    size: 7,
-                                  ),
-                                )
                               ],
                             ),
-                            SizedBox(
-                              height: 2.w,
+                            const Center(
+                              child: TitleSmallNormalTextWidget(
+                                title:
+                                "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                                size: 8,
+                              ),
                             ),
                             SizedBox(
                               height: 4.w,

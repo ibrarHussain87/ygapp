@@ -145,6 +145,9 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     decoration: textFieldProfile(
                         '', "Company Name",true),
                   ),
+                  noItemsFoundBuilder: (BuildContext context) {
+                    return const Text('');
+                  },
                   suggestionsCallback: (pattern) {
                     return _profileInfoProvider.companiesList.where(
                             (Companies x) => x.name.toString().toLowerCase().contains(pattern)

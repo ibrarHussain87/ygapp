@@ -18,7 +18,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
       isDismissible: false,
       builder: (context) {
         return Container(
-            height: 0.26 * MediaQuery.of(context).size.height,
+            height: 0.28 * MediaQuery.of(context).size.height,
             decoration: getRoundedTopCorners(),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -41,7 +41,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
                   child: Text(
                     'What do you want to sell?',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),

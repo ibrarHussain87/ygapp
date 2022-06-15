@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -133,6 +132,9 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                       transitionBuilder: (context, suggestionsBox, controller) {
                         return suggestionsBox;
                       },
+                      noItemsFoundBuilder: (BuildContext context) {
+                        return const Text('');
+                      },
                       hideSuggestionsOnKeyboardHide: true,
                       onSuggestionSelected: (Brands suggestion) {
                         _typeAheadController.text =
@@ -252,11 +254,15 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
     if (_brandsProvider.userBrandsList.contains(tagModel)) {
       setState(() {
         _brandsProvider.userBrandsList.remove(tagModel);
-        Brands brands = _brandsProvider.backUpBrandsList.where((element) => element.brdId == tagModel.brdId).toList().first;
+        Brands brands = _brandsProvider.backUpBrandsList
+            .where((element) => element.brdId == tagModel.brdId)
+            .toList()
+            .first;
         _brandsProvider.allBrandsList.add(brands);
       });
       var dbInstance = await AppDbInstance().getDbInstance();
       dbInstance.userBrandsDao.deleteUserBrand(tagModel.brdId!);
+
       /// Implement Remove User Brand Api too here
     }
   }

@@ -97,6 +97,13 @@ class _ListBidderBodyState extends State<ListBidderBody> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TitleTextWidget(title: widget.listBiddersData.price ?? ""),
+                    const Center(
+                      child: TitleSmallNormalTextWidget(
+                        title:
+                        "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                        size: 8,
+                      ),
+                    ),
                     SizedBox(
                       height: 8.w,
                     ),
