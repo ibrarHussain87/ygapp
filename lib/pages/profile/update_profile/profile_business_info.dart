@@ -217,6 +217,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 }).toList(),
 
                 onChanged: (newValue) {
+                  _updateBusinessRequestModel.ubi_business_area_idfk = newValue!.catId!.toString();
                 },
                 // validator: (input) {
                 //   if (input == null) {

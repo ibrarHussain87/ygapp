@@ -1,11 +1,10 @@
-
 class UpdateBusinessRequestModel {
-
   String? employment_role;
   String? ntn_number;
   String? trade_mark;
   String? name;
   String? designation_idfk;
+  String? ubi_business_area_idfk;
   String? postalCode;
   String? countryId;
   String? company;
@@ -17,10 +16,23 @@ class UpdateBusinessRequestModel {
   String? otherCompany;
   String? companyName;
 
-  UpdateBusinessRequestModel({this.companyName,this.otherCompany,this.companyId,this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employment_role,this.trade_mark,this.company
-  });
-
-
+  UpdateBusinessRequestModel(
+      {this.companyName,
+      this.otherCompany,
+      this.companyId,
+      this.website,
+      this.postalCode,
+      this.ntn_number,
+      this.address,
+      this.city,
+      this.designation_idfk,
+      this.ubi_business_area_idfk,
+      this.name,
+      this.countryId,
+      this.cityStateId,
+      this.employment_role,
+      this.trade_mark,
+      this.company});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
@@ -30,8 +42,9 @@ class UpdateBusinessRequestModel {
       'ubi_name': name,
       'ubi_country_idfk': countryId,
       'company_id': companyId,
+      'ubi_business_area_idfk': ubi_business_area_idfk,
       'company_name': companyName,
-      'other_company': companyId!=null ? "0":"1",
+      'other_company': companyId != null ? "0" : "1",
       'ubi_state_idfk': cityStateId,
       'ubi_website': website,
       'ubi_address': address,

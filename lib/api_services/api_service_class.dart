@@ -158,9 +158,9 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
-      }else{
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
+      } else {
         throw Exception(e.toString());
       }
     }
@@ -275,8 +275,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -323,16 +323,21 @@ class ApiService {
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = baseUrlApi + businessUpdateEndPoint;
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: requestModel.toJson());
-      return UpdateProfileResponse.fromJson(
-        json.decode(response.body),
-      );
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(requestModel.toJson()));
+
+      // final response = await http.post(Uri.parse(url),
+      //     headers: headerMap, body: requestModel.toJson());
+      return UpdateProfileResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -371,18 +376,20 @@ class ApiService {
 
   Future<UpdateProfileResponse> deleteBrands(int brdID) async {
     try {
-      var userToken = await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      var userDeviceToken = await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userDeviceToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
-    Map<String, dynamic> data = {
-      "user_id": userID.toString(),
-      "brand_id": brdID.toString(),
-    };
+      Map<String, dynamic> data = {
+        "user_id": userID.toString(),
+        "brand_id": brdID.toString(),
+      };
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = baseUrlApi + brandsDeleteEndPoint;
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: data);
+      final response =
+          await http.post(Uri.parse(url), headers: headerMap, body: data);
       return UpdateProfileResponse.fromJson(
         json.decode(response.body),
       );
@@ -479,8 +486,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -639,8 +646,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -703,8 +710,8 @@ class ApiService {
           throw (noInternetAvailableMsg);
         } else if (e is TimeoutException) {
           throw (e.toString());
-        } else if(e is dio.DioError){
-          throw ( e.message.toString());
+        } else if (e is dio.DioError) {
+          throw (e.message.toString());
         } else {
           throw (e.toString());
         }
@@ -767,8 +774,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -898,8 +905,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -932,8 +939,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
-      } else if(e is dio.DioError){
-        throw ( e.message.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
