@@ -50,7 +50,7 @@ class _BannerBodyState extends State<BannerBody> {
                     builder: (BuildContext context) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 14.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0.w),
                           child: GestureDetector(
