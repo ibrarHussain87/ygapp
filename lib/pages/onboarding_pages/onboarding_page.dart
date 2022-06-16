@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:yg_app/helper_utils/connection_status_singleton.dart';
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/shared_pref_util.dart';
 import '../auth_pages/login/signin_page.dart';

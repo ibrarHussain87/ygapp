@@ -18,6 +18,7 @@ class Brands {
   String? brdFeatured;
   String? brdIcon;
   String? brdIsActive;
+  bool? userBrand = false;
   @ignore
   late final Null brdSortid;
 
